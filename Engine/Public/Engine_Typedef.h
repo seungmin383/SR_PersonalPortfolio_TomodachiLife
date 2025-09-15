@@ -24,6 +24,10 @@ namespace Engine
 
 	typedef		float						_float;
 	typedef		double						_double;
+
+	typedef		XMFLOAT2					_float2;
+	typedef		XMFLOAT3					_float3;
+	typedef		XMFLOAT4					_float4;
 }
 
 #endif // Engine_Typedef_h__

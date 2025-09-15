@@ -2,6 +2,7 @@
 #define Engine_Define_h__
 
 #include <d3d11.h>
+#include <DirectXMath.h>
 
 #include <vector>
 #include <list>
@@ -22,6 +23,7 @@
 #include <cstdlib>
 
 using namespace std;
+using namespace DirectX;
 
 #include "Engine_Enum.h"
 #include "Engine_Macro.h"

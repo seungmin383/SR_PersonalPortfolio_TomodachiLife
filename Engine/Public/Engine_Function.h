@@ -26,16 +26,26 @@ namespace Engine
 	}
 
 	template<typename T>
+	uint32_t Safe_AddRef(T& pInstance)
+	{
+		if (nullptr == pInstance)
+			return 0;
+
+		return pInstance->AddRef();
+	}
+
+
+	template<typename T>
 	uint32_t Safe_Release(T& pInstance)
 	{	
-		uint32_t		iRefCnt = 0;
+		uint32_t		iRefCnt = {};
 
 		if (nullptr != pInstance)
 		{
 			iRefCnt = pInstance->Release();
 
-			if (0 == iRefCnt)
-				pInstance = nullptr;
+			if (0 == iRefCnt)			//삭제 되었음
+				pInstance = nullptr;	//nullptr 채워주기
 		}
 
 		return iRefCnt;
