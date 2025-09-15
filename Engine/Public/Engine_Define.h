@@ -21,6 +21,8 @@
 
 #include <cstdlib>
 
+using namespace std;
+
 #include "Engine_Enum.h"
 #include "Engine_Macro.h"
 #include "Engine_Struct.h"
@@ -45,7 +47,6 @@
 #endif
 #endif
 
-using namespace std;
 using namespace Engine;
 
 #endif // Engine_Define_h__

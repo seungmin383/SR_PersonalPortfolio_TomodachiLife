@@ -11,6 +11,12 @@ private:
 	virtual ~CMainApp() = default;
 
 public:
+	HRESULT		Initialize();
+	int32_t		Update(_float fTimeDelta);
+	void		Render();
+
+public:
+	static CMainApp* Create();
 	virtual void Free()override;
 };
 

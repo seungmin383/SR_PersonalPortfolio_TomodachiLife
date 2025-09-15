@@ -30,22 +30,23 @@ namespace Engine
 #define DECLARE_SINGLETON(CLASSNAME)					\
 		NO_COPY(CLASSNAME)								\
 		private:										\
-		static CLASSNAME*	m_pInstance;				\
+			static CLASSNAME*	m_pInstance;			\
 		public:											\
-		static CLASSNAME*	GetInstance( void );		\
-		static uint32_t DestroyInstance( void );
+			static CLASSNAME*	GetInstance( void );	\
+			static uint32_t DestroyInstance( void );
 
 //½Ì±ÛÅæ Á¤ÀÇºÎ
 #define IMPLEMENT_SINGLETON(CLASSNAME)					\
-		CLASSNAME*	CLASSNAME::m_pInstance = NULL;		\
-		CLASSNAME*	CLASSNAME::GetInstance( void )	{	\
-			if(NULL == m_pInstance) {					\
+		CLASSNAME*	CLASSNAME::m_pInstance = nullptr;	\
+		CLASSNAME*	CLASSNAME::GetInstance( void )		\
+		{												\
+			if(nullptr == m_pInstance) {				\
 				m_pInstance = new CLASSNAME;			\
 			}											\
 			return m_pInstance;							\
 		}												\
 		uint32_t CLASSNAME::DestroyInstance( void ) {	\
-			uint32_t iRefCnt = {0}						\
+			uint32_t iRefCnt = {0};						\
 			if(nullptr != m_pInstance){					\
 				iRefCnt = m_pInstance->Release();		\
 				if(0 == iRefCnt)						\

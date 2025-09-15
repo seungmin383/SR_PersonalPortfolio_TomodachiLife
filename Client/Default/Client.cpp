@@ -1,7 +1,7 @@
 ﻿#include "framework.h"
 #include "Client.h"
-
-#include "Client_Defines.h"
+#include "MainApp.h"
+#include "GameInstance.h"
 
 #define MAX_LOADSTRING 100
 
@@ -16,6 +16,9 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
+
+USING(Client)
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -28,23 +31,64 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadStringW(hInstance, IDC_CLIENT, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
+
+    //HWND 생성 이후
     if (!InitInstance (hInstance, nCmdShow))
-    {
         return FALSE;
-    }
+    
+
+    //MainApp Create
+    CMainApp* pMainApp = CMainApp::Create();
+
+    if (nullptr == pMainApp)
+        return FALSE;
+    
+    //Get GameInstance 
+    CGameInstance* pGameInstance = CGameInstance::GetInstance();
+
+    if (nullptr == pGameInstance)
+        return FALSE;
+
+    if(FAILED(pGameInstance->TimerManager_Ready_Timer(TEXT("Timer_Default"))))
+        return FALSE;
+
+    if (FAILED(pGameInstance->TimerManager_Ready_Timer(TEXT("Timer_fps"))))
+        return FALSE;
+
+    _float fTimeAcc = {};
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
 
     MSG msg;
 
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+    while (true)
+    {   
+        if(PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            if (WM_QUIT == msg.message)
+                break;
+
+            if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
+        }
+        pGameInstance->TimerManager_Calc_TimeDelta(TEXT("Timer_Default"));
+        fTimeAcc += pGameInstance->TimerManager_Get_TimeDelta(TEXT("Timer_Default"));
+
+        if (fTimeAcc >= FPS_144)
+        {
+            pGameInstance->TimerManager_Calc_TimeDelta(TEXT("Timer_fps"));
+
+            pMainApp->Update(pGameInstance->TimerManager_Get_TimeDelta(TEXT("Timer_fps")));
+            pMainApp->Render();
+            fTimeAcc = 0.f;
         }
     }
+
+    if (0 != Safe_Release(pMainApp))    //삭제가 안됐다면
+        return FALSE;
 
     return (int) msg.wParam;
 }

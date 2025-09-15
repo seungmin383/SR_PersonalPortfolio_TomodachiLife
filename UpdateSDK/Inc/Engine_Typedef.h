@@ -10,7 +10,9 @@ namespace Engine
 	typedef		uint8_t						_ubyte;
 
 	typedef		wchar_t						_tchar;
-	
+	typedef		string						_string;
+	typedef		wstring						_wstring;
+
 	typedef		signed short				_short;
 	typedef		unsigned short				_ushort;
 
