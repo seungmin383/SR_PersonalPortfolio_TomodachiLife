@@ -16,7 +16,10 @@ private:
 public:
 	HRESULT Initialize();
 	int32_t Update(const _float fTimeDelta);
+
+	void Begin_Render();
 	HRESULT Render();
+	void	End_Render();
 
 #pragma region TIMER_MANAGER
 public:
@@ -40,6 +43,11 @@ public:
 
 	  /* 후면 버퍼를 전면버퍼로 교체한다.(백버퍼를 화면에 직접 보여준다.) */
 	HRESULT GraphicDevice_Present();
+
+
+
+
+
 #pragma endregion
 
 private:

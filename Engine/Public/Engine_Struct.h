@@ -5,7 +5,13 @@
 
 namespace Engine
 {
-	
+	typedef struct tagGraphicDeviceInit
+	{
+		HWND	hWnd;
+		WINMODE WinMode;
+		uint32_t iWinCX, iWinCY;
+
+	}GRAPHIC_DEVICE_INIT_DESC;
 }
 
 

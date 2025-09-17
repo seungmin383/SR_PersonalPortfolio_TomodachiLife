@@ -40,6 +40,9 @@
     <Filter Include="00.System\01.Manager\99.Sound_Manager">
       <UniqueIdentifier>{0a7ccdf7-d334-479f-b916-e0c9d3b0a001}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.System\01.Manager\99.Sound_Manager\99.fMod">
+      <UniqueIdentifier>{63982a41-3d02-4f17-a537-bc6c520122ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -57,11 +60,11 @@
     <ClCompile Include="..\Private\Graphic_Device.cpp">
       <Filter>00.System\00.Device\00.Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\SoundManager.cpp">
-      <Filter>00.System\01.Manager\99.Sound_Manager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Render_Manager.cpp">
       <Filter>00.System\01.Manager\01.Render_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sound_Manager.cpp">
+      <Filter>00.System\01.Manager\99.Sound_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,11 +101,43 @@
     <ClInclude Include="..\Public\Graphic_Device.h">
       <Filter>00.System\00.Device\00.Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SoundManager.h">
-      <Filter>00.System\01.Manager\99.Sound_Manager</Filter>
+    <ClInclude Include="fmod.h">
+      <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod.hpp">
+      <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_codec.h">
+      <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_common.h">
+      <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_dsp.h">
+      <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_dsp_effects.h">
+      <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_errors.h">
+      <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_output.h">
+      <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Render_Manager.h">
       <Filter>00.System\01.Manager\01.Render_Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Sound_Manager.h">
+      <Filter>00.System\01.Manager\99.Sound_Manager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fmod.dll">
+      <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
+    </None>
+    <None Include="fmodL.dll">
+      <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
+    </None>
   </ItemGroup>
 </Project>

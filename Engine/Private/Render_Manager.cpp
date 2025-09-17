@@ -7,7 +7,6 @@ CRenderManager::CRenderManager()
 CRenderManager* CRenderManager::Create()
 {
 	return nullptr;
-
 }
 
 void CRenderManager::Free()

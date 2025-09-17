@@ -22,14 +22,29 @@ HRESULT CGameInstance::Initialize()
 	return S_OK;
 }
 
-int32_t Update(const _float fTimeDelta)
+int32_t CGameInstance::Update(const _float fTimeDelta)
 {
 	return 0;
 }
 
-HRESULT Render()
+void CGameInstance::Begin_Render()
+{
+	const _float4 fColor = { 255.f, 0.f, 255.f, 0.f };
+
+	if (FAILED(GraphicDevice_Clear_BackBuffer_View(&fColor)))
+		return;
+
+	GraphicDevice_Clear_DepthStencil_View();
+}
+
+HRESULT CGameInstance::Render()
 {
 	return S_OK;
+}
+
+void CGameInstance::End_Render()
+{
+	GraphicDevice_Present();
 }
 
 #pragma region TIMER_MANAGER

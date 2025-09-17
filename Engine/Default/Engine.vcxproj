@@ -29,18 +29,30 @@
     <ClInclude Include="..\Public\GameInstance.h" />
     <ClInclude Include="..\Public\Graphic_Device.h" />
     <ClInclude Include="..\Public\Render_Manager.h" />
-    <ClInclude Include="..\Public\SoundManager.h" />
+    <ClInclude Include="..\Public\Sound_Manager.h" />
     <ClInclude Include="..\Public\Timer.h" />
     <ClInclude Include="..\Public\Timer_Manager.h" />
+    <ClInclude Include="fmod.h" />
+    <ClInclude Include="fmod.hpp" />
+    <ClInclude Include="fmod_codec.h" />
+    <ClInclude Include="fmod_common.h" />
+    <ClInclude Include="fmod_dsp.h" />
+    <ClInclude Include="fmod_dsp_effects.h" />
+    <ClInclude Include="fmod_errors.h" />
+    <ClInclude Include="fmod_output.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\Private\GameInstance.cpp" />
     <ClCompile Include="..\Private\Graphic_Device.cpp" />
     <ClCompile Include="..\Private\Render_Manager.cpp" />
-    <ClCompile Include="..\Private\SoundManager.cpp" />
+    <ClCompile Include="..\Private\Sound_Manager.cpp" />
     <ClCompile Include="..\Private\Timer.cpp" />
     <ClCompile Include="..\Private\Timer_Manager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fmod.dll" />
+    <None Include="fmodL.dll" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -96,9 +108,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>..\Bin\Debug\</OutDir>
+    <IncludePath>$(SolutionDir)EngineDefault\;$(DXSDK_DIR)\Lib\x64;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)\Lib\x64;$(SolutionDir)Engine\Default\fMod\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\Bin\Release\</OutDir>
+    <IncludePath>$(SolutionDir)EngineDefault\;$(DXSDK_DIR)\Lib\x64;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)\Lib\x64;$(SolutionDir)Engine\Default\fMod\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -140,7 +156,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxguid.lib;fmod_vc.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -157,7 +173,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dxguid.lib;fmod_vc.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

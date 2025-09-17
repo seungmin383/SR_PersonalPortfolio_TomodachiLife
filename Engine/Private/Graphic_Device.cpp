@@ -24,9 +24,9 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 		nullptr, 
 		0, 
 		D3D11_SDK_VERSION, 
-		&m_pDevice, 
+		&m_pDevice,				//생성과 관련, 텍스쳐, 버퍼 할당
 		&FeatureLV, 
-		&m_pDeviceContext))
+		&m_pDeviceContext))		//기능과 관련, Draw, Set 한다
 		)
 		return E_FAIL;
 
@@ -134,6 +134,8 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iW
 	/* float4(1.f, 0.f, 0.f, 1.f) */
 	
 	SwapChain.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; /* 만든 픽셀하나의 데이터 정보 : 32BIT픽셀생성하되 부호가 없는 정규화된 수를 저장할께 */
+	
+	/* 전체 화면 모드에서 표시 방법을 고름 */
 	SwapChain.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	SwapChain.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
@@ -143,6 +145,7 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iW
 	SwapChain.BufferCount = 1;
 		
 	/*스왑하는 형태 : 모니터 주사율에 따라 조절해도 됨. */
+	/* 이것도 WINMODE에서는 거의 무시됨 */
 	SwapChain.BufferDesc.RefreshRate.Numerator = 60;
 	SwapChain.BufferDesc.RefreshRate.Denominator = 1;
 

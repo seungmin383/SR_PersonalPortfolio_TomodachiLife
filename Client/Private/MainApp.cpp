@@ -4,16 +4,17 @@
 USING(Client)
 
 CMainApp::CMainApp()
+	:m_pGameInstance(CGameInstance::GetInstance())
 {
-
+	Safe_AddRef(m_pGameInstance);
 }
 
 HRESULT CMainApp::Initialize()
 {
-	if(FAILED(CGameInstance::GetInstance()->Initialize()))
+	if(FAILED(m_pGameInstance->Initialize()))
 		return E_FAIL;
 
-	CGameInstance::GetInstance()->GraphicDevice_Initialize(g_hWnd, WINCX, WINCY, &m_pDevice, &m_pContext);
+	m_pGameInstance->GraphicDevice_Initialize(g_hWnd, WINCX, WINCY, &m_pDevice, &m_pContext);
 
 	return S_OK;
 }
@@ -25,9 +26,9 @@ int32_t CMainApp::Update(_float fTimeDelta)
 
 void CMainApp::Render()
 {
-	const _float4 fColor = { 0.f, 0.f, 255.f, 0.f };
-	CGameInstance::GetInstance()->GraphicDevice_Clear_BackBuffer_View(&fColor);
-	CGameInstance::GetInstance()->GraphicDevice_Present();
+	m_pGameInstance->Begin_Render();
+	m_pGameInstance->Render();
+	m_pGameInstance->End_Render();
 }
 
 CMainApp* CMainApp::Create()
@@ -53,6 +54,7 @@ CMainApp* CMainApp::Create()
 
 void CMainApp::Free()
 {
+	Safe_Release(m_pGameInstance);
 	CGameInstance::DestroyInstance();
 
 	CBase::Free();
