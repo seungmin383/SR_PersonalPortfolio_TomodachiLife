@@ -4,6 +4,11 @@ CRenderManager::CRenderManager()
 {
 }
 
+void CRenderManager::Render()
+{
+
+}
+
 CRenderManager* CRenderManager::Create()
 {
 	return nullptr;

@@ -1,6 +1,7 @@
 #include "GameInstance.h"
 #include "Timer_Manager.h"
 #include "Graphic_Device.h"
+#include "Render_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -10,6 +11,7 @@ CGameInstance::CGameInstance()
 
 HRESULT CGameInstance::Initialize()
 {
+	//Time Manager Create
 	m_pTimerManager = CTimerManager::Create();
 
 	if (nullptr == m_pTimerManager)
@@ -18,6 +20,18 @@ HRESULT CGameInstance::Initialize()
 		Safe_Release(m_pTimerManager);
 		return E_FAIL;
 	}
+
+	//Render Manager Create
+	m_pRenderManager = CRenderManager::Create();
+
+	if (nullptr == m_pRenderManager)
+	{
+		MSG_BOX("ErrCode : m_pRenderManager Create Failed");
+		Safe_Release(m_pRenderManager);
+		return E_FAIL;
+	}
+
+
 
 	return S_OK;
 }
@@ -39,6 +53,7 @@ void CGameInstance::Begin_Render()
 
 HRESULT CGameInstance::Render()
 {
+	m_pRenderManager->Render();
 	return S_OK;
 }
 
@@ -105,6 +120,8 @@ inline HRESULT CGameInstance::GraphicDevice_Present()
 void CGameInstance::Free()
 {
 	Safe_Release(m_pTimerManager);
+	Safe_Release(m_pRenderManager);
+
 	m_pGraphicDevice->Free();
 	Safe_Release(m_pGraphicDevice);
 	CBase::Free();

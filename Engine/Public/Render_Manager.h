@@ -9,10 +9,14 @@ private:
 	CRenderManager();
 	virtual ~CRenderManager() = default;
 
+public:
+	virtual void Render();
+
+private:
 
 
 public:
-	CRenderManager* Create();
+	static CRenderManager* Create();
 	virtual void Free()override;
 };
 
