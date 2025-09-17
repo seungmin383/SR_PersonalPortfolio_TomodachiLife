@@ -16,11 +16,18 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 #endif
 	D3D_FEATURE_LEVEL			FeatureLV;
 
-	/* dx9 : 장치 초기화를 하기위한 설정을 쭈욱 하고나서 최종적으로 장치객체를 생성한다. */
-	/* dx11 : 우선적으로 장치 객체를 생성하고 장치객체를 통해서 기타 초기화작업 및 설정을 해나간다. */
-
 	/* 그래픽 장치를 초기화한다. */
-	if (FAILED(D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, 0, iFlag, nullptr, 0, D3D11_SDK_VERSION, &m_pDevice, &FeatureLV, &m_pDeviceContext)))
+	if (FAILED(D3D11CreateDevice(nullptr, 
+		D3D_DRIVER_TYPE_HARDWARE, 
+		0, 
+		iFlag, 
+		nullptr, 
+		0, 
+		D3D11_SDK_VERSION, 
+		&m_pDevice, 
+		&FeatureLV, 
+		&m_pDeviceContext))
+		)
 		return E_FAIL;
 
 	/* SwapChain : 더블버퍼링. 전면과 후면버퍼를 번갈아가며 화면에 보여준다.(Present) */
@@ -134,7 +141,7 @@ HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iW
 	/* RENDER_TARGET : 그림을 당하는 대상. 스케치북 */
 	SwapChain.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	SwapChain.BufferCount = 1;
-
+		
 	/*스왑하는 형태 : 모니터 주사율에 따라 조절해도 됨. */
 	SwapChain.BufferDesc.RefreshRate.Numerator = 60;
 	SwapChain.BufferDesc.RefreshRate.Denominator = 1;
@@ -226,7 +233,7 @@ HRESULT CGraphic_Device::Ready_DepthStencilView(_uint iWinCX, _uint iWinCY)
 	return S_OK;
 }
 
-CGraphic_Device * CGraphic_Device::Create(HWND hWnd, WINMODE isWindowed, _uint iWinSizeX, _uint iWinSizeY, ID3D11Device ** ppDevice, ID3D11DeviceContext ** ppDeviceContextOut)
+CGraphic_Device* CGraphic_Device::Create(HWND hWnd, WINMODE isWindowed, _uint iWinSizeX, _uint iWinSizeY, _Inout_ ID3D11Device ** ppDevice, _Inout_ ID3D11DeviceContext ** ppDeviceContextOut)
 {
 	CGraphic_Device*		pInstance = new CGraphic_Device();
 

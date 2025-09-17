@@ -36,7 +36,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     if (!InitInstance (hInstance, nCmdShow))
         return FALSE;
     
-
     //MainApp Create
     CMainApp* pMainApp = CMainApp::Create();
 
@@ -45,9 +44,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     
     //Get GameInstance 
     CGameInstance* pGameInstance = CGameInstance::GetInstance();
-
     if (nullptr == pGameInstance)
         return FALSE;
+    Safe_AddRef(pGameInstance);
 
     if(FAILED(pGameInstance->TimerManager_Ready_Timer(TEXT("Timer_Default"))))
         return FALSE;
@@ -74,7 +73,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                 DispatchMessage(&msg);
             }
         }
+
         pGameInstance->TimerManager_Calc_TimeDelta(TEXT("Timer_Default"));
+
         fTimeAcc += pGameInstance->TimerManager_Get_TimeDelta(TEXT("Timer_Default"));
 
         if (fTimeAcc >= FPS_144)
@@ -83,11 +84,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
             pMainApp->Update(pGameInstance->TimerManager_Get_TimeDelta(TEXT("Timer_fps")));
             pMainApp->Render();
+
             fTimeAcc = 0.f;
         }
     }
 
     if (0 != Safe_Release(pMainApp))    //삭제가 안됐다면
+        return FALSE;
+
+    if (0 != Safe_Release(pGameInstance))
         return FALSE;
 
     return (int) msg.wParam;

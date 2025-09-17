@@ -6,11 +6,11 @@ NS_BEGIN(Engine)
 /* DX9 */
 /* 1. 내 장치의 성능을 조사하는기능 */
 /* 2. 지원해주는 범위내에서 내가 셋팅하고싶은 데이터를 전달해서 초기화할 준비를 할 수 있도록 */
-/* 3. 디바이스 객체를 생성해준다.(Idirect3DDevice9(장치객체 + 백버퍼+ 깊이버퍼) 객체를 만들었다.) */
+/* 3. 디바이스 객체를 생성해준다.(Idirect3DDevice9(장치객체 + 백버퍼+ 깊이버퍼) 객체를 만들었다. */
 /* 3_1. Idirect3DDevice9객체는 상당히 많은 기능을 가진다*/
 
 /* 1. ID3D11Device, ID3D11DeviceContext라는 객체를 우선 생성한다. */
-/* 2. IDXGISwapChain를 생성한다.(백버퍼(ID3D11Texture2D)도 같이 생성한거야.) */
+/* 2. IDXGISwapChain를 생성한다.(백버퍼(ID3D11Texture2D)도 같이 생성한거야. */
 /* 3. 백버퍼뷰를 생성한다. */
 /* 4. 깊이버퍼 텍스쳐를 생성하고 깊이버퍼 뷰를 생성한다. */
 
@@ -31,10 +31,6 @@ public:
 	/* 깊이버퍼 + 스텐실버퍼를 지운다. */
 	HRESULT Clear_DepthStencil_View();
 	
-
-
-
-
 	/* 후면 버퍼를 전면버퍼로 교체한다.(백버퍼를 화면에 직접 보여준다.) */
 	HRESULT Present();
 
@@ -73,7 +69,7 @@ private:
 	/* ID3D11Texture2D를 통해 픽셀의 락언락을 통해 색을 강제로 바꾸거나 파일로 출력하거나 등등의 일은 가능 */
 	/* ID3D11Texture2D를 통해 픽셀의 색을 샘플링해서 화면에 그리는 작업(x), 렌더타겟용으로 사용(x), 깊이 버퍼용으로 사용(x)  */
 
-	/* dx11에선느 실제 사용하기위한 텍스쳐타입뒤에 View를 붙여놨다. */
+	/* dx11에서는 실제 사용하기위한 텍스쳐타입뒤에 View를 붙여놨다. */
 	/* ID3D11ShaderResourceView : 셰이더에 전달될 수 있는 텍스처 타입. */	
 	/* ID3D11RenderTargetView : 렌더타겟용으로 사용될 수 있는 텍스처 타입. */
 	/* ID3D11DepthStencilView : 깊이스텐실 버퍼로서 사용될 수 있는 타입.  */
@@ -88,7 +84,7 @@ private:
 	HRESULT Ready_DepthStencilView(_uint iWinCX, _uint iWinCY);
 
 public:
-	static CGraphic_Device* Create(HWND hWnd, WINMODE isWindowed, _uint iWinSizeX, _uint iWinSizeY, _Out_ ID3D11Device** ppDevice, _Out_ ID3D11DeviceContext** ppDeviceContextOut);
+	static CGraphic_Device* Create(HWND hWnd, WINMODE isWindowed, _uint iWinSizeX, _uint iWinSizeY, _Inout_ ID3D11Device** ppDevice, _Inout_ ID3D11DeviceContext** ppDeviceContextOut);
 	virtual void Free() override;
 };
 

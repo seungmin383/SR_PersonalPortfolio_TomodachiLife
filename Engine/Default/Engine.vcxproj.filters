@@ -34,6 +34,12 @@
     <Filter Include="00.System\00.Device\00.Graphic">
       <UniqueIdentifier>{2171c527-36c2-4579-9301-c09dccaed83c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.System\01.Manager\01.Render_Manager">
+      <UniqueIdentifier>{be8456bc-79c9-4f60-b023-881f78396617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\01.Manager\99.Sound_Manager">
+      <UniqueIdentifier>{0a7ccdf7-d334-479f-b916-e0c9d3b0a001}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -50,6 +56,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Graphic_Device.cpp">
       <Filter>00.System\00.Device\00.Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SoundManager.cpp">
+      <Filter>00.System\01.Manager\99.Sound_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Render_Manager.cpp">
+      <Filter>00.System\01.Manager\01.Render_Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +97,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Graphic_Device.h">
       <Filter>00.System\00.Device\00.Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SoundManager.h">
+      <Filter>00.System\01.Manager\99.Sound_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Render_Manager.h">
+      <Filter>00.System\01.Manager\01.Render_Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
