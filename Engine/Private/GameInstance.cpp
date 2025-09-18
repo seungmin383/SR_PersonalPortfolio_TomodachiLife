@@ -22,8 +22,11 @@ HRESULT CGameInstance::Initialize()
 	return S_OK;
 }
 
-int32_t CGameInstance::Update(const _float fTimeDelta)
+int32_t CGameInstance::Update(const _float _fDT)
 {
+	//게임 씬 매니저 업데이트			//주로 디버그용
+	//게임 오브젝트 매니저 업데이트		//진짜 업데이트
+
 	return 0;
 }
 
@@ -39,6 +42,7 @@ void CGameInstance::Begin_Render()
 
 HRESULT CGameInstance::Render()
 {
+	//렌더 매니저 렌더
 	return S_OK;
 }
 
@@ -49,9 +53,9 @@ void CGameInstance::End_Render()
 
 #pragma region TIMER_MANAGER
 
-inline _float CGameInstance::TimerManager_Get_TimeDelta(const _tchar* pTimerTag)
+inline _float CGameInstance::TimerManager_Get_DeltaTime(const _tchar* pTimerTag)
 {
-	return m_pTimerManager->Get_TimeDelta(pTimerTag);
+	return m_pTimerManager->Get_DeltaTime(pTimerTag);
 }
 
 inline HRESULT CGameInstance::TimerManager_Ready_Timer(const _tchar* pTimerTag)
@@ -59,9 +63,9 @@ inline HRESULT CGameInstance::TimerManager_Ready_Timer(const _tchar* pTimerTag)
 	return m_pTimerManager->Ready_Timer(pTimerTag);
 }
 
-inline void CGameInstance::TimerManager_Calc_TimeDelta(const _tchar* pTimerTag)
+inline void CGameInstance::TimerManager_Calc_DeltaTime(const _tchar* pTimerTag)
 {
-	m_pTimerManager->Calc_TimeDelta(pTimerTag);
+	m_pTimerManager->Calc_DeltaTime(pTimerTag);
 }
 
 #pragma endregion

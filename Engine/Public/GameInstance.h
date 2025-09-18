@@ -15,17 +15,17 @@ private:
 
 public:
 	HRESULT Initialize();
-	int32_t Update(const _float fTimeDelta);
+	int32_t Update(const _float _fDT);
 
-	void Begin_Render();
+	void	Begin_Render();
 	HRESULT Render();
 	void	End_Render();
 
 #pragma region TIMER_MANAGER
 public:
-	_float          TimerManager_Get_TimeDelta(const _tchar* pTimerTag);
+	_float          TimerManager_Get_DeltaTime(const _tchar* pTimerTag);
 	HRESULT         TimerManager_Ready_Timer(const _tchar* pTimerTag);
-	void            TimerManager_Calc_TimeDelta(const _tchar* pTimerTag);
+	void            TimerManager_Calc_DeltaTime(const _tchar* pTimerTag);
 #pragma endregion
 
 #pragma region GRAPHIC_DEVICE
@@ -43,10 +43,6 @@ public:
 
 	  /* 후면 버퍼를 전면버퍼로 교체한다.(백버퍼를 화면에 직접 보여준다.) */
 	HRESULT GraphicDevice_Present();
-
-
-
-
 
 #pragma endregion
 

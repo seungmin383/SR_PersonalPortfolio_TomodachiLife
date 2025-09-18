@@ -6,7 +6,7 @@ CRenderManager::CRenderManager()
 
 CRenderManager* CRenderManager::Create()
 {
-	return nullptr;
+	return new CRenderManager;
 }
 
 void CRenderManager::Free()

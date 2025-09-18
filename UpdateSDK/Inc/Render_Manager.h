@@ -9,7 +9,11 @@ private:
 	CRenderManager();
 	virtual ~CRenderManager() = default;
 
+public:
+	HRESULT Render();
 
+private:
+	vector<uint32_t> vecRenderGroup[static_cast<uint32_t>(RENDER_GROUP::END)];
 
 public:
 	CRenderManager* Create();

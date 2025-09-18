@@ -16,7 +16,7 @@ private:
 
 public:
 	HRESULT		Initialize();
-	int32_t		Update(_float fTimeDelta);
+	int32_t		Update(_float _fDT);
 	void		Render();
 
 public:

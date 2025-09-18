@@ -5,28 +5,28 @@ CTimerManager::CTimerManager()
 {
 }
 
-_float CTimerManager::Get_TimeDelta(const _tchar* pTimerTag)
+_float CTimerManager::Get_DeltaTime(const _tchar* _pTimerTag)
 {
-	CTimer* pTimer = Find_Timer(pTimerTag);
+	CTimer* pTimer = Find_Timer(_pTimerTag);
 
 	if (nullptr == pTimer)
 		return 0.f;
 	
-	return pTimer->Get_TimeDelta();
+	return pTimer->Get_DeltaTime();
 }
 
-void CTimerManager::Calc_TimeDelta(const _tchar* pTimerTag)
+void CTimerManager::Calc_DeltaTime(const _tchar* _pTimerTag)
 {
-	CTimer* pTimer = Find_Timer(pTimerTag);
+	CTimer* pTimer = Find_Timer(_pTimerTag);
 	if (nullptr == pTimer)
 		return;
 
 	pTimer->Update_Timer();
 }
 
-HRESULT CTimerManager::Ready_Timer(const _tchar* pTimerTag)
+HRESULT CTimerManager::Ready_Timer(const _tchar* _pTimerTag)
 {
-	CTimer* pTimer = Find_Timer(pTimerTag);
+	CTimer* pTimer = Find_Timer(_pTimerTag);
 
 	if (nullptr != pTimer)
 		return E_FAIL;
@@ -36,14 +36,14 @@ HRESULT CTimerManager::Ready_Timer(const _tchar* pTimerTag)
 	if (nullptr == pTimer)
 		return E_FAIL;
 
-	m_mapTimer.emplace(pTimerTag, pTimer);
+	m_mapTimer.emplace(_pTimerTag, pTimer);
 
 	return S_OK;
 }
 
-CTimer* CTimerManager::Find_Timer(const _tchar* pTimerTag)
+CTimer* CTimerManager::Find_Timer(const _tchar* _pTimerTag)
 {
-	auto iter = m_mapTimer.find(pTimerTag);
+	auto iter = m_mapTimer.find(_pTimerTag);
 
 	if (iter == m_mapTimer.end())
 		return nullptr;

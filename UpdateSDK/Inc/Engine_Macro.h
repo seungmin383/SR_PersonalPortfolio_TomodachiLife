@@ -13,6 +13,8 @@ namespace Engine
 
 #define			USING(NAMESPACE)	using namespace NAMESPACE;
 
+
+
 //만약 ENGINE_EXPORTS가 정의되어 있다면 _declspec(dllexport) // 정의되어 있지 않다면 _declspec(dllimport)
 #ifdef	ENGINE_EXPORTS
 #define ENGINE_DLL		_declspec(dllexport)

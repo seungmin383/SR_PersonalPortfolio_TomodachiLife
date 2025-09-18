@@ -10,7 +10,7 @@ private:
 	virtual ~CTimer() = default;
 
 public:
-	_float					Get_TimeDelta() const { return m_fTimeDelta; }
+	_float			Get_DeltaTime() const { return m_fTimeDelta; }
 
 public:
 	HRESULT			Ready_Timer();

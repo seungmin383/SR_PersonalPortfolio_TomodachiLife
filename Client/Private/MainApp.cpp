@@ -16,18 +16,23 @@ HRESULT CMainApp::Initialize()
 
 	m_pGameInstance->GraphicDevice_Initialize(g_hWnd, WINCX, WINCY, &m_pDevice, &m_pContext);
 
+	Safe_AddRef(m_pDevice);
+	Safe_AddRef(m_pContext);
+
 	return S_OK;
 }
 
-int32_t CMainApp::Update(_float fTimeDelta)
+int32_t CMainApp::Update(_float _fDT)
 {
-	return 0;
+	return m_pGameInstance->Update(_fDT);
 }
 
 void CMainApp::Render()
 {
 	m_pGameInstance->Begin_Render();
+
 	m_pGameInstance->Render();
+
 	m_pGameInstance->End_Render();
 }
 
@@ -55,6 +60,9 @@ CMainApp* CMainApp::Create()
 void CMainApp::Free()
 {
 	Safe_Release(m_pGameInstance);
+	Safe_Release(m_pDevice);
+	Safe_Release(m_pContext);
+
 	CGameInstance::DestroyInstance();
 
 	CBase::Free();

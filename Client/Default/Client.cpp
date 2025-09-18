@@ -41,7 +41,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     if (nullptr == pMainApp)
         return FALSE;
-    
+
     //Get GameInstance 
     CGameInstance* pGameInstance = CGameInstance::GetInstance();
     if (nullptr == pGameInstance)
@@ -74,15 +74,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             }
         }
 
-        pGameInstance->TimerManager_Calc_TimeDelta(TEXT("Timer_Default"));
+        pGameInstance->TimerManager_Calc_DeltaTime(TEXT("Timer_Default"));
 
-        fTimeAcc += pGameInstance->TimerManager_Get_TimeDelta(TEXT("Timer_Default"));
+        fTimeAcc += pGameInstance->TimerManager_Get_DeltaTime(TEXT("Timer_Default"));
 
         if (fTimeAcc >= FPS_144)
         {
-            pGameInstance->TimerManager_Calc_TimeDelta(TEXT("Timer_fps"));
+            pGameInstance->TimerManager_Calc_DeltaTime(TEXT("Timer_fps"));
 
-            pMainApp->Update(pGameInstance->TimerManager_Get_TimeDelta(TEXT("Timer_fps")));
+            pMainApp->Update(pGameInstance->TimerManager_Get_DeltaTime(TEXT("Timer_fps")));
             pMainApp->Render();
 
             fTimeAcc = 0.f;
@@ -123,8 +123,11 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    g_hInst = hInstance;
 
+   RECT rcWinSize{ 0, 0, WINCX, WINCY };
+   AdjustWindowRect(&rcWinSize, WS_OVERLAPPEDWINDOW, TRUE);
+
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+      CW_USEDEFAULT, 0, rcWinSize.right - rcWinSize.left, rcWinSize.bottom - rcWinSize.top, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
