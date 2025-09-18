@@ -4,6 +4,7 @@
 NS_BEGIN(Engine)
 class CTimerManager;
 class CGraphic_Device;
+class CRenderManager;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -43,16 +44,12 @@ public:
 
 	  /* 후면 버퍼를 전면버퍼로 교체한다.(백버퍼를 화면에 직접 보여준다.) */
 	HRESULT GraphicDevice_Present();
-
-
-
-
-
 #pragma endregion
 
 private:
 	CTimerManager* m_pTimerManager = { nullptr };
 	CGraphic_Device* m_pGraphicDevice = { nullptr };
+	CRenderManager* m_pRenderManager = { nullptr };
 
 public:
 	virtual void Free()override;

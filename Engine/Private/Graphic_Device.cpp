@@ -17,8 +17,8 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 	D3D_FEATURE_LEVEL			FeatureLV;
 
 	/* 그래픽 장치를 초기화한다. */
-	if (FAILED(D3D11CreateDevice(nullptr, 
-		D3D_DRIVER_TYPE_HARDWARE, 
+	if (FAILED(D3D11CreateDevice(nullptr,		//기본 디스플레이 어댑터
+		D3D_DRIVER_TYPE_HARDWARE,				
 		0, 
 		iFlag, 
 		nullptr, 
@@ -59,8 +59,8 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 	ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
 	ViewPortDesc.TopLeftX	= 0;
 	ViewPortDesc.TopLeftY	= 0;
-	ViewPortDesc.Width		= (_float)iWinSizeX;
-	ViewPortDesc.Height		= (_float)iWinSizeY;
+	ViewPortDesc.Width		= (_float)iWinSizeX/2.f;
+	ViewPortDesc.Height		= (_float)iWinSizeY/2.f;
 	ViewPortDesc.MinDepth	= 0.f;
 	ViewPortDesc.MaxDepth	= 1.f;
 

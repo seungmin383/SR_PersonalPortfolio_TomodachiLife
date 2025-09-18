@@ -12,6 +12,13 @@ namespace Engine
 		uint32_t iWinCX, iWinCY;
 
 	}GRAPHIC_DEVICE_INIT_DESC;
+
+	typedef struct tagVertex
+	{
+		_float3 Pos;
+		_float4 Color;
+
+	}VERTEX;
 }
 
 
