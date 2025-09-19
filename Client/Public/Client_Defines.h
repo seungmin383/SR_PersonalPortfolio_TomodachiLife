@@ -14,7 +14,7 @@ namespace Client
 #define WINCX 1280
 #define WINCY 720
 
-	enum class SCENE {
+	enum class PLACE {
 		LOADING,
 		ISLAND,
 		SHOP,

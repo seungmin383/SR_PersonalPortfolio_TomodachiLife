@@ -55,16 +55,27 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 	m_pDeviceContext->OMSetRenderTargets(1, pRTVs,
 		m_pDepthStencilView);		
 	
-	D3D11_VIEWPORT			ViewPortDesc;
-	ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
-	ViewPortDesc.TopLeftX	= 0;
-	ViewPortDesc.TopLeftY	= 0;
-	ViewPortDesc.Width		= (_float)iWinSizeX;
-	ViewPortDesc.Height		= (_float)iWinSizeY;
-	ViewPortDesc.MinDepth	= 0.f;
-	ViewPortDesc.MaxDepth	= 1.f;
+	D3D11_VIEWPORT			UpViewPortDesc;
+	ZeroMemory(&UpViewPortDesc, sizeof(D3D11_VIEWPORT));
+	UpViewPortDesc.TopLeftX		= 0;
+	UpViewPortDesc.TopLeftY		= 0;
+	UpViewPortDesc.Width		= (_float)iWinSizeX;
+	UpViewPortDesc.Height		= (_float)iWinSizeY / 2.f;
+	UpViewPortDesc.MinDepth		= 0.f;
+	UpViewPortDesc.MaxDepth		= 1.f;
 
-	m_pDeviceContext->RSSetViewports(1, &ViewPortDesc);
+	D3D11_VIEWPORT			DownViewPortDesc;
+	ZeroMemory(&DownViewPortDesc, sizeof(D3D11_VIEWPORT));
+	DownViewPortDesc.TopLeftX	= 0;
+	DownViewPortDesc.TopLeftY	= (_float)iWinSizeY / 2.f;
+	DownViewPortDesc.Width		= (_float)iWinSizeX;
+	DownViewPortDesc.Height		= (_float)iWinSizeY / 2.f;
+	DownViewPortDesc.MinDepth	= 0.f;
+	DownViewPortDesc.MaxDepth	= 1.f;
+
+	D3D11_VIEWPORT viewports[2] = { UpViewPortDesc, DownViewPortDesc };
+
+	m_pDeviceContext->RSSetViewports(2, viewports);
 
 	*ppDevice = m_pDevice;
 	*ppContext= m_pDeviceContext;

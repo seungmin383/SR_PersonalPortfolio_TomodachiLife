@@ -11,16 +11,18 @@ private:
 	virtual ~CPlaceManager() = default;
 
 public:
-	HRESULT Go_Place(uint32_t _iPlaceName, CPlace* _CPlace);
+	HRESULT Go_Place(CPlace* _CPlace);
+	HRESULT Go_Back();
 
-public:
-	int32_t Update_Place(_float fTimeDelta);
+private:
+	int32_t Update_Place(_float fDT);
 
 private:
 	CPlace* m_pScene = { nullptr };
 	uint32_t m_iSceneNum = {};
 
 	stack<CPlace*> m_PlaceStack;
+
 public:
 	static CPlaceManager* Create();
 	virtual void Free()override;

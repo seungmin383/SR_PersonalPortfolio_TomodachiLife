@@ -4,7 +4,11 @@
 NS_BEGIN(Engine)
 class CTimerManager;
 class CGraphic_Device;
+class CPlaceManager;
+class CObjectManager;
+class CRenderManager;
 
+class CObject;
 class ENGINE_DLL CGameInstance final : public CBase
 {
 	DECLARE_SINGLETON(CGameInstance)
@@ -46,9 +50,23 @@ public:
 
 #pragma endregion
 
+#pragma region OBJECT_MANAGER
+	HRESULT ObjectManager_Add_Object(const uint32_t _ObjectID, CObject* _Object);
+
+#pragma endregion
+
+#pragma region RENDER_MANAGER
+
+
+#pragma endregion
+
+
 private:
 	CTimerManager* m_pTimerManager = { nullptr };
 	CGraphic_Device* m_pGraphicDevice = { nullptr };
+	CPlaceManager* m_pPlaceManager = { nullptr };
+	CObjectManager* m_pObjectManager = { nullptr };
+	CRenderManager* m_pRenderManager = { nullptr };
 
 public:
 	virtual void Free()override;

@@ -52,6 +52,9 @@
     <Filter Include="01.Utility\01.Place\Manager">
       <UniqueIdentifier>{0d84bdc0-f852-444e-835c-35337e8a7a3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\02.Object\Manager">
+      <UniqueIdentifier>{35eef895-7ae3-4fc1-96cf-016365e86f29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -80,6 +83,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Place.cpp">
       <Filter>01.Utility\01.Place</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Object.cpp">
+      <Filter>01.Utility\02.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Object_Manager.cpp">
+      <Filter>01.Utility\02.Object\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Place.h">
       <Filter>01.Utility\01.Place</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Object.h">
+      <Filter>01.Utility\02.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Object_Manager.h">
+      <Filter>01.Utility\02.Object\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
