@@ -28,6 +28,11 @@ namespace Engine
 	typedef		XMFLOAT2					_float2;
 	typedef		XMFLOAT3					_float3;
 	typedef		XMFLOAT4					_float4;
+
+	typedef		XMFLOAT3X3					_float3x3;
+	typedef		XMFLOAT4X4					_float4x4;
+
+	typedef		XMMATRIX					_matrix;
 }
 
 #endif // Engine_Typedef_h__
