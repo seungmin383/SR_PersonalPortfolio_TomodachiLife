@@ -9,14 +9,10 @@ private:
 	CCamera();
 	virtual ~CCamera() = default;
 
-
-
 	/* Near 평면 세로 길이	: 2.f * m_fNearZ * tanf(0.5f * m_fFovY) */
 	/* Far 평면 세로 길이	: 2.f * m_fFarZ * tanf(0.5f * m_fFovY) */
 	/* Near 평면 가로 길이	: m_fAspect * m_fNear_Height */
 	/* Far 평면 가로 길이	: m_fAspect * m_fFar_Height */
-
-
 public:
 	void Set_Proj(_float _fovY, _float _aspect, _float _nearZ, _float _FarZ);
 	

@@ -10,10 +10,10 @@ private:
 	CObject(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
 	virtual ~CObject() = default;
 
-private:
+public:
 	virtual HRESULT Initialize();
-	virtual int32_t Update(_float _fDT);
-	virtual void Late_Update(_float _fDT);
+	virtual int32_t Update(const _float _fDT);
+	virtual void Late_Update(const _float _fDT);
 	virtual HRESULT Render();
 
 protected:

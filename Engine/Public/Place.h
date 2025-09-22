@@ -6,7 +6,7 @@ NS_BEGIN(Engine)
 class CGameInstance;
 class ENGINE_DLL CPlace abstract : public CBase
 {
-private:
+protected:
 	CPlace(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
 	virtual ~CPlace() = default;
 
@@ -21,7 +21,6 @@ protected:
 	ID3D11DeviceContext*	m_pContext = { nullptr };
 
 public:
-	virtual CPlace* Create()PURE;
 	virtual void Free()override;
 };
 

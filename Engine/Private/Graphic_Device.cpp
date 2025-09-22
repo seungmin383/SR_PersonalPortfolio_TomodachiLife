@@ -253,10 +253,9 @@ CGraphic_Device* CGraphic_Device::Create(HWND hWnd, WINMODE isWindowed, _uint iW
 
 	if (FAILED(pInstance->Initialize(hWnd, isWindowed, iWinSizeX, iWinSizeY, ppDevice, ppDeviceContextOut)))
 	{
-		MSG_BOX("Failed to Created : CGraphic_Device");
+		MSG_BOX("ErrCode : Graphic Device Create Failed");
 		Safe_Release(pInstance);
 	}
-
 	return pInstance;
 }
 

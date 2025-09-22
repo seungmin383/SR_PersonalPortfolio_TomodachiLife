@@ -14,11 +14,44 @@ namespace Client
 #define WINCX 1280
 #define WINCY 720
 
-	enum class PLACE {
-		LOADING,
-		ISLAND,
-		SHOP,
-		END
+	enum class PLACE_ID {
+		MAIN,				
+
+		LOADING,			
+		SETTING,			
+		SAVE,				
+		LOAD,				
+		MII_EDITOR,			
+
+		STORE_CLOTHES,		
+		STORE_ANTIQUE,
+		STORE_HAT,
+		STORE_FOOD,
+		STORE_LUXURY,
+		STORE_HOUSE,		
+
+		ENVI_FOUNTAIN,
+		ENVI_OCEAN,
+		ENVI_PARK,
+		ENVI_PLAYGROUND,
+		ENVI_CAFE,			
+
+		ETC_COMMUINTY,
+		ETC_MUSIC,
+		ETC_RANKING,
+		ETC_NEWS,
+		ETC_PHOTO,			
+			
+		CONNECT_TENT,
+		CONNECT_PORT,
+
+		LIVE_APARTMENT,
+		LIVE_WEDDING_HOUSE,
+
+		END					
 	};
 
 }
+
+using namespace std;
+using namespace Client;

@@ -163,6 +163,19 @@ HRESULT CGameInstance::ObjectManager_Add_Object(const uint32_t _ObjectID, CObjec
 
 #pragma endregion
 
+#pragma region PLACE_MANAGER
+
+HRESULT CGameInstance::PlaceManager_Go_Place(CPlace* _CPlace)
+{
+	return m_pPlaceManager->Go_Place(_CPlace);
+}
+
+HRESULT CGameInstance::PlaceManager_Go_Back()
+{
+	return m_pPlaceManager->Go_Back();
+}
+#pragma endregion
+
 
 void CGameInstance::Free()
 {

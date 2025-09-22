@@ -44,5 +44,8 @@ CPlaceManager* CPlaceManager::Create()
 
 void CPlaceManager::Free()
 {
+	while (!m_StackPlace.empty())
+		m_StackPlace.pop();
+
 	CBase::Free();
 }

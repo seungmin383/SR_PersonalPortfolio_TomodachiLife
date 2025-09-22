@@ -14,14 +14,11 @@ public:
 	HRESULT Go_Place(CPlace* _CPlace);
 	HRESULT Go_Back();
 
-private:
-	int32_t Update_Place(_float fDT);
+public:
+	int32_t Update(const _float fDT);
 
 private:
-	CPlace* m_pScene = { nullptr };
-	uint32_t m_iSceneNum = {};
-
-	stack<CPlace*> m_PlaceStack;
+	stack<CPlace*> m_StackPlace;
 
 public:
 	static CPlaceManager* Create();
