@@ -3,7 +3,7 @@
 
 NS_BEGIN(Engine)
 
-class CObject;
+class CLayer;
 class CObjectManager : public CBase
 {
 private:
@@ -11,14 +11,13 @@ private:
 	virtual ~CObjectManager() = default;
 
 public:
-	HRESULT Add_Object(const uint32_t _ObjectID, CObject* _Object);
-
-public:
+	int32_t Update_Priority(const _float fDT);
 	int32_t Update(const _float fDT);
-	int32_t Late_Update(const _float fDT);
+	void	Update_Late(const _float fDT);
+
 
 private:
-	map<uint32_t , vector<CObject*>> m_mapObject;
+	map<uint32_t , vector<CLayer*>> m_mapLayer;
 	int32_t m_iFlag = {};
 
 public:

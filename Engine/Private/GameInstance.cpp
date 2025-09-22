@@ -4,6 +4,7 @@
 #include "Place_Manager.h"
 #include "Render_Manager.h"
 #include "Object_Manager.h"
+#include "Prototype.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -60,6 +61,11 @@ HRESULT CGameInstance::Initialize()
 	return S_OK;
 }
 
+int32_t CGameInstance::Update_Priority(const _float _fDT)
+{
+	return m_pObjectManager->Update_Priority(_fDT);
+}
+
 int32_t CGameInstance::Update(const _float _fDT)
 {
 	//게임 씬 매니저 업데이트			//주로 디버그용
@@ -67,6 +73,11 @@ int32_t CGameInstance::Update(const _float _fDT)
 	//게임 오브젝트 매니저 업데이트		//진짜 업데이트
 	
 	return m_pObjectManager->Update(_fDT);
+}
+
+void CGameInstance::Update_Late(const _float _fDT)
+{
+	m_pObjectManager->Update_Late(_fDT);
 }
 
 void CGameInstance::Begin_Render()
@@ -152,10 +163,6 @@ inline HRESULT CGameInstance::GraphicDevice_Present()
 
 #pragma region OBJECT_MANAGER
 
-HRESULT CGameInstance::ObjectManager_Add_Object(const uint32_t _ObjectID, CObject* _Object)
-{
-	return m_pObjectManager->Add_Object(_ObjectID, _Object);
-}
 
 #pragma endregion
 
@@ -174,6 +181,20 @@ HRESULT CGameInstance::PlaceManager_Go_Back()
 {
 	return m_pPlaceManager->Go_Back();
 }
+
+#pragma endregion
+
+#pragma region PROTOTYPE
+
+HRESULT CGameInstance::Proto_Add_Prototype(int32_t _ObjectID, CObject* _Origin)
+{
+	return m_pPrototype->Add_Prototype(_ObjectID, _Origin);
+}
+CObject* CGameInstance::Proto_Get_Object_Clone(int32_t _ObjectID)
+{
+	return m_pPrototype->Get_Object_Clone(_ObjectID);
+}
+
 #pragma endregion
 
 

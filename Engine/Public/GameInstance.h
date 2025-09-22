@@ -7,6 +7,7 @@ class CGraphic_Device;
 class CPlaceManager;
 class CObjectManager;
 class CRenderManager;
+class CPrototype;
 
 class CObject;
 class CPlace;
@@ -20,7 +21,9 @@ private:
 
 public:
 	HRESULT Initialize();
+	int32_t Update_Priority(const _float _fDT);
 	int32_t Update(const _float _fDT);
+	void	 Update_Late(const _float _fDT);
 
 	void	Begin_Render();
 	HRESULT Render();
@@ -67,12 +70,19 @@ public:
 	HRESULT PlaceManager_Go_Back();
 
 #pragma endregion
+
+#pragma region PROTOTYPE
+	HRESULT Proto_Add_Prototype(int32_t _ObjectID, CObject* _Origin);
+	CObject* Proto_Get_Object_Clone(int32_t _ObjectID);
+#pragma endregion
+
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
 	CGraphic_Device*	m_pGraphicDevice = { nullptr };	
 	CPlaceManager*		m_pPlaceManager = { nullptr };	
 	CObjectManager*		m_pObjectManager = { nullptr };
 	CRenderManager*		m_pRenderManager = { nullptr };
+	CPrototype*			m_pPrototype = { nullptr };
 public:
 	virtual void Free()override;
 };

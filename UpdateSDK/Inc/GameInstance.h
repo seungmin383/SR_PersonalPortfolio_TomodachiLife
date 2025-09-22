@@ -20,7 +20,9 @@ private:
 
 public:
 	HRESULT Initialize();
+	int32_t Update_Priority(const _float _fDT);
 	int32_t Update(const _float _fDT);
+	void	 Update_Late(const _float _fDT);
 
 	void	Begin_Render();
 	HRESULT Render();

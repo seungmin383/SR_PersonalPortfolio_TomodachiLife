@@ -22,9 +22,19 @@ HRESULT CMainApp::Initialize()
 	return S_OK;
 }
 
+int32_t CMainApp::Update_Priority(_float _fDT)
+{
+	return m_pGameInstance->Update_Priority(_fDT);
+}
+
 int32_t CMainApp::Update(_float _fDT)
 {
 	return m_pGameInstance->Update(_fDT);
+}
+
+void CMainApp::Update_Late(_float _fDT)
+{
+	m_pGameInstance->Update_Late(_fDT);
 }
 
 void CMainApp::Render()

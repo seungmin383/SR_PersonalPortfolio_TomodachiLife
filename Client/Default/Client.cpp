@@ -82,7 +82,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             pGameInstance->TimerManager_Calc_DeltaTime(TEXT("Timer_fps"));
 
+            pMainApp->Update_Priority(pGameInstance->TimerManager_Get_DeltaTime(TEXT("Timer_fps")));
             pMainApp->Update(pGameInstance->TimerManager_Get_DeltaTime(TEXT("Timer_fps")));
+            pMainApp->Update_Late(pGameInstance->TimerManager_Get_DeltaTime(TEXT("Timer_fps")));
             pMainApp->Render();
 
             fTimeAcc = 0.f;

@@ -51,6 +51,19 @@ namespace Client
 		END					
 	};
 
+	enum class LAYER_ID
+	{
+		BASIC,
+		END
+	};
+	enum class OBJECT_ID
+	{
+		MII,
+		FOOD,
+		ITEM,
+		CLOTHES,
+		END
+	};
 }
 
 using namespace std;

@@ -34,17 +34,11 @@
     <Filter Include="00.System\00.Device\00.Graphic">
       <UniqueIdentifier>{2171c527-36c2-4579-9301-c09dccaed83c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.System\01.Manager\01.Render_Manager">
-      <UniqueIdentifier>{be8456bc-79c9-4f60-b023-881f78396617}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.System\01.Manager\99.Sound_Manager">
       <UniqueIdentifier>{0a7ccdf7-d334-479f-b916-e0c9d3b0a001}</UniqueIdentifier>
     </Filter>
     <Filter Include="00.System\01.Manager\99.Sound_Manager\99.fMod">
       <UniqueIdentifier>{63982a41-3d02-4f17-a537-bc6c520122ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\02.Object">
-      <UniqueIdentifier>{33340fa6-fda1-45be-92b5-8d13bae39420}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Utility\01.Place">
       <UniqueIdentifier>{9d4ebf9f-5acc-400d-a617-57d670bdf596}</UniqueIdentifier>
@@ -52,11 +46,23 @@
     <Filter Include="01.Utility\01.Place\Manager">
       <UniqueIdentifier>{0d84bdc0-f852-444e-835c-35337e8a7a3d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\02.Object\Manager">
+    <Filter Include="01.Utility\03.Object">
+      <UniqueIdentifier>{33340fa6-fda1-45be-92b5-8d13bae39420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\Manager">
       <UniqueIdentifier>{35eef895-7ae3-4fc1-96cf-016365e86f29}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\03.Camera">
+    <Filter Include="01.Utility\05.Camera">
       <UniqueIdentifier>{7078a227-cf1e-45b6-99d0-952a46424ab5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\04.Render">
+      <UniqueIdentifier>{e0e3ea10-54bd-4d78-9add-667c0d2cd5f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\02.Layer">
+      <UniqueIdentifier>{a7e7b700-899e-4bde-b005-9c3bdfad0a94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\00.Manager\01.Prototype">
+      <UniqueIdentifier>{88ad5f53-d92e-4894-b2b7-49d84d56d5d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -75,9 +81,6 @@
     <ClCompile Include="..\Private\Graphic_Device.cpp">
       <Filter>00.System\00.Device\00.Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Render_Manager.cpp">
-      <Filter>00.System\01.Manager\01.Render_Manager</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Sound_Manager.cpp">
       <Filter>00.System\01.Manager\99.Sound_Manager</Filter>
     </ClCompile>
@@ -88,13 +91,22 @@
       <Filter>01.Utility\01.Place</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Object.cpp">
-      <Filter>01.Utility\02.Object</Filter>
+      <Filter>01.Utility\03.Object</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Object_Manager.cpp">
-      <Filter>01.Utility\02.Object\Manager</Filter>
+      <Filter>01.Utility\03.Object\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Camera.cpp">
-      <Filter>01.Utility\03.Camera</Filter>
+      <Filter>01.Utility\05.Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Render_Manager.cpp">
+      <Filter>01.Utility\04.Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Layer.cpp">
+      <Filter>01.Utility\02.Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Prototype.cpp">
+      <Filter>01.Utility\00.Manager\01.Prototype</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +167,6 @@
     <ClInclude Include="fmod_output.h">
       <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Render_Manager.h">
-      <Filter>00.System\01.Manager\01.Render_Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Sound_Manager.h">
       <Filter>00.System\01.Manager\99.Sound_Manager</Filter>
     </ClInclude>
@@ -168,13 +177,22 @@
       <Filter>01.Utility\01.Place</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Object.h">
-      <Filter>01.Utility\02.Object</Filter>
+      <Filter>01.Utility\03.Object</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Object_Manager.h">
-      <Filter>01.Utility\02.Object\Manager</Filter>
+      <Filter>01.Utility\03.Object\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Camera.h">
-      <Filter>01.Utility\03.Camera</Filter>
+      <Filter>01.Utility\05.Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Render_Manager.h">
+      <Filter>01.Utility\04.Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Layer.h">
+      <Filter>01.Utility\02.Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Prototype.h">
+      <Filter>01.Utility\00.Manager\01.Prototype</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,10 @@ private:
 
 public:
 	HRESULT		Initialize();
+
+	int32_t		Update_Priority(_float _fDT);
 	int32_t		Update(_float _fDT);
+	void		Update_Late(_float _fDT);
 	void		Render();
 
 public:

@@ -29,10 +29,12 @@
     <ClInclude Include="..\Public\Engine_Typedef.h" />
     <ClInclude Include="..\Public\GameInstance.h" />
     <ClInclude Include="..\Public\Graphic_Device.h" />
+    <ClInclude Include="..\Public\Layer.h" />
     <ClInclude Include="..\Public\Object.h" />
     <ClInclude Include="..\Public\Object_Manager.h" />
     <ClInclude Include="..\Public\Place.h" />
     <ClInclude Include="..\Public\Place_Manager.h" />
+    <ClInclude Include="..\Public\Prototype.h" />
     <ClInclude Include="..\Public\Render_Manager.h" />
     <ClInclude Include="..\Public\Sound_Manager.h" />
     <ClInclude Include="..\Public\Timer.h" />
@@ -51,10 +53,12 @@
     <ClCompile Include="..\Private\Camera.cpp" />
     <ClCompile Include="..\Private\GameInstance.cpp" />
     <ClCompile Include="..\Private\Graphic_Device.cpp" />
+    <ClCompile Include="..\Private\Layer.cpp" />
     <ClCompile Include="..\Private\Object.cpp" />
     <ClCompile Include="..\Private\Object_Manager.cpp" />
     <ClCompile Include="..\Private\Place.cpp" />
     <ClCompile Include="..\Private\Place_Manager.cpp" />
+    <ClCompile Include="..\Private\Prototype.cpp" />
     <ClCompile Include="..\Private\Render_Manager.cpp" />
     <ClCompile Include="..\Private\Sound_Manager.cpp" />
     <ClCompile Include="..\Private\Timer.cpp" />

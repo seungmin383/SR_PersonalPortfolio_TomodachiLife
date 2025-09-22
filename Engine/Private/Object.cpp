@@ -10,9 +10,19 @@ CObject::CObject(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
 	Safe_AddRef(m_pContext);
 }
 
-HRESULT CObject::Initialize()
+HRESULT CObject::Initialize_Origin()
 {
 	return S_OK;
+}
+
+HRESULT CObject::Initialize_Clone(void* pArg)
+{
+	return S_OK;
+}
+
+int32_t CObject::Update_Priority(const _float _fDT)
+{
+	return 0;
 }
 
 int32_t CObject::Update(const _float _fDT)
@@ -20,7 +30,7 @@ int32_t CObject::Update(const _float _fDT)
 	return 0;
 }
 
-void CObject::Late_Update(const _float _fDT)
+void CObject::Update_Late(const _float _fDT)
 {
 	return;
 }
