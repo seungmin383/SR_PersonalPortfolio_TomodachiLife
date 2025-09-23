@@ -64,6 +64,12 @@
     <Filter Include="01.Utility\00.Manager\01.Prototype">
       <UniqueIdentifier>{88ad5f53-d92e-4894-b2b7-49d84d56d5d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component">
+      <UniqueIdentifier>{e1d3765e-69d5-4121-9891-01dd45517bd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\01.Actor">
+      <UniqueIdentifier>{1a4e060c-0a4a-4707-b3fc-03d8db1d5890}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -107,6 +113,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Prototype.cpp">
       <Filter>01.Utility\00.Manager\01.Prototype</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Component.cpp">
+      <Filter>01.Utility\03.Object\02.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Actor.cpp">
+      <Filter>01.Utility\03.Object\01.Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +205,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Prototype.h">
       <Filter>01.Utility\00.Manager\01.Prototype</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Component.h">
+      <Filter>01.Utility\03.Object\02.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Actor.h">
+      <Filter>01.Utility\03.Object\01.Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

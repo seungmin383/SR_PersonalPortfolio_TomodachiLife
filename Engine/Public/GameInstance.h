@@ -55,7 +55,7 @@ public:
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
-	HRESULT ObjectManager_Add_Object(const uint32_t _ObjectID, CObject* _Object);
+	HRESULT ObjectManager_Add_Object_to_Layer(uint32_t _LayerID, const uint32_t _ObjectID);
 
 #pragma endregion
 

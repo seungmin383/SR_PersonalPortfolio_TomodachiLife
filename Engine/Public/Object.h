@@ -6,8 +6,9 @@ NS_BEGIN(Engine)
 class CGameInstance;
 class ENGINE_DLL CObject abstract: public CBase
 {
-private:
-	CObject(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
+protected:
+	CObject();
+	CObject(const CObject& rhs);
 	virtual ~CObject() = default;
 
 public:
@@ -21,8 +22,6 @@ public:
 
 protected:
 	CGameInstance* m_pGameInstance = { nullptr };
-	ID3D11Device* m_pDevice = { nullptr };
-	ID3D11DeviceContext* m_pContext = { nullptr };
 
 public:
 	virtual CObject* Clone()PURE;

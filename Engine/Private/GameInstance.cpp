@@ -159,11 +159,14 @@ inline HRESULT CGameInstance::GraphicDevice_Present()
 {
 	return m_pGraphicDevice->Present();
 }
+
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
-
-
+HRESULT CGameInstance::ObjectManager_Add_Object_to_Layer(uint32_t _LayerID, const uint32_t _ObjectID)
+{
+	return m_pObjectManager->Add_Object_to_Layer(_LayerID, _ObjectID);
+}
 #pragma endregion
 
 #pragma region RENDER_MANAGER

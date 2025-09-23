@@ -1,8 +1,11 @@
 #include "Prototype.h"
 #include "Object.h"
 
-CPrototype::CPrototype()
+CPrototype::CPrototype(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
+	:m_pDevice(_pDevice), m_pContext(_pContext)
 {
+	Safe_AddRef(m_pDevice);
+	Safe_AddRef(m_pContext);
 }
 
 HRESULT CPrototype::Add_Prototype(int32_t _ObjectID, CObject* _Origin)
@@ -40,6 +43,9 @@ void CPrototype::Free()
 			Safe_Release(pair.second);
 	}
 	m_mapOrigin.clear();
+
+	Safe_Release(m_pDevice);
+	Safe_Release(m_pContext);
 
 	CBase::Free();
 }
