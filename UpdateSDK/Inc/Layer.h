@@ -2,6 +2,7 @@
 #include "Base.h"
 
 NS_BEGIN(Engine)
+
 class CObject;
 class CLayer final : public CBase
 {
@@ -22,6 +23,7 @@ private:
 	int32_t  m_iFlag = { };
 
 public:
+	static CLayer* Create();
 	virtual void Free() override;	
 
 };

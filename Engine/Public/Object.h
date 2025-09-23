@@ -13,7 +13,7 @@ protected:
 
 public:
 	virtual HRESULT Initialize_Origin();
-	virtual HRESULT Initialize_Clone(void* pArg);
+	virtual HRESULT Initialize_Clone(void* _pArg);
 
 	virtual int32_t Update_Priority(const _float _fDT);
 	virtual int32_t Update(const _float _fDT);
@@ -24,7 +24,7 @@ protected:
 	CGameInstance* m_pGameInstance = { nullptr };
 
 public:
-	virtual CObject* Clone()PURE;
+	virtual CObject* Clone(void* _pArg)PURE;
 	virtual void Free()override;
 };
 

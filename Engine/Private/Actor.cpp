@@ -16,6 +16,35 @@ CActor::CActor(const CActor& rhs)
 	Safe_AddRef(m_pContext);
 }
 
+HRESULT CActor::Initialize_Origin()
+{
+	return S_OK;
+}
+
+HRESULT CActor::Initialize_Clone(void* _pArg)
+{
+	return S_OK;
+}
+
+int32_t CActor::Update_Priority(const _float _fDT)
+{
+	return 0;
+}
+
+int32_t CActor::Update(const _float _fDT)
+{
+	return 0;
+}
+
+void CActor::Update_Late(const _float _fDT)
+{
+	return;
+}
+
+HRESULT CActor::Render()
+{
+	return S_OK;
+}
 
 void CActor::Free()
 {

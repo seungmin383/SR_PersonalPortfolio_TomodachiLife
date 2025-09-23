@@ -175,9 +175,9 @@ HRESULT CGameInstance::ObjectManager_Add_Object_to_Layer(uint32_t _LayerID, cons
 
 #pragma region PLACE_MANAGER
 
-HRESULT CGameInstance::PlaceManager_Go_Place(CPlace* _CPlace)
+HRESULT CGameInstance::PlaceManager_Go_Place(uint32_t _NextPlaceID, CPlace* _CPlace)
 {
-	return m_pPlaceManager->Go_Place(_CPlace);
+	return m_pPlaceManager->Go_Place(_NextPlaceID, _CPlace);
 }
 
 HRESULT CGameInstance::PlaceManager_Go_Back()
@@ -200,14 +200,19 @@ CObject* CGameInstance::Proto_Get_Object_Clone(int32_t _ObjectID)
 
 #pragma endregion
 
+void CGameInstance::Clear_Engine()
+{
+	Safe_Release(m_pTimerManager);
+	Safe_Release(m_pPrototype);
+	Safe_Release(m_pObjectManager);
+	Safe_Release(m_pRenderManager);
+	Safe_Release(m_pPlaceManager);
+	Safe_Release(m_pGraphicDevice);
+
+	CGameInstance::GetInstance()->DestroyInstance();
+}
 
 void CGameInstance::Free()
 {
-	Safe_Release(m_pTimerManager);
-	Safe_Release(m_pObjectManager);
-	Safe_Release(m_pRenderManager);
-
-	m_pGraphicDevice->Free();
-	Safe_Release(m_pGraphicDevice);
 	CBase::Free();
 }

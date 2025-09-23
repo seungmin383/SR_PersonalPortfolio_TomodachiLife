@@ -66,7 +66,7 @@ public:
 
 #pragma region PLACE_MANAGER
 
-	HRESULT PlaceManager_Go_Place(CPlace* _CPlace);
+	HRESULT PlaceManager_Go_Place(uint32_t _NextPlaceID, CPlace* _CPlace);
 	HRESULT PlaceManager_Go_Back();
 
 #pragma endregion
@@ -83,7 +83,9 @@ private:
 	CObjectManager*		m_pObjectManager = { nullptr };
 	CRenderManager*		m_pRenderManager = { nullptr };
 	CPrototype*			m_pPrototype = { nullptr };
+
 public:
+	void Clear_Engine();
 	virtual void Free()override;
 };
 

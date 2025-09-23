@@ -2,6 +2,8 @@
 #include "Loader.h"
 #include "GameInstance.h"
 
+#include "Place_Main.h"
+#include "Place_Setting.h"
 
 CPlace_Loading::CPlace_Loading(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
 	:CPlace(_pDevice, _pContext)
@@ -13,6 +15,7 @@ HRESULT CPlace_Loading::Initialize(PLACE_ID _eNextLevelID)
 	m_eNextLevelID = _eNextLevelID;
 
 	m_pLoader = CLoader::Create(m_pDevice, m_pContext, m_eNextLevelID);
+
 	if (nullptr == m_pLoader)
 		return E_FAIL;
 
@@ -32,13 +35,13 @@ int32_t CPlace_Loading::Update(const _float fDT)
 
 		switch (m_eNextLevelID)
 		{
-		case Client::PLACE_ID::LOADING:
+		case Client::PLACE_ID::MAIN:
+			pNewPlace = CPlace_Main::Create(m_pDevice, m_pContext);
 			break;
 		case Client::PLACE_ID::SETTING:
+			pNewPlace = CPlace_Setting::Create(m_pDevice, m_pContext);
 			break;
 		case Client::PLACE_ID::SAVE:
-			break;
-		case Client::PLACE_ID::LOAD:
 			break;
 		case Client::PLACE_ID::MII_EDITOR:
 			break;
@@ -91,11 +94,12 @@ int32_t CPlace_Loading::Update(const _float fDT)
 		if (nullptr == pNewPlace)
 			return 1;
 
-		if (SUCCEEDED(m_pGameInstance->PlaceManager_Go_Place(pNewPlace)))
+		if (SUCCEEDED(m_pGameInstance->PlaceManager_Go_Place(static_cast<int32_t>(m_eNextLevelID), pNewPlace)))
 			return 0;
 
 		MSG_BOX(" ErrCode : ¾î? ");
 	}
+	return 0;
 }
 
 HRESULT CPlace_Loading::Render()
@@ -122,8 +126,7 @@ CPlace_Loading* CPlace_Loading::Create(ID3D11Device* _pDevice, ID3D11DeviceConte
 
 void CPlace_Loading::Free()
 {
-	Safe_Release(m_pDevice);
-	Safe_Release(m_pContext);
+	Safe_Release(m_pLoader);
 
 	CPlace::Free();
 }

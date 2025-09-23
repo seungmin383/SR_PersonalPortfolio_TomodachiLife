@@ -7,6 +7,7 @@ class CGraphic_Device;
 class CPlaceManager;
 class CObjectManager;
 class CRenderManager;
+class CPrototype;
 
 class CObject;
 class CPlace;
@@ -54,7 +55,7 @@ public:
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
-	HRESULT ObjectManager_Add_Object(const uint32_t _ObjectID, CObject* _Object);
+	HRESULT ObjectManager_Add_Object_to_Layer(uint32_t _LayerID, const uint32_t _ObjectID);
 
 #pragma endregion
 
@@ -65,17 +66,26 @@ public:
 
 #pragma region PLACE_MANAGER
 
-	HRESULT PlaceManager_Go_Place(CPlace* _CPlace);
+	HRESULT PlaceManager_Go_Place(uint32_t _NextPlaceID, CPlace* _CPlace);
 	HRESULT PlaceManager_Go_Back();
 
 #pragma endregion
+
+#pragma region PROTOTYPE
+	HRESULT Proto_Add_Prototype(int32_t _ObjectID, CObject* _Origin);
+	CObject* Proto_Get_Object_Clone(int32_t _ObjectID);
+#pragma endregion
+
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
 	CGraphic_Device*	m_pGraphicDevice = { nullptr };	
 	CPlaceManager*		m_pPlaceManager = { nullptr };	
 	CObjectManager*		m_pObjectManager = { nullptr };
 	CRenderManager*		m_pRenderManager = { nullptr };
+	CPrototype*			m_pPrototype = { nullptr };
+
 public:
+	void Clear_Engine();
 	virtual void Free()override;
 };
 

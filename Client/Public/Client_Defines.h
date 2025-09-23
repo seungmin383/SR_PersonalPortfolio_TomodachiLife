@@ -19,8 +19,7 @@ namespace Client
 
 		LOADING,			
 		SETTING,			
-		SAVE,				
-		LOAD,				
+		SAVE,					
 		MII_EDITOR,			
 
 		STORE_CLOTHES,		
@@ -58,6 +57,8 @@ namespace Client
 	};
 	enum class OBJECT_ID
 	{
+		UI,
+
 		MII,
 		FOOD,
 		ITEM,

@@ -28,6 +28,12 @@
     <ClInclude Include="..\Public\Place_Main.h">
       <Filter>01.Place\00.Main</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Place_Setting.h">
+      <Filter>01.Place\02.Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Food.h">
+      <Filter>02.Object\00.Actor\01.Item\00.Food</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -86,6 +92,21 @@
     <Filter Include="01.Place\00.Main">
       <UniqueIdentifier>{ac9aa371-5ad3-4ec3-804a-39b638f85fb2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Object">
+      <UniqueIdentifier>{29c83099-1360-43e4-81ae-d52cd87c36aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\00.Actor">
+      <UniqueIdentifier>{543cca0f-c3dc-4901-ad99-a47b744338b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\00.Actor\00.Mii">
+      <UniqueIdentifier>{94fce502-9e72-4ce7-8ec7-bf5ff7f06e68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\00.Actor\01.Item">
+      <UniqueIdentifier>{82e2ea63-1f65-403c-9adf-b7d2f17d4f98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\00.Actor\01.Item\00.Food">
+      <UniqueIdentifier>{18b522b1-5ffd-4912-91be-eb8b96d4d9ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -102,6 +123,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Place_Main.cpp">
       <Filter>01.Place\00.Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_Setting.cpp">
+      <Filter>01.Place\02.Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Food.cpp">
+      <Filter>02.Object\00.Actor\01.Item\00.Food</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -18,12 +18,9 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	class CLoader* m_pLoader = { nullptr };
+	class CLoader*		m_pLoader = { nullptr };
 	PLACE_ID			m_eNextLevelID = { PLACE_ID::END };
 
-private:
-	ID3D11Device* m_pDevice = { nullptr };
-	ID3D11DeviceContext* m_pContext = { nullptr };
 
 private:
 	HRESULT Ready_Layer_UI();

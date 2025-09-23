@@ -9,14 +9,6 @@ CRenderManager* CRenderManager::Create()
 	return new CRenderManager;
 }
 
-HRESULT CRenderManager::Add_RenderGroup(RENDER_GROUP _RenderGroup, CObject* _Object)
-{
-	if (nullptr == _Object)
-		return E_FAIL;
-
-	return S_OK;
-}
-
 HRESULT CRenderManager::Render()
 {
 	for (int i = 0; i < static_cast<int32_t>(RENDER_GROUP::END); i++)
@@ -36,7 +28,16 @@ HRESULT CRenderManager::Render()
 	return S_OK;
 }
 
+HRESULT CRenderManager::Add_RenderGroup(RENDER_GROUP _RenderGroup, CObject* _Object)
+{
+	if (nullptr == _Object)
+		return E_FAIL;
+
+	return S_OK;
+}
+
 void CRenderManager::Free()
 {
+	CBase::Free();
 }
 

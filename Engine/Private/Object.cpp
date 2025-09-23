@@ -18,7 +18,7 @@ HRESULT CObject::Initialize_Origin()
 	return S_OK;
 }
 
-HRESULT CObject::Initialize_Clone(void* pArg)
+HRESULT CObject::Initialize_Clone(void* _pArg)
 {
 	return S_OK;
 }

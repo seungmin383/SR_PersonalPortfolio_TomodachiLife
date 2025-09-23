@@ -12,7 +12,7 @@ private:
 
 public:
 	HRESULT Add_Prototype(int32_t _ObjectID, CObject* _Origin);
-	CObject* Get_Object_Clone(int32_t _ObjectID);
+	CObject* Get_Object_Clone(int32_t _ObjectID, void* pArg = nullptr);
 
 private:
 	ID3D11Device* m_pDevice = { nullptr };

@@ -16,9 +16,6 @@ HRESULT CMainApp::Initialize()
 
 	m_pGameInstance->GraphicDevice_Initialize(g_hWnd, WINCX, WINCY, &m_pDevice, &m_pContext);
 
-	Safe_AddRef(m_pDevice);
-	Safe_AddRef(m_pContext);
-
 	return S_OK;
 }
 
@@ -69,11 +66,12 @@ CMainApp* CMainApp::Create()
 
 void CMainApp::Free()
 {
-	Safe_Release(m_pGameInstance);
+	CBase::Free();
+
+
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
-	CGameInstance::DestroyInstance();
-
-	CBase::Free();
+	m_pGameInstance->Clear_Engine();
+	Safe_Release(m_pGameInstance);
 }

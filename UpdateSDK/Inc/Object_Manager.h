@@ -4,6 +4,7 @@
 NS_BEGIN(Engine)
 
 class CLayer;
+class CGameInstance;
 class CObjectManager : public CBase
 {
 private:
@@ -15,10 +16,14 @@ public:
 	int32_t Update(const _float fDT);
 	void	Update_Late(const _float fDT);
 
+public:
+	HRESULT Add_Object_to_Layer(uint32_t _LayerID, const uint32_t _ObjectID);
 
 private:
 	map<uint32_t , vector<CLayer*>> m_mapLayer;
 	int32_t m_iFlag = {};
+
+	CGameInstance* m_pGameInstace = { nullptr };
 
 public:
 	static CObjectManager* Create();

@@ -70,6 +70,9 @@
     <Filter Include="01.Utility\03.Object\01.Actor">
       <UniqueIdentifier>{1a4e060c-0a4a-4707-b3fc-03d8db1d5890}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\03.UI">
+      <UniqueIdentifier>{289b8a58-37c5-48af-97a1-238dd191b250}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">

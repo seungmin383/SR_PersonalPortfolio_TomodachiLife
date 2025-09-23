@@ -25,14 +25,14 @@ HRESULT CPrototype::Add_Prototype(int32_t _ObjectID, CObject* _Origin)
 	}
 }
 
-CObject* CPrototype::Get_Object_Clone(int32_t _ObjectID)
+CObject* CPrototype::Get_Object_Clone(int32_t _ObjectID, void* pArg)
 {
 	auto iter = m_mapOrigin.find(_ObjectID);
 
 	if (iter == m_mapOrigin.end())
 		return nullptr;
 
-	return iter->second->Clone();
+	return iter->second->Clone(pArg);
 }
 
 void CPrototype::Free()

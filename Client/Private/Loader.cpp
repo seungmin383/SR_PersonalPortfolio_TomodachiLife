@@ -17,9 +17,9 @@ _uint APIENTRY ThreadMain(void* _pArg)
 	return 0;
 }
 
-HRESULT CLoader::Initialize(PLACE_ID _eLoadingLevelID)
+HRESULT CLoader::Initialize(PLACE_ID _eNextPlaceID)
 {
-	m_eLoadingLevelID = _eLoadingLevelID;
+	m_eNextPlaceID = _eNextPlaceID;
 
 	InitializeCriticalSection(&m_CriticalSection);
 
@@ -40,7 +40,7 @@ HRESULT CLoader::Loading()
 
 	HRESULT		hr = {};
 
-	switch (m_eLoadingLevelID)
+	switch (m_eNextPlaceID)
 	{
 	case Client::PLACE_ID::LOADING:
 		hr = Loading_For_Setting();
@@ -50,9 +50,6 @@ HRESULT CLoader::Loading()
 		break;
 	case Client::PLACE_ID::SAVE:
 		hr = Loading_For_Save();
-		break;
-	case Client::PLACE_ID::LOAD:
-		hr = Loading_For_Load();
 		break;
 	case Client::PLACE_ID::MII_EDITOR:
 		hr = Loading_For_MiiEditor();
@@ -123,10 +120,10 @@ HRESULT CLoader::Loading()
 		break;
 	}
 
+	LeaveCriticalSection(&m_CriticalSection);
+
 	if (FAILED(hr))
 		return E_FAIL;
-
-	LeaveCriticalSection(&m_CriticalSection);
 
 	return S_OK;
 }
@@ -138,11 +135,6 @@ HRESULT CLoader::Loading_For_Setting()
 }
 
 HRESULT CLoader::Loading_For_Save()
-{
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Load()
 {
 	return S_OK;
 }
@@ -253,11 +245,11 @@ HRESULT CLoader::Loading_For_Live_Wedding_House()
 }
 #pragma endregion
 
-CLoader* CLoader::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext, PLACE_ID _eLoadingLevelID)
+CLoader* CLoader::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext, PLACE_ID _eNextPlaceID)
 {
 	CLoader* pLoader = new CLoader(_pDevice, _pContext);
 
-	if (FAILED(pLoader->Initialize(_eLoadingLevelID)))
+	if (FAILED(pLoader->Initialize(_eNextPlaceID)))
 	{
 		MSG_BOX("ErrCode : Loader Create Failed");
 		Safe_Release(pLoader);
