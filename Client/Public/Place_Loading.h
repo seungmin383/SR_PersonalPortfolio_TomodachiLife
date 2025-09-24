@@ -18,7 +18,7 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	class CLoader*		m_pLoader = { nullptr };
+	CLoader*			m_pLoader = { nullptr };
 	PLACE_ID			m_eNextLevelID = { PLACE_ID::END };
 
 

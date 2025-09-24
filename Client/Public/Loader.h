@@ -37,6 +37,7 @@ private:
 private:
 #pragma region LOADING_FUCTION
 
+	HRESULT Loading_For_Main();
 	HRESULT Loading_For_Setting();
 	HRESULT Loading_For_Save();
 	HRESULT Loading_For_MiiEditor();

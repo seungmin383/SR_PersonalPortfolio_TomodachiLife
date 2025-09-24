@@ -1,0 +1,37 @@
+렌더링 파이프라인의 순서
+
+Input Assembler
+
+Vertex Shader
+
+Hull Shader
+
+Tessellator
+
+Domain Shader
+
+Geometry Shader
+
+Rasterizer
+
+Pixel Shader
+
+Output Merge
+
+
+# Input Assembler
+-> 메모리에서 기하 자료(정점들과 색인들)를 읽어서
+기하학적 기본도형(삼각현, 선분 등)을 조립하는 단계
+
+1. 정점이란?
+공간적 위치를 담고있는 점
+그러나 DX에서는 
+조명을 위해 법선벡터나
+텍스쳐를 위해 텍스쳐좌표를 추가해서 더 복잡한 렌더링 효과를 낼 수 있다.
+
+2. 정점버퍼
+정점들은 정점버퍼라는 DX3D 자료구조 안에 담겨서 렌더링 파이프라인에 묶인다.
+
+IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY Topology)
+-> IA가 정점들을 어떤 Primitive로 묶어서 그릴지를 지정해주는 함수
+-> 정점 / 인덱스 버퍼의 해석 규칙을 바꿔준다.

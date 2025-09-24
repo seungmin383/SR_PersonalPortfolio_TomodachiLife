@@ -12,6 +12,16 @@ namespace Engine
 		uint32_t iWinCX, iWinCY;
 
 	}GRAPHIC_DEVICE_INIT_DESC;
+
+	typedef struct tagVector3
+	{
+		_float x, y, z;
+
+		tagVector3 Normalize()
+		{
+
+		}
+	}VECTOR3;
 }
 
 

@@ -5,6 +5,12 @@ NS_BEGIN(Engine)
 
 class ENGINE_DLL CActor abstract : public CObject
 {
+public:
+	typedef struct tagActorDesc
+	{
+
+	}ACTOR_DESC;
+
 protected:
 	CActor(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
 	CActor(const CActor& rhs);

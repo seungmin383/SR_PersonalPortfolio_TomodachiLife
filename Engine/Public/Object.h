@@ -6,6 +6,11 @@ NS_BEGIN(Engine)
 class CGameInstance;
 class ENGINE_DLL CObject abstract: public CBase
 {
+public:
+	typedef struct tagObjectDesc
+	{
+
+	}OBJECT_DESC;
 protected:
 	CObject();
 	CObject(const CObject& rhs);

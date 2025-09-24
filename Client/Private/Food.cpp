@@ -22,16 +22,22 @@ HRESULT CFood::Initialize_Clone(void* _pArg)
 
 int32_t CFood::Update_Priority(const _float _fDT)
 {
+	int a = 10;
+
 	return 0;
 }
 
 int32_t CFood::Update(const _float _fDT)
 {
+	int a = 10;
+
 	return 0;
 }
 
 void CFood::Update_Late(const _float _fDT)
 {
+	int a = 10;
+
 }
 
 HRESULT CFood::Render()

@@ -21,6 +21,7 @@ private:
 	map<int32_t, CObject*>		m_mapOrigin;
 
 public:
+	static CPrototype* Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
 	virtual void Free() override;
 };
 

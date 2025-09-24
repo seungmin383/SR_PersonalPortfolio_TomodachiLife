@@ -28,8 +28,7 @@ HRESULT CPlace_Loading::Initialize(PLACE_ID _eNextLevelID)
 
 int32_t CPlace_Loading::Update(const _float fDT)
 {
-	if (true == m_pLoader->isFinished() &&
-		GetKeyState(VK_RETURN) & 0x8000)
+	if (true == m_pLoader->isFinished())
 	{
 		CPlace* pNewPlace = { nullptr };
 
@@ -104,6 +103,7 @@ int32_t CPlace_Loading::Update(const _float fDT)
 
 HRESULT CPlace_Loading::Render()
 {
+	SetWindowText(g_hWnd, TEXT("로딩레벨입니다."));
 	return S_OK;
 }
 
@@ -121,6 +121,7 @@ CPlace_Loading* CPlace_Loading::Create(ID3D11Device* _pDevice, ID3D11DeviceConte
 		MSG_BOX("Failed to Created : CLevel_Loading");
 		Safe_Release(pPlaceLoading);
 	}
+
 	return pPlaceLoading;
 }
 

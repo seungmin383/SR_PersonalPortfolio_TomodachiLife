@@ -22,15 +22,16 @@ public:
 	void		Update_Late(_float _fDT);
 	void		Render();
 
-public:
-	static CMainApp* Create();
-	virtual void Free()override;
 
 private://디바이스 관리
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };
 
 	CGameInstance*			m_pGameInstance = { nullptr };
+
+public:
+	static CMainApp* Create();
+	virtual void Free()override;
 };
 
 NS_END	

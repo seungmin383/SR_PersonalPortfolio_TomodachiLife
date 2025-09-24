@@ -19,9 +19,11 @@ public:
 	_float Get_FovX()
 	{
 		_float fHalfWidth = 0.5f * (m_fAspect * m_fNear_Height);
-		return 2.f * atan(fHalfWidth / m_fNearZ);
+		return (2.f * atan(fHalfWidth / m_fNearZ));
 	};
 	
+	void Move_Camera(_float _fSpeed);
+
 private:
 	_float3 m_vPosition		= {};	//시야 공간의 원점
 	_float3 m_vRight		= {};	//Right vector
@@ -44,3 +46,4 @@ public:
 };
 
 NS_END
+

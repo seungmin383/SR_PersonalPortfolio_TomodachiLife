@@ -35,6 +35,17 @@ CObject* CPrototype::Get_Object_Clone(int32_t _ObjectID, void* pArg)
 	return iter->second->Clone(pArg);
 }
 
+CPrototype* CPrototype::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
+{
+	CPrototype* pPrototype = new CPrototype(_pDevice, _pContext);
+	if (nullptr == pPrototype)
+	{
+		MSG_BOX("ErrCode : Prototype Create Failed");
+		Safe_Release(pPrototype);
+	}
+	return pPrototype;
+}
+
 void CPrototype::Free()
 {
 	for (auto& pair : m_mapOrigin)

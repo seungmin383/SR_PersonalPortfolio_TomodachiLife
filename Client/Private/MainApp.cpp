@@ -1,5 +1,6 @@
 #include "MainApp.h"
 #include "GameInstance.h"
+#include "Place_Loading.h"
 
 USING(Client)
 
@@ -15,6 +16,15 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	m_pGameInstance->GraphicDevice_Initialize(g_hWnd, WINCX, WINCY, &m_pDevice, &m_pContext);
+
+	CPlace* tmp = CPlace_Loading::Create(m_pDevice, m_pContext, PLACE_ID::MAIN);
+	int a = 0;
+
+	if (FAILED(m_pGameInstance->PlaceManager_Go_Place(static_cast<int32_t>(PLACE_ID::LOADING), tmp)))
+	{
+		MSG_BOX("ErrCode : Go_Place Failed");
+		return E_FAIL;
+	}
 
 	return S_OK;
 }

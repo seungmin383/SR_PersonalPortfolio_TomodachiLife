@@ -57,7 +57,7 @@ HRESULT CGameInstance::Initialize()
 			return E_FAIL;
 		}
 	}
-
+	
 	return S_OK;
 }
 
@@ -99,6 +99,8 @@ HRESULT CGameInstance::Render()
 		return E_FAIL;
 	}
 
+	m_pPlaceManager->Render();
+
 	return S_OK;
 }
 
@@ -136,12 +138,22 @@ inline HRESULT CGameInstance::GraphicDevice_Initialize(HWND _hWnd,
 {
 	m_pGraphicDevice = CGraphic_Device::Create(_hWnd, WINMODE::WIN, _WinCX, _WinCY, _ppDevice, _ppContext);
 
+	//GraphicDevice
 	if (nullptr == m_pGraphicDevice)
 	{
 		MSG_BOX("ErrCode : m_pGraphicDevice Create Failed");
 		Safe_Release(m_pGraphicDevice);
 		return E_FAIL;
 	}
+
+	m_pPrototype = CPrototype::Create(*_ppDevice, *_ppContext);
+	if (nullptr == m_pPrototype)
+	{
+		MSG_BOX("ErrCode : m_pPrototype Create Failed");
+		Safe_Release(m_pPrototype);
+		return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -203,10 +215,10 @@ CObject* CGameInstance::Proto_Get_Object_Clone(int32_t _ObjectID)
 void CGameInstance::Clear_Engine()
 {
 	Safe_Release(m_pTimerManager);
+	Safe_Release(m_pPlaceManager);
 	Safe_Release(m_pPrototype);
 	Safe_Release(m_pObjectManager);
 	Safe_Release(m_pRenderManager);
-	Safe_Release(m_pPlaceManager);
 	Safe_Release(m_pGraphicDevice);
 
 	CGameInstance::GetInstance()->DestroyInstance();

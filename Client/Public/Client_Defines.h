@@ -52,7 +52,9 @@ namespace Client
 
 	enum class LAYER_ID
 	{
-		BASIC,
+		BACKGROUND,
+		ACTOR,
+		UI,
 		END
 	};
 	enum class OBJECT_ID

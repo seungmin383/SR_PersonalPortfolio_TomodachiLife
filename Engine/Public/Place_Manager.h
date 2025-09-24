@@ -16,9 +16,14 @@ public:
 
 public:
 	int32_t Update(const _float fDT);
+	HRESULT Render();
 
 private:
-	vector<CPlace*> m_StackPlace;
+	stack<CPlace*> m_StackPlace;
+	vector<CPlace*> m_vecPlace;
+	
+
+
 	uint32_t m_iCurPlaceID = {};
 	uint32_t m_iPrePlaceID = {};
 

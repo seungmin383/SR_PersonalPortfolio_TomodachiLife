@@ -19,6 +19,7 @@ int32_t CPlace_Setting::Update(_float fTimeDelta)
 
 HRESULT CPlace_Setting::Render()
 {
+	SetWindowText(g_hWnd, TEXT("세팅레벨입니다."));
 	return S_OK;
 }
 

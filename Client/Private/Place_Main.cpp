@@ -23,6 +23,7 @@ int32_t CPlace_Main::Update(_float fTimeDelta)
 
 HRESULT CPlace_Main::Render()
 {
+	SetWindowText(g_hWnd, TEXT("메인레벨입니다."));
 	return S_OK;
 }
 
@@ -41,4 +42,5 @@ CPlace_Main* CPlace_Main::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _p
 
 void CPlace_Main::Free()
 {
+	CPlace::Free();
 }

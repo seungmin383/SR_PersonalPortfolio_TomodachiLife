@@ -42,8 +42,8 @@ HRESULT CLoader::Loading()
 
 	switch (m_eNextPlaceID)
 	{
-	case Client::PLACE_ID::LOADING:
-		hr = Loading_For_Setting();
+	case Client::PLACE_ID::MAIN:
+		hr = Loading_For_Main();
 		break;
 	case Client::PLACE_ID::SETTING:
 		hr = Loading_For_Setting();
@@ -120,6 +120,7 @@ HRESULT CLoader::Loading()
 		break;
 	}
 
+	CoUninitialize();
 	LeaveCriticalSection(&m_CriticalSection);
 
 	if (FAILED(hr))
@@ -129,118 +130,171 @@ HRESULT CLoader::Loading()
 }
 
 
+HRESULT CLoader::Loading_For_Main()
+{
+	lstrcpy(m_szFPS, TEXT("메인 로딩 완료되었슴니다."));
+	m_isFinished = true;
+	return S_OK;
+}
+
 HRESULT CLoader::Loading_For_Setting()
 {
+	lstrcpy(m_szFPS, TEXT("Loading_For_Setting 완료되었슴니다."));
+	m_isFinished = true;
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Save()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_MiiEditor()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Store_Clothes()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Store_Antique()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Store_Hat()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Store_Food()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Store_Luxury()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Store_House()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Envi_Fountain()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Envi_Ocean()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Envi_Park()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Envi_Playground()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Envi_Cafe()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Etc_Community()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Etc_Music()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Etc_Ranking()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Etc_News()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Etc_Photo()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Connect_Tent()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Connect_Port()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Live_Apartment()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Live_Wedding_House()
 {
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
 	return S_OK;
 }
 #pragma endregion
