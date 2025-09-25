@@ -137,6 +137,9 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PipeLine.txt" />
+    <Text Include="PipeLine.txt">
+      <Filter>99.Defines</Filter>
+    </Text>
+    <Text Include="Buffer.txt" />
   </ItemGroup>
 </Project>

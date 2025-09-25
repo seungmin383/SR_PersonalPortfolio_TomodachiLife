@@ -164,7 +164,8 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PipeLine.txt" />
+    <Text Include="Buffer.txt" />
+    <Text Include="PipeLine.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

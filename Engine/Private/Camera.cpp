@@ -124,7 +124,6 @@ void CCamera::Update_View()
 
 CCamera* CCamera::Create()
 {
-
 	return new CCamera;
 }
 

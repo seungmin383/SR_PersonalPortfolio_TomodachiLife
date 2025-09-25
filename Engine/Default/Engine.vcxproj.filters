@@ -73,6 +73,9 @@
     <Filter Include="01.Utility\03.Object\03.UI">
       <UniqueIdentifier>{289b8a58-37c5-48af-97a1-238dd191b250}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\00.Buffer">
+      <UniqueIdentifier>{aa621a8d-426b-47d8-96d3-c7fed96a8a14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
