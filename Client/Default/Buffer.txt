@@ -60,3 +60,8 @@ D3D11_INPUT_PER_VERTEX_DATA를 지정
 
 UINT InstanceDataStepRate;
 인스턴싱에 사용
+
+#정점 버퍼
+배열의 정점들을 buffer 라고 부르는 특별한 자원에 담아두어야 한다.
+
+ID3D11Buffer 인터페이스로 대표됨

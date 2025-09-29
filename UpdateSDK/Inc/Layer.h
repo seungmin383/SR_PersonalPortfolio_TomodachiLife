@@ -19,7 +19,8 @@ public:
 	void Update_Late(const _float fDT);
 
 private:
-	map <uint32_t, vector<CObject*>>			m_mapObject;
+	//		오브젝트 아이디 / 그 오브젝트만 모아두는 vector
+	unordered_map <uint32_t, vector<CObject*>>			m_mapObject;
 	int32_t  m_iFlag = { };
 
 public:

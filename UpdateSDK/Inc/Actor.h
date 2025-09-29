@@ -6,7 +6,7 @@ NS_BEGIN(Engine)
 class ENGINE_DLL CActor abstract : public CObject
 {
 public:
-	typedef struct tagActorDesc
+	typedef struct tagActorDesc : public OBJECT_DESC
 	{
 
 	}ACTOR_DESC;
@@ -17,17 +17,13 @@ protected:
 	virtual ~CActor() = default;
 
 public:
-	virtual HRESULT Initialize_Origin()override;
-	virtual HRESULT Initialize_Clone(void* _pArg)override;
+	virtual HRESULT Initialize_Origin();
+	virtual HRESULT Initialize_Clone(void* _pArg);
 
-	virtual int32_t Update_Priority(const _float _fDT)override;
-	virtual int32_t Update(const _float _fDT)override;
-	virtual void Update_Late(const _float _fDT)override;
-	virtual HRESULT Render()override;
-
-protected:
-	ID3D11Device* m_pDevice = { nullptr };
-	ID3D11DeviceContext* m_pContext = { nullptr };
+	virtual int32_t Update_Priority(const _float _fDT);
+	virtual int32_t Update(const _float _fDT);
+	virtual void Update_Late(const _float _fDT);
+	virtual HRESULT Render();
 
 public:
 	virtual void Free()override;

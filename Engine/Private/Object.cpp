@@ -1,10 +1,13 @@
 #include "Object.h"
 #include "GameInstance.h"
 
-CObject::CObject()
-	:m_pGameInstance(CGameInstance::GetInstance())
+CObject::CObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	:m_pGameInstance(CGameInstance::GetInstance()),
+	m_pDevice(pDevice), m_pContext(pContext)
 {
 	Safe_AddRef(m_pGameInstance);
+	Safe_AddRef(m_pDevice);
+	Safe_AddRef(m_pContext);
 }
 
 CObject::CObject(const CObject& rhs)
@@ -46,5 +49,7 @@ HRESULT CObject::Render()
 void CObject::Free()
 {
 	Safe_Release(m_pGameInstance);
+	Safe_Release(m_pDevice);
+	Safe_Release(m_pContext);
 	CBase::Free();
 }

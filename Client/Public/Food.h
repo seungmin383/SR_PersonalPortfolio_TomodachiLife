@@ -22,7 +22,7 @@ public:
 	virtual HRESULT Render()override;
 
 public:
-	virtual CFood* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CFood* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CObject* Clone(void* pArg)override;
 	virtual void Free()override;
 };

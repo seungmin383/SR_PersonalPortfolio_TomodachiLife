@@ -1,4 +1,5 @@
 #include "Food.h"
+#include "GameInstance.h"
 
 CFood::CFood(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
 	:CActor(_pDevice, _pContext)
@@ -31,6 +32,11 @@ int32_t CFood::Update(const _float _fDT)
 {
 	int a = 10;
 
+	if (FAILED(m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::NONBLEND, this)))
+	{
+		MSG_BOX("ErrCode : Food Render Failed");
+		return 1;
+	}
 	return 0;
 }
 
@@ -42,6 +48,7 @@ void CFood::Update_Late(const _float _fDT)
 
 HRESULT CFood::Render()
 {
+	int a = 0;
 	return S_OK;
 }
 
@@ -61,16 +68,16 @@ CFood* CFood::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 CObject* CFood::Clone(void* pArg)
 {
-	CObject* tmp = new CFood(*this);
+	CFood* pFood = new CFood(*this);
 
-	if (FAILED(tmp->Initialize_Clone(pArg)))
+	if (FAILED(pFood->Initialize_Clone(pArg)))
 	{
 		MSG_BOX("ErrCode : Food Clone Failed");
-		Safe_Release(tmp);
+		Safe_Release(pFood);
 		return nullptr;
 	}
 
-	return tmp;
+	return pFood;
 }
 
 void CFood::Free()

@@ -10,8 +10,9 @@ public:
 	{
 
 	}COMPONENT_DESC;
+
 protected:
-	CComponent();
+	CComponent(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
 	CComponent(const CComponent& rhs);
 	virtual ~CComponent() = default;
 

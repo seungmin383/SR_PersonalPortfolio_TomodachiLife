@@ -12,15 +12,18 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	if(FAILED(m_pGameInstance->Initialize()))
+	ENGINE_DESC EngineDesc = {};
+	EngineDesc.PlaceCount = static_cast<uint32_t>(PLACE_ID::END);
+
+	if(FAILED(m_pGameInstance->Initialize(EngineDesc)))
 		return E_FAIL;
 
-	m_pGameInstance->GraphicDevice_Initialize(g_hWnd, WINCX, WINCY, &m_pDevice, &m_pContext);
+	m_pGameInstance->Graphic_Initialize(g_hWnd, WINCX, WINCY, &m_pDevice, &m_pContext);
 
-	CPlace* tmp = CPlace_Loading::Create(m_pDevice, m_pContext, PLACE_ID::MAIN);
+	CPlace* pPlace = CPlace_Loading::Create(m_pDevice, m_pContext, PLACE_ID::MAIN);
 	int a = 0;
 
-	if (FAILED(m_pGameInstance->PlaceManager_Go_Place(static_cast<int32_t>(PLACE_ID::LOADING), tmp)))
+	if (FAILED(m_pGameInstance->PlaceManager_Go_Place(static_cast<int32_t>(PLACE_ID::LOADING), pPlace)))
 	{
 		MSG_BOX("ErrCode : Go_Place Failed");
 		return E_FAIL;
@@ -82,6 +85,9 @@ void CMainApp::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
+	m_pGameInstance;
+
 	m_pGameInstance->Clear_Engine();
+
 	Safe_Release(m_pGameInstance);
 }

@@ -10,6 +10,15 @@ CPlace_Main::CPlace_Main(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
 
 HRESULT CPlace_Main::Initialize()
 {
+	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_to_Layer(
+		static_cast<uint32_t>(PLACE_ID::MAIN),
+		static_cast<uint32_t>(PLACE_ID::MAIN),
+		static_cast<uint32_t>(OBJECT_ID::FOOD))))
+	{
+		MSG_BOX("ErrCode : Add Proto Food Failed");
+		return E_FAIL;
+	}
+
 	return S_OK;
 }
 

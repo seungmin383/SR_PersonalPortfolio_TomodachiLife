@@ -5,6 +5,13 @@
 
 namespace Engine
 {
+	typedef struct tagEngine
+	{
+		uint32_t PlaceCount = {};
+
+	}ENGINE_DESC;
+
+
 	typedef struct tagGraphicDeviceInit
 	{
 		HWND	hWnd;
@@ -20,13 +27,6 @@ namespace Engine
 
 	}VERTEX_COLOR;
 
-	/*D3D11_INPUT_ELEMENT_DESC Col_Desc[] = {
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0,
-		D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12,
-		D3D11_INPUT_PER_VERTEX_DATA, 0}
-	};*/
-
 	typedef struct tagVertexTex
 	{
 		XMFLOAT3 Pos;		//À§Ä¡
@@ -36,16 +36,17 @@ namespace Engine
 
 	}VERTEX_TEXTURE;
 
-	/*D3D11_INPUT_ELEMENT_DESC Tex_Desc[] = {
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0,
-		D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"NORMAL", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12,
-		D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"TEXCOORD", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24,
-		D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"TEXCOORD", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 32,
-		D3D11_INPUT_PER_VERTEX_DATA, 0}
-	};*/
+	typedef struct tagColor
+	{
+		XMFLOAT4 White		= { 1.f, 1.f, 1.f, 1.f };
+		XMFLOAT4 Black		= { 0.f, 0.f, 0.f, 1.f };
+		XMFLOAT4 Red		= { 1.f, 0.f, 0.f, 1.f };
+		XMFLOAT4 Green		= { 0.f, 1.f, 0.f, 1.f };
+		XMFLOAT4 Blue		= { 0.f, 0.f, 1.f, 1.f };
+		XMFLOAT4 Yellow		= { 1.f, 1.f, 0.f, 1.f };
+		XMFLOAT4 Cyan		= { 0.f, 1.f, 1.f, 1.f };
+		XMFLOAT4 Magenta	= { 1.f, 0.f, 1.f, 1.f };
+	}COLOR_DESC;
 }
 
 

@@ -20,7 +20,7 @@ private:
 	virtual ~CGameInstance() = default;
 
 public:
-	HRESULT Initialize();
+	HRESULT Initialize(const ENGINE_DESC& Engine_desc);
 	int32_t Update_Priority(const _float _fDT);
 	int32_t Update(const _float _fDT);
 	void	 Update_Late(const _float _fDT);
@@ -38,7 +38,7 @@ public:
 
 #pragma region GRAPHIC_DEVICE
 public:
-	HRESULT GraphicDevice_Initialize(HWND _hWnd,
+	HRESULT Graphic_Initialize(HWND _hWnd,
 		_uint _WinCX,
 		_uint _WinCY,
 		ID3D11Device** _ppDevice,
@@ -55,13 +55,12 @@ public:
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
-	HRESULT ObjectManager_Add_Object_to_Layer(uint32_t _LayerID, const uint32_t _ObjectID);
+	HRESULT ObjectManager_Add_Object_to_Layer(uint32_t PlaceID, uint32_t _LayerID, const uint32_t _ObjectID, void* pArg = nullptr);
 
 #pragma endregion
 
 #pragma region RENDER_MANAGER
-
-
+	HRESULT RenderManager_Add_RenderGroup(RENDER_GROUP _RenderGroup, CObject* _Object);
 #pragma endregion
 
 #pragma region PLACE_MANAGER
@@ -73,7 +72,7 @@ public:
 
 #pragma region PROTOTYPE
 	HRESULT Proto_Add_Prototype(int32_t _ObjectID, CObject* _Origin);
-	CObject* Proto_Get_Object_Clone(int32_t _ObjectID);
+	CObject* Proto_Get_Object_Clone(int32_t _ObjectID, void* pArg);
 #pragma endregion
 
 private:

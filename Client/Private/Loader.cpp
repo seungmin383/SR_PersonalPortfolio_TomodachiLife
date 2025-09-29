@@ -1,8 +1,14 @@
 #include "Loader.h"
+#include"GameInstance.h"
+#include "Food.h"
+
+USING(Engine)
 
 CLoader::CLoader(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
-	:m_pDevice(_pDevice), m_pContext(_pContext)
+	:m_pGameInstance(CGameInstance::GetInstance()),
+	m_pDevice(_pDevice), m_pContext(_pContext)
 {
+	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
 }
@@ -132,7 +138,15 @@ HRESULT CLoader::Loading()
 
 HRESULT CLoader::Loading_For_Main()
 {
+	CObject* tmp = CFood::Create(m_pDevice, m_pContext);
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(OBJECT_ID::FOOD), tmp);
+
 	lstrcpy(m_szFPS, TEXT("메인 로딩 완료되었슴니다."));
+
+
 	m_isFinished = true;
 	return S_OK;
 }
@@ -321,6 +335,7 @@ void CLoader::Free()
 
 	DeleteCriticalSection(&m_CriticalSection);
 	
+	Safe_Release(m_pGameInstance);
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 

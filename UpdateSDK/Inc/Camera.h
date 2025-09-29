@@ -14,6 +14,7 @@ private:
 	/* Near 평면 가로 길이	: m_fAspect * m_fNear_Height */
 	/* Far 평면 가로 길이	: m_fAspect * m_fFar_Height */
 public:
+	//투영행렬 만들고 세팅해두기
 	void Set_Proj(_float _fovY, _float _aspect, _float _nearZ, _float _FarZ);
 	
 	_float Get_FovX()
@@ -22,13 +23,26 @@ public:
 		return (2.f * atan(fHalfWidth / m_fNearZ));
 	};
 	
-	void Move_Camera(_float _fSpeed);
+	//앞뒤 움직임
+	void Front_Move_Camera(_float _fSpeed);
+
+	//좌우 움직임
+	void Side_Move_Camera(_float _fSpeed);
+
+	//위아래 회전
+	void Pitch_Camera(_float _fAngle);
+
+	//좌우 회전
+	void RotateY_Camera(_float _fAngle);
+
+	void Update_View();
 
 private:
 	_float3 m_vPosition		= {};	//시야 공간의 원점
 	_float3 m_vRight		= {};	//Right vector
 	_float3 m_vUp			= {};	//Up vector
-	_float3 m_vAt			= {};	//At Vector
+	_float3 m_vLook			= {};	//Look Vector
+
 
 	_float m_fNearZ			= {};	//Near 평면까지 거리
 	_float m_fFarZ			= {};	//Far 평면까지 거리

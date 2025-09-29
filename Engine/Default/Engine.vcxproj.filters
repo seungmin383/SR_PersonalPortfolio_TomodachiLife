@@ -76,6 +76,9 @@
     <Filter Include="01.Utility\03.Object\02.Component\00.Buffer">
       <UniqueIdentifier>{aa621a8d-426b-47d8-96d3-c7fed96a8a14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\01.Transform">
+      <UniqueIdentifier>{1b9fd4fc-0353-48d4-a644-f2b0aaa20e26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -125,6 +128,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Actor.cpp">
       <Filter>01.Utility\03.Object\01.Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Buffer.cpp">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TransformCom.cpp">
+      <Filter>01.Utility\03.Object\02.Component\01.Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +226,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Actor.h">
       <Filter>01.Utility\03.Object\01.Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Buffer.h">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TransformCom.h">
+      <Filter>01.Utility\03.Object\02.Component\01.Transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,12 +6,13 @@ NS_BEGIN(Engine)
 class ENGINE_DLL CComponent abstract : public CObject
 {
 public:
-	typedef struct tagComponentDesc
+	typedef struct tagComponentDesc : public OBJECT_DESC
 	{
 
 	}COMPONENT_DESC;
+
 protected:
-	CComponent();
+	CComponent(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
 	CComponent(const CComponent& rhs);
 	virtual ~CComponent() = default;
 

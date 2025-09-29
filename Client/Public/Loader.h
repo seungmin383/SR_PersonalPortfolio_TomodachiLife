@@ -2,8 +2,11 @@
 #include "Client_Defines.h"
 #include "Base.h"
 
-NS_BEGIN(Client)
+NS_BEGIN(Engine)
+class CGameInstance;
+NS_END
 
+NS_BEGIN(Client)
 class CLoader : public CBase
 {
 private:
@@ -26,6 +29,7 @@ private:
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };
 	PLACE_ID				m_eNextPlaceID = { PLACE_ID::END };
+	CGameInstance*			m_pGameInstance = { nullptr };
 
 private:
 	HANDLE				m_hThread = {};

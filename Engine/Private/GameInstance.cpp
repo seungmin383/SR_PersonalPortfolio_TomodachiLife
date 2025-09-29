@@ -12,7 +12,7 @@ CGameInstance::CGameInstance()
 {
 }
 
-HRESULT CGameInstance::Initialize()
+HRESULT CGameInstance::Initialize(const ENGINE_DESC& Engine_desc)
 {
 	//TimerManager
 	{
@@ -36,20 +36,9 @@ HRESULT CGameInstance::Initialize()
 		}
 	}
 
-	//CRenderManager
-	{
-		m_pRenderManager = CRenderManager::Create();
-		if (nullptr == m_pRenderManager)
-		{
-			MSG_BOX("ErrCode : m_pRenderManager Create Failed");
-			Safe_Release(m_pRenderManager);
-			return E_FAIL;
-		}
-	}
-
 	//CObjectManager
 	{
-		m_pObjectManager = CObjectManager::Create();
+		m_pObjectManager = CObjectManager::Create(Engine_desc.PlaceCount);
 		if (nullptr == m_pObjectManager)
 		{
 			MSG_BOX("ErrCode : m_pObjectManager Create Failed");
@@ -130,7 +119,7 @@ inline void CGameInstance::TimerManager_Calc_DeltaTime(const _tchar* pTimerTag)
 
 #pragma region GRAPHIC_DEVICE
 
-inline HRESULT CGameInstance::GraphicDevice_Initialize(HWND _hWnd,
+inline HRESULT CGameInstance::Graphic_Initialize(HWND _hWnd,
 	_uint _WinCX,
 	_uint _WinCY,
 	ID3D11Device** _ppDevice,
@@ -146,14 +135,27 @@ inline HRESULT CGameInstance::GraphicDevice_Initialize(HWND _hWnd,
 		return E_FAIL;
 	}
 
-	m_pPrototype = CPrototype::Create(*_ppDevice, *_ppContext);
-	if (nullptr == m_pPrototype)
+	//Prototype
 	{
-		MSG_BOX("ErrCode : m_pPrototype Create Failed");
-		Safe_Release(m_pPrototype);
-		return E_FAIL;
+		m_pPrototype = CPrototype::Create(*_ppDevice, *_ppContext);
+		if (nullptr == m_pPrototype)
+		{
+			MSG_BOX("ErrCode : m_pPrototype Create Failed");
+			Safe_Release(m_pPrototype);
+			return E_FAIL;
+		}
 	}
 
+	//CRenderManager
+	{
+		m_pRenderManager = CRenderManager::Create(*_ppDevice, *_ppContext);
+		if (nullptr == m_pRenderManager)
+		{
+			MSG_BOX("ErrCode : m_pRenderManager Create Failed");
+			Safe_Release(m_pRenderManager);
+			return E_FAIL;
+		}
+	}
 	return S_OK;
 }
 
@@ -175,13 +177,18 @@ inline HRESULT CGameInstance::GraphicDevice_Present()
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
-HRESULT CGameInstance::ObjectManager_Add_Object_to_Layer(uint32_t _LayerID, const uint32_t _ObjectID)
+HRESULT CGameInstance::ObjectManager_Add_Object_to_Layer(uint32_t PlaceID, uint32_t _LayerID, const uint32_t _ObjectID, void* pArg)
 {
-	return m_pObjectManager->Add_Object_to_Layer(_LayerID, _ObjectID);
+	return m_pObjectManager->Add_Object_to_Layer(PlaceID, _LayerID, _ObjectID, pArg);
 }
 #pragma endregion
 
 #pragma region RENDER_MANAGER
+
+HRESULT CGameInstance::RenderManager_Add_RenderGroup(RENDER_GROUP _RenderGroup, CObject* _Object)
+{
+	return m_pRenderManager->Add_RenderGroup(_RenderGroup, _Object);
+}
 
 #pragma endregion
 
@@ -205,9 +212,9 @@ HRESULT CGameInstance::Proto_Add_Prototype(int32_t _ObjectID, CObject* _Origin)
 {
 	return m_pPrototype->Add_Prototype(_ObjectID, _Origin);
 }
-CObject* CGameInstance::Proto_Get_Object_Clone(int32_t _ObjectID)
+CObject* CGameInstance::Proto_Get_Object_Clone(int32_t _ObjectID, void* pArg)
 {
-	return m_pPrototype->Get_Object_Clone(_ObjectID);
+	return m_pPrototype->Get_Object_Clone(_ObjectID, pArg);
 }
 
 #pragma endregion

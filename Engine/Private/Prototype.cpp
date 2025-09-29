@@ -53,6 +53,7 @@ void CPrototype::Free()
 		if (nullptr != pair.second)
 			Safe_Release(pair.second);
 	}
+
 	m_mapOrigin.clear();
 
 	Safe_Release(m_pDevice);

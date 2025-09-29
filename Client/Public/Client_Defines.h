@@ -50,17 +50,9 @@ namespace Client
 		END					
 	};
 
-	enum class LAYER_ID
-	{
-		BACKGROUND,
-		ACTOR,
-		UI,
-		END
-	};
 	enum class OBJECT_ID
 	{
 		UI,
-
 		MII,
 		FOOD,
 		ITEM,
