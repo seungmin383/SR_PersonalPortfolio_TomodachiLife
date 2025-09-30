@@ -29,12 +29,10 @@ namespace Engine
 
 	typedef struct tagVertexTex
 	{
-		XMFLOAT3 Pos;		//위치
-		XMFLOAT3 Normal;	//법선
-		XMFLOAT2 Tex0;		//텍스쳐 좌표 
-		XMFLOAT2 Tex1;		//텍스쳐 좌표 
-
-	}VERTEX_TEXTURE;
+		XMFLOAT3 vPos;		//위치
+		XMFLOAT2 vTexCoord;	//텍스쳐 좌표 
+		 
+	}VTX_TEX;
 
 	typedef struct tagColor
 	{

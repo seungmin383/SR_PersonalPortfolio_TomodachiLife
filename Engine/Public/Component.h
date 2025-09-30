@@ -25,6 +25,9 @@ public:
 	virtual void Update_Late(const _float _fDT)override;
 	virtual HRESULT Render()override;
 
+protected:
+	_bool m_isClone = { false };
+
 public:
 	virtual void Free()override;
 };

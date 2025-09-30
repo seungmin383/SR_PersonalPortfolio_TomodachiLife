@@ -8,6 +8,8 @@ class ENGINE_DLL CTransformCom final : public CComponent
 public:
 	typedef struct tagTransformDesc : public COMPONENT_DESC
 	{
+		_float		fSpeedPerSecond;
+		_float		fRotationPerSecond;
 
 	}TRANSFORM_DESC;
 
@@ -29,37 +31,32 @@ public:
 	//Load -> float4 를 XMVector로 // 저장용 벡터에서 꺼내오기
 	//Store -> XMVector 를 float4로	//저장용 벡터로 저장하기
 	
-	XMVECTOR Get_State(TRANSFORM_STATE eState) const
-	{
-		return XMLoadFloat4x4(&m_WorldMatrix).r[static_cast<uint32_t>(eState)];
-	}
-	
-	void Set_State(TRANSFORM_STATE eState, FXMVECTOR vState)
-	{
-		int i = static_cast<uint32_t>(eState);
-		if (i >= static_cast<uint32_t>(TRANSFORM_STATE::END))
-		{
-			MSG_BOX("ErrCode : Invalid Index");
-			return;
-		}
+	XMVECTOR Get_State(TRANSFORM_STATE eState) const;
+	_float3	Get_Scale();
 
-		XMMATRIX tmp = XMLoadFloat4x4(&m_WorldMatrix);
-
-		tmp.r[i] = vState;
-		XMStoreFloat4x4(&m_WorldMatrix, tmp);
-	}
-
-	void Set_State(TRANSFORM_STATE eState, const _float4& vState){
-		memcpy(&m_WorldMatrix.m[static_cast<uint32_t>(eState)], &vState, sizeof(_float4));
-	}
+	void Set_State(TRANSFORM_STATE eState, FXMVECTOR vState);
+	void Set_State(TRANSFORM_STATE eState, const _float4& vState);
 
 	void Go_Straight(const _float& _fDT);
 	void Go_Left(const _float& _fDT);
 	void Go_Right(const _float& _fDT);
 	void Go_Backward(const _float& _fDT);
 
-	
-		
+	//원점에서 특정 각도로 고정
+	void Ratate(FXMVECTOR vAxis, _float fRadian);	//임의의 축 회전
+	void Ratate(_float fRadianX, _float fRadianY, _float fRadianZ);
+
+	//지금 각도에서 다른 각도까지 이동
+	void Turn(FXMVECTOR vAxis, _float fDT);
+	void TurnX(_float fDT);
+	void TurnY(_float fDT);
+	void TurnZ(_float fDT);
+
+	//바라보기
+	void LookAt(FXMVECTOR vPoint);
+	//추적
+	void Chase(FXMVECTOR vTarget, _float fDT, _float fLeastDist = 0.1f);
+
 private:
 	_float m_fSpeedPerSecond = {};
 	_float m_fRotationPerSecond = {};

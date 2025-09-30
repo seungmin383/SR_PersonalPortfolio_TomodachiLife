@@ -67,14 +67,40 @@ HRESULT CBuffer::Initialize_Origin()
 		&stride,
 		&offset);
 
-	m_pContext->IASetVertexBuffers(0,
-		1,
-		&m_VColBuffer,
-		&stride,
-		&offset);
-
 	m_pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	uint32_t Indices[24] = {
+		0,1,2,
+		0,2,3,
+		0,3,4,
+		0,4,5,
+		0,5,6,
+		0,6,7,
+		0,7,8,
+		0,8,1
+	};
+
+	D3D11_BUFFER_DESC Index_Data = {};
+
+	Index_Data.Usage = D3D11_USAGE_IMMUTABLE;
+	Index_Data.ByteWidth = sizeof(uint32_t) * 24;
+	Index_Data.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	Index_Data.CPUAccessFlags = 0;
+	Index_Data.MiscFlags = 0;
+	Index_Data.StructureByteStride = 0;
+
+	D3D11_SUBRESOURCE_DATA Index_Init_Data = {};
+	Index_Init_Data.pSysMem = Indices;
+
+	m_pDevice->CreateBuffer(
+		&Index_Data,
+		&Index_Init_Data,
+		&m_VIndexBuffer
+	);
+
+	m_pContext->IASetIndexBuffer(m_VIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
+
+	m_pContext->DrawIndexed(6, 0, 0);
 
 	return S_OK;
 }

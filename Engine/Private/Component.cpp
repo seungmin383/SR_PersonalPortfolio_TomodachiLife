@@ -1,12 +1,14 @@
 #include "Component.h"
 
 CComponent::CComponent(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
-	:CObject(_pDevice, _pContext)
+	:CObject(_pDevice, _pContext),
+	m_isClone(false)
 {
 }
 
 CComponent::CComponent(const CComponent& rhs)
-	:CObject(rhs)
+	:CObject(rhs),
+	m_isClone(true)
 {
 }
 

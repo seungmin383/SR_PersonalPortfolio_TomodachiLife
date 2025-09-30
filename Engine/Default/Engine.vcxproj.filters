@@ -79,6 +79,12 @@
     <Filter Include="01.Utility\03.Object\02.Component\01.Transform">
       <UniqueIdentifier>{1b9fd4fc-0353-48d4-a644-f2b0aaa20e26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\00.Buffer\00.RectBuffer">
+      <UniqueIdentifier>{1bd478ff-3166-41d1-a00e-31100a0b0822}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\02.Shader">
+      <UniqueIdentifier>{1ec5b7f5-e6a3-4978-812e-d9c1ac9dafa3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -134,6 +140,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\TransformCom.cpp">
       <Filter>01.Utility\03.Object\02.Component\01.Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer.cpp">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RectBufferCom.cpp">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer\00.RectBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +244,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\TransformCom.h">
       <Filter>01.Utility\03.Object\02.Component\01.Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer.h">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RectBufferCom.h">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer\00.RectBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

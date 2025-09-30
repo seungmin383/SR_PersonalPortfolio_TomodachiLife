@@ -11,9 +11,12 @@ CObject::CObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 }
 
 CObject::CObject(const CObject& rhs)
-	:m_pGameInstance(rhs.m_pGameInstance)
+	:m_pGameInstance(rhs.m_pGameInstance),
+	m_pDevice(rhs.m_pDevice), m_pContext(rhs.m_pContext)
 {
 	Safe_AddRef(m_pGameInstance);
+	Safe_AddRef(m_pDevice);
+	Safe_AddRef(m_pContext);
 }
 
 HRESULT CObject::Initialize_Origin()

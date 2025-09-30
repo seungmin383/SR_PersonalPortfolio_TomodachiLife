@@ -22,13 +22,13 @@ public:
 
 private:
 	VERTEX_COLOR m_eVertexCol = {};
-	VERTEX_TEXTURE m_eVertexTex = {};
 
 	D3D11_INPUT_ELEMENT_DESC Col_Desc[2];
 	D3D11_INPUT_ELEMENT_DESC Tex_Desc[4];
 
 	ID3D11Buffer* m_VColBuffer = { nullptr };	//Color Vertex Buffer
-	ID3D11Buffer* m_VBuffer = { nullptr };	//Texture Vertex Buffer
+	ID3D11Buffer* m_VTexBuffer = { nullptr };	//Texture Vertex Buffer
+	ID3D11Buffer* m_VIndexBuffer = { nullptr };	//Index Vertex Buffer
 
 public:
 	static CBuffer* Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
