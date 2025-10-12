@@ -26,12 +26,31 @@ namespace Engine
 		XMFLOAT4 Color;		//색상
 
 	}VERTEX_COLOR;
-
+	/* D3D11_INPUT_ELEMENT_DESC
+	LPCSTR						SemanticName;
+    UINT						SemanticIndex;
+    DXGI_FORMAT					Format;
+    UINT						InputSlot;
+    UINT						AlignedByteOffset;
+    D3D11_INPUT_CLASSIFICATION	InputSlotClass;
+    UINT						InstanceDataStepRate;
+	*/
 	typedef struct tagVertexTex
 	{
 		XMFLOAT3 vPos;		//위치
 		XMFLOAT2 vTexCoord;	//텍스쳐 좌표 
 		 
+		/*static constexpr unsigned int iNumElements = { 2 };
+		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements] = {
+			{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		};*/
+
+		static const unsigned int					iNumElements = { 2 };
+		static constexpr D3D11_INPUT_ELEMENT_DESC		Elements[iNumElements] = {
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		};
 	}VTX_TEX;
 
 	typedef struct tagColor

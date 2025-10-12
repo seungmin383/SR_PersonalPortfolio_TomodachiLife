@@ -3,12 +3,12 @@
 
 NS_BEGIN(Engine)
 
-class ENGINE_DLL CVIBuffer abstract : public CComponent
+class ENGINE_DLL CVIBufferCom abstract : public CComponent
 {
 protected:
-	CVIBuffer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CVIBuffer(const CVIBuffer& rhs);
-	virtual ~CVIBuffer() = default;
+	CVIBufferCom(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CVIBufferCom(const CVIBufferCom& rhs);
+	virtual ~CVIBufferCom() = default;
 
 public:
 	virtual HRESULT Initialize_Origin()override;

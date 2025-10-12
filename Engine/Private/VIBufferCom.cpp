@@ -1,11 +1,11 @@
-#include "VIBuffer.h"
+#include "VIBufferCom.h"
 
-CVIBuffer::CVIBuffer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CVIBufferCom::CVIBufferCom(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CComponent(pDevice, pContext)
 {
 }
 
-CVIBuffer::CVIBuffer(const CVIBuffer& rhs)
+CVIBufferCom::CVIBufferCom(const CVIBufferCom& rhs)
 	:CComponent(rhs),
 	m_VB(rhs.m_VB), m_IB(rhs.m_IB),
 
@@ -20,31 +20,31 @@ CVIBuffer::CVIBuffer(const CVIBuffer& rhs)
 	Safe_AddRef(m_IB);
 }
 
-HRESULT CVIBuffer::Initialize_Origin()
+HRESULT CVIBufferCom::Initialize_Origin()
 {
 	return S_OK;
 }
 
-HRESULT CVIBuffer::Initialize_Clone(void* _pArg)
+HRESULT CVIBufferCom::Initialize_Clone(void* _pArg)
 {
 	return S_OK;
 }
 
-int32_t CVIBuffer::Update_Priority(const _float _fDT)
+int32_t CVIBufferCom::Update_Priority(const _float _fDT)
 {
 	return 0;
 }
 
-int32_t CVIBuffer::Update(const _float _fDT)
+int32_t CVIBufferCom::Update(const _float _fDT)
 {
 	return 0;
 }
 
-void CVIBuffer::Update_Late(const _float _fDT)
+void CVIBufferCom::Update_Late(const _float _fDT)
 {
 }
 
-HRESULT CVIBuffer::Bind_Resource()
+HRESULT CVIBufferCom::Bind_Resource()
 {
 	ID3D11Buffer* pVBs[] = {
 		m_VB 
@@ -73,13 +73,13 @@ HRESULT CVIBuffer::Bind_Resource()
 	return S_OK;
 }
 
-HRESULT CVIBuffer::Render()
+HRESULT CVIBufferCom::Render()
 {
 	m_pContext->DrawIndexed(m_iNumIndices, 0, 0);
 	return S_OK;
 }
 
-void CVIBuffer::Free()
+void CVIBufferCom::Free()
 {
 	Safe_Release(m_VB);
 	Safe_Release(m_IB);

@@ -26,8 +26,8 @@ public:
 	HRESULT Begin(uint32_t iPassIndex);
 
 private:
-	ID3DX11Effect* m_pEffect = { nullptr };
-	uint32_t m_iNumPasses = {};
+	ID3DX11Effect*		m_pEffect = { nullptr };
+	uint32_t			m_iNumPasses = {};
 	vector<ID3D11InputLayout*>m_vecInputLayouts;
 
 public:
@@ -43,3 +43,14 @@ public:
 };
 
 NS_END
+
+
+//텍스쳐 로드 라이브러리
+//모델 빌드 라이브러리 
+
+//
+// 디버그 릴리즈 둘다 세팅해주기
+// /y/s
+//
+
+

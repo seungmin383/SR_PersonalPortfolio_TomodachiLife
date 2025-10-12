@@ -1,12 +1,12 @@
 #include "RectBufferCom.h"
 
 CRectBufferCom::CRectBufferCom(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	:CVIBuffer(pDevice, pContext)
+	:CVIBufferCom(pDevice, pContext)
 {
 }
 
 CRectBufferCom::CRectBufferCom(const CRectBufferCom& rhs)
-	:CVIBuffer(rhs)
+	:CVIBufferCom(rhs)
 {
 }
 
@@ -139,5 +139,5 @@ CObject* CRectBufferCom::Clone(void* pArg)
 
 void CRectBufferCom::Free()
 {
-	CVIBuffer::Free();
+	CVIBufferCom::Free();
 }

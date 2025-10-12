@@ -85,6 +85,9 @@
     <Filter Include="01.Utility\03.Object\02.Component\02.Shader">
       <UniqueIdentifier>{1ec5b7f5-e6a3-4978-812e-d9c1ac9dafa3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\03.Texture">
+      <UniqueIdentifier>{e7174550-7e66-4b9c-8791-5b9739689a8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -135,20 +138,20 @@
     <ClCompile Include="..\Private\Actor.cpp">
       <Filter>01.Utility\03.Object\01.Actor</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Buffer.cpp">
-      <Filter>01.Utility\03.Object\02.Component\00.Buffer</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\TransformCom.cpp">
       <Filter>01.Utility\03.Object\02.Component\01.Transform</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\VIBuffer.cpp">
-      <Filter>01.Utility\03.Object\02.Component\00.Buffer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\RectBufferCom.cpp">
       <Filter>01.Utility\03.Object\02.Component\00.Buffer\00.RectBuffer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Shader.cpp">
       <Filter>01.Utility\03.Object\02.Component\02.Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\Texture.cpp">
+      <Filter>01.Utility\03.Object\02.Component\03.Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBufferCom.cpp">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,20 +245,20 @@
     <ClInclude Include="..\Public\Actor.h">
       <Filter>01.Utility\03.Object\01.Actor</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Buffer.h">
-      <Filter>01.Utility\03.Object\02.Component\00.Buffer</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\TransformCom.h">
       <Filter>01.Utility\03.Object\02.Component\01.Transform</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\VIBuffer.h">
-      <Filter>01.Utility\03.Object\02.Component\00.Buffer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\RectBufferCom.h">
       <Filter>01.Utility\03.Object\02.Component\00.Buffer\00.RectBuffer</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Shader.h">
       <Filter>01.Utility\03.Object\02.Component\02.Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Private\Texture.h">
+      <Filter>01.Utility\03.Object\02.Component\03.Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBufferCom.h">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
