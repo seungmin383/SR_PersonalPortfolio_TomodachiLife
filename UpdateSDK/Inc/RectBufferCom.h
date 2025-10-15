@@ -1,10 +1,10 @@
 #pragma once
 
-#include"VIBuffer.h"
+#include"VIBufferCom.h"
 
 NS_BEGIN(Engine)
 
-class ENGINE_DLL CRectBufferCom final : public CVIBuffer
+class ENGINE_DLL CRectBufferCom final : public CVIBufferCom
 {
 private:
 	CRectBufferCom(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

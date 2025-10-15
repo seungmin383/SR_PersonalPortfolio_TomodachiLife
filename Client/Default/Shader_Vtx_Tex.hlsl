@@ -19,7 +19,7 @@ struct VS_IN
 // 이 데이터를 다음 파이프라인 단계에서 IN으로 사용함
 struct VS_OUT
 {
-    float4 vPos         : SV_POSITION;
+    float4 vPos         : SV_POSITION; //sv -> 내가 할건 끝났다. 장치가 해야될 일을 해
     float2 vTexcoord    : TEXCOORD0;
     float4 vWorldPos    : TEXCOORD1;
 };

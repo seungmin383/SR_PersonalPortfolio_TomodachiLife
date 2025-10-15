@@ -144,14 +144,17 @@
     <ClCompile Include="..\Private\RectBufferCom.cpp">
       <Filter>01.Utility\03.Object\02.Component\00.Buffer\00.RectBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Shader.cpp">
-      <Filter>01.Utility\03.Object\02.Component\02.Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Public\Texture.cpp">
-      <Filter>01.Utility\03.Object\02.Component\03.Texture</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\VIBufferCom.cpp">
       <Filter>01.Utility\03.Object\02.Component\00.Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShaderCom.cpp">
+      <Filter>01.Utility\03.Object\02.Component\02.Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TextureCom.cpp">
+      <Filter>01.Utility\03.Object\02.Component\03.Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UI.cpp">
+      <Filter>01.Utility\03.Object\03.UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -251,14 +254,17 @@
     <ClInclude Include="..\Public\RectBufferCom.h">
       <Filter>01.Utility\03.Object\02.Component\00.Buffer\00.RectBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Shader.h">
-      <Filter>01.Utility\03.Object\02.Component\02.Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Private\Texture.h">
-      <Filter>01.Utility\03.Object\02.Component\03.Texture</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\VIBufferCom.h">
       <Filter>01.Utility\03.Object\02.Component\00.Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShaderCom.h">
+      <Filter>01.Utility\03.Object\02.Component\02.Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TextureCom.h">
+      <Filter>01.Utility\03.Object\02.Component\03.Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UI.h">
+      <Filter>01.Utility\03.Object\03.UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

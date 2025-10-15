@@ -41,16 +41,21 @@ HRESULT CShaderCom::Initialize_Origin(
 	//		ID3DBlob *					*ppErrors	// 컴파일 에러/경고 메시지가 담긴 ID3DBlob*가 넘어옵니다. 실패 시 원인 파악에 사용하세요.
 	//	);
 
-	D3DX11CompileEffectFromFile(
+
+	if (FAILED(D3DX11CompileEffectFromFile(
 		pShaderFilePath,					// 이 파일을 이용해서 Effect를 불러오고
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		iHlslFlag,
 		0,
 		m_pDevice,
-		&m_pEffect,							// 여기에 저장
+		&m_pEffect,
 		nullptr
-	);
+	)))
+	{
+		MSG_BOX("ErrCode : Effect Create Failed");
+		return E_FAIL;
+	}
 
 	// Effect에 저장된 Technique 불러옴 -> 인덱스로
 	ID3DX11EffectTechnique* pTechnique = m_pEffect->GetTechniqueByIndex(0);

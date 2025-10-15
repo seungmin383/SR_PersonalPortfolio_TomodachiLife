@@ -4,7 +4,9 @@
 NS_BEGIN(Engine)
 
 class CLayer;
+class CObject;
 class CGameInstance;
+
 class CObjectManager : public CBase
 {
 private:
@@ -14,20 +16,20 @@ private:
 private:
 	HRESULT Initialize(uint32_t FinalPlace);
 public:
-	int32_t Update_Priority(const _float fDT);
-	int32_t Update(const _float fDT);
-	void	Update_Late(const _float fDT);
+	int32_t Update_Priority(_float fDT);
+	int32_t Update(_float fDT);
+	void	Update_Late(_float fDT);
 
 public:
-	HRESULT Add_Object_to_Layer(
+	HRESULT Add_Object_in_Layer(
 		uint32_t PlaceID,
-		uint32_t LayerID, 
-		const uint32_t ObjectID, 
-		void* pArg);
+		const _wstring LayerTag,
+		CObject* Object);
+
 
 private:
-	//			 레이어 아이디 레이어 리스트
-	unordered_map<uint32_t, vector<CLayer*>>* m_mapLayer = {nullptr};
+	map<const _wstring, CLayer*>* m_Layers = { nullptr };
+
 	int32_t m_iFlag = {};
 	uint32_t m_iMaxIndex = {};
 

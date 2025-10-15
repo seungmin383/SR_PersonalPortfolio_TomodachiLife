@@ -1,5 +1,6 @@
 #pragma once
 #include "Base.h"
+#include "Prototype.h"
 
 NS_BEGIN(Engine)
 class CTimerManager;
@@ -7,10 +8,10 @@ class CGraphic_Device;
 class CPlaceManager;
 class CObjectManager;
 class CRenderManager;
-class CPrototype;
 
 class CObject;
 class CPlace;
+
 class ENGINE_DLL CGameInstance final : public CBase
 {
 	DECLARE_SINGLETON(CGameInstance)
@@ -55,7 +56,10 @@ public:
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
-	HRESULT ObjectManager_Add_Object_to_Layer(uint32_t PlaceID, uint32_t _LayerID, const uint32_t _ObjectID, void* pArg = nullptr);
+	HRESULT ObjectManager_Add_Object_in_Layer(
+		uint32_t PlaceID,
+		const _wstring LayerTag,
+		CObject* Object);
 
 #pragma endregion
 
@@ -71,8 +75,8 @@ public:
 #pragma endregion
 
 #pragma region PROTOTYPE
-	HRESULT Proto_Add_Prototype(int32_t _ObjectID, CObject* _Origin);
-	CObject* Proto_Get_Object_Clone(int32_t _ObjectID, void* pArg);
+	HRESULT Proto_Add_Prototype(uint32_t ObjectType, uint32_t ObjectID, CObject* Origin);
+	CObject* Proto_Get_Object_Clone(uint32_t ObjectType, uint32_t ObjectID, void* pArg);
 #pragma endregion
 
 private:

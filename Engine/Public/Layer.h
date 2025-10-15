@@ -4,6 +4,7 @@
 NS_BEGIN(Engine)
 
 class CObject;
+
 class CLayer final : public CBase
 {
 private:
@@ -11,22 +12,21 @@ private:
 	virtual ~CLayer() = default;
 
 public:
-	HRESULT Add_Object_in_Layer(const uint32_t _ObjectID, CObject* _Object);
+	// 레이어에 오브젝트를 추가하는 함수
+	HRESULT Add_Object(CObject* Object);		// 그 오브젝트
 
 public:
-	int32_t Update_Priority(const _float fDT);
-	int32_t Update(const _float fDT);
-	void Update_Late(const _float fDT);
+	int32_t Update_Priority(_float fDT);
+	int32_t Update(_float fDT);
+	void Update_Late(_float fDT);
 
 private:
-	//		오브젝트 아이디 / 그 오브젝트만 모아두는 vector
-	unordered_map <uint32_t, vector<CObject*>>			m_mapObject;
+	list<CObject*> m_ObjectList;
 	int32_t  m_iFlag = { };
 
 public:
 	static CLayer* Create();
 	virtual void Free() override;	
-
 };
 
 NS_END

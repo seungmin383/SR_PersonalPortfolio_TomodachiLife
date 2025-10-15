@@ -5,7 +5,12 @@ namespace Engine
 {
 	enum class WINMODE :int32_t { FULL, WIN };
 
+	//오브젝트를 분류하기 위함
+	enum class LAYER_GROUP : int32_t { ACTOR, UI, COMPONENT, END};
+
 	enum class RENDER_GROUP : int32_t {PRIORITY, NONBLEND, BLEND, UI, END};
 	enum class TRANSFORM_STATE : int32_t { RIGHT, UP, LOOK, POS, END };
+	enum class OBJECT_TYPE : int32_t { ACTOR, UI, COMPONENT, END };
+
 }
 #endif // Engine_Enum_h__

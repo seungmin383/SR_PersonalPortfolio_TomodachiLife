@@ -3,12 +3,12 @@
 
 NS_BEGIN(Engine)
 
-class ENGINE_DLL CShader final : public CComponent
+class ENGINE_DLL CShaderCom final : public CComponent
 {
 private	:
-	CShader(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
-	CShader(const CShader& rhs);
-	virtual ~CShader() = default;
+	CShaderCom(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
+	CShaderCom(const CShaderCom& rhs);
+	virtual ~CShaderCom() = default;
 
 public:
 	virtual HRESULT Initialize_Origin(
@@ -25,13 +25,38 @@ public:
 public:
 	HRESULT Begin(uint32_t iPassIndex);
 
+	//변수 이름으로 상수 버퍼 영`역을 찾아서,
+	//지정한 메모리 블록을 그대로 바인딩하는 역할
+	HRESULT Bind_RawValue(
+		const _char* pConstantName,
+		const void* pData,
+		uint32_t iSize);
+
+	HRESULT Bind_Matrix(
+		const _char* pConstantName,
+		const _float4x4* pMatrix);
+
+	HRESULT Bind_Matrices(
+		const _char* pConstantName,
+		const _float4x4* pMatrix,
+		uint32_t iNumMatrices);
+
+	HRESULT Bind_ShaderResource(
+		const _char* pConstantName,
+		ID3D11ShaderResourceView* pSRV);
+
+	HRESULT Bind_ShaderResources(
+		const _char* pConstantName,
+		ID3D11ShaderResourceView** ppSRVs,
+		uint32_t iNumSRVs);
+
 private:
 	ID3DX11Effect*		m_pEffect = { nullptr };
 	uint32_t			m_iNumPasses = {};
 	vector<ID3D11InputLayout*>m_vecInputLayouts;
 
 public:
-	static CShader* Create(
+	static CShaderCom* Create(
 		ID3D11Device* _pDevice, 
 		ID3D11DeviceContext* _pContext,
 		const _tchar* pShaderFilePath,

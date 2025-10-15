@@ -21,7 +21,6 @@ HRESULT CMainApp::Initialize()
 	m_pGameInstance->Graphic_Initialize(g_hWnd, WINCX, WINCY, &m_pDevice, &m_pContext);
 
 	CPlace* pPlace = CPlace_Loading::Create(m_pDevice, m_pContext, PLACE_ID::MAIN);
-	int a = 0;
 
 	if (FAILED(m_pGameInstance->PlaceManager_Go_Place(static_cast<int32_t>(PLACE_ID::LOADING), pPlace)))
 	{

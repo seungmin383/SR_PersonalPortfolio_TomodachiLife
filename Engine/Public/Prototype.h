@@ -1,27 +1,44 @@
 #pragma once
 #include "Base.h"
 
-NS_BEGIN(Engine)
+#include "TransformCom.h"
+#include "ShaderCom.h"
+#include "RectBufferCom.h"
+#include "TextureCom.h"
 
-class CObject;
+NS_BEGIN(Engine)
 class CPrototype final : public CBase
 {
 private:
-	CPrototype(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
+	CPrototype(ID3D11Device* Device, ID3D11DeviceContext* Context);
 	virtual ~CPrototype() = default;
 
 public:
-	HRESULT Add_Prototype(int32_t _ObjectID, CObject* _Origin);
-	CObject* Get_Object_Clone(int32_t _ObjectID, void* pArg = nullptr);
+	HRESULT Initialize(uint32_t MaxIndex);
+
+	HRESULT Add_Prototype(
+		uint32_t PlaceID,
+		const _wstring ObjectTag, 
+		CObject* Prototype);
+
+	CObject* Get_Object_Clone(
+		uint32_t PlaceID,
+		const _wstring ProrotypeTag,
+		void* pArg = nullptr);
 
 private:
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
 
-	map<int32_t, CObject*>		m_mapOrigin;
+	map<const _wstring, CObject*>* m_Prototypes = { nullptr };
+	uint32_t m_iMaxIndex = {};
 
 public:
-	static CPrototype* Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
+	static CPrototype* Create(
+		ID3D11Device* Device, 
+		ID3D11DeviceContext* Context,
+		uint32_t FinalPlace);
+
 	virtual void Free() override;
 };
 

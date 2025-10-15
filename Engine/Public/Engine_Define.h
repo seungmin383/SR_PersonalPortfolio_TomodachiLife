@@ -6,10 +6,10 @@
 
 #include "fx11/d3dx11effect.h"
 
-#include "DirectXTK/DDSTextureLoader.h"
-#include "DirectXTK/WICTextureLoader.h"
+#include <DirectXTK/DDSTextureLoader.h>
+#include <DirectXTK/WICTextureLoader.h>
 
-#include "d3dcompiler.h"
+#include <d3dcompiler.h>
 
 #include <vector>
 #include <list>

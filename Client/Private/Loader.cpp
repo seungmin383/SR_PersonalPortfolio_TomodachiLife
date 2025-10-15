@@ -1,5 +1,5 @@
 #include "Loader.h"
-#include"GameInstance.h"
+#include "GameInstance.h"
 #include "Food.h"
 
 USING(Engine)
@@ -29,7 +29,8 @@ HRESULT CLoader::Initialize(PLACE_ID _eNextPlaceID)
 
 	InitializeCriticalSection(&m_CriticalSection);
 
-	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, ThreadMain, this, 0, nullptr);
+	m_hThread = (HANDLE)_beginthreadex(
+		nullptr, 0, ThreadMain, this, 0, nullptr);
 	if (0 == m_hThread)
 		return E_FAIL;
 
@@ -138,15 +139,93 @@ HRESULT CLoader::Loading()
 
 HRESULT CLoader::Loading_For_Main()
 {
-	CObject* tmp = CFood::Create(m_pDevice, m_pContext);
+	CObject* tmp = { nullptr };
+
+#pragma region ACTOR_LOADING
+
+	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
+#pragma endregion
+
+
+#pragma region UI_LOADING
+
+	tmp = CFood::Create(m_pDevice, m_pContext);
+
 	if (nullptr == tmp)
 		return E_FAIL;
 
-	m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(OBJECT_ID::FOOD), tmp);
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(OBJECT_TYPE::UI),
+		static_cast<uint32_t>(OBJECT_ID::UI_PROTO_FOOD),
+		tmp)))
+	{
+		MSG_BOX("ErrCode : Food Prototype Add Failed");
+		return E_FAIL;
+	}
 
-	lstrcpy(m_szFPS, TEXT("메인 로딩 완료되었슴니다."));
+	lstrcpy(m_szFPS, TEXT("UI Loading Complete"));
+#pragma endregion
 
 
+#pragma region COMPONENT_LOADING
+
+	tmp = CShaderCom::Create(
+		m_pDevice,
+		m_pContext,
+		L"../Bin/Debug/ShaderFile/Shader_Vtx_Tex.hlsl",
+		VTX_TEX::Elements,
+		VTX_TEX::iNumElements);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(OBJECT_TYPE::COMPONENT),
+		static_cast<uint32_t>(OBJECT_ID::COMP_PROTO_SHADER),
+		tmp)))
+	{
+		MSG_BOX("ErrCode : Shader Prototype Add Failed");
+		return E_FAIL;
+	}
+
+
+	tmp = CTextureCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Bin/Debug/Resource/Textures/Default%d.jpg"),
+		2); 
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(OBJECT_TYPE::COMPONENT),
+		static_cast<uint32_t>(OBJECT_ID::COMP_PROTO_TEXTURE),
+		tmp)))
+	{
+		MSG_BOX("ErrCode : Texture Prototype Add Failed");
+		return E_FAIL;
+	}
+
+	tmp = CRectBufferCom::Create(m_pDevice,m_pContext);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(OBJECT_TYPE::COMPONENT),
+		static_cast<uint32_t>(OBJECT_ID::COMP_PROTO_RECT_BUFFER),
+		tmp)))
+	{
+		MSG_BOX("ErrCode : Rect Buffer Prototype Add Failed");
+		return E_FAIL;
+	}
+
+	lstrcpy(m_szFPS, TEXT("Component Loading Complete"));
+#pragma endregion
+
+
+	lstrcpy(m_szFPS, TEXT("Main Place Loading Complete"));
 	m_isFinished = true;
 	return S_OK;
 }

@@ -98,9 +98,6 @@
     <Filter Include="02.Object\00.Actor">
       <UniqueIdentifier>{543cca0f-c3dc-4901-ad99-a47b744338b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Object\00.Actor\00.Mii">
-      <UniqueIdentifier>{94fce502-9e72-4ce7-8ec7-bf5ff7f06e68}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Object\00.Actor\01.Item">
       <UniqueIdentifier>{82e2ea63-1f65-403c-9adf-b7d2f17d4f98}</UniqueIdentifier>
     </Filter>
@@ -109,6 +106,9 @@
     </Filter>
     <Filter Include="97.ShaderFiles">
       <UniqueIdentifier>{4602cdec-1b76-42a4-b081-0e6bc4ffa602}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\00.Actor\00.Mii">
+      <UniqueIdentifier>{94fce502-9e72-4ce7-8ec7-bf5ff7f06e68}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -146,7 +146,7 @@
     <Text Include="Buffer.txt" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader_Vtx_Tex.hlsl">
+    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Tex.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

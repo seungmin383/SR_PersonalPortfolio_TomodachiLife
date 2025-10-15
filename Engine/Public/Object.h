@@ -4,6 +4,7 @@
 NS_BEGIN(Engine)
 
 class CGameInstance;
+
 class ENGINE_DLL CObject abstract: public CBase
 {
 public:

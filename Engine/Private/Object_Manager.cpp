@@ -13,116 +13,71 @@ CObjectManager::CObjectManager()
 HRESULT CObjectManager::Initialize(uint32_t FinalPlace)
 {
 	m_iMaxIndex = FinalPlace;
-	m_mapLayer = new unordered_map<uint32_t, vector<CLayer*>>[FinalPlace];
+	m_Layers = new map<const _wstring, CLayer*>[FinalPlace];
 	return S_OK;
 }
 
-int32_t CObjectManager::Update_Priority(const _float fDT)
+int32_t CObjectManager::Update_Priority(_float fDT)
 {
 	for (uint32_t i = 0; i < m_iMaxIndex; i++)
 	{
-		for (auto& pair : m_mapLayer[i])	//첫번째 Place의 Pair<uint32_t, list<CLayer*>>
-		{
-			for (auto& Layer : pair.second)	//list<CLayer*>의 CLayer
-			{
-				if (nullptr == Layer)
-					continue;
-
-				m_iFlag = Layer->Update_Priority(fDT);
-
-				if (0 != m_iFlag)
-				{
-					MSG_BOX("ErrCode : Flag isnt 0");
-					return 1;
-				}
-			}
-		}
-
+		for (auto& pair : m_Layers[i])
+			pair.second->Update_Priority(fDT);
 	}
+
 	return 0;
 } 
 
-int32_t CObjectManager::Update(const _float fDT)
+int32_t CObjectManager::Update(_float fDT)
 {
 	for (uint32_t i = 0; i < m_iMaxIndex; i++)
 	{
-		for (auto& pair : m_mapLayer[i])	//첫번째 Place의 Pair<uint32_t, list<CLayer*>>
-		{
-			for (auto& Layer : pair.second)	//list<CLayer*>의 CLayer
-			{
-				if (nullptr == Layer)
-					continue;
-
-				m_iFlag = Layer->Update(fDT);
-
-				if (0 != m_iFlag)
-				{
-					MSG_BOX("ErrCode : Flag isnt 0");
-					return 1;
-				}
-			}
-		}
-
+		for (auto& pair : m_Layers[i])
+			pair.second->Update(fDT);
 	}
+
 	return 0;
 }
-void CObjectManager::Update_Late(const _float fDT)
+void CObjectManager::Update_Late(_float fDT)
 {
 	for (uint32_t i = 0; i < m_iMaxIndex; i++)
 	{
-		for (auto& pair : m_mapLayer[i])	//첫번째 Place의 Pair<uint32_t, list<CLayer*>>
-		{
-			for (auto& Layer : pair.second)	//list<CLayer*>의 CLayer
-			{
-				if (nullptr == Layer)
-					continue;
-
-				Layer->Update_Late(fDT);
-			}
-		}
-
+		for (auto& pair : m_Layers[i])
+			pair.second->Update_Late(fDT);
 	}
-	return;
 }
-HRESULT CObjectManager::Add_Object_to_Layer(uint32_t PlaceID, uint32_t LayerID, const uint32_t ObjectID, void* pArg)
+
+HRESULT CObjectManager::Add_Object_in_Layer(
+	uint32_t PlaceID,
+	const _wstring LayerTag,
+	CObject* Object)
 {
-	CObject* tmp = m_pGameInstace->Proto_Get_Object_Clone(ObjectID, pArg);
-
-	if (nullptr == tmp)
-	{
-		MSG_BOX("ErrCode : Origin Object Nullptr");
-		Safe_Release(tmp);
+	if (m_iMaxIndex <= PlaceID)
 		return E_FAIL;
-	}
 
-	auto iter = m_mapLayer[PlaceID].find(LayerID);
+	auto iter = m_Layers[PlaceID].find(LayerTag);
 
-	if (iter == m_mapLayer[PlaceID].end())	//Layer가 없다면
+	//만약 없다 -> Layer를 만들고 Layer에 Object 추가 후 Layers에 추가
+
+	if (iter == m_Layers[PlaceID].end())
 	{
 		CLayer* pLayer = CLayer::Create();
-
 		if (nullptr == pLayer)
-		{
-			MSG_BOX("ErrCode : Layer Create Failed");
-			Safe_Release(tmp);
 			return E_FAIL;
-		}
 
-		pLayer->Add_Object_in_Layer(ObjectID, tmp);
+		pLayer->Add_Object(Object);
 
-		auto& vec = m_mapLayer[PlaceID][LayerID];
-		vec.push_back(pLayer);
-
+		m_Layers[PlaceID].emplace(LayerTag, pLayer);
 		return S_OK;
 	}
+	//만약 있다 -> 있는 곳의 Layer에 Object 추가
 	else
 	{
-		iter->second[LayerID]->Add_Object_in_Layer(ObjectID, tmp);
+		iter->second->Add_Object(Object);
 		return S_OK;
 	}
-
-	return S_OK;
 }
+
 
 CObjectManager* CObjectManager::Create(uint32_t FinalPlace)
 {
@@ -141,23 +96,13 @@ void CObjectManager::Free()
 {
 	for (uint32_t i = 0; i < m_iMaxIndex; i++)
 	{
-		for (auto& pair : m_mapLayer[i])
-		{
-			for (auto& Layer : pair.second)
-			{
-				if (nullptr == Layer)
-					continue;
-
-				Safe_Release(Layer);
-			}
-			pair.second.clear();
-		}
-		m_mapLayer[i].clear();
+		for (auto& pair : m_Layers[i])
+			Safe_Release(pair.second);
+		m_Layers[i].clear();
 	}
-	Safe_Delete_Array(m_mapLayer);
+
+	Safe_Delete_Array(m_Layers);
 
 	Safe_Release(m_pGameInstace);
-
-
 	CBase::Free();
 }

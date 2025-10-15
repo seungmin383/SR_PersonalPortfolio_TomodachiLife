@@ -17,7 +17,6 @@ public:
 public:
 	static CPlace_Main* Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
 	virtual void Free() override;
-	
 };
 
 NS_END

@@ -15,6 +15,7 @@ namespace Client
 #define WINCY 720
 
 	enum class PLACE_ID {
+		STATIC,
 		MAIN,				
 
 		LOADING,			
@@ -49,17 +50,6 @@ namespace Client
 
 		END					
 	};
-
-	enum class OBJECT_ID
-	{
-		UI,
-		MII,
-		FOOD,
-		ITEM,
-		CLOTHES,
-		END
-	};
 }
-
 using namespace std;
 using namespace Client;

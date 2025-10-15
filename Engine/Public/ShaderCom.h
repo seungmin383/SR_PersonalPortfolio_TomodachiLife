@@ -25,7 +25,7 @@ public:
 public:
 	HRESULT Begin(uint32_t iPassIndex);
 
-	//변수 이름으로 상수 버퍼 영역을 찾아서,
+	//변수 이름으로 상수 버퍼 영`역을 찾아서,
 	//지정한 메모리 블록을 그대로 바인딩하는 역할
 	HRESULT Bind_RawValue(
 		const _char* pConstantName,

@@ -2,13 +2,19 @@
 #include "GameInstance.h"
 
 CFood::CFood(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
-	:CActor(_pDevice, _pContext)
+	:CUI(_pDevice, _pContext)
 {
 }
 
 CFood::CFood(const CFood& rhs)
-	:CActor(rhs)
+	:CUI(rhs),
+	m_pShaderCom(rhs.m_pShaderCom),
+	m_pTextureCom(rhs.m_pTextureCom),
+	m_pRectBufferCom(rhs.m_pRectBufferCom)
 {
+	Safe_AddRef(m_pShaderCom);
+	Safe_AddRef(m_pTextureCom);
+	Safe_AddRef(m_pRectBufferCom);
 }
 
 HRESULT CFood::Initialize_Origin()
@@ -18,6 +24,18 @@ HRESULT CFood::Initialize_Origin()
 
 HRESULT CFood::Initialize_Clone(void* _pArg)
 {
+	FOOD_DESC tDesc{};
+	
+	tDesc.fX = 150.f;
+	tDesc.fY = 150.f;
+
+	tDesc.fCX = 300.f;
+	tDesc.fCY = 300.f;
+
+	if (FAILED(CUI::Initialize_Clone(&tDesc)))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 
@@ -48,7 +66,14 @@ void CFood::Update_Late(const _float _fDT)
 
 HRESULT CFood::Render()
 {
-	int a = 0;
+
+	return S_OK;
+}
+
+HRESULT CFood::Ready_Component()
+{
+
+
 	return S_OK;
 }
 
@@ -82,5 +107,9 @@ CObject* CFood::Clone(void* pArg)
 
 void CFood::Free()
 {
-	CActor::Free();
+	CUI::Free();
+
+	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pRectBufferCom);
 }

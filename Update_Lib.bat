@@ -2,4 +2,4 @@
 
 xcopy			/y			.\Engine\Bin\Debug\Engine.dll		.\Client\Bin\Debug\
 xcopy			/y			.\Engine\Bin\Debug\Engine.lib		.\UpdateSDK\Lib\
-xcopy			/y			.\Engine\Public\*.*					.\UpdateSDK\Inc\
+xcopy			/y/s		.\Engine\Public\*.*					.\UpdateSDK\Inc\

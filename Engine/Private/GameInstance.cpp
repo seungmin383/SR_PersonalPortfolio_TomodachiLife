@@ -4,7 +4,6 @@
 #include "Place_Manager.h"
 #include "Render_Manager.h"
 #include "Object_Manager.h"
-#include "Prototype.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -177,10 +176,15 @@ inline HRESULT CGameInstance::GraphicDevice_Present()
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
-HRESULT CGameInstance::ObjectManager_Add_Object_to_Layer(uint32_t PlaceID, uint32_t _LayerID, const uint32_t _ObjectID, void* pArg)
+
+inline HRESULT CGameInstance::ObjectManager_Add_Object_in_Layer(
+	uint32_t PlaceID,
+	const _wstring LayerTag,
+	CObject* Object)
 {
-	return m_pObjectManager->Add_Object_to_Layer(PlaceID, _LayerID, _ObjectID, pArg);
+	return m_pObjectManager->Add_Object_in_Layer(PlaceID, LayerTag, Object);
 }
+
 #pragma endregion
 
 #pragma region RENDER_MANAGER
@@ -208,13 +212,14 @@ HRESULT CGameInstance::PlaceManager_Go_Back()
 
 #pragma region PROTOTYPE
 
-HRESULT CGameInstance::Proto_Add_Prototype(int32_t _ObjectID, CObject* _Origin)
+HRESULT CGameInstance::Proto_Add_Prototype(uint32_t ObjectType, uint32_t ObjectID, CObject* Origin)
 {
-	return m_pPrototype->Add_Prototype(_ObjectID, _Origin);
+	return m_pPrototype->Add_Prototype(ObjectType, ObjectID, Origin);
 }
-CObject* CGameInstance::Proto_Get_Object_Clone(int32_t _ObjectID, void* pArg)
+
+CObject* CGameInstance::Proto_Get_Object_Clone(uint32_t ObjectType, uint32_t ObjectID, void* pArg)
 {
-	return m_pPrototype->Get_Object_Clone(_ObjectID, pArg);
+	return m_pPrototype->Get_Object_Clone(ObjectType, ObjectID, pArg);
 }
 
 #pragma endregion
@@ -223,10 +228,10 @@ void CGameInstance::Clear_Engine()
 {
 	Safe_Release(m_pTimerManager);
 	Safe_Release(m_pPlaceManager);
-	Safe_Release(m_pPrototype);
 	Safe_Release(m_pObjectManager);
 	Safe_Release(m_pRenderManager);
 	Safe_Release(m_pGraphicDevice);
+	Safe_Release(m_pPrototype);
 
 	CGameInstance::GetInstance()->DestroyInstance();
 }

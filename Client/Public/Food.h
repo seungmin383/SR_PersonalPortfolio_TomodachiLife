@@ -1,12 +1,25 @@
 #pragma once
 #include "Client_Defines.h"
-#include "Actor.h"
+#include "UI.h"
 
+NS_BEGIN(Engine)
+
+class CShaderCom;
+class CTextureCom;
+class CRectBufferCom;
+
+NS_END
 
 NS_BEGIN(Client)
 
-class CFood final : public CActor
+class CFood final : public CUI
 {
+public:
+	typedef struct tagFoodDesc : public UI_DESC
+	{
+
+	}FOOD_DESC;
+
 protected:
 	CFood(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
 	CFood(const CFood& rhs);
@@ -20,6 +33,14 @@ public:
 	virtual int32_t Update(const _float _fDT)override;
 	virtual void Update_Late(const _float _fDT)override;
 	virtual HRESULT Render()override;
+
+private:
+	HRESULT Ready_Component();
+
+private:
+	CShaderCom*		m_pShaderCom		= { nullptr };
+	CTextureCom*	m_pTextureCom		= { nullptr };
+	CRectBufferCom* m_pRectBufferCom	= { nullptr };
 
 public:
 	static CFood* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

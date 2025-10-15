@@ -12,11 +12,13 @@ CTransformCom::CTransformCom(const CTransformCom& rhs)
 
 HRESULT CTransformCom::Initialize_Origin()
 {
+	int a = 0;
 	return S_OK;
 }
 
 HRESULT CTransformCom::Initialize_Clone(void* _pArg)
 {
+	int a = 0;
 	return S_OK;
 }
 

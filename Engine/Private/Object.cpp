@@ -1,5 +1,6 @@
 #include "Object.h"
 #include "GameInstance.h"
+#include "Prototype.h"
 
 CObject::CObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),

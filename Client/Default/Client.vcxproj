@@ -176,7 +176,7 @@
     <Text Include="PipeLine.txt" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shader_Vtx_Tex.hlsl" />
+    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Tex.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
