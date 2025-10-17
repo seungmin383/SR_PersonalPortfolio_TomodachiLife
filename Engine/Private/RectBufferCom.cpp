@@ -20,6 +20,8 @@ HRESULT CRectBufferCom::Initialize_Origin()
 	m_iIndexStride	= 2;				//인덱스 하나의 크기
 
 	m_ePrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	m_pVertexPositions = new _float3[m_iNumVertices];
+	ZeroMemory(m_pVertexPositions, sizeof(_float3) * m_iNumVertices);
 
 	//Vertex Buffer //====================================================================
 	D3D11_BUFFER_DESC Vtx_Buffer_Data = {}; //버텍스 버퍼의 속성을 설정해주는 것
@@ -34,28 +36,35 @@ HRESULT CRectBufferCom::Initialize_Origin()
 	VTX_TEX* pVertices = new VTX_TEX[m_iNumVertices];
 	ZeroMemory(pVertices, sizeof(VTX_TEX) * m_iNumVertices);
 
-
+	m_pVertexPositions[0] =
 	pVertices[0].vPos		= _float3(-0.5f, 0.5f, 0.f);
 	pVertices[0].vTexCoord	= _float2(0.f, 0.f);
 
+	m_pVertexPositions[1] =
 	pVertices[1].vPos		= _float3(0.5f, 0.5f, 0.f);
 	pVertices[1].vTexCoord	= _float2(1.f, 0.f);
 
+	m_pVertexPositions[2] =
 	pVertices[2].vPos		= _float3(0.5f, -0.5f, 0.f);
 	pVertices[2].vTexCoord	= _float2(1.f, 1.f);
 
+	m_pVertexPositions[3] =
 	pVertices[3].vPos		= _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].vTexCoord	= _float2(0.f, 1.f);
 
 	D3D11_SUBRESOURCE_DATA Vtx_Buffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
 	Vtx_Buffer_Init_Data.pSysMem = pVertices;
-	Safe_Delete_Array(pVertices);
 
-	if(FAILED(m_pDevice->CreateBuffer(&Vtx_Buffer_Data, &Vtx_Buffer_Init_Data, &m_VB)))
+	if(FAILED(m_pDevice->CreateBuffer(
+		&Vtx_Buffer_Data, 
+		&Vtx_Buffer_Init_Data, 
+		&m_VB)))
 	{
 		MSG_BOX("ErrCode : Vertex Buffer Create Failed");
 		return E_FAIL;
 	}
+
+	Safe_Delete_Array(pVertices);
 
 	//Index Buffer //====================================================================
 	D3D11_BUFFER_DESC Idx_Buffer_Data = {};
@@ -68,7 +77,6 @@ HRESULT CRectBufferCom::Initialize_Origin()
 	Idx_Buffer_Data.StructureByteStride = m_iIndexStride;			
 
 	uint16_t* pIndices = new uint16_t[m_iNumIndices];
-	ZeroMemory(pIndices, sizeof(uint16_t) * m_iNumIndices);
 
 	pIndices[0] = 0;
 	pIndices[1] = 1;
@@ -80,19 +88,24 @@ HRESULT CRectBufferCom::Initialize_Origin()
 
 	D3D11_SUBRESOURCE_DATA Ind_Buffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
 	Ind_Buffer_Init_Data.pSysMem = pIndices;
-	Safe_Delete_Array(pIndices);
 
-	if (FAILED(m_pDevice->CreateBuffer(&Idx_Buffer_Data, &Ind_Buffer_Init_Data, &m_IB)))
+	if (FAILED(m_pDevice->CreateBuffer(
+		&Idx_Buffer_Data,
+		&Ind_Buffer_Init_Data,
+		&m_IB)))
 	{
 		MSG_BOX("ErrCode : Index Buffer Create Failed");
 		return E_FAIL;
 	}
+
+	Safe_Delete_Array(pIndices);
 
 	return S_OK;
 }
 
 HRESULT CRectBufferCom::Initialize_Clone(void* _pArg)
 {
+	int a = 0;
 	return S_OK;
 }
 

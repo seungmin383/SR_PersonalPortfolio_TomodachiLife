@@ -4,9 +4,9 @@
 
 USING(Engine)
 
-CLoader::CLoader(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
+CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
-	m_pDevice(_pDevice), m_pContext(_pContext)
+	m_pDevice(pDevice), m_pContext(pContext)
 {
 	Safe_AddRef(m_pGameInstance);
 	Safe_AddRef(m_pDevice);
@@ -23,14 +23,15 @@ _uint APIENTRY ThreadMain(void* _pArg)
 	return 0;
 }
 
-HRESULT CLoader::Initialize(PLACE_ID _eNextPlaceID)
+HRESULT CLoader::Initialize(PLACE_ID NextPlaceID)
 {
-	m_eNextPlaceID = _eNextPlaceID;
+	m_eNextPlaceID = NextPlaceID;
 
 	InitializeCriticalSection(&m_CriticalSection);
 
 	m_hThread = (HANDLE)_beginthreadex(
 		nullptr, 0, ThreadMain, this, 0, nullptr);
+
 	if (0 == m_hThread)
 		return E_FAIL;
 
@@ -142,7 +143,6 @@ HRESULT CLoader::Loading_For_Main()
 	CObject* tmp = { nullptr };
 
 #pragma region ACTOR_LOADING
-
 	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
 #pragma endregion
 
@@ -155,13 +155,10 @@ HRESULT CLoader::Loading_For_Main()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(OBJECT_TYPE::UI),
-		static_cast<uint32_t>(OBJECT_ID::UI_PROTO_FOOD),
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_UI_Food"),
 		tmp)))
-	{
-		MSG_BOX("ErrCode : Food Prototype Add Failed");
 		return E_FAIL;
-	}
 
 	lstrcpy(m_szFPS, TEXT("UI Loading Complete"));
 #pragma endregion
@@ -169,57 +166,20 @@ HRESULT CLoader::Loading_For_Main()
 
 #pragma region COMPONENT_LOADING
 
-	tmp = CShaderCom::Create(
-		m_pDevice,
-		m_pContext,
-		L"../Bin/Debug/ShaderFile/Shader_Vtx_Tex.hlsl",
-		VTX_TEX::Elements,
-		VTX_TEX::iNumElements);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(OBJECT_TYPE::COMPONENT),
-		static_cast<uint32_t>(OBJECT_ID::COMP_PROTO_SHADER),
-		tmp)))
-	{
-		MSG_BOX("ErrCode : Shader Prototype Add Failed");
-		return E_FAIL;
-	}
-
-
 	tmp = CTextureCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../Bin/Debug/Resource/Textures/Default%d.jpg"),
-		2); 
+		TEXT("../Bin/Debug/Resource/Textures/Default0.jpg"),
+		1);
 
 	if (nullptr == tmp)
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(OBJECT_TYPE::COMPONENT),
-		static_cast<uint32_t>(OBJECT_ID::COMP_PROTO_TEXTURE),
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_Texture"),
 		tmp)))
-	{
-		MSG_BOX("ErrCode : Texture Prototype Add Failed");
 		return E_FAIL;
-	}
-
-	tmp = CRectBufferCom::Create(m_pDevice,m_pContext);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(OBJECT_TYPE::COMPONENT),
-		static_cast<uint32_t>(OBJECT_ID::COMP_PROTO_RECT_BUFFER),
-		tmp)))
-	{
-		MSG_BOX("ErrCode : Rect Buffer Prototype Add Failed");
-		return E_FAIL;
-	}
 
 	lstrcpy(m_szFPS, TEXT("Component Loading Complete"));
 #pragma endregion
@@ -229,6 +189,7 @@ HRESULT CLoader::Loading_For_Main()
 	m_isFinished = true;
 	return S_OK;
 }
+
 
 HRESULT CLoader::Loading_For_Setting()
 {
@@ -392,15 +353,19 @@ HRESULT CLoader::Loading_For_Live_Wedding_House()
 }
 #pragma endregion
 
-CLoader* CLoader::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext, PLACE_ID _eNextPlaceID)
+CLoader* CLoader::Create(
+	ID3D11Device* pDevice, 
+	ID3D11DeviceContext* pContext, 
+	PLACE_ID NextPlaceID)
 {
-	CLoader* pLoader = new CLoader(_pDevice, _pContext);
+	CLoader* pLoader = new CLoader(pDevice, pContext);
 
-	if (FAILED(pLoader->Initialize(_eNextPlaceID)))
+	if (FAILED(pLoader->Initialize(NextPlaceID)))
 	{
 		MSG_BOX("ErrCode : Loader Create Failed");
 		Safe_Release(pLoader);
 	}
+
 	return pLoader;
 }
 

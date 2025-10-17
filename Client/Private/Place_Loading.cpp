@@ -5,43 +5,51 @@
 #include "Place_Main.h"
 #include "Place_Setting.h"
 
-CPlace_Loading::CPlace_Loading(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
-	:CPlace(_pDevice, _pContext)
+CPlace_Loading::CPlace_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	:CPlace(pDevice, pContext)
 {
 }
 
-HRESULT CPlace_Loading::Initialize(PLACE_ID _eNextLevelID)
+HRESULT CPlace_Loading::Initialize(
+	PLACE_ID NextPlaceID,
+	Engine::RETAIN_POLICY Policy)
 {
-	m_eNextLevelID = _eNextLevelID;
+	m_eNextPlaceID = NextPlaceID;
+	m_ePolicy = Policy;
 
-	m_pLoader = CLoader::Create(m_pDevice, m_pContext, m_eNextLevelID);
+	m_pLoader = CLoader::Create(m_pDevice, m_pContext, m_eNextPlaceID);
 
 	if (nullptr == m_pLoader)
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_UI()))
-		return E_FAIL;
-
-
 	return S_OK;
 }
 
-int32_t CPlace_Loading::Update(const _float fDT)
+int32_t CPlace_Loading::Update(_float fDT)
 {
-	if (true == m_pLoader->isFinished())
+	if (m_pLoader->isFinished())
 	{
-		CPlace* pNewPlace = { nullptr };
+		CPlace* pPlace = { nullptr };
 
-		switch (m_eNextLevelID)
+		switch (m_eNextPlaceID)
 		{
+		case Client::PLACE_ID::STATIC:
+			break;
+
 		case Client::PLACE_ID::MAIN:
-			pNewPlace = CPlace_Main::Create(m_pDevice, m_pContext);
+			pPlace = CPlace_Main::Create(m_pDevice, m_pContext);
 			break;
+
+		case Client::PLACE_ID::LOADING:
+			break;
+
 		case Client::PLACE_ID::SETTING:
-			pNewPlace = CPlace_Setting::Create(m_pDevice, m_pContext);
+			pPlace = CPlace_Setting::Create(m_pDevice, m_pContext);
 			break;
+
 		case Client::PLACE_ID::SAVE:
 			break;
+
 		case Client::PLACE_ID::MII_EDITOR:
 			break;
 		case Client::PLACE_ID::STORE_CLOTHES:
@@ -90,14 +98,18 @@ int32_t CPlace_Loading::Update(const _float fDT)
 			break;
 		}
 
-		if (nullptr == pNewPlace)
+		if (nullptr == pPlace)
 			return 1;
 
-		if (SUCCEEDED(m_pGameInstance->PlaceManager_Go_Place(static_cast<int32_t>(m_eNextLevelID), pNewPlace)))
-			return 0;
+		if (SUCCEEDED(m_pGameInstance->PlaceManager_Change_Place(
+			static_cast<uint32_t>(m_eNextPlaceID),
+			m_ePolicy,
+			pPlace)))
+			return 1;
 
-		MSG_BOX(" ErrCode : 어? ");
+		MSG_BOX(" ErrCode : 왜 여기까지 왔지? ");
 	}
+
 	return 0;
 }
 
@@ -107,19 +119,19 @@ HRESULT CPlace_Loading::Render()
 	return S_OK;
 }
 
-HRESULT CPlace_Loading::Ready_Layer_UI()
+CPlace_Loading* CPlace_Loading::Create(
+	ID3D11Device* pDevice, 
+	ID3D11DeviceContext* pContext, 
+	PLACE_ID NextPlaceID,
+	RETAIN_POLICY Policy)
 {
-	return S_OK;
-}
+	CPlace_Loading* pPlaceLoading = new CPlace_Loading(pDevice, pContext);
 
-CPlace_Loading* CPlace_Loading::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext, PLACE_ID _eNextLevelID)
-{
-	CPlace_Loading* pPlaceLoading = new CPlace_Loading(_pDevice, _pContext);
-
-	if (FAILED(pPlaceLoading->Initialize(_eNextLevelID)))
+	if (FAILED(pPlaceLoading->Initialize(NextPlaceID, Policy)))
 	{
-		MSG_BOX("Failed to Created : CLevel_Loading");
+		MSG_BOX("ErrCode : Loading Place Create Failed");
 		Safe_Release(pPlaceLoading);
+		return nullptr;
 	}
 
 	return pPlaceLoading;

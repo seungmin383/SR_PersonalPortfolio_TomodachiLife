@@ -3,26 +3,44 @@
 #include "GameInstance.h"
 #include "Place_Loading.h"
 
-CPlace_Main::CPlace_Main(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
-	:CPlace(_pDevice, _pContext)
+CPlace_Main::CPlace_Main(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	:CPlace(pDevice, pContext)
 {
 }
 
 HRESULT CPlace_Main::Initialize()
 {
-	CObject* tmp = m_pGameInstance->Proto_Get_Object_Clone();
+	CObject* tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_UI_Food"),
+		nullptr);
 
-	m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
 		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
 		TEXT("LayerTag_UI"),
+		tmp)))
+	{
+		Safe_Release(tmp);
+		return E_FAIL;
+	}
 
 	return S_OK;
 }
 
-int32_t CPlace_Main::Update(_float fTimeDelta)
+int32_t CPlace_Main::Update(_float fDT)
 {
-	if (GetAsyncKeyState('A'))
-		m_pGameInstance->PlaceManager_Go_Place(static_cast<int32_t>(Client::PLACE_ID::LOADING), CPlace_Loading::Create(m_pDevice, m_pContext, (PLACE_ID::SETTING)));
+	if (GetAsyncKeyState('A') & 0x8000)
+		m_pGameInstance->PlaceManager_Change_Place(
+			static_cast<uint32_t>(PLACE_ID::SETTING),
+			Engine::RETAIN_POLICY::CLEAR_ALL,
+			CPlace_Loading::Create(
+				m_pDevice,
+				m_pContext,
+				PLACE_ID::SETTING,
+				RETAIN_POLICY::CLEAR_LOADING));
 
 	return 0;
 }
@@ -34,9 +52,9 @@ HRESULT CPlace_Main::Render()
 }
 
 
-CPlace_Main* CPlace_Main::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
+CPlace_Main* CPlace_Main::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CPlace_Main* pPlaceMain = new CPlace_Main(_pDevice, _pContext);
+	CPlace_Main* pPlaceMain = new CPlace_Main(pDevice, pContext);
 
 	if (FAILED(pPlaceMain->Initialize()))
 	{

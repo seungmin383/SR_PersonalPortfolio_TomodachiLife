@@ -1,51 +1,91 @@
 #include "Place_Manager.h"
 #include "Place.h"
+#include "GameInstance.h"
 
 CPlaceManager::CPlaceManager()
+	:m_pGameInstance(CGameInstance::GetInstance())
 {
+	Safe_AddRef(m_pGameInstance);
 }
 
-
-HRESULT CPlaceManager::Go_Place(uint32_t _NextPlaceID, CPlace* _NextPlace)
+HRESULT CPlaceManager::Change_Place(
+	RETAIN_POLICY Policy,
+	uint32_t PlaceID, 
+	CPlace* pPlace)
 {
-	if (nullptr == _NextPlace)
-		return E_FAIL;
 
-	m_vecPlace.push_back(_NextPlace);
+	//이전씬을 기억할까?
+	switch (Policy)
+	{
+	case Engine::RETAIN_POLICY::RETAIN: //유지하겠다.
+		break;
+
+	case Engine::RETAIN_POLICY::CLEAR_LOADING:
+		Safe_Release(m_pPlaces.back());
+		m_pPlaces.pop_back();
+		m_iPlaceID.pop_back();
+		break;
+
+	case Engine::RETAIN_POLICY::CLEAR_ALL:
+		Clear_Place();
+		break;
+
+	default:
+		break;
+	}
+
+	m_pPlaces.push_back(pPlace);
+	m_iPlaceID.push_back(PlaceID);
 
 	return S_OK;
 }
 
-HRESULT CPlaceManager::Go_Back()
+HRESULT CPlaceManager::Return_Place()
 {
-	if (1 >= m_vecPlace.size())
+	if (m_pPlaces.size() <= 1)
 		return E_FAIL;
 
-	CPlace* tmp = m_vecPlace.back();
-	m_vecPlace.pop_back();
-	Safe_Release(tmp);
+	Safe_Release(m_pPlaces.back());
+	m_pGameInstance->Clear_Resources(m_iPlaceID.back());
+
+	m_pPlaces.pop_back();
+	m_iPlaceID.pop_back();
 
 	return S_OK;
 }
 
-int32_t CPlaceManager::Update(const _float fDT)
+HRESULT CPlaceManager::Clear_Place()
 {
-	if (m_vecPlace.empty())
-		return 0;
+	for (auto& place : m_pPlaces)
+		Safe_Release(place);
 
-	m_vecPlace.back()->Update(fDT);
+	for(auto PlaceID : m_iPlaceID)
+		m_pGameInstance->Clear_Resources(PlaceID);
+
+	m_pPlaces.clear(); 
+	m_iPlaceID.clear();
+
+	return S_OK;
+}
+
+int32_t CPlaceManager::Update(_float fDT)
+{
+	if (m_pPlaces.empty())
+		return 1;
+
+	m_pPlaces.back()->Update(fDT);
 
 	return 0;
 }
 
 HRESULT CPlaceManager::Render()
 {
-	if (m_vecPlace.empty())
-		return 0;
+	if (m_pPlaces.empty())
+		return E_FAIL;
 
-	m_vecPlace.back()->Render();
+	m_pPlaces.back()->Render();
 
-	return 0;
+	return S_OK;
 }
 
 CPlaceManager* CPlaceManager::Create()
@@ -55,11 +95,11 @@ CPlaceManager* CPlaceManager::Create()
 
 void CPlaceManager::Free()
 {
-	while (!m_vecPlace.empty())
-	{
-		m_vecPlace.back()->Free();
-		m_vecPlace.pop_back();
-	}
+	for (auto& place : m_pPlaces)
+		Safe_Release(place);
+	m_pPlaces.clear();
+
+	Safe_Release(m_pGameInstance);
 
 	CBase::Free();
 }

@@ -24,8 +24,9 @@ public:
 	HRESULT Add_Object_in_Layer(
 		uint32_t PlaceID,
 		const _wstring LayerTag,
-		CObject* Object);
+		CObject* pObject);
 
+	HRESULT Clear_Objects(uint32_t PlaceID);
 
 private:
 	map<const _wstring, CLayer*>* m_Layers = { nullptr };

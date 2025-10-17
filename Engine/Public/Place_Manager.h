@@ -2,7 +2,9 @@
 #include "Base.h"
 
 NS_BEGIN(Engine)
+
 class CPlace;
+class CGameInstance;
 
 class CPlaceManager :public CBase
 {
@@ -11,19 +13,23 @@ private:
 	virtual ~CPlaceManager() = default;
 
 public:
-	HRESULT Go_Place(uint32_t _NextPlaceID, CPlace* _NextPlace);
-	HRESULT Go_Back();
+	HRESULT Change_Place(
+		Engine::RETAIN_POLICY Policy,
+		uint32_t PlaceID, 
+		CPlace* pPlace);
+
+	HRESULT Return_Place();
+
+	HRESULT Clear_Place();
 
 public:
-	int32_t Update(const _float fDT);
+	int32_t Update(_float fDT);
 	HRESULT Render();
 
 private:
-	stack<CPlace*> m_StackPlace;
-	vector<CPlace*> m_vecPlace;
-
-	uint32_t m_iCurPlaceID = {};
-	uint32_t m_iPrePlaceID = {};
+	CGameInstance* m_pGameInstance = { nullptr };
+	vector<CPlace*> m_pPlaces;
+	vector<uint32_t> m_iPlaceID;
 
 public:
 	static CPlaceManager* Create();

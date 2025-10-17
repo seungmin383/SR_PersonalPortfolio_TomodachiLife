@@ -13,7 +13,7 @@ private:
 
 public:
 	// 레이어에 오브젝트를 추가하는 함수
-	HRESULT Add_Object(CObject* Object);		// 그 오브젝트
+	HRESULT Add_Object(CObject* pObject);		// 그 오브젝트
 
 public:
 	int32_t Update_Priority(_float fDT);

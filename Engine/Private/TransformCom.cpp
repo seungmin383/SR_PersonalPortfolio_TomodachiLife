@@ -1,4 +1,5 @@
 #include "TransformCom.h"
+#include "ShaderCom.h"
 
 CTransformCom::CTransformCom(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
 	:CComponent(_pDevice, _pContext)
@@ -6,13 +7,16 @@ CTransformCom::CTransformCom(ID3D11Device* _pDevice, ID3D11DeviceContext* _pCont
 }
 
 CTransformCom::CTransformCom(const CTransformCom& rhs)
-	:CComponent(rhs)
+	:CComponent(rhs),
+	m_fSpeedPerSecond(rhs.m_fSpeedPerSecond),
+	m_fRotationPerSecond(rhs.m_fRotationPerSecond),
+	m_WorldMatrix(rhs.m_WorldMatrix)
 {
 }
 
 HRESULT CTransformCom::Initialize_Origin()
 {
-	int a = 0;
+	XMStoreFloat4x4(&m_WorldMatrix, XMMatrixIdentity());
 	return S_OK;
 }
 
@@ -52,6 +56,21 @@ _float3 CTransformCom::Get_Scale()
 	XMVectorGetX(XMVector3Length(Get_State(TRANSFORM_STATE::RIGHT))),
 	XMVectorGetX(XMVector3Length(Get_State(TRANSFORM_STATE::UP))),
 	XMVectorGetX(XMVector3Length(Get_State(TRANSFORM_STATE::LOOK))) };
+}
+
+void CTransformCom::Set_Scale(_float ScaleX, _float ScaleY, _float ScaleZ)
+{
+	Set_State(TRANSFORM_STATE::RIGHT,
+		XMVector3Normalize(
+			Get_State(TRANSFORM_STATE::RIGHT) * ScaleX));
+
+	Set_State(TRANSFORM_STATE::UP,
+		XMVector3Normalize(
+			Get_State(TRANSFORM_STATE::UP) * ScaleX));
+
+	Set_State(TRANSFORM_STATE::LOOK,
+		XMVector3Normalize(
+			Get_State(TRANSFORM_STATE::LOOK) * ScaleX));
 }
 
 void CTransformCom::Set_State(TRANSFORM_STATE eState, FXMVECTOR vState)
@@ -262,6 +281,13 @@ void CTransformCom::Chase(FXMVECTOR vTarget, _float fDT, _float fLeastDist)
 		vPosition += XMVector3Normalize(vMoveDir) * m_fSpeedPerSecond * fDT;
 
 	Set_State(TRANSFORM_STATE::POS, vPosition);
+}
+
+HRESULT CTransformCom::Bind_ShaderResource(CShaderCom* pShader, const _char* WorldMatrixTag)
+{
+	return pShader->Bind_Matrix(
+		WorldMatrixTag,
+		&m_WorldMatrix);
 }
 
 CTransformCom* CTransformCom::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)

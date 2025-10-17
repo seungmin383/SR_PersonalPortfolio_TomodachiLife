@@ -22,6 +22,7 @@ public:
 	void		Update_Late(_float _fDT);
 	void		Render();
 
+	HRESULT Ready_Static();
 
 private://디바이스 관리
 	ID3D11Device*			m_pDevice = { nullptr };

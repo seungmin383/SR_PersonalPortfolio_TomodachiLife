@@ -177,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Tex.hlsl" />
+    <FxCompile Include="..\Bin\Debug\ShaderFile\Test.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

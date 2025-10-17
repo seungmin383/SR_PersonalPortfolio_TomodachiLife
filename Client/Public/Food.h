@@ -14,12 +14,6 @@ NS_BEGIN(Client)
 
 class CFood final : public CUI
 {
-public:
-	typedef struct tagFoodDesc : public UI_DESC
-	{
-
-	}FOOD_DESC;
-
 protected:
 	CFood(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
 	CFood(const CFood& rhs);
@@ -36,6 +30,7 @@ public:
 
 private:
 	HRESULT Ready_Component();
+	HRESULT Bind_ShaderResources();
 
 private:
 	CShaderCom*		m_pShaderCom		= { nullptr };

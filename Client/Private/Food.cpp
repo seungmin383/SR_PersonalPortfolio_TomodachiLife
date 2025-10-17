@@ -24,7 +24,7 @@ HRESULT CFood::Initialize_Origin()
 
 HRESULT CFood::Initialize_Clone(void* _pArg)
 {
-	FOOD_DESC tDesc{};
+	CUI::UI_DESC tDesc{};
 	
 	tDesc.fX = 150.f;
 	tDesc.fY = 150.f;
@@ -32,9 +32,12 @@ HRESULT CFood::Initialize_Clone(void* _pArg)
 	tDesc.fCX = 300.f;
 	tDesc.fCY = 300.f;
 
+
 	if (FAILED(CUI::Initialize_Clone(&tDesc)))
 		return E_FAIL;
 
+	if (FAILED(Ready_Component()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -50,31 +53,90 @@ int32_t CFood::Update(const _float _fDT)
 {
 	int a = 10;
 
-	if (FAILED(m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::NONBLEND, this)))
-	{
-		MSG_BOX("ErrCode : Food Render Failed");
-		return 1;
-	}
 	return 0;
 }
 
 void CFood::Update_Late(const _float _fDT)
 {
-	int a = 10;
+	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::NONBLEND, this);
 
 }
 
 HRESULT CFood::Render()
 {
+	if (FAILED(Bind_ShaderResources()))
+		return E_FAIL;
+
+	//D3D11_RASTERIZER_DESC r = {};
+	//r.CullMode = D3D11_CULL_NONE;
+	//r.FrontCounterClockwise = FALSE;
+	//ID3D11RasterizerState* rs;
+	//m_pDevice->CreateRasterizerState(&r, &rs);
+	//m_pContext->RSSetState(rs);
+	if (FAILED(m_pRectBufferCom->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Begin(0)))
+		return E_FAIL;
+
+
+	if (FAILED(m_pRectBufferCom->Begin_Draw()))
+		return E_FAIL;
 
 	return S_OK;
 }
 
 HRESULT CFood::Ready_Component()
 {
+	if (FAILED(Add_Component(
+		static_cast<uint32_t>(PLACE_ID::STATIC),
+		TEXT("ProtoTag_Component_Shader"),
+		TEXT("Com_Shader"),
+		reinterpret_cast<CComponent**>(&m_pShaderCom),
+		nullptr)))
+		return E_FAIL;
+
+
+	/*if (FAILED(Add_Component(
+		static_cast<uint32_t>(PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_Texture"),
+		TEXT("Com_Texture"),
+		reinterpret_cast<CComponent**>(&m_pTextureCom),
+		nullptr)))
+		return E_FAIL;*/
+
+
+	if (FAILED(Add_Component(
+		static_cast<uint32_t>(PLACE_ID::STATIC),
+		TEXT("ProtoTag_Component_RectBuffer"),
+		TEXT("Com_RectBuffer"),
+		reinterpret_cast<CComponent**>(&m_pRectBufferCom),
+		nullptr)))
+		return E_FAIL;
 
 
 	return S_OK;
+}
+
+HRESULT CFood::Bind_ShaderResources()
+{
+	HRESULT hr = {};
+
+	hr = m_pTransformCom->Bind_ShaderResource(
+		m_pShaderCom, 
+		"g_WorldMatrix");
+
+	hr = Bind_OrthoMatrices(
+		m_pShaderCom,
+		"g_ViewMatrix",
+		"g_ProjMatrix");
+
+	//m_pTextureCom->Bind_ShaderResource(
+	//	m_pShaderCom,
+	//	"g_Texture",
+	//	0);
+
+	return hr;
 }
 
 CFood* CFood::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

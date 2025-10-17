@@ -34,7 +34,12 @@ HRESULT CRenderManager::Render_Priority()
 			MSG_BOX("ErrCode :Priority Object Render Failed");
 			return E_FAIL;
 		}
+		Safe_Release(Object);
 	}
+
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::PRIORITY)].clear();
+
+	return S_OK;
 }
 
 HRESULT CRenderManager::Render_NonBlend()
@@ -49,7 +54,13 @@ HRESULT CRenderManager::Render_NonBlend()
 			MSG_BOX("ErrCode :Non Blend Object Render Failed");
 			return E_FAIL;
 		}
+
+		Safe_Release(Object);
 	}
+
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::NONBLEND)].clear();
+
+	return S_OK;
 }
 
 HRESULT CRenderManager::Render_Blend()
@@ -64,7 +75,12 @@ HRESULT CRenderManager::Render_Blend()
 			MSG_BOX("ErrCode :Blend Object Render Failed");
 			return E_FAIL;
 		}
+		Safe_Release(Object);
 	}
+	
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BLEND)].clear();
+
+	return S_OK;
 }
 
 HRESULT CRenderManager::Render_UI()
@@ -79,7 +95,12 @@ HRESULT CRenderManager::Render_UI()
 			MSG_BOX("ErrCode : UI Object Render Failed");
 			return E_FAIL;
 		}
+		Safe_Release(Object);
 	}
+
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::UI)].clear();
+
+	return S_OK;
 }
 
 HRESULT CRenderManager::Add_RenderGroup(RENDER_GROUP _RenderGroup, CObject* _Object)
@@ -88,6 +109,7 @@ HRESULT CRenderManager::Add_RenderGroup(RENDER_GROUP _RenderGroup, CObject* _Obj
 		return E_FAIL;
 
 	m_RenderGroup[static_cast<uint32_t>(_RenderGroup)].push_back(_Object);
+	Safe_AddRef(_Object);
 
 	return S_OK;
 }

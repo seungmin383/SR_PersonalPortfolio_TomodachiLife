@@ -13,20 +13,40 @@ CMainApp::CMainApp()
 HRESULT CMainApp::Initialize()
 {
 	ENGINE_DESC EngineDesc = {};
+	EngineDesc.hWnd = g_hWnd;
+	EngineDesc.WinMode = Engine::WINMODE::WIN;
+	EngineDesc.iWinCX = WINCX;
+	EngineDesc.iWinCY = WINCY;
 	EngineDesc.PlaceCount = static_cast<uint32_t>(PLACE_ID::END);
 
-	if(FAILED(m_pGameInstance->Initialize(EngineDesc)))
+	if(FAILED(m_pGameInstance->Initialize(EngineDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
 
-	m_pGameInstance->Graphic_Initialize(g_hWnd, WINCX, WINCY, &m_pDevice, &m_pContext);
-
-	CPlace* pPlace = CPlace_Loading::Create(m_pDevice, m_pContext, PLACE_ID::MAIN);
-
-	if (FAILED(m_pGameInstance->PlaceManager_Go_Place(static_cast<int32_t>(PLACE_ID::LOADING), pPlace)))
-	{
-		MSG_BOX("ErrCode : Go_Place Failed");
+	// // 만약 내가 현재 씬을 유지하고, 다음 씬으로 넘어가고 싶다.
+	// if (FAILED(m_pGameInstance->PlaceManager_Change_Place(
+	// 	static_cast<uint32_t>(PLACE_ID::LOADING),	// 로딩씬으로 갈래
+	// 	RETAIN_POLICY::RETAIN,						// 이전껀 유지하고
+	// 	CPlace_Loading::Create(						// 로딩씬 포인터
+	// 		m_pDevice,
+	// 		m_pContext,
+	// 		PLACE_ID::MAIN,							// 로딩 끝나면 메인으로 갈래
+	// 		RETAIN_POLICY::CLEAR_LOADING))))		// 로딩씬을 지우고
+	// 	return E_FAIL;	
+	
+	if (FAILED(Ready_Static()))
 		return E_FAIL;
-	}
+
+	// 다 지우고 다음 씬으로 넘어가고 싶다.
+	if (FAILED(m_pGameInstance->PlaceManager_Change_Place(
+		static_cast<uint32_t>(PLACE_ID::LOADING),	// 로딩씬으로 갈래
+		RETAIN_POLICY::CLEAR_ALL,					// 다 지우고
+		CPlace_Loading::Create(						
+			m_pDevice,
+			m_pContext,
+			PLACE_ID::MAIN,							// 로딩 끝나면 메인으로 갈래
+			RETAIN_POLICY::CLEAR_LOADING))))		// 로딩씬을 지우고
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -53,6 +73,37 @@ void CMainApp::Render()
 	m_pGameInstance->Render();
 
 	m_pGameInstance->End_Render();
+}
+
+HRESULT CMainApp::Ready_Static()
+{
+	CObject* tmp = CShaderCom::Create(
+		m_pDevice,
+		m_pContext,
+		L"../Bin/Debug/ShaderFile/Shader_Vtx_Tex.hlsl",
+		Engine::VTX_TEX::Elements,
+		Engine::VTX_TEX::iNumElements);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
+		TEXT("ProtoTag_Component_Shader"),
+		tmp)))
+		return E_FAIL;
+
+
+	tmp = CRectBufferCom::Create(m_pDevice, m_pContext);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
+		TEXT("ProtoTag_Component_RectBuffer"),
+		tmp)))
+		return E_FAIL;
 }
 
 CMainApp* CMainApp::Create()
@@ -83,8 +134,6 @@ void CMainApp::Free()
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
-
-	m_pGameInstance;
 
 	m_pGameInstance->Clear_Engine();
 

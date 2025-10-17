@@ -12,6 +12,7 @@ CTextureCom::CTextureCom(const CTextureCom& rhs)
 	m_vecTexture(rhs.m_vecTexture),
 	m_iNumTextures(rhs.m_iNumTextures)
 {
+	//따로 로딩하지 않고 얕은 복사로
 	for(auto& pSRVs : m_vecTexture)
 		Safe_AddRef(pSRVs);
 }
@@ -31,12 +32,25 @@ HRESULT CTextureCom::Initialize_Origin(const _tchar* pTextureFilePath, uint32_t 
 
 		_tchar		szExt[MAX_PATH] = {};					//확장자 저장할 배열
 
-		_wsplitpath_s(szTextureFilePath, nullptr, 0, nullptr, 0, nullptr, 0, szExt, MAX_PATH);
+		_wsplitpath_s(
+			szTextureFilePath,
+			nullptr, 
+			0, 
+			nullptr, 
+			0, 
+			nullptr, 
+			0, 
+			szExt, 
+			MAX_PATH);
 		
 		//lstrcmp : 두 문자열이 같으면 0, 다르면 0이 아닌 값 반환 -> True
 		if (CORRECT == lstrcmp(szExt, TEXT(".dds")))
 		{
-			if (FAILED(CreateDDSTextureFromFile(m_pDevice, szTextureFilePath, nullptr, &pSRV)))
+			if (FAILED(CreateDDSTextureFromFile(
+				m_pDevice, 
+				szTextureFilePath, 
+				nullptr, 
+				&pSRV)))		
 				return E_FAIL;
 		}
 		else if (CORRECT == lstrcmp(szExt, TEXT(".tga")))
@@ -45,7 +59,11 @@ HRESULT CTextureCom::Initialize_Origin(const _tchar* pTextureFilePath, uint32_t 
 		}
 		else
 		{
-			if (FAILED(CreateWICTextureFromFile(m_pDevice, szTextureFilePath, nullptr, &pSRV)))
+			if (FAILED(CreateWICTextureFromFile(
+				m_pDevice, 
+				szTextureFilePath, 
+				nullptr,			//Texture2D
+				&pSRV)))
 				return E_FAIL;
 		}
 

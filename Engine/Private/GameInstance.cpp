@@ -11,61 +11,83 @@ CGameInstance::CGameInstance()
 {
 }
 
-HRESULT CGameInstance::Initialize(const ENGINE_DESC& Engine_desc)
+HRESULT CGameInstance::Initialize(
+	const ENGINE_DESC& Engine_desc,
+	ID3D11Device** ppDevice,
+	ID3D11DeviceContext** ppContext)
 {
+	//그래픽 디바이스
+	m_pGraphicDevice = CGraphic_Device::Create(
+		Engine_desc.hWnd,
+		Engine_desc.WinMode,
+		Engine_desc.iWinCX,
+		Engine_desc.iWinCY,
+		ppDevice,
+		ppContext);
+
+	if (nullptr == m_pGraphicDevice)
+		return E_FAIL;
+
+
 	//TimerManager
 	{
 		m_pTimerManager = CTimerManager::Create();
 		if (nullptr == m_pTimerManager)
-		{
-			MSG_BOX("ErrCode : m_pTimerManager Create Failed");
-			Safe_Release(m_pTimerManager);
 			return E_FAIL;
-		}
 	}
 
 	//PlaceManager
 	{
 		m_pPlaceManager = CPlaceManager::Create();
 		if (nullptr == m_pPlaceManager)
-		{
-			MSG_BOX("ErrCode : m_pPlaceManager Create Failed");
-			Safe_Release(m_pPlaceManager);
 			return E_FAIL;
-		}
 	}
 
 	//CObjectManager
 	{
 		m_pObjectManager = CObjectManager::Create(Engine_desc.PlaceCount);
 		if (nullptr == m_pObjectManager)
-		{
-			MSG_BOX("ErrCode : m_pObjectManager Create Failed");
-			Safe_Release(m_pObjectManager);
 			return E_FAIL;
-		}
 	}
-	
+
+	//Prototype
+	{
+		m_pPrototype = CPrototype::Create(
+			*ppDevice, 
+			*ppContext, 
+			Engine_desc.PlaceCount);
+
+		if (nullptr == m_pPrototype)
+			return E_FAIL;
+	}
+
+	//RenderManager
+	{
+		m_pRenderManager = CRenderManager::Create(*ppDevice, *ppContext);
+		if (nullptr == m_pRenderManager)
+			return E_FAIL;
+	}
+
 	return S_OK;
 }
 
-int32_t CGameInstance::Update_Priority(const _float _fDT)
+int32_t CGameInstance::Update_Priority(_float fDT)
 {
-	return m_pObjectManager->Update_Priority(_fDT);
+	return m_pObjectManager->Update_Priority(fDT);
 }
 
-int32_t CGameInstance::Update(const _float _fDT)
+int32_t CGameInstance::Update(_float fDT)
 {
 	//게임 씬 매니저 업데이트			//주로 디버그용
-	m_pPlaceManager->Update(_fDT);
+	m_pPlaceManager->Update(fDT);
 	//게임 오브젝트 매니저 업데이트		//진짜 업데이트
 	
-	return m_pObjectManager->Update(_fDT);
+	return m_pObjectManager->Update(fDT);
 }
 
-void CGameInstance::Update_Late(const _float _fDT)
+void CGameInstance::Update_Late( _float fDT)
 {
-	m_pObjectManager->Update_Late(_fDT);
+	m_pObjectManager->Update_Late(fDT);
 }
 
 void CGameInstance::Begin_Render()
@@ -97,6 +119,16 @@ void CGameInstance::End_Render()
 	GraphicDevice_Present();
 }
 
+HRESULT CGameInstance::Clear_Resources(uint32_t PlaceID)
+{
+	if (FAILED(m_pObjectManager->Clear_Objects(PlaceID)))
+		return E_FAIL;
+	if (FAILED(m_pPrototype->Clear_Prototype(PlaceID)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 #pragma region TIMER_MANAGER
 
 inline _float CGameInstance::TimerManager_Get_DeltaTime(const _tchar* pTimerTag)
@@ -117,46 +149,6 @@ inline void CGameInstance::TimerManager_Calc_DeltaTime(const _tchar* pTimerTag)
 #pragma endregion
 
 #pragma region GRAPHIC_DEVICE
-
-inline HRESULT CGameInstance::Graphic_Initialize(HWND _hWnd,
-	_uint _WinCX,
-	_uint _WinCY,
-	ID3D11Device** _ppDevice,
-	ID3D11DeviceContext** _ppContext)
-{
-	m_pGraphicDevice = CGraphic_Device::Create(_hWnd, WINMODE::WIN, _WinCX, _WinCY, _ppDevice, _ppContext);
-
-	//GraphicDevice
-	if (nullptr == m_pGraphicDevice)
-	{
-		MSG_BOX("ErrCode : m_pGraphicDevice Create Failed");
-		Safe_Release(m_pGraphicDevice);
-		return E_FAIL;
-	}
-
-	//Prototype
-	{
-		m_pPrototype = CPrototype::Create(*_ppDevice, *_ppContext);
-		if (nullptr == m_pPrototype)
-		{
-			MSG_BOX("ErrCode : m_pPrototype Create Failed");
-			Safe_Release(m_pPrototype);
-			return E_FAIL;
-		}
-	}
-
-	//CRenderManager
-	{
-		m_pRenderManager = CRenderManager::Create(*_ppDevice, *_ppContext);
-		if (nullptr == m_pRenderManager)
-		{
-			MSG_BOX("ErrCode : m_pRenderManager Create Failed");
-			Safe_Release(m_pRenderManager);
-			return E_FAIL;
-		}
-	}
-	return S_OK;
-}
 
 inline HRESULT CGameInstance::GraphicDevice_Clear_BackBuffer_View(const _float4* pClearColor)
 {
@@ -180,9 +172,9 @@ inline HRESULT CGameInstance::GraphicDevice_Present()
 inline HRESULT CGameInstance::ObjectManager_Add_Object_in_Layer(
 	uint32_t PlaceID,
 	const _wstring LayerTag,
-	CObject* Object)
+	CObject* pObject)
 {
-	return m_pObjectManager->Add_Object_in_Layer(PlaceID, LayerTag, Object);
+	return m_pObjectManager->Add_Object_in_Layer(PlaceID, LayerTag, pObject);
 }
 
 #pragma endregion
@@ -198,28 +190,37 @@ HRESULT CGameInstance::RenderManager_Add_RenderGroup(RENDER_GROUP _RenderGroup, 
 
 #pragma region PLACE_MANAGER
 
-HRESULT CGameInstance::PlaceManager_Go_Place(uint32_t _NextPlaceID, CPlace* _CPlace)
+inline HRESULT CGameInstance::PlaceManager_Change_Place(
+	uint32_t PlaceID, 
+	RETAIN_POLICY Policy, 
+	CPlace* pPlace)
 {
-	return m_pPlaceManager->Go_Place(_NextPlaceID, _CPlace);
+	return m_pPlaceManager->Change_Place(Policy, PlaceID, pPlace);
 }
 
-HRESULT CGameInstance::PlaceManager_Go_Back()
+inline HRESULT CGameInstance::PlaceManager_Return_Place()
 {
-	return m_pPlaceManager->Go_Back();
+	return m_pPlaceManager->Return_Place();
 }
 
 #pragma endregion
 
 #pragma region PROTOTYPE
 
-HRESULT CGameInstance::Proto_Add_Prototype(uint32_t ObjectType, uint32_t ObjectID, CObject* Origin)
+inline HRESULT CGameInstance::Proto_Add_Prototype(
+	uint32_t PlaceID,
+	const _wstring ObjectTag,
+	CObject* pPrototype)
 {
-	return m_pPrototype->Add_Prototype(ObjectType, ObjectID, Origin);
+	return m_pPrototype->Add_Prototype(PlaceID, ObjectTag, pPrototype);
 }
 
-CObject* CGameInstance::Proto_Get_Object_Clone(uint32_t ObjectType, uint32_t ObjectID, void* pArg)
+inline CObject* CGameInstance::Proto_Get_Object_Clone(
+	uint32_t PlaceID,
+	const _wstring ObjectTag,
+	void* pArg)
 {
-	return m_pPrototype->Get_Object_Clone(ObjectType, ObjectID, pArg);
+	return m_pPrototype->Get_Object_Clone(PlaceID, ObjectTag, pArg);
 }
 
 #pragma endregion
@@ -229,9 +230,9 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pTimerManager);
 	Safe_Release(m_pPlaceManager);
 	Safe_Release(m_pObjectManager);
+	Safe_Release(m_pPrototype);
 	Safe_Release(m_pRenderManager);
 	Safe_Release(m_pGraphicDevice);
-	Safe_Release(m_pPrototype);
 
 	CGameInstance::GetInstance()->DestroyInstance();
 }

@@ -66,6 +66,7 @@ HRESULT CShaderCom::Initialize_Origin(
 	// Effect Technique 를 이용해서 Technique Desc 받아옴
 	pTechnique->GetDesc(&TechniqueDesc);
 
+	m_iNumPasses = TechniqueDesc.Passes;
 
 	for (uint32_t i = 0; i < m_iNumPasses; i++)
 	{

@@ -14,7 +14,8 @@ CVIBufferCom::CVIBufferCom(const CVIBufferCom& rhs)
 	m_iNumVertices		(rhs.m_iNumVertices), 
 	m_iVertexStride		(rhs.m_iVertexStride),
 	m_iNumIndices		(rhs.m_iNumIndices), 
-	m_iIndexStride		(rhs.m_iIndexStride)
+	m_iIndexStride		(rhs.m_iIndexStride),
+	m_ePrimitiveType	(rhs.m_ePrimitiveType)
 {
 	Safe_AddRef(m_VB);
 	Safe_AddRef(m_IB);
@@ -75,8 +76,14 @@ HRESULT CVIBufferCom::Bind_Resource()
 
 HRESULT CVIBufferCom::Render()
 {
-	m_pContext->DrawIndexed(m_iNumIndices, 0, 0);
 	return S_OK;
+}
+
+HRESULT CVIBufferCom::Begin_Draw()
+{
+	m_pContext->DrawIndexed(6, 0, 0);
+	//m_pContext->DrawIndexed(1, 0, 0);
+	return S_OK;	
 }
 
 void CVIBufferCom::Free()
@@ -84,7 +91,7 @@ void CVIBufferCom::Free()
 	Safe_Release(m_VB);
 	Safe_Release(m_IB);
 
-	if(!m_isClone && m_pVertexPositions)
+	if(!m_isClone)
 		Safe_Delete_Array(m_pVertexPositions);
 
 	CComponent::Free();

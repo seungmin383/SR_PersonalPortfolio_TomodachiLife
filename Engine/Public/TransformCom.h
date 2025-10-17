@@ -3,6 +3,8 @@
 
 NS_BEGIN(Engine)
 
+class CShaderCom;
+
 class ENGINE_DLL CTransformCom final : public CComponent
 {
 public:
@@ -33,6 +35,7 @@ public:
 	
 	XMVECTOR Get_State(TRANSFORM_STATE eState) const;
 	_float3	Get_Scale();
+	void Set_Scale(_float ScaleX, _float ScaleY, _float ScaleZ);
 
 	void Set_State(TRANSFORM_STATE eState, FXMVECTOR vState);
 	void Set_State(TRANSFORM_STATE eState, const _float4& vState);
@@ -56,6 +59,10 @@ public:
 	void LookAt(FXMVECTOR vPoint);
 	//ÃßÀû
 	void Chase(FXMVECTOR vTarget, _float fDT, _float fLeastDist = 0.1f);
+
+	HRESULT Bind_ShaderResource(
+		CShaderCom* pShader,
+		const _char* WorldMatrixTag);
 
 private:
 	_float m_fSpeedPerSecond = {};

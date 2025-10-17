@@ -17,7 +17,7 @@ HRESULT CPrototype::Initialize(uint32_t MaxIndex)
 HRESULT CPrototype::Add_Prototype(
 	uint32_t PlaceID, 
 	const _wstring ObjectTag, 
-	CObject* Prototype)
+	CObject* pPrototype)
 {
 	if(PlaceID >= m_iMaxIndex)
 		return E_FAIL;
@@ -29,7 +29,7 @@ HRESULT CPrototype::Add_Prototype(
 		return E_FAIL;
 	}
 
-	m_Prototypes[PlaceID].emplace(ObjectTag, Prototype);
+	m_Prototypes[PlaceID].emplace(ObjectTag, pPrototype);
 	return S_OK;
 }
 
@@ -49,12 +49,24 @@ CObject* CPrototype::Get_Object_Clone(
 	return iter->second->Clone(pArg);
 }
 
+HRESULT CPrototype::Clear_Prototype(uint32_t PlaceID)
+{
+	if (PlaceID >= m_iMaxIndex)
+		return E_FAIL;
+
+	for (auto& pair : m_Prototypes[PlaceID])
+		Safe_Release(pair.second);
+	m_Prototypes[PlaceID].clear();
+
+	return S_OK;
+}
+
 CPrototype* CPrototype::Create(
-	ID3D11Device* Device, 
-	ID3D11DeviceContext* Context,
+	ID3D11Device* pDevice, 
+	ID3D11DeviceContext* pContext,
 	uint32_t FinalPlace)
 {
-	CPrototype* pPrototype = new CPrototype(Device, Context);
+	CPrototype* pPrototype = new CPrototype(pDevice, pContext);
 	
 	if (FAILED(pPrototype->Initialize(FinalPlace)))
 	{

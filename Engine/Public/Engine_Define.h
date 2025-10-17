@@ -6,8 +6,8 @@
 
 #include "fx11/d3dx11effect.h"
 
-#include <DirectXTK/DDSTextureLoader.h>
-#include <DirectXTK/WICTextureLoader.h>
+#include <DirectXTK/DDSTextureLoader.h>	//dds 로드
+#include <DirectXTK/WICTextureLoader.h>	//window tex 로드
 
 #include <d3dcompiler.h>
 

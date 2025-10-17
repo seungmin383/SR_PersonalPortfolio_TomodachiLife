@@ -50,7 +50,7 @@ void CObjectManager::Update_Late(_float fDT)
 HRESULT CObjectManager::Add_Object_in_Layer(
 	uint32_t PlaceID,
 	const _wstring LayerTag,
-	CObject* Object)
+	CObject* pObject)
 {
 	if (m_iMaxIndex <= PlaceID)
 		return E_FAIL;
@@ -65,7 +65,7 @@ HRESULT CObjectManager::Add_Object_in_Layer(
 		if (nullptr == pLayer)
 			return E_FAIL;
 
-		pLayer->Add_Object(Object);
+		pLayer->Add_Object(pObject);
 
 		m_Layers[PlaceID].emplace(LayerTag, pLayer);
 		return S_OK;
@@ -73,11 +73,22 @@ HRESULT CObjectManager::Add_Object_in_Layer(
 	//만약 있다 -> 있는 곳의 Layer에 Object 추가
 	else
 	{
-		iter->second->Add_Object(Object);
+		iter->second->Add_Object(pObject);
 		return S_OK;
 	}
 }
 
+HRESULT CObjectManager::Clear_Objects(uint32_t PlaceID)
+{
+	if (PlaceID >= m_iMaxIndex)
+		return E_FAIL;
+
+	for (auto& pair : m_Layers[PlaceID])
+		Safe_Release(pair.second);
+	m_Layers[PlaceID].clear();
+
+	return S_OK;
+}
 
 CObjectManager* CObjectManager::Create(uint32_t FinalPlace)
 {

@@ -4,6 +4,7 @@
 NS_BEGIN(Engine)
 
 class CGameInstance;
+
 class ENGINE_DLL CPlace abstract : public CBase
 {
 protected:
@@ -12,7 +13,7 @@ protected:
 
 public:
 	virtual HRESULT Initialize();
-	virtual int32_t Update(_float fTimeDelta);
+	virtual int32_t Update(_float fDT);
 	virtual HRESULT Render();
 
 protected:

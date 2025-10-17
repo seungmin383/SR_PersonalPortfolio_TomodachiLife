@@ -3,7 +3,9 @@
 
 NS_BEGIN(Engine)
 
+class CComponent;
 class CTransformCom;
+class CShaderCom;
 
 class ENGINE_DLL CUI abstract : public CObject
 {
@@ -30,13 +32,28 @@ public:
 protected:
 	CTransformCom* m_pTransformCom = { nullptr };
 
+	map	<const _wstring, CComponent*> m_Components;
 	
 protected:
 	_float m_fX, m_fY, m_fCX, m_fCY;
 	_float m_fViewportCX, m_fViewportCY;
 
-	XMFLOAT4X4 m_MatView = {};
-	XMFLOAT4X4 m_MatProj = {};
+	XMFLOAT4X4 m_ViewMatrix = {};
+	XMFLOAT4X4 m_ProjMatrix = {};
+
+protected:
+	HRESULT Add_Component(
+		uint32_t PlaceID,
+		const _wstring PrototypeTag,
+		const _wstring ComponentTag,
+		CComponent** ppOut,
+		void* pArg
+	);
+
+	HRESULT Bind_OrthoMatrices(
+		CShaderCom* pShader,
+		const _char* ViewMatrixTag,
+		const _char* ProjMatrixTag);
 
 public:
 	virtual void Free()override;

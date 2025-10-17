@@ -16,7 +16,7 @@ HRESULT CPlace::Initialize()
 	return S_OK;
 }
 
-int32_t CPlace::Update(_float fTimeDelta)
+int32_t CPlace::Update(_float fDT)
 {
 	return 0;
 }

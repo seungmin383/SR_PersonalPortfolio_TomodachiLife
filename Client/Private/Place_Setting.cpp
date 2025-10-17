@@ -1,8 +1,8 @@
 #include"Place_Setting.h"
 #include "Client_Defines.h"
 
-CPlace_Setting::CPlace_Setting(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
-	:CPlace(_pDevice, _pContext)
+CPlace_Setting::CPlace_Setting(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	:CPlace(pDevice, pContext)
 {
 
 }
@@ -12,7 +12,7 @@ HRESULT CPlace_Setting::Initialize()
 	return S_OK;
 }
 
-int32_t CPlace_Setting::Update(_float fTimeDelta)
+int32_t CPlace_Setting::Update(_float fDT)
 {
 	return 0;
 }
@@ -23,9 +23,11 @@ HRESULT CPlace_Setting::Render()
 	return S_OK;
 }
 
-CPlace_Setting* CPlace_Setting::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
+CPlace_Setting* CPlace_Setting::Create(
+	ID3D11Device* pDevice, 
+	ID3D11DeviceContext* pContext)
 {
-	CPlace_Setting* pPlaceSetting = new CPlace_Setting(_pDevice, _pContext);
+	CPlace_Setting* pPlaceSetting = new CPlace_Setting(pDevice, pContext);
 
 	if (FAILED(pPlaceSetting->Initialize()))
 	{

@@ -5,28 +5,36 @@
 NS_BEGIN(Client)
 
 class CLoader;
+
 class CPlace_Loading final : public CPlace
 {
 private:
-	CPlace_Loading(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
+	CPlace_Loading(
+		ID3D11Device* pDevice, 
+		ID3D11DeviceContext* pContext);
+
 	virtual ~CPlace_Loading() = default;
 
-
 public:
-	virtual HRESULT Initialize(PLACE_ID _eNextLevelID);
-	virtual int32_t	 Update(const _float _fDT) override;
+	virtual HRESULT Initialize(
+		Client::PLACE_ID NextPlaceID,
+		Engine::RETAIN_POLICY Policy);
+
+	virtual int32_t	 Update(_float fDT) override;
 	virtual HRESULT Render() override;
 
 private:
-	CLoader*			m_pLoader = { nullptr };
-	PLACE_ID			m_eNextLevelID = { PLACE_ID::END };
-
-
-private:
-	HRESULT Ready_Layer_UI();
+	CLoader*				m_pLoader = { nullptr };
+	Client::PLACE_ID		m_eNextPlaceID = { Client::PLACE_ID::END };
+	Engine::RETAIN_POLICY	m_ePolicy = { Engine::RETAIN_POLICY::END };
 
 public:
-	static CPlace_Loading* Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext, PLACE_ID _eNextLevelID);
+	static CPlace_Loading* Create(
+		ID3D11Device* pDevice, 
+		ID3D11DeviceContext* pContext, 
+		Client::PLACE_ID NextPlaceID,
+		Engine::RETAIN_POLICY Policy);
+
 	virtual void Free() override;
 };
 

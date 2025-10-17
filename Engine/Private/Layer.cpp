@@ -5,9 +5,9 @@ CLayer::CLayer()
 {
 }
 
-HRESULT CLayer::Add_Object(CObject* Object)
+HRESULT CLayer::Add_Object(CObject* pObject)
 {
-	m_ObjectList.push_back(Object);
+	m_ObjectList.push_back(pObject);
 	return S_OK;
 }
 

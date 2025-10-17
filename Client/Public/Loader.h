@@ -10,11 +10,11 @@ NS_BEGIN(Client)
 class CLoader : public CBase
 {
 private:
-	CLoader(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
+	CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CLoader() = default;
 
 public:
-	HRESULT Initialize(PLACE_ID _eNextPlaceID);
+	HRESULT Initialize(PLACE_ID NextPlaceID);
 	HRESULT Loading();
 
 	_bool isFinished() const {
@@ -74,7 +74,11 @@ private:
 #pragma endregion
 
 public:
-	static CLoader* Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext, PLACE_ID _eNextPlaceID);
+	static CLoader* Create(
+		ID3D11Device* pDevice, 
+		ID3D11DeviceContext* pContext,
+		PLACE_ID NextPlaceID);
+
 	virtual void Free() override;
 };
 

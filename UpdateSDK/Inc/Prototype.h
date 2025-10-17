@@ -10,28 +10,37 @@ NS_BEGIN(Engine)
 class CPrototype final : public CBase
 {
 private:
-	CPrototype(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
+	CPrototype(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CPrototype() = default;
 
 public:
+	HRESULT Initialize(uint32_t MaxIndex);
+
 	HRESULT Add_Prototype(
-		uint32_t ObjectType,
-		uint32_t ObjectID, 
-		CObject* Origin);
+		uint32_t PlaceID,
+		const _wstring ObjectTag, 
+		CObject* pPrototype);
 
 	CObject* Get_Object_Clone(
-		uint32_t ObjectType,
-		uint32_t ObjectID, 
+		uint32_t PlaceID,
+		const _wstring ProrotypeTag,
 		void* pArg = nullptr);
+
+	HRESULT Clear_Prototype(uint32_t PlaceID);
 
 private:
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
 
-	map<int32_t, CObject*>		m_mapOrigin[static_cast<int32_t>(OBJECT_TYPE::END)];
+	map<const _wstring, CObject*>* m_Prototypes = { nullptr };
+	uint32_t m_iMaxIndex = {};
 
 public:
-	static CPrototype* Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
+	static CPrototype* Create(
+		ID3D11Device* pDevice, 
+		ID3D11DeviceContext* pContext,
+		uint32_t FinalPlace);
+
 	virtual void Free() override;
 };
 
