@@ -6,7 +6,7 @@ NS_BEGIN(Engine)
 
 class CShaderCom;
 class CTextureCom;
-class CRectBufferCom;
+class CTerrainBufferCom;
 NS_END
 
 NS_BEGIN(Client)
@@ -35,7 +35,7 @@ private:
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CTextureCom* m_pTextureCom = { nullptr };
-	CRectBufferCom* m_pRectBufferCom = { nullptr };
+	CTerrainBufferCom* m_pTerrainBufferCom = { nullptr };
 
 public:
 	static CIsland* Create(

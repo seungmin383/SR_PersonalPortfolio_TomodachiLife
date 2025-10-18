@@ -5,6 +5,7 @@ NS_BEGIN(Engine)
 
 class ENGINE_DLL CCamera : public CActor
 {
+public:
 	typedef struct tagCameraDesc : public ACTOR_DESC
 	{
 		_float3 vEye = {};

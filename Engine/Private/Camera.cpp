@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "TransformCom.h"
+#include "GameInstance.h"
 
 CCamera::CCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CActor(pDevice, pContext)
@@ -19,6 +20,8 @@ HRESULT CCamera::Initialize_Origin()
 HRESULT CCamera::Initialize_Clone(void* pArg)
 {
 	CAMERA_DESC* tDesc = static_cast<CAMERA_DESC*>(pArg);
+	m_vEye = tDesc->vEye;
+	m_vAt = tDesc->vAt;
 
 	m_fAspect= tDesc->m_fAspect;
 	m_fFov	 = tDesc->m_fFov;
@@ -28,6 +31,20 @@ HRESULT CCamera::Initialize_Clone(void* pArg)
 	if (FAILED(CActor::Initialize_Clone(pArg)))
 		return E_FAIL;
 
+	m_pTransformCom->Set_State(TRANSFORM_STATE::POS, XMVectorSetW(XMLoadFloat3(&m_vEye), 1.f));
+	m_pTransformCom->LookAt(XMVectorSetW(XMLoadFloat3(&m_vAt), 1.f));
+
+
+	Set_View();
+	Set_Proj();
+
+	m_pGameInstance->PipeLine_Set_Transform(
+		D3DTS::VIEW,
+		XMLoadFloat4x4(&m_ViewMatrix));
+	
+	m_pGameInstance->PipeLine_Set_Transform(
+		D3DTS::PROJ,
+		XMLoadFloat4x4(&m_ProjMatrix)); 
 	return S_OK;
 }
 

@@ -6,6 +6,7 @@
 #include "RectBufferCom.h"
 #include "TerrainBufferCom.h"
 #include "TextureCom.h"
+#include "Camera.h"
 
 NS_BEGIN(Engine)
 class CPrototype final : public CBase

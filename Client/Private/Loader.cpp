@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Food.h"
 #include "Island.h"
+#include "MainCamera.h"
 
 USING(Engine)
 
@@ -138,6 +139,7 @@ HRESULT CLoader::Loading()
 	return S_OK;
 }
 
+// Loading For Main Place // ===========================================
 
 HRESULT CLoader::Loading_For_Main()
 {
@@ -191,6 +193,7 @@ HRESULT CLoader::Loading_For_Main()
 	return S_OK;
 }
 
+// Loading For Setting Place // =========================================
 
 HRESULT CLoader::Loading_For_Setting()
 {
@@ -209,6 +212,18 @@ HRESULT CLoader::Loading_For_Setting()
 		tmp)))
 		return E_FAIL;
 
+	tmp = CMainCamera::Create(
+		m_pDevice,
+		m_pContext);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
+		TEXT("ProtoTag_Actor_MainCamera"),
+		tmp)))
+		return E_FAIL;
 
 	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
 
@@ -263,8 +278,9 @@ HRESULT CLoader::Loading_For_Setting()
 
 	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("Proto_Actor_Terrain"),
-		tmp)));
+		TEXT("ProtoTag_Component_TerrainShader"),
+		tmp)))
+		return E_FAIL;
 
 	lstrcpy(m_szFPS, TEXT("Component Loading Complete"));
 

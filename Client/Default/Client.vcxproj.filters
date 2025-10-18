@@ -37,6 +37,9 @@
     <ClInclude Include="..\Public\Island.h">
       <Filter>02.Object\00.Actor\02.Island</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MainCamera.h">
+      <Filter>02.Object\00.Actor\99.Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -116,6 +119,9 @@
     <Filter Include="02.Object\00.Actor\02.Island">
       <UniqueIdentifier>{78fe8c1a-fcf7-4350-b3fc-f7af4ad191f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Object\00.Actor\99.Camera">
+      <UniqueIdentifier>{97a3d1bf-7e1d-43c4-a317-62cdf1bd7004}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -141,6 +147,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Island.cpp">
       <Filter>02.Object\00.Actor\02.Island</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainCamera.cpp">
+      <Filter>02.Object\00.Actor\99.Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

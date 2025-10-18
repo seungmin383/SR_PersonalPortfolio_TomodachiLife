@@ -61,14 +61,14 @@ HRESULT CIsland::Render()
 	//m_pDevice->CreateRasterizerState(&r, &rs);
 	//m_pContext->RSSetState(rs);
 
-	if (FAILED(m_pRectBufferCom->Bind_Resource()))
+	if (FAILED(m_pTerrainBufferCom->Bind_Resource()))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Begin(0)))
 		return E_FAIL;
 
 
-	if (FAILED(m_pRectBufferCom->Begin_Draw()))
+	if (FAILED(m_pTerrainBufferCom->Begin_Draw()))
 		return E_FAIL;
 
 	return S_OK;
@@ -77,8 +77,8 @@ HRESULT CIsland::Render()
 HRESULT CIsland::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
-		TEXT("ProtoTag_Component_Shader"),
+		static_cast<uint32_t>(PLACE_ID::SETTING),
+		TEXT("ProtoTag_Component_TerrainShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
 		nullptr)))
@@ -95,10 +95,10 @@ HRESULT CIsland::Ready_Component()
 
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
-		TEXT("ProtoTag_Component_RectBuffer"),
-		TEXT("Com_RectBuffer"),
-		reinterpret_cast<CComponent**>(&m_pRectBufferCom),
+		static_cast<uint32_t>(PLACE_ID::SETTING),
+		TEXT("ProtoTag_Component_TerrainBuffer"),
+		TEXT("Com_TerrainBuffer"),
+		reinterpret_cast<CComponent**>(&m_pTerrainBufferCom),
 		nullptr)))
 		return E_FAIL;
 
@@ -114,6 +114,15 @@ HRESULT CIsland::Bind_ShaderResources()
 		m_pShaderCom,
 		"g_WorldMatrix");
 	
+	m_pGameInstance->PipeLine_Bind_PipeLine_Matrix(
+		m_pShaderCom,
+		"g_ViewMatrix",
+		D3DTS::VIEW);
+
+	m_pGameInstance->PipeLine_Bind_PipeLine_Matrix(
+		m_pShaderCom,
+		"g_ProjMatrix",
+		D3DTS::PROJ);
 
 	m_pTextureCom->Bind_ShaderResource(
 		m_pShaderCom,
