@@ -16,7 +16,12 @@ void CCamera::Set_Proj(_float _fovY, _float _aspect, _float _nearZ, _float _FarZ
 	m_fFar_Height	= 2.f * m_fFarZ * tanf(0.5f * m_fFovY);
 
 	/* 계산은 _matrix(XMMATRIX) , GPU에 넘길 땐 _float4x4(XMFLOAT4X4) */
-	_matrix tmp = XMMatrixPerspectiveFovLH(m_fFovY, m_fAspect, m_fNearZ, m_fFarZ);
+	_matrix tmp = XMMatrixPerspectiveFovLH(
+		m_fFovY, 
+		m_fAspect,
+		m_fNearZ, 
+		m_fFarZ);
+
 	XMStoreFloat4x4(&m_matProj, tmp);
 }
 

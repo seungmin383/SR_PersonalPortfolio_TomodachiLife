@@ -1,8 +1,8 @@
 #include "Food.h"
 #include "GameInstance.h"
 
-CFood::CFood(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
-	:CUI(_pDevice, _pContext)
+CFood::CFood(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	:CUI(pDevice, pContext)
 {
 }
 
@@ -22,16 +22,18 @@ HRESULT CFood::Initialize_Origin()
 	return S_OK;
 }
 
-HRESULT CFood::Initialize_Clone(void* _pArg)
+HRESULT CFood::Initialize_Clone(void* pArg)
 {
 	CUI::UI_DESC tDesc{};
 	
-	tDesc.fX = 150.f;
-	tDesc.fY = 150.f;
+	tDesc.fX = 0.f;
+	tDesc.fY = 0.f;
 
-	tDesc.fCX = 300.f;
-	tDesc.fCY = 300.f;
+	tDesc.fCX = 500.f;
+	tDesc.fCY = 500.f;
 
+	tDesc.fRotationPerSecond = XMConvertToRadians(30.f);
+	tDesc.fSpeedPerSecond = 10.f;
 
 	if (FAILED(CUI::Initialize_Clone(&tDesc)))
 		return E_FAIL;
@@ -42,21 +44,19 @@ HRESULT CFood::Initialize_Clone(void* _pArg)
 	return S_OK;
 }
 
-int32_t CFood::Update_Priority(const _float _fDT)
+int32_t CFood::Update_Priority(_float fDT)
 {
-	int a = 10;
+	return 0;
+}
+
+int32_t CFood::Update(_float fDT)
+{
+	m_pTransformCom->Go_Left(fDT);
 
 	return 0;
 }
 
-int32_t CFood::Update(const _float _fDT)
-{
-	int a = 10;
-
-	return 0;
-}
-
-void CFood::Update_Late(const _float _fDT)
+void CFood::Update_Late(_float fDT)
 {
 	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::NONBLEND, this);
 
@@ -73,6 +73,7 @@ HRESULT CFood::Render()
 	//ID3D11RasterizerState* rs;
 	//m_pDevice->CreateRasterizerState(&r, &rs);
 	//m_pContext->RSSetState(rs);
+
 	if (FAILED(m_pRectBufferCom->Bind_Resource()))
 		return E_FAIL;
 
@@ -97,13 +98,13 @@ HRESULT CFood::Ready_Component()
 		return E_FAIL;
 
 
-	/*if (FAILED(Add_Component(
+	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACE_ID::MAIN),
 		TEXT("ProtoTag_Component_Texture"),
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTextureCom),
 		nullptr)))
-		return E_FAIL;*/
+		return E_FAIL;
 
 
 	if (FAILED(Add_Component(
@@ -131,10 +132,10 @@ HRESULT CFood::Bind_ShaderResources()
 		"g_ViewMatrix",
 		"g_ProjMatrix");
 
-	//m_pTextureCom->Bind_ShaderResource(
-	//	m_pShaderCom,
-	//	"g_Texture",
-	//	0);
+	m_pTextureCom->Bind_ShaderResource(
+		m_pShaderCom,
+		"g_Texture",
+		0);
 
 	return hr;
 }

@@ -17,22 +17,22 @@ HRESULT CComponent::Initialize_Origin()
 	return S_OK;
 }
 
-HRESULT CComponent::Initialize_Clone(void* _pArg)
+HRESULT CComponent::Initialize_Clone(void* pArg)
 {
 	return S_OK;
 }
 
-int32_t CComponent::Update_Priority(const _float _fDT)
+int32_t CComponent::Update_Priority(_float fDT)
 {
 	return 0;
 }
 
-int32_t CComponent::Update(const _float _fDT)
+int32_t CComponent::Update(_float fDT)
 {
 	return 0;
 }
 
-void CComponent::Update_Late(const _float _fDT)
+void CComponent::Update_Late(_float fDT)
 {
 }
 

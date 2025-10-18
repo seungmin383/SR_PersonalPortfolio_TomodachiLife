@@ -12,19 +12,20 @@ protected:
 
 public:
 	virtual HRESULT Initialize_Origin()override;
-	virtual HRESULT Initialize_Clone(void* _pArg)override;
+	virtual HRESULT Initialize_Clone(void* pArg)override;
 
-	virtual int32_t Update_Priority(const _float _fDT)override;
-	virtual int32_t Update(const _float _fDT)override;
-	virtual void Update_Late(const _float _fDT)override;
+	virtual int32_t Update_Priority(_float fDT)override;
+	virtual int32_t Update(_float fDT)override;
+	virtual void Update_Late(_float fDT)override;
+
 	virtual HRESULT Bind_Resource();
 	virtual HRESULT Render()override;
 
 	HRESULT Begin_Draw();
 
 protected:
-	ID3D11Buffer* m_VB = { nullptr };
-	ID3D11Buffer* m_IB = { nullptr };
+	ID3D11Buffer* m_VBuffer = { nullptr };
+	ID3D11Buffer* m_IBuffer = { nullptr };
 
 protected:
 	_float3* m_pVertexPositions = { nullptr };	//포지션 값만 저장할 배열
@@ -38,6 +39,7 @@ protected:
 	uint32_t m_iIndexStride		= {};
 
 	D3D11_PRIMITIVE_TOPOLOGY m_ePrimitiveType = {};
+
 public:
 	virtual CObject* Clone(void* pArg) PURE;
 	virtual void Free()override;

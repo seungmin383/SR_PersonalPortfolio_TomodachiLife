@@ -10,23 +10,22 @@ class ENGINE_DLL CTransformCom final : public CComponent
 public:
 	typedef struct tagTransformDesc : public COMPONENT_DESC
 	{
-		_float		fSpeedPerSecond;
-		_float		fRotationPerSecond;
 
 	}TRANSFORM_DESC;
 
 private:
-	CTransformCom(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
+	CTransformCom(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CTransformCom(const CTransformCom& rhs);
 	virtual ~CTransformCom() = default;
 
 public:
 	virtual HRESULT Initialize_Origin()override;
-	virtual HRESULT Initialize_Clone(void* _pArg)override;
+	virtual HRESULT Initialize_Clone(void* pArg)override;
 
-	virtual int32_t Update_Priority(const _float _fDT)override;
-	virtual int32_t Update(const _float _fDT)override;
-	virtual void Update_Late(const _float _fDT)override;
+	virtual int32_t Update_Priority(_float fDT)override;
+	virtual int32_t Update(_float fDT)override;
+	virtual void Update_Late(_float fDT)override;
+
 	virtual HRESULT Render()override;
 
 public:
@@ -35,15 +34,15 @@ public:
 	
 	XMVECTOR Get_State(TRANSFORM_STATE eState) const;
 	_float3	Get_Scale();
-	void Set_Scale(_float ScaleX, _float ScaleY, _float ScaleZ);
+	void Set_Scale(_float fScaleX, _float fScaleY, _float fScaleZ);
 
 	void Set_State(TRANSFORM_STATE eState, FXMVECTOR vState);
 	void Set_State(TRANSFORM_STATE eState, const _float4& vState);
 
-	void Go_Straight(const _float& _fDT);
-	void Go_Left(const _float& _fDT);
-	void Go_Right(const _float& _fDT);
-	void Go_Backward(const _float& _fDT);
+	void Go_Straight(_float fDT);
+	void Go_Left(_float fDT);
+	void Go_Right(_float fDT);
+	void Go_Backward(_float fDT);
 
 	//원점에서 특정 각도로 고정
 	void Ratate(FXMVECTOR vAxis, _float fRadian);	//임의의 축 회전
@@ -65,13 +64,13 @@ public:
 		const _char* WorldMatrixTag);
 
 private:
-	_float m_fSpeedPerSecond = {};
-	_float m_fRotationPerSecond = {};
-	_float4x4 m_WorldMatrix = {};
+	_float		m_fSpeedPerSecond = {};
+	_float		m_fRotationPerSecond = {};
+	_float4x4	m_WorldMatrix = {};
 
 public:
-	static CTransformCom* Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext);
-	virtual CObject* Clone(void* _pArg)override;
+	static CTransformCom* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	virtual CObject* Clone(void* pArg)override;
 	virtual void Free() override;
 };
 

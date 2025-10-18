@@ -7,26 +7,19 @@ namespace Engine
 {
 	typedef struct tagEngine
 	{
-		uint32_t PlaceCount = {}; 
-		HWND	hWnd;
-		WINMODE WinMode;
-		uint32_t iWinCX, iWinCY;
+		uint32_t	PlaceCount = {}; 
+		HWND		hWnd;
+		WINMODE		WinMode;
+		uint32_t	iWinCX, iWinCY;
 
 	}ENGINE_DESC;
-
-
-	typedef struct tagGraphicDeviceInit
-	{
-		
-
-	}GRAPHIC_DEVICE_INIT_DESC;
 
 	typedef struct tagVertexCol
 	{
 		XMFLOAT3 Pos;		//위치
 		XMFLOAT4 Color;		//색상
-
 	}VERTEX_COLOR;
+
 	/* D3D11_INPUT_ELEMENT_DESC
 	LPCSTR						SemanticName;
     UINT						SemanticIndex;
@@ -36,16 +29,32 @@ namespace Engine
     D3D11_INPUT_CLASSIFICATION	InputSlotClass;
     UINT						InstanceDataStepRate;
 	*/
+
 	typedef struct tagVertexTex
 	{
-		XMFLOAT3 vPos;		//위치
-		XMFLOAT2 vTexCoord;	//텍스쳐 좌표 
+		XMFLOAT3 vPos;		// 위치
+		XMFLOAT2 vTexCoord;	// 텍스쳐 좌표 
 		static const unsigned int						iNumElements = { 2 };
 		static constexpr D3D11_INPUT_ELEMENT_DESC		Elements[] = {
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 		};
+
 	}VTX_TEX;
+
+	typedef struct tagVertexTerrain
+	{
+		XMFLOAT3 vPos;		// 위치
+		XMFLOAT3 vNormal;	// 노말
+		XMFLOAT2 vTexCoord;	// 텍스쳐 좌표 
+		static const unsigned int						iNumElements = { 3 };
+		static constexpr D3D11_INPUT_ELEMENT_DESC		Elements[] = {
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		};
+
+	}VTX_TERRAIN;
 
 	typedef struct tagColor
 	{
@@ -57,6 +66,7 @@ namespace Engine
 		XMFLOAT4 Yellow		= { 1.f, 1.f, 0.f, 1.f };
 		XMFLOAT4 Cyan		= { 0.f, 1.f, 1.f, 1.f };
 		XMFLOAT4 Magenta	= { 1.f, 0.f, 1.f, 1.f };
+
 	}COLOR_DESC;
 }
 

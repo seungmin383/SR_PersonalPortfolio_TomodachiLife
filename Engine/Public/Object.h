@@ -10,7 +10,8 @@ class ENGINE_DLL CObject abstract: public CBase
 public:
 	typedef struct tagObjectDesc
 	{
-
+		_float		fSpeedPerSecond;
+		_float		fRotationPerSecond;
 	}OBJECT_DESC;
 
 protected:
@@ -20,11 +21,12 @@ protected:
 
 public:
 	virtual HRESULT Initialize_Origin();
-	virtual HRESULT Initialize_Clone(void* _pArg);
+	virtual HRESULT Initialize_Clone(void* pArg);
 
-	virtual int32_t Update_Priority(const _float _fDT);
-	virtual int32_t Update(const _float _fDT);
-	virtual void Update_Late(const _float _fDT);
+	virtual int32_t Update_Priority(_float fDT);
+	virtual int32_t Update(_float fDT);
+	virtual void	Update_Late(_float fDT);
+
 	virtual HRESULT Render();
 
 protected:
@@ -34,7 +36,7 @@ protected:
 	ID3D11DeviceContext*	m_pContext = { nullptr };
 
 public:
-	virtual CObject* Clone(void* _pArg)PURE;
+	virtual CObject* Clone(void* pArg)PURE;
 	virtual void Free()override;
 };
 

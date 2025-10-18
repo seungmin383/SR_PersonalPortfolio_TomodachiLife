@@ -92,9 +92,9 @@ void CGameInstance::Update_Late( _float fDT)
 
 void CGameInstance::Begin_Render()
 {
-	const _float4 m_fColor = { 255.f, 0.f, 255.f, 0.f };
+	_float4		vClearColor = _float4(0.f, 0.f, 1.f, 1.f);
 
-	if (FAILED(GraphicDevice_Clear_BackBuffer_View(&m_fColor)))
+	if (FAILED(GraphicDevice_Clear_BackBuffer_View(&vClearColor)))
 		return;
 
 	GraphicDevice_Clear_DepthStencil_View();

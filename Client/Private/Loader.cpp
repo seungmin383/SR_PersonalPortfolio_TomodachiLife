@@ -169,7 +169,7 @@ HRESULT CLoader::Loading_For_Main()
 	tmp = CTextureCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../Bin/Debug/Resource/Textures/Default0.jpg"),
+		TEXT("../Bin/Debug/Resource/Textures/item_Food102.png"),
 		1);
 
 	if (nullptr == tmp)

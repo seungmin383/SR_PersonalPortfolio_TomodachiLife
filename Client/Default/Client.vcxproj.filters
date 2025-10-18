@@ -152,5 +152,8 @@
     <FxCompile Include="..\Bin\Debug\ShaderFile\Test.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
+    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Terrain.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

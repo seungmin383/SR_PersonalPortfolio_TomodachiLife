@@ -41,6 +41,7 @@
     <ClInclude Include="..\Public\Render_Manager.h" />
     <ClInclude Include="..\Public\ShaderCom.h" />
     <ClInclude Include="..\Public\Sound_Manager.h" />
+    <ClInclude Include="..\Public\TerrainBufferCom.h" />
     <ClInclude Include="..\Public\TextureCom.h" />
     <ClInclude Include="..\Public\Timer.h" />
     <ClInclude Include="..\Public\Timer_Manager.h" />
@@ -73,6 +74,7 @@
     <ClCompile Include="..\Private\Render_Manager.cpp" />
     <ClCompile Include="..\Private\ShaderCom.cpp" />
     <ClCompile Include="..\Private\Sound_Manager.cpp" />
+    <ClCompile Include="..\Private\TerrainBufferCom.cpp" />
     <ClCompile Include="..\Private\TextureCom.cpp" />
     <ClCompile Include="..\Private\Timer.cpp" />
     <ClCompile Include="..\Private\Timer_Manager.cpp" />

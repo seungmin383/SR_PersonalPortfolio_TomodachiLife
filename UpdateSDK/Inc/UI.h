@@ -4,6 +4,7 @@
 NS_BEGIN(Engine)
 
 class CComponent;
+
 class CTransformCom;
 class CShaderCom;
 
@@ -17,16 +18,17 @@ public:
 
 protected:
 	CUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CUI(const CUI& pUI);
+	CUI(const CUI& rhs);
 	virtual ~CUI() = default;
 
 public:
 	virtual HRESULT Initialize_Origin()override;
-	virtual HRESULT Initialize_Clone(void* _pArg)override;
+	virtual HRESULT Initialize_Clone(void* pArg)override;
 
-	virtual int32_t Update_Priority(const _float _fDT)override;
-	virtual int32_t Update(const _float _fDT)override;
-	virtual void Update_Late(const _float _fDT)override;
+	virtual int32_t Update_Priority(_float fDT)override;
+	virtual int32_t Update(_float fDT)override;
+	virtual void	Update_Late(_float fDT)override;
+
 	virtual HRESULT Render()override;
 
 protected:
@@ -35,8 +37,13 @@ protected:
 	map	<const _wstring, CComponent*> m_Components;
 	
 protected:
-	_float m_fX, m_fY, m_fCX, m_fCY;
-	_float m_fViewportCX, m_fViewportCY;
+	_float m_fX  = {};
+	_float m_fY  = {};
+	_float m_fCX = {};
+	_float m_fCY = {};
+
+	_float m_fViewportCX = {};
+	_float m_fViewportCY = {};
 
 	XMFLOAT4X4 m_ViewMatrix = {};
 	XMFLOAT4X4 m_ProjMatrix = {};

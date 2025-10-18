@@ -88,6 +88,9 @@
     <Filter Include="01.Utility\03.Object\02.Component\03.Texture">
       <UniqueIdentifier>{e7174550-7e66-4b9c-8791-5b9739689a8a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\00.Buffer\01.TerrainBuffer">
+      <UniqueIdentifier>{6ab8172e-7286-4e04-9767-50b872444c67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -155,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UI.cpp">
       <Filter>01.Utility\03.Object\03.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TerrainBufferCom.cpp">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer\01.TerrainBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +271,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\UI.h">
       <Filter>01.Utility\03.Object\03.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TerrainBufferCom.h">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer\01.TerrainBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

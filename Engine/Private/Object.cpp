@@ -1,6 +1,5 @@
 #include "Object.h"
 #include "GameInstance.h"
-#include "Prototype.h"
 
 CObject::CObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -25,22 +24,22 @@ HRESULT CObject::Initialize_Origin()
 	return S_OK;
 }
 
-HRESULT CObject::Initialize_Clone(void* _pArg)
+HRESULT CObject::Initialize_Clone(void* pArg)
 {
 	return S_OK;
 }
 
-int32_t CObject::Update_Priority(const _float _fDT)
+int32_t CObject::Update_Priority(_float fDT)
 {
 	return 0;
 }
 
-int32_t CObject::Update(const _float _fDT)
+int32_t CObject::Update(_float fDT)
 {
 	return 0;
 }
 
-void CObject::Update_Late(const _float _fDT)
+void CObject::Update_Late(_float fDT)
 {
 	return;
 }
@@ -55,5 +54,6 @@ void CObject::Free()
 	Safe_Release(m_pGameInstance);
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+
 	CBase::Free();
 }

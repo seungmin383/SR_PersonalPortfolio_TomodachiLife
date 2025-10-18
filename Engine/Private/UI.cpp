@@ -7,8 +7,8 @@ CUI::CUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 }
 
-CUI::CUI(const CUI& pUI)
-	:CObject(pUI)
+CUI::CUI(const CUI& rhs)
+	:CObject(rhs)
 {
 }
 
@@ -17,31 +17,33 @@ HRESULT CUI::Initialize_Origin()
 	return S_OK;
 }
 
-HRESULT CUI::Initialize_Clone(void* _pArg)
+HRESULT CUI::Initialize_Clone(void* pArg)
 {
+	if (FAILED(CObject::Initialize_Clone(pArg)))
+		return E_FAIL;
+
 	m_pTransformCom = CTransformCom::Create(m_pDevice, m_pContext);
 
-	UI_DESC* pUIDesc = static_cast<UI_DESC*>(_pArg);
+	m_pTransformCom->Initialize_Clone(pArg);
+
+	UI_DESC* pUIDesc = static_cast<UI_DESC*>(pArg);
 
 	m_fX = pUIDesc->fX;
 	m_fY = pUIDesc->fY;
 	m_fCX = pUIDesc->fCX;
 	m_fCY = pUIDesc->fCY;
 
-	if (FAILED(CObject::Initialize_Clone(_pArg)))
-		return E_FAIL;
-
 	uint32_t iNumViewPorts{1};
 	D3D11_VIEWPORT ViewportDesc{};
 
 	m_pContext->RSGetViewports(&iNumViewPorts, &ViewportDesc);
 	
-	m_pTransformCom->Set_Scale(100.f, 100.f, 1.f);
+	m_pTransformCom->Set_Scale(m_fCX, m_fCY, 1.f);
 
 	m_pTransformCom->Set_State(TRANSFORM_STATE::POS,
 		XMVectorSet(
-			100.f,
-			100.f,
+			m_fX,
+			m_fY,
 			0.5f,
 			1.f));
 
@@ -58,17 +60,17 @@ HRESULT CUI::Initialize_Clone(void* _pArg)
 	return S_OK;
 }
 
-int32_t CUI::Update_Priority(const _float _fDT)
+int32_t CUI::Update_Priority(_float fDT)
 {
 	return 0;
 }
 
-int32_t CUI::Update(const _float _fDT)
+int32_t CUI::Update(_float fDT)
 {
 	return 0;
 }
 
-void CUI::Update_Late(const _float _fDT)
+void CUI::Update_Late(_float fDT)
 {
 }
 

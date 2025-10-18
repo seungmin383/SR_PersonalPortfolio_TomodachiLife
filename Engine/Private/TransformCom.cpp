@@ -1,8 +1,8 @@
 #include "TransformCom.h"
 #include "ShaderCom.h"
 
-CTransformCom::CTransformCom(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
-	:CComponent(_pDevice, _pContext)
+CTransformCom::CTransformCom(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	:CComponent(pDevice, pContext)
 {
 }
 
@@ -22,7 +22,11 @@ HRESULT CTransformCom::Initialize_Origin()
 
 HRESULT CTransformCom::Initialize_Clone(void* _pArg)
 {
-	int a = 0;
+	OBJECT_DESC* tmp = static_cast<OBJECT_DESC*> (_pArg);
+
+	m_fRotationPerSecond = tmp->fRotationPerSecond;
+	m_fSpeedPerSecond = tmp->fSpeedPerSecond;
+
 	return S_OK;
 }
 
@@ -60,76 +64,67 @@ _float3 CTransformCom::Get_Scale()
 
 void CTransformCom::Set_Scale(_float ScaleX, _float ScaleY, _float ScaleZ)
 {
-	Set_State(TRANSFORM_STATE::RIGHT,
-		XMVector3Normalize(
-			Get_State(TRANSFORM_STATE::RIGHT) * ScaleX));
+	Set_State(TRANSFORM_STATE::RIGHT, 
+		XMVector3Normalize(Get_State(TRANSFORM_STATE::RIGHT)) * ScaleX);
 
-	Set_State(TRANSFORM_STATE::UP,
-		XMVector3Normalize(
-			Get_State(TRANSFORM_STATE::UP) * ScaleX));
+	Set_State(TRANSFORM_STATE::UP, 
+		XMVector3Normalize(Get_State(TRANSFORM_STATE::UP)) * ScaleY);
 
-	Set_State(TRANSFORM_STATE::LOOK,
-		XMVector3Normalize(
-			Get_State(TRANSFORM_STATE::LOOK) * ScaleX));
+	Set_State(TRANSFORM_STATE::LOOK, 
+		XMVector3Normalize(Get_State(TRANSFORM_STATE::LOOK)) * ScaleZ);
 }
 
 void CTransformCom::Set_State(TRANSFORM_STATE eState, FXMVECTOR vState)
 {
-	int i = static_cast<uint32_t>(eState);
-	if (i >= static_cast<uint32_t>(TRANSFORM_STATE::END))
-	{
-		MSG_BOX("ErrCode : Invalid Index");
-		return;
-	}
-
-	XMMATRIX tmp = XMLoadFloat4x4(&m_WorldMatrix);
-
-	tmp.r[i] = vState;
-	XMStoreFloat4x4(&m_WorldMatrix, tmp);
+	XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMatrix.m[static_cast<uint32_t>(eState)]), vState);
 }
 
 void CTransformCom::Set_State(TRANSFORM_STATE eState, const _float4& vState)
 {
-	memcpy(&m_WorldMatrix.m[static_cast<uint32_t>(eState)], &vState, sizeof(_float4));
+	memcpy(&m_WorldMatrix.m[static_cast<uint32_t>(eState)], &vState, sizeof(vState));
 }
 
-void CTransformCom::Go_Straight(const _float& _fDT)
+void CTransformCom::Go_Straight(_float fDT)
 {
 	XMVECTOR vPos = Get_State(TRANSFORM_STATE::POS);
 	XMVECTOR vLook = Get_State(TRANSFORM_STATE::LOOK);
 
-	vPos += XMVector3Normalize(vLook) * m_fSpeedPerSecond * _fDT;
+	vPos += XMVector3Normalize(vLook) * m_fSpeedPerSecond * fDT;
 	Set_State(TRANSFORM_STATE::POS, vPos);
 }
 
-void CTransformCom::Go_Left(const _float& _fDT)
+void CTransformCom::Go_Left(_float fDT)
+{
+	XMVECTOR vPos = Get_State(TRANSFORM_STATE::POS);
+	XMVECTOR vRight = Get_State(TRANSFORM_STATE::RIGHT);
+	
+	_float4 tmp;
+	XMStoreFloat4(&tmp, vPos);
+	_float4 src = tmp;
+
+	vPos -= XMVector3Normalize(vRight) * m_fSpeedPerSecond * fDT;
+	Set_State(TRANSFORM_STATE::POS, vPos);
+}
+
+void CTransformCom::Go_Right(_float fDT)
 {
 	XMVECTOR vPos = Get_State(TRANSFORM_STATE::POS);
 	XMVECTOR vRight = Get_State(TRANSFORM_STATE::RIGHT);
 
-	vPos -= XMVector3Normalize(vRight) * m_fSpeedPerSecond * _fDT;
-	Set_State(TRANSFORM_STATE::RIGHT, vPos);
+	vPos += XMVector3Normalize(vRight) * m_fSpeedPerSecond * fDT;
+	Set_State(TRANSFORM_STATE::POS, vPos);
 }
 
-void CTransformCom::Go_Right(const _float& _fDT)
-{
-	XMVECTOR vPos = Get_State(TRANSFORM_STATE::POS);
-	XMVECTOR vRight = Get_State(TRANSFORM_STATE::RIGHT);
-
-	vPos += XMVector3Normalize(vRight) * m_fSpeedPerSecond * _fDT;
-	Set_State(TRANSFORM_STATE::RIGHT, vPos);
-}
-
-void CTransformCom::Go_Backward(const _float& _fDT)
+void CTransformCom::Go_Backward(_float fDT)
 {
 	XMVECTOR vPos = Get_State(TRANSFORM_STATE::POS);
 	XMVECTOR vLook = Get_State(TRANSFORM_STATE::LOOK);
 
-	vPos -= XMVector3Normalize(vLook) * m_fSpeedPerSecond * _fDT;
+	vPos -= XMVector3Normalize(vLook) * m_fSpeedPerSecond * fDT;
 	Set_State(TRANSFORM_STATE::POS, vPos);
 }
 
-void CTransformCom::Ratate(FXMVECTOR vAxis, _float fRadian)
+void CTransformCom::Ratate(FXMVECTOR vAxis, _float Radian)
 {
 	_float3 fScale = Get_Scale();
 
@@ -137,7 +132,7 @@ void CTransformCom::Ratate(FXMVECTOR vAxis, _float fRadian)
 	XMVECTOR vUp	= XMVECTOR{ 0.f, 1.f, 0.f, 0.f } * fScale.y;
 	XMVECTOR vLook	= XMVECTOR{ 0.f, 0.f, 1.f, 0.f } * fScale.z;
 
-	XMMATRIX RotationMatrix = XMMatrixRotationAxis(vAxis, fRadian);
+	XMMATRIX RotationMatrix = XMMatrixRotationAxis(vAxis, Radian);
 
 	// XMVector3TransformNormal	 -> w를 0으로 밀어버림
 	// XMVector3TransformCrood	 -> w를 1로 밀어버림
