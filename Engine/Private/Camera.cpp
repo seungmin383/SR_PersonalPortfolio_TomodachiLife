@@ -1,48 +1,90 @@
 #include "Camera.h"
+#include "TransformCom.h"
 
-CCamera::CCamera()
+CCamera::CCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	:CActor(pDevice, pContext)
 {
 }
 
-void CCamera::Set_Proj(_float _fovY, _float _aspect, _float _nearZ, _float _FarZ)
+CCamera::CCamera(const CCamera& rhs)
+	:CActor(rhs)
 {
-	m_fFovY		= _fovY;
-	m_fAspect	= _aspect;
+}
 
-	m_fNearZ	= _nearZ;
-	m_fFarZ		= _FarZ;
+HRESULT CCamera::Initialize_Origin()
+{
+	return S_OK;
+}
 
-	m_fNear_Height	= 2.f * m_fNearZ * tanf(0.5f * m_fFovY);
-	m_fFar_Height	= 2.f * m_fFarZ * tanf(0.5f * m_fFovY);
+HRESULT CCamera::Initialize_Clone(void* pArg)
+{
+	CAMERA_DESC* tDesc = static_cast<CAMERA_DESC*>(pArg);
+
+	m_fAspect= tDesc->m_fAspect;
+	m_fFov	 = tDesc->m_fFov;
+	m_fNear	 = tDesc->m_fNear;
+	m_fFar	 = tDesc->m_fFar;
+
+	if (FAILED(CActor::Initialize_Clone(pArg)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+int32_t CCamera::Update_Priority(_float fDT)
+{
+	return 0;
+}
+
+int32_t CCamera::Update(_float fDT)
+{
+	return 0;
+}
+
+void CCamera::Update_Late(_float fDT)
+{
+}
+
+void CCamera::Set_View()
+{
+	XMMATRIX ViewMatrix = XMMatrixInverse(nullptr, m_pTransformCom->Get_WorldMatrix());
+
+	XMStoreFloat4x4(&m_ViewMatrix, ViewMatrix);
+}
+
+void CCamera::Set_Proj()
+{
+	m_fNear_Height	= 2.f * m_fNear * tanf(0.5f * m_fFov);
+	m_fFar_Height	= 2.f * m_fFar * tanf(0.5f * m_fFov);
 
 	/* 계산은 _matrix(XMMATRIX) , GPU에 넘길 땐 _float4x4(XMFLOAT4X4) */
-	_matrix tmp = XMMatrixPerspectiveFovLH(
-		m_fFovY, 
+	XMMATRIX tmp = XMMatrixPerspectiveFovLH(
+		m_fFov,
 		m_fAspect,
-		m_fNearZ, 
-		m_fFarZ);
+		m_fNear,
+		m_fFar);
 
-	XMStoreFloat4x4(&m_matProj, tmp);
+	XMStoreFloat4x4(&m_ProjMatrix, tmp);
 }
 
 void CCamera::Front_Move_Camera(_float _fSpeed)
 {
 	XMVECTOR vSpeed		= XMVectorReplicate(_fSpeed);
 	XMVECTOR vLook		= XMLoadFloat3(&m_vLook);
-	XMVECTOR vPosition	= XMLoadFloat3(&m_vPosition);
+	XMVECTOR vPosition	= XMLoadFloat3(&m_vEye);
 
 	//m_vPosition = Look * Speed + Position
-	XMStoreFloat3(&m_vPosition, XMVectorMultiplyAdd(vLook, vSpeed, vPosition));
+	XMStoreFloat3(&m_vEye, XMVectorMultiplyAdd(vLook, vSpeed, vPosition));
 }
 
 void CCamera::Side_Move_Camera(_float _fSpeed)
 {
 	XMVECTOR vSpeed		= XMVectorReplicate(_fSpeed);
 	XMVECTOR vRight		= XMLoadFloat3(&m_vRight);
-	XMVECTOR vPosition	= XMLoadFloat3(&m_vPosition);
+	XMVECTOR vPosition	= XMLoadFloat3(&m_vEye);
 
 	//m_vPosition = Right * Speed + Position
-	XMStoreFloat3(&m_vPosition, XMVectorMultiplyAdd(vRight, vSpeed, vPosition));
+	XMStoreFloat3(&m_vEye, XMVectorMultiplyAdd(vRight, vSpeed, vPosition));
 }
 
 void CCamera::Pitch_Camera(_float _fAngle)
@@ -71,7 +113,7 @@ void CCamera::Update_View()
 	XMVECTOR vRight		= XMLoadFloat3(&m_vRight);
 	XMVECTOR vUp		= XMLoadFloat3(&m_vUp);
 	XMVECTOR vLook		= XMLoadFloat3(&m_vLook);
-	XMVECTOR vPosition	= XMLoadFloat3(&m_vPosition);
+	XMVECTOR vPosition	= XMLoadFloat3(&m_vEye);
 
 	vLook = XMVector3Normalize(vLook);
 	vUp = XMVector3Normalize(XMVector3Cross(vLook, vRight));
@@ -106,30 +148,25 @@ void CCamera::Update_View()
 	// m_matView._43 = 0.f;
 	// m_matView._44 = 1.f;
 
-	m_matView( 0, 0) = m_vRight.x;
-	m_matView( 1, 0) = m_vRight.y;
-	m_matView( 2, 0) = m_vRight.z;
-	m_matView( 3, 0) = x;
+	m_ViewMatrix( 0, 0) = m_vRight.x;
+	m_ViewMatrix( 1, 0) = m_vRight.y;
+	m_ViewMatrix( 2, 0) = m_vRight.z;
+	m_ViewMatrix( 3, 0) = x;
 
-	m_matView( 0, 1) = m_vUp.x;
-	m_matView( 1, 1) = m_vUp.y;
-	m_matView( 2, 1) = m_vUp.z;
-	m_matView( 3, 1) = y;
+	m_ViewMatrix( 0, 1) = m_vUp.x;
+	m_ViewMatrix( 1, 1) = m_vUp.y;
+	m_ViewMatrix( 2, 1) = m_vUp.z;
+	m_ViewMatrix( 3, 1) = y;
 
-	m_matView( 0, 2) = m_vLook.x;
-	m_matView( 1, 2) = m_vLook.y;
-	m_matView( 2, 2) = m_vLook.z;
-	m_matView( 3, 2) = z;
+	m_ViewMatrix( 0, 2) = m_vLook.x;
+	m_ViewMatrix( 1, 2) = m_vLook.y;
+	m_ViewMatrix( 2, 2) = m_vLook.z;
+	m_ViewMatrix( 3, 2) = z;
 
-	m_matView( 0, 3) = 0.f;
-	m_matView( 1, 3) = 0.f;
-	m_matView( 2, 3) = 0.f;
-	m_matView( 3, 3) = 1.f;
-}
-
-CCamera* CCamera::Create()
-{
-	return new CCamera;
+	m_ViewMatrix( 0, 3) = 0.f;
+	m_ViewMatrix( 1, 3) = 0.f;
+	m_ViewMatrix( 2, 3) = 0.f;
+	m_ViewMatrix( 3, 3) = 1.f;
 }
 
 void CCamera::Free()

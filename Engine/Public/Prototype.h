@@ -4,6 +4,7 @@
 #include "TransformCom.h"
 #include "ShaderCom.h"
 #include "RectBufferCom.h"
+#include "TerrainBufferCom.h"
 #include "TextureCom.h"
 
 NS_BEGIN(Engine)

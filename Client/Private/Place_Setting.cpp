@@ -1,5 +1,6 @@
 #include"Place_Setting.h"
 #include "Client_Defines.h"
+#include "GameInstance.h"
 
 CPlace_Setting::CPlace_Setting(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -9,6 +10,22 @@ CPlace_Setting::CPlace_Setting(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 HRESULT CPlace_Setting::Initialize()
 {
+	CObject* tmp = { nullptr };
+
+	tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		static_cast<uint32_t>(PLACE_ID::SETTING),
+		TEXT("ProtoTag_Actor_Island"),
+		nullptr);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+		static_cast<uint32_t>(PLACE_ID::SETTING),
+		TEXT("LayerTag_Terrain"),
+		tmp)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

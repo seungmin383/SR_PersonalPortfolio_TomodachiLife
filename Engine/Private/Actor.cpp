@@ -1,7 +1,8 @@
 #include "Actor.h"
+#include "GameInstance.h"
 
-CActor::CActor(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
-	:CObject(_pDevice, _pContext)
+CActor::CActor(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+	:CObject(pDevice, pContext)
 {
 }
 
@@ -15,22 +16,32 @@ HRESULT CActor::Initialize_Origin()
 	return S_OK;
 }
 
-HRESULT CActor::Initialize_Clone(void* _pArg)
+HRESULT CActor::Initialize_Clone(void* pArg)
 {
+	if (FAILED(CObject::Initialize_Clone(pArg)))
+		return E_FAIL;
+
+	m_pTransformCom = CTransformCom::Create(m_pDevice, m_pContext);
+
+	m_pTransformCom->Initialize_Clone(pArg);
+
+	m_Components.emplace(TEXT("Com_Transform"), m_pTransformCom);
+	Safe_AddRef(m_pTransformCom);
+
 	return S_OK;
 }
 
-int32_t CActor::Update_Priority(const _float _fDT)
+int32_t CActor::Update_Priority(_float fDT)
 {
 	return 0;
 }
 
-int32_t CActor::Update(const _float _fDT)
+int32_t CActor::Update(_float fDT)
 {
 	return 0;
 }
-
-void CActor::Update_Late(const _float _fDT)
+ 
+void CActor::Update_Late(_float fDT)
 {
 	return;
 }
@@ -40,7 +51,40 @@ HRESULT CActor::Render()
 	return S_OK;
 }
 
+HRESULT CActor::Add_Component(
+	uint32_t PlaceID,
+	const _wstring PrototypeTag,
+	const _wstring ComponentTag,
+	CComponent** ppOut,
+	void* pArg)
+{
+	if (m_Components.find(ComponentTag) != m_Components.end())
+		return E_FAIL;
+
+	CComponent* pComponent =
+		static_cast<CComponent*>(m_pGameInstance->Proto_Get_Object_Clone(
+			PlaceID,
+			PrototypeTag,
+			pArg));
+
+	if (nullptr == pComponent)
+		return E_FAIL;
+
+	m_Components.emplace(ComponentTag, pComponent);
+
+	*ppOut = pComponent;
+	Safe_AddRef(pComponent);
+
+	return S_OK;
+}
+
 void CActor::Free()
 {
+	Safe_Release(m_pTransformCom);
+
+	for (auto& pair : m_Components)
+	Safe_Release(pair.second);
+	m_Components.clear();
+
 	CObject::Free();
 }

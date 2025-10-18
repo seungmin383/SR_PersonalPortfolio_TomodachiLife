@@ -25,5 +25,10 @@ namespace Engine
 		CLEAR_ALL,
 		END };
 
+	enum class D3DTS : int32_t{
+		VIEW,
+		PROJ,
+		END	
+	};
 }
 #endif // Engine_Enum_h__

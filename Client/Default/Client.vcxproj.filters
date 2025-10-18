@@ -34,6 +34,9 @@
     <ClInclude Include="..\Public\Food.h">
       <Filter>02.Object\00.Actor\01.Item\00.Food</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Island.h">
+      <Filter>02.Object\00.Actor\02.Island</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -110,6 +113,9 @@
     <Filter Include="02.Object\00.Actor\00.Mii">
       <UniqueIdentifier>{94fce502-9e72-4ce7-8ec7-bf5ff7f06e68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Object\00.Actor\02.Island">
+      <UniqueIdentifier>{78fe8c1a-fcf7-4350-b3fc-f7af4ad191f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -132,6 +138,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Food.cpp">
       <Filter>02.Object\00.Actor\01.Item\00.Food</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Island.cpp">
+      <Filter>02.Object\00.Actor\02.Island</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

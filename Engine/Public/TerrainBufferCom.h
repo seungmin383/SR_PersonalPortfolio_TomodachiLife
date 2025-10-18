@@ -1,8 +1,5 @@
 #pragma once
 
-
-#pragma once
-
 #include"VIBufferCom.h"
 
 NS_BEGIN(Engine)

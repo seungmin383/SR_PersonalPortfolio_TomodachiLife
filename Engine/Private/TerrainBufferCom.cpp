@@ -12,15 +12,68 @@ CTerrainBufferCom::CTerrainBufferCom(const CTerrainBufferCom& rhs)
 
 HRESULT CTerrainBufferCom::Initialize_Origin(const _tchar* HeightMapFilePath)
 {
-	m_iNumVertexBuffers = 1;
-	m_iNumVertices = 4;				//정점 개수
-	m_iVertexStride = sizeof(VTX_TEX);	//정점 하나의 크기
 
-	m_iNumIndices = 6;				//인덱스 개수
-	m_iIndexStride = 2;				//인덱스 하나의 크기
+	// 받아온 파일 경로로 파일을 만들어주기.
+	HANDLE hFile = CreateFile(
+		HeightMapFilePath,
+		GENERIC_READ,
+		0,
+		nullptr,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		0);
+
+	if (0 == hFile)
+		return E_FAIL;
+
+	// DWORD -> ulong / uint64_t -> u long long
+	DWORD dwByte = {};
+	// BMP은 FileHeader
+	BITMAPFILEHEADER FileHeader = {};
+	// InfoHeader
+	BITMAPINFOHEADER InfoHeader = {};
+	// Pixel로 구성되어 있다.
+	uint32_t* Pixels = { nullptr };
+
+	ReadFile(
+		hFile,
+		&FileHeader,
+		sizeof(FileHeader),
+		&dwByte,
+		nullptr);
+
+	ReadFile(
+		hFile,
+		&InfoHeader,
+		sizeof(InfoHeader),
+		&dwByte,
+		nullptr);
+
+	uint32_t PixelNumX = InfoHeader.biWidth;
+	uint32_t PixelNumZ = InfoHeader.biHeight;
+
+	Pixels = new uint32_t[PixelNumX * PixelNumZ];
+
+	ReadFile(
+		hFile,
+		Pixels,
+		sizeof(uint32_t) * PixelNumX * PixelNumZ,
+		&dwByte,
+		nullptr);
+
+	CloseHandle(hFile);
+
+	m_iNumVertexBuffers = 1;
+
+	m_iNumVertices = PixelNumX * PixelNumZ;							//정점 개수
+	m_iVertexStride = sizeof(VTX_TEX_NORMAL);							//정점 하나의 크기
+
+	m_iNumIndices = ((PixelNumX - 1) * (PixelNumZ - 1) * 3) * 2;	//인덱스 개수
+	m_iIndexStride = 4;												//인덱스 하나의 크기
 
 	m_ePrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	m_pVertexPositions = new _float3[m_iNumVertices];
+
 	ZeroMemory(m_pVertexPositions, sizeof(_float3) * m_iNumVertices);
 
 	//Vertex Buffer //====================================================================
@@ -33,24 +86,21 @@ HRESULT CTerrainBufferCom::Initialize_Origin(const _tchar* HeightMapFilePath)
 	VBuffer_Data.MiscFlags = 0;									//보통 0
 	VBuffer_Data.StructureByteStride = m_iVertexStride;						//
 
-	VTX_TEX* pVertices = new VTX_TEX[m_iNumVertices];
-	ZeroMemory(pVertices, sizeof(VTX_TEX) * m_iNumVertices);
+	VTX_TEX_NORMAL* pVertices = new VTX_TEX_NORMAL[m_iNumVertices];
+	ZeroMemory(pVertices, sizeof(VTX_TEX_NORMAL) * m_iNumVertices);
 
-	m_pVertexPositions[0] =
-		pVertices[0].vPos = _float3(-0.5f, 0.5f, 0.f);
-	pVertices[0].vTexCoord = _float2(0.f, 0.f);
+	for (uint64_t i = 0; i < PixelNumZ; i++)
+	{
+		for (uint64_t j = 0; j < PixelNumX; j++)
+		{
+			uint64_t Index = PixelNumZ * i + j;
 
-	m_pVertexPositions[1] =
-		pVertices[1].vPos = _float3(0.5f, 0.5f, 0.f);
-	pVertices[1].vTexCoord = _float2(1.f, 0.f);
-
-	m_pVertexPositions[2] =
-		pVertices[2].vPos = _float3(0.5f, -0.5f, 0.f);
-	pVertices[2].vTexCoord = _float2(1.f, 1.f);
-
-	m_pVertexPositions[3] =
-		pVertices[3].vPos = _float3(-0.5f, -0.5f, 0.f);
-	pVertices[3].vTexCoord = _float2(0.f, 1.f);
+			m_pVertexPositions[Index] = 
+			pVertices[Index].vPos		= _float3(j, (Pixels[Index] & 0x000000ff) / 20.f, i);
+			pVertices[Index].vTexCoord	= _float2(j / (PixelNumZ - 1.f), i / (PixelNumZ - 1.f));
+			pVertices[Index].vNormal	= _float3(0.f, 0.f, 0.f);
+		}
+	}
 
 	D3D11_SUBRESOURCE_DATA VBuffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
 	VBuffer_Init_Data.pSysMem = pVertices;
@@ -65,6 +115,7 @@ HRESULT CTerrainBufferCom::Initialize_Origin(const _tchar* HeightMapFilePath)
 	}
 
 	Safe_Delete_Array(pVertices);
+	Safe_Delete_Array(Pixels);
 
 	//Index Buffer //====================================================================
 	D3D11_BUFFER_DESC IBuffer_Data = {};
@@ -76,15 +127,32 @@ HRESULT CTerrainBufferCom::Initialize_Origin(const _tchar* HeightMapFilePath)
 	IBuffer_Data.MiscFlags = 0;
 	IBuffer_Data.StructureByteStride = m_iIndexStride;
 
-	_ushort* pIndices = new _ushort[m_iNumIndices];
+	uint32_t* pIndices = new uint32_t[m_iNumIndices];
 
-	pIndices[0] = 0;
-	pIndices[1] = 1;
-	pIndices[2] = 2;
+	uint64_t IndicesNum = {};
 
-	pIndices[3] = 0;
-	pIndices[4] = 2;
-	pIndices[5] = 3;
+	for (uint64_t i = 0; i < PixelNumZ - 1; i++)
+	{
+		for (uint64_t j = 0; j < PixelNumX - 1; j++)
+		{
+			uint64_t Index = i * PixelNumX + j;
+
+			uint64_t Indices[4] = {
+				Index + PixelNumX,
+				Index + PixelNumX + 1,
+				Index + 1,
+				Index
+			};
+
+			pIndices[IndicesNum++] = Indices[0];
+			pIndices[IndicesNum++] = Indices[1];
+			pIndices[IndicesNum++] = Indices[2];
+
+			pIndices[IndicesNum++] = Indices[0];
+			pIndices[IndicesNum++] = Indices[2];
+			pIndices[IndicesNum++] = Indices[3];
+		}
+	}
 
 	D3D11_SUBRESOURCE_DATA IBuffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
 	IBuffer_Init_Data.pSysMem = pIndices;

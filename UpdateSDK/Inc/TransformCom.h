@@ -29,9 +29,6 @@ public:
 	virtual HRESULT Render()override;
 
 public:
-	//Load -> float4 를 XMVector로 // 저장용 벡터에서 꺼내오기
-	//Store -> XMVector 를 float4로	//저장용 벡터로 저장하기
-	
 	XMVECTOR Get_State(TRANSFORM_STATE eState) const;
 	_float3	Get_Scale();
 	void Set_Scale(_float fScaleX, _float fScaleY, _float fScaleZ);
@@ -59,14 +56,20 @@ public:
 	//추적
 	void Chase(FXMVECTOR vTarget, _float fDT, _float fLeastDist = 0.1f);
 
+public:
 	HRESULT Bind_ShaderResource(
 		CShaderCom* pShader,
 		const _char* WorldMatrixTag);
 
+	XMMATRIX Get_WorldMatrix() {
+		return XMLoadFloat4x4(&m_WorldMatrix);
+	}
+
+
 private:
 	_float		m_fSpeedPerSecond = {};
 	_float		m_fRotationPerSecond = {};
-	_float4x4	m_WorldMatrix = {};
+	XMFLOAT4X4	m_WorldMatrix = {};
 
 public:
 	static CTransformCom* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

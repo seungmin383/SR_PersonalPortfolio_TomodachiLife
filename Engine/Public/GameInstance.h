@@ -8,6 +8,7 @@ class CGraphic_Device;
 class CPlaceManager;
 class CObjectManager;
 class CRenderManager;
+class CPipeLine;
 
 class CObject;
 class CPlace;
@@ -96,6 +97,28 @@ public:
 
 #pragma endregion
 
+#pragma region PIPELINE
+	void PipeLine_Set_Transform(
+		D3DTS eMatrix,
+		FXMMATRIX TransformMatrix);
+
+public:
+	HRESULT PipeLine_Bind_PipeLine_Matrix(
+		CShaderCom* pShader,
+		const _char* pConstantName,
+		D3DTS eMatrix);
+
+	HRESULT PipeLine_Bind_PipeLine_Inverse_Matrix(
+		CShaderCom* pShader,
+		const _char* pConstantName,
+		D3DTS eMatrix);
+
+	HRESULT PipeLine_Bind_Camera_Pos(
+		CShaderCom* pShader,
+		const _char* pConstantName);
+
+#pragma endregion
+
 
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
@@ -104,6 +127,7 @@ private:
 	CObjectManager*		m_pObjectManager = { nullptr };
 	CRenderManager*		m_pRenderManager = { nullptr };
 	CPrototype*			m_pPrototype	= { nullptr };
+	CPipeLine*			m_pPipeLine = { nullptr };
 
 public:
 	void Clear_Engine();

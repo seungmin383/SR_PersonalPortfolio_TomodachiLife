@@ -1,6 +1,7 @@
 #include "Loader.h"
 #include "GameInstance.h"
 #include "Food.h"
+#include "Island.h"
 
 USING(Engine)
 
@@ -142,13 +143,14 @@ HRESULT CLoader::Loading_For_Main()
 {
 	CObject* tmp = { nullptr };
 
-#pragma region ACTOR_LOADING
+// Actor Loading // ====================================================
+
+
+
 	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
-#pragma endregion
 
-
-#pragma region UI_LOADING
-
+// UI Loading // ====================================================
+	// Food //
 	tmp = CFood::Create(m_pDevice, m_pContext);
 
 	if (nullptr == tmp)
@@ -160,12 +162,11 @@ HRESULT CLoader::Loading_For_Main()
 		tmp)))
 		return E_FAIL;
 
+
 	lstrcpy(m_szFPS, TEXT("UI Loading Complete"));
-#pragma endregion
 
-
-#pragma region COMPONENT_LOADING
-
+//Components Loading // ====================================================
+	// Texture Component //
 	tmp = CTextureCom::Create(
 		m_pDevice,
 		m_pContext,
@@ -182,19 +183,95 @@ HRESULT CLoader::Loading_For_Main()
 		return E_FAIL;
 
 	lstrcpy(m_szFPS, TEXT("Component Loading Complete"));
-#pragma endregion
 
-
+// Loading Complete // ====================================================
 	lstrcpy(m_szFPS, TEXT("Main Place Loading Complete"));
 	m_isFinished = true;
+
 	return S_OK;
 }
 
 
 HRESULT CLoader::Loading_For_Setting()
 {
-	lstrcpy(m_szFPS, TEXT("Loading_For_Setting 완료되었슴니다."));
+	CObject* tmp = { nullptr };
+
+// Actor Loading // ====================================================
+
+	tmp = CIsland::Create(m_pDevice, m_pContext);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
+		TEXT("ProtoTag_Actor_Island"),
+		tmp)))
+		return E_FAIL;
+
+
+	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
+
+// UI Loading // ====================================================
+
+
+
+	lstrcpy(m_szFPS, TEXT("UI Loading Complete"));
+
+//Components Loading // ====================================================
+	// Texture Component //
+	tmp = CTextureCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Bin/Debug/Resource/Textures/Terrain/Tile0.jpg"),
+		1);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
+		TEXT("ProtoTag_Component_Terrain_Texture"),
+		tmp)))
+		return E_FAIL;
+
+	// Terrain Buffer Component // 
+	tmp = CTerrainBufferCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Bin/Debug/Resource/Textures/Terrain/Height.bmp"));
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
+		TEXT("ProtoTag_Component_TerrainBuffer"),
+		tmp)))
+		return E_FAIL;
+
+	// Shader Component //
+	tmp = CShaderCom::Create(
+		m_pDevice,
+		m_pContext,
+		L"../Bin/Debug/ShaderFile/Shader_Vtx_Terrain.hlsl",
+		VTX_TEX_NORMAL::Elements,
+		VTX_TEX_NORMAL::iNumElements);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(PLACE_ID::SETTING),
+		TEXT("Proto_Actor_Terrain"),
+		tmp)));
+
+	lstrcpy(m_szFPS, TEXT("Component Loading Complete"));
+
+	// Loading Complete // ====================================================
+	lstrcpy(m_szFPS, TEXT("Setting Loading Complete"));
 	m_isFinished = true;
+
 	return S_OK;
 }
 

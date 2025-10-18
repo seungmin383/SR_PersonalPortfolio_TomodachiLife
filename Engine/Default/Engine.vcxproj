@@ -34,6 +34,7 @@
     <ClInclude Include="..\Public\Layer.h" />
     <ClInclude Include="..\Public\Object.h" />
     <ClInclude Include="..\Public\Object_Manager.h" />
+    <ClInclude Include="..\Public\PipeLine.h" />
     <ClInclude Include="..\Public\Place.h" />
     <ClInclude Include="..\Public\Place_Manager.h" />
     <ClInclude Include="..\Public\Prototype.h" />
@@ -67,6 +68,7 @@
     <ClCompile Include="..\Private\Layer.cpp" />
     <ClCompile Include="..\Private\Object.cpp" />
     <ClCompile Include="..\Private\Object_Manager.cpp" />
+    <ClCompile Include="..\Private\PipeLine.cpp" />
     <ClCompile Include="..\Private\Place.cpp" />
     <ClCompile Include="..\Private\Place_Manager.cpp" />
     <ClCompile Include="..\Private\Prototype.cpp" />

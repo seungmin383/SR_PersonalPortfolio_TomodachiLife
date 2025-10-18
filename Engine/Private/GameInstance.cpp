@@ -4,6 +4,7 @@
 #include "Place_Manager.h"
 #include "Render_Manager.h"
 #include "Object_Manager.h"
+#include "PipeLine.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -68,6 +69,12 @@ HRESULT CGameInstance::Initialize(
 			return E_FAIL;
 	}
 
+	// PipeLine
+	{
+		m_pPipeLine = CPipeLine::Create();
+		if (nullptr == m_pPipeLine)
+			return E_FAIL;
+	}
 	return S_OK;
 }
 
@@ -223,6 +230,26 @@ inline CObject* CGameInstance::Proto_Get_Object_Clone(
 	return m_pPrototype->Get_Object_Clone(PlaceID, ObjectTag, pArg);
 }
 
+void CGameInstance::PipeLine_Set_Transform(D3DTS eMatrix, FXMMATRIX TransformMatrix)
+{
+	m_pPipeLine->Set_Transform(eMatrix, TransformMatrix);
+}
+
+HRESULT CGameInstance::PipeLine_Bind_PipeLine_Matrix(CShaderCom* pShader, const _char* pConstantName, D3DTS eMatrix)
+{
+	return m_pPipeLine->Bind_PipeLine_Matrix(pShader, pConstantName, eMatrix);
+}
+
+HRESULT CGameInstance::PipeLine_Bind_PipeLine_Inverse_Matrix(CShaderCom* pShader, const _char* pConstantName, D3DTS eMatrix)
+{
+	return m_pPipeLine->Bind_PipeLine_Inverse_Matrix(pShader, pConstantName, eMatrix);
+}
+
+HRESULT CGameInstance::PipeLine_Bind_Camera_Pos(CShaderCom* pShader, const _char* pConstantName)
+{
+	return E_NOTIMPL;
+}
+
 #pragma endregion
 
 void CGameInstance::Clear_Engine()
@@ -232,8 +259,8 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pObjectManager);
 	Safe_Release(m_pPrototype);
 	Safe_Release(m_pRenderManager);
+	Safe_Release(m_pPipeLine);
 	Safe_Release(m_pGraphicDevice);
-
 	CGameInstance::GetInstance()->DestroyInstance();
 }
 

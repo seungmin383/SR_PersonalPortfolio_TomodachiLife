@@ -52,9 +52,6 @@
     <Filter Include="01.Utility\03.Object\Manager">
       <UniqueIdentifier>{35eef895-7ae3-4fc1-96cf-016365e86f29}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\05.Camera">
-      <UniqueIdentifier>{7078a227-cf1e-45b6-99d0-952a46424ab5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Utility\04.Render">
       <UniqueIdentifier>{e0e3ea10-54bd-4d78-9add-667c0d2cd5f8}</UniqueIdentifier>
     </Filter>
@@ -91,6 +88,12 @@
     <Filter Include="01.Utility\03.Object\02.Component\00.Buffer\01.TerrainBuffer">
       <UniqueIdentifier>{6ab8172e-7286-4e04-9767-50b872444c67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\01.Actor\00.Camera">
+      <UniqueIdentifier>{75654f4d-0ee0-4312-8402-92abf7629330}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\05.PipeLine">
+      <UniqueIdentifier>{1ffb9ab0-977f-4b7e-96c1-ecea559074d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -122,9 +125,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Object_Manager.cpp">
       <Filter>01.Utility\03.Object\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Camera.cpp">
-      <Filter>01.Utility\05.Camera</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Render_Manager.cpp">
       <Filter>01.Utility\04.Render</Filter>
@@ -161,6 +161,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\TerrainBufferCom.cpp">
       <Filter>01.Utility\03.Object\02.Component\00.Buffer\01.TerrainBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera.cpp">
+      <Filter>01.Utility\03.Object\01.Actor\00.Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PipeLine.cpp">
+      <Filter>01.Utility\05.PipeLine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,9 +242,6 @@
     <ClInclude Include="..\Public\Object_Manager.h">
       <Filter>01.Utility\03.Object\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Camera.h">
-      <Filter>01.Utility\05.Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Render_Manager.h">
       <Filter>01.Utility\04.Render</Filter>
     </ClInclude>
@@ -274,6 +277,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\TerrainBufferCom.h">
       <Filter>01.Utility\03.Object\02.Component\00.Buffer\01.TerrainBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera.h">
+      <Filter>01.Utility\03.Object\01.Actor\00.Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PipeLine.h">
+      <Filter>01.Utility\05.PipeLine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
