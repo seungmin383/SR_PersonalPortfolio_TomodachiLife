@@ -55,6 +55,9 @@ private:
 	uint32_t			m_iNumPasses = {};
 	vector<ID3D11InputLayout*>m_vecInputLayouts;
 
+	uint32_t m_iNumViewport = {};
+	D3D11_VIEWPORT m_Vieworts[2] = {};
+
 public:
 	static CShaderCom* Create(
 		ID3D11Device* _pDevice, 
