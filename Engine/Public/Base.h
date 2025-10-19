@@ -18,7 +18,6 @@ private:
 
 protected:
 	virtual void Free();
-
 };
 
 NS_END

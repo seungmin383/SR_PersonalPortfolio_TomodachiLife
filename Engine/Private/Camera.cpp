@@ -50,6 +50,18 @@ HRESULT CCamera::Initialize_Clone(void* pArg)
 
 int32_t CCamera::Update_Priority(_float fDT)
 {
+	Set_View();
+	Set_Proj();
+
+	m_pGameInstance->PipeLine_Set_Transform(
+		D3DTS::VIEW,
+		XMLoadFloat4x4(&m_ViewMatrix));
+
+	m_pGameInstance->PipeLine_Set_Transform(
+		D3DTS::PROJ,
+		XMLoadFloat4x4(&m_ProjMatrix));
+
+
 	return 0;
 }
 

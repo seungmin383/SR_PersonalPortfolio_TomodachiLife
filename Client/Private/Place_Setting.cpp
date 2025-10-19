@@ -13,6 +13,7 @@ HRESULT CPlace_Setting::Initialize()
 {
 	CObject* tmp = { nullptr };
 
+// Island // ========================================================
 	tmp = m_pGameInstance->Proto_Get_Object_Clone(
 		static_cast<uint32_t>(PLACE_ID::SETTING),
 		TEXT("ProtoTag_Actor_Island"),
@@ -29,8 +30,8 @@ HRESULT CPlace_Setting::Initialize()
 
 	CMainCamera::MAINCAMERA_DESC tDesc = {};
 
-	tDesc.fRotationPerSecond = 10.f;
-	tDesc.fSpeedPerSecond = XMConvertToRadians(30.f);
+	tDesc.fRotationPerSecond = XMConvertToRadians(30.f);
+	tDesc.fSpeedPerSecond = 100.f;
 
 	tDesc.m_fAspect = static_cast<float>(WINCX) / static_cast<float>(WINCY);
 	tDesc.m_fFov = XMConvertToRadians(90.0f);

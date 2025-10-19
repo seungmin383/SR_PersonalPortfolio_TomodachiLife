@@ -74,8 +74,8 @@ private:
 	_float m_fNear_Height	= {};
 	_float m_fFar_Height	= {};
 
-	_float4x4 m_ViewMatrix		= {};
-	_float4x4 m_ProjMatrix		= {};
+	_float4x4 m_ViewMatrix	= {};
+	_float4x4 m_ProjMatrix	= {};
 	
 public:
 	virtual void Free()override;
