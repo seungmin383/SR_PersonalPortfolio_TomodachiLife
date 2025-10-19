@@ -40,6 +40,8 @@ public:
 	void Go_Left(_float fDT);
 	void Go_Right(_float fDT);
 	void Go_Backward(_float fDT);
+	void Go_Up(_float fDT);
+	void Go_Down(_float fDT);
 
 	//원점에서 특정 각도로 고정
 	void Ratate(FXMVECTOR vAxis, _float fRadian);	//임의의 축 회전

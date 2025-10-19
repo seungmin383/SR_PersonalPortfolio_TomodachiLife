@@ -14,6 +14,11 @@ public:
 	virtual int32_t Update(_float fDT)override;
 	virtual HRESULT Render()override;
 
+	HRESULT Ready_Actor_Layer();
+	HRESULT Ready_UI_Layer();
+	HRESULT Ready_Environment_Layer();
+	HRESULT Ready_Camera_Layer();
+
 public:
 	static CPlace_Main* Create(
 		ID3D11Device* pDevice, 

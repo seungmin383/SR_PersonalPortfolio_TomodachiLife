@@ -17,11 +17,13 @@ public:
 	HRESULT Initialize(PLACE_ID NextPlaceID);
 	HRESULT Loading();
 
-	_bool isFinished() const {
+	_bool isFinished() const 
+	{
 		return m_isFinished;
 	}
 
-	void Output() {
+	void Output() 
+	{
 		SetWindowText(g_hWnd, m_szFPS);
 	}
 

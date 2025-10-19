@@ -11,8 +11,8 @@ namespace Client
 #define FPS_60 1.f / 60.f
 #define FPS_144 1.f / 144.f
 
-#define WINCX 1280
-#define WINCY 720
+#define WINCX 960		
+#define WINCY 960
 
 	enum class PLACE_ID {
 		STATIC,

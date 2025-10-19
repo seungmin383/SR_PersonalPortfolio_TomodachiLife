@@ -51,7 +51,7 @@ int32_t CFood::Update_Priority(_float fDT)
 
 int32_t CFood::Update(_float fDT)
 {
-	m_pTransformCom->Go_Left(fDT);
+	m_pTransformCom->Go_Down(fDT);
 
 	return 0;
 }
@@ -66,13 +66,6 @@ HRESULT CFood::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-
-	//D3D11_RASTERIZER_DESC r = {};
-	//r.CullMode = D3D11_CULL_NONE;
-	//r.FrontCounterClockwise = FALSE;
-	//ID3D11RasterizerState* rs;
-	//m_pDevice->CreateRasterizerState(&r, &rs);
-	//m_pContext->RSSetState(rs);
 
 	if (FAILED(m_pRectBufferCom->Bind_Resource()))
 		return E_FAIL;
@@ -90,8 +83,8 @@ HRESULT CFood::Render()
 HRESULT CFood::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
-		TEXT("ProtoTag_Component_Shader"),
+		static_cast<uint32_t>(PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_Vtx_TexShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
 		nullptr)))
@@ -100,7 +93,7 @@ HRESULT CFood::Ready_Component()
 
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_Texture"),
+		TEXT("ProtoTag_Component_FoodTexture"),
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTextureCom),
 		nullptr)))
@@ -108,7 +101,7 @@ HRESULT CFood::Ready_Component()
 
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACE_ID::MAIN),
 		TEXT("ProtoTag_Component_RectBuffer"),
 		TEXT("Com_RectBuffer"),
 		reinterpret_cast<CComponent**>(&m_pRectBufferCom),

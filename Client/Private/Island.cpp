@@ -77,8 +77,8 @@ HRESULT CIsland::Render()
 HRESULT CIsland::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("ProtoTag_Component_TerrainShader"),
+		static_cast<uint32_t>(PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_Vtx_Normal_TexShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
 		nullptr)))
@@ -86,8 +86,8 @@ HRESULT CIsland::Ready_Component()
 
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("ProtoTag_Component_Terrain_Texture"),
+		static_cast<uint32_t>(PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_IslandTexture"),
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTextureCom),
 		nullptr)))
@@ -95,7 +95,7 @@ HRESULT CIsland::Ready_Component()
 
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
+		static_cast<uint32_t>(PLACE_ID::MAIN),
 		TEXT("ProtoTag_Component_TerrainBuffer"),
 		TEXT("Com_TerrainBuffer"),
 		reinterpret_cast<CComponent**>(&m_pTerrainBufferCom),

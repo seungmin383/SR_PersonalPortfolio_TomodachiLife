@@ -1,22 +1,22 @@
-#include "MainCamera.h"
+#include "MainCameraTop.h"
 #include "GameInstance.h"
 
-CMainCamera::CMainCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMainCameraTop::CMainCameraTop(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CCamera(pDevice, pContext)
 {
 }
 
-CMainCamera::CMainCamera(const CMainCamera& rhs)
+CMainCameraTop::CMainCameraTop(const CMainCameraTop& rhs)
 	:CCamera(rhs)
 {
 }
 
-HRESULT CMainCamera::Initialize_Origin()
+HRESULT CMainCameraTop::Initialize_Origin()
 {
 	return S_OK;
 }
 
-HRESULT CMainCamera::Initialize_Clone(void* pArg)
+HRESULT CMainCameraTop::Initialize_Clone(void* pArg)
 {
 
 	if(FAILED(CCamera::Initialize_Clone(pArg)))
@@ -24,7 +24,7 @@ HRESULT CMainCamera::Initialize_Clone(void* pArg)
 
 }
 
-int32_t CMainCamera::Update_Priority(_float fDT)
+int32_t CMainCameraTop::Update_Priority(_float fDT)
 {
 
 	if (GetAsyncKeyState(VK_UP))
@@ -40,18 +40,18 @@ int32_t CMainCamera::Update_Priority(_float fDT)
 	return 0;
 }
 
-int32_t CMainCamera::Update(_float fDT)
+int32_t CMainCameraTop::Update(_float fDT)
 {
 	return 0;
 }
 
-void CMainCamera::Update_Late(_float fDT)
+void CMainCameraTop::Update_Late(_float fDT)
 {
 }
 
-CMainCamera* CMainCamera::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CMainCameraTop* CMainCameraTop::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CMainCamera* tmp = new CMainCamera(pDevice, pContext);
+	CMainCameraTop* tmp = new CMainCameraTop(pDevice, pContext);
 
 	if (FAILED(tmp->Initialize_Origin()))
 	{
@@ -63,9 +63,9 @@ CMainCamera* CMainCamera::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 	return tmp;
 }
 
-CObject* CMainCamera::Clone(void* pArg)
+CObject* CMainCameraTop::Clone(void* pArg)
 {
-	CMainCamera* tmp = new CMainCamera(*this);
+	CMainCameraTop* tmp = new CMainCameraTop(*this);
 
 	if (FAILED(tmp->Initialize_Clone(pArg)))
 	{
@@ -77,7 +77,7 @@ CObject* CMainCamera::Clone(void* pArg)
 	return tmp;
 }
 
-void CMainCamera::Free()
+void CMainCameraTop::Free()
 {
 	CCamera::Free();
 }

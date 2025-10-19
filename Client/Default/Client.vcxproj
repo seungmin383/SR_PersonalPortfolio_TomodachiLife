@@ -114,7 +114,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../UpdateSDK/Lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../UpdateSDK/Lib/Debug/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <FxCompile>
       <ShaderType>Effect</ShaderType>
@@ -135,7 +135,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../UpdateSDK/Lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../UpdateSDK/Lib/Release/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <FxCompile>
       <ShaderType>Effect</ShaderType>
@@ -148,7 +148,8 @@
     <ClInclude Include="..\Public\Island.h" />
     <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
-    <ClInclude Include="..\Public\MainCamera.h" />
+    <ClInclude Include="..\Public\MainCameraBottom.h" />
+    <ClInclude Include="..\Public\MainCameraTop.h" />
     <ClInclude Include="..\Public\Place_Loading.h" />
     <ClInclude Include="..\Public\Place_Main.h" />
     <ClInclude Include="..\Public\Place_Setting.h" />
@@ -162,7 +163,8 @@
     <ClCompile Include="..\Private\Island.cpp" />
     <ClCompile Include="..\Private\Loader.cpp" />
     <ClCompile Include="..\Private\MainApp.cpp" />
-    <ClCompile Include="..\Private\MainCamera.cpp" />
+    <ClCompile Include="..\Private\MainCameraBottom.cpp" />
+    <ClCompile Include="..\Private\MainCameraTop.cpp" />
     <ClCompile Include="..\Private\Place_Loading.cpp" />
     <ClCompile Include="..\Private\Place_Main.cpp" />
     <ClCompile Include="..\Private\Place_Setting.cpp" />
@@ -180,7 +182,7 @@
     <Text Include="PipeLine.txt" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Terrain.hlsl" />
+    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Normal_Tex.hlsl" />
     <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Tex.hlsl" />
     <FxCompile Include="..\Bin\Debug\ShaderFile\Test.hlsl" />
   </ItemGroup>

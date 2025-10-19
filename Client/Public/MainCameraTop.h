@@ -4,7 +4,7 @@
 
 NS_BEGIN(Client)
 
-class CMainCamera final : public CCamera
+class CMainCameraTop final : public CCamera
 {
 public:
 	typedef struct tagMainCameraDesc : public CAMERA_DESC
@@ -13,9 +13,9 @@ public:
 	}MAINCAMERA_DESC;
 
 private:
-	CMainCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMainCamera(const CMainCamera& rhs);
-	virtual ~CMainCamera() = default;
+	CMainCameraTop(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CMainCameraTop(const CMainCameraTop& rhs);
+	virtual ~CMainCameraTop() = default;
 
 public:
 	virtual HRESULT Initialize_Origin()override;
@@ -26,7 +26,7 @@ public:
 	virtual void Update_Late(_float fDT)override;
 
 public:
-	static CMainCamera* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CMainCameraTop* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg)override;
 	virtual void Free()override;
 

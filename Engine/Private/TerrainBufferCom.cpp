@@ -127,7 +127,7 @@ HRESULT CTerrainBufferCom::Initialize_Origin(const _tchar* HeightMapFilePath)
 	IBuffer_Data.MiscFlags = 0;
 	IBuffer_Data.StructureByteStride = m_iIndexStride;
 
-	uint32_t* pIndices = new uint32_t[m_iNumIndices];
+	uint64_t* pIndices = new uint64_t[m_iNumIndices];
 
 	uint64_t IndicesNum = {};
 

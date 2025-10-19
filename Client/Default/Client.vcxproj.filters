@@ -37,8 +37,11 @@
     <ClInclude Include="..\Public\Island.h">
       <Filter>02.Object\00.Actor\02.Island</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\MainCamera.h">
-      <Filter>02.Object\00.Actor\99.Camera</Filter>
+    <ClInclude Include="..\Public\MainCameraTop.h">
+      <Filter>02.Object\00.Actor\99.Camera\00.MainCameraTop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MainCameraBottom.h">
+      <Filter>02.Object\00.Actor\99.Camera\01.MainCameraBottom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +125,12 @@
     <Filter Include="02.Object\00.Actor\99.Camera">
       <UniqueIdentifier>{97a3d1bf-7e1d-43c4-a317-62cdf1bd7004}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Object\00.Actor\99.Camera\00.MainCameraTop">
+      <UniqueIdentifier>{13198fa9-cff1-4d21-9aa8-22ebae596e68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Object\00.Actor\99.Camera\01.MainCameraBottom">
+      <UniqueIdentifier>{b42dc832-8c8a-4045-b3a3-89539dc65ea6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -148,8 +157,11 @@
     <ClCompile Include="..\Private\Island.cpp">
       <Filter>02.Object\00.Actor\02.Island</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\MainCamera.cpp">
-      <Filter>02.Object\00.Actor\99.Camera</Filter>
+    <ClCompile Include="..\Private\MainCameraTop.cpp">
+      <Filter>02.Object\00.Actor\99.Camera\00.MainCameraTop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MainCameraBottom.cpp">
+      <Filter>02.Object\00.Actor\99.Camera\01.MainCameraBottom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,7 +182,7 @@
     <FxCompile Include="..\Bin\Debug\ShaderFile\Test.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Terrain.hlsl">
+    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Normal_Tex.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

@@ -2,6 +2,9 @@
 #include "GameInstance.h"
 #include "Place_Loading.h"
 
+#include "MainCameraTop.h"
+#include "MainCameraBottom.h"
+
 USING(Client)
 
 CMainApp::CMainApp()
@@ -77,31 +80,31 @@ void CMainApp::Render()
 
 HRESULT CMainApp::Ready_Static()
 {
-	CObject* tmp = CShaderCom::Create(
-		m_pDevice,
-		m_pContext,
-		L"../Bin/Debug/ShaderFile/Shader_Vtx_Tex.hlsl",
-		Engine::VTX_TEX::Elements,
-		Engine::VTX_TEX::iNumElements);
+	CObject* tmp = { nullptr };
+
+
+	// Main Camera Top //
+	tmp = CMainCameraTop::Create(m_pDevice, m_pContext);
 
 	if (nullptr == tmp)
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
-		TEXT("ProtoTag_Component_Shader"),
+		TEXT("ProtoTag_Actor_MainCameraTop"),
 		tmp)))
 		return E_FAIL;
 
 
-	tmp = CRectBufferCom::Create(m_pDevice, m_pContext);
+	// Main Camera Bottom //
+	tmp = CMainCameraBottom::Create(m_pDevice, m_pContext);
 
 	if (nullptr == tmp)
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
-		TEXT("ProtoTag_Component_RectBuffer"),
+		TEXT("ProtoTag_Actor_MainCameraBottom"),
 		tmp)))
 		return E_FAIL;
 }

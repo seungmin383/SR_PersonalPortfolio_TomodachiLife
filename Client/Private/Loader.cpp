@@ -2,7 +2,8 @@
 #include "GameInstance.h"
 #include "Food.h"
 #include "Island.h"
-#include "MainCamera.h"
+#include "MainCameraTop.h"
+#include "MainCameraBottom.h"
 
 USING(Engine)
 
@@ -149,9 +150,57 @@ HRESULT CLoader::Loading_For_Main()
 
 
 
+	// Island //
+	tmp = CIsland::Create(m_pDevice, m_pContext);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Actor_Island"),
+		tmp)))
+		return E_FAIL;
+
+
+
+	// Main Camera Top //
+	tmp = CMainCameraTop::Create(
+		m_pDevice,
+		m_pContext);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Actor_MainCameraTop"),
+		tmp)))
+		return E_FAIL;
+
+
+
+	// Main Camera Bottom //
+	tmp = CMainCameraBottom::Create(
+		m_pDevice,
+		m_pContext);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Actor_MainCameraBottom"),
+		tmp)))
+		return E_FAIL;
+
+
 	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
 
 // UI Loading // ====================================================
+
+
+
 	// Food //
 	tmp = CFood::Create(m_pDevice, m_pContext);
 
@@ -165,14 +214,83 @@ HRESULT CLoader::Loading_For_Main()
 		return E_FAIL;
 
 
+
 	lstrcpy(m_szFPS, TEXT("UI Loading Complete"));
 
 //Components Loading // ====================================================
-	// Texture Component //
+
+	//Vtx_Tex Shader Component //
+	tmp = CShaderCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Bin/Debug/ShaderFile/Shader_Vtx_Tex.hlsl"),
+		Engine::VTX_TEX::Elements,
+		Engine::VTX_TEX::iNumElements);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_Vtx_TexShader"),
+		tmp)))
+		return E_FAIL;
+
+
+	//Normal Shader Component //
+	tmp = CShaderCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Bin/Debug/ShaderFile/Shader_Vtx_Normal_Tex.hlsl"),
+		Engine::VTX_TEX_NORMAL::Elements,
+		Engine::VTX_TEX_NORMAL::iNumElements);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_Vtx_Normal_TexShader"),
+		tmp)))
+		return E_FAIL;
+
+
+
+	// Rect Buffer Component //
+	tmp = CRectBufferCom::Create(m_pDevice, m_pContext);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_RectBuffer"),
+		tmp)))
+		return E_FAIL;
+	
+
+	// Terrain Buffer Component // 
+	tmp = CTerrainBufferCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Resource/Textures/Terrain/Height.bmp"));
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_TerrainBuffer"),
+		tmp)))
+		return E_FAIL;
+	
+
+
+	// Food Texture Component //
 	tmp = CTextureCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../Bin/Debug/Resource/Textures/item_Food102.png"),
+		TEXT("../Resource/Textures/item_Food102.png"),
 		1);
 
 	if (nullptr == tmp)
@@ -180,9 +298,35 @@ HRESULT CLoader::Loading_For_Main()
 
 	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_Texture"),
+		TEXT("ProtoTag_Component_FoodTexture"),
 		tmp)))
 		return E_FAIL;
+
+
+	// Island Texture Component //
+	tmp = CTextureCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Resource/Textures/Terrain/Tile0.jpg"),
+		1);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_IslandTexture"),
+		tmp)))
+		return E_FAIL;
+
+
+
+
+
+
+
+
+
 
 	lstrcpy(m_szFPS, TEXT("Component Loading Complete"));
 
@@ -201,29 +345,7 @@ HRESULT CLoader::Loading_For_Setting()
 
 // Actor Loading // ====================================================
 
-	tmp = CIsland::Create(m_pDevice, m_pContext);
 
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
-		TEXT("ProtoTag_Actor_Island"),
-		tmp)))
-		return E_FAIL;
-
-	tmp = CMainCamera::Create(
-		m_pDevice,
-		m_pContext);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
-		TEXT("ProtoTag_Actor_MainCamera"),
-		tmp)))
-		return E_FAIL;
 
 	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
 
@@ -234,53 +356,7 @@ HRESULT CLoader::Loading_For_Setting()
 	lstrcpy(m_szFPS, TEXT("UI Loading Complete"));
 
 //Components Loading // ====================================================
-	// Texture Component //
-	tmp = CTextureCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../Bin/Debug/Resource/Textures/Terrain/Tile0.jpg"),
-		1);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
-		TEXT("ProtoTag_Component_Terrain_Texture"),
-		tmp)))
-		return E_FAIL;
-
-	// Terrain Buffer Component // 
-	tmp = CTerrainBufferCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../Bin/Debug/Resource/Textures/Terrain/Height.bmp"));
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
-		TEXT("ProtoTag_Component_TerrainBuffer"),
-		tmp)))
-		return E_FAIL;
-
-	// Shader Component //
-	tmp = CShaderCom::Create(
-		m_pDevice,
-		m_pContext,
-		L"../Bin/Debug/ShaderFile/Shader_Vtx_Terrain.hlsl",
-		VTX_TEX_NORMAL::Elements,
-		VTX_TEX_NORMAL::iNumElements);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("ProtoTag_Component_TerrainShader"),
-		tmp)))
-		return E_FAIL;
+	
 
 	lstrcpy(m_szFPS, TEXT("Component Loading Complete"));
 

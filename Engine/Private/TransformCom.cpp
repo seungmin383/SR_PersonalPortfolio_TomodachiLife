@@ -124,6 +124,24 @@ void CTransformCom::Go_Backward(_float fDT)
 	Set_State(TRANSFORM_STATE::POS, vPos);
 }
 
+void CTransformCom::Go_Up(_float fDT)
+{
+	XMVECTOR vPos = Get_State(TRANSFORM_STATE::POS);
+	XMVECTOR vUp = Get_State(TRANSFORM_STATE::UP);
+
+	vPos += XMVector3Normalize(vUp) * m_fSpeedPerSecond * fDT;
+	Set_State(TRANSFORM_STATE::POS, vPos);
+}
+
+void CTransformCom::Go_Down(_float fDT)
+{
+	XMVECTOR vPos = Get_State(TRANSFORM_STATE::POS);
+	XMVECTOR vUp = Get_State(TRANSFORM_STATE::UP);
+
+	vPos -= XMVector3Normalize(vUp) * m_fSpeedPerSecond * fDT;
+	Set_State(TRANSFORM_STATE::POS, vPos);
+}
+
 void CTransformCom::Ratate(FXMVECTOR vAxis, _float Radian)
 {
 	_float3 fScale = Get_Scale();

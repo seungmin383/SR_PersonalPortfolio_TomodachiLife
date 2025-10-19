@@ -4,6 +4,7 @@
 namespace Engine
 {
 	enum class WINMODE :int32_t { FULL, WIN };
+	enum class SOLUTION_TYPE :int32_t {DEBUG, RELEASE, END};
 
 	enum class RENDER_GROUP : int32_t {
 		PRIORITY, 
