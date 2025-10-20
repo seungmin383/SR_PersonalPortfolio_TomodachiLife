@@ -1,11 +1,28 @@
 #include "Render_Manager.h"
 #include "Object.h"
+#include "GameInstance.h"
+
 CRenderManager::CRenderManager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-	:m_pDevice(pDevice), m_pContext(pContext)
+	:m_pDevice(pDevice), m_pContext(pContext),
+	m_pGameInstance(CGameInstance::GetInstance())
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
+	Safe_AddRef(m_pGameInstance);
 
+}
+
+HRESULT CRenderManager::Add_RenderGroup(
+	RENDER_GROUP eRenderGroup, 
+	CObject* pObject)
+{
+	if (nullptr == pObject)
+		return E_FAIL;
+
+	m_RenderGroup[static_cast<uint32_t>(eRenderGroup)].push_back(pObject);
+	Safe_AddRef(pObject);
+
+	return S_OK;
 }
 
 HRESULT CRenderManager::Initialize()
@@ -13,106 +30,200 @@ HRESULT CRenderManager::Initialize()
 	return S_OK;
 }
 
-HRESULT CRenderManager::Render()
+HRESULT CRenderManager::Render_Top()
 {
-	Render_Priority();
-	Render_NonBlend();
-	Render_Blend();
-	Render_UI();
+	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::TOP);
+
+	Render_Top_Priority();
+	Render_Top_NonBlend();
+	Render_Top_Blend();
+	Render_Top_UI();
+
+	return S_OK;
+}
+HRESULT CRenderManager::Render_Bottom()
+{
+	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::BOTTOM);
+
+	Render_Bottom_Priority();
+	Render_Bottom_NonBlend();
+	Render_Bottom_Blend();
+	Render_Bottom_UI();
+
 	return S_OK;
 }
 
-HRESULT CRenderManager::Render_Priority()
+HRESULT CRenderManager::Render_Top_Priority()
 {
-	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::PRIORITY)])
+	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_PRIORITY)])
 	{
 		if (nullptr == Object)
 			break;
 
 		if (FAILED(Object->Render()))
 		{
-			MSG_BOX("ErrCode :Priority Object Render Failed");
+			MSG_BOX("ErrCode :Top Priority Object Render Failed");
 			return E_FAIL;
 		}
 		Safe_Release(Object);
 	}
 
-	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::PRIORITY)].clear();
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_PRIORITY)].clear();
 
 	return S_OK;
 }
 
-HRESULT CRenderManager::Render_NonBlend()
+HRESULT CRenderManager::Render_Top_NonBlend()
 {
-	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::NONBLEND)])
+	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONBLEND)])
 	{
 		if (nullptr == Object)
 			break;
 
 		if (FAILED(Object->Render()))
 		{
-			MSG_BOX("ErrCode :Non Blend Object Render Failed");
+			MSG_BOX("ErrCode :Top Non Blend Object Render Failed");
 			return E_FAIL;
 		}
 
 		Safe_Release(Object);
 	}
 
-	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::NONBLEND)].clear();
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONBLEND)].clear();
 
 	return S_OK;
 }
 
-HRESULT CRenderManager::Render_Blend()
+HRESULT CRenderManager::Render_Top_Blend()
 {
-	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BLEND)])
+	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_BLEND)])
 	{
 		if (nullptr == Object)
 			break;
 
 		if (FAILED(Object->Render()))
 		{
-			MSG_BOX("ErrCode :Blend Object Render Failed");
+			MSG_BOX("ErrCode :Top Blend Object Render Failed");
 			return E_FAIL;
 		}
 		Safe_Release(Object);
 	}
-	
-	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BLEND)].clear();
+
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_BLEND)].clear();
 
 	return S_OK;
 }
 
-HRESULT CRenderManager::Render_UI()
+HRESULT CRenderManager::Render_Top_UI()
 {
-	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::UI)])
+	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_UI)])
 	{
 		if (nullptr == Object)
 			break;
 
 		if (FAILED(Object->Render()))
 		{
-			MSG_BOX("ErrCode : UI Object Render Failed");
+			MSG_BOX("ErrCode :Top UI Object Render Failed");
 			return E_FAIL;
 		}
 		Safe_Release(Object);
 	}
 
-	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::UI)].clear();
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_UI)].clear();
 
 	return S_OK;
 }
 
-HRESULT CRenderManager::Add_RenderGroup(RENDER_GROUP _RenderGroup, CObject* _Object)
+
+
+
+
+
+HRESULT CRenderManager::Render_Bottom_Priority()
 {
-	if (nullptr == _Object)
-		return E_FAIL;
+	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_PRIORITY)])
+	{
+		if (nullptr == Object)
+			break;
 
-	m_RenderGroup[static_cast<uint32_t>(_RenderGroup)].push_back(_Object);
-	Safe_AddRef(_Object);
+		if (FAILED(Object->Render()))
+		{
+			MSG_BOX("ErrCode :Bottom Priority Object Render Failed");
+			return E_FAIL;
+		}
+		Safe_Release(Object);
+	}
+
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_PRIORITY)].clear();
 
 	return S_OK;
 }
+
+HRESULT CRenderManager::Render_Bottom_NonBlend()
+{
+	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_NONBLEND)])
+	{
+		if (nullptr == Object)
+			break;
+
+		if (FAILED(Object->Render()))
+		{
+			MSG_BOX("ErrCode :Bottom Non Blend Object Render Failed");
+			return E_FAIL;
+		}
+
+		Safe_Release(Object);
+	}
+
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_NONBLEND)].clear();
+
+	return S_OK;
+}
+
+HRESULT CRenderManager::Render_Bottom_Blend()
+{
+	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_BLEND)])
+	{
+		if (nullptr == Object)
+			break;
+
+		if (FAILED(Object->Render()))
+		{
+			MSG_BOX("ErrCode :Bottom Blend Object Render Failed");
+			return E_FAIL;
+		}
+		Safe_Release(Object);
+	}
+
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_BLEND)].clear();
+
+	return S_OK;
+}
+
+HRESULT CRenderManager::Render_Bottom_UI()
+{
+	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI)])
+	{
+		if (nullptr == Object)
+			break;
+
+		if (FAILED(Object->Render()))
+		{
+			MSG_BOX("ErrCode :Bottom UI Object Render Failed");
+			return E_FAIL;
+		}
+		Safe_Release(Object);
+	}
+
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI)].clear();
+
+	return S_OK;
+}
+
+
+
+
+
 
 CRenderManager* CRenderManager::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
@@ -120,7 +231,7 @@ CRenderManager* CRenderManager::Create(ID3D11Device* pDevice, ID3D11DeviceContex
 
 	if (FAILED(pRenderManager->Initialize()))
 	{
-		MSG_BOX("Failed to Created : RenderManager");
+		MSG_BOX("Errcode : RenderManager Create Failed");
 		Safe_Release(pRenderManager);
 	}
 
@@ -145,6 +256,7 @@ void CRenderManager::Free()
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+	Safe_Release(m_pGameInstance);
 
 	CBase::Free();
 }

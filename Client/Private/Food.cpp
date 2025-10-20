@@ -58,7 +58,7 @@ int32_t CFood::Update(_float fDT)
 
 void CFood::Update_Late(_float fDT)
 {
-	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::NONBLEND, this);
+	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::BOTTOM_NONBLEND, this);
 
 }
 

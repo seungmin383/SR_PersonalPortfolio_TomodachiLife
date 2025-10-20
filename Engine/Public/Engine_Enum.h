@@ -8,10 +8,14 @@ namespace Engine
 	enum class VIEWPORT_TYPE :int32_t { TOP, BOTTOM, END};
 
 	enum class RENDER_GROUP : int32_t {
-		PRIORITY, 
-		NONBLEND, 
-		BLEND, 
-		UI, 
+		TOP_PRIORITY,
+		TOP_NONBLEND,
+		TOP_BLEND,
+		TOP_UI,
+		BOTTOM_PRIORITY,
+		BOTTOM_NONBLEND,
+		BOTTOM_BLEND,
+		BOTTOM_UI,
 		END};
 
 	enum class TRANSFORM_STATE : int32_t {

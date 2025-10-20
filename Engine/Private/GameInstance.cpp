@@ -107,16 +107,28 @@ void CGameInstance::Begin_Render()
 	GraphicDevice_Clear_DepthStencil_View();
 }
 
-HRESULT CGameInstance::Render()
+HRESULT CGameInstance::Render_Top()
 {
 	//·»´õ ¸Å´ÏÀú ·»´õ
-	if (FAILED(m_pRenderManager->Render()))
+	if (FAILED(m_pRenderManager->Render_Top()))
 	{
-		MSG_BOX("ErrCode : RenderManager Render Failed");
+		MSG_BOX("ErrCode : RenderManager Render Top Failed");
 		return E_FAIL;
 	}
 
 	m_pPlaceManager->Render();
+
+	return S_OK;
+}
+
+HRESULT CGameInstance::Render_Bottom()
+{
+	//·»´õ ¸Å´ÏÀú ·»´õ
+	if (FAILED(m_pRenderManager->Render_Bottom()))
+	{
+		MSG_BOX("ErrCode : RenderManager Render Bottom Failed");
+		return E_FAIL;
+	}
 
 	return S_OK;
 }

@@ -32,7 +32,8 @@ public:
 	void	Update_Late(_float fDT);
 
 	void	Begin_Render();
-	HRESULT Render();
+	HRESULT Render_Top();
+	HRESULT Render_Bottom();
 	void	End_Render();
 
 	HRESULT Clear_Resources(uint32_t PlaceID);
