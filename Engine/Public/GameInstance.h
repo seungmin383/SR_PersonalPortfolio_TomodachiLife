@@ -55,6 +55,7 @@ public:
 	  /* 후면 버퍼를 전면버퍼로 교체한다.(백버퍼를 화면에 직접 보여준다.) */
 	HRESULT GraphicDevice_Present();
 
+	void GraphicDevice_Bind_Viewport(VIEWPORT_TYPE ViewportType);
 #pragma endregion
 
 	#pragma region OBJECT_MANAGER

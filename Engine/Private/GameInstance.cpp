@@ -172,6 +172,11 @@ inline HRESULT CGameInstance::GraphicDevice_Present()
 	return m_pGraphicDevice->Present();
 }
 
+void CGameInstance::GraphicDevice_Bind_Viewport(VIEWPORT_TYPE ViewportType)
+{
+	m_pGraphicDevice->Bind_Viewport(ViewportType);
+}
+
 #pragma endregion
 
 #pragma region OBJECT_MANAGER

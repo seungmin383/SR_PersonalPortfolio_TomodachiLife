@@ -73,20 +73,8 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 	DownViewPortDesc.MinDepth	= 0.f;
 	DownViewPortDesc.MaxDepth	= 1.f;
 
-	D3D11_VIEWPORT viewports[2] = { UpViewPortDesc, DownViewPortDesc };
-
-	m_pDeviceContext->RSSetViewports(2, viewports);
-
-	//D3D11_VIEWPORT			ViewPortDesc;
-	//ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
-	//ViewPortDesc.TopLeftX = 0;
-	//ViewPortDesc.TopLeftY = 0;
-	//ViewPortDesc.Width = (_float)iWinSizeX;
-	//ViewPortDesc.Height = (_float)iWinSizeY;
-	//ViewPortDesc.MinDepth = 0.f;
-	//ViewPortDesc.MaxDepth = 1.f;
-
-	//m_pDeviceContext->RSSetViewports(1, &ViewPortDesc);
+	m_Viewports[0] = UpViewPortDesc;
+	m_Viewports[1] = DownViewPortDesc;
 
 	*ppDevice = m_pDevice;
 	*ppContext= m_pDeviceContext;
@@ -129,6 +117,11 @@ HRESULT CGraphic_Device::Present()
 	/* 전면 버퍼와 후면 버퍼를 교체하여 후면 버퍼를 전면으로 보여주는 역할을 한다. */
 	/* 후면 버퍼를 직접 화면에 보여줄게. */	
 	return m_pSwapChain->Present(0, 0);	
+}
+
+void CGraphic_Device::Bind_Viewport(VIEWPORT_TYPE ViewportType)
+{
+	m_pDeviceContext->RSSetViewports(1, &m_Viewports[static_cast<int32_t>(ViewportType)]);
 }
 
 

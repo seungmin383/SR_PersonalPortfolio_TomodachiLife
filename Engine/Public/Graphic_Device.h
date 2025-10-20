@@ -17,6 +17,7 @@ public:
 	HRESULT Clear_DepthStencil_View();
 	
 	HRESULT Present();
+	void Bind_Viewport(VIEWPORT_TYPE ViewportType);
 
 private:	
 	ID3D11Device*				m_pDevice = { nullptr };
@@ -25,6 +26,8 @@ private:
 
 	ID3D11RenderTargetView*		m_pBackBufferRTV = { nullptr };	
 	ID3D11DepthStencilView*		m_pDepthStencilView = { nullptr };
+
+	D3D11_VIEWPORT m_Viewports[static_cast<int32_t>(VIEWPORT_TYPE::END)] = {};
 
 private:
 	HRESULT Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iWinCX, _uint iWinCY);

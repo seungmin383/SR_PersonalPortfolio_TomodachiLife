@@ -72,7 +72,7 @@ void CMainApp::Update_Late(_float _fDT)
 void CMainApp::Render()
 {
 	m_pGameInstance->Begin_Render();
-
+	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::TOP);
 	m_pGameInstance->Render();
 
 	m_pGameInstance->End_Render();
