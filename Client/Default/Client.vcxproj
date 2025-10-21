@@ -148,11 +148,11 @@
     <ClInclude Include="..\Public\Island.h" />
     <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
-    <ClInclude Include="..\Public\MainCameraTop.h" />
     <ClInclude Include="..\Public\Place_Loading.h" />
     <ClInclude Include="..\Public\Place_Main.h" />
     <ClInclude Include="..\Public\Place_Setting.h" />
     <ClInclude Include="..\Public\UICamera.h" />
+    <ClInclude Include="..\Public\WorldCamera.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -163,11 +163,11 @@
     <ClCompile Include="..\Private\Island.cpp" />
     <ClCompile Include="..\Private\Loader.cpp" />
     <ClCompile Include="..\Private\MainApp.cpp" />
-    <ClCompile Include="..\Private\MainCameraTop.cpp" />
     <ClCompile Include="..\Private\Place_Loading.cpp" />
     <ClCompile Include="..\Private\Place_Main.cpp" />
     <ClCompile Include="..\Private\Place_Setting.cpp" />
     <ClCompile Include="..\Private\UICamera.cpp" />
+    <ClCompile Include="..\Private\WorldCamera.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

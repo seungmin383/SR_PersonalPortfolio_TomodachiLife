@@ -2,7 +2,7 @@
 #include "GameInstance.h"
 #include "Food.h"
 #include "Island.h"
-#include "MainCameraTop.h"
+#include "WorldCamera.h"
 #include "UICamera.h"
 
 USING(Engine)
@@ -163,38 +163,6 @@ HRESULT CLoader::Loading_For_Main()
 		return E_FAIL;
 
 
-
-	// Main Camera Top //
-	tmp = CMainCameraTop::Create(
-		m_pDevice,
-		m_pContext);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
-		TEXT("ProtoTag_Actor_MainCameraTop"),
-		tmp)))
-		return E_FAIL;
-
-
-
-	// Main Camera Bottom //
-	tmp = CUICamera::Create(
-		m_pDevice,
-		m_pContext);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
-		TEXT("ProtoTag_Actor_MainCameraBottom"),
-		tmp)))
-		return E_FAIL;
-
-
 	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
 
 // UI Loading // ====================================================
@@ -318,13 +286,6 @@ HRESULT CLoader::Loading_For_Main()
 		TEXT("ProtoTag_Component_IslandTexture"),
 		tmp)))
 		return E_FAIL;
-
-
-
-
-
-
-
 
 
 

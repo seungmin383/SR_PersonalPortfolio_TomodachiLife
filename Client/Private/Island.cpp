@@ -19,12 +19,8 @@ HRESULT CIsland::Initialize_Origin()
 
 HRESULT CIsland::Initialize_Clone(void* pArg)
 {
-	ACTOR_DESC tDesc = {};
 
-	tDesc.fRotationPerSecond = XMConvertToRadians(30.f);
-	tDesc.fSpeedPerSecond = 10.f;
-
-	if (FAILED(CActor::Initialize_Clone(&tDesc)))
+	if (FAILED(CActor::Initialize_Clone(pArg)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Component()))
@@ -41,6 +37,7 @@ int32_t CIsland::Update_Priority(_float fDT)
 
 int32_t CIsland::Update(_float fDT)
 {
+	int a = 0;
 	return 0;
 }
 
@@ -54,19 +51,11 @@ HRESULT CIsland::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	//D3D11_RASTERIZER_DESC r = {};
-	//r.CullMode = D3D11_CULL_NONE;
-	//r.FrontCounterClockwise = FALSE;
-	//ID3D11RasterizerState* rs;
-	//m_pDevice->CreateRasterizerState(&r, &rs);
-	//m_pContext->RSSetState(rs);
-
 	if (FAILED(m_pTerrainBufferCom->Bind_Resource()))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Begin(0)))
 		return E_FAIL;
-
 
 	if (FAILED(m_pTerrainBufferCom->Begin_Draw()))
 		return E_FAIL;
@@ -114,14 +103,16 @@ HRESULT CIsland::Bind_ShaderResources()
 		m_pShaderCom,
 		"g_WorldMatrix");
 	
-	m_pGameInstance->PipeLine_Bind_PipeLine_Matrix(
+	m_pGameInstance->CameraManager_Bind_Matrix(
 		m_pShaderCom,
 		"g_ViewMatrix",
+		TEXT("World_Camera"),
 		D3DTS::VIEW);
 
-	m_pGameInstance->PipeLine_Bind_PipeLine_Matrix(
+	m_pGameInstance->CameraManager_Bind_Matrix(
 		m_pShaderCom,
 		"g_ProjMatrix",
+		TEXT("World_Camera"),
 		D3DTS::PROJ);
 
 	m_pTextureCom->Bind_ShaderResource(

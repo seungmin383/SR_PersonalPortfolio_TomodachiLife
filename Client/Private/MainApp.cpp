@@ -2,7 +2,7 @@
 #include "GameInstance.h"
 #include "Place_Loading.h"
 
-#include "MainCameraTop.h"
+#include "WorldCamera.h"
 #include "UICamera.h"
 
 USING(Client)
@@ -87,14 +87,14 @@ HRESULT CMainApp::Ready_Static()
 	CObject* tmp = { nullptr };
 
 	// Main Camera Top //
-	tmp = CMainCameraTop::Create(m_pDevice, m_pContext);
+	tmp = CWorldCamera::Create(m_pDevice, m_pContext);
 
 	if (nullptr == tmp)
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
-		TEXT("ProtoTag_Actor_MainCameraTop"),
+		TEXT("ProtoTag_Actor_WorldCamera"),
 		tmp)))
 		return E_FAIL;
 

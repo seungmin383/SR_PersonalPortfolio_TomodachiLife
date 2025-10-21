@@ -1,5 +1,6 @@
 #include "UICamera.h"
 #include "GameInstance.h"
+#include "WorldCamera.h"
 
 CUICamera::CUICamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CCamera(pDevice, pContext)
@@ -50,6 +51,11 @@ void CUICamera::Update_Late(_float fDT)
 {
 }
 
+void CUICamera::Ready_Render()
+{
+	Set_Matrices();
+}
+
 void CUICamera::Set_Matrices()
 {
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixInverse(nullptr, m_pTransformCom->Get_WorldMatrix()));
@@ -58,10 +64,7 @@ void CUICamera::Set_Matrices()
 }
 
 
-void CUICamera::Ready_Render()
-{
-	Set_Matrices();
-}
+
 
 CUICamera* CUICamera::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

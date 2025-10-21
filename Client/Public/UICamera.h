@@ -25,9 +25,9 @@ public:
 	virtual int32_t Update(_float fDT)override;
 	virtual void Update_Late(_float fDT)override;
 
+	void Ready_Render();
 	virtual void Set_Matrices()override;
 
-	void Ready_Render();
 
 public:
 	static CUICamera* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

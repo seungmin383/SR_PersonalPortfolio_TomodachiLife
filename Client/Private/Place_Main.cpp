@@ -2,6 +2,7 @@
 #include "Client_Defines.h"
 #include "GameInstance.h"
 #include "Place_Loading.h"
+#include "WorldCamera.h"
 #include "UICamera.h"
 
 CPlace_Main::CPlace_Main(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -41,7 +42,7 @@ int32_t CPlace_Main::Update(_float fDT)
 HRESULT CPlace_Main::Render_Priority()
 {
 	SetWindowText(g_hWnd, TEXT("메인레벨입니다."));
-	//m_pWorldCamera->Update_PipeLine();
+	static_cast<CWorldCamera*>(m_pWorldCamera)->Ready_Render();
 	//m_pGameInstance->PipeLine_Calc_ProjMatrix(m_pWorldCamera);
 	return S_OK;
 }
@@ -56,10 +57,18 @@ HRESULT CPlace_Main::Render_Late()
 
 HRESULT CPlace_Main::Ready_Actor_Layer()
 {
+	CActor::ACTOR_DESC tDesc = {};
+	tDesc.fX = 0.f;
+	tDesc.fY = 0.f;
+	tDesc.fZ = 0.f;
+	tDesc.fCX = 1.f;
+	tDesc.fCY = 1.f;
+	tDesc.fCZ = 1.f;
+
 	CObject* tmp = m_pGameInstance->Proto_Get_Object_Clone(
 		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
 		TEXT("ProtoTag_Actor_Island"),
-		nullptr);
+		&tDesc);
 
 	if (nullptr == tmp)
 		return E_FAIL;
@@ -107,27 +116,28 @@ HRESULT CPlace_Main::Ready_Environment_Layer()
 
 HRESULT CPlace_Main::Ready_Camera_Layer()
 {
-	CUICamera::UICAMERA_DESC tDesc = {};
-	tDesc.fSensor = 1.f;
-	tDesc.fAspect = 2.f;
-	tDesc.fFov = XMConvertToRadians(90.f);
-	tDesc.fFarZ = 1.f;
-	tDesc.fNearZ = 0.1f;
-	tDesc.fHeight = static_cast<_float>(WINCX);
-	tDesc.fWidth = static_cast<_float>(WINCY / 2);
-	tDesc.fSpeedPerSecond = 0.f;
-	tDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-	tDesc.vEye = _float3(0.f, 0.f, 0.f);
-	tDesc.vAt = _float3(0.f, 0.f, 1.f);
-	tDesc.fCX = 1.f;
-	tDesc.fCY = 1.f;
-	tDesc.fX = 0.f;
-	tDesc.fY = 0.f;
-
+	CUICamera::UICAMERA_DESC tUICameraDesc = {};
+	tUICameraDesc.fSensor = 1.f;
+	tUICameraDesc.fAspect = 2.f;
+	tUICameraDesc.fFov = XMConvertToRadians(90.f);
+	tUICameraDesc.fFarZ = 1.f;
+	tUICameraDesc.fNearZ = 0.1f;
+	tUICameraDesc.fHeight = static_cast<_float>(WINCX);
+	tUICameraDesc.fWidth = static_cast<_float>(WINCY / 2);
+	tUICameraDesc.fSpeedPerSecond = 0.f;
+	tUICameraDesc.fRotationPerSecond = XMConvertToRadians(20.f);
+	tUICameraDesc.vEye = _float3(0.f, 0.f, 0.f);
+	tUICameraDesc.vAt = _float3(0.f, 0.f, 1.f);
+	tUICameraDesc.fCX = 1.f;
+	tUICameraDesc.fCY = 1.f;
+	tUICameraDesc.fCZ = 1.f;
+	tUICameraDesc.fX = 0.f;
+	tUICameraDesc.fY = 0.f;
+	tUICameraDesc.fZ = 0.f;
 	CObject* tmp = m_pGameInstance->Proto_Get_Object_Clone(
 		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
 		TEXT("ProtoTag_Actor_UICamera"),
-		&tDesc);
+		&tUICameraDesc);
 
 	if (nullptr == tmp)
 		return E_FAIL;
@@ -143,6 +153,44 @@ HRESULT CPlace_Main::Ready_Camera_Layer()
 		return E_FAIL;
 	}
 
+
+	CWorldCamera::WORLDCAMERA_DESC tWorldCameraDesc = {};
+	tWorldCameraDesc.fSensor = 1.f;
+	tWorldCameraDesc.fAspect = 2.f;
+	tWorldCameraDesc.fFov = XMConvertToRadians(90.f);
+	tWorldCameraDesc.fFarZ = 1000.f;
+	tWorldCameraDesc.fNearZ = 0.1f;
+	tWorldCameraDesc.fHeight = static_cast<_float>(WINCX);
+	tWorldCameraDesc.fWidth = static_cast<_float>(WINCY / 2);
+	tWorldCameraDesc.fSpeedPerSecond = 0.f;
+	tWorldCameraDesc.fRotationPerSecond = XMConvertToRadians(20.f);
+	tWorldCameraDesc.vEye = _float3(0.f, 30.f, -10.f);
+	tWorldCameraDesc.vAt = _float3(0.f, 0.f, 0.f);
+	tWorldCameraDesc.fCX = 1.f;
+	tWorldCameraDesc.fCY = 1.f;
+	tWorldCameraDesc.fCZ = 1.f;
+	tWorldCameraDesc.fX = 0.f;
+	tWorldCameraDesc.fY = 0.f;
+	tWorldCameraDesc.fZ = 0.f;
+
+	tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
+		TEXT("ProtoTag_Actor_WorldCamera"),
+		&tWorldCameraDesc);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	m_pWorldCamera = tmp;
+	Safe_AddRef(m_pWorldCamera);
+
+	if (FAILED(m_pGameInstance->CameraManager_Add_Camera(
+		TEXT("World_Camera"),
+		dynamic_cast<CCamera*>(tmp))))
+	{
+		Safe_Release(m_pWorldCamera);
+		return E_FAIL;
+	}
 	return S_OK;
 }
 

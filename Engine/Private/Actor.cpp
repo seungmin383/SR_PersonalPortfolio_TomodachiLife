@@ -28,16 +28,19 @@ HRESULT CActor::Initialize_Clone(void* pArg)
 
 	m_fX = pActorDesc->fX;
 	m_fY = pActorDesc->fY;
+	m_fZ = pActorDesc->fZ;
+
 	m_fCX = pActorDesc->fCX;
 	m_fCY = pActorDesc->fCY;
-
-	m_pTransformCom->Set_Scale(m_fCX, m_fCY, 1.f);
+	m_fCZ = pActorDesc->fCZ;
+	 
+	m_pTransformCom->Set_Scale(m_fCX, m_fCY, m_fCZ);
 
 	m_pTransformCom->Set_State(TRANSFORM_STATE::POS,
 		XMVectorSet(
 			m_fX,
 			m_fY,
-			0.5f,
+			m_fZ,
 			1.f));
 
 	m_Components.emplace(TEXT("Com_Transform"), m_pTransformCom);

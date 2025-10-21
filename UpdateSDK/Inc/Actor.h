@@ -13,8 +13,12 @@ public:
 	{
 		_float fX = {};
 		_float fY = {};
+		_float fZ = {};
+
 		_float fCX = {};
 		_float fCY = {};
+		_float fCZ = {};
+
 	}ACTOR_DESC;
 
 protected:
@@ -48,8 +52,12 @@ protected:
 private:
 	_float m_fX = {};
 	_float m_fY = {};
+	_float m_fZ = {};
+
 	_float m_fCX = {};
 	_float m_fCY = {};
+	_float m_fCZ = {};
+
 public:
 	virtual void Free()override;
 };

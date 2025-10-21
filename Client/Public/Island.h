@@ -13,6 +13,10 @@ NS_BEGIN(Client)
 
 class CIsland final : public CActor
 {
+	typedef struct tagIslandDesc : public ACTOR_DESC
+	{
+		
+	}ISLAND_DESC;
 protected:
 	CIsland(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CIsland(const CIsland& rhs);
