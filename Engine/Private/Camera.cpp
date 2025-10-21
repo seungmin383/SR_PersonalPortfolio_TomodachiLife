@@ -37,14 +37,7 @@ HRESULT CCamera::Initialize_Clone(void* pArg)
 	m_pTransformCom->LookAt(XMVectorSetW(XMLoadFloat3(&m_vAt), 1.f));
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixInverse(nullptr, m_pTransformCom->Get_WorldMatrix()));
-	//_float3 vfUp{ 0.f, 1.f, 0.f };
 
-	//XMVECTOR vEye = XMLoadFloat3(&m_vEye);
-	//XMVECTOR vAt = XMLoadFloat3(&m_vAt);
-	//XMVECTOR vUp = XMLoadFloat3(&vfUp);
-
-	//XMMATRIX V = XMMatrixLookAtLH(vEye, vAt, vUp);
-	//XMStoreFloat4x4(&m_ViewMatrix, (V)); // column-major 규약이면 전치
 	return S_OK;
 }
 

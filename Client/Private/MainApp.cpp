@@ -86,7 +86,6 @@ HRESULT CMainApp::Ready_Static()
 {
 	CObject* tmp = { nullptr };
 
-
 	// Main Camera Top //
 	tmp = CMainCameraTop::Create(m_pDevice, m_pContext);
 

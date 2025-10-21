@@ -96,27 +96,12 @@ HRESULT CTerrainBufferCom::Initialize_Origin(const _tchar* HeightMapFilePath)
 			uint64_t Index = PixelNumZ * i + j;
 
 			m_pVertexPositions[Index] = 
-			pVertices[Index].vPos		= 
-				_float3(static_cast<_float>(j), (Pixels[Index] & 0x000000ff) / 20.f, static_cast<_float>(i));
+			pVertices[Index].vPos = 
+				_float3(static_cast<_float>(j), (Pixels[Index] & 0x000000ff) / 10.f, static_cast<_float>(i));
 			pVertices[Index].vTexCoord	= _float2(j / (PixelNumZ - 1.f), i / (PixelNumZ - 1.f));
 			pVertices[Index].vNormal	= _float3(0.f, 0.f, 0.f);
 		}
 	}
-
-	D3D11_SUBRESOURCE_DATA VBuffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
-	VBuffer_Init_Data.pSysMem = pVertices;
-
-	if (FAILED(m_pDevice->CreateBuffer(
-		&VBuffer_Data,
-		&VBuffer_Init_Data,
-		&m_VBuffer)))
-	{
-		MSG_BOX("ErrCode : Vertex Buffer Create Failed");
-		return E_FAIL;
-	}
-
-	Safe_Delete_Array(pVertices);
-	Safe_Delete_Array(Pixels);
 
 	//Index Buffer //====================================================================
 	D3D11_BUFFER_DESC IBuffer_Data = {};
@@ -145,14 +130,66 @@ HRESULT CTerrainBufferCom::Initialize_Origin(const _tchar* HeightMapFilePath)
 				Index
 			};
 
+			XMVECTOR vSrc = {};
+			XMVECTOR vDst = {};
+			XMVECTOR vNormal = {};
+
 			pIndices[IndicesNum++] = Indices[0];
 			pIndices[IndicesNum++] = Indices[1];
 			pIndices[IndicesNum++] = Indices[2];
 
+			vSrc = XMLoadFloat3(&pVertices[Indices[1]].vPos)
+				- XMLoadFloat3(&pVertices[Indices[0]].vPos);
+
+			vDst = XMLoadFloat3(&pVertices[Indices[2]].vPos)
+				- XMLoadFloat3(&pVertices[Indices[1]].vPos);
+
+			vNormal = XMVector3Normalize(XMVector3Cross(vSrc, vDst));
+
+			XMStoreFloat3(&pVertices[Indices[0]].vNormal,
+				XMLoadFloat3(&pVertices[Indices[0]].vNormal) + vNormal);
+			XMStoreFloat3(&pVertices[Indices[1]].vNormal,
+				XMLoadFloat3(&pVertices[Indices[1]].vNormal) + vNormal);
+			XMStoreFloat3(&pVertices[Indices[2]].vNormal,
+				XMLoadFloat3(&pVertices[Indices[2]].vNormal) + vNormal);
+
 			pIndices[IndicesNum++] = Indices[0];
 			pIndices[IndicesNum++] = Indices[2];
 			pIndices[IndicesNum++] = Indices[3];
+
+			vSrc = XMLoadFloat3(&pVertices[Indices[2]].vPos)
+				- XMLoadFloat3(&pVertices[Indices[0]].vPos);
+
+			vDst = XMLoadFloat3(&pVertices[Indices[3]].vPos)
+				- XMLoadFloat3(&pVertices[Indices[2]].vPos);
+
+			vNormal = XMVector3Normalize(XMVector3Cross(vSrc, vDst));
+
+			XMStoreFloat3(&pVertices[Indices[0]].vNormal,
+				XMLoadFloat3(&pVertices[Indices[0]].vNormal) + vNormal);
+			XMStoreFloat3(&pVertices[Indices[3]].vNormal,
+				XMLoadFloat3(&pVertices[Indices[3]].vNormal) + vNormal);
+			XMStoreFloat3(&pVertices[Indices[2]].vNormal,
+				XMLoadFloat3(&pVertices[Indices[2]].vNormal) + vNormal);
 		}
+	}
+
+	for (size_t i = 0; i < m_iNumVertices; i++)
+	{
+		XMStoreFloat3(&pVertices[i].vNormal,
+			XMVector3Normalize(XMLoadFloat3(&pVertices[i].vNormal)));
+	}
+
+	D3D11_SUBRESOURCE_DATA VBuffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
+	VBuffer_Init_Data.pSysMem = pVertices;
+
+	if (FAILED(m_pDevice->CreateBuffer(
+		&VBuffer_Data,
+		&VBuffer_Init_Data,
+		&m_VBuffer)))
+	{
+		MSG_BOX("ErrCode : Vertex Buffer Create Failed");
+		return E_FAIL;
 	}
 
 	D3D11_SUBRESOURCE_DATA IBuffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
@@ -167,6 +204,8 @@ HRESULT CTerrainBufferCom::Initialize_Origin(const _tchar* HeightMapFilePath)
 		return E_FAIL;
 	}
 
+	Safe_Delete_Array(pVertices);
+	Safe_Delete_Array(Pixels);
 	Safe_Delete_Array(pIndices);
 
 	return S_OK;

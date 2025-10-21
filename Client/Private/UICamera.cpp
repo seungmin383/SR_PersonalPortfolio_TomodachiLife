@@ -52,19 +52,9 @@ void CUICamera::Update_Late(_float fDT)
 
 void CUICamera::Set_Matrices()
 {
-	_float4x4 tmpmat;
-
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixInverse(nullptr, m_pTransformCom->Get_WorldMatrix()));
 	XMStoreFloat4x4(&m_ProjMatrix,
 		XMMatrixOrthographicLH(960.f, 480.f, m_fNearZ, m_fFarZ));
-
-	//XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
-	//XMStoreFloat4x4(&m_ProjMatrix,
-	//	XMMatrixOrthographicLH(m_fWidth, m_fHeight, 0.f, 1.f));
-
-	tmpmat;
-
-	int a = 10;
 }
 
 
