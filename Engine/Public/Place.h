@@ -14,7 +14,8 @@ protected:
 public:
 	virtual HRESULT Initialize();
 	virtual int32_t Update(_float fDT);
-	virtual HRESULT Render();
+	virtual HRESULT Render_Priority();
+	virtual HRESULT Render_Late();
 
 protected:
 	CGameInstance*			m_pGameInstance = { nullptr };

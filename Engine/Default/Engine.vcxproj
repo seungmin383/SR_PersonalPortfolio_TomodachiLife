@@ -22,6 +22,7 @@
     <ClInclude Include="..\Public\Actor.h" />
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\Public\Camera.h" />
+    <ClInclude Include="..\Public\CameraManager.h" />
     <ClInclude Include="..\Public\Component.h" />
     <ClInclude Include="..\Public\Engine_Define.h" />
     <ClInclude Include="..\Public\Engine_Enum.h" />
@@ -62,6 +63,7 @@
     <ClCompile Include="..\Private\Actor.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
+    <ClCompile Include="..\Private\CameraManager.cpp" />
     <ClCompile Include="..\Private\Component.cpp" />
     <ClCompile Include="..\Private\GameInstance.cpp" />
     <ClCompile Include="..\Private\Graphic_Device.cpp" />

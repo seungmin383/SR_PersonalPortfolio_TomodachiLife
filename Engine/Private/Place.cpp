@@ -21,7 +21,12 @@ int32_t CPlace::Update(_float fDT)
 	return 0;
 }
 
-HRESULT CPlace::Render()
+HRESULT CPlace::Render_Priority()
+{
+	return S_OK;
+}
+
+HRESULT CPlace::Render_Late()
 {
 	return S_OK;
 }

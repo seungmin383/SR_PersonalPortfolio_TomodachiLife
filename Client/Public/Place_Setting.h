@@ -12,7 +12,8 @@ private:
 public:
 	virtual HRESULT Initialize()override;
 	virtual int32_t Update(_float fDT)override;
-	virtual HRESULT Render()override;
+	virtual HRESULT Render_Priority()override;
+	virtual HRESULT Render_Late()override;
 
 public:
 	static CPlace_Setting* Create(

@@ -5,6 +5,8 @@
 #include "Render_Manager.h"
 #include "Object_Manager.h"
 #include "PipeLine.h"
+#include "Camera.h"
+#include "CameraManager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -75,12 +77,21 @@ HRESULT CGameInstance::Initialize(
 		if (nullptr == m_pPipeLine)
 			return E_FAIL;
 	}
+
+	// CameraManager
+	{
+		m_pCameraManager = CCameraManager::Create();
+		if (nullptr == m_pCameraManager)
+			return E_FAIL;
+	}
 	return S_OK;
 }
 
 int32_t CGameInstance::Update_Priority(_float fDT)
 {
-	return m_pObjectManager->Update_Priority(fDT);
+	m_pObjectManager->Update_Priority(fDT);
+	m_pCameraManager->Update_Priority(fDT);
+	return 0;
 }
 
 int32_t CGameInstance::Update(_float fDT)
@@ -89,12 +100,15 @@ int32_t CGameInstance::Update(_float fDT)
 	m_pPlaceManager->Update(fDT);
 	//게임 오브젝트 매니저 업데이트		//진짜 업데이트
 	
-	return m_pObjectManager->Update(fDT);
+	m_pObjectManager->Update(fDT);
+	m_pCameraManager->Update(fDT);
+	return 	0;
 }
 
 void CGameInstance::Update_Late( _float fDT)
 {
-	m_pObjectManager->Update_Late(fDT);
+	m_pObjectManager->Update_Late(fDT);	
+	m_pCameraManager->Update_Late(fDT);
 }
 
 void CGameInstance::Begin_Render()
@@ -109,6 +123,8 @@ void CGameInstance::Begin_Render()
 
 HRESULT CGameInstance::Render_Top()
 {
+	m_pPlaceManager->Render_Priority();
+
 	//렌더 매니저 렌더
 	if (FAILED(m_pRenderManager->Render_Top()))
 	{
@@ -116,13 +132,14 @@ HRESULT CGameInstance::Render_Top()
 		return E_FAIL;
 	}
 
-	m_pPlaceManager->Render();
 
 	return S_OK;
 }
 
 HRESULT CGameInstance::Render_Bottom()
 {
+	m_pPlaceManager->Render_Late();
+
 	//렌더 매니저 렌더
 	if (FAILED(m_pRenderManager->Render_Bottom()))
 	{
@@ -267,11 +284,40 @@ HRESULT CGameInstance::PipeLine_Bind_Camera_Pos(CShaderCom* pShader, const _char
 	return E_NOTIMPL;
 }
 
+void CGameInstance::PipeLine_Calc_ProjMatrix(CCamera* pCamera)
+{
+	m_pPipeLine->Calc_ProjMatrix(pCamera);
+}
 #pragma endregion
+
+#pragma region CAMERAMANAGER
+
+HRESULT CGameInstance::CameraManager_Add_Camera(const _wstring CameraTag, CCamera* pCamera)
+{
+	return m_pCameraManager->Add_Camera(CameraTag, pCamera);
+}
+
+HRESULT CGameInstance::CameraManager_Bind_Matrix(
+	CShaderCom* pShader, 
+	const _char* ConstantName, 
+	const _wstring CameraTag,
+	D3DTS eMatrix)
+{
+	return m_pCameraManager->Bind_Matrix(
+		pShader,
+		ConstantName,
+		CameraTag,
+		eMatrix);
+}
+
+#pragma endregion
+
+
 
 void CGameInstance::Clear_Engine()
 {
 	Safe_Release(m_pTimerManager);
+	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pPlaceManager);
 	Safe_Release(m_pObjectManager);
 	Safe_Release(m_pPrototype);

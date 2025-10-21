@@ -21,7 +21,8 @@ public:
 		Engine::RETAIN_POLICY Policy);
 
 	virtual int32_t	 Update(_float fDT) override;
-	virtual HRESULT Render() override;
+	virtual HRESULT Render_Priority() override;
+	virtual HRESULT Render_Late() override;
 
 private:
 	CLoader*				m_pLoader = { nullptr };

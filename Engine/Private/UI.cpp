@@ -33,10 +33,10 @@ HRESULT CUI::Initialize_Clone(void* pArg)
 	m_fCX = pUIDesc->fCX;
 	m_fCY = pUIDesc->fCY;
 
-	uint32_t iNumViewPorts{2};
-	D3D11_VIEWPORT ViewportDescs[2];
+	uint32_t iNumViewPorts{1};
+	D3D11_VIEWPORT ViewportDescs;
 
-	m_pContext->RSGetViewports(&iNumViewPorts, ViewportDescs);
+	m_pContext->RSGetViewports(&iNumViewPorts, &ViewportDescs);
 	
 	m_pTransformCom->Set_Scale(m_fCX, m_fCY, 1.f);
 
@@ -50,8 +50,8 @@ HRESULT CUI::Initialize_Clone(void* pArg)
 	m_Components.emplace(TEXT("Com_Transform"), m_pTransformCom);
 	Safe_AddRef(m_pTransformCom);
 
-	m_fViewportCX = ViewportDescs[0].Width;
-	m_fViewportCY = ViewportDescs[0].Height;
+	m_fViewportCX = ViewportDescs.Width;
+	m_fViewportCY = ViewportDescs.Height;
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
 	XMStoreFloat4x4(&m_ProjMatrix,

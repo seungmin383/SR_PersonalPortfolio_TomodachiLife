@@ -3,7 +3,7 @@
 #include "Food.h"
 #include "Island.h"
 #include "MainCameraTop.h"
-#include "MainCameraBottom.h"
+#include "UICamera.h"
 
 USING(Engine)
 
@@ -181,7 +181,7 @@ HRESULT CLoader::Loading_For_Main()
 
 
 	// Main Camera Bottom //
-	tmp = CMainCameraBottom::Create(
+	tmp = CUICamera::Create(
 		m_pDevice,
 		m_pContext);
 

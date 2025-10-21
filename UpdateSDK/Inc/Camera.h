@@ -11,10 +11,14 @@ public:
 		_float3 vEye = {};
 		_float3 vAt = {};
 
-		_float m_fFov = {};
-		_float m_fAspect = {};
-		_float m_fNear = {};
-		_float m_fFar = {};
+		_float fFarZ = {};
+		_float fNearZ = {};
+
+		_float fFov = {};
+		_float fAspect = {};
+
+		_float fWidth = {};
+		_float fHeight = {};
 
 	}CAMERA_DESC;
 
@@ -30,53 +34,40 @@ public:
 	virtual int32_t Update_Priority(_float fDT)override;
 	virtual int32_t Update(_float fDT)override;
 	virtual void Update_Late(_float fDT)override;
+	
+	virtual void Set_Matrices();
+
+	virtual void Update_PipeLine();
+
 	/* Near 평면 세로 길이	: 2.f * m_fNearZ * tanf(0.5f * m_fFovY) */
 	/* Far 평면 세로 길이	: 2.f * m_fFarZ * tanf(0.5f * m_fFovY) */
 	/* Near 평면 가로 길이	: m_fAspect * m_fNear_Height */
 	/* Far 평면 가로 길이	: m_fAspect * m_fFar_Height */
+
 public:
-	//투영행렬 만들고 세팅해두기
-	void Set_View();
-	void Set_Proj();
+	_float Get_FarZ()const { return m_fFarZ; }
+	_float Get_NearZ()const { return m_fNearZ; }
+	_float Get_Fov()const { return m_fFov; }
+	_float Get_Aspect()const { return m_fAspect; }
 
-	_float Get_FovX()
-	{
-		_float fHalfWidth = 0.5f * (m_fAspect * m_fNear_Height);
-		return (2.f * atan(fHalfWidth / m_fNear));
-	};
-	
-	//앞뒤 움직임
-	void Front_Move_Camera(_float _fSpeed);
+	_float4x4& Get_ProjMatrix() { return m_ProjMatrix; }
+	_float4x4& Get_ViewMatrix() { return m_ViewMatrix; }
+protected:
+	_float3 m_vEye = {};
+	_float3 m_vAt = {};
 
-	//좌우 움직임
-	void Side_Move_Camera(_float _fSpeed);
+	_float m_fFarZ = {};
+	_float m_fNearZ = {};
 
-	//위아래 회전
-	void Pitch_Camera(_float _fAngle);
+	_float m_fFov = {};
+	_float m_fAspect = {};
 
-	//좌우 회전
-	void RotateY_Camera(_float _fAngle);
+	_float m_fWidth = {};
+	_float m_fHeight = {};
 
-	void Update_View();
+	_float4x4 m_ViewMatrix = {};
+	_float4x4 m_ProjMatrix = {};
 
-private:
-	_float3 m_vEye			= {};	// 시야 공간의 원점
-	_float3 m_vAt			= {};
-
-	_float3 m_vRight		= {};	// Right vector
-	_float3 m_vUp			= {};	// Up vector
-	_float3 m_vLook			= {};	// Look Vector
-
-	_float m_fNear			= {};	// Near 평면까지 거리
-	_float m_fFar			= {};	// Far 평면까지 거리
-	_float m_fAspect		= {};	// 종횡비 DS처럼 화면 나누면 각각의 뷰포트 Width, Height로 계산해야함
-	_float m_fFov			= {};	// Field of View 시야각
-	_float m_fNear_Height	= {};
-	_float m_fFar_Height	= {};
-
-	_float4x4 m_ViewMatrix	= {};
-	_float4x4 m_ProjMatrix	= {};
-	
 public:
 	virtual void Free()override;
 };

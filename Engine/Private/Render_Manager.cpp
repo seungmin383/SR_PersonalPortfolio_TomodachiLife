@@ -32,8 +32,6 @@ HRESULT CRenderManager::Initialize()
 
 HRESULT CRenderManager::Render_Top()
 {
-	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::TOP);
-
 	Render_Top_Priority();
 	Render_Top_NonBlend();
 	Render_Top_Blend();
@@ -43,8 +41,6 @@ HRESULT CRenderManager::Render_Top()
 }
 HRESULT CRenderManager::Render_Bottom()
 {
-	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::BOTTOM);
-
 	Render_Bottom_Priority();
 	Render_Bottom_NonBlend();
 	Render_Bottom_Blend();

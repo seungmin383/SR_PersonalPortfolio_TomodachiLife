@@ -4,6 +4,7 @@
 NS_BEGIN(Engine)
 
 class CShaderCom;
+class CCamera;
 
 class CPipeLine :public CBase
 {
@@ -11,6 +12,8 @@ private:
 	CPipeLine();
 	virtual ~CPipeLine() = default;
 
+private:
+	HRESULT Initialize();
 public:
 	void Set_Transform(
 		D3DTS eMatrix,
@@ -31,8 +34,12 @@ public:
 		CShaderCom* pShader,
 		const _char* pConstantName);
 
+	void Calc_ProjMatrix(CCamera* pCamera);
+
 private:
 	XMFLOAT4X4 m_Matrices[static_cast<uint32_t>(D3DTS::END)] = {};
+	
+	
 	XMFLOAT4X4 m_InverseMatrices[static_cast<uint32_t>(D3DTS::END)] = {};
 	_float4 m_vCameraPos;
 

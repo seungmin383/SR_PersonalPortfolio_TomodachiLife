@@ -40,8 +40,8 @@
     <ClInclude Include="..\Public\MainCameraTop.h">
       <Filter>02.Object\00.Actor\99.Camera\00.MainCameraTop</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\MainCameraBottom.h">
-      <Filter>02.Object\00.Actor\99.Camera\01.MainCameraBottom</Filter>
+    <ClInclude Include="..\Public\UICamera.h">
+      <Filter>02.Object\00.Actor\99.Camera\01.UICamera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,7 +128,7 @@
     <Filter Include="02.Object\00.Actor\99.Camera\00.MainCameraTop">
       <UniqueIdentifier>{13198fa9-cff1-4d21-9aa8-22ebae596e68}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Object\00.Actor\99.Camera\01.MainCameraBottom">
+    <Filter Include="02.Object\00.Actor\99.Camera\01.UICamera">
       <UniqueIdentifier>{b42dc832-8c8a-4045-b3a3-89539dc65ea6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -160,8 +160,8 @@
     <ClCompile Include="..\Private\MainCameraTop.cpp">
       <Filter>02.Object\00.Actor\99.Camera\00.MainCameraTop</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\MainCameraBottom.cpp">
-      <Filter>02.Object\00.Actor\99.Camera\01.MainCameraBottom</Filter>
+    <ClCompile Include="..\Private\UICamera.cpp">
+      <Filter>02.Object\00.Actor\99.Camera\01.UICamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

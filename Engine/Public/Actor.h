@@ -11,7 +11,10 @@ class ENGINE_DLL CActor abstract : public CObject
 public:
 	typedef struct tagActorDesc : public OBJECT_DESC
 	{
-
+		_float fX = {};
+		_float fY = {};
+		_float fCX = {};
+		_float fCY = {};
 	}ACTOR_DESC;
 
 protected:
@@ -42,6 +45,11 @@ protected:
 		void* pArg
 	);
 
+private:
+	_float m_fX = {};
+	_float m_fY = {};
+	_float m_fCX = {};
+	_float m_fCY = {};
 public:
 	virtual void Free()override;
 };

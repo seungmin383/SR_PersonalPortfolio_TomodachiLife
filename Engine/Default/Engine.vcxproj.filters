@@ -94,6 +94,9 @@
     <Filter Include="01.Utility\05.PipeLine">
       <UniqueIdentifier>{1ffb9ab0-977f-4b7e-96c1-ecea559074d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\01.Actor\00.Camera\Manager">
+      <UniqueIdentifier>{46ea853a-0a68-42a4-bd4b-220b606882f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -167,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\PipeLine.cpp">
       <Filter>01.Utility\05.PipeLine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CameraManager.cpp">
+      <Filter>01.Utility\03.Object\01.Actor\00.Camera\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\PipeLine.h">
       <Filter>01.Utility\05.PipeLine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CameraManager.h">
+      <Filter>01.Utility\03.Object\01.Actor\00.Camera\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

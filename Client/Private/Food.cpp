@@ -26,8 +26,13 @@ HRESULT CFood::Initialize_Clone(void* pArg)
 {
 	CUI::UI_DESC tDesc{};
 	
-	tDesc.fX = 0.f;
-	tDesc.fY = 0.f;
+	uint32_t iNum = {2};
+	D3D11_VIEWPORT Viewport_Desc[2] = {};
+
+	m_pContext->RSGetViewports(&iNum, Viewport_Desc);
+
+	tDesc.fX = 0;
+	tDesc.fY = 0;
 
 	tDesc.fCX = 500.f;
 	tDesc.fCY = 500.f;
@@ -58,8 +63,8 @@ int32_t CFood::Update(_float fDT)
 
 void CFood::Update_Late(_float fDT)
 {
-	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::BOTTOM_NONBLEND, this);
-
+	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
+	//m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::BOTTOM_NONBLEND, this);
 }
 
 HRESULT CFood::Render()

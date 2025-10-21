@@ -24,6 +24,21 @@ HRESULT CActor::Initialize_Clone(void* pArg)
 	m_pTransformCom = CTransformCom::Create(m_pDevice, m_pContext);
 
 	m_pTransformCom->Initialize_Clone(pArg);
+	ACTOR_DESC* pActorDesc = static_cast<ACTOR_DESC*>(pArg);
+
+	m_fX = pActorDesc->fX;
+	m_fY = pActorDesc->fY;
+	m_fCX = pActorDesc->fCX;
+	m_fCY = pActorDesc->fCY;
+
+	m_pTransformCom->Set_Scale(m_fCX, m_fCY, 1.f);
+
+	m_pTransformCom->Set_State(TRANSFORM_STATE::POS,
+		XMVectorSet(
+			m_fX,
+			m_fY,
+			0.5f,
+			1.f));
 
 	m_Components.emplace(TEXT("Com_Transform"), m_pTransformCom);
 	Safe_AddRef(m_pTransformCom);

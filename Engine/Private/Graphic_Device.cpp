@@ -76,6 +76,8 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 	m_Viewports[0] = UpViewPortDesc;
 	m_Viewports[1] = DownViewPortDesc;
 
+	m_pDeviceContext->RSSetViewports(2, m_Viewports);
+
 	*ppDevice = m_pDevice;
 	*ppContext= m_pDeviceContext;
 

@@ -66,7 +66,13 @@ int32_t CPlace_Setting::Update(_float fDT)
 	return 0;
 }
 
-HRESULT CPlace_Setting::Render()
+HRESULT CPlace_Setting::Render_Priority()
+{
+	SetWindowText(g_hWnd, TEXT("세팅레벨입니다."));
+	return S_OK;
+}
+
+HRESULT CPlace_Setting::Render_Late()
 {
 	SetWindowText(g_hWnd, TEXT("세팅레벨입니다."));
 	return S_OK;

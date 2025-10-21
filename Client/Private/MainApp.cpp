@@ -3,7 +3,7 @@
 #include "Place_Loading.h"
 
 #include "MainCameraTop.h"
-#include "MainCameraBottom.h"
+#include "UICamera.h"
 
 USING(Client)
 
@@ -72,8 +72,13 @@ void CMainApp::Update_Late(_float _fDT)
 void CMainApp::Render()
 {
 	m_pGameInstance->Begin_Render();
+
+	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::TOP);
 	m_pGameInstance->Render_Top();
+
+	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::BOTTOM);
 	m_pGameInstance->Render_Bottom();
+
 	m_pGameInstance->End_Render();
 }
 
@@ -96,14 +101,14 @@ HRESULT CMainApp::Ready_Static()
 
 
 	// Main Camera Bottom //
-	tmp = CMainCameraBottom::Create(m_pDevice, m_pContext);
+	tmp = CUICamera::Create(m_pDevice, m_pContext);
 
 	if (nullptr == tmp)
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
-		TEXT("ProtoTag_Actor_MainCameraBottom"),
+		TEXT("ProtoTag_Actor_UICamera"),
 		tmp)))
 		return E_FAIL;
 }

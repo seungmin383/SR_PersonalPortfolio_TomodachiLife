@@ -9,9 +9,11 @@ class CPlaceManager;
 class CObjectManager;
 class CRenderManager;
 class CPipeLine;
+class CCameraManager;
 
 class CObject;
 class CPlace;
+class CCamera;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -99,7 +101,7 @@ public:
 
 #pragma endregion
 
-#pragma region PIPELINE
+	#pragma region PIPELINE
 	void PipeLine_Set_Transform(
 		D3DTS eMatrix,
 		FXMMATRIX TransformMatrix);
@@ -118,9 +120,24 @@ public:
 	HRESULT PipeLine_Bind_Camera_Pos(
 		CShaderCom* pShader,
 		const _char* pConstantName);
+	
+	void PipeLine_Calc_ProjMatrix(CCamera* pCamera);
 
 #pragma endregion
 
+#pragma region CAMERAMANAGER
+
+	HRESULT CameraManager_Add_Camera(
+		const _wstring CameraTag,
+		CCamera* pCamera);
+
+	HRESULT CameraManager_Bind_Matrix(
+		CShaderCom* pShader,
+		const _char* ConstantName,
+		const _wstring CameraTag,
+		D3DTS eMatrix);
+
+#pragma endregion
 
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
@@ -130,7 +147,7 @@ private:
 	CRenderManager*		m_pRenderManager = { nullptr };
 	CPrototype*			m_pPrototype	= { nullptr };
 	CPipeLine*			m_pPipeLine = { nullptr };
-
+	CCameraManager*		m_pCameraManager = { nullptr };
 public:
 	void Clear_Engine();
 	virtual void Free()override;

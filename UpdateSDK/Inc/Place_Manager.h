@@ -24,8 +24,8 @@ public:
 
 public:
 	int32_t Update(_float fDT);
-	HRESULT Render();
-
+	HRESULT Render_Priority();
+	HRESULT Render_Late();
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 	vector<CPlace*> m_pPlaces;

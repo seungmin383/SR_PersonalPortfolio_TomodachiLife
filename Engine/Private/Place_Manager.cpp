@@ -78,12 +78,22 @@ int32_t CPlaceManager::Update(_float fDT)
 	return 0;
 }
 
-HRESULT CPlaceManager::Render()
+HRESULT CPlaceManager::Render_Priority()
 {
 	if (m_pPlaces.empty())
 		return E_FAIL;
 
-	m_pPlaces.back()->Render();
+	m_pPlaces.back()->Render_Priority();
+
+	return S_OK;
+}
+
+HRESULT CPlaceManager::Render_Late()
+{
+	if (m_pPlaces.empty())
+		return E_FAIL;
+
+	m_pPlaces.back()->Render_Late();
 
 	return S_OK;
 }

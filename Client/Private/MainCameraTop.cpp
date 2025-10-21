@@ -22,6 +22,7 @@ HRESULT CMainCameraTop::Initialize_Clone(void* pArg)
 	if(FAILED(CCamera::Initialize_Clone(pArg)))
 		return E_FAIL;
 
+	return S_OK;
 }
 
 int32_t CMainCameraTop::Update_Priority(_float fDT)

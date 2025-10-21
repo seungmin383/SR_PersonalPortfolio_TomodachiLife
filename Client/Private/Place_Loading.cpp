@@ -113,9 +113,14 @@ int32_t CPlace_Loading::Update(_float fDT)
 	return 0;
 }
 
-HRESULT CPlace_Loading::Render()
+HRESULT CPlace_Loading::Render_Priority()
 {
 	SetWindowText(g_hWnd, TEXT("로딩레벨입니다."));
+	return S_OK;
+}
+
+HRESULT CPlace_Loading::Render_Late()
+{
 	return S_OK;
 }
 
