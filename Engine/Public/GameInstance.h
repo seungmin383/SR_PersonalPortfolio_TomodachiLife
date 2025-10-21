@@ -148,6 +148,7 @@ private:
 	CPrototype*			m_pPrototype	= { nullptr };
 	CPipeLine*			m_pPipeLine = { nullptr };
 	CCameraManager*		m_pCameraManager = { nullptr };
+
 public:
 	void Clear_Engine();
 	virtual void Free()override;

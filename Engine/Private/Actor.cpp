@@ -21,8 +21,8 @@ HRESULT CActor::Initialize_Clone(void* pArg)
 	if (FAILED(CObject::Initialize_Clone(pArg)))
 		return E_FAIL;
 
-	m_pTransformCom = CTransformCom::Create(m_pDevice, m_pContext);
 
+	m_pTransformCom = CTransformCom::Create(m_pDevice, m_pContext);
 	m_pTransformCom->Initialize_Clone(pArg);
 	ACTOR_DESC* pActorDesc = static_cast<ACTOR_DESC*>(pArg);
 
@@ -98,11 +98,10 @@ HRESULT CActor::Add_Component(
 
 void CActor::Free()
 {
-	Safe_Release(m_pTransformCom);
-
 	for (auto& pair : m_Components)
-	Safe_Release(pair.second);
+		Safe_Release(pair.second);
 	m_Components.clear();
 
+	Safe_Release(m_pTransformCom);
 	CObject::Free();
 }

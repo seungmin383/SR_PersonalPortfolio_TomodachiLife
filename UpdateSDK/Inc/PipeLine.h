@@ -38,8 +38,6 @@ public:
 
 private:
 	XMFLOAT4X4 m_Matrices[static_cast<uint32_t>(D3DTS::END)] = {};
-	
-	
 	XMFLOAT4X4 m_InverseMatrices[static_cast<uint32_t>(D3DTS::END)] = {};
 	_float4 m_vCameraPos;
 

@@ -28,17 +28,6 @@ HRESULT CUICamera::Initialize_Clone(void* pArg)
 
 int32_t CUICamera::Update_Priority(_float fDT)
 {
-
-	if (GetAsyncKeyState(VK_UP))
-		m_pTransformCom->Go_Straight(fDT);
-	if (GetAsyncKeyState(VK_DOWN))
-		m_pTransformCom->Go_Backward(fDT);
-	if (GetAsyncKeyState(VK_RIGHT))
-		m_pTransformCom->Go_Right(fDT);
-	if (GetAsyncKeyState(VK_LEFT))
-		m_pTransformCom->Go_Left(fDT);
-
-	CCamera::Update_Priority(fDT);
 	return 0;
 }
 

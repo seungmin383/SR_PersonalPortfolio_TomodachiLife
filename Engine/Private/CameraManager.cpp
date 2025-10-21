@@ -90,6 +90,9 @@ CCameraManager* CCameraManager::Create()
 void CCameraManager::Free()
 {
 	for (auto& pair : m_Cameras)
+	{
 		Safe_Release(pair.second);
+	}
 	m_Cameras.clear();
+	CBase::Free();
 }

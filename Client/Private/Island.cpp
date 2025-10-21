@@ -153,5 +153,8 @@ CObject* CIsland::Clone(void* pArg)
 
 void CIsland::Free()
 {
+	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTerrainBufferCom);
 	CActor::Free();
 }

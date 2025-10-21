@@ -35,8 +35,10 @@ int32_t CWorldCamera::Update_Priority(_float fDT)
 		m_pTransformCom->Go_Right(fDT);
 	if (GetAsyncKeyState(VK_LEFT))
 		m_pTransformCom->Go_Left(fDT);
-
-	CCamera::Update_Priority(fDT);
+	if (GetAsyncKeyState('U'))
+		m_pTransformCom->Go_Up(fDT);
+	if (GetAsyncKeyState('I'))
+		m_pTransformCom->Go_Down(fDT);
 	return 0;
 }
 

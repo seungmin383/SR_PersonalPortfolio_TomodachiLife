@@ -235,6 +235,7 @@ CTerrainBufferCom* CTerrainBufferCom::Create(
 CObject* CTerrainBufferCom::Clone(void* pArg)
 {
 	CTerrainBufferCom* pInstance = new CTerrainBufferCom(*this);
+
 	if (FAILED(pInstance->Initialize_Clone(pArg)))
 	{
 		MSG_BOX("ErrCode : RectBufferCom Clone Failed");

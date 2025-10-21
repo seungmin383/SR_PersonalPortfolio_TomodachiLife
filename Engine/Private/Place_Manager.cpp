@@ -105,11 +105,12 @@ CPlaceManager* CPlaceManager::Create()
 
 void CPlaceManager::Free()
 {
+	Safe_Release(m_pGameInstance);
+	
 	for (auto& place : m_pPlaces)
 		Safe_Release(place);
 	m_pPlaces.clear();
 
-	Safe_Release(m_pGameInstance);
 
 	CBase::Free();
 }

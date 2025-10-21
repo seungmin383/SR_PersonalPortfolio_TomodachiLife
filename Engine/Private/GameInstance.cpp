@@ -317,13 +317,14 @@ HRESULT CGameInstance::CameraManager_Bind_Matrix(
 void CGameInstance::Clear_Engine()
 {
 	Safe_Release(m_pTimerManager);
+	Safe_Release(m_pPipeLine);
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pPlaceManager);
+	Safe_Release(m_pRenderManager);
 	Safe_Release(m_pObjectManager);
 	Safe_Release(m_pPrototype);
-	Safe_Release(m_pRenderManager);
-	Safe_Release(m_pPipeLine);
 	Safe_Release(m_pGraphicDevice);
+
 	CGameInstance::GetInstance()->DestroyInstance();
 }
 

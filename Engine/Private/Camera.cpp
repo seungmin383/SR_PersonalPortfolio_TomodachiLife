@@ -201,5 +201,5 @@ _float4x4& CCamera::Get_CameraWorldMatrix()
 
 void CCamera::Free()
 {
-	CBase::Free();
+	CActor::Free();
 }

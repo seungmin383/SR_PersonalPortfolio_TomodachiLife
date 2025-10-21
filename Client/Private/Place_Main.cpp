@@ -64,6 +64,8 @@ HRESULT CPlace_Main::Ready_Actor_Layer()
 	tDesc.fCX = 1.f;
 	tDesc.fCY = 1.f;
 	tDesc.fCZ = 1.f;
+	tDesc.fSpeedPerSecond = 0.f;
+	tDesc.fRotationPerSecond = XMConvertToRadians(20.f);
 
 	CObject* tmp = m_pGameInstance->Proto_Get_Object_Clone(
 		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
@@ -161,10 +163,10 @@ HRESULT CPlace_Main::Ready_Camera_Layer()
 	tWorldCameraDesc.fFarZ = 1000.f;
 	tWorldCameraDesc.fNearZ = 0.1f;
 	tWorldCameraDesc.fHeight = static_cast<_float>(WINCX);
-	tWorldCameraDesc.fWidth = static_cast<_float>(WINCY / 2);
-	tWorldCameraDesc.fSpeedPerSecond = 0.f;
+	tWorldCameraDesc.fWidth = static_cast<_float>(WINCY/2);
+	tWorldCameraDesc.fSpeedPerSecond = 10.f;
 	tWorldCameraDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-	tWorldCameraDesc.vEye = _float3(0.f, 30.f, -10.f);
+	tWorldCameraDesc.vEye = _float3(0.f, 10.f, -10.f);
 	tWorldCameraDesc.vAt = _float3(0.f, 0.f, 0.f);
 	tWorldCameraDesc.fCX = 1.f;
 	tWorldCameraDesc.fCY = 1.f;
@@ -210,6 +212,7 @@ CPlace_Main* CPlace_Main::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 void CPlace_Main::Free()
 {
 	Safe_Release(m_pUICamera);
+	Safe_Release(m_pWorldCamera);
 
 	CPlace::Free();
 }
