@@ -1,5 +1,6 @@
 #include "Place.h"
 #include "GameInstance.h"
+#include "Object.h"
 
 CPlace::CPlace(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -36,6 +37,8 @@ void CPlace::Free()
 	Safe_Release(m_pGameInstance);
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+	Safe_Release(m_pWorldCamera);
+	Safe_Release(m_pUICamera);
 
 	CBase::Free();
 }

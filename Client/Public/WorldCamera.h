@@ -28,6 +28,10 @@ public:
 	void Ready_Render();
 	virtual void Set_Matrices()override;
 
+private:
+	_float Timer = {};
+	_bool isTime = { false };
+
 public:
 	static CWorldCamera* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg)override;

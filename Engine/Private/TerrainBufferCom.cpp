@@ -93,12 +93,12 @@ HRESULT CTerrainBufferCom::Initialize_Origin(const _tchar* HeightMapFilePath)
 	{
 		for (uint64_t j = 0; j < PixelNumX; j++)
 		{
-			uint64_t Index = PixelNumZ * i + j;
+			uint64_t Index = PixelNumX * i + j;
 
 			m_pVertexPositions[Index] = 
 			pVertices[Index].vPos = 
 				_float3(static_cast<_float>(j), (Pixels[Index] & 0x000000ff) / 10.f, static_cast<_float>(i));
-			pVertices[Index].vTexCoord	= _float2(j / (PixelNumZ - 1.f), i / (PixelNumZ - 1.f));
+			pVertices[Index].vTexCoord	= _float2(j / (PixelNumX - 1.f), i / (PixelNumZ - 1.f));
 			pVertices[Index].vNormal	= _float3(0.f, 0.f, 0.f);
 		}
 	}
@@ -113,17 +113,17 @@ HRESULT CTerrainBufferCom::Initialize_Origin(const _tchar* HeightMapFilePath)
 	IBuffer_Data.MiscFlags = 0;
 	IBuffer_Data.StructureByteStride = m_iIndexStride;
 
-	uint64_t* pIndices = new uint64_t[m_iNumIndices];
+	uint32_t* pIndices = new uint32_t[m_iNumIndices];
 
-	uint64_t IndicesNum = {};
+	uint32_t IndicesNum = {};
 
-	for (uint64_t i = 0; i < PixelNumZ - 1; i++)
+	for (uint32_t i = 0; i < PixelNumZ - 1; i++)
 	{
-		for (uint64_t j = 0; j < PixelNumX - 1; j++)
+		for (uint32_t j = 0; j < PixelNumX - 1; j++)
 		{
-			uint64_t Index = i * PixelNumX + j;
+			uint32_t Index = i * PixelNumX + j;
 
-			uint64_t Indices[4] = {
+			uint32_t Indices[4] = {
 				Index + PixelNumX,
 				Index + PixelNumX + 1,
 				Index + 1,

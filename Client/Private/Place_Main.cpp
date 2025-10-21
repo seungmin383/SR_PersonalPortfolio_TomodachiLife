@@ -12,13 +12,13 @@ CPlace_Main::CPlace_Main(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CPlace_Main::Initialize()
 {
-	if (FAILED(Ready_Actor_Layer()))
+	if (FAILED(Ready_Main_Actor_Layer()))
 		return E_FAIL;
-	if (FAILED(Ready_UI_Layer()))
+	if (FAILED(Ready_Main_UI_Layer()))
 		return E_FAIL;
-	if (FAILED(Ready_Environment_Layer()))
+	if (FAILED(Ready_Main_Environment_Layer()))
 		return E_FAIL;
-	if (FAILED(Ready_Camera_Layer()))
+	if (FAILED(Ready_Main_Camera_Layer()))
 		return E_FAIL;
 
 	return S_OK;
@@ -55,7 +55,7 @@ HRESULT CPlace_Main::Render_Late()
 	return S_OK;
 }
 
-HRESULT CPlace_Main::Ready_Actor_Layer()
+HRESULT CPlace_Main::Ready_Main_Actor_Layer()
 {
 	CActor::ACTOR_DESC tDesc = {};
 	tDesc.fX = 0.f;
@@ -87,7 +87,7 @@ HRESULT CPlace_Main::Ready_Actor_Layer()
 	return S_OK;
 }
 
-HRESULT CPlace_Main::Ready_UI_Layer()
+HRESULT CPlace_Main::Ready_Main_UI_Layer()
 {
 	CObject* tmp = m_pGameInstance->Proto_Get_Object_Clone(
 		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
@@ -111,12 +111,12 @@ HRESULT CPlace_Main::Ready_UI_Layer()
 }
 
 
-HRESULT CPlace_Main::Ready_Environment_Layer()
+HRESULT CPlace_Main::Ready_Main_Environment_Layer()
 {
 	return S_OK;
 }
 
-HRESULT CPlace_Main::Ready_Camera_Layer()
+HRESULT CPlace_Main::Ready_Main_Camera_Layer()
 {
 	CUICamera::UICAMERA_DESC tUICameraDesc = {};
 	tUICameraDesc.fSensor = 1.f;

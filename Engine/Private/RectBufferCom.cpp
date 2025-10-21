@@ -76,7 +76,7 @@ HRESULT CRectBufferCom::Initialize_Origin()
 	IBuffer_Data.MiscFlags			= 0;									
 	IBuffer_Data.StructureByteStride = m_iIndexStride;			
 
-	_ushort* pIndices = new _ushort[m_iNumIndices];
+	uint16_t* pIndices = new uint16_t[m_iNumIndices];
 
 	pIndices[0] = 0;
 	pIndices[1] = 1;

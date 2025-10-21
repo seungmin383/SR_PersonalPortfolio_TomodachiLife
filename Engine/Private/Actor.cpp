@@ -35,7 +35,6 @@ HRESULT CActor::Initialize_Clone(void* pArg)
 	m_fCZ = pActorDesc->fCZ;
 	 
 	m_pTransformCom->Set_Scale(m_fCX, m_fCY, m_fCZ);
-
 	m_pTransformCom->Set_State(TRANSFORM_STATE::POS,
 		XMVectorSet(
 			m_fX,

@@ -19,14 +19,11 @@ public:
 	virtual HRESULT Render_Priority()override;
 	virtual HRESULT Render_Late()override;
 
-	HRESULT Ready_Actor_Layer();
-	HRESULT Ready_UI_Layer();
-	HRESULT Ready_Environment_Layer();
-	HRESULT Ready_Camera_Layer();
+	HRESULT Ready_Main_Actor_Layer();
+	HRESULT Ready_Main_UI_Layer();
+	HRESULT Ready_Main_Environment_Layer();
+	HRESULT Ready_Main_Camera_Layer();
 
-private:
-	CObject* m_pWorldCamera = {};
-	CObject* m_pUICamera = {};
 
 public:
 	static CPlace_Main* Create(
