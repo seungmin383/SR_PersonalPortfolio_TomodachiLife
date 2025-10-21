@@ -2,7 +2,7 @@
 #include "Place.h"
 
 NS_BEGIN(Engine)
-class CCamera;
+class CObject;
 NS_END
 
 NS_BEGIN(Client)
@@ -25,8 +25,8 @@ public:
 	HRESULT Ready_Camera_Layer();
 
 private:
-	CCamera* m_pWorldCamera = {};
-	CCamera* m_pUICamera = {};
+	CObject* m_pWorldCamera = {};
+	CObject* m_pUICamera = {};
 
 public:
 	static CPlace_Main* Create(

@@ -48,13 +48,29 @@ HRESULT CCameraManager::Bind_Matrix(
 
 	if (iter == m_Cameras.end())
 		return E_FAIL;
+
+	_float4x4 Z = iter->second->Get_CameraWorldMatrix();
+
+	Z;
+
+	_float4x4 A = iter->second->Get_ViewMatrix();
+	
+	A;
+
+	_float4x4 B = iter->second->Get_ProjMatrix();
+
+	B;
+	int a = 10;
+
 	switch (eMatrix)
 	{
 	case Engine::D3DTS::VIEW:
-		pShader->Bind_Matrix(ConstantName, &(iter->second->Get_ViewMatrix()));
+		if(FAILED(pShader->Bind_Matrix(ConstantName, &(iter->second->Get_ViewMatrix()))))
+			return E_FAIL;
 		break;
 	case Engine::D3DTS::PROJ:
-		pShader->Bind_Matrix(ConstantName, &(iter->second->Get_ProjMatrix()));
+		if (FAILED(pShader->Bind_Matrix(ConstantName, &(iter->second->Get_ProjMatrix()))))
+			return E_FAIL;
 		break;
 
 	case Engine::D3DTS::END:

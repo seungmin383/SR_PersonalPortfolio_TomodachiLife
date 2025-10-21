@@ -35,6 +35,7 @@ public:
 	//HRESULT Bind_Camera_Pos(
 	//	CShaderCom* pShader,
 	//	const _char* pConstantName);
+
 private:
 	map<const _wstring, CCamera*> m_Cameras;
 

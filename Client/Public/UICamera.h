@@ -26,7 +26,6 @@ public:
 	virtual void Update_Late(_float fDT)override;
 
 	virtual void Set_Matrices()override;
-	virtual void Update_PipeLine()override;
 
 	void Ready_Render();
 

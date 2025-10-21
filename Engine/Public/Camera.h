@@ -1,6 +1,5 @@
 #pragma once
 #include "Actor.h"
-
 NS_BEGIN(Engine)
 
 class ENGINE_DLL CCamera : public CActor
@@ -50,8 +49,11 @@ public:
 	_float Get_Fov()const { return m_fFov; }
 	_float Get_Aspect()const { return m_fAspect; }
 
+	_float4x4& Get_CameraWorldMatrix();
+
 	_float4x4& Get_ProjMatrix() { return m_ProjMatrix; }
 	_float4x4& Get_ViewMatrix() { return m_ViewMatrix; }
+
 protected:
 	_float3 m_vEye = {};
 	_float3 m_vAt = {};

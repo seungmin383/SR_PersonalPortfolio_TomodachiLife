@@ -52,19 +52,25 @@ void CUICamera::Update_Late(_float fDT)
 
 void CUICamera::Set_Matrices()
 {
+	_float4x4 tmpmat;
+
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixInverse(nullptr, m_pTransformCom->Get_WorldMatrix()));
 	XMStoreFloat4x4(&m_ProjMatrix,
-		XMMatrixPerspectiveFovLH(m_fFov, m_fAspect, m_fNearZ, m_fFarZ));
+		XMMatrixOrthographicLH(960.f, 480.f, m_fNearZ, m_fFarZ));
+
+	//XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+	//XMStoreFloat4x4(&m_ProjMatrix,
+	//	XMMatrixOrthographicLH(m_fWidth, m_fHeight, 0.f, 1.f));
+
+	tmpmat;
+
+	int a = 10;
 }
 
-void CUICamera::Update_PipeLine()
-{
-}
 
 void CUICamera::Ready_Render()
 {
 	Set_Matrices();
-	CCamera::Update_PipeLine();
 }
 
 CUICamera* CUICamera::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -73,7 +79,7 @@ CUICamera* CUICamera::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContex
 
 	if (FAILED(tmp->Initialize_Origin()))
 	{
-		MSG_BOX("ErrCode : Food Create Failed");
+		MSG_BOX("ErrCode : UICamera Create Failed");
 		Safe_Release(tmp);
 		return nullptr;
 	}
@@ -87,7 +93,7 @@ CObject* CUICamera::Clone(void* pArg)
 
 	if (FAILED(tmp->Initialize_Clone(pArg)))
 	{
-		MSG_BOX("ErrCode : Food Clone Failed");
+		MSG_BOX("ErrCode : UICamera Clone Failed");
 		Safe_Release(tmp);
 		return nullptr;
 	}

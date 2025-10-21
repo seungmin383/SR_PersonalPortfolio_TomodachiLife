@@ -117,26 +117,29 @@ HRESULT CPlace_Main::Ready_Camera_Layer()
 	tDesc.fWidth = static_cast<_float>(WINCY / 2);
 	tDesc.fSpeedPerSecond = 0.f;
 	tDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-	tDesc.vEye = _float3(0.f, 0.f, -10.f);
-	tDesc.vAt = _float3(0.f, 0.f, 0.f);
+	tDesc.vEye = _float3(0.f, 0.f, 0.f);
+	tDesc.vAt = _float3(0.f, 0.f, 1.f);
+	tDesc.fCX = 1.f;
+	tDesc.fCY = 1.f;
+	tDesc.fX = 0.f;
+	tDesc.fY = 0.f;
 
 	CObject* tmp = m_pGameInstance->Proto_Get_Object_Clone(
 		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
 		TEXT("ProtoTag_Actor_UICamera"),
 		&tDesc);
 
-	m_pUICamera = dynamic_cast<CCamera*>(tmp);
-
-	if (nullptr == m_pUICamera)
+	if (nullptr == tmp)
 		return E_FAIL;
+
+	m_pUICamera = tmp;
 	Safe_AddRef(m_pUICamera);
 
-	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
-		TEXT("LayerTag_Camera"),
-		tmp)))
+	if (FAILED(m_pGameInstance->CameraManager_Add_Camera(
+		TEXT("UI_Camera"),
+		dynamic_cast<CCamera*>(tmp))))
 	{
-		Safe_Release(tmp);
+		Safe_Release(m_pUICamera);
 		return E_FAIL;
 	}
 

@@ -27,6 +27,7 @@ HRESULT CTransformCom::Initialize_Clone(void* _pArg)
 	m_fRotationPerSecond = tmp->fRotationPerSecond;
 	m_fSpeedPerSecond = tmp->fSpeedPerSecond;
 
+	XMStoreFloat4x4(&m_WorldMatrix, XMMatrixIdentity());
 	return S_OK;
 }
 

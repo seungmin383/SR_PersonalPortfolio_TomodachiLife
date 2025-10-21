@@ -162,4 +162,5 @@ CObject* CIsland::Clone(void* pArg)
 
 void CIsland::Free()
 {
+	CActor::Free();
 }

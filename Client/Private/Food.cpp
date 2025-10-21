@@ -63,8 +63,8 @@ int32_t CFood::Update(_float fDT)
 
 void CFood::Update_Late(_float fDT)
 {
-	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
-	//m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::BOTTOM_NONBLEND, this);
+	//m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
+	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::BOTTOM_UI, this);
 }
 
 HRESULT CFood::Render()
@@ -125,10 +125,22 @@ HRESULT CFood::Bind_ShaderResources()
 		m_pShaderCom, 
 		"g_WorldMatrix");
 
-	hr = Bind_OrthoMatrices(
+	//hr = Bind_OrthoMatrices(
+	//	m_pShaderCom,
+	//	"g_ViewMatrix",
+	//	"g_ProjMatrix");
+
+	m_pGameInstance->CameraManager_Bind_Matrix(
 		m_pShaderCom,
 		"g_ViewMatrix",
-		"g_ProjMatrix");
+		TEXT("UI_Camera"),
+		D3DTS::VIEW);
+
+	m_pGameInstance->CameraManager_Bind_Matrix(
+		m_pShaderCom,
+		"g_ProjMatrix",
+		TEXT("UI_Camera"),
+		D3DTS::PROJ);
 
 	m_pTextureCom->Bind_ShaderResource(
 		m_pShaderCom,
