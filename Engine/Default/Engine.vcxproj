@@ -32,6 +32,7 @@
     <ClInclude Include="..\Public\Engine_Typedef.h" />
     <ClInclude Include="..\Public\GameInstance.h" />
     <ClInclude Include="..\Public\Graphic_Device.h" />
+    <ClInclude Include="..\Public\Input_Device.h" />
     <ClInclude Include="..\Public\Layer.h" />
     <ClInclude Include="..\Public\Object.h" />
     <ClInclude Include="..\Public\Object_Manager.h" />
@@ -67,6 +68,7 @@
     <ClCompile Include="..\Private\Component.cpp" />
     <ClCompile Include="..\Private\GameInstance.cpp" />
     <ClCompile Include="..\Private\Graphic_Device.cpp" />
+    <ClCompile Include="..\Private\Input_Device.cpp" />
     <ClCompile Include="..\Private\Layer.cpp" />
     <ClCompile Include="..\Private\Object.cpp" />
     <ClCompile Include="..\Private\Object_Manager.cpp" />
@@ -192,7 +194,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;fmod_vc.lib;fmodL_vc.lib;Effects11d.lib;d3dcompiler.lib;DirectXTKd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dinput8.lib;dxguid.lib;fmod_vc.lib;fmodL_vc.lib;Effects11d.lib;d3dcompiler.lib;DirectXTKd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../ThirdPartyLib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -210,7 +212,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>d3d11.lib;dxguid.lib;fmod_vc.lib;fmodL_vc.lib;Effects11.lib;d3dcompiler.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;dinput8.lib;dxguid.lib;fmod_vc.lib;fmodL_vc.lib;Effects11.lib;d3dcompiler.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../ThirdPartyLib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

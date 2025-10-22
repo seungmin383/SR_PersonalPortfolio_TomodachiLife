@@ -131,6 +131,9 @@
     <Filter Include="02.Object\00.Actor\99.Camera\00.WorldCamera">
       <UniqueIdentifier>{13198fa9-cff1-4d21-9aa8-22ebae596e68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Object\01.UI">
+      <UniqueIdentifier>{cf7adb78-0026-4412-99c3-ef7e9d4ceb8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">

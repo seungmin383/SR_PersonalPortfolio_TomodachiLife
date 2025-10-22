@@ -97,6 +97,9 @@
     <Filter Include="01.Utility\03.Object\01.Actor\00.Camera\Manager">
       <UniqueIdentifier>{46ea853a-0a68-42a4-bd4b-220b606882f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.System\00.Device\01.Input">
+      <UniqueIdentifier>{b8bb29ad-6655-4e1f-a024-57d2a077302b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -173,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CameraManager.cpp">
       <Filter>01.Utility\03.Object\01.Actor\00.Camera\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Input_Device.cpp">
+      <Filter>00.System\00.Device\01.Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\CameraManager.h">
       <Filter>01.Utility\03.Object\01.Actor\00.Camera\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Input_Device.h">
+      <Filter>00.System\00.Device\01.Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

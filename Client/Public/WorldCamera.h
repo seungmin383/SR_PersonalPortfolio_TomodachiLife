@@ -29,8 +29,8 @@ public:
 	virtual void Set_Matrices()override;
 
 private:
-	_float Timer = {};
-	_bool isTime = { false };
+	_float m_fSensor = {};
+
 
 public:
 	static CWorldCamera* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

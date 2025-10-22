@@ -5,6 +5,7 @@
 NS_BEGIN(Engine)
 class CTimerManager;
 class CGraphic_Device;
+class CInput_Device;
 class CPlaceManager;
 class CObjectManager;
 class CRenderManager;
@@ -117,15 +118,15 @@ public:
 		const _char* pConstantName,
 		D3DTS eMatrix);
 
-	HRESULT PipeLine_Bind_Camera_Pos(
-		CShaderCom* pShader,
-		const _char* pConstantName);
+	//HRESULT PipeLine_Bind_Camera_Pos(
+	//	CShaderCom* pShader,
+	//	const _char* pConstantName);
 	
 	void PipeLine_Calc_ProjMatrix(CCamera* pCamera);
 
 #pragma endregion
 
-#pragma region CAMERAMANAGER
+	#pragma region CAMERAMANAGER
 
 	HRESULT CameraManager_Add_Camera(
 		const _wstring CameraTag,
@@ -137,10 +138,21 @@ public:
 		const _wstring CameraTag,
 		D3DTS eMatrix);
 
+	HRESULT CameraManager_Bind_Camera_Pos(
+		CShaderCom* pShader,
+		const _char* pConstantName,
+		const _wstring CameraTag);
+#pragma endregion
+
+#pragma region INPUTDEVICE
+	_byte	Get_DIKeyState(_ubyte byKeyID);
+	_byte	Get_DIMouseState(MOUSEKEYSTATE eMouse);
+	_long	Get_DIMouseMove(MOUSEMOVESTATE eMouseState);
 #pragma endregion
 
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
+	CInput_Device*      m_pInput_Device = { nullptr };
 	CGraphic_Device*	m_pGraphicDevice = { nullptr };	
 	CPlaceManager*		m_pPlaceManager = { nullptr };	
 	CObjectManager*		m_pObjectManager = { nullptr };

@@ -83,7 +83,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         fTimeAcc += pGameInstance->TimerManager_Get_DeltaTime(TEXT("Timer_Default"));
 
-        if (fTimeAcc >= FPS_144)
+        if (fTimeAcc >= FPS_60)
         {
             pGameInstance->TimerManager_Calc_DeltaTime(TEXT("Timer_fps"));
 

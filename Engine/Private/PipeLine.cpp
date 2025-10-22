@@ -26,14 +26,14 @@ HRESULT CPipeLine::Bind_PipeLine_Inverse_Matrix(CShaderCom* pShader, const _char
 	return pShader->Bind_Matrix(pConstantName, &m_InverseMatrices[static_cast<uint32_t>(eMatrix)]);
 }
 
-HRESULT CPipeLine::Bind_Camera_Pos(CShaderCom* pShader, const _char* pConstantName)
-{
-	return S_OK;
-}
+//HRESULT CPipeLine::Bind_Camera_Pos(CShaderCom* pShader, const _char* pConstantName)
+//{
+//	return S_OK;
+//}
 
 void CPipeLine::Calc_ProjMatrix(CCamera* pCamera)
 {
-	XMStoreFloat4x4(&(pCamera->Get_ProjMatrix()),
+	pCamera->Set_ProjMatrix(
 		XMMatrixPerspectiveFovLH(
 			pCamera->Get_Fov(),
 			pCamera->Get_Aspect(),

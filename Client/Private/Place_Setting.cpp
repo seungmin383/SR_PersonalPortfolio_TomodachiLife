@@ -11,6 +11,15 @@ CPlace_Setting::CPlace_Setting(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 HRESULT CPlace_Setting::Initialize()
 {
+	if (FAILED(Ready_Setting_Actor_Layer()))
+		return E_FAIL;
+	if(FAILED(Ready_Setting_UI_Layer()))
+		return E_FAIL;
+	if(FAILED(Ready_Setting_Environment_Layer()))
+		return E_FAIL;
+	if(FAILED(Ready_Setting_Camera_Layer()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -22,12 +31,14 @@ int32_t CPlace_Setting::Update(_float fDT)
 HRESULT CPlace_Setting::Render_Priority()
 {
 	SetWindowText(g_hWnd, TEXT("세팅레벨입니다."));
+	static_cast<CUICamera*>(m_pUICamera)->Ready_Render();
 	return S_OK;
 }
 
 HRESULT CPlace_Setting::Render_Late()
 {
 	SetWindowText(g_hWnd, TEXT("세팅레벨입니다."));
+	static_cast<CUICamera*>(m_pWorldCamera)->Ready_Render();
 	return S_OK;
 }
 
@@ -44,7 +55,7 @@ HRESULT CPlace_Setting::Ready_Setting_Actor_Layer()
 	tDesc.fRotationPerSecond = XMConvertToRadians(20.f);
 
 	CObject* tmp = m_pGameInstance->Proto_Get_Object_Clone(
-		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
 		TEXT("ProtoTag_Actor_Island"),
 		&tDesc);
 
@@ -52,7 +63,7 @@ HRESULT CPlace_Setting::Ready_Setting_Actor_Layer()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
 		TEXT("LayerTag_Actor"),
 		tmp)))
 	{
@@ -66,7 +77,7 @@ HRESULT CPlace_Setting::Ready_Setting_Actor_Layer()
 HRESULT CPlace_Setting::Ready_Setting_UI_Layer()
 {
 	CObject* tmp = m_pGameInstance->Proto_Get_Object_Clone(
-		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
 		TEXT("ProtoTag_UI_Food"),
 		nullptr);
 
@@ -74,7 +85,7 @@ HRESULT CPlace_Setting::Ready_Setting_UI_Layer()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
 		TEXT("LayerTag_UI"),
 		tmp)))
 	{

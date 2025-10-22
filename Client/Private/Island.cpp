@@ -102,7 +102,7 @@ HRESULT CIsland::Bind_ShaderResources()
 	hr = m_pTransformCom->Bind_ShaderResource(
 		m_pShaderCom,
 		"g_WorldMatrix");
-	
+
 	m_pGameInstance->CameraManager_Bind_Matrix(
 		m_pShaderCom,
 		"g_ViewMatrix",
@@ -115,9 +115,14 @@ HRESULT CIsland::Bind_ShaderResources()
 		TEXT("World_Camera"),
 		D3DTS::PROJ);
 
+	m_pGameInstance->CameraManager_Bind_Camera_Pos(
+		m_pShaderCom,
+		"g_vCamPosition",
+		TEXT("World_Camera"));
+
 	m_pTextureCom->Bind_ShaderResource(
 		m_pShaderCom,
-		"g_Texture",
+		"g_DiffuseTexture",
 		0);
 
 	return hr;

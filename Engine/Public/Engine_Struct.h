@@ -9,6 +9,7 @@ namespace Engine
 	{
 		uint32_t	PlaceCount = {}; 
 		HWND		hWnd;
+		HINSTANCE	hInst;
 		WINMODE		WinMode;
 		uint32_t	iWinCX, iWinCY;
 

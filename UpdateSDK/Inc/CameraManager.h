@@ -32,9 +32,10 @@ public:
 	//	const _char* pConstantName,
 	//	D3DTS eMatrix);
 
-	//HRESULT Bind_Camera_Pos(
-	//	CShaderCom* pShader,
-	//	const _char* pConstantName);
+	HRESULT Bind_Camera_Pos(
+		CShaderCom* pShader,
+		const _char* pConstantName,
+		const _wstring CameraTag);
 
 private:
 	map<const _wstring, CCamera*> m_Cameras;

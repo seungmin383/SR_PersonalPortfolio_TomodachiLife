@@ -298,28 +298,160 @@ HRESULT CLoader::Loading_For_Main()
 	return S_OK;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 // Loading For Setting Place // =========================================
 
 HRESULT CLoader::Loading_For_Setting()
 {
 	CObject* tmp = { nullptr };
 
-// Actor Loading // ====================================================
+	// Island //
+	tmp = CIsland::Create(m_pDevice, m_pContext);
 
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
+		TEXT("ProtoTag_Actor_Island"),
+		tmp)))
+		return E_FAIL;
 
 
 	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
 
-// UI Loading // ====================================================
+	// UI Loading // ====================================================
+
+
+
+		// Food //
+	tmp = CFood::Create(m_pDevice, m_pContext);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
+		TEXT("ProtoTag_UI_Food"),
+		tmp)))
+		return E_FAIL;
 
 
 
 	lstrcpy(m_szFPS, TEXT("UI Loading Complete"));
 
-//Components Loading // ====================================================
-	
+	//Components Loading // ====================================================
 
-	lstrcpy(m_szFPS, TEXT("Component Loading Complete"));
+		//Vtx_Tex Shader Component //
+	tmp = CShaderCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Bin/Debug/ShaderFile/Shader_Vtx_Tex.hlsl"),
+		Engine::VTX_TEX::Elements,
+		Engine::VTX_TEX::iNumElements);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
+		TEXT("ProtoTag_Component_Vtx_TexShader"),
+		tmp)))
+		return E_FAIL;
+
+
+	//Normal Shader Component //
+	tmp = CShaderCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Bin/Debug/ShaderFile/Shader_Vtx_Normal_Tex.hlsl"),
+		Engine::VTX_TEX_NORMAL::Elements,
+		Engine::VTX_TEX_NORMAL::iNumElements);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
+		TEXT("ProtoTag_Component_Vtx_Normal_TexShader"),
+		tmp)))
+		return E_FAIL;
+
+
+
+	// Rect Buffer Component //
+	tmp = CRectBufferCom::Create(m_pDevice, m_pContext);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
+		TEXT("ProtoTag_Component_RectBuffer"),
+		tmp)))
+		return E_FAIL;
+
+
+	// Terrain Buffer Component // 
+	tmp = CTerrainBufferCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Resource/Textures/Terrain/Height.bmp"));
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
+		TEXT("ProtoTag_Component_TerrainBuffer"),
+		tmp)))
+		return E_FAIL;
+
+
+
+	// Food Texture Component //
+	tmp = CTextureCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Resource/Textures/item_Food102.png"),
+		1);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
+		TEXT("ProtoTag_Component_FoodTexture"),
+		tmp)))
+		return E_FAIL;
+
+
+	// Island Texture Component //
+	tmp = CTextureCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Resource/Textures/Terrain/Tile0.jpg"),
+		1);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::SETTING),
+		TEXT("ProtoTag_Component_IslandTexture"),
+		tmp)))
+		return E_FAIL;
 
 	// Loading Complete // ====================================================
 	lstrcpy(m_szFPS, TEXT("Setting Loading Complete"));

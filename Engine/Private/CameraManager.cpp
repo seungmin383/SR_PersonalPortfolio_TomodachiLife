@@ -49,27 +49,20 @@ HRESULT CCameraManager::Bind_Matrix(
 	if (iter == m_Cameras.end())
 		return E_FAIL;
 
-	_float4x4 Z = iter->second->Get_CameraWorldMatrix();
-
-	Z;
-
-	_float4x4 A = iter->second->Get_ViewMatrix();
-	
-	A;
-
-	_float4x4 B = iter->second->Get_ProjMatrix();
-
-	B;
-	int a = 10;
+	XMFLOAT4X4 tmpMat;
 
 	switch (eMatrix)
 	{
 	case Engine::D3DTS::VIEW:
-		if(FAILED(pShader->Bind_Matrix(ConstantName, &(iter->second->Get_ViewMatrix()))))
+		XMStoreFloat4x4(&tmpMat, iter->second->Get_ViewMatrix());
+		if(FAILED(pShader->Bind_Matrix(ConstantName, &(tmpMat))))
 			return E_FAIL;
 		break;
+
 	case Engine::D3DTS::PROJ:
-		if (FAILED(pShader->Bind_Matrix(ConstantName, &(iter->second->Get_ProjMatrix()))))
+		XMStoreFloat4x4(&tmpMat, iter->second->Get_ProjMatrix());
+		if (FAILED(pShader->Bind_Matrix(ConstantName, &(tmpMat))))
+			return E_FAIL;
 			return E_FAIL;
 		break;
 
@@ -78,6 +71,26 @@ HRESULT CCameraManager::Bind_Matrix(
 	default:
 		return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+HRESULT CCameraManager::Bind_Camera_Pos(
+	CShaderCom* pShader, 
+	const _char* pConstantName,
+	const _wstring CameraTag)
+{
+	auto iter = m_Cameras.find(CameraTag);
+
+	if (iter == m_Cameras.end())
+		return E_FAIL;
+
+	XMVECTOR tmpVec = iter->second->Get_WorldMatrix().r[3];
+	XMFLOAT4 tmp;
+	XMStoreFloat4(&tmp, XMVectorSetW(tmpVec, 1.f));
+
+	if (FAILED(pShader->Bind_RawValue(pConstantName, &tmp, sizeof(XMFLOAT4))))
+		return E_FAIL;
 
 	return S_OK;
 }

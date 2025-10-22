@@ -1,6 +1,7 @@
 #include "GameInstance.h"
 #include "Timer_Manager.h"
 #include "Graphic_Device.h"
+#include "Input_Device.h"
 #include "Place_Manager.h"
 #include "Render_Manager.h"
 #include "Object_Manager.h"
@@ -84,6 +85,12 @@ HRESULT CGameInstance::Initialize(
 		if (nullptr == m_pCameraManager)
 			return E_FAIL;
 	}
+	// InputDeice
+	{
+		m_pInput_Device = CInput_Device::Create(Engine_desc.hInst, Engine_desc.hWnd);
+		if (nullptr == m_pInput_Device)
+			return E_FAIL;
+	}
 	return S_OK;
 }
 
@@ -96,6 +103,7 @@ int32_t CGameInstance::Update_Priority(_float fDT)
 
 int32_t CGameInstance::Update(_float fDT)
 {
+	m_pInput_Device->Update();
 	//게임 씬 매니저 업데이트			//주로 디버그용
 	m_pPlaceManager->Update(fDT);
 	//게임 오브젝트 매니저 업데이트		//진짜 업데이트
@@ -279,10 +287,10 @@ HRESULT CGameInstance::PipeLine_Bind_PipeLine_Inverse_Matrix(CShaderCom* pShader
 	return m_pPipeLine->Bind_PipeLine_Inverse_Matrix(pShader, pConstantName, eMatrix);
 }
 
-HRESULT CGameInstance::PipeLine_Bind_Camera_Pos(CShaderCom* pShader, const _char* pConstantName)
-{
-	return E_NOTIMPL;
-}
+//HRESULT CGameInstance::PipeLine_Bind_Camera_Pos(CShaderCom* pShader, const _char* pConstantName)
+//{
+//	return E_NOTIMPL;
+//}
 
 void CGameInstance::PipeLine_Calc_ProjMatrix(CCamera* pCamera)
 {
@@ -309,14 +317,39 @@ HRESULT CGameInstance::CameraManager_Bind_Matrix(
 		CameraTag,
 		eMatrix);
 }
+HRESULT CGameInstance::CameraManager_Bind_Camera_Pos(CShaderCom* pShader, const _char* pConstantName, const _wstring CameraTag)
+{
+	return m_pCameraManager->Bind_Camera_Pos(pShader, pConstantName, CameraTag);
+}
+#pragma endregion
+
+#pragma region INPUTDEVICE
+
+_byte CGameInstance::Get_DIKeyState(_ubyte byKeyID)
+{
+	return m_pInput_Device->Get_DIKeyState(byKeyID);
+}
+
+_byte CGameInstance::Get_DIMouseState(MOUSEKEYSTATE eMouse)
+{
+	return m_pInput_Device->Get_DIMouseState(eMouse);
+}
+
+_long CGameInstance::Get_DIMouseMove(MOUSEMOVESTATE eMouseState)
+{
+	return m_pInput_Device->Get_DIMouseMove(eMouseState);
+}
 
 #pragma endregion
+
+
 
 
 
 void CGameInstance::Clear_Engine()
 {
 	Safe_Release(m_pTimerManager);
+	Safe_Release(m_pInput_Device);
 	Safe_Release(m_pPipeLine);
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pPlaceManager);

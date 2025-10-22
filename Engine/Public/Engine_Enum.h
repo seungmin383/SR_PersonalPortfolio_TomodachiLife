@@ -7,6 +7,9 @@ namespace Engine
 	enum class SOLUTION_TYPE :int32_t {DEBUG, RELEASE, END};
 	enum class VIEWPORT_TYPE :int32_t { TOP, BOTTOM, END};
 
+	enum class MOUSEKEYSTATE { LB, RB, WHEEL, XB, END };
+	enum class MOUSEMOVESTATE { X, Y, WHEEL, END };
+
 	enum class RENDER_GROUP : int32_t {
 		TOP_PRIORITY,
 		TOP_NONBLEND,

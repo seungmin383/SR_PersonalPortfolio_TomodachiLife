@@ -65,13 +65,6 @@ void CCamera::Update_PipeLine()
 {
 }
 
-_float4x4& CCamera::Get_CameraWorldMatrix()
-{
-	_float4x4 tmp;
-	XMStoreFloat4x4(&tmp, m_pTransformCom->Get_WorldMatrix());
-
-	return  tmp;
-}
 
 
 //

@@ -49,10 +49,12 @@ public:
 	_float Get_Fov()const { return m_fFov; }
 	_float Get_Aspect()const { return m_fAspect; }
 
-	_float4x4& Get_CameraWorldMatrix();
-
-	_float4x4& Get_ProjMatrix() { return m_ProjMatrix; }
-	_float4x4& Get_ViewMatrix() { return m_ViewMatrix; }
+	XMMATRIX Get_WorldMatrix() { return XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_ViewMatrix)); }
+	XMMATRIX Get_ProjMatrix() { return XMLoadFloat4x4(&m_ProjMatrix); }
+	XMMATRIX Get_ViewMatrix() { return XMLoadFloat4x4(&m_ViewMatrix); }
+	
+	void Set_ProjMatrix(FXMMATRIX mat) { XMStoreFloat4x4(&m_ProjMatrix, mat); }
+	void Set_ViewMatrix(FXMMATRIX mat) { XMStoreFloat4x4(&m_ViewMatrix, mat); }
 
 protected:
 	_float3 m_vEye = {};

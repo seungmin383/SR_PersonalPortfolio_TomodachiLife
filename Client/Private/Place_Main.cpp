@@ -26,7 +26,7 @@ HRESULT CPlace_Main::Initialize()
 
 int32_t CPlace_Main::Update(_float fDT)
 {
-	if (GetAsyncKeyState('A') & 0x8000)
+	if (GetAsyncKeyState(VK_UP) & 0x8000)
 		m_pGameInstance->PlaceManager_Change_Place(
 			static_cast<uint32_t>(PLACE_ID::SETTING),
 			Engine::RETAIN_POLICY::CLEAR_ALL,
@@ -43,7 +43,6 @@ HRESULT CPlace_Main::Render_Priority()
 {
 	SetWindowText(g_hWnd, TEXT("메인레벨입니다."));
 	static_cast<CWorldCamera*>(m_pWorldCamera)->Ready_Render();
-	//m_pGameInstance->PipeLine_Calc_ProjMatrix(m_pWorldCamera);
 	return S_OK;
 }
 
@@ -51,7 +50,6 @@ HRESULT CPlace_Main::Render_Late()
 {
 	SetWindowText(g_hWnd, TEXT("메인레벨입니다."));
 	static_cast<CUICamera*>(m_pUICamera)->Ready_Render();
-	//m_pGameInstance->PipeLine_Calc_ProjMatrix(m_pUICamera);
 	return S_OK;
 }
 
@@ -157,14 +155,14 @@ HRESULT CPlace_Main::Ready_Main_Camera_Layer()
 
 
 	CWorldCamera::WORLDCAMERA_DESC tWorldCameraDesc = {};
-	tWorldCameraDesc.fSensor = 1.f;
+	tWorldCameraDesc.fSensor = 0.5f;
 	tWorldCameraDesc.fAspect = 2.f;
-	tWorldCameraDesc.fFov = XMConvertToRadians(90.f);
+	tWorldCameraDesc.fFov = XMConvertToRadians(45.f);
 	tWorldCameraDesc.fFarZ = 1000.f;
 	tWorldCameraDesc.fNearZ = 0.1f;
 	tWorldCameraDesc.fHeight = static_cast<_float>(WINCX);
 	tWorldCameraDesc.fWidth = static_cast<_float>(WINCY/2);
-	tWorldCameraDesc.fSpeedPerSecond = 10.f;
+	tWorldCameraDesc.fSpeedPerSecond = 20.f;
 	tWorldCameraDesc.fRotationPerSecond = XMConvertToRadians(20.f);
 	tWorldCameraDesc.vEye = _float3(0.f, 10.f, -10.f);
 	tWorldCameraDesc.vAt = _float3(0.f, 0.f, 0.f);
@@ -211,8 +209,5 @@ CPlace_Main* CPlace_Main::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 void CPlace_Main::Free()
 {
-	Safe_Release(m_pUICamera);
-	Safe_Release(m_pWorldCamera);
-
 	CPlace::Free();
 }
