@@ -40,6 +40,8 @@ private:
 	_bool				m_isFinished = { false };
 	_tchar				m_szFPS[MAX_PATH] = {};
 
+	const _tchar* m_szShaderPath = {nullptr};
+
 private:
 #pragma region LOADING_FUCTION
 

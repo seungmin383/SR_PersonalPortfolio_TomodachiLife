@@ -42,14 +42,15 @@ int32_t CPlace_Main::Update(_float fDT)
 HRESULT CPlace_Main::Render_Priority()
 {
 	SetWindowText(g_hWnd, TEXT("메인레벨입니다."));
-	static_cast<CWorldCamera*>(m_pWorldCamera)->Ready_Render();
+	static_cast<CUICamera*>(m_pUICamera)->Ready_Render();
 	return S_OK;
 }
 
 HRESULT CPlace_Main::Render_Late()
 {
 	SetWindowText(g_hWnd, TEXT("메인레벨입니다."));
-	static_cast<CUICamera*>(m_pUICamera)->Ready_Render();
+	static_cast<CWorldCamera*>(m_pWorldCamera)->Ready_Render();
+
 	return S_OK;
 }
 

@@ -37,21 +37,29 @@ HRESULT CGameInstance::Initialize(
 	{
 		m_pTimerManager = CTimerManager::Create();
 		if (nullptr == m_pTimerManager)
+		{
+			MSG_BOX("ErrCode : TimerManager Create Failed");
 			return E_FAIL;
+		}
 	}
 
 	//PlaceManager
 	{
 		m_pPlaceManager = CPlaceManager::Create();
 		if (nullptr == m_pPlaceManager)
+		{
+			MSG_BOX("ErrCode : CPlaceManager Create Failed");
 			return E_FAIL;
+		}
 	}
 
 	//CObjectManager
 	{
 		m_pObjectManager = CObjectManager::Create(Engine_desc.PlaceCount);
-		if (nullptr == m_pObjectManager)
+		if (nullptr == m_pObjectManager) {
+			MSG_BOX("ErrCode : CObjectManager Create Failed");
 			return E_FAIL;
+		}
 	}
 
 	//Prototype
@@ -61,35 +69,45 @@ HRESULT CGameInstance::Initialize(
 			*ppContext, 
 			Engine_desc.PlaceCount);
 
-		if (nullptr == m_pPrototype)
+		if (nullptr == m_pPrototype) {
+			MSG_BOX("ErrCode : CPrototype Create Failed");
 			return E_FAIL;
+		}
 	}
 
 	//RenderManager
 	{
 		m_pRenderManager = CRenderManager::Create(*ppDevice, *ppContext);
-		if (nullptr == m_pRenderManager)
+		if (nullptr == m_pRenderManager) {
+			MSG_BOX("ErrCode : CRenderManager Create Failed");
 			return E_FAIL;
+		}
 	}
 
 	// PipeLine
 	{
 		m_pPipeLine = CPipeLine::Create();
-		if (nullptr == m_pPipeLine)
+		if (nullptr == m_pPipeLine) {
+			MSG_BOX("ErrCode : CPipeLine Create Failed");
 			return E_FAIL;
+		}
 	}
 
 	// CameraManager
 	{
 		m_pCameraManager = CCameraManager::Create();
-		if (nullptr == m_pCameraManager)
+		if (nullptr == m_pCameraManager) {
+			MSG_BOX("ErrCode : CCameraManager Create Failed");
 			return E_FAIL;
+		}
 	}
 	// InputDeice
 	{
 		m_pInput_Device = CInput_Device::Create(Engine_desc.hInst, Engine_desc.hWnd);
-		if (nullptr == m_pInput_Device)
+		if (nullptr == m_pInput_Device) {
+			MSG_BOX("ErrCode : CInput_Device Create Failed");
 			return E_FAIL;
+		}
 	}
 	return S_OK;
 }

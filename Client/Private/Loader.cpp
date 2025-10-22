@@ -352,12 +352,16 @@ HRESULT CLoader::Loading_For_Setting()
 	lstrcpy(m_szFPS, TEXT("UI Loading Complete"));
 
 	//Components Loading // ====================================================
-
+#ifdef _DEBUG
+	m_szShaderPath = TEXT("../Bin/Debug/ShaderFile/Shader_Vtx_Tex.hlsl");
+#else
+	m_szShaderPath = TEXT("../Bin/Release/ShaderFile/Shader_Vtx_Tex.hlsl");
+#endif
 		//Vtx_Tex Shader Component //
 	tmp = CShaderCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../Bin/Debug/ShaderFile/Shader_Vtx_Tex.hlsl"),
+		m_szShaderPath,
 		Engine::VTX_TEX::Elements,
 		Engine::VTX_TEX::iNumElements);
 
@@ -370,12 +374,16 @@ HRESULT CLoader::Loading_For_Setting()
 		tmp)))
 		return E_FAIL;
 
-
+#ifdef _DEBUG
+	m_szShaderPath = TEXT("../Bin/Debug/ShaderFile/Shader_Vtx_Normal_Tex.hlsl");
+#else
+	m_szShaderPath = TEXT("../Bin/Release/ShaderFile/Shader_Vtx_Normal_Tex.hlsl");
+#endif
 	//Normal Shader Component //
 	tmp = CShaderCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../Bin/Debug/ShaderFile/Shader_Vtx_Normal_Tex.hlsl"),
+		m_szShaderPath,
 		Engine::VTX_TEX_NORMAL::Elements,
 		Engine::VTX_TEX_NORMAL::iNumElements);
 

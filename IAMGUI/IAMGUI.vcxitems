@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{384f2ecc-9d5f-4c0c-9e5b-8b53a9153a66}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Imgui\imconfig.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Imgui\imgui.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Imgui\imgui_impl_win32.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Imgui\imgui_internal.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Imgui\imstb_rectpack.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Imgui\imstb_textedit.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Imgui\imstb_truetype.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Imgui\imgui.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Imgui\imgui_demo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Imgui\imgui_draw.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Imgui\imgui_tables.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Imgui\imgui_widgets.cpp" />
+  </ItemGroup>
+</Project>
