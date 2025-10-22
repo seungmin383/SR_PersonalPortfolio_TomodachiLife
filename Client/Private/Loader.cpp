@@ -241,7 +241,7 @@ HRESULT CLoader::Loading_For_Main()
 	tmp = CTerrainBufferCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../Resource/Textures/Terrain/Height.bmp"));
+		TEXT("../../Resource/Textures/Terrain/Height.bmp"));
 
 	if (nullptr == tmp)
 		return E_FAIL;
@@ -258,7 +258,7 @@ HRESULT CLoader::Loading_For_Main()
 	tmp = CTextureCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../Resource/Textures/item_Food102.png"),
+		TEXT("../../Resource/Textures/item_Food102.png"),
 		1);
 
 	if (nullptr == tmp)
@@ -275,7 +275,7 @@ HRESULT CLoader::Loading_For_Main()
 	tmp = CTextureCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../Resource/Textures/Terrain/Tile0.jpg"),
+		TEXT("../../Resource/Textures/Terrain/Tile0.jpg"),
 		1);
 
 	if (nullptr == tmp)
@@ -415,7 +415,7 @@ HRESULT CLoader::Loading_For_Setting()
 	tmp = CTerrainBufferCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../Resource/Textures/Terrain/Height.bmp"));
+		TEXT("../../Resource/Textures/Terrain/Height.bmp"));
 
 	if (nullptr == tmp)
 		return E_FAIL;
@@ -432,7 +432,7 @@ HRESULT CLoader::Loading_For_Setting()
 	tmp = CTextureCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../Resource/Textures/item_Food102.png"),
+		TEXT("../../Resource/Textures/item_Food102.png"),
 		1);
 
 	if (nullptr == tmp)
@@ -449,7 +449,7 @@ HRESULT CLoader::Loading_For_Setting()
 	tmp = CTextureCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../Resource/Textures/Terrain/Tile0.jpg"),
+		TEXT("../../Resource/Textures/Terrain/Tile0.jpg"),
 		1);
 
 	if (nullptr == tmp)
