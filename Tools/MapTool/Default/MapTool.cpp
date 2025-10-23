@@ -88,15 +88,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
         if (fTimeAcc >= FPS_60)
         {
-            ImGui_ImplDX11_NewFrame();
-            ImGui_ImplWin32_NewFrame();
-            ImGui::NewFrame();
-
-            
-            ImGui::Begin("Test");
-            ImGui::Text("Hello, ImGui!");
-            ImGui::End();
-
             pGameInstance->TimerManager_Calc_DeltaTime(TEXT("Timer_fps"));
 
             pMainApp->Update_Priority(pGameInstance->TimerManager_Get_DeltaTime(TEXT("Timer_fps")));

@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\Food.h" />
+    <ClInclude Include="..\Public\ImguiManager.h" />
     <ClInclude Include="..\Public\Island.h" />
     <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Food.cpp" />
+    <ClCompile Include="..\Private\ImguiManager.cpp" />
     <ClCompile Include="..\Private\Island.cpp" />
     <ClCompile Include="..\Private\Loader.cpp" />
     <ClCompile Include="..\Private\MainApp.cpp" />

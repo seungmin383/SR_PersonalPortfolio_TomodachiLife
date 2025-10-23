@@ -43,6 +43,9 @@
     <ClInclude Include="..\Public\WorldCamera.h">
       <Filter>02.Object\00.Actor\99.Camera\00.WorldCamera</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ImguiManager.h">
+      <Filter>Imgui\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -134,6 +137,12 @@
     <Filter Include="02.Object\01.UI">
       <UniqueIdentifier>{cf7adb78-0026-4412-99c3-ef7e9d4ceb8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imgui">
+      <UniqueIdentifier>{fcc1e25a-1a7b-4da1-be3a-3efb6a849aed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imgui\Manager">
+      <UniqueIdentifier>{e17940d8-135e-4758-9e07-b6c8bf20b6e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MapTool.rc">
@@ -170,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\WorldCamera.cpp">
       <Filter>02.Object\00.Actor\99.Camera\00.WorldCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImguiManager.cpp">
+      <Filter>Imgui\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

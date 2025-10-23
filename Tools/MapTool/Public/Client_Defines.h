@@ -59,5 +59,12 @@ namespace Client
 		END					
 	};
 }
+
+namespace Maptool
+{
+
+}
+
 using namespace std;
 using namespace Client;
+using namespace Maptool;

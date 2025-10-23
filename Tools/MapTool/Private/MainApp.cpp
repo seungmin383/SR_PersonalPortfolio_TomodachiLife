@@ -1,5 +1,7 @@
 #include "MainApp.h"
 #include "GameInstance.h"
+#include "ImguiManager.h"
+
 #include "Place_Loading.h"
 
 #include "WorldCamera.h"
@@ -8,9 +10,11 @@
 USING(Client)
 
 CMainApp::CMainApp()
-	:m_pGameInstance(CGameInstance::GetInstance())
+	:m_pGameInstance(CGameInstance::GetInstance()),
+	m_pImguiManager(CImguiManager::GetInstance())
 {
 	Safe_AddRef(m_pGameInstance);
+	Safe_AddRef(m_pImguiManager);
 }
 
 HRESULT CMainApp::Initialize()
@@ -40,7 +44,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Static()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Imgui()))
+	if (FAILED(m_pImguiManager->Initialize_Imgui(m_pDevice, m_pContext)))
 		return E_FAIL;
 
 	// 다 지우고 다음 씬으로 넘어가고 싶다.
@@ -58,19 +62,22 @@ HRESULT CMainApp::Initialize()
 	return S_OK;
 }
 
-int32_t CMainApp::Update_Priority(_float _fDT)
+int32_t CMainApp::Update_Priority(_float fDT)
 {
-	return m_pGameInstance->Update_Priority(_fDT);
+	m_pImguiManager->Update_Imgui_Priority(fDT);
+	return m_pGameInstance->Update_Priority(fDT);
 }
 
-int32_t CMainApp::Update(_float _fDT)
+int32_t CMainApp::Update(_float fDT)
 {
-	return m_pGameInstance->Update(_fDT);
+	m_pImguiManager->Update_Imgui(fDT);
+	return m_pGameInstance->Update(fDT);
 }
 
-void CMainApp::Update_Late(_float _fDT)
+void CMainApp::Update_Late(_float fDT)
 {
-	m_pGameInstance->Update_Late(_fDT);
+	m_pImguiManager->Update_Imgui_Late(fDT);
+	m_pGameInstance->Update_Late(fDT);
 }
 
 void CMainApp::Render()
@@ -78,12 +85,11 @@ void CMainApp::Render()
 	m_pGameInstance->Begin_Render();
 
 	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::TOP);
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	m_pGameInstance->Render_Top();
 
 	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::BOTTOM);
 	m_pGameInstance->Render_Bottom();
+	m_pImguiManager->Render_Imgui();
 
 	m_pGameInstance->End_Render();
 }
@@ -119,36 +125,6 @@ HRESULT CMainApp::Ready_Static()
 }
 
 
-HRESULT CMainApp::Ready_Imgui()
-{
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-	
-	// 2) 스타일
-	ImGui::StyleColorsDark(); // 원하시면 다른 테마로 변경
-
-	{
-		// EXE 기준 경로로 안전하게 로드하는 것을 권장합니다.
-		// io.Fonts->AddFontDefault(); // 기본 영문 폰트
-		
-		ImGuiIO& io = ImGui::GetIO(); (void)io;
-		//io.Fonts->AddFontFromFileTTF("C\\windows\\Fonts\\malgun.ttf", 18.f, NULL, io.Fonts->GetGlyphRangesKorean());
-		io.Fonts->AddFontDefault();
-
-	}
-
-	// 4) 플랫폼/렌더러 백엔드 초기화
-	//    hWnd, pDevice, pContext 는 여러분의 실제 포인터로 대체
-	ImGui_ImplWin32_Init(g_hWnd);
-	ImGui_ImplDX11_Init(m_pDevice, m_pContext);
-
-	return S_OK;
-}
-
 CMainApp* CMainApp::Create()
 {
 	CMainApp* pMainApp = new CMainApp;
@@ -180,5 +156,6 @@ void CMainApp::Free()
 
 	m_pGameInstance->Clear_Engine();
 
+	Safe_Release(m_pImguiManager);
 	Safe_Release(m_pGameInstance);
 }
