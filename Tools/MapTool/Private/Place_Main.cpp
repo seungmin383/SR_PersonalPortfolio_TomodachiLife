@@ -5,6 +5,8 @@
 #include "WorldCamera.h"
 #include "UICamera.h"
 
+#include "imgui.h"
+
 CPlace_Main::CPlace_Main(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
 {

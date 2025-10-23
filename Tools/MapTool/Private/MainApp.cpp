@@ -40,6 +40,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Static()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Imgui()))
+		return E_FAIL;
+
 	// 다 지우고 다음 씬으로 넘어가고 싶다.
 	if (FAILED(m_pGameInstance->PlaceManager_Change_Place(
 		static_cast<uint32_t>(PLACE_ID::LOADING),	// 로딩씬으로 갈래
@@ -75,6 +78,8 @@ void CMainApp::Render()
 	m_pGameInstance->Begin_Render();
 
 	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::TOP);
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	m_pGameInstance->Render_Top();
 
 	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::BOTTOM);
@@ -111,6 +116,37 @@ HRESULT CMainApp::Ready_Static()
 		TEXT("ProtoTag_Actor_UICamera"),
 		tmp)))
 		return E_FAIL;
+}
+
+
+HRESULT CMainApp::Ready_Imgui()
+{
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+	
+	// 2) 스타일
+	ImGui::StyleColorsDark(); // 원하시면 다른 테마로 변경
+
+	{
+		// EXE 기준 경로로 안전하게 로드하는 것을 권장합니다.
+		// io.Fonts->AddFontDefault(); // 기본 영문 폰트
+		
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		//io.Fonts->AddFontFromFileTTF("C\\windows\\Fonts\\malgun.ttf", 18.f, NULL, io.Fonts->GetGlyphRangesKorean());
+		io.Fonts->AddFontDefault();
+
+	}
+
+	// 4) 플랫폼/렌더러 백엔드 초기화
+	//    hWnd, pDevice, pContext 는 여러분의 실제 포인터로 대체
+	ImGui_ImplWin32_Init(g_hWnd);
+	ImGui_ImplDX11_Init(m_pDevice, m_pContext);
+
+	return S_OK;
 }
 
 CMainApp* CMainApp::Create()

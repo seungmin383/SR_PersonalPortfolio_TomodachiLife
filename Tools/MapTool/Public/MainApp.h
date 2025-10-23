@@ -23,6 +23,7 @@ public:
 	void		Render();
 
 	HRESULT Ready_Static();
+	HRESULT Ready_Imgui();
 
 private://디바이스 관리
 	ID3D11Device*			m_pDevice = { nullptr };

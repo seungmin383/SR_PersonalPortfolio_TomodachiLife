@@ -12,6 +12,7 @@ HWND g_hWnd;
 
 WCHAR szTitle[MAX_LOADSTRING];            
 WCHAR szWindowClass[MAX_LOADSTRING];      
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -79,29 +80,43 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             }
         }
 
+       
+
         pGameInstance->TimerManager_Calc_DeltaTime(TEXT("Timer_Default"));
 
         fTimeAcc += pGameInstance->TimerManager_Get_DeltaTime(TEXT("Timer_Default"));
 
         if (fTimeAcc >= FPS_60)
         {
+            ImGui_ImplDX11_NewFrame();
+            ImGui_ImplWin32_NewFrame();
+            ImGui::NewFrame();
+
+            
+            ImGui::Begin("Test");
+            ImGui::Text("Hello, ImGui!");
+            ImGui::End();
+
             pGameInstance->TimerManager_Calc_DeltaTime(TEXT("Timer_fps"));
 
             pMainApp->Update_Priority(pGameInstance->TimerManager_Get_DeltaTime(TEXT("Timer_fps")));
             pMainApp->Update(pGameInstance->TimerManager_Get_DeltaTime(TEXT("Timer_fps")));
             pMainApp->Update_Late(pGameInstance->TimerManager_Get_DeltaTime(TEXT("Timer_fps")));
-            pMainApp->Render();
-
             fTimeAcc = 0.f;
+
+            pMainApp->Render();
         }
     }
 
     if (0 != Safe_Release(pMainApp))    //삭제가 안됐다면
         return FALSE;
 
+    ImGui_ImplDX11_Shutdown();
+    ImGui_ImplWin32_Shutdown();
+    ImGui::DestroyContext();
+
     if (0 != Safe_Release(pGameInstance))
         return FALSE;
-
 
 
     return (int)msg.wParam;
@@ -153,8 +168,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    return TRUE;
 }
 
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if (ImGui_ImplWin32_WndProcHandler( hWnd, message, wParam, lParam))
+        return true; // ImGui가 처리한 입력은 여기서 소비
+
     switch (message)
     {
     case WM_COMMAND:
