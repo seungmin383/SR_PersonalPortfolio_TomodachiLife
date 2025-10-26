@@ -9,11 +9,11 @@ CTextureCom::CTextureCom(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 CTextureCom::CTextureCom(const CTextureCom& rhs)
 	:CComponent(rhs),
-	m_vecTexture(rhs.m_vecTexture),
+	m_Textures(rhs.m_Textures),
 	m_iNumTextures(rhs.m_iNumTextures)
 {
 	//따로 로딩하지 않고 얕은 복사로
-	for(auto& pSRVs : m_vecTexture)
+	for(auto& pSRVs : m_Textures)
 		Safe_AddRef(pSRVs);
 }
 
@@ -21,7 +21,7 @@ HRESULT CTextureCom::Initialize_Origin(const _tchar* pTextureFilePath, uint32_t 
 {
 	m_iNumTextures = iNumTextures;
 
-	m_vecTexture.reserve(m_iNumTextures);
+	m_Textures.reserve(m_iNumTextures);
 
 	for(uint32_t i = 0; i < m_iNumTextures; ++i)
 	{
@@ -67,28 +67,28 @@ HRESULT CTextureCom::Initialize_Origin(const _tchar* pTextureFilePath, uint32_t 
 				return E_FAIL;
 		}
 
-		m_vecTexture.push_back(pSRV);
+		m_Textures.push_back(pSRV);
 	}
 
 	return S_OK;
 }
 
-HRESULT CTextureCom::Initialize_Clone(void* _pArg)
+HRESULT CTextureCom::Initialize_Clone(void* pArg)
 {
 	return S_OK;
 }
 
-int32_t CTextureCom::Update_Priority(const _float _fDT)
+int32_t CTextureCom::Update_Priority(const _float fDT)
 {
 	return 0;
 }
 
-int32_t CTextureCom::Update(const _float _fDT)
+int32_t CTextureCom::Update(const _float fDT)
 {
 	return 0;
 }
 
-void CTextureCom::Update_Late(const _float _fDT)
+void CTextureCom::Update_Late(const _float fDT)
 {
 }
 
@@ -102,7 +102,15 @@ HRESULT CTextureCom::Bind_ShaderResource(CShaderCom* pShader, const _char* pCons
 	if (iTextureIndex >= m_iNumTextures)
 		return E_FAIL;
 
-	return pShader->Bind_ShaderResource(pConstantName, m_vecTexture[iTextureIndex]);
+	return pShader->Bind_ShaderResource(pConstantName, m_Textures[iTextureIndex]);
+}
+
+HRESULT CTextureCom::Bind_ShaderResources(CShaderCom* pShader, const _char* pConstantName)
+{
+	return pShader->Bind_ShaderResources(
+		pConstantName,
+		&m_Textures.front(),
+		m_iNumTextures);
 }
 
 CTextureCom* CTextureCom::Create(
@@ -147,7 +155,7 @@ void CTextureCom::Free()
 {
 	CComponent::Free();
 
-	for (auto& pSRV : m_vecTexture)
+	for (auto& pSRV : m_Textures)
 		Safe_Release(pSRV);
-	m_vecTexture.clear();
+	m_Textures.clear();
 }

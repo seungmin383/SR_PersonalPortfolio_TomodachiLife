@@ -15,6 +15,20 @@ namespace Engine
 
 	}ENGINE_DESC;
 
+	typedef struct tagLight
+	{
+		LIGHT_TYPE eType;
+
+		XMFLOAT4 fDiffuse;
+		XMFLOAT4 fAmbient;
+		XMFLOAT4 fSpecular;
+
+		XMFLOAT4 vDir;
+		XMFLOAT4 vPos;
+		_float fRange;
+	}LIGHT_DESC;
+
+
 	typedef struct tagVertexCol
 	{
 		XMFLOAT3 Pos;		//À§Ä¡
@@ -69,6 +83,8 @@ namespace Engine
 		XMFLOAT4 Magenta	= { 1.f, 0.f, 1.f, 1.f };
 
 	}COLOR_DESC;
+
+	
 }
 
 

@@ -100,6 +100,18 @@
     <Filter Include="00.System\00.Device\01.Input">
       <UniqueIdentifier>{b8bb29ad-6655-4e1f-a024-57d2a077302b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Light">
+      <UniqueIdentifier>{5658eb22-8eea-4ea3-869c-ff82899da69d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Light\Manager">
+      <UniqueIdentifier>{814627f7-a20e-4f10-bdb4-bd2e26822915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\03.UI\01.Button">
+      <UniqueIdentifier>{98d19995-fdb7-45b5-b0ad-5413fc58408a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\00.Manager\02.MouseManager">
+      <UniqueIdentifier>{28957985-9c9c-4e3b-8e0e-52a6a3e6971b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -179,6 +191,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Input_Device.cpp">
       <Filter>00.System\00.Device\01.Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Light.cpp">
+      <Filter>06.Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LightManager.cpp">
+      <Filter>06.Light\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Button.cpp">
+      <Filter>01.Utility\03.Object\03.UI\01.Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MouseManager.cpp">
+      <Filter>01.Utility\00.Manager\02.MouseManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +325,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\Input_Device.h">
       <Filter>00.System\00.Device\01.Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Light.h">
+      <Filter>06.Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LightManager.h">
+      <Filter>06.Light\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Button.h">
+      <Filter>01.Utility\03.Object\03.UI\01.Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MouseManager.h">
+      <Filter>01.Utility\00.Manager\02.MouseManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

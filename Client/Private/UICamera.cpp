@@ -47,9 +47,14 @@ void CUICamera::Ready_Render()
 
 void CUICamera::Set_Matrices()
 {
+	D3D11_VIEWPORT CurViewport = {};
+	uint32_t iNumViewport = { 1 };
+
+	m_pContext->RSGetViewports(&iNumViewport, &CurViewport);
+
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixInverse(nullptr, m_pTransformCom->Get_WorldMatrix()));
 	XMStoreFloat4x4(&m_ProjMatrix,
-		XMMatrixOrthographicLH(960.f, 480.f, m_fNearZ, m_fFarZ));
+		XMMatrixOrthographicLH(CurViewport.Width, CurViewport.Height, m_fNearZ, m_fFarZ));
 }
 
 

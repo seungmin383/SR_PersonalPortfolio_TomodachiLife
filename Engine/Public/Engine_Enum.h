@@ -6,6 +6,7 @@ namespace Engine
 	enum class WINMODE :int32_t { FULL, WIN };
 	enum class SOLUTION_TYPE :int32_t {DEBUG, RELEASE, END};
 	enum class VIEWPORT_TYPE :int32_t { TOP, BOTTOM, END};
+	enum class LIGHT_TYPE : int32_t { DIRECTIONAL, POINT, END};
 
 	enum class MOUSEKEYSTATE { LB, RB, WHEEL, XB, END };
 	enum class MOUSEMOVESTATE { X, Y, WHEEL, END };

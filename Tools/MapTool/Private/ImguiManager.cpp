@@ -42,16 +42,18 @@ void CImguiManager::Update_Imgui_Priority(_float fDT)
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-
 	ImGui::Begin("Test1");
 	ImGui::Text("Hello, ImGui!");
 	ImGui::End();
+
 	ImGui::Begin("Test2");
 	ImGui::Text("Hello, ImGui!");
 	ImGui::End();
+
 	ImGui::Begin("Test3");
 	ImGui::Text("Hello, ImGui!");
 	ImGui::End();
+
 }
 
 void CImguiManager::Update_Imgui(_float fDT)

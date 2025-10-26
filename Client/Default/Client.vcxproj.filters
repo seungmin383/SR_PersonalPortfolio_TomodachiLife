@@ -134,6 +134,9 @@
     <Filter Include="02.Object\01.UI">
       <UniqueIdentifier>{cf7adb78-0026-4412-99c3-ef7e9d4ceb8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Object\01.UI\00.Button">
+      <UniqueIdentifier>{b95a2667-9757-4734-9743-ec63403b1753}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">

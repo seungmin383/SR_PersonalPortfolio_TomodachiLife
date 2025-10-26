@@ -37,10 +37,10 @@ private:
 
 public:
 	virtual HRESULT Initialize_Origin(const _tchar* pTextureFilePath, uint32_t iNumTextures);
-	virtual HRESULT Initialize_Clone(void* _pArg)override;
-	virtual int32_t Update_Priority(const _float _fDT)override;
-	virtual int32_t Update(const _float _fDT)override;
-	virtual void Update_Late(const _float _fDT)override;
+	virtual HRESULT Initialize_Clone(void* pArg)override;
+	virtual int32_t Update_Priority(_float fDT)override;
+	virtual int32_t Update(_float fDT)override;
+	virtual void Update_Late(_float fDT)override;
 	virtual HRESULT Render()override;
 
 public:
@@ -49,12 +49,15 @@ public:
 		const _char* pConstantName,
 		uint32_t iTextureIndex);
 
+	HRESULT Bind_ShaderResources(
+		CShaderCom* pShader,
+		const _char* pConstantName);
 private:
 	uint32_t m_iNumTextures = {};
 
 	//쉐이더에 던져서 픽셀값을 가져올꺼기 때문에
 	// ID3D11Texutre2D에서 파생된
-	vector<ID3D11ShaderResourceView*> m_vecTexture;
+	vector<ID3D11ShaderResourceView*> m_Textures;
 
 public:
 	static CTextureCom* Create(

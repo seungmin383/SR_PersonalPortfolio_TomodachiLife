@@ -11,6 +11,9 @@ class CObjectManager;
 class CRenderManager;
 class CPipeLine;
 class CCameraManager;
+class CLightManager;
+class CMouseManager;
+
 
 class CObject;
 class CPlace;
@@ -150,6 +153,18 @@ public:
 	_long	Get_DIMouseMove(MOUSEMOVESTATE eMouseState);
 #pragma endregion
 
+#pragma region LIGHTMANAGER
+
+	const LIGHT_DESC* LightManager_Get_LightDesc(uint32_t iIndex);
+	HRESULT LightManager_Add_Light(const LIGHT_DESC& eLight);
+
+#pragma endregion
+
+#pragma region MOUSEMANAGER
+
+	const POINT& MouseManager_Get_MousePos();
+#pragma endregion
+
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
 	CInput_Device*      m_pInput_Device = { nullptr };
@@ -160,6 +175,8 @@ private:
 	CPrototype*			m_pPrototype	= { nullptr };
 	CPipeLine*			m_pPipeLine = { nullptr };
 	CCameraManager*		m_pCameraManager = { nullptr };
+	CLightManager*		m_pLightManager = { nullptr };
+	CMouseManager*		m_pMouseManager = { nullptr };
 
 public:
 	void Clear_Engine();

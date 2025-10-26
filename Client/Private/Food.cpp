@@ -31,11 +31,11 @@ HRESULT CFood::Initialize_Clone(void* pArg)
 
 	m_pContext->RSGetViewports(&iNum, Viewport_Desc);
 
-	tDesc.fX = 0;
-	tDesc.fY = 0;
+	tDesc.fX = 0.f;
+	tDesc.fY = 0.f;
 
-	tDesc.fCX = 10.f;
-	tDesc.fCY = 10.f;
+	tDesc.fCX = 100.f;
+	tDesc.fCY = 100.f;
 
 	tDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 	tDesc.fSpeedPerSecond = 1.f;
@@ -63,8 +63,8 @@ int32_t CFood::Update(_float fDT)
 
 void CFood::Update_Late(_float fDT)
 {
-	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
-	//m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::BOTTOM_UI, this);
+	//m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
+	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::BOTTOM_UI, this);
 }
 
 HRESULT CFood::Render()
@@ -133,13 +133,13 @@ HRESULT CFood::Bind_ShaderResources()
 	m_pGameInstance->CameraManager_Bind_Matrix(
 		m_pShaderCom,
 		"g_ViewMatrix",
-		TEXT("World_Camera"),
+		TEXT("UI_Camera"),
 		D3DTS::VIEW);
 
 	m_pGameInstance->CameraManager_Bind_Matrix(
 		m_pShaderCom,
 		"g_ProjMatrix",
-		TEXT("World_Camera"),
+		TEXT("UI_Camera"),
 		D3DTS::PROJ);
 
 	m_pTextureCom->Bind_ShaderResource(

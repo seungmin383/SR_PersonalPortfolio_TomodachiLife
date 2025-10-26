@@ -78,10 +78,17 @@ HRESULT CIsland::Ready_Component()
 		static_cast<uint32_t>(PLACE_ID::MAIN),
 		TEXT("ProtoTag_Component_IslandTexture"),
 		TEXT("Com_Texture"),
-		reinterpret_cast<CComponent**>(&m_pTextureCom),
+		reinterpret_cast<CComponent**>(&m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::DIFFUSE)]),
 		nullptr)))
 		return E_FAIL;
 
+	if (FAILED(Add_Component(
+		static_cast<uint32_t>(PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_IslandMaskTexture"),
+		TEXT("Com_MaskTexture"),
+		reinterpret_cast<CComponent**>(&m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::MASK)]),
+		nullptr)))
+		return E_FAIL;
 
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACE_ID::MAIN),
@@ -120,10 +127,16 @@ HRESULT CIsland::Bind_ShaderResources()
 		"g_vCamPosition",
 		TEXT("World_Camera"));
 
-	m_pTextureCom->Bind_ShaderResource(
+	m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::DIFFUSE)]->
+		Bind_ShaderResources(
 		m_pShaderCom,
-		"g_DiffuseTexture",
-		0);
+		"g_DiffuseTexture");
+
+	m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::MASK)]->
+		Bind_ShaderResource(
+			m_pShaderCom,
+			"g_MaskTexture",
+			0);
 
 	return hr;
 }
@@ -159,7 +172,10 @@ CObject* CIsland::Clone(void* pArg)
 void CIsland::Free()
 {
 	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pTextureCom);
+
+	for(auto& pTexture : m_pTextureCom)
+		Safe_Release(pTexture);
+
 	Safe_Release(m_pTerrainBufferCom);
 	CActor::Free();
 }

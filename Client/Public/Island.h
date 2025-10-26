@@ -38,7 +38,7 @@ private:
 
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
-	CTextureCom* m_pTextureCom = { nullptr };
+	CTextureCom* m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::END)] = {nullptr};
 	CTerrainBufferCom* m_pTerrainBufferCom = { nullptr };
 
 public:

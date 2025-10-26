@@ -8,6 +8,8 @@
 #include "PipeLine.h"
 #include "Camera.h"
 #include "CameraManager.h"
+#include "LightManager.h"
+#include "MouseManager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -109,11 +111,22 @@ HRESULT CGameInstance::Initialize(
 			return E_FAIL;
 		}
 	}
+
+	// MouseManager
+	{
+		m_pMouseManager = CMouseManager::Create(Engine_desc.hWnd);
+		if (nullptr == m_pInput_Device) {
+			MSG_BOX("ErrCode : MouseManager Create Failed");
+			return E_FAIL;
+		}
+	}
+
 	return S_OK;
 }
 
 int32_t CGameInstance::Update_Priority(_float fDT)
 {
+	m_pMouseManager->Update(fDT);
 	m_pObjectManager->Update_Priority(fDT);
 	m_pCameraManager->Update_Priority(fDT);
 	return 0;
@@ -358,8 +371,28 @@ _long CGameInstance::Get_DIMouseMove(MOUSEMOVESTATE eMouseState)
 	return m_pInput_Device->Get_DIMouseMove(eMouseState);
 }
 
+
 #pragma endregion
 
+#pragma region LIGHTMANAGER
+
+const LIGHT_DESC* CGameInstance::LightManager_Get_LightDesc(uint32_t iIndex)
+{
+	return m_pLightManager->Get_LightDesc(iIndex);
+}
+
+HRESULT CGameInstance::LightManager_Add_Light(const LIGHT_DESC& eLight)
+{
+	return m_pLightManager->Add_Light(eLight);
+}
+
+
+#pragma endregion
+
+const POINT& CGameInstance::MouseManager_Get_MousePos()
+{
+	return m_pMouseManager->Get_MousePos();
+}
 
 
 
@@ -375,6 +408,7 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pObjectManager);
 	Safe_Release(m_pPrototype);
 	Safe_Release(m_pGraphicDevice);
+	Safe_Release(m_pMouseManager);
 
 	CGameInstance::GetInstance()->DestroyInstance();
 }

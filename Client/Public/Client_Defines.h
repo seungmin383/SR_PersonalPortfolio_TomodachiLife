@@ -50,6 +50,13 @@ namespace Client
 
 		END					
 	};
+
+	enum class TEXTURE_TYPE
+	{
+		DIFFUSE,
+		MASK,
+		END
+	};
 }
 using namespace std;
 using namespace Client;

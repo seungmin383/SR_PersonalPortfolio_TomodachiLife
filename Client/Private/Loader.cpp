@@ -271,12 +271,12 @@ HRESULT CLoader::Loading_For_Main()
 		return E_FAIL;
 
 
-	// Island Texture Component //
+	// Island Diffuse Texture Component //
 	tmp = CTextureCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../../Resource/Textures/Terrain/Tile0.jpg"),
-		1);
+		TEXT("../../Resource/Textures/Terrain/Tile%d.dds"),
+		2);
 
 	if (nullptr == tmp)
 		return E_FAIL;
@@ -287,6 +287,21 @@ HRESULT CLoader::Loading_For_Main()
 		tmp)))
 		return E_FAIL;
 
+	// Island Mask Texture Component //
+	tmp = CTextureCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../../Resource/Textures/Terrain/Mask.bmp"),
+		1);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_IslandMaskTexture"),
+		tmp)))
+		return E_FAIL;
 
 
 	lstrcpy(m_szFPS, TEXT("Component Loading Complete"));
@@ -449,8 +464,8 @@ HRESULT CLoader::Loading_For_Setting()
 	tmp = CTextureCom::Create(
 		m_pDevice,
 		m_pContext,
-		TEXT("../../Resource/Textures/Terrain/Tile0.jpg"),
-		1);
+		TEXT("../../Resource/Textures/Terrain/Tile%d.dds"),
+		2);
 
 	if (nullptr == tmp)
 		return E_FAIL;
