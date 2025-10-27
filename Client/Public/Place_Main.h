@@ -1,10 +1,6 @@
 #pragma once
 #include "Place.h"
 
-NS_BEGIN(Engine)
-class CObject;
-NS_END
-
 NS_BEGIN(Client)
 
 class CPlace_Main final : public CPlace

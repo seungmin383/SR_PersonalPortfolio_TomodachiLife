@@ -54,6 +54,7 @@ int32_t CCamera::Update(_float fDT)
 
 void CCamera::Update_Late(_float fDT)
 {
+	Set_Matrices();
 }
 
 void CCamera::Set_Matrices()

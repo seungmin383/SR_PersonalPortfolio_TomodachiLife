@@ -149,9 +149,11 @@
     <ClInclude Include="..\Public\Island.h" />
     <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
+    <ClInclude Include="..\Public\Mii.h" />
     <ClInclude Include="..\Public\PlaceMoveButton.h" />
     <ClInclude Include="..\Public\Place_Loading.h" />
     <ClInclude Include="..\Public\Place_Main.h" />
+    <ClInclude Include="..\Public\Place_MiiEditor.h" />
     <ClInclude Include="..\Public\Place_Setting.h" />
     <ClInclude Include="..\Public\UICamera.h" />
     <ClInclude Include="..\Public\WorldCamera.h" />
@@ -166,9 +168,11 @@
     <ClCompile Include="..\Private\Island.cpp" />
     <ClCompile Include="..\Private\Loader.cpp" />
     <ClCompile Include="..\Private\MainApp.cpp" />
+    <ClCompile Include="..\Private\Mii.cpp" />
     <ClCompile Include="..\Private\PlaceMoveButton.cpp" />
     <ClCompile Include="..\Private\Place_Loading.cpp" />
     <ClCompile Include="..\Private\Place_Main.cpp" />
+    <ClCompile Include="..\Private\Place_MiiEditor.cpp" />
     <ClCompile Include="..\Private\Place_Setting.cpp" />
     <ClCompile Include="..\Private\UICamera.cpp" />
     <ClCompile Include="..\Private\WorldCamera.cpp" />

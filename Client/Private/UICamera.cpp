@@ -38,12 +38,9 @@ int32_t CUICamera::Update(_float fDT)
 
 void CUICamera::Update_Late(_float fDT)
 {
+	CCamera::Update_Late(fDT);
 }
 
-void CUICamera::Ready_Render()
-{
-	Set_Matrices();
-}
 
 void CUICamera::Set_Matrices()
 {

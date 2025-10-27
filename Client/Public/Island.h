@@ -13,6 +13,7 @@ NS_BEGIN(Client)
 
 class CIsland final : public CActor
 {
+public:
 	typedef struct tagIslandDesc : public ACTOR_DESC
 	{
 		

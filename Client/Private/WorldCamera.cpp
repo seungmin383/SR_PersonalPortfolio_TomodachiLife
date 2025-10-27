@@ -76,12 +76,7 @@ int32_t CWorldCamera::Update(_float fDT)
 
 void CWorldCamera::Update_Late(_float fDT)
 {
-	
-}
-
-void CWorldCamera::Ready_Render()
-{
-	Set_Matrices();
+	CCamera::Update_Late(fDT);
 }
 
 void CWorldCamera::Set_Matrices()

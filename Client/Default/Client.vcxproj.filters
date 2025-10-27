@@ -49,6 +49,12 @@
     <ClInclude Include="..\Public\Button.h">
       <Filter>02.Object\01.UI\00.Button</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Mii.h">
+      <Filter>02.Object\00.Actor\00.Mii</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Place_MiiEditor.h">
+      <Filter>01.Place\05.Mii Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -183,6 +189,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Button.cpp">
       <Filter>02.Object\01.UI\00.Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mii.cpp">
+      <Filter>02.Object\00.Actor\00.Mii</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_MiiEditor.cpp">
+      <Filter>01.Place\05.Mii Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

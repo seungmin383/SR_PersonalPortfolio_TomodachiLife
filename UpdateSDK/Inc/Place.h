@@ -4,7 +4,6 @@
 NS_BEGIN(Engine)
 
 class CGameInstance;
-class CObject;
 
 class ENGINE_DLL CPlace abstract : public CBase
 {
@@ -22,9 +21,6 @@ protected:
 	CGameInstance*			m_pGameInstance = { nullptr };
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };
-
-	CObject* m_pWorldCamera = {};
-	CObject* m_pUICamera = {};
 
 public:
 	virtual void Free()override;
