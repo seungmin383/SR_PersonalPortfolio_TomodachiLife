@@ -198,9 +198,6 @@
     <ClCompile Include="..\Private\LightManager.cpp">
       <Filter>06.Light\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Button.cpp">
-      <Filter>01.Utility\03.Object\03.UI\01.Button</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\MouseManager.cpp">
       <Filter>01.Utility\00.Manager\02.MouseManager</Filter>
     </ClCompile>
@@ -331,9 +328,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\LightManager.h">
       <Filter>06.Light\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Button.h">
-      <Filter>01.Utility\03.Object\03.UI\01.Button</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MouseManager.h">
       <Filter>01.Utility\00.Manager\02.MouseManager</Filter>

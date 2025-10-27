@@ -14,7 +14,6 @@ class CCameraManager;
 class CLightManager;
 class CMouseManager;
 
-
 class CObject;
 class CPlace;
 class CCamera;
