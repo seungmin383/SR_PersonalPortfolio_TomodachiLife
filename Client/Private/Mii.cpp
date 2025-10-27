@@ -136,5 +136,7 @@ CObject* CMii::Clone(void* pArg)
 
 void CMii::Free()
 {
+	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pModelCom);
 	CActor::Free();
 }
