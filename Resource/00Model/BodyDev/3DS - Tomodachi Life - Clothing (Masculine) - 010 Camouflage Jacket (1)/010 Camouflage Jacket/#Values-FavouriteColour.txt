@@ -1,0 +1,42 @@
+Referenced with an eyedropper tool off of the in-game Mii Maker.
+
+Red         = d21e14
+Orange      = ff6e19
+Yellow      = ffd820
+Light Green = 78d220
+Dark Green  = 007830
+Dark Blue   = 204898
+Light Blue  = 3caade
+Pink        = f55a7d
+Purple      = 7328ad
+Brown       = 483818
+White       = e0e0e0
+Black       = 181814
+
+
+Lighter Red         = e63228
+Lighter Orange      = ff822d
+Lighter Yellow      = ffec34
+Lighter Light Green = 8ce634
+Lighter Dark Green  = 148c44
+Lighter Dark Blue   = 345cac
+Lighter Light Blue  = 50bef2
+Lighter Pink        = ff6e91
+Lighter Purple      = 873cc1
+Lighter Brown       = 5c4c2c
+Lighter White       = f4f4f4
+Lighter Black       = 2c2c28
+
+
+Lightest Red         = ff6e64
+Lightest Orange      = ffbe69
+Lightest Yellow      = ffff70
+Lightest Light Green = c8ff70
+Lightest Dark Green  = 50c880
+Lightest Dark Blue   = 7098e8
+Lightest Light Blue  = 8cfaff
+Lightest Pink        = ffaacd
+Lightest Purple      = c378fd
+Lightest Brown       = 988868
+Lightest White       = ffffff
+Lightest Black       = 686864

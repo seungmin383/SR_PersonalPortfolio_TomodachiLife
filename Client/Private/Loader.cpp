@@ -336,7 +336,7 @@ HRESULT CLoader::Loading_For_Main()
 	tmp = CModel::Create(
 		m_pDevice,
 		m_pContext,
-		"../../Resource/Models/Fiona/Fiona.fbx");
+		"../../Resource/00Model/00Body/wear1.fbx");
 
 	if (nullptr == tmp)
 		return E_FAIL;

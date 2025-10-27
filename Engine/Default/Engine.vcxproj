@@ -97,6 +97,7 @@
     <ClCompile Include="..\Private\TransformCom.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\VIBufferCom.cpp" />
+    <ClCompile Include="..\Public\assimp\Importer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fmod.dll" />
