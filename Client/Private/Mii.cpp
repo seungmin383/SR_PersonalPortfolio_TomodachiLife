@@ -18,8 +18,11 @@ HRESULT CMii::Initialize_Origin()
 
 HRESULT CMii::Initialize_Clone(void* pArg)
 {
-	Ready_Component();
-	CActor::Initialize_Clone(pArg);
+	if (FAILED(CActor::Initialize_Clone(pArg)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Component()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -31,16 +34,24 @@ int32_t CMii::Update_Priority(_float fDT)
 
 int32_t CMii::Update(_float fDT)
 {
+	int a = 0;
 	return 0;
 }
 
 void CMii::Update_Late(_float fDT)
 {
+	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
 }
 
 HRESULT CMii::Render()
 {
-	return E_NOTIMPL;
+	if (FAILED(Bind_ShaderResources()))
+		return E_FAIL;
+
+	m_pShaderCom->Begin(0);
+	m_pModelCom->Render();
+
+	return S_OK;
 }
 
 HRESULT CMii::Ready_Component()
@@ -57,7 +68,7 @@ HRESULT CMii::Ready_Component()
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACE_ID::MAIN),
 		TEXT("ProtoTag_Component_TestModel"),
-		TEXT("Com_TerrainBuffer"),
+		TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pModelCom),
 		nullptr)))
 		return E_FAIL;

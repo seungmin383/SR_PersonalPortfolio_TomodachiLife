@@ -88,9 +88,9 @@ HRESULT CPlace_Main::Ready_Main_Actor_Layer()
 	tMiiDesc.fX = 0.f;
 	tMiiDesc.fY = 0.f;
 	tMiiDesc.fZ = 0.f;
-	tMiiDesc.fCX = 100.f;
-	tMiiDesc.fCY = 100.f;
-	tMiiDesc.fCZ = 100.f;
+	tMiiDesc.fCX = 1.f;
+	tMiiDesc.fCY = 1.f;
+	tMiiDesc.fCZ = 1.f;
 	tMiiDesc.fSpeedPerSecond = 0.f;
 	tMiiDesc.fRotationPerSecond = XMConvertToRadians(20.f);
 

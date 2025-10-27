@@ -41,7 +41,7 @@ HRESULT CModel::Render()
 	for (size_t i = 0; i < m_iNumMeshes; i++)
 	{
 		m_Meshes[i]->Bind_Resource();
-		m_Meshes[i]->Render();
+		m_Meshes[i]->Begin_Draw();
 	}
 	return S_OK;
 }
