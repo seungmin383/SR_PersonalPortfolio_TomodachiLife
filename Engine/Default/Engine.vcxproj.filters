@@ -115,6 +115,9 @@
     <Filter Include="01.Utility\03.Object\02.Component\04.Model">
       <UniqueIdentifier>{4baa42a5-22ca-446a-ab46-8fd9abe405c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\04.Model\00.Mesh">
+      <UniqueIdentifier>{55e90de8-8ab5-4383-bcd8-d4bbad672a5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -206,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Model.cpp">
       <Filter>01.Utility\03.Object\02.Component\04.Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mesh.cpp">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\00.Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +346,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Model.h">
       <Filter>01.Utility\03.Object\02.Component\04.Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mesh.h">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\00.Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
