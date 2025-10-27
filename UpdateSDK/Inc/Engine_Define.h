@@ -9,6 +9,12 @@
 #include <DirectXTK/DDSTextureLoader.h>	//dds 로드
 #include <DirectXTK/WICTextureLoader.h>	//window tex 로드
 
+// 나중에 절때 뺼 것
+#include <assimp/scene.h>
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+// 
+
 #include <d3dcompiler.h>
 
 #include <vector>

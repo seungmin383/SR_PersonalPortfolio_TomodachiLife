@@ -112,6 +112,9 @@
     <Filter Include="01.Utility\00.Manager\02.MouseManager">
       <UniqueIdentifier>{28957985-9c9c-4e3b-8e0e-52a6a3e6971b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\04.Model">
+      <UniqueIdentifier>{4baa42a5-22ca-446a-ab46-8fd9abe405c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -200,6 +203,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\MouseManager.cpp">
       <Filter>01.Utility\00.Manager\02.MouseManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Model.cpp">
+      <Filter>01.Utility\03.Object\02.Component\04.Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\MouseManager.h">
       <Filter>01.Utility\00.Manager\02.MouseManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Model.h">
+      <Filter>01.Utility\03.Object\02.Component\04.Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

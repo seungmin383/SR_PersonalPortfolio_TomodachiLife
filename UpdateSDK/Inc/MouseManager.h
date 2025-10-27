@@ -19,8 +19,12 @@ private:
 
 public:
 	const POINT& Get_MousePos() { return m_vMousePos; }
-	const _bool Get_isClickLBT() { return m_isPressingLBT; }
-	const _bool Get_isClickRBT() { return m_isPressingRBT; }
+
+	const _bool Get_isPressingLBT() { return m_isPressingLBT; }
+	const _bool Get_isPressingRBT() { return m_isPressingRBT; }
+	
+	const _bool Get_isClickLBT() { return m_isClickLBT; }
+	const _bool Get_isClickRBT() { return m_isClickRBT; }
 
 private:
 	CGameInstance* m_pGameInstance = { nullptr };

@@ -162,6 +162,12 @@ public:
 #pragma region MOUSEMANAGER
 
 	const POINT& MouseManager_Get_MousePos();
+
+	const _bool MouseManager_Get_isPressingLBT();
+	const _bool MouseManager_Get_isPressingRBT();
+	const _bool MouseManager_Get_isClickLBT();
+	const _bool MouseManager_Get_isClickRBT();
+
 #pragma endregion
 
 private:

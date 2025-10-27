@@ -389,10 +389,34 @@ HRESULT CGameInstance::LightManager_Add_Light(const LIGHT_DESC& eLight)
 
 #pragma endregion
 
+#pragma region MOUSEMANAGER
+
 const POINT& CGameInstance::MouseManager_Get_MousePos()
 {
 	return m_pMouseManager->Get_MousePos();
 }
+
+const _bool CGameInstance::MouseManager_Get_isPressingLBT()
+{
+	return m_pMouseManager->Get_isPressingLBT();
+}
+
+const _bool CGameInstance::MouseManager_Get_isPressingRBT()
+{
+	return m_pMouseManager->Get_isPressingRBT();
+}
+
+const _bool CGameInstance::MouseManager_Get_isClickLBT()
+{
+	return m_pMouseManager->Get_isClickLBT();
+}
+
+const _bool CGameInstance::MouseManager_Get_isClickRBT()
+{
+	return m_pMouseManager->Get_isClickRBT();
+}
+
+#pragma endregion
 
 
 
