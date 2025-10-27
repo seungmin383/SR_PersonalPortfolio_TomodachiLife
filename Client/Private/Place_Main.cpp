@@ -63,10 +63,42 @@ HRESULT CPlace_Main::Ready_Main_Actor_Layer()
 	tDesc.fSpeedPerSecond = 0.f;
 	tDesc.fRotationPerSecond = XMConvertToRadians(20.f);
 
-	CObject* tmp = m_pGameInstance->Proto_Get_Object_Clone(
+	CObject* tmp = { nullptr };
+	tmp = m_pGameInstance->Proto_Get_Object_Clone(
 		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
 		TEXT("ProtoTag_Actor_Island"),
 		&tDesc);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("LayerTag_Actor"),
+		tmp)))
+	{
+		Safe_Release(tmp);
+		return E_FAIL;
+	}
+
+
+
+
+	CActor::ACTOR_DESC tMiiDesc = {};
+	tMiiDesc.fX = 0.f;
+	tMiiDesc.fY = 0.f;
+	tMiiDesc.fZ = 0.f;
+	tMiiDesc.fCX = 100.f;
+	tMiiDesc.fCY = 100.f;
+	tMiiDesc.fCZ = 100.f;
+	tMiiDesc.fSpeedPerSecond = 0.f;
+	tMiiDesc.fRotationPerSecond = XMConvertToRadians(20.f);
+
+
+	tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Actor_Mii"),
+		&tMiiDesc);
 
 	if (nullptr == tmp)
 		return E_FAIL;

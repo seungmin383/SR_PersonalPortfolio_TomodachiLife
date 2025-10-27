@@ -40,14 +40,12 @@ private:
 
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
-	CTextureCom* m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::END)] = { nullptr };
-	CModel* m_pMeshCom = { nullptr };
+	CModel* m_pModelCom = { nullptr };
 
 public:
 	static CMii* Create(
 		ID3D11Device* pDevice,
-		ID3D11DeviceContext* pContext,
-		const _char* pModelFilePath);
+		ID3D11DeviceContext* pContext);
 
 	virtual CObject* Clone(void* pArg) override;
 	virtual void Free()override;

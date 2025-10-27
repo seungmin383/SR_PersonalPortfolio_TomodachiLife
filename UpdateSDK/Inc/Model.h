@@ -3,6 +3,8 @@
 
 NS_BEGIN(Engine)
 
+class CMesh;
+
 class ENGINE_DLL CModel final : public CComponent
 {
 private:
@@ -14,9 +16,17 @@ public:
 	virtual HRESULT Initialize_Origin(const _char* pModelFilePath);
 	virtual HRESULT Initialize_Clone(void* pArg)override;
 
+	virtual HRESULT Render()override;
 private:
 	Assimp::Importer m_Importer = {};
 	const aiScene* m_pAIScene = { nullptr };
+
+private:
+	uint32_t m_iNumMeshes = {};
+	vector<CMesh*> m_Meshes;
+
+private:
+	HRESULT Ready_Meshes();
 
 public:
 	static CModel* Create(

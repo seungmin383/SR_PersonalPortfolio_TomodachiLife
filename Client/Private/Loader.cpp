@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Food.h"
 #include "Island.h"
+#include "Mii.h"
 #include "WorldCamera.h"
 #include "UICamera.h"
 
@@ -163,6 +164,18 @@ HRESULT CLoader::Loading_For_Main()
 		return E_FAIL;
 
 
+	tmp = CMii::Create(m_pDevice, m_pContext);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Actor_Mii"),
+		tmp)))
+		return E_FAIL;
+
+
 	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
 
 // UI Loading // ====================================================
@@ -222,6 +235,22 @@ HRESULT CLoader::Loading_For_Main()
 		tmp)))
 		return E_FAIL;
 
+	//Mesh Shader Component //
+	tmp = CShaderCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../Bin/Debug/ShaderFile/Shader_Vtx_Mesh.hlsl"),
+		Engine::VTX_TEX_MESH::Elements,
+		Engine::VTX_TEX_MESH::iNumElements);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_Vtx_Mesh_TexShader"),
+		tmp)))
+		return E_FAIL;
 
 
 	// Rect Buffer Component //
@@ -301,6 +330,22 @@ HRESULT CLoader::Loading_For_Main()
 		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
 		TEXT("ProtoTag_Component_IslandMaskTexture"),
 		tmp)))
+		return E_FAIL;
+
+	// Test Model Component //
+	tmp = CModel::Create(
+		m_pDevice,
+		m_pContext,
+		"../../Resource/Models/Fiona/Fiona.fbx");
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_TestModel"),
+		tmp)))
+
 		return E_FAIL;
 
 
@@ -475,6 +520,8 @@ HRESULT CLoader::Loading_For_Setting()
 		TEXT("ProtoTag_Component_IslandTexture"),
 		tmp)))
 		return E_FAIL;
+
+
 
 	// Loading Complete // ====================================================
 	lstrcpy(m_szFPS, TEXT("Setting Loading Complete"));

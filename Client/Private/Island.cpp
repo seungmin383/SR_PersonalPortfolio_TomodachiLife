@@ -43,7 +43,7 @@ int32_t CIsland::Update(_float fDT)
 
 void CIsland::Update_Late(_float fDT)
 {
-	//m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_UI, this);
+	// m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_UI, this);
 	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
 }
 

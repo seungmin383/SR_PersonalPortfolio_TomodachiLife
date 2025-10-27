@@ -190,6 +190,7 @@
     <Text Include="PipeLine.txt" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Mesh.hlsl" />
     <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Normal_Tex.hlsl" />
     <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Tex.hlsl" />
     <FxCompile Include="..\Bin\Debug\ShaderFile\Test.hlsl" />
