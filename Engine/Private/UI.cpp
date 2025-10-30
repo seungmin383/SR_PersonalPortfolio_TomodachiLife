@@ -42,8 +42,8 @@ HRESULT CUI::Initialize_Clone(void* pArg)
 
 	m_pTransformCom->Set_State(TRANSFORM_STATE::POS,
 		XMVectorSet(
-			m_fX,
-			m_fY,
+			m_fX - ViewportDescs.Width * 0.5f,
+			-m_fY + ViewportDescs.Height * 0.5f,
 			0.5f,
 			1.f));
 
