@@ -5,6 +5,7 @@
 #include "Mii.h"
 #include "WorldCamera.h"
 #include "UICamera.h"
+#include "PlaceMoveButton.h"
 
 USING(Engine)
 
@@ -195,6 +196,16 @@ HRESULT CLoader::Loading_For_Main()
 		return E_FAIL;
 
 
+	tmp = CPlaceMoveButton::Create(m_pDevice, m_pContext);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_UI_PlaceMoveButton"),
+		tmp)))
+		return E_FAIL;
 
 	lstrcpy(m_szFPS, TEXT("UI Loading Complete"));
 
@@ -332,11 +343,51 @@ HRESULT CLoader::Loading_For_Main()
 		tmp)))
 		return E_FAIL;
 
+
+	// Button Texture Component //
+	tmp = CTextureCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../../Resource/Textures/UI_Buttons.png"),
+		1);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_Component_UIButtonTexture"),
+		tmp)))
+		return E_FAIL;
+
+
+#define boatPath "../../../../../../Resource/main/model/Object - Boat/boat.fbx"
+#define babyChairPath "../../../../../../Resource/main/model/Object - BabyChair/babyChair.fbx"
+#define beachChairPath "../../../../../../Resource/main/model/Object - BeachChair/beachChair.fbx"
+
+#define path1 "../../Resource/00Model/00Body/Cat1.fbx"
+#define path2 "../../Resource/Models/Fiona/Fiona.fbx"
+#define path3 "../../Resource/Models/A.fbx"
+
+#define path4 "../../../../../../Resource/dev/model/02Arabian/room1.fbx"
+#define path5 "../../../../../../Resource/dev/model/Canoe/Boat.fbx"
+#define path6 "../../../../../../Resource/dev/model/BabyChair/BabyChair.fbx"
+#define path7 "../../../../../../Resource/dev/model/Beach Chair/BeachChair.fbx"
+#define path8 "../../../../../../Resource/dev/model/Cats/catAddAnim.fbx"
+#define path9 "../../../../../../Resource/dev/model/Island - Island/Background Sky and Sea/Clouds/Cloud.fbx"
+#define path10 "../../../../../../Resource/dev/model/Island - Island/Background Sky and Sea/Moon/Moon.fbx"
+#define path11 "../../../../../../Resource/dev/model/Island - Island/Background Sky and Sea/Sky and Sea/Sea.fbx"
+#define path12 "../../../../../../Resource/dev/model/Island - Island/House Plots/houseGround.fbx"
+#define path13 "../../../../../../Resource/dev/model/Island - Island/Map Spring/island.fbx"
+#define path14 "../../../../../../Resource/dev/model/Mii/Mii/body_body000.fbx"
+#define path15 "../../../../../../Resource/dev/model/Mii/Mii/miiDeleteLeafBones.fbx"
+#define path16 "../../../../../../Resource/dev/model/Mii News/Mii News/news.fbx"
+	
 	// Test Model Component //
 	tmp = CModel::Create(
 		m_pDevice,
 		m_pContext,
-		"../../Resource/00Model/00Body/wear1.fbx");
+		path16);
 
 	if (nullptr == tmp)
 		return E_FAIL;
@@ -406,6 +457,8 @@ HRESULT CLoader::Loading_For_Setting()
 		TEXT("ProtoTag_UI_Food"),
 		tmp)))
 		return E_FAIL;
+
+
 
 
 

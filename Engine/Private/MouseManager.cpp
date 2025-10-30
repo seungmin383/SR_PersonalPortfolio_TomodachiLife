@@ -7,63 +7,101 @@ CMouseManager::CMouseManager()
 	Safe_AddRef(m_pGameInstance);
 }
 
-HRESULT CMouseManager::Initialize(HWND hWnd)
+HRESULT CMouseManager::Initialize(HWND hWnd, uint32_t ViewportCY)
 {
 	m_hWnd = hWnd;
+	m_iViewportCY = ViewportCY;
 	return S_OK;
 }
 
 void CMouseManager::Update(_float fDT)
 {
 	Mouse_Input();
-	GetCursorPos(&m_vMousePos);
-	ScreenToClient(m_hWnd, &m_vMousePos);
+	Calc_Pos();
 }
 
 void CMouseManager::Mouse_Input()
 {
-	m_isClickLBT = FALSE;
-	m_isClickRBT = FALSE;
-
-	m_isPrePressingLBT = m_isPressingLBT;
-	m_isPrePressingRBT = m_isPressingRBT;
-
-	if (m_pGameInstance->Get_DIMouseState(MOUSEKEYSTATE::LB) & 0x80)
+	// 버튼 클릭 초기화
 	{
-		m_isPressingLBT = TRUE;
-	}
-	else
-	{
-		m_isPressingLBT = FALSE;
+		m_isPressStartLBT = FALSE;
+		m_isPressStartRBT = FALSE;
+
+		m_isClickLBT = FALSE;
+		m_isClickRBT = FALSE;
+
+		m_isPrePressingLBT = m_isPressingLBT;
+		m_isPrePressingRBT = m_isPressingRBT;
 	}
 
-	if (m_pGameInstance->Get_DIMouseState(MOUSEKEYSTATE::RB) & 0x80)
+	
+	// 누르고 있는지 확인
 	{
-		m_isPressingRBT = TRUE;
-	}
-	else
-	{
-		m_isPressingRBT = FALSE;
+		if (m_pGameInstance->Get_DIMouseState(MOUSEKEYSTATE::LB) & 0x80)
+		{
+			m_isPressingLBT = TRUE;
+		}
+		else
+		{
+			m_isPressingLBT = FALSE;
+		}
+		if (m_pGameInstance->Get_DIMouseState(MOUSEKEYSTATE::RB) & 0x80)
+		{
+			m_isPressingRBT = TRUE;
+		}
+		else
+		{
+			m_isPressingRBT = FALSE;
+		}
 	}
 
-	if (m_isPrePressingLBT && !m_isPressingLBT)
+	// 이제 막 누르기 시작했는지 확인
 	{
-		m_isClickLBT = TRUE;
+		if (!m_isPrePressingLBT && m_isPressingLBT)
+		{
+			m_isPressStartLBT = TRUE;
+		}
+		if (!m_isPrePressingRBT && m_isPressingRBT)
+		{
+			m_isPressStartRBT = TRUE;
+		}
+
 	}
 
-	if (m_isPrePressingRBT && !m_isPressingRBT)
+	// 누르고 있다가 땠는지 확인
 	{
-		m_isClickRBT = TRUE;
+		if (m_isPrePressingLBT && !m_isPressingLBT)
+		{
+			m_isClickLBT = TRUE;
+		} 
+		if (m_isPrePressingRBT && !m_isPressingRBT)
+		{
+			m_isClickRBT = TRUE;
+		}
 	}
 }
 
+void CMouseManager::Calc_Pos()
+{
+	GetCursorPos(&m_vMousePos);
+	GetCursorPos(&m_vCalcMousePos);
+	ScreenToClient(m_hWnd, &m_vMousePos);
+	ScreenToClient(m_hWnd, &m_vCalcMousePos);
 
+	// 각 뷰포트의 LT를 0,0 으로 맞춰줌
+	if ((uint32_t)m_vCalcMousePos.y >= m_iViewportCY)
+	{
+		m_vMousePos.y -= m_iViewportCY;
+	}
 
-CMouseManager* CMouseManager::Create(HWND hWnd)
+	std::cout << "Mouse X : " << m_vMousePos.x << " / Mouse Y : " << m_vMousePos.y << endl;
+}
+
+CMouseManager* CMouseManager::Create(HWND hWnd, uint32_t ViewportCY)
 {
 	CMouseManager* pInstance = new CMouseManager;
 
-	if (FAILED(pInstance->Initialize(hWnd)))
+	if (FAILED(pInstance->Initialize(hWnd, ViewportCY)))
 	{
 		MSG_BOX("ErrCode : MouseManager Create Failed");
 		Safe_Release(pInstance);

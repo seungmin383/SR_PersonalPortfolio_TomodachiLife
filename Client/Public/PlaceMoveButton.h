@@ -2,17 +2,21 @@
 #include "Client_Defines.h"
 #include "Button.h"
 
+NS_BEGIN(Engine)
+class CShaderCom;
+class CTextureCom;
+class CRectBufferCom;
+NS_END
+
 NS_BEGIN(Client)
 
-class CPlaceMoveButton : public CButton
+class CPlaceMoveButton final : public CButton
 {
-
 public:
-	typedef struct tagButtonDesc : public UI_DESC
+	typedef struct tagPlaceMoveButtonDesc : public BUTTON_DESC
 	{
-		VIEWPORT_TYPE eViewport;
 
-	}BUTTON_DESC;
+	}PLACEMOVEBUTTON_DESC;
 
 private:
 	CPlaceMoveButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -29,17 +33,19 @@ public:
 
 	virtual HRESULT Render()override;
 
+private:
+	HRESULT Ready_Component();
+	HRESULT Bind_ShaderResources();
 
-
-protected:
-	VIEWPORT_TYPE m_eViewport = { VIEWPORT_TYPE::END };
-	D3D11_VIEWPORT m_CurViewport = {};
-	uint32_t m_iNumViewport = { 1 };
-
-	_bool m_isEverClicked = { FALSE };
-	_bool m_isClick = { FALSE };
+	void On_Click() override;
+private:
+	CShaderCom* m_pShaderCom = { nullptr };
+	CTextureCom* m_pTextureCom = { nullptr };
+	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
 public:
+	static CPlaceMoveButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CObject* Clone(void* pArg) override;
 	virtual void Free()override;
 };
 

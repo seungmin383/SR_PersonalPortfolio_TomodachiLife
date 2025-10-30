@@ -133,11 +133,27 @@ HRESULT CPlace_Main::Ready_Main_UI_Layer()
 		Safe_Release(tmp);
 		return E_FAIL;
 	}
+	
 
 
+	tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("ProtoTag_UI_PlaceMoveButton"),
+		nullptr);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+		static_cast<uint32_t>(Client::PLACE_ID::MAIN),
+		TEXT("LayerTag_UI"),
+		tmp)))
+	{
+		Safe_Release(tmp);
+		return E_FAIL;
+	}
 	return S_OK;
 }
-
 
 HRESULT CPlace_Main::Ready_Main_Environment_Layer()
 {

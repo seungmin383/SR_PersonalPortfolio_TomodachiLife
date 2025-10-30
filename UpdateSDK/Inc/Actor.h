@@ -40,6 +40,14 @@ protected:
 	map	<const _wstring, CComponent*> m_Components;
 	CTransformCom* m_pTransformCom = { nullptr };
 
+	_float m_fX = {};
+	_float m_fY = {};
+	_float m_fZ = {};
+
+	_float m_fCX = {};
+	_float m_fCY = {};
+	_float m_fCZ = {};
+
 protected:
 	HRESULT Add_Component(
 		uint32_t PlaceID,
@@ -48,15 +56,6 @@ protected:
 		CComponent** ppOut,
 		void* pArg
 	);
-
-private:
-	_float m_fX = {};
-	_float m_fY = {};
-	_float m_fZ = {};
-
-	_float m_fCX = {};
-	_float m_fCY = {};
-	_float m_fCZ = {};
 
 public:
 	virtual void Free()override;

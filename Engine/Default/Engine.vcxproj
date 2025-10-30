@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Actor.h" />
     <ClInclude Include="..\Public\Base.h" />
+    <ClInclude Include="..\Public\Button.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\Public\CameraManager.h" />
     <ClInclude Include="..\Public\Component.h" />
@@ -68,6 +69,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\Actor.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\Private\Button.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
     <ClCompile Include="..\Private\CameraManager.cpp" />
     <ClCompile Include="..\Private\Component.cpp" />
@@ -97,7 +99,6 @@
     <ClCompile Include="..\Private\TransformCom.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
     <ClCompile Include="..\Private\VIBufferCom.cpp" />
-    <ClCompile Include="..\Public\assimp\Importer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fmod.dll" />

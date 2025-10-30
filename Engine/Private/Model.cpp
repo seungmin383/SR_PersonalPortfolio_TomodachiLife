@@ -17,8 +17,9 @@ CModel::CModel(const CModel& rhs)
 
 HRESULT CModel::Initialize_Origin(const _char* pModelFilePath)
 {
+	//aiProcess_PreTransformVertices
 	uint32_t iFlag =
-	{ aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast };
+	{ aiProcess_PreTransformVertices | aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Quality };
 
 	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
 	if (nullptr == m_pAIScene)
@@ -27,7 +28,11 @@ HRESULT CModel::Initialize_Origin(const _char* pModelFilePath)
 		return E_FAIL;
 	}
 
-	Ready_Meshes();
+	if (FAILED(Ready_Meshes()))
+		return E_FAIL;
+
+	uint32_t i = m_pAIScene->mNumAnimations;
+	int a = 0;
 	return S_OK;
 }
 

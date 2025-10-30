@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <created>2018-02-22T00:30:23Z</created>
+    <modified>2018-02-22T00:30:23Z</modified>
+  </asset>
+  <library_images>
+    <image id="Image">
+      <init_from>./catFoxtail.png</init_from>
+    </image>
+  </library_images>
+  <library_materials>
+    <material id="VisualMaterial" name="lambert2">
+      <instance_effect url="#Effect"/>
+      <extra>
+        <technique profile="FCOLLADA">
+          <user_properties>lambert2</user_properties>
+        </technique>
+      </extra>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="Effect" name="catFoxtail_png">
+      <profile_COMMON>
+        <newparam sid="Image-surface">
+          <surface type="2D">
+            <init_from>Image</init_from>
+            <format>A8R8G8B8</format>
+          </surface>
+        </newparam>
+        <newparam sid="Image-sampler">
+          <sampler2D>
+            <source>Image-surface</source>
+            <wrap_s>WRAP</wrap_s>
+            <wrap_t>WRAP</wrap_t>
+            <minfilter>NONE</minfilter>
+            <magfilter>NONE</magfilter>
+            <mipfilter>NONE</mipfilter>
+          </sampler2D>
+        </newparam>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color>0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color>0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <texture texture="Image-sampler" texcoord=""/>
+            </diffuse>
+            <specular>
+              <color>1 1 1 1</color>
+            </specular>
+            <shininess>
+              <float>0</float>
+            </shininess>
+            <transparent opaque="A_ONE">
+              <color>0 0 0 1</color>
+            </transparent>
+            <transparency>
+              <float>1</float>
+            </transparency>
+            <index_of_refraction>
+              <float>1.55</float>
+            </index_of_refraction>
+          </phong>
+          <extra>
+            <technique profile="FCOLLADA">
+              <spec_level>
+                <float>0</float>
+              </spec_level>
+            </technique>
+          </extra>
+        </technique>
+      </profile_COMMON>
+      <extra>
+        <technique profile="FCOLLADA">
+          <user_properties>catFoxtail.png</user_properties>
+        </technique>
+      </extra>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="Geometry" name="mesh_0_catFoxtail">
+      <mesh>
+        <source id="GeometrySource" name="mesh_0_catFoxtailPos">
+          <float_array id="GeometrySource-array" count="228">0.450156 -0.029082 0 0.450156 -0.009709 0.026665 0.399555 -0.029082 0 0.491093 -0.006399 0.01648 0.399555 -0.009709 -0.026665 0.491093 -0.018373 0 0.450156 -0.009709 -0.026665 0.399555 -0.009709 0.026665 0.491093 0.012973 0.010185 0.450156 0.021637 0.01648 0.358619 -0.006399 -0.01648 0.491093 -0.006399 -0.01648 0.50673 -0.001045 0 0.50673 -0.001045 0 0.399555 0.021637 0.01648 0.358619 -0.018373 0 0.358619 -0.006399 0.01648 0.50673 -0.001045 0 0.491093 0.012973 -0.010185 0.50673 -0.001045 0 0.358619 0.012973 0.010185 0.450156 0.021637 -0.01648 0.399555 0.021637 -0.01648 0.342982 -0.001045 0 0.342982 -0.001045 0 0.358619 0.012973 -0.010185 0.342982 -0.001045 0 0.342982 -0.001045 0 0.491093 -0.006399 -0.01648 0.50673 -0.001045 0 0.399555 -0.009709 -0.026665 0.450156 -0.009709 -0.026665 0.358619 -0.006399 -0.01648 0.342982 -0.001045 0 0.088614 0.003497 -0.006057 0.088614 -0.003497 -0.006057 0 0.003497 -0.006057 0.193538 -0.003497 -0.006057 0 0.006994 0 0.193538 0.003497 -0.006057 0.088614 0.006994 0 0 -0.003497 -0.006057 0.298463 -0.003497 -0.006057 0 0.003497 0.006057 0.298463 0.003497 -0.006057 0.193538 0.006994 0 0.088614 0.003497 0.006057 0 -0.003497 0.006057 0.467481 -0.003497 -0.006057 0.088614 -0.003497 0.006057 0 -0.006994 0 0.298463 0.006994 0 0.193538 0.003497 0.006057 0.467481 0.003497 -0.006057 0.088614 -0.006994 0 0 -0.003497 -0.006057 0.298463 0.003497 0.006057 0.193538 -0.003497 0.006057 0.467481 0.006994 0 0.088614 -0.003497 -0.006057 0.298463 -0.003497 0.006057 0.193538 -0.006994 0 0.467481 0.003497 0.006057 0.193538 -0.003497 -0.006057 0.467481 -0.003497 0.006057 0.298463 -0.006994 0 0.467481 -0.006994 0 0.298463 -0.003497 -0.006057 0.467481 -0.003497 -0.006057 0 0 0 0 0.003497 -0.006057 0 -0.003497 -0.006057 0 0.006994 0 0 -0.006994 0 0 0.003497 0.006057 0 -0.003497 0.006057</float_array>
+          <technique_common>
+            <accessor source="#GeometrySource-array" count="76" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="GeometrySource1" name="mesh_0_catFoxtailNrm">
+          <float_array id="GeometrySource1-array" count="228">0.178107 -0.984011 0 0.178105 -0.304086 0.935847 -0.178107 -0.984011 0 0.643183 -0.236612 0.728238 -0.178105 -0.304086 -0.935847 0.643181 -0.765714 0 0.178105 -0.304086 -0.935847 -0.178105 -0.304086 0.935847 0.64318 0.619467 0.450089 0.178107 0.79608 0.57839 -0.643183 -0.236612 -0.728238 0.643183 -0.236612 -0.728238 1 0 0 1 0 0 -0.178107 0.79608 0.57839 -0.643181 -0.765714 0 -0.643183 -0.236612 0.728238 1 0 0 0.64318 0.619467 -0.450089 1 0 0 -0.64318 0.619467 0.450089 0.178107 0.79608 -0.57839 -0.178107 0.79608 -0.57839 -1 0 0 -1 0 0 -0.64318 0.619467 -0.450089 -1 0 0 -1 0 0 0.643183 -0.236612 -0.728238 1 0 0 -0.178105 -0.304086 -0.935847 0.178105 -0.304086 -0.935847 -0.643183 -0.236612 -0.728238 -1 0 0 0 0 -1 0 0 -1 0 0 -1 0 0 -1 0 0.866018 -0.500012 0 0 -1 0 0.866018 -0.500012 0 0 -1 0 0 -1 0 0.866018 0.500012 0 0 -1 0 0.866018 -0.500012 0 0.866018 0.500012 0 0 1 0 0 -1 0 0 1 0 -0.866018 0.500012 0 0.866018 -0.500012 0 0.866018 0.500012 0 0 -1 0 -0.866018 0.500012 0 0 -1 0 0.866018 0.500012 0 0 1 0 0.866018 -0.500012 0 0 -1 0 0 1 0 -0.866018 0.500012 0 0.866018 0.500012 0 0 -1 0 0 1 0 -0.866018 0.500012 0 -0.866018 0.500012 0 0 -1 0 0 -1 -1 0 0 0 0 -1 0 0 -1 0 0.866018 -0.500012 0 -0.866018 0.500012 0 0.866018 0.500012 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#GeometrySource1-array" count="76" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="GeometrySource2" name="mesh_0_catFoxtailUV">
+          <float_array id="GeometrySource2-array" count="152">0.83004 0.601322 0.685345 0.601322 0.83004 0.398683 0.685345 0.803931 0.974705 0.398683 0.83004 0.803931 0.974705 0.601322 0.685345 0.398683 0.54068 0.803931 0.54068 0.601322 0.974705 0.196074 0.974705 0.803931 0.613013 0.965982 0.757678 0.965982 0.54068 0.398683 0.83004 0.196074 0.685345 0.196074 0.902373 0.965982 0.396015 0.803931 0.468348 0.965982 0.54068 0.196074 0.396015 0.601322 0.396015 0.398683 0.902373 0.034022 0.757678 0.034022 0.396015 0.196074 0.613013 0.034022 0.468348 0.034022 0.25135 0.803931 0.323683 0.965982 0.25135 0.398683 0.25135 0.601322 0.25135 0.196074 0.323683 0.034022 0.048231 0.342298 0.014658 0.342298 0.048231 0.128988 0.014658 0.555608 0.081775 0.128988 0.048231 0.555608 0.081775 0.342298 0.014658 0.128988 0.014658 0.768919 0.115348 0.128988 0.048231 0.768919 0.081775 0.555608 0.115348 0.342298 0.148922 0.128988 0.014658 0.982229 0.148922 0.342298 0.182465 0.128988 0.081775 0.768919 0.115348 0.555608 0.048231 0.982229 0.182465 0.342298 0.216038 0.128988 0.115348 0.768919 0.148922 0.555608 0.081775 0.982229 0.216038 0.342298 0.148922 0.768919 0.182465 0.555608 0.115348 0.982229 0.216038 0.555608 0.148922 0.982229 0.182465 0.768919 0.182465 0.982229 0.216038 0.768919 0.216038 0.982229 0.056265 0.051289 0.03714 0.019724 0.07536 0.019724 0.018015 0.052818 0.094484 0.052818 0.03714 0.085941 0.07536 0.085941</float_array>
+          <technique_common>
+            <accessor source="#GeometrySource2-array" count="76" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Geometry-vertices">
+          <input semantic="POSITION" source="#GeometrySource"/>
+          <input semantic="NORMAL" source="#GeometrySource1"/>
+          <input semantic="TEXCOORD" source="#GeometrySource2"/>
+        </vertices>
+        <triangles material="VisualMaterial0" count="94">
+          <input semantic="VERTEX" source="#Geometry-vertices" offset="0"/>
+          <p>0 1 2 0 3 1 0 2 4 0 5 3 0 4 6 0 6 5 1 7 2 1 3 8 1 9 7 1 8 9 4 2 10 6 11 5 3 12 8 3 5 13 7 9 14 7 15 2 2 15 10 7 16 15 7 14 16 11 17 5 8 18 9 8 19 18 14 20 16 14 9 21 9 18 21 14 21 22 14 22 20 15 23 10 15 16 24 20 22 25 20 26 16 20 25 27 18 28 21 18 29 28 22 30 25 22 21 31 22 31 30 31 21 28 25 30 32 25 32 33 34 35 36 34 37 35 34 36 38 34 39 37 34 38 40 34 40 39 35 41 36 37 39 42 38 43 40 39 44 42 39 40 45 39 45 44 40 46 45 43 46 40 43 47 46 42 44 48 47 49 46 47 50 49 45 51 44 45 46 52 45 52 51 46 49 52 48 44 53 44 51 53 50 54 49 50 55 54 52 56 51 49 54 57 52 49 57 52 57 56 53 51 58 51 56 58 55 59 54 57 60 56 57 54 61 57 61 60 54 59 61 58 56 62 56 60 62 59 63 61 60 64 62 60 61 65 60 65 64 61 63 65 64 65 66 63 67 65 65 67 66 67 68 66 69 70 71 69 72 70 69 71 73 69 74 72 69 73 75 69 75 74</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers>
+    <controller id="Controller">
+      <skin source="#Geometry">
+        <bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+        <source id="Controller-joints">
+          <Name_array id="Controller-joints-array" count="2">catFoxtail catFoxtailRoot</Name_array>
+          <technique_common>
+            <accessor source="#Controller-joints-array" count="2" stride="1">
+              <param name="JOINT" type="Name"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Controller-bind_poses">
+          <float_array id="Controller-bind_poses-array" count="32">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</float_array>
+          <technique_common>
+            <accessor source="#Controller-bind_poses-array" count="2" stride="16">
+              <param name="TRANSFORM" type="float4x4"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Controller-weights">
+          <float_array id="Controller-weights-array" count="1">1</float_array>
+          <technique_common>
+            <accessor source="#Controller-weights-array" count="1" stride="1">
+              <param name="WEIGHT" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <joints>
+          <input semantic="JOINT" source="#Controller-joints"/>
+          <input semantic="INV_BIND_MATRIX" source="#Controller-bind_poses"/>
+        </joints>
+        <vertex_weights count="76">
+          <input semantic="JOINT" source="#Controller-joints" offset="0"/>
+          <input semantic="WEIGHT" source="#Controller-weights" offset="1"/>
+          <vcount>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 </vcount>
+          <v>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+        </vertex_weights>
+      </skin>
+      <extra>
+        <technique profile="FCOLLADA">
+          <user_properties>SkinController</user_properties>
+        </technique>
+      </extra>
+    </controller>
+  </library_controllers>
+  <library_visual_scenes>
+    <visual_scene id="VisualSceneNode" name="rdmscene">
+      <node id="VisualSceneNode1" name="catFoxtailRoot" sid="catFoxtailRoot" type="JOINT">
+        <matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <node id="VisualSceneNode2" name="catFoxtail" sid="catFoxtail" type="JOINT">
+          <matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        </node>
+      </node>
+      <node id="VisualSceneNode3" name="mesh_0_catFoxtail" type="NODE">
+        <matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_controller url="#Controller">
+          <skeleton>#VisualSceneNode1</skeleton>
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="VisualMaterial0" target="#VisualMaterial"/>
+            </technique_common>
+          </bind_material>
+        </instance_controller>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#VisualSceneNode"/>
+  </scene>
+</COLLADA>

@@ -167,6 +167,8 @@ public:
 	const _bool MouseManager_Get_isPressingRBT();
 	const _bool MouseManager_Get_isClickLBT();
 	const _bool MouseManager_Get_isClickRBT();
+	const _bool MouseManager_Get_isPressStartLBT();
+	const _bool MouseManager_Get_isPressStartRBT();
 
 #pragma endregion
 

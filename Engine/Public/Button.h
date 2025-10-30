@@ -1,14 +1,13 @@
 #pragma once
 #include "UI.h"
 
-NS_BEGIN(Client)
+NS_BEGIN(Engine)
 
-class CButton abstract : public CUI
+class ENGINE_DLL CButton abstract : public CUI
 {
 public:
 	typedef struct tagButtonDesc : public UI_DESC
 	{
-		VIEWPORT_TYPE eViewport;
 
 	}BUTTON_DESC;
 
@@ -28,15 +27,14 @@ public:
 	virtual HRESULT Render()override;
 
 private:
-	_bool Compare_Position(const POINT& vMousePos);
+	void Compare_Position(const POINT& vMousePos);
 
 protected:
-	VIEWPORT_TYPE m_eViewport = { VIEWPORT_TYPE::END };
-	D3D11_VIEWPORT m_CurViewport = {};
-	uint32_t m_iNumViewport = { 1 };
+	_bool m_isOverlappedMouse = { FALSE };
+	_bool m_isClicked = { FALSE };
 
-	_bool m_isEverClicked = { FALSE };
-	_bool m_isClick = { FALSE };
+	_float2 m_fLeftTop = {};
+	_float2 m_fRIghtBottom = {};
 
 public:
 	virtual void On_Click()PURE;

@@ -114,7 +114,7 @@ HRESULT CGameInstance::Initialize(
 
 	// MouseManager
 	{
-		m_pMouseManager = CMouseManager::Create(Engine_desc.hWnd);
+		m_pMouseManager = CMouseManager::Create(Engine_desc.hWnd, (Engine_desc.iWinCY / 2));
 		if (nullptr == m_pInput_Device) {
 			MSG_BOX("ErrCode : MouseManager Create Failed");
 			return E_FAIL;
@@ -414,6 +414,16 @@ const _bool CGameInstance::MouseManager_Get_isClickLBT()
 const _bool CGameInstance::MouseManager_Get_isClickRBT()
 {
 	return m_pMouseManager->Get_isClickRBT();
+}
+
+const _bool CGameInstance::MouseManager_Get_isPressStartLBT()
+{
+	return m_pMouseManager->Get_isPressStartLBT();
+}
+
+const _bool CGameInstance::MouseManager_Get_isPressStartRBT()
+{
+	return m_pMouseManager->Get_isPressStartRBT();
 }
 
 #pragma endregion
