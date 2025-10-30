@@ -100,7 +100,7 @@ HRESULT CMainApp::Ready_Static()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACE_ID::STATIC),
 		TEXT("ProtoTag_Actor_WorldCamera"),
 		tmp)))
 		return E_FAIL;
@@ -125,7 +125,7 @@ HRESULT CMainApp::Ready_Static()
 	tWorldCameraDesc.fZ = 0.f;
 
 	tmp = m_pGameInstance->Proto_Get_Object_Clone(
-		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACE_ID::STATIC),
 		TEXT("ProtoTag_Actor_WorldCamera"),
 		&tWorldCameraDesc);
 
@@ -145,7 +145,7 @@ HRESULT CMainApp::Ready_Static()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACE_ID::STATIC),
 		TEXT("ProtoTag_Actor_UICamera"),
 		tmp)))
 		return E_FAIL;
@@ -170,7 +170,7 @@ HRESULT CMainApp::Ready_Static()
 	tUICameraDesc.fZ = 0.f;
 
 	tmp = m_pGameInstance->Proto_Get_Object_Clone(
-		static_cast<uint32_t>(Client::PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACE_ID::STATIC),
 		TEXT("ProtoTag_Actor_UICamera"),
 		&tUICameraDesc);
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Client_Defines.h"
+#include "Game_Defines.h"
 #include "Base.h"
 
 NS_BEGIN(Engine)

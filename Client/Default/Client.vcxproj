@@ -56,6 +56,7 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
+    <Import Project="..\..\SharedProjects\GAME\GAME.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -108,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Public\;..\..\UpdateSDK\Inc\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Public\;..\..\UpdateSDK\Inc\;..\..\SharedProjects\GAME\Public\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -129,7 +130,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Public\;..\..\UpdateSDK\Inc\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Public\;..\..\UpdateSDK\Inc\;..\..\SharedProjects\GAME\Public\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -144,36 +145,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Client_Defines.h" />
-    <ClInclude Include="..\Public\Food.h" />
-    <ClInclude Include="..\Public\Island.h" />
-    <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
-    <ClInclude Include="..\Public\Mii.h" />
-    <ClInclude Include="..\Public\PlaceMoveButton.h" />
-    <ClInclude Include="..\Public\Place_Loading.h" />
-    <ClInclude Include="..\Public\Place_Main.h" />
-    <ClInclude Include="..\Public\Place_MiiEditor.h" />
-    <ClInclude Include="..\Public\Place_Setting.h" />
-    <ClInclude Include="..\Public\UICamera.h" />
-    <ClInclude Include="..\Public\WorldCamera.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Private\Food.cpp" />
-    <ClCompile Include="..\Private\Island.cpp" />
-    <ClCompile Include="..\Private\Loader.cpp" />
     <ClCompile Include="..\Private\MainApp.cpp" />
-    <ClCompile Include="..\Private\Mii.cpp" />
-    <ClCompile Include="..\Private\PlaceMoveButton.cpp" />
-    <ClCompile Include="..\Private\Place_Loading.cpp" />
-    <ClCompile Include="..\Private\Place_Main.cpp" />
-    <ClCompile Include="..\Private\Place_MiiEditor.cpp" />
-    <ClCompile Include="..\Private\Place_Setting.cpp" />
-    <ClCompile Include="..\Private\UICamera.cpp" />
-    <ClCompile Include="..\Private\WorldCamera.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -186,12 +165,6 @@
   <ItemGroup>
     <Text Include="Buffer.txt" />
     <Text Include="PipeLine.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Mesh.hlsl" />
-    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Normal_Tex.hlsl" />
-    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Tex.hlsl" />
-    <FxCompile Include="..\Bin\Debug\ShaderFile\Test.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

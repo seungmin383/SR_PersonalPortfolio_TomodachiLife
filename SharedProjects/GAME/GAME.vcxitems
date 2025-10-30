@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{222e89b9-8644-48ba-b4f5-b539545968ce}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Normal_Tex.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Tex.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Test.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Loader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Mii.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Loading.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Main.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_MiiEditor.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Setting.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\UICamera.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\WorldCamera.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Defines.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Loader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Mii.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlaceMoveButton.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Loading.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Main.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_MiiEditor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Setting.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\WorldCamera.h" />
+  </ItemGroup>
+</Project>

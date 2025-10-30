@@ -19,39 +19,6 @@
     <ClInclude Include="..\Public\MainApp.h">
       <Filter>00.MainApp</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Loader.h">
-      <Filter>01.Place\01.Loading\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Place_Loading.h">
-      <Filter>01.Place\01.Loading</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Place_Main.h">
-      <Filter>01.Place\00.Main</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Place_Setting.h">
-      <Filter>01.Place\02.Setting</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Food.h">
-      <Filter>02.Object\00.Actor\01.Item\00.Food</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Island.h">
-      <Filter>02.Object\00.Actor\02.Island</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UICamera.h">
-      <Filter>02.Object\00.Actor\99.Camera\01.UICamera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\WorldCamera.h">
-      <Filter>02.Object\00.Actor\99.Camera\00.WorldCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\PlaceMoveButton.h">
-      <Filter>02.Object\01.UI\00.Button\00.SceneMoveButton</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Mii.h">
-      <Filter>02.Object\00.Actor\00.Mii</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Place_MiiEditor.h">
-      <Filter>01.Place\05.Mii Editor</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -71,84 +38,6 @@
     <Filter Include="00.MainApp">
       <UniqueIdentifier>{bf77c15e-f0ee-4fd4-88eb-411ec47c06d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Place">
-      <UniqueIdentifier>{3ab70414-1f7a-413e-a6e4-c1896d664b00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Place\01.Loading">
-      <UniqueIdentifier>{ba2549fe-ea7e-4923-9eb2-89cce1afdc02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Place\01.Loading\Loader">
-      <UniqueIdentifier>{d26c045b-066d-4889-95f2-0d1773a90dc0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Place\02.Setting">
-      <UniqueIdentifier>{0e519fc1-9fc2-454e-8150-08898ad6ddeb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Place\03.Save">
-      <UniqueIdentifier>{46d082fa-7be3-4d31-815c-ec575ea722f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Place\04.Load">
-      <UniqueIdentifier>{d42cfcad-3e57-4013-94b1-dc425a182ec1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Place\05.Mii Editor">
-      <UniqueIdentifier>{0df8222c-c1d9-4eac-8b3b-ea5dc9067275}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Place\06.Store">
-      <UniqueIdentifier>{c3e7da2e-2fe1-46a3-b9de-cb292c2849c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Place\07.Environment">
-      <UniqueIdentifier>{0b4fa271-6e1a-4db9-bba3-0b99da82ed8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Place\08.Etc">
-      <UniqueIdentifier>{8585e57f-cbe5-4f16-9c00-82467f6a9547}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Place\09.Connect">
-      <UniqueIdentifier>{6da83c71-9fdc-4153-a1ef-ba314ce086d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Place\10.Living">
-      <UniqueIdentifier>{51e5d075-cc7b-404a-b2de-8c352d503318}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Place\00.Main">
-      <UniqueIdentifier>{ac9aa371-5ad3-4ec3-804a-39b638f85fb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Object">
-      <UniqueIdentifier>{29c83099-1360-43e4-81ae-d52cd87c36aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Object\00.Actor">
-      <UniqueIdentifier>{543cca0f-c3dc-4901-ad99-a47b744338b3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Object\00.Actor\01.Item">
-      <UniqueIdentifier>{82e2ea63-1f65-403c-9adf-b7d2f17d4f98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Object\00.Actor\01.Item\00.Food">
-      <UniqueIdentifier>{18b522b1-5ffd-4912-91be-eb8b96d4d9ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="97.ShaderFiles">
-      <UniqueIdentifier>{4602cdec-1b76-42a4-b081-0e6bc4ffa602}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Object\00.Actor\00.Mii">
-      <UniqueIdentifier>{94fce502-9e72-4ce7-8ec7-bf5ff7f06e68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Object\00.Actor\02.Island">
-      <UniqueIdentifier>{78fe8c1a-fcf7-4350-b3fc-f7af4ad191f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Object\00.Actor\99.Camera">
-      <UniqueIdentifier>{97a3d1bf-7e1d-43c4-a317-62cdf1bd7004}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Object\00.Actor\99.Camera\01.UICamera">
-      <UniqueIdentifier>{b42dc832-8c8a-4045-b3a3-89539dc65ea6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Object\00.Actor\99.Camera\00.WorldCamera">
-      <UniqueIdentifier>{13198fa9-cff1-4d21-9aa8-22ebae596e68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Object\01.UI">
-      <UniqueIdentifier>{cf7adb78-0026-4412-99c3-ef7e9d4ceb8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Object\01.UI\00.Button">
-      <UniqueIdentifier>{b95a2667-9757-4734-9743-ec63403b1753}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Object\01.UI\00.Button\00.SceneMoveButton">
-      <UniqueIdentifier>{f9c5cd6f-0f85-4717-931a-987e93332631}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -156,39 +45,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\MainApp.cpp">
       <Filter>00.MainApp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Loader.cpp">
-      <Filter>01.Place\01.Loading\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Place_Loading.cpp">
-      <Filter>01.Place\01.Loading</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Place_Main.cpp">
-      <Filter>01.Place\00.Main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Place_Setting.cpp">
-      <Filter>01.Place\02.Setting</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Food.cpp">
-      <Filter>02.Object\00.Actor\01.Item\00.Food</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Island.cpp">
-      <Filter>02.Object\00.Actor\02.Island</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UICamera.cpp">
-      <Filter>02.Object\00.Actor\99.Camera\01.UICamera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\WorldCamera.cpp">
-      <Filter>02.Object\00.Actor\99.Camera\00.WorldCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\PlaceMoveButton.cpp">
-      <Filter>02.Object\01.UI\00.Button\00.SceneMoveButton</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Mii.cpp">
-      <Filter>02.Object\00.Actor\00.Mii</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Place_MiiEditor.cpp">
-      <Filter>01.Place\05.Mii Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -201,19 +57,5 @@
       <Filter>99.Defines</Filter>
     </Text>
     <Text Include="Buffer.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Tex.hlsl">
-      <Filter>97.ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\Debug\ShaderFile\Test.hlsl">
-      <Filter>97.ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Normal_Tex.hlsl">
-      <Filter>97.ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\Debug\ShaderFile\Shader_Vtx_Mesh.hlsl">
-      <Filter>97.ShaderFiles</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

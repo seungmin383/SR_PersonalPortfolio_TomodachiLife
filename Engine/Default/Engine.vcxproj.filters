@@ -100,12 +100,6 @@
     <Filter Include="00.System\00.Device\01.Input">
       <UniqueIdentifier>{b8bb29ad-6655-4e1f-a024-57d2a077302b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06.Light">
-      <UniqueIdentifier>{5658eb22-8eea-4ea3-869c-ff82899da69d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06.Light\Manager">
-      <UniqueIdentifier>{814627f7-a20e-4f10-bdb4-bd2e26822915}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Utility\03.Object\03.UI\01.Button">
       <UniqueIdentifier>{98d19995-fdb7-45b5-b0ad-5413fc58408a}</UniqueIdentifier>
     </Filter>
@@ -120,6 +114,15 @@
     </Filter>
     <Filter Include="98.Assimp">
       <UniqueIdentifier>{f78d8536-a95e-4ead-9d9f-dadf3c6c0b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\04.Model\01.Material">
+      <UniqueIdentifier>{70e80731-5ead-49d5-9aeb-358535fd50eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\06.Light">
+      <UniqueIdentifier>{5658eb22-8eea-4ea3-869c-ff82899da69d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\06.Light\Manager">
+      <UniqueIdentifier>{814627f7-a20e-4f10-bdb4-bd2e26822915}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -202,10 +205,10 @@
       <Filter>00.System\00.Device\01.Input</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Light.cpp">
-      <Filter>06.Light</Filter>
+      <Filter>01.Utility\06.Light</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\LightManager.cpp">
-      <Filter>06.Light\Manager</Filter>
+      <Filter>01.Utility\06.Light\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\MouseManager.cpp">
       <Filter>01.Utility\00.Manager\02.MouseManager</Filter>
@@ -218,6 +221,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Button.cpp">
       <Filter>01.Utility\03.Object\03.UI\01.Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Material.cpp">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\01.Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -342,10 +348,10 @@
       <Filter>00.System\00.Device\01.Input</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Light.h">
-      <Filter>06.Light</Filter>
+      <Filter>01.Utility\06.Light</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\LightManager.h">
-      <Filter>06.Light\Manager</Filter>
+      <Filter>01.Utility\06.Light\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\MouseManager.h">
       <Filter>01.Utility\00.Manager\02.MouseManager</Filter>
@@ -358,6 +364,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Button.h">
       <Filter>01.Utility\03.Object\03.UI\01.Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Material.h">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\01.Material</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

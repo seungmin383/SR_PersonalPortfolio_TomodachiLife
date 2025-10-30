@@ -15,7 +15,9 @@ CModel::CModel(const CModel& rhs)
 		Safe_AddRef(mesh);
 }
 
-HRESULT CModel::Initialize_Origin(const _char* pModelFilePath)
+HRESULT CModel::Initialize_Origin(
+	const _char* pModelFilePath,
+	FXMMATRIX InitTransformMatrix)
 {
 	//aiProcess_PreTransformVertices
 	uint32_t iFlag =
@@ -27,6 +29,8 @@ HRESULT CModel::Initialize_Origin(const _char* pModelFilePath)
 		MSG_BOX("ErrCode : 긴장해라.");
 		return E_FAIL;
 	}
+
+	XMStoreFloat4x4(&m_InitMatrix, InitTransformMatrix);
 
 	if (FAILED(Ready_Meshes()))
 		return E_FAIL;
@@ -57,10 +61,13 @@ HRESULT CModel::Ready_Meshes()
 
 	for (uint64_t i = 0; i < m_iNumMeshes; i++)
 	{
-		CMesh* pMesh = CMesh::Create(
-								m_pDevice,
-								m_pContext,
-								m_pAIScene->mMeshes[i]);
+		CMesh* pMesh = 
+			CMesh::Create(
+				m_pDevice,
+				m_pContext,
+				m_pAIScene->mMeshes[i],
+				XMLoadFloat4x4(&m_InitMatrix));
+
 		if (nullptr == pMesh)
 			return E_FAIL;
 
@@ -73,11 +80,12 @@ HRESULT CModel::Ready_Meshes()
 CModel* CModel::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext, 
-	const _char* pModelFIlePath)
+	const _char* pModelFIlePath,
+	FXMMATRIX InitTransformMatrix)
 {
 	CModel* pModel = new CModel(pDevice, pContext);
 
-	if (FAILED(pModel->Initialize_Origin(pModelFIlePath)))
+	if (FAILED(pModel->Initialize_Origin(pModelFIlePath, InitTransformMatrix)))
 	{
 		MSG_BOX("ErrCode : Model Initializing Failed");
 		Safe_Release(pModel);

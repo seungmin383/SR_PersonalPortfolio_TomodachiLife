@@ -11,14 +11,17 @@ private:
 	virtual ~CMesh() = default;
 
 public:
-	virtual HRESULT Initialize_Origin(aiMesh* pAIMesh);
+	virtual HRESULT Initialize_Origin(
+		aiMesh* pAIMesh, 
+		FXMMATRIX InitTransformMatrix);
 	virtual HRESULT Initialize_Clone(void* pArg)override;
 
 public:
 	static CMesh* Create(
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext,
-		aiMesh* pAIMesh);
+		aiMesh* pAIMesh,
+		FXMMATRIX InitTransformMatrix);
 
 	virtual CObject* Clone(void* pArg)override;
 	virtual void Free()override;

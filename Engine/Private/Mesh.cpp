@@ -10,7 +10,9 @@ CMesh::CMesh(const CMesh& rhs)
 {
 }
 
-HRESULT CMesh::Initialize_Origin(aiMesh* pAIMesh)
+HRESULT CMesh::Initialize_Origin(
+	aiMesh* pAIMesh,
+	FXMMATRIX InitTransformMatrix)
 {
 	m_iNumVertexBuffers = 1;
 
@@ -37,11 +39,24 @@ HRESULT CMesh::Initialize_Origin(aiMesh* pAIMesh)
 
 	for (uint64_t i = 0; i < m_iNumVertices; i++)
 	{
+		// Position
 		memcpy(&pVertices[i].vPos, &pAIMesh->mVertices[i], sizeof(_float3));
+		XMStoreFloat3(&pVertices[i].vPos, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPos), InitTransformMatrix));
+		
+		// Normal 
 		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
-		// mTextureCoords는 UV 채널을 8개 까지 지원함
-		memcpy(&pVertices[i].vTexCoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
+		XMStoreFloat3(&pVertices[i].vNormal, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), InitTransformMatrix));
+		
+		// Tangent
 		memcpy(&pVertices[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
+		XMStoreFloat3(&pVertices[i].vTangent, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vTangent), InitTransformMatrix));
+	
+		// Binormal
+		memcpy(&pVertices[i].vBinormal, &pAIMesh->mBitangents[i], sizeof(_float3));
+		XMStoreFloat3(&pVertices[i].vBinormal, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vBinormal), InitTransformMatrix));
+	
+		// TexCoord
+		memcpy(&pVertices[i].vTexCoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 	}
 
 	D3D11_SUBRESOURCE_DATA VBuffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
@@ -105,11 +120,12 @@ HRESULT CMesh::Initialize_Clone(void* pArg)
 CMesh* CMesh::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext, 
-	aiMesh* pAIMesh)
+	aiMesh* pAIMesh,
+	FXMMATRIX InitTransformMatrix)
 {
 	CMesh* pMesh = new CMesh(pDevice, pContext);
 
-	if (FAILED(pMesh->Initialize_Origin(pAIMesh)))
+	if (FAILED(pMesh->Initialize_Origin(pAIMesh, InitTransformMatrix)))
 	{
 		Safe_Release(pMesh);
 		MSG_BOX("ErrCode : Mesh Create Failed");
