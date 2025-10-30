@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\ImguiManager.h" />
+    <ClInclude Include="..\Public\ImgWin.h" />
     <ClInclude Include="..\Public\MainApp.h" />
     <ClInclude Include="..\Public\Maptool_Defines.h" />
     <ClInclude Include="framework.h" />
@@ -31,6 +33,8 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\ImguiManager.cpp" />
+    <ClCompile Include="..\Private\ImgWin.cpp" />
     <ClCompile Include="..\Private\MainApp.cpp" />
     <ClCompile Include="Maptool.cpp" />
   </ItemGroup>
@@ -76,6 +80,7 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
     <Import Project="..\..\SharedProjects\GAME\GAME.vcxitems" Label="Shared" />
+    <Import Project="..\..\SharedProjects\IAMGUI\IAMGUI.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />

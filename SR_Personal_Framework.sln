@@ -72,5 +72,6 @@ Global
 		SharedProjects\IAMGUI\IAMGUI.vcxitems*{384f2ecc-9d5f-4c0c-9e5b-8b53a9153a66}*SharedItemsImports = 9
 		SharedProjects\GAME\GAME.vcxitems*{5f61baca-dd35-4dac-b896-d6499305fd54}*SharedItemsImports = 4
 		SharedProjects\GAME\GAME.vcxitems*{8631b3f8-6dd6-4651-bfb1-0a9dae3f9944}*SharedItemsImports = 4
+		SharedProjects\IAMGUI\IAMGUI.vcxitems*{8631b3f8-6dd6-4651-bfb1-0a9dae3f9944}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal

@@ -8,6 +8,7 @@ class CGameInstance;
 NS_END
 
 NS_BEGIN(Maptool)
+class CImguiManager;
 
 class CMainApp : public CBase
 {
@@ -18,9 +19,9 @@ private:
 public:
 	HRESULT		Initialize();
 
-	int32_t		Update_Priority(_float _fDT);
-	int32_t		Update(_float _fDT);
-	void		Update_Late(_float _fDT);
+	int32_t		Update_Priority(_float fDT);
+	int32_t		Update(_float fDT);
+	void		Update_Late(_float fDT);
 	void		Render();
 
 	HRESULT Ready_Static();
@@ -30,7 +31,7 @@ private:
 	ID3D11DeviceContext* m_pContext = { nullptr };
 
 	CGameInstance* m_pGameInstance = { nullptr };
-
+	CImguiManager* m_pImguiManager = { nullptr };
 public:
 	static CMainApp* Create();
 	virtual void Free()override;

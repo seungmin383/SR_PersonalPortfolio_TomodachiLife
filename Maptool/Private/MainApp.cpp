@@ -1,5 +1,7 @@
 #include "MainApp.h"
 #include "GameInstance.h"
+#include "ImguiManager.h"
+
 #include "Place_Loading.h"
 
 #include "WorldCamera.h"
@@ -10,16 +12,17 @@ USING(Maptool)
 CMainApp::CMainApp()
 	:m_pGameInstance(CGameInstance::GetInstance())
 {
+	Safe_AddRef(m_pImguiManager);
 	Safe_AddRef(m_pGameInstance);
 }
 
 HRESULT CMainApp::Initialize()
 {
-	AllocConsole();                          // 콘솔 창 생성
-	FILE* fp;
-	freopen_s(&fp, "CONOUT$", "w", stdout);  // 표준 출력(stdout)을 콘솔로 리디렉션
-	freopen_s(&fp, "CONOUT$", "w", stderr);  // 표준 에러(stderr)도 콘솔로 리디렉션
-	freopen_s(&fp, "CONIN$", "r", stdin);    // 표준 입력(stdin)도 콘솔로 리디렉션
+	//AllocConsole();                         
+	//FILE* fp;
+	//freopen_s(&fp, "CONOUT$", "w", stdout); 
+	//freopen_s(&fp, "CONOUT$", "w", stderr); 
+	//freopen_s(&fp, "CONIN$", "r", stdin);   
 
 	ENGINE_DESC EngineDesc = {};
 	EngineDesc.hWnd = g_hWnd;
@@ -46,6 +49,8 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Static()))
 		return E_FAIL;
 
+	if (FAILED(m_pImguiManager->Initialize_Imgui(m_pDevice, m_pContext)))
+		return E_FAIL;
 	// 다 지우고 다음 씬으로 넘어가고 싶다.
 	if (FAILED(m_pGameInstance->PlaceManager_Change_Place(
 		static_cast<uint32_t>(PLACE_ID::LOADING),	// 로딩씬으로 갈래
@@ -61,19 +66,22 @@ HRESULT CMainApp::Initialize()
 	return S_OK;
 }
 
-int32_t CMainApp::Update_Priority(_float _fDT)
+int32_t CMainApp::Update_Priority(_float fDT)
 {
-	return m_pGameInstance->Update_Priority(_fDT);
+	m_pImguiManager->Update_Imgui_Priority(fDT);
+	return m_pGameInstance->Update_Priority(fDT);
 }
 
-int32_t CMainApp::Update(_float _fDT)
+int32_t CMainApp::Update(_float fDT)
 {
-	return m_pGameInstance->Update(_fDT);
+	m_pImguiManager->Update_Imgui(fDT);
+	return m_pGameInstance->Update(fDT);
 }
 
-void CMainApp::Update_Late(_float _fDT)
+void CMainApp::Update_Late(_float fDT)
 {
-	m_pGameInstance->Update_Late(_fDT);
+	m_pImguiManager->Update_Imgui_Late(fDT);
+	m_pGameInstance->Update_Late(fDT);
 }
 
 void CMainApp::Render()
@@ -86,6 +94,7 @@ void CMainApp::Render()
 	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::BOTTOM);
 	m_pGameInstance->Render_Bottom();
 
+	m_pImguiManager->Render_Imgui();
 	m_pGameInstance->End_Render();
 }
 
@@ -216,6 +225,9 @@ void CMainApp::Free()
 	Safe_Release(m_pContext);
 
 	m_pGameInstance->Clear_Engine();
+
+	Safe_Release(m_pImguiManager);
+	m_pImguiManager->DestroyInstance();
 
 	Safe_Release(m_pGameInstance);
 }

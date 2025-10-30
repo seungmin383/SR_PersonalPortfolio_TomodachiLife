@@ -10,6 +10,18 @@
     <Filter Include="99.Defines">
       <UniqueIdentifier>{90695992-ae5f-449f-852a-6e4c8c1b375d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Imgui">
+      <UniqueIdentifier>{5a9e9b5f-e265-487a-ac5f-4caf85e6dbdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Imgui\Manager">
+      <UniqueIdentifier>{43195d2e-8f6d-430c-be98-eea05005e7d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Imgui\00.ImguiBase">
+      <UniqueIdentifier>{4a672bfa-9476-4264-ad02-ad292c546fcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Imgui\01.ProjectWindow">
+      <UniqueIdentifier>{2a9b780f-e3b1-45e3-b775-98b4a52a3262}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -30,6 +42,12 @@
     <ClInclude Include="..\Public\Maptool_Defines.h">
       <Filter>99.Defines</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ImguiManager.h">
+      <Filter>01.Imgui\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImgWin.h">
+      <Filter>01.Imgui\00.ImguiBase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -45,6 +63,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\MainApp.cpp">
       <Filter>00.MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImguiManager.cpp">
+      <Filter>01.Imgui\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImgWin.cpp">
+      <Filter>01.Imgui\00.ImguiBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
