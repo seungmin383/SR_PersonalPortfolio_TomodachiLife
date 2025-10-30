@@ -48,6 +48,9 @@
     <ClInclude Include="..\Public\ImgWin.h">
       <Filter>01.Imgui\00.ImguiBase</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ProjectWindow.h">
+      <Filter>01.Imgui\01.ProjectWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -69,6 +72,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ImgWin.cpp">
       <Filter>01.Imgui\00.ImguiBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ProjectWindow.cpp">
+      <Filter>01.Imgui\01.ProjectWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

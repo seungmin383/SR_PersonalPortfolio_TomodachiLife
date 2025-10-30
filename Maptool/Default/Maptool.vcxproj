@@ -23,6 +23,7 @@
     <ClInclude Include="..\Public\ImgWin.h" />
     <ClInclude Include="..\Public\MainApp.h" />
     <ClInclude Include="..\Public\Maptool_Defines.h" />
+    <ClInclude Include="..\Public\ProjectWindow.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Maptool.h" />
     <ClInclude Include="Resource.h" />
@@ -36,6 +37,7 @@
     <ClCompile Include="..\Private\ImguiManager.cpp" />
     <ClCompile Include="..\Private\ImgWin.cpp" />
     <ClCompile Include="..\Private\MainApp.cpp" />
+    <ClCompile Include="..\Private\ProjectWindow.cpp" />
     <ClCompile Include="Maptool.cpp" />
   </ItemGroup>
   <ItemGroup>

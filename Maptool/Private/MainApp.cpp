@@ -10,7 +10,8 @@
 USING(Maptool)
 
 CMainApp::CMainApp()
-	:m_pGameInstance(CGameInstance::GetInstance())
+	:m_pGameInstance(CGameInstance::GetInstance()),
+	m_pImguiManager(CImguiManager::GetInstance())
 {
 	Safe_AddRef(m_pImguiManager);
 	Safe_AddRef(m_pGameInstance);
@@ -18,11 +19,11 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	//AllocConsole();                         
-	//FILE* fp;
-	//freopen_s(&fp, "CONOUT$", "w", stdout); 
-	//freopen_s(&fp, "CONOUT$", "w", stderr); 
-	//freopen_s(&fp, "CONIN$", "r", stdin);   
+	// AllocConsole();                         
+	// FILE* fp;
+	// freopen_s(&fp, "CONOUT$", "w", stdout); 
+	// freopen_s(&fp, "CONOUT$", "w", stderr); 
+	// freopen_s(&fp, "CONIN$", "r", stdin);   
 
 	ENGINE_DESC EngineDesc = {};
 	EngineDesc.hWnd = g_hWnd;
@@ -51,6 +52,7 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(m_pImguiManager->Initialize_Imgui(m_pDevice, m_pContext)))
 		return E_FAIL;
+
 	// 다 지우고 다음 씬으로 넘어가고 싶다.
 	if (FAILED(m_pGameInstance->PlaceManager_Change_Place(
 		static_cast<uint32_t>(PLACE_ID::LOADING),	// 로딩씬으로 갈래

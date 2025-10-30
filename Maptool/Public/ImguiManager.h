@@ -6,7 +6,7 @@
 NS_BEGIN(Maptool)
 class CImgWin;
 
-class CImguiManager : public CBase 
+class CImguiManager final : public CBase 
 {
 	DECLARE_SINGLETON(CImguiManager)
 private:
@@ -22,6 +22,12 @@ public:
 	void Render_Imgui();
 
 private:
+	HRESULT Ready_Imguies();
+
+private:
+	ID3D11Device* m_pDevice = { nullptr };
+	ID3D11DeviceContext* m_pContext = { nullptr };
+
 	vector<CImgWin*> m_ImguiWindows;
 
 public:

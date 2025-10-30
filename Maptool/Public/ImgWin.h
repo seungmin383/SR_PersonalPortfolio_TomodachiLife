@@ -5,10 +5,10 @@
 
 NS_BEGIN(Maptool)
 
-class CImgWin : public CBase
+class CImgWin abstract : public CBase
 {
 protected:
-	CImgWin();
+	CImgWin(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CImgWin() = default;
 
 public:
@@ -16,6 +16,10 @@ public:
 	virtual void Update_Priority(_float fDT);
 	virtual void Update(_float fDT);
 	virtual void Update_Late(_float fDT);
+
+protected:
+	ID3D11Device* m_pDevice = { nullptr };
+	ID3D11DeviceContext* m_pContext = { nullptr };
 
 public:
 	virtual void Free()override;

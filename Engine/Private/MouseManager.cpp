@@ -84,8 +84,9 @@ void CMouseManager::Mouse_Input()
 void CMouseManager::Calc_Pos()
 {
 	GetCursorPos(&m_vMousePos);
-	GetCursorPos(&m_vCalcMousePos);
 	ScreenToClient(m_hWnd, &m_vMousePos);
+
+	GetCursorPos(&m_vCalcMousePos);
 	ScreenToClient(m_hWnd, &m_vCalcMousePos);
 
 	// °¢ ºäÆ÷Æ®ÀÇ LT¸¦ 0,0 À¸·Î ¸ÂÃçÁÜ
@@ -93,8 +94,9 @@ void CMouseManager::Calc_Pos()
 	{
 		m_vMousePos.y -= m_iViewportCY;
 	}
-
-	std::cout << "Mouse X : " << m_vMousePos.x << " / Mouse Y : " << m_vMousePos.y << endl;
+	std::cout << "Mouse X : " << m_vCalcMousePos.x << " / Mouse Y : " << m_vCalcMousePos.y << endl;
+	// std::cout << m_iViewportCY << endl;
+	// std::cout << "Mouse X : " << m_vMousePos.x << " / Mouse Y : " << m_vMousePos.y << endl;
 }
 
 CMouseManager* CMouseManager::Create(HWND hWnd, uint32_t ViewportCY)

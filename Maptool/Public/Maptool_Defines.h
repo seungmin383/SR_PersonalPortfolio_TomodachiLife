@@ -17,4 +17,5 @@ namespace Maptool
 
 }
 using namespace std;
+using namespace ImGui;
 using namespace Maptool;
