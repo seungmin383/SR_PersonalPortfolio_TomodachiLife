@@ -20,6 +20,13 @@ void CMouseManager::Update(_float fDT)
 	Calc_Pos();
 }
 
+const _float2& CMouseManager::Mouse_Picking()
+{
+	// DirectX::TriangleTests::Intersects()
+
+	return _float2();
+}
+
 void CMouseManager::Mouse_Input()
 {
 	// 버튼 클릭 초기화

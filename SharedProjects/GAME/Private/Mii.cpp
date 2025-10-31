@@ -48,8 +48,21 @@ HRESULT CMii::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(0);
-	m_pModelCom->Render();
+
+	uint32_t iNumMesh = m_pModelCom->Get_NumMesh();
+
+	for (size_t i = 0; i < iNumMesh; i++)
+	{
+		m_pModelCom->Bind_Material(
+			m_pShaderCom,
+			"g_DiffuseTexture",
+			i,
+			aiTextureType_DIFFUSE,
+			0);
+
+		m_pShaderCom->Begin(0);
+		m_pModelCom->Render(i);
+	}
 
 	return S_OK;
 }

@@ -58,6 +58,12 @@
     <Filter Include="99.Defines">
       <UniqueIdentifier>{7c2f1dc1-6bd8-4528-9fe9-cfe565d9d131}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameData">
+      <UniqueIdentifier>{c6c25a81-ca87-4eb8-aecd-e67d0b2723a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData\schema">
+      <UniqueIdentifier>{1b5e13ab-42bc-4da9-b7a4-d55dc9620143}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -145,5 +151,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\WorldCamera.cpp">
       <Filter>01.Actor\99.Camera\01.World</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Asset\objects\object1.json">
+      <Filter>GameData</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Asset\schema\object.schema.json">
+      <Filter>GameData\schema</Filter>
+    </None>
   </ItemGroup>
 </Project>

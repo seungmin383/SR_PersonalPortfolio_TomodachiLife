@@ -74,7 +74,8 @@ PS_OUT PS_MAIN(PS_IN In)
     PS_OUT Out;
     
     // 나중에 diffuse에서 a 값 분리
-    float4 vMtrlDiffuse = 1.f;
+    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
     
     float fShade = max(dot(normalize(g_vLightDir) * -1.f, In.vNormal), 0.f);
     

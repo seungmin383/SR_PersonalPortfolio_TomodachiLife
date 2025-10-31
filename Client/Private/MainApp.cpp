@@ -113,7 +113,7 @@ HRESULT CMainApp::Ready_Static()
 	tWorldCameraDesc.fNearZ = 0.1f;
 	tWorldCameraDesc.fHeight = static_cast<_float>(WINCX);
 	tWorldCameraDesc.fWidth = static_cast<_float>(WINCY / 2);
-	tWorldCameraDesc.fSpeedPerSecond = 20.f;
+	tWorldCameraDesc.fSpeedPerSecond = 5.f;
 	tWorldCameraDesc.fRotationPerSecond = XMConvertToRadians(20.f);
 	tWorldCameraDesc.vEye = _float3(0.f, 10.f, -10.f);
 	tWorldCameraDesc.vAt = _float3(0.f, 0.f, 0.f);

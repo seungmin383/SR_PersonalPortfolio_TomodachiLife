@@ -124,6 +124,9 @@
     <Filter Include="01.Utility\06.Light\Manager">
       <UniqueIdentifier>{814627f7-a20e-4f10-bdb4-bd2e26822915}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\00.Manager\03.FileManager">
+      <UniqueIdentifier>{1887c2d7-cafc-4c41-8788-a2bc835ead0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -224,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Material.cpp">
       <Filter>01.Utility\03.Object\02.Component\04.Model\01.Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FileManager.cpp">
+      <Filter>01.Utility\00.Manager\03.FileManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -367,6 +373,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Material.h">
       <Filter>01.Utility\03.Object\02.Component\04.Model\01.Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FileManager.h">
+      <Filter>01.Utility\00.Manager\03.FileManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,6 @@ xcopy			/y			.\Engine\Bin\Debug\Engine.lib				.\UpdateSDK\Lib\Debug\
 xcopy			/y			.\Engine\Bin\Release\Engine.lib				.\UpdateSDK\Lib\Release\
 
 xcopy			/y			.\Engine\ThirdPartyLib\Debug\*.lib			.\UpdateSDK\Lib\Debug\
-xcopy			/y			.\Engine\ThirdPartyLib\Release\*.lib			.\UpdateSDK\Lib\Release\
+xcopy			/y			.\Engine\ThirdPartyLib\Release\*.lib		.\UpdateSDK\Lib\Release\
 
-xcopy			/y/s			.\Engine\Public\*.*						.\UpdateSDK\Inc\
+xcopy			/y/s		.\Engine\Public\*.*							.\UpdateSDK\Inc\

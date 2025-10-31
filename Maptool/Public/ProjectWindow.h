@@ -30,7 +30,7 @@ private:
 
 	ImGuiWindowFlags m_flags = {};
 	ImGuiTabBarFlags m_TabBarFlag = {};
-
+ 
 public:
 	static CProjectWindow* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free()override;

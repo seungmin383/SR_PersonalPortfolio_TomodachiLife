@@ -14,6 +14,8 @@ HRESULT CMesh::Initialize_Origin(
 	aiMesh* pAIMesh,
 	FXMMATRIX InitTransformMatrix)
 {
+	m_iMaterialIndex = pAIMesh->mMaterialIndex;
+
 	m_iNumVertexBuffers = 1;
 
 	m_iNumVertices = pAIMesh->mNumVertices;						//정점 개수

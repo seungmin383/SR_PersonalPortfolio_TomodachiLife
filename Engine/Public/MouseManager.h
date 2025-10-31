@@ -14,6 +14,8 @@ public:
 	virtual HRESULT Initialize(HWND hWnd, uint32_t ViewportCY);
 	virtual void Update(_float fDT);
 
+	const _float2& Mouse_Picking();
+
 private:
 	void Mouse_Input();
 	void Calc_Pos();

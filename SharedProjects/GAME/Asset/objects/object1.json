@@ -1,0 +1,5 @@
+{
+  "$schema": "./schema/object.schema.json",
+  "placeid": 1,
+  "level": 10
+}

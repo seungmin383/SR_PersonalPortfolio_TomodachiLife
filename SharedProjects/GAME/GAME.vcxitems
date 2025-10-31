@@ -46,4 +46,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\WorldCamera.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Asset\objects\object1.json" />
+    <None Include="$(MSBuildThisFileDirectory)Asset\schema\object.schema.json" />
+  </ItemGroup>
 </Project>
