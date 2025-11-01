@@ -47,7 +47,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\WorldCamera.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Asset\objects\object1.json" />
-    <None Include="$(MSBuildThisFileDirectory)Asset\schema\object.schema.json" />
+    <None Include="$(MSBuildThisFileDirectory)GameData\config.json" />
+    <None Include="$(MSBuildThisFileDirectory)GameData\objects\object1.json" />
+    <None Include="$(MSBuildThisFileDirectory)GameData\schema\object.schema.json" />
+    <None Include="$(MSBuildThisFileDirectory)GameData\schema\ui.schema.json" />
+    <None Include="$(MSBuildThisFileDirectory)GameData\ui\ui1.json" />
   </ItemGroup>
 </Project>

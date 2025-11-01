@@ -9,9 +9,21 @@ private:
 	CFileManager();
 	virtual ~CFileManager() = default;
 
-	
 public:
-	CFileManager* Create(int a);
+	HRESULT Initialize(const _char* ConfigFilePath);
+	
+	HRESULT Read_JsonFile(
+		const _char* szJsonFilePath,
+		Json::Value* pOut);
+
+	
+private:
+	nlohmann::json m_InitData = {};
+
+	vector<nlohmann::json*>m_vecData;
+
+public:
+	static CFileManager* Create(const _char* ConfigFilePath);
 	virtual void Free()override;
 };
 

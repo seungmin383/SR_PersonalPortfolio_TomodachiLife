@@ -127,6 +127,9 @@
     <Filter Include="01.Utility\00.Manager\03.FileManager">
       <UniqueIdentifier>{1887c2d7-cafc-4c41-8788-a2bc835ead0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\00.Manager\04.DataManager">
+      <UniqueIdentifier>{c47846c3-6ab2-45a0-af88-1da936829523}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">

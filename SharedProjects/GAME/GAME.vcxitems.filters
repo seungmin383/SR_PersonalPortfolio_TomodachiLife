@@ -61,8 +61,14 @@
     <Filter Include="GameData">
       <UniqueIdentifier>{c6c25a81-ca87-4eb8-aecd-e67d0b2723a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameData\schema">
+    <Filter Include="GameData\00.schema">
       <UniqueIdentifier>{1b5e13ab-42bc-4da9-b7a4-d55dc9620143}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData\01.object">
+      <UniqueIdentifier>{9654366f-8c01-40fc-887f-f4e5b967fc63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData\02.ui">
+      <UniqueIdentifier>{e93f651e-cfc7-4b44-8db9-94b31464c395}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -153,11 +159,20 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)Asset\objects\object1.json">
+    <None Include="$(MSBuildThisFileDirectory)GameData\schema\object.schema.json">
+      <Filter>GameData\00.schema</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)GameData\objects\object1.json">
+      <Filter>GameData\01.object</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)GameData\config.json">
       <Filter>GameData</Filter>
     </None>
-    <None Include="$(MSBuildThisFileDirectory)Asset\schema\object.schema.json">
-      <Filter>GameData\schema</Filter>
+    <None Include="$(MSBuildThisFileDirectory)GameData\ui\ui1.json">
+      <Filter>GameData\02.ui</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)GameData\schema\ui.schema.json">
+      <Filter>GameData\00.schema</Filter>
     </None>
   </ItemGroup>
 </Project>

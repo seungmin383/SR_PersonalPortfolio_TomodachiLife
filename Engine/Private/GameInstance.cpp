@@ -10,6 +10,9 @@
 #include "CameraManager.h"
 #include "LightManager.h"
 #include "MouseManager.h"
+#include "FileManager.h"
+
+#define CONFIG_FILE_PATH "../../SharedProjects/GAME/GameData/config.json"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -121,6 +124,14 @@ HRESULT CGameInstance::Initialize(
 		}
 	}
 
+	// FileManager
+	{
+		m_pFileManager = CFileManager::Create(CONFIG_FILE_PATH);
+		if (nullptr == m_pFileManager) {
+			MSG_BOX("ErrCode : FileManager Create Failed");
+			return E_FAIL;
+		}
+	}
 	return S_OK;
 }
 
@@ -428,6 +439,10 @@ const _bool CGameInstance::MouseManager_Get_isPressStartRBT()
 
 #pragma endregion
 
+#pragma region FILEMANAGER
+
+#pragma endregion
+
 
 
 
@@ -443,6 +458,7 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pPrototype);
 	Safe_Release(m_pGraphicDevice);
 	Safe_Release(m_pMouseManager);
+	Safe_Release(m_pFileManager);
 
 	CGameInstance::GetInstance()->DestroyInstance();
 }

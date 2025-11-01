@@ -18,6 +18,10 @@
 
 #include <d3dcompiler.h>
 
+#include <json/json.h>
+
+#include <json/json.hpp>
+
 #include <vector>
 #include <list>
 #include <map>
@@ -29,6 +33,7 @@
 #include <string>
 #include <unordered_map>
 #include <ctime>
+#include <fstream>
 #include <iostream>
 
 //#include "fmod.h"

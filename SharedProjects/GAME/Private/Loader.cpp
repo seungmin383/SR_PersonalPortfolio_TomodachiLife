@@ -43,6 +43,7 @@ HRESULT CLoader::Initialize(PLACE_ID NextPlaceID)
 	return S_OK;
 }
 
+// 
 #pragma region LOADING_FUCTION
 
 HRESULT CLoader::Loading()
@@ -150,7 +151,7 @@ HRESULT CLoader::Loading_For_Main()
 {
 	CObject* tmp = { nullptr };
 
-// Actor Loading // ====================================================
+// Actor Loading //
 
 
 
@@ -181,7 +182,7 @@ HRESULT CLoader::Loading_For_Main()
 
 	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
 
-// UI Loading // ====================================================
+// UI Loading //
 
 
 

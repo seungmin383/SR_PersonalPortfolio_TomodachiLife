@@ -3,8 +3,8 @@
   "title": "Objcet Schema",
   "type": "object",
   "properties": {
-    "placeid": { "type": "integer" },
-    "level": { "type": "integer" }
+    "PlaceID": { "type": "integer" },
+    "Level": { "type": "integer" }
   },
-  "required": [ "placeid" ]
+  "required": [ "PlaceID" ]
 }

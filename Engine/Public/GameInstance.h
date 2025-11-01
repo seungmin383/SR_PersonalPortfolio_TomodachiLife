@@ -13,6 +13,7 @@ class CPipeLine;
 class CCameraManager;
 class CLightManager;
 class CMouseManager;
+class CFileManager;
 
 class CObject;
 class CPlace;
@@ -172,6 +173,10 @@ public:
 
 #pragma endregion
 
+#pragma region FILEMANAGER
+
+#pragma endregion
+
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
 	CInput_Device*      m_pInput_Device = { nullptr };
@@ -184,6 +189,7 @@ private:
 	CCameraManager*		m_pCameraManager = { nullptr };
 	CLightManager*		m_pLightManager = { nullptr };
 	CMouseManager*		m_pMouseManager = { nullptr };
+	CFileManager*		m_pFileManager = { nullptr };
 
 public:
 	void Clear_Engine();

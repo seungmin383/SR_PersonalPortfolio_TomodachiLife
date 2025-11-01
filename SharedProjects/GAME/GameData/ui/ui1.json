@@ -1,0 +1,24 @@
+{
+  "UI Data": [
+    {
+      "PlaceID": 0,
+      "PrototypeTag": "ProtoTag_UI_Food",
+      "ViewportType": 0
+    },
+    {
+      "PlaceID": 0,
+      "PrototypeTag": "ProtoTag_UI_Food",
+      "ViewportType": 0
+    },
+    {
+      "PlaceID": 0,
+      "PrototypeTag": "ProtoTag_UI_Food",
+      "ViewportType": 0
+    },
+    {
+      "PlaceID": 0,
+      "PrototypeTag": "ProtoTag_UI_Food",
+      "ViewportType": 0
+    }
+  ]
+}
