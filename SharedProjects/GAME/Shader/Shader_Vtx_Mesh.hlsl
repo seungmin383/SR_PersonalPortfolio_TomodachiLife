@@ -10,7 +10,7 @@ vector g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
 vector g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
 vector g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
-vector g_vMtrlAmbient = vector(0.3f, 0.3f, 0.3f, 1.f);
+vector g_vMtrlAmbient = vector(0.5f, 0.5f, 0.5f, 1.f);
 vector g_vMtrlSpecular = vector(1.0f, 1.0f, 1.0f, 1.f);
 
 texture2D g_DiffuseTexture;
@@ -77,15 +77,21 @@ PS_OUT PS_MAIN(PS_IN In)
     
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
     
+    float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
+    float fAlpha = vMtrlDiffuse.a;
+    
     float fShade = max(dot(normalize(g_vLightDir) * -1.f, In.vNormal), 0.f);
     
     float4 vLook = In.vWorldPosition - g_vCamPosition;
     float4 vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
-    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 50);
+    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 100);
     
-    Out.vColor = 
-    (g_vLightDiffuse * vMtrlDiffuse)* saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient))+ (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
-        
+    float3 vFinalColor = 
+    (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
+    
+    
+    Out.vColor = float4(vFinalColor, fAlpha);
+    
     return Out;
 }
 

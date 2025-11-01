@@ -130,6 +130,10 @@ HRESULT CLoader::Loading()
 		break;
 	case PLACE_ID::END:
 		break;
+	case PLACE_ID::ISLAND:
+		hr = Loading_Island();
+		break;
+
 	default:
 		break;
 	}
@@ -385,6 +389,7 @@ HRESULT CLoader::Loading_For_Main()
 #define path14 "../../../../../../Resource/dev/model/Mii/Mii/body_body000.fbx"
 #define path15 "../../../../../../Resource/dev/model/Mii/Mii/miiDeleteLeafBones.fbx"
 #define path16 "../../../../../../Resource/dev/model/Mii News/Mii News/news.fbx"
+#define path17 "../../../../../../Resource/dev/model/BackGround- Island/Map Spring/island.fbx"
 	
 	XMMATRIX initMatrix = XMMatrixIdentity();
 
@@ -733,6 +738,72 @@ HRESULT CLoader::Loading_For_Live_Apartment()
 HRESULT CLoader::Loading_For_Live_Wedding_House()
 {
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+
+	return S_OK;
+}
+HRESULT CLoader::Loading_Island()
+{
+	CObject* tmp = { nullptr };
+
+//Component
+ 	{
+		// ProtoTag_Component_Island_Model
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+			tmp = CModel::Create(
+				m_pDevice,
+				m_pContext,
+				"../../Resource/00Model/BackGround - Island/island.fbx",
+				initMatrix);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_Component_Island_Model"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Component_Mesh_Shader
+		{
+			tmp = CShaderCom::Create(
+				m_pDevice,
+				m_pContext,
+				TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Mesh.hlsl"),
+				VTX_TEX_MESH::Elements,
+				VTX_TEX_MESH::iNumElements);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_Component_Mesh_Shader"),
+				tmp)))
+				return E_FAIL;
+		}
+	}
+
+
+	
+
+
+	// Actor
+	{
+		// ProtoTag_Actor_Island
+		{
+			tmp = CIsland::Create(
+				m_pDevice,
+				m_pContext);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_Actor_Island"),
+				tmp)))
+				return E_FAIL;
+		}
+	}
+	// UI
+	lstrcpy(m_szFPS, TEXT("Place Island Loading Complete"));
+	m_isFinished = true;
 
 	return S_OK;
 }

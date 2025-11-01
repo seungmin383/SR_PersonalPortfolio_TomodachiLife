@@ -4,6 +4,7 @@
 
 #include "Place_Main.h"
 #include "Place_Setting.h"
+#include "Place_Island.h"
 
 CPlace_Loading::CPlace_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -91,6 +92,9 @@ int32_t CPlace_Loading::Update(_float fDT)
 		case PLACE_ID::LIVE_APARTMENT:
 			break;
 		case PLACE_ID::LIVE_WEDDING_HOUSE:
+			break;
+		case PLACE_ID::ISLAND:
+			pPlace = CPlace_Island::Create(m_pDevice, m_pContext);
 			break;
 		case PLACE_ID::END:
 			break;

@@ -53,7 +53,7 @@ HRESULT CMainApp::Initialize()
 		CPlace_Loading::Create(						
 			m_pDevice,
 			m_pContext,
-			PLACE_ID::MAIN,							// 로딩 끝나면 메인으로 갈래
+			PLACE_ID::ISLAND,						// 로딩 끝나면 메인으로 갈래
 			RETAIN_POLICY::CLEAR_LOADING))))		// 로딩씬을 지우고
 		return E_FAIL;
 

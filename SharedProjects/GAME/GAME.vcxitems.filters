@@ -70,6 +70,15 @@
     <Filter Include="GameData\02.ui">
       <UniqueIdentifier>{e93f651e-cfc7-4b44-8db9-94b31464c395}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Place\03.Place_Island">
+      <UniqueIdentifier>{78475139-eaf0-487f-8592-a49bcf4e0583}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Actor\00.Island\00.Island">
+      <UniqueIdentifier>{9bd0ccb7-4b8f-4e87-aca1-ec005cd41bd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Actor\00.Island\01.Environment">
+      <UniqueIdentifier>{2874adf0-a9bb-4242-9332-67d9062f1cb6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -88,9 +97,6 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h">
       <Filter>02.UI\00.Food</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h">
-      <Filter>01.Actor\00.Island</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Mii.h">
       <Filter>01.Actor\01.Mii</Filter>
@@ -122,13 +128,19 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Defines.h">
       <Filter>99.Defines</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Terrain.h">
+      <Filter>01.Actor\00.Island</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Island.h">
+      <Filter>03.Place\03.Place_Island</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h">
+      <Filter>01.Actor\00.Island\00.Island</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
       <Filter>02.UI\00.Food</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp">
-      <Filter>01.Actor\00.Island</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Loader.cpp">
       <Filter>03.Place\99.Loading\Loader</Filter>
@@ -156,6 +168,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\WorldCamera.cpp">
       <Filter>01.Actor\99.Camera\01.World</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Terrain.cpp">
+      <Filter>01.Actor\00.Island</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Island.cpp">
+      <Filter>03.Place\03.Place_Island</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp">
+      <Filter>01.Actor\00.Island\00.Island</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,8 +5,8 @@
 NS_BEGIN(Engine)
 
 class CShaderCom;
-class CTextureCom;
-class CTerrainBufferCom;
+class CModel;
+
 NS_END
 
 NS_BEGIN(Game)
@@ -39,8 +39,7 @@ private:
 
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
-	CTextureCom* m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::END)] = {nullptr};
-	CTerrainBufferCom* m_pTerrainBufferCom = { nullptr };
+	CModel* m_pModel = { nullptr };
 
 public:
 	static CIsland* Create(

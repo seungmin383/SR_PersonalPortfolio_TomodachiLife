@@ -1,8 +1,0 @@
-Referenced with an eyedropper tool off of the in-game Mii Maker.
-
-Skin 1 = ffd3ad
-Skin 2 = ffb66b
-Skin 3 = de7942
-Skin 4 = ffaa8c
-Skin 5 = ad5129
-Skin 6 = 632c18

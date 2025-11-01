@@ -75,6 +75,7 @@ private:
 	HRESULT Loading_For_Live_Apartment();
 	HRESULT Loading_For_Live_Wedding_House();
 
+	HRESULT Loading_Island();
 #pragma endregion
 
 public:

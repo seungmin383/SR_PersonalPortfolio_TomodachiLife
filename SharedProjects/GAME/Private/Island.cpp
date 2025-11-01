@@ -43,7 +43,6 @@ int32_t CIsland::Update(_float fDT)
 
 void CIsland::Update_Late(_float fDT)
 {
-	// m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_UI, this);
 	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
 }
 
@@ -52,14 +51,18 @@ HRESULT CIsland::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	if (FAILED(m_pTerrainBufferCom->Bind_Resource()))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Begin(0)))
-		return E_FAIL;
-
-	if (FAILED(m_pTerrainBufferCom->Begin_Draw()))
-		return E_FAIL;
+	uint32_t iNumMeshes = m_pModel->Get_NumMesh();
+	
+	for (uint32_t i = 0; i < iNumMeshes; i++)
+	{
+		m_pModel->Bind_Material(
+			m_pShaderCom,
+			"g_DiffuseTexture",
+			i,
+			aiTextureType_DIFFUSE);
+		m_pShaderCom->Begin(0);
+		m_pModel->Render(i);
+	}
 
 	return S_OK;
 }
@@ -67,38 +70,20 @@ HRESULT CIsland::Render()
 HRESULT CIsland::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_Vtx_Normal_TexShader"),
+		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		TEXT("ProtoTag_Component_Mesh_Shader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
 		nullptr)))
 		return E_FAIL;
 
-
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_IslandTexture"),
-		TEXT("Com_Texture"),
-		reinterpret_cast<CComponent**>(&m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::DIFFUSE)]),
+		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		TEXT("ProtoTag_Component_Island_Model"),
+		TEXT("Com_Model"),
+		reinterpret_cast<CComponent**>(&m_pModel),
 		nullptr)))
 		return E_FAIL;
-
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_IslandMaskTexture"),
-		TEXT("Com_MaskTexture"),
-		reinterpret_cast<CComponent**>(&m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::MASK)]),
-		nullptr)))
-		return E_FAIL;
-
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_TerrainBuffer"),
-		TEXT("Com_TerrainBuffer"),
-		reinterpret_cast<CComponent**>(&m_pTerrainBufferCom),
-		nullptr)))
-		return E_FAIL;
-
 
 	return S_OK;
 }
@@ -127,17 +112,6 @@ HRESULT CIsland::Bind_ShaderResources()
 		m_pShaderCom,
 		"g_vCamPosition",
 		TEXT("World_Camera"));
-
-	m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::DIFFUSE)]->
-		Bind_ShaderResources(
-		m_pShaderCom,
-		"g_DiffuseTexture");
-
-	m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::MASK)]->
-		Bind_ShaderResource(
-			m_pShaderCom,
-			"g_MaskTexture",
-			0);
 
 	return hr;
 }
@@ -173,10 +147,6 @@ CObject* CIsland::Clone(void* pArg)
 void CIsland::Free()
 {
 	Safe_Release(m_pShaderCom);
-
-	for(auto& pTexture : m_pTextureCom)
-		Safe_Release(pTexture);
-
-	Safe_Release(m_pTerrainBufferCom);
+	Safe_Release(m_pModel);
 	CActor::Free();
 }

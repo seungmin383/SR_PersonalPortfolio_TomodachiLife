@@ -1,5 +1,6 @@
 #include "Material.h"
 #include  "ShaderCom.h"
+#include <DirectXTex.h>
 
 CMaterial::CMaterial(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pDevice(pDevice), m_pContext(pContext)
@@ -77,10 +78,16 @@ CMaterial* CMaterial::Create(
 {
 	CMaterial* pMaterial = new CMaterial(pDevice, pContext);
 
+	if (nullptr == pMaterial)
+	{
+		MSG_BOX("ErrCode : Material Create Failed");
+		return nullptr;
+	}
+
 	if (FAILED(pMaterial->Initialize_Origin(pAIMaterial, pModelFilePath)))
 	{
 		Safe_Release(pMaterial);
-		MSG_BOX("ErrCode : Material Create Failed");
+		MSG_BOX("ErrCode : Material Initialize Failed");
 		return nullptr;
 	}
 

@@ -49,6 +49,8 @@ namespace Game
 		LIVE_APARTMENT,
 		LIVE_WEDDING_HOUSE,
 
+		ISLAND,
+
 		END
 	};
 

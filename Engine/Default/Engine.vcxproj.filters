@@ -234,6 +234,9 @@
     <ClCompile Include="..\Private\FileManager.cpp">
       <Filter>01.Utility\00.Manager\03.FileManager</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\DataManager.cpp">
+      <Filter>01.Utility\00.Manager\04.DataManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -379,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\FileManager.h">
       <Filter>01.Utility\00.Manager\03.FileManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DataManager.h">
+      <Filter>01.Utility\00.Manager\04.DataManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
