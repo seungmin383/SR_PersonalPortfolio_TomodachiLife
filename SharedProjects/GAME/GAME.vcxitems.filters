@@ -137,6 +137,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h">
       <Filter>01.Actor\00.Island\00.Island</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SkyAndSea.h">
+      <Filter>01.Actor\00.Island\01.Environment</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -177,6 +180,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp">
       <Filter>01.Actor\00.Island\00.Island</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SkyAndSea.cpp">
+      <Filter>01.Actor\00.Island\01.Environment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

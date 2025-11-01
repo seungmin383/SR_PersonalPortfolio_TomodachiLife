@@ -45,32 +45,58 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 {
 	CObject* tmp = { nullptr };
 
-	CActor::ACTOR_DESC tMiiDesc = {};
-	tMiiDesc.fX = 0.f;
-	tMiiDesc.fY = 0.f;
-	tMiiDesc.fZ = 0.f;
-	tMiiDesc.fCX = 1.f;
-	tMiiDesc.fCY = 1.f;
-	tMiiDesc.fCZ = 1.f;
-	tMiiDesc.fSpeedPerSecond = 0.f;
-	tMiiDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-
-
-	tmp = m_pGameInstance->Proto_Get_Object_Clone(
-		static_cast<uint32_t>(PLACE_ID::ISLAND),
-		TEXT("ProtoTag_Actor_Island"),
-		&tMiiDesc);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-		static_cast<uint32_t>(PLACE_ID::ISLAND),
-		TEXT("LayerTag_Actor"),
-		tmp)))
+	// ProtoTag_Actor_Island
 	{
-		Safe_Release(tmp);
-		return E_FAIL;
+		CActor::ACTOR_DESC tIslandDesc = {};
+		tIslandDesc.fX = 0.f;
+		tIslandDesc.fY = 0.f;
+		tIslandDesc.fZ = 0.f;
+		tIslandDesc.fCX = 1.f;
+		tIslandDesc.fCY = 1.f;
+		tIslandDesc.fCZ = 1.f;
+		tIslandDesc.fSpeedPerSecond = 0.f;
+		tIslandDesc.fRotationPerSecond = XMConvertToRadians(20.f);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(
+			static_cast<uint32_t>(PLACE_ID::ISLAND),
+			TEXT("ProtoTag_Actor_Island"),
+			&tIslandDesc);
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+			static_cast<uint32_t>(PLACE_ID::ISLAND),
+			TEXT("LayerTag_Actor"),
+			tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}
+	}
+
+	// ProtoTag_Actor_SkyAndSea
+	{
+		CActor::ACTOR_DESC tIslandDesc = {};
+		tIslandDesc.fX = 0.f;
+		tIslandDesc.fY = 0.f;
+		tIslandDesc.fZ = 0.f;
+		tIslandDesc.fCX = 1.f;
+		tIslandDesc.fCY = 1.f;
+		tIslandDesc.fCZ = 1.f;
+		tIslandDesc.fSpeedPerSecond = 0.f;
+		tIslandDesc.fRotationPerSecond = XMConvertToRadians(20.f);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(
+			static_cast<uint32_t>(PLACE_ID::ISLAND),
+			TEXT("ProtoTag_Actor_SkyAndSea"),
+			&tIslandDesc);
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+			static_cast<uint32_t>(PLACE_ID::ISLAND),
+			TEXT("LayerTag_Actor"),
+			tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}
 	}
 
 	return S_OK;

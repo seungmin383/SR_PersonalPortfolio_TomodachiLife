@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Food.h"
 #include "Island.h"
+#include "SkyAndSea.h"
 #include "Mii.h"
 #include "WorldCamera.h"
 #include "UICamera.h"
@@ -765,6 +766,23 @@ HRESULT CLoader::Loading_Island()
 				return E_FAIL;
 		}
 
+		// ProtoTag_Component_SkyAndSea_Model
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+			tmp = CModel::Create(
+				m_pDevice,
+				m_pContext,
+				"../../Resource/00Model/BackGround - Sea/sea.fbx",
+				initMatrix);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_Component_SkyAndSea_Model"),
+				tmp)))
+				return E_FAIL;
+		}
 		// ProtoTag_Component_Mesh_Shader
 		{
 			tmp = CShaderCom::Create(
@@ -797,6 +815,19 @@ HRESULT CLoader::Loading_Island()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::ISLAND),
 				TEXT("ProtoTag_Actor_Island"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Actor_SkyAndSea
+		{
+			tmp = CSkyAndSea::Create(
+				m_pDevice,
+				m_pContext);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_Actor_SkyAndSea"),
 				tmp)))
 				return E_FAIL;
 		}

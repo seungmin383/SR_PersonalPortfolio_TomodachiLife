@@ -30,6 +30,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Main.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_MiiEditor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Setting.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SkyAndSea.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Terrain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\UICamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\WorldCamera.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Main.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_MiiEditor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Setting.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SkyAndSea.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Terrain.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\WorldCamera.h" />

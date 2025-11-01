@@ -1,6 +1,5 @@
 #include "Material.h"
 #include  "ShaderCom.h"
-#include <DirectXTex.h>
 
 CMaterial::CMaterial(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pDevice(pDevice), m_pContext(pContext)
@@ -13,7 +12,7 @@ HRESULT CMaterial::Initialize_Origin(const aiMaterial* pAIMaterial, const _char*
 {
 
 	
-	for (size_t i = 0; i < AI_TEXTURE_TYPE_MAX; i++)
+	for (uint32_t i = 0; i < AI_TEXTURE_TYPE_MAX; i++)
 	{
 		_char szTextureFilePath[MAX_PATH] = {};
 		_char szDrivePath[MAX_PATH] = {};
@@ -22,7 +21,7 @@ HRESULT CMaterial::Initialize_Origin(const aiMaterial* pAIMaterial, const _char*
 		
 		uint32_t iNumTexures = pAIMaterial->GetTextureCount(static_cast<aiTextureType>(i));
 
-		for (size_t j = 0; j < iNumTexures; j++)
+		for (uint32_t j = 0; j < iNumTexures; j++)
 		{
 			aiString strTextureFilePath = {};
 
@@ -40,7 +39,7 @@ HRESULT CMaterial::Initialize_Origin(const aiMaterial* pAIMaterial, const _char*
 			strcat_s(szTextureFilePath, szExt);
 
 			_tchar		szFinalPath[MAX_PATH] = {};
-			MultiByteToWideChar(CP_ACP, 0, szTextureFilePath, strlen(szTextureFilePath), szFinalPath, MAX_PATH);
+			MultiByteToWideChar(CP_ACP, 0, szTextureFilePath, static_cast<int32_t>(strlen(szTextureFilePath)), szFinalPath, MAX_PATH);
 
 			HRESULT         hr = {};
 			ID3D11ShaderResourceView* pSRV = { nullptr };
