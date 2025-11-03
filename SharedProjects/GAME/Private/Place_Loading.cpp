@@ -12,11 +12,9 @@ CPlace_Loading::CPlace_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 }
 
 HRESULT CPlace_Loading::Initialize(
-	PLACE_ID NextPlaceID,
-	Engine::RETAIN_POLICY Policy)
+	PLACE_ID NextPlaceID)
 {
 	m_eNextPlaceID = NextPlaceID;
-	m_ePolicy = Policy;
 
 	m_pLoader = CLoader::Create(m_pDevice, m_pContext, m_eNextPlaceID);
 
@@ -107,7 +105,6 @@ int32_t CPlace_Loading::Update(_float fDT)
 
 		if (SUCCEEDED(m_pGameInstance->PlaceManager_Change_Place(
 			static_cast<uint32_t>(m_eNextPlaceID),
-			m_ePolicy,
 			pPlace)))
 			return 1;
 
@@ -131,12 +128,11 @@ HRESULT CPlace_Loading::Render_Late()
 CPlace_Loading* CPlace_Loading::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext, 
-	PLACE_ID NextPlaceID,
-	RETAIN_POLICY Policy)
+	PLACE_ID NextPlaceID)
 {
 	CPlace_Loading* pPlaceLoading = new CPlace_Loading(pDevice, pContext);
 
-	if (FAILED(pPlaceLoading->Initialize(NextPlaceID, Policy)))
+	if (FAILED(pPlaceLoading->Initialize(NextPlaceID)))
 	{
 		MSG_BOX("ErrCode : Loading Place Create Failed");
 		Safe_Release(pPlaceLoading);

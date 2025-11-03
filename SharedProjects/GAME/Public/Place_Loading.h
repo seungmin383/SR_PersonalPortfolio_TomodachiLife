@@ -17,8 +17,7 @@ private:
 
 public:
 	virtual HRESULT Initialize(
-		PLACE_ID NextPlaceID,
-		Engine::RETAIN_POLICY Policy);
+		PLACE_ID NextPlaceID);
 
 	virtual int32_t	 Update(_float fDT) override;
 	virtual HRESULT Render_Priority() override;
@@ -27,14 +26,12 @@ public:
 private:
 	CLoader*				m_pLoader = { nullptr };
 	PLACE_ID		m_eNextPlaceID = { PLACE_ID::END };
-	Engine::RETAIN_POLICY	m_ePolicy = { Engine::RETAIN_POLICY::END };
 
 public:
 	static CPlace_Loading* Create(
 		ID3D11Device* pDevice, 
 		ID3D11DeviceContext* pContext, 
-		PLACE_ID NextPlaceID,
-		Engine::RETAIN_POLICY Policy);
+		PLACE_ID NextPlaceID);
 
 	virtual void Free() override;
 };

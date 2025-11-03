@@ -84,10 +84,7 @@ public:
 
 	HRESULT PlaceManager_Change_Place(
 		uint32_t PlaceID,
-		RETAIN_POLICY Policy,
 		CPlace* pPlace);
-
-	HRESULT PlaceManager_Return_Place();
 
 #pragma endregion
 

@@ -1,5 +1,6 @@
 #include "PlaceMoveButton.h"
 #include "GameInstance.h"
+#include "Place_Loading.h"
 
 CPlaceMoveButton::CPlaceMoveButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CButton(pDevice, pContext)
@@ -18,18 +19,12 @@ HRESULT CPlaceMoveButton::Initialize_Origin()
 
 HRESULT CPlaceMoveButton::Initialize_Clone(void* pArg)
 {
-	CButton::BUTTON_DESC tDesc{};
+	PLACEMOVEBUTTON_DESC* tPlaceMoveButtonDesc = static_cast<PLACEMOVEBUTTON_DESC*>(pArg);
+	
+	m_eNextPlaceID = tPlaceMoveButtonDesc->eNextPlace;
+	m_iTextureNum = tPlaceMoveButtonDesc->iTextureNum;
 
-	tDesc.fX = 0.f;
-	tDesc.fY = 0.f;
-
-	tDesc.fCX = 100.f;
-	tDesc.fCY = 100.f;
-
-	tDesc.fRotationPerSecond = XMConvertToRadians(30.f);
-	tDesc.fSpeedPerSecond = 1.f;
-
-	if (FAILED(CButton::Initialize_Clone(&tDesc)))
+	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Component()))
@@ -39,29 +34,9 @@ HRESULT CPlaceMoveButton::Initialize_Clone(void* pArg)
 }
 
 
-
-//
-// UI가 뷰포트의 중앙을 00으로 잡고
-// 마우스는 전체 윈도우의 좌상단을 00으로 잡아서 
-// UI 피킹이 안됨
-// 
-// 마우스가 450 넘어가면 0으로 만들고
-// 넘길때 이 좌표를 넘기는 식으로 하는게 나을듯
-//
-// UI는 뷰포트의 좌상단이 00이 되도록 하고
-//
-
-
-
-
 int32_t CPlaceMoveButton::Update_Priority(_float fDT)
 {
 	CButton::Update_Priority(fDT);	// 마우스랑 확인
-
-	if(m_isOverlappedMouse)
-		cout << "isOverlapped? : TRUE" << endl;
-	else 
-		cout << "isOverlapped? : FALSE" << endl;
 
 	// 커서랑 버튼이 겹쳐있고, 좌클릭이 눌렀다 때졌을 때
 	if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isClickLBT())
@@ -82,7 +57,8 @@ int32_t CPlaceMoveButton::Update(_float fDT)
 
 void CPlaceMoveButton::Update_Late(_float fDT)
 {
-	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::BOTTOM_UI, this);
+	//m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::BOTTOM_UI, this);
+	CUI::Update_Late(fDT);
 }
 
 HRESULT CPlaceMoveButton::Render()
@@ -106,31 +82,36 @@ HRESULT CPlaceMoveButton::Render()
 HRESULT CPlaceMoveButton::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_Vtx_TexShader"),
+		static_cast<uint32_t>(PLACE_ID::STATIC),
+		TEXT("ProtoTag_Component_VtxTexShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
 		nullptr)))
 		return E_FAIL;
 
-
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_UIButtonTexture"),
-		TEXT("Com_Texture"),
-		reinterpret_cast<CComponent**>(&m_pTextureCom),
-		nullptr)))
-		return E_FAIL;
-
-
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
+		static_cast<uint32_t>(PLACE_ID::STATIC),
 		TEXT("ProtoTag_Component_RectBuffer"),
 		TEXT("Com_RectBuffer"),
 		reinterpret_cast<CComponent**>(&m_pRectBufferCom),
 		nullptr)))
 		return E_FAIL;
 
+	if (FAILED(Add_Component(
+		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		TEXT("ProtoTag_Component_PlaceMoveButton_Texture"),
+		TEXT("Com_Texture"),
+		reinterpret_cast<CComponent**>(&m_pTextureCom),
+		nullptr)))
+		return E_FAIL;
+
+	if (FAILED(Add_Component(
+		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		TEXT("ProtoTag_Component_OutLine_Texture"),
+		TEXT("Com_OutLineTexture"),
+		reinterpret_cast<CComponent**>(&m_pOutlineTextureCom),
+		nullptr)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -155,9 +136,16 @@ HRESULT CPlaceMoveButton::Bind_ShaderResources()
 		TEXT("UI_Camera"),
 		D3DTS::PROJ);
 
+	// 버튼 텍스쳐
 	m_pTextureCom->Bind_ShaderResource(
 		m_pShaderCom,
 		"g_Texture",
+		0);
+
+	// 선택 됐는지 안됐는지
+	m_pOutlineTextureCom->Bind_ShaderResource(
+		m_pShaderCom,
+		"g_OutlineTexture",
 		0);
 
 	return hr;
@@ -165,7 +153,13 @@ HRESULT CPlaceMoveButton::Bind_ShaderResources()
 
 void CPlaceMoveButton::On_Click()
 {
-	MSG_BOX("오 된다");
+	m_pGameInstance->PlaceManager_Change_Place(
+		static_cast<uint32_t>(m_eNextPlaceID),
+		CPlace_Loading::Create(
+			m_pDevice,
+			m_pContext,
+			m_eNextPlaceID));
+
 }
 
 CPlaceMoveButton* CPlaceMoveButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -200,6 +194,7 @@ void CPlaceMoveButton::Free()
 {
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pOutlineTextureCom);
 	Safe_Release(m_pRectBufferCom);
 	CButton::Free();
 }

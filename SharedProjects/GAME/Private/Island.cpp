@@ -43,7 +43,8 @@ int32_t CIsland::Update(_float fDT)
 
 void CIsland::Update_Late(_float fDT)
 {
-	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
+	// m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
+	 CActor::Update_Late(fDT);
 }
 
 HRESULT CIsland::Render()
@@ -65,6 +66,11 @@ HRESULT CIsland::Render()
 	}
 
 	return S_OK;
+}
+
+void CIsland::Calc_Object_Place_Point()
+{
+	m_vObjectPlaceVertices
 }
 
 HRESULT CIsland::Ready_Component()

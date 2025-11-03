@@ -154,265 +154,6 @@ HRESULT CLoader::Loading()
 
 HRESULT CLoader::Loading_For_Main()
 {
-	CObject* tmp = { nullptr };
-
-// Actor Loading //
-
-
-
-	// Island //
-	tmp = CIsland::Create(m_pDevice, m_pContext);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Actor_Island"),
-		tmp)))
-		return E_FAIL;
-
-
-	tmp = CMii::Create(m_pDevice, m_pContext);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Actor_Mii"),
-		tmp)))
-		return E_FAIL;
-
-
-	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
-
-// UI Loading //
-
-
-
-	// Food //
-	tmp = CFood::Create(m_pDevice, m_pContext);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_UI_Food"),
-		tmp)))
-		return E_FAIL;
-
-
-	tmp = CPlaceMoveButton::Create(m_pDevice, m_pContext);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_UI_PlaceMoveButton"),
-		tmp)))
-		return E_FAIL;
-
-	lstrcpy(m_szFPS, TEXT("UI Loading Complete"));
-
-//Components Loading // ====================================================
-
-	//Vtx_Tex Shader Component //
-	tmp = CShaderCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Tex.hlsl"),
-		Engine::VTX_TEX::Elements,
-		Engine::VTX_TEX::iNumElements);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_Vtx_TexShader"),
-		tmp)))
-		return E_FAIL;
-
-	 
-	//Normal Shader Component //
-	tmp = CShaderCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Normal_Tex.hlsl"),
-		Engine::VTX_TEX_NORMAL::Elements,
-		Engine::VTX_TEX_NORMAL::iNumElements);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_Vtx_Normal_TexShader"),
-		tmp)))
-		return E_FAIL;
-
-	//Mesh Shader Component //
-	tmp = CShaderCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Mesh.hlsl"),
-		Engine::VTX_TEX_MESH::Elements,
-		Engine::VTX_TEX_MESH::iNumElements);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_Vtx_Mesh_TexShader"),
-		tmp)))
-		return E_FAIL;
-
-
-	// Rect Buffer Component //
-	tmp = CRectBufferCom::Create(m_pDevice, m_pContext);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_RectBuffer"),
-		tmp)))
-		return E_FAIL;
-	
-
-	// Terrain Buffer Component // 
-	tmp = CTerrainBufferCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../Resource/Textures/Terrain/Height.bmp"));
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_TerrainBuffer"),
-		tmp)))
-		return E_FAIL;
-	
-
-
-	// Food Texture Component //
-	tmp = CTextureCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../Resource/Textures/item_Food102.png"),
-		1);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_FoodTexture"),
-		tmp)))
-		return E_FAIL;
-
-
-	// Island Diffuse Texture Component //
-	tmp = CTextureCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../Resource/Textures/Terrain/Tile%d.dds"),
-		2);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_IslandTexture"),
-		tmp)))
-		return E_FAIL;
-
-	// Island Mask Texture Component //
-	tmp = CTextureCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../Resource/Textures/Terrain/Mask.bmp"),
-		1);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_IslandMaskTexture"),
-		tmp)))
-		return E_FAIL;
-
-
-	// Button Texture Component //
-	tmp = CTextureCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../Resource/Textures/UI_Buttons.png"),
-		1);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_UIButtonTexture"),
-		tmp)))
-		return E_FAIL;
-
-
-#define boatPath "../../../../../../Resource/main/model/Object - Boat/boat.fbx"
-#define babyChairPath "../../../../../../Resource/main/model/Object - BabyChair/babyChair.fbx"
-#define beachChairPath "../../../../../../Resource/main/model/Object - BeachChair/beachChair.fbx"
-
-#define path1 "../../Resource/00Model/00Body/Cat1.fbx"
-#define path2 "../../Resource/Models/Fiona/Fiona.fbx"
-#define path3 "../../Resource/Models/A.fbx"
-
-#define path4 "../../../../../../Resource/dev/model/02Arabian/room1.fbx"
-#define path5 "../../../../../../Resource/dev/model/Canoe/Boat.fbx"
-#define path6 "../../../../../../Resource/dev/model/BabyChair/BabyChair.fbx"
-#define path7 "../../../../../../Resource/dev/model/Beach Chair/BeachChair.fbx"
-#define path8 "../../../../../../Resource/dev/model/Cats/catAddAnim.fbx"
-#define path9 "../../../../../../Resource/dev/model/Island - Island/Background Sky and Sea/Clouds/Cloud.fbx"
-#define path10 "../../../../../../Resource/dev/model/Island - Island/Background Sky and Sea/Moon/Moon.fbx"
-#define path11 "../../../../../../Resource/dev/model/Island - Island/Background Sky and Sea/Sky and Sea/Sea.fbx"
-#define path12 "../../../../../../Resource/dev/model/Island - Island/House Plots/houseGround.fbx"
-#define path13 "../../../../../../Resource/dev/model/Island - Island/Map Spring/island.fbx"
-#define path14 "../../../../../../Resource/dev/model/Mii/Mii/body_body000.fbx"
-#define path15 "../../../../../../Resource/dev/model/Mii/Mii/miiDeleteLeafBones.fbx"
-#define path16 "../../../../../../Resource/dev/model/Mii News/Mii News/news.fbx"
-#define path17 "../../../../../../Resource/dev/model/BackGround- Island/Map Spring/island.fbx"
-	
-	XMMATRIX initMatrix = XMMatrixIdentity();
-
-	initMatrix = XMMatrixScaling(0.1f, 0.1f, 0.1f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-	// Test Model Component //
-	tmp = CModel::Create(
-		m_pDevice,
-		m_pContext,
-		path16,
-		initMatrix);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_TestModel"),
-		tmp)))
-
-		return E_FAIL;
-
 
 	lstrcpy(m_szFPS, TEXT("Component Loading Complete"));
 
@@ -746,7 +487,7 @@ HRESULT CLoader::Loading_Island()
 {
 	CObject* tmp = { nullptr };
 
-//Component
+	//Component
  	{
 		// ProtoTag_Component_Island_Model
 		{
@@ -798,11 +539,37 @@ HRESULT CLoader::Loading_Island()
 				tmp)))
 				return E_FAIL;
 		}
+
+		// ProtoTag_Component_PlaceMoveButton_Texture
+		{
+			tmp = CTextureCom::Create(
+				m_pDevice,
+				m_pContext,
+				TEXT("../../Resource/Textures/PlaceMoveButton/PlaceMoveButtonTexture%d.dds"),
+				46);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_Component_PlaceMoveButton_Texture"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Component_OutLine_Texture
+		{
+			tmp = CTextureCom::Create(
+				m_pDevice,
+				m_pContext,
+				TEXT("../../Resource/Textures/OutLine/OutLine%d.dds"),
+				5);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_Component_OutLine_Texture"),
+				tmp)))
+				return E_FAIL;
+		}
 	}
-
-
-	
-
 
 	// Actor
 	{
@@ -832,7 +599,23 @@ HRESULT CLoader::Loading_Island()
 				return E_FAIL;
 		}
 	}
+	
 	// UI
+	{
+		// ProtoTag_UI_PlaceMoveButton
+		{
+			tmp = CPlaceMoveButton::Create(
+				m_pDevice,
+				m_pContext);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_UI_PlaceMoveButton"),
+				tmp)))
+				return E_FAIL;
+		}
+	}
+
 	lstrcpy(m_szFPS, TEXT("Place Island Loading Complete"));
 	m_isFinished = true;
 

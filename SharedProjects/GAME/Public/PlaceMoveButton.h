@@ -15,6 +15,8 @@ class CPlaceMoveButton final : public CButton
 public:
 	typedef struct tagPlaceMoveButtonDesc : public BUTTON_DESC
 	{
+		PLACE_ID eNextPlace = {};
+		uint32_t iTextureNum = {};
 
 	}PLACEMOVEBUTTON_DESC;
 
@@ -38,13 +40,22 @@ private:
 	HRESULT Bind_ShaderResources();
 
 	void On_Click() override;
+
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CTextureCom* m_pTextureCom = { nullptr };
+	CTextureCom* m_pOutlineTextureCom = { nullptr };
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
+	PLACE_ID	m_eNextPlaceID = { PLACE_ID::END };
+	uint32_t	m_iTextureNum = {};
+	uint32_t	m_iOutlineTextureNum = {};
+
 public:
-	static CPlaceMoveButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CPlaceMoveButton* Create(
+		ID3D11Device* pDevice, 
+		ID3D11DeviceContext* pContext);
+
 	CObject* Clone(void* pArg) override;
 	virtual void Free()override;
 };

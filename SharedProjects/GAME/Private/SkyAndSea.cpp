@@ -43,7 +43,8 @@ int32_t CSkyAndSea::Update(_float fDT)
 
 void CSkyAndSea::Update_Late(_float fDT)
 {
-	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
+	// m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
+	CActor::Update_Late(fDT);
 }
 
 HRESULT CSkyAndSea::Render()

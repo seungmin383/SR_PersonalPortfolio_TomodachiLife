@@ -33,6 +33,8 @@ HRESULT CUI::Initialize_Clone(void* pArg)
 	m_fCX = pUIDesc->fCX;
 	m_fCY = pUIDesc->fCY;
 
+	m_eRenderGroup = pUIDesc->eRenderGroup;
+
 	uint32_t iNumViewPorts{1};
 	D3D11_VIEWPORT ViewportDescs;
 
@@ -72,6 +74,7 @@ int32_t CUI::Update(_float fDT)
 
 void CUI::Update_Late(_float fDT)
 {
+	m_pGameInstance->RenderManager_Add_RenderGroup(m_eRenderGroup, this);
 }
 
 HRESULT CUI::Render()

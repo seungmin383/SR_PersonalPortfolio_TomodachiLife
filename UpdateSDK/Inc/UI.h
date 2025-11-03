@@ -13,7 +13,13 @@ class ENGINE_DLL CUI abstract : public CObject
 public:
 	typedef struct tagUIDesc : public OBJECT_DESC
 	{
-		_float fX, fY, fCX, fCY;
+		_float fX;
+		_float fY;
+		_float fCX;
+		_float fCY;
+
+		RENDER_GROUP eRenderGroup;
+
 	}UI_DESC;
 
 protected:
@@ -47,6 +53,8 @@ protected:
 
 	XMFLOAT4X4 m_ViewMatrix = {};
 	XMFLOAT4X4 m_ProjMatrix = {};
+
+	RENDER_GROUP m_eRenderGroup = { RENDER_GROUP::END };
 
 protected:
 	HRESULT Add_Component(

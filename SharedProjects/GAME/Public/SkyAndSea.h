@@ -14,10 +14,10 @@ NS_BEGIN(Game)
 class CSkyAndSea final : public CActor
 {
 public:
-	typedef struct tagIslandDesc : public ACTOR_DESC
+	typedef struct tagSkyAndSeaDesc : public ACTOR_DESC
 	{
 
-	}ISLAND_DESC;
+	}SKYANDSEA_DESC;
 protected:
 	CSkyAndSea(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CSkyAndSea(const CSkyAndSea& rhs);

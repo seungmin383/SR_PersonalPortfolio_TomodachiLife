@@ -10,7 +10,7 @@ vector g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
 vector g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
 vector g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
-vector g_vMtrlAmbient = vector(0.5f, 0.5f, 0.5f, 1.f);
+vector g_vMtrlAmbient = vector(0.7f, 0.7f, 0.7f, 1.f);
 vector g_vMtrlSpecular = vector(1.0f, 1.0f, 1.0f, 1.f);
 
 texture2D g_DiffuseTexture;
@@ -89,6 +89,9 @@ PS_OUT PS_MAIN(PS_IN In)
     float3 vFinalColor = 
     (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
     
+    
+    if(fAlpha < 0.1f)
+        discard;
     
     Out.vColor = float4(vFinalColor, fAlpha);
     

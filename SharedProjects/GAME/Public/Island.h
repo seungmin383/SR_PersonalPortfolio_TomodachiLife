@@ -18,6 +18,7 @@ public:
 	{
 		
 	}ISLAND_DESC;
+
 protected:
 	CIsland(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CIsland(const CIsland& rhs);
@@ -33,6 +34,8 @@ public:
 
 	virtual HRESULT Render()override;
 
+	void Calc_Object_Place_Point();
+
 private:
 	HRESULT Ready_Component();
 	HRESULT Bind_ShaderResources();
@@ -40,7 +43,7 @@ private:
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CModel* m_pModel = { nullptr };
-
+	vector<_float2> m_vObjectPlaceVertices;
 public:
 	static CIsland* Create(
 		ID3D11Device* pDevice,

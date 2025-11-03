@@ -14,13 +14,8 @@ private:
 
 public:
 	HRESULT Change_Place(
-		Engine::RETAIN_POLICY Policy,
 		uint32_t PlaceID, 
 		CPlace* pPlace);
-
-	HRESULT Return_Place();
-
-	HRESULT Clear_Place();
 
 public:
 	int32_t Update(_float fDT);
@@ -28,8 +23,8 @@ public:
 	HRESULT Render_Late();
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
-	vector<CPlace*> m_pPlaces;
-	vector<uint32_t> m_iPlaceID;
+	CPlace* m_pPlace = { nullptr };
+	uint32_t m_iPlaceID = {};
 
 public:
 	static CPlaceManager* Create();

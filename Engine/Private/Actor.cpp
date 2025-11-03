@@ -33,7 +33,9 @@ HRESULT CActor::Initialize_Clone(void* pArg)
 	m_fCX = pActorDesc->fCX;
 	m_fCY = pActorDesc->fCY;
 	m_fCZ = pActorDesc->fCZ;
-	 
+
+	m_eRenderGroup = pActorDesc->eRenderGroup;
+
 	m_pTransformCom->Set_Scale(m_fCX, m_fCY, m_fCZ);
 	m_pTransformCom->Set_State(TRANSFORM_STATE::POS,
 		XMVectorSet(
@@ -60,6 +62,7 @@ int32_t CActor::Update(_float fDT)
  
 void CActor::Update_Late(_float fDT)
 {
+	m_pGameInstance->RenderManager_Add_RenderGroup(m_eRenderGroup, this);
 	return;
 }
 

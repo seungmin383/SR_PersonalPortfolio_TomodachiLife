@@ -283,15 +283,9 @@ HRESULT CGameInstance::RenderManager_Add_RenderGroup(RENDER_GROUP _RenderGroup, 
 
 inline HRESULT CGameInstance::PlaceManager_Change_Place(
 	uint32_t PlaceID, 
-	RETAIN_POLICY Policy, 
 	CPlace* pPlace)
 {
-	return m_pPlaceManager->Change_Place(Policy, PlaceID, pPlace);
-}
-
-inline HRESULT CGameInstance::PlaceManager_Return_Place()
-{
-	return m_pPlaceManager->Return_Place();
+	return m_pPlaceManager->Change_Place(PlaceID, pPlace);
 }
 
 #pragma endregion

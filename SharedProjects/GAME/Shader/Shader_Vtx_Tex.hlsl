@@ -3,7 +3,8 @@ matrix g_WorldMatrix; // 월드 매트릭스
 matrix g_ViewMatrix; // 뷰 매트릭스
 matrix g_ProjMatrix; // 투영 매트릭스
 
-Texture2D g_Texture;
+Texture2D g_Texture : register(t0);
+Texture2D g_OutlineTexture : register(t1);
 
 float2 g_vData = 1.f;
 
@@ -63,12 +64,16 @@ struct PS_OUT
 PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
+    
+    float4 OutLineCol = g_OutlineTexture.Sample(DefaultSampler, In.vTexcoord);
     float4 col = g_Texture.Sample(DefaultSampler, In.vTexcoord);
 
-    if(col.a < 0.1f)
+    float4 Color = (1.f - OutLineCol) * col + OutLineCol * float4(1.0f, 0.423f, 0.051f, 1.0f);
+
+    if(Color.a < 0.1f)
         discard;
-    
-    Out.vColor = col;
+  
+    Out.vColor = Color;
     return Out;
 }
 
@@ -81,7 +86,7 @@ PS_OUT PS_MAIN(PS_IN In)
 
 technique11 DefaultTechnique
 {
-    pass Default
+    pass Button
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();

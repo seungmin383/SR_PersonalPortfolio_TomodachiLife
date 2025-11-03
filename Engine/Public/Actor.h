@@ -19,6 +19,7 @@ public:
 		_float fCY = {};
 		_float fCZ = {};
 
+		RENDER_GROUP eRenderGroup;
 	}ACTOR_DESC;
 
 protected:
@@ -47,6 +48,8 @@ protected:
 	_float m_fCX = {};
 	_float m_fCY = {};
 	_float m_fCZ = {};
+
+	RENDER_GROUP m_eRenderGroup = { RENDER_GROUP::END };
 
 protected:
 	HRESULT Add_Component(

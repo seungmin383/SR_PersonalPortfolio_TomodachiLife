@@ -25,16 +25,6 @@ HRESULT CPlace_Main::Initialize()
 
 int32_t CPlace_Main::Update(_float fDT)
 {
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
-		m_pGameInstance->PlaceManager_Change_Place(
-			static_cast<uint32_t>(PLACE_ID::SETTING),
-			Engine::RETAIN_POLICY::CLEAR_ALL,
-			CPlace_Loading::Create(
-				m_pDevice,
-				m_pContext,
-				PLACE_ID::SETTING,
-				RETAIN_POLICY::CLEAR_LOADING));
-
 	return 0;
 }
 
