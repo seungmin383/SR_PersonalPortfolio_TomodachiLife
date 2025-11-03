@@ -79,6 +79,9 @@
     <Filter Include="01.Actor\00.Island\01.Environment">
       <UniqueIdentifier>{2874adf0-a9bb-4242-9332-67d9062f1cb6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.UI\02.BackGround">
+      <UniqueIdentifier>{2d1ab535-d50c-48d0-9f8c-bbc0020a5ff5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -140,6 +143,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SkyAndSea.h">
       <Filter>01.Actor\00.Island\01.Environment</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\BackGround.h">
+      <Filter>02.UI\02.BackGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -183,6 +189,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SkyAndSea.cpp">
       <Filter>01.Actor\00.Island\01.Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\BackGround.cpp">
+      <Filter>02.UI\02.BackGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

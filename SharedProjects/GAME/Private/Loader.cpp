@@ -7,6 +7,7 @@
 #include "WorldCamera.h"
 #include "UICamera.h"
 #include "PlaceMoveButton.h"
+#include "BackGround.h"
 
 USING(Engine)
 
@@ -569,6 +570,21 @@ HRESULT CLoader::Loading_Island()
 				tmp)))
 				return E_FAIL;
 		}
+
+		// ProtoTag_Component_BackGround_Texture
+		{
+			tmp = CTextureCom::Create(
+				m_pDevice,
+				m_pContext,
+				TEXT("../../Resource/Textures/UIBackGorund/UIBackGround.png"),
+				1);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_Component_BackGround_Texture"),
+				tmp)))
+				return E_FAIL;
+		}
 	}
 
 	// Actor
@@ -611,6 +627,19 @@ HRESULT CLoader::Loading_Island()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::ISLAND),
 				TEXT("ProtoTag_UI_PlaceMoveButton"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_UI_BackGround
+		{
+			tmp = CBackGround::Create(
+				m_pDevice,
+				m_pContext);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_UI_BackGround"),
 				tmp)))
 				return E_FAIL;
 		}

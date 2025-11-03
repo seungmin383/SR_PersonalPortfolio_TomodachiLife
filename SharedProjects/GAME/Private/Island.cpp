@@ -70,7 +70,7 @@ HRESULT CIsland::Render()
 
 void CIsland::Calc_Object_Place_Point()
 {
-	m_vObjectPlaceVertices
+	//m_vObjectPlaceVertices
 }
 
 HRESULT CIsland::Ready_Component()

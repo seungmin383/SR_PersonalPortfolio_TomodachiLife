@@ -77,6 +77,22 @@ PS_OUT PS_MAIN(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_MAIN1(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float4 col = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    
+    if (col.a < 0.1f)
+        discard;
+  
+    float Darkness = 1.2f;
+    
+    col.rgb = col.rgb * Darkness;
+    
+    Out.vColor = col;
+    return Out;
+}
 //그래픽 카드 사면 이 그래픽 카드는 쉐이더 버전 스펙이 있다 지원해주는
 //패스 : 렌더링 기법의 캡슐화 (모아둘께요)
 /*
@@ -90,5 +106,11 @@ technique11 DefaultTechnique
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();
+    }
+
+    pass BackGround
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_MAIN1();
     }
 }

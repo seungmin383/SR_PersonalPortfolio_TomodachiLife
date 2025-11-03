@@ -44,6 +44,7 @@ private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CModel* m_pModel = { nullptr };
 	vector<_float2> m_vObjectPlaceVertices;
+
 public:
 	static CIsland* Create(
 		ID3D11Device* pDevice,

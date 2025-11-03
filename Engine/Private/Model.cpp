@@ -91,6 +91,7 @@ HRESULT CModel::Ready_Meshes()
 	for (uint64_t i = 0; i < m_iNumMesh; i++)
 	{
 		m_pAIScene->mMeshes[i]->mName;
+
 		CMesh* pMesh = 
 			CMesh::Create(
 				m_pDevice,
@@ -113,7 +114,6 @@ HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 
 	for (uint64_t i = 0; i < m_iNumMaterial; i++)
 	{
-
 		CMaterial* pMaterial =
 			CMaterial::Create(
 				m_pDevice,

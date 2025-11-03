@@ -18,6 +18,7 @@ public:
 
 public:
 	uint32_t Get_MaterialIndex() { return m_iMaterialIndex; }
+
 private:
 	uint32_t m_iMaterialIndex = {};
 

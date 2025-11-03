@@ -7,7 +7,7 @@
 #include "Island.h"
 #include "SkyAndSea.h"
 #include "PlaceMoveButton.h"
-
+#include "BackGround.h"
 
 CPlace_Island::CPlace_Island(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -116,8 +116,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 // ProtoTag_UI_PlaceMoveButton
 	 {
 	 	CPlaceMoveButton::PLACEMOVEBUTTON_DESC tPlaceMoveButtonDesc = {};
-	 	tPlaceMoveButtonDesc.fX = 300.f;
-	 	tPlaceMoveButtonDesc.fY = 300.f;
+	 	tPlaceMoveButtonDesc.fX = 480.f;
+	 	tPlaceMoveButtonDesc.fY = 240.f;
 	 	tPlaceMoveButtonDesc.fCX = 100.f;
 	 	tPlaceMoveButtonDesc.fCY = 100.f;
 	 	tPlaceMoveButtonDesc.fSpeedPerSecond = 0.f;
@@ -140,7 +140,33 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 		return E_FAIL;
 	 	}
 	 }
-	
+
+
+	 // ProtoTag_UI_BackGround
+	 {
+		 CBackGround::BACKGROUND_DESC tBackGroundDesc = {};
+		 tBackGroundDesc.fX = 480.f;
+		 tBackGroundDesc.fY = 240.f;
+		 tBackGroundDesc.fCX = 960.f;
+		 tBackGroundDesc.fCY = 480.f;
+		 tBackGroundDesc.fSpeedPerSecond = 0.f;
+		 tBackGroundDesc.fRotationPerSecond = XMConvertToRadians(0.f);
+		 tBackGroundDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("ProtoTag_UI_BackGround"),
+			 &tBackGroundDesc);
+
+		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("LayerTag_UI"),
+			 tmp)))
+		 {
+			 Safe_Release(tmp);
+			 return E_FAIL;
+		 }
+	 }
 	
 	return S_OK;
 }

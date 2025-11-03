@@ -32,6 +32,7 @@ public:
 
 public:
 	uint32_t Get_NumMesh() { return m_iNumMesh; }
+	void Get_Meshes_Vertices(_wstring MeshName, vector<_float2>& Out);
 
 private:
 	Assimp::Importer m_Importer = {};
