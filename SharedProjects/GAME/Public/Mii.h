@@ -1,6 +1,7 @@
 #pragma once
 #include "Game_Defines.h"
 #include "Actor.h"
+#include "ConvertJson.h"
 
 NS_BEGIN(Engine)
 
@@ -42,6 +43,8 @@ private:
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CModel* m_pModelCom = { nullptr };
+
+	MII_INFO m_eInfo = {};
 
 public:
 	static CMii* Create(

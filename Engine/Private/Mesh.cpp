@@ -25,6 +25,9 @@ HRESULT CMesh::Initialize_Origin(
 	m_iIndexStride = 4;												//인덱스 하나의 크기
 
 	m_ePrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+	m_pVertexPositions = new _float3[m_iNumVertices];
+
+	ZeroMemory(m_pVertexPositions, sizeof(_float3) * m_iNumVertices);
 
 	switch (eAnimType)
 	{
@@ -187,6 +190,9 @@ HRESULT CMesh::Ready_NoneAnimMesh(const aiMesh* pAIMesh, FXMMATRIX InitTransform
 		XMStoreFloat3(&pVertices[i].vNormal, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), InitTransformMatrix));
 
 		// Tangent
+		if (pAIMesh->mTangents == NULL)
+			continue;
+
 		memcpy(&pVertices[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
 		XMStoreFloat3(&pVertices[i].vTangent, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vTangent), InitTransformMatrix));
 

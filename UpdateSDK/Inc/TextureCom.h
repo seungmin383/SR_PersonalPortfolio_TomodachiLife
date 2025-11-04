@@ -52,6 +52,11 @@ public:
 	HRESULT Bind_ShaderResources(
 		CShaderCom* pShader,
 		const _char* pConstantName);
+
+public:
+	const uint32_t Get_NumTexture() { return m_iNumTextures; }
+	ID3D11ShaderResourceView* Get_Texture(uint32_t iIndex) { return m_Textures[iIndex]; }
+
 private:
 	uint32_t m_iNumTextures = {};
 

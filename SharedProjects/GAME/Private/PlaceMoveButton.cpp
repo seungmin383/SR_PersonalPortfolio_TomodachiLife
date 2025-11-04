@@ -143,13 +143,13 @@ HRESULT CPlaceMoveButton::Bind_ShaderResources()
 	m_pTextureCom->Bind_ShaderResource(
 		m_pShaderCom,
 		"g_Texture",
-		0);
+		m_iTextureNum);
 
 	// ¼±ÅÃ µÆ´ÂÁö ¾ÈµÆ´ÂÁö
 	m_pOutlineTextureCom->Bind_ShaderResource(
 		m_pShaderCom,
 		"g_OutlineTexture",
-		0);
+		5);
 
 	return hr;
 }

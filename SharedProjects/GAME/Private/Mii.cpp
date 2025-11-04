@@ -18,6 +18,17 @@ HRESULT CMii::Initialize_Origin()
 
 HRESULT CMii::Initialize_Clone(void* pArg)
 {
+	m_eInfo.arrEyebrowState[0] = 1;
+	m_eInfo.fFat = 1.f;
+
+	nlohmann::json j = {};
+
+	m_pGameInstance->FileManager_Read_File(
+		"../../SharedProjects/GAME/GameData/Mii_Data.json",
+		j);
+
+	m_eInfo = j.get<MII_INFO>();
+
 	if (FAILED(CActor::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -29,11 +40,22 @@ HRESULT CMii::Initialize_Clone(void* pArg)
 
 int32_t CMii::Update_Priority(_float fDT)
 {
+	if (m_pGameInstance->Get_DIKeyState(DIK_H) & 0x8000)
+	{
+		MSG_BOX("µÆ³ª?");
+
+		nlohmann::json j = m_eInfo;
+		m_pGameInstance->FileManager_Write_File(
+			"../../SharedProjects/GAME/GameData/Mii_Data.json",
+			j);
+	}
+
 	return 0;
 }
 
 int32_t CMii::Update(_float fDT)
 {
+	cout << m_eInfo.iGender << endl;
 	return 0;
 }
 

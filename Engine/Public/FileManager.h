@@ -10,20 +10,37 @@ private:
 	virtual ~CFileManager() = default;
 
 public:
-	HRESULT Initialize(const _char* ConfigFilePath);
+	HRESULT Initialize(
+		const _char* ConfigFilePath);
 	
-	HRESULT Read_JsonFile(
-		const _char* szJsonFilePath,
-		Json::Value* pOut);
+	HRESULT Read_File(
+		const string& strFilePath,
+		nlohmann::json& pOut);
 
+	HRESULT Write_File(
+		const string& strFilePath,
+		nlohmann::json& Data);
 	
+public:
+	const nlohmann::json& Get_Data(const string& strFilePath)
+	{
+		auto iter = m_DataMap.find(strFilePath);
+		if (iter == m_DataMap.end())
+		{
+			return NULL;
+		}
+		return iter->second;
+	}
+
 private:
 	nlohmann::json m_InitData = {};
-
-	vector<nlohmann::json*>m_vecData;
+	uint32_t m_iNumFiles = {};
+	map<string, nlohmann::json> m_DataMap;
 
 public:
-	static CFileManager* Create(const _char* ConfigFilePath);
+	static CFileManager* Create(
+		const _char* ConfigFilePath);
+
 	virtual void Free()override;
 };
 

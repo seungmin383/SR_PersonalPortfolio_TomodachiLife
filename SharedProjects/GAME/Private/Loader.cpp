@@ -8,7 +8,7 @@
 #include "UICamera.h"
 #include "PlaceMoveButton.h"
 #include "BackGround.h"
-#include "Mii.h"
+#include "Apart.h"
 
 USING(Engine)
 
@@ -563,6 +563,26 @@ HRESULT CLoader::Loading_Island()
 				tmp)))
 				return E_FAIL;
 		}
+
+		// ProtoTag_Component_Apart_Model
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+			tmp = CModel::Create(
+				m_pDevice,
+				m_pContext,
+				ANIM_TYPE::NONEANIM,
+				"../../Resource/00Model/Actor - Apart/apart1.fbx",
+				initMatrix);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_Component_Apart_Model"),
+				tmp)))
+				return E_FAIL;
+		}
+
 		// ProtoTag_Component_Mesh_Shader
 		{
 			tmp = CShaderCom::Create(
@@ -600,7 +620,7 @@ HRESULT CLoader::Loading_Island()
 				m_pDevice,
 				m_pContext,
 				TEXT("../../Resource/Textures/OutLine/OutLine%d.dds"),
-				5);
+				6);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::ISLAND),
@@ -649,6 +669,19 @@ HRESULT CLoader::Loading_Island()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::ISLAND),
 				TEXT("ProtoTag_Actor_SkyAndSea"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Actor_Apart
+		{
+			tmp = CApart::Create(
+				m_pDevice,
+				m_pContext);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_Actor_Apart"),
 				tmp)))
 				return E_FAIL;
 		}

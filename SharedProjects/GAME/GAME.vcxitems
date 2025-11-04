@@ -20,11 +20,14 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Test.hlsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Apart.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BackGround.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ConvertJson.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Loader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Mii.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Apart.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Island.cpp" />
@@ -38,12 +41,16 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\WorldCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Apart.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BackGround.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ConvertJson.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Defines.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Struct.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Loader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Mii.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlaceMoveButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Apart.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Island.h" />
@@ -58,9 +65,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)GameData\config.json" />
-    <None Include="$(MSBuildThisFileDirectory)GameData\objects\object1.json" />
-    <None Include="$(MSBuildThisFileDirectory)GameData\schema\object.schema.json" />
-    <None Include="$(MSBuildThisFileDirectory)GameData\schema\ui.schema.json" />
-    <None Include="$(MSBuildThisFileDirectory)GameData\ui\ui1.json" />
   </ItemGroup>
 </Project>

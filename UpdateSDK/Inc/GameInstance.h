@@ -172,7 +172,16 @@ public:
 #pragma endregion
 
 #pragma region FILEMANAGER
+public:
+	HRESULT FileManager_Read_File(
+		const string& strFilePath,
+		nlohmann::json& pOut);
 
+	HRESULT FileManager_Write_File(
+		const string& strFilePath,
+		nlohmann::json& Data);
+
+	const nlohmann::json& FileManager_Get_Data(const string& strFilePath);
 #pragma endregion
 
 private:

@@ -31,34 +31,34 @@ HRESULT CWorldCamera::Initialize_Clone(void* pArg)
 
 int32_t CWorldCamera::Update_Priority(_float fDT)
 {
-	/*if (m_pGameInstance->Get_DIKeyState(DIK_W) & 0x80)
-	{
-		m_pTransformCom->Go_Straight(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_A) & 0x80)
-	{
-		m_pTransformCom->Go_Left(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_S) & 0x80)
-	{
-		m_pTransformCom->Go_Backward(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_D) & 0x80)
-	{
-		m_pTransformCom->Go_Right(fDT);
-	}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_W) & 0x80)
+	//{
+	//	m_pTransformCom->Go_Straight(fDT);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_A) & 0x80)
+	//{
+	//	m_pTransformCom->Go_Left(fDT);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_S) & 0x80)
+	//{
+	//	m_pTransformCom->Go_Backward(fDT);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_D) & 0x80)
+	//{
+	//	m_pTransformCom->Go_Right(fDT);
+	//}
 
-	_long    MouseMove = {};
+	//_long    MouseMove = {};
 
-	if (MouseMove = m_pGameInstance->Get_DIMouseMove(MOUSEMOVESTATE::X))
-	{
-		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_fSensor * MouseMove * fDT);
-	}
+	//if (MouseMove = m_pGameInstance->Get_DIMouseMove(MOUSEMOVESTATE::X))
+	//{
+	//	m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_fSensor * MouseMove * fDT);
+	//}
 
-	if (MouseMove = m_pGameInstance->Get_DIMouseMove(MOUSEMOVESTATE::Y))
-	{
-		m_pTransformCom->Turn(m_pTransformCom->Get_State(TRANSFORM_STATE::RIGHT), m_fSensor * MouseMove * fDT);
-	}*/
+	//if (MouseMove = m_pGameInstance->Get_DIMouseMove(MOUSEMOVESTATE::Y))
+	//{
+	//	m_pTransformCom->Turn(m_pTransformCom->Get_State(TRANSFORM_STATE::RIGHT), m_fSensor * MouseMove * fDT);
+	//}
 
 	return 0;
 }

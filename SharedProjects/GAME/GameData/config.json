@@ -1,24 +1,5 @@
 {
-    "NumFilePath": 1,
-    "ObjectDataFilePath": "../../SharedProjects/GAME/GameData/objects/object1.json",
-    "tmp": [
-        {
-            "HP": 100,
-            "Pos": [
-                0,
-                1,
-                2
-            ],
-            "ProtoTag": "Player"
-        },
-        {
-            "HP": 50,
-            "Pos": [
-                5,
-                0,
-                3
-            ],
-            "ProtoTag": "Enemy"
-        }
-    ]
+  "FilePath": [
+    "../../SharedProjects/GAME/GameData/Mii_Data.json"
+  ]
 }

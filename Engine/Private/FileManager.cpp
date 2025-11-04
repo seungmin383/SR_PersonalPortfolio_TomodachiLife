@@ -4,54 +4,41 @@ CFileManager::CFileManager()
 {
 }
 
-HRESULT CFileManager::Initialize(const _char* ConfigFilePath)
+HRESULT CFileManager::Initialize(
+	const _char* ConfigFilePath)
 {
-	// Open Config.json
 	ifstream fInput(ConfigFilePath);
 	
 	if (!fInput.is_open())
 	{
-		MSG_BOX("ErrCode : Config File Load Failed");
+		MSG_BOX("ErrCode : Config File Read Failed");
 		return E_FAIL;
 	}
 
 	fInput >> m_InitData;
 
-	// 저장된 json 경로들 불러오기
-	uint32_t iNumFiles = {};
-	if (m_InitData.contains("NumFilePath"))
+	
+	m_iNumFiles = m_InitData["FilePath"].size();
+
+
+	for (uint32_t i = 0; i < m_iNumFiles; i++)
 	{
-		iNumFiles = m_InitData["NumFilePath"].get<uint32_t>();
-	}
-
-	m_InitData["tmp"] = nlohmann::json::array();
-	m_InitData["tmp"].push_back({ {"ProtoTag","Player"},{"Pos",{0,1,2}},{"HP",100} });
-	m_InitData["tmp"].push_back({ {"ProtoTag","Enemy"},{"Pos",{5,0,3}},{"HP",50} });
-
-
-	for (uint32_t i = 0; i < iNumFiles; i++)
-	{
+		string strFilePath = m_InitData["FilePath"][i].get<string>();
+		nlohmann::json tmp = {};
+		Read_File(strFilePath, tmp);
+		m_DataMap.emplace(strFilePath, tmp);
 	}
 
 	fInput.close();
 
-	ofstream fOutput(ConfigFilePath);
-	if (!fOutput.is_open())
-	{
-		MSG_BOX("ErrCode : Config json Open Failed");
-		return E_FAIL;
-	}
-	fOutput << m_InitData.dump(4);
-	fOutput.close();
-
 	return S_OK;
 }
 
-HRESULT CFileManager::Read_JsonFile(
-	const _char* szJsonFilePath,
-	Json::Value* pOut)
+HRESULT CFileManager::Read_File(
+	const string& strFilePath,
+	nlohmann::json& pOut)
 {
-	ifstream fInput(szJsonFilePath);
+	ifstream fInput(strFilePath);
 
 	if (!fInput.is_open())
 	{
@@ -59,15 +46,29 @@ HRESULT CFileManager::Read_JsonFile(
 		return E_FAIL;
 	}
 
-	fInput >> *pOut;
-	
+	fInput >> pOut;
 	fInput.close();
+	return S_OK;
+}
 
+HRESULT CFileManager::Write_File(
+	const string& strFilePath, 
+	nlohmann::json& Data)
+{
+	ofstream fOutput(strFilePath);
+	if (!fOutput.is_open())
+	{
+		MSG_BOX("ErrCode : File Read Failed");
+		return E_FAIL;
+	}
+	fOutput << (Data).dump(4);
+	fOutput.close();
 
 	return S_OK;
 }
 
-CFileManager* CFileManager::Create(const _char* ConfigFilePath)
+CFileManager* CFileManager::Create(
+	const _char* ConfigFilePath)
 {
 	CFileManager* pInstance = new CFileManager;
 	

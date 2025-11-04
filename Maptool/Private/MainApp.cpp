@@ -50,8 +50,6 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Static()))
 		return E_FAIL;
 
-	if (FAILED(m_pImguiManager->Initialize_Imgui(m_pDevice, m_pContext)))
-		return E_FAIL;
 
 	// 다 지우고 다음 씬으로 넘어가고 싶다.
 	if (FAILED(m_pGameInstance->PlaceManager_Change_Place(
@@ -62,6 +60,9 @@ HRESULT CMainApp::Initialize()
 			PLACE_ID::ISLAND))))		// 로딩씬을 지우고
 		return E_FAIL;
 
+
+	if (FAILED(m_pImguiManager->Initialize_Imgui(m_pDevice, m_pContext)))
+		return E_FAIL;
 
 	return S_OK;
 }

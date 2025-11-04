@@ -101,9 +101,9 @@ void CMouseManager::Calc_Pos()
 	{
 		m_vMousePos.y -= m_iViewportCY;
 	}
-	std::cout << "Mouse X : " << m_vCalcMousePos.x << " / Mouse Y : " << m_vCalcMousePos.y << endl;
+	// std::cout << "Mouse X : " << m_vCalcMousePos.x << " / Mouse Y : " << m_vCalcMousePos.y << endl;
 	// std::cout << m_iViewportCY << endl;
-	// std::cout << "Mouse X : " << m_vMousePos.x << " / Mouse Y : " << m_vMousePos.y << endl;
+	std::cout << "Mouse X : " << m_vMousePos.x << " / Mouse Y : " << m_vMousePos.y << endl;
 }
 
 CMouseManager* CMouseManager::Create(HWND hWnd, uint32_t ViewportCY)

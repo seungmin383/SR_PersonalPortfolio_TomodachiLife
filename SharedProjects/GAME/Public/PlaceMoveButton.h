@@ -17,6 +17,7 @@ public:
 	{
 		PLACE_ID eNextPlace = {};
 		uint32_t iTextureNum = {};
+		uint32_t iSelectedTextureNum = {};
 
 	}PLACEMOVEBUTTON_DESC;
 
@@ -50,6 +51,11 @@ private:
 	PLACE_ID	m_eNextPlaceID = { PLACE_ID::END };
 	uint32_t	m_iTextureNum = {};
 	uint32_t	m_iOutlineTextureNum = {};
+
+	uint32_t m_iSelectedTextureNum = {};
+	_bool m_isSelected = { FALSE };
+
+	_bool m_isUnlock = { FALSE };
 
 public:
 	static CPlaceMoveButton* Create(

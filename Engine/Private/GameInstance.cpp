@@ -430,12 +430,28 @@ const _bool CGameInstance::MouseManager_Get_isPressStartRBT()
 {
 	return m_pMouseManager->Get_isPressStartRBT();
 }
-
 #pragma endregion
 
 #pragma region FILEMANAGER
 
+HRESULT CGameInstance::FileManager_Read_File(const string& strFilePath, nlohmann::json& pOut)
+{
+	return m_pFileManager->Read_File(strFilePath, pOut);
+}
+
+HRESULT CGameInstance::FileManager_Write_File(const string& strFilePath, nlohmann::json& Data)
+{
+	return m_pFileManager->Write_File(strFilePath, Data);
+}
+
+const nlohmann::json& CGameInstance::FileManager_Get_Data(const string& strFilePath)
+{
+	return m_pFileManager->Get_Data(strFilePath);
+}
+
 #pragma endregion
+
+
 
 
 

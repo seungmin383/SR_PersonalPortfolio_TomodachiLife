@@ -15,11 +15,11 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	// AllocConsole();                          // 콘솔 창 생성
-	// FILE* fp;
-	// freopen_s(&fp, "CONOUT$", "w", stdout);  // 표준 출력(stdout)을 콘솔로 리디렉션
-	// freopen_s(&fp, "CONOUT$", "w", stderr);  // 표준 에러(stderr)도 콘솔로 리디렉션
-	// freopen_s(&fp, "CONIN$", "r", stdin);    // 표준 입력(stdin)도 콘솔로 리디렉션
+	 //AllocConsole();                          // 콘솔 창 생성
+	 //FILE* fp;
+	 //freopen_s(&fp, "CONOUT$", "w", stdout);  // 표준 출력(stdout)을 콘솔로 리디렉션
+	 //freopen_s(&fp, "CONOUT$", "w", stderr);  // 표준 에러(stderr)도 콘솔로 리디렉션
+	 //freopen_s(&fp, "CONIN$", "r", stdin);    // 표준 입력(stdin)도 콘솔로 리디렉션
 
 	ENGINE_DESC EngineDesc = {};
 	EngineDesc.hWnd = g_hWnd;
@@ -149,8 +149,8 @@ HRESULT CMainApp::Ready_Static()
 			tWorldCameraDesc.fHeight = static_cast<_float>(WINCY / 2);
 			tWorldCameraDesc.fSpeedPerSecond = 5.f;
 			tWorldCameraDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-			tWorldCameraDesc.vEye = _float3(0.f, 10.f, -10.f);
-			tWorldCameraDesc.vAt = _float3(0.f, 0.f, 0.f);
+			tWorldCameraDesc.vEye = _float3(2.f, 5.f, -30.f);
+			tWorldCameraDesc.vAt = _float3(2.f, 0.f, 0.f);
 			tWorldCameraDesc.fCX = 1.f;
 			tWorldCameraDesc.fCY = 1.f;
 			tWorldCameraDesc.fCZ = 1.f;

@@ -18,8 +18,6 @@
 
 #include <d3dcompiler.h>
 
-#include <json/json.h>
-
 #include <json/json.hpp>
 
 #include <vector>

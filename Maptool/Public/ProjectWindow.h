@@ -19,6 +19,7 @@ private:
 	void Stuck_Window();
 	void Ready_Lists(const _char* ListName);
 	void Ready_Tabs();
+	void Show_Texture_list(uint32_t iPlaceID, _wstring ProtoTag);
 
 private:
 	RECT m_MainWindowRc = {};
@@ -31,6 +32,10 @@ private:
 	ImGuiWindowFlags m_flags = {};
 	ImGuiTabBarFlags m_TabBarFlag = {};
  
+private:
+	vector<const char*> m_ItemNames;
+
+
 public:
 	static CProjectWindow* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free()override;

@@ -8,7 +8,7 @@ vector g_vCamPosition;
 vector g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
 vector g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
 vector g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
-vector g_vLightSpecular = vector(1.f, 1.f, 1.f, 1.f);
+vector g_vLightSpecular = vector(0.f, 0.f, 0.f, 0.f);
 
 vector g_vMtrlAmbient = vector(0.7f, 0.7f, 0.7f, 1.f);
 vector g_vMtrlSpecular = vector(1.0f, 1.0f, 1.0f, 1.f);
@@ -84,7 +84,7 @@ PS_OUT PS_MAIN(PS_IN In)
     
     float4 vLook = In.vWorldPosition - g_vCamPosition;
     float4 vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
-    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 100);
+    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 1000);
     
     float3 vFinalColor = 
     (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;

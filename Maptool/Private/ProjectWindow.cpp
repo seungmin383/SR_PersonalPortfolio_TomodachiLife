@@ -1,4 +1,7 @@
 #include "ProjectWindow.h"
+#include "Object.h"
+#include "GameInstance.h"
+#include "Prototype.h"
 
 CProjectWindow::CProjectWindow(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CImgWin(pDevice, pContext)
@@ -19,9 +22,12 @@ void CProjectWindow::Update_Priority(_float fDT)
 	Stuck_Window();
 
 	ImGui::Begin(UTF8("<< 프로젝트 윈도우 >>"), nullptr, m_flags);
+    
+    static bool s_ShowDemo = true;
+
+    ImGui::ShowDemoWindow(&s_ShowDemo);
 
     Ready_Tabs();
-
 }
 
 void CProjectWindow::Update(_float fDT)
@@ -238,6 +244,22 @@ void CProjectWindow::Ready_Tabs()
      //   }
      //   ImGui::TreePop();
      //}
+    
+}
+// ProtoTag_Component_PlaceMoveButton_Texture
+void CProjectWindow::Show_Texture_list(uint32_t iPlaceID, _wstring ProtoTag)
+{
+    CObject* tmp = { nullptr };
+
+    tmp = m_pGameInstance->Proto_Get_Object_Clone(
+        iPlaceID,
+        ProtoTag,
+        nullptr);
+
+    if (nullptr == tmp)
+        return;
+
+    CTextureCom* pTexture = dynamic_cast<CTextureCom*>(tmp);
     
 }
 

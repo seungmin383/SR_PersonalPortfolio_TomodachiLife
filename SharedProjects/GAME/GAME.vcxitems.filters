@@ -13,36 +13,6 @@
     <Filter Include="GameData">
       <UniqueIdentifier>{c6c25a81-ca87-4eb8-aecd-e67d0b2723a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameData\00.schema">
-      <UniqueIdentifier>{1b5e13ab-42bc-4da9-b7a4-d55dc9620143}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameData\01.object">
-      <UniqueIdentifier>{9654366f-8c01-40fc-887f-f4e5b967fc63}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameData\02.ui">
-      <UniqueIdentifier>{e93f651e-cfc7-4b44-8db9-94b31464c395}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place">
-      <UniqueIdentifier>{0e240cb9-2ef1-473d-96a5-fc786b030a5c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place\00.Main">
-      <UniqueIdentifier>{9bf7e86f-1655-4008-a5ee-be415e756569}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place\01.Setting">
-      <UniqueIdentifier>{f3582ffc-0e05-466e-9283-a6f2dd9a95ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place\02.MiiEditor">
-      <UniqueIdentifier>{943b54fd-af8b-47f8-b48b-24953d039080}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place\99.Loading">
-      <UniqueIdentifier>{3e30b2ca-97a5-4615-9cfa-5f5625c75ee6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place\99.Loading\Loader">
-      <UniqueIdentifier>{bb7c6c9d-00fe-4830-9855-7100d0982a82}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place\03.Place_Island">
-      <UniqueIdentifier>{78475139-eaf0-487f-8592-a49bcf4e0583}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Actor">
       <UniqueIdentifier>{febbbda0-87bc-4501-8d57-05e918d05832}</UniqueIdentifier>
     </Filter>
@@ -82,8 +52,38 @@
     <Filter Include="03.UI\02.BackGround">
       <UniqueIdentifier>{2d1ab535-d50c-48d0-9f8c-bbc0020a5ff5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.Place">
+      <UniqueIdentifier>{0e240cb9-2ef1-473d-96a5-fc786b030a5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\00.Main">
+      <UniqueIdentifier>{9bf7e86f-1655-4008-a5ee-be415e756569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\01.Setting">
+      <UniqueIdentifier>{f3582ffc-0e05-466e-9283-a6f2dd9a95ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\02.MiiEditor">
+      <UniqueIdentifier>{943b54fd-af8b-47f8-b48b-24953d039080}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\99.Loading">
+      <UniqueIdentifier>{3e30b2ca-97a5-4615-9cfa-5f5625c75ee6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\99.Loading\Loader">
+      <UniqueIdentifier>{bb7c6c9d-00fe-4830-9855-7100d0982a82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\03.Place_Island">
+      <UniqueIdentifier>{78475139-eaf0-487f-8592-a49bcf4e0583}</UniqueIdentifier>
+    </Filter>
     <Filter Include="00.Place\04.Place_Apart">
       <UniqueIdentifier>{f9c2eec9-1081-4242-b5f7-28b48c3cd65c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Manager\MiiManager">
+      <UniqueIdentifier>{9e28ff50-4901-491d-8668-2293e6804782}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\02.Apart">
+      <UniqueIdentifier>{ddfbbe56-c3da-44a9-ae7f-4ce7bdf3dc9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData\00.ConvertJson">
+      <UniqueIdentifier>{dbb028a7-ade3-4339-99d7-efebe914fe39}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +152,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Apart.h">
       <Filter>00.Place\04.Place_Apart</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiManager.h">
+      <Filter>00.Manager\MiiManager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Struct.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Apart.h">
+      <Filter>02.Actor\02.Apart</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ConvertJson.h">
+      <Filter>GameData\00.ConvertJson</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -202,22 +214,19 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Apart.cpp">
       <Filter>00.Place\04.Place_Apart</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiManager.cpp">
+      <Filter>00.Manager\MiiManager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Apart.cpp">
+      <Filter>02.Actor\02.Apart</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ConvertJson.cpp">
+      <Filter>GameData\00.ConvertJson</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)GameData\schema\object.schema.json">
-      <Filter>GameData\00.schema</Filter>
-    </None>
-    <None Include="$(MSBuildThisFileDirectory)GameData\objects\object1.json">
-      <Filter>GameData\01.object</Filter>
-    </None>
     <None Include="$(MSBuildThisFileDirectory)GameData\config.json">
       <Filter>GameData</Filter>
-    </None>
-    <None Include="$(MSBuildThisFileDirectory)GameData\ui\ui1.json">
-      <Filter>GameData\02.ui</Filter>
-    </None>
-    <None Include="$(MSBuildThisFileDirectory)GameData\schema\ui.schema.json">
-      <Filter>GameData\00.schema</Filter>
     </None>
   </ItemGroup>
 </Project>

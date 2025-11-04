@@ -55,8 +55,6 @@ void CImguiManager::Update_Imgui_Priority(_float fDT)
 	for (auto& ImguiWindow : m_ImguiWindows)
 		ImguiWindow->Update_Priority(fDT);
 
-	static bool show_demo = true;  // 처음엔 켜두기
-	ImGui::ShowDemoWindow(&show_demo);
 
 
 }
@@ -99,6 +97,7 @@ void CImguiManager::Render_Imgui()
 HRESULT CImguiManager::Ready_Imguies()
 {
 	CImgWin* pInstance = CProjectWindow::Create(m_pDevice, m_pContext);
+
 	if (nullptr == pInstance)
 		return E_FAIL;
 
