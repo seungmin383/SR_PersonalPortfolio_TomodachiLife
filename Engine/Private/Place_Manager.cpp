@@ -12,12 +12,14 @@ HRESULT CPlaceManager::Change_Place(
 	uint32_t PlaceID, 
 	CPlace* pPlace)
 {
+	if(nullptr != m_pPlace)
+		m_pGameInstance->Clear_Resources(m_iPlaceID);
+
 	m_iPlaceID = PlaceID;
 	Safe_Release(m_pPlace);
 	m_pPlace = pPlace;
 	return S_OK;
 }
-
 
 int32_t CPlaceManager::Update(_float fDT)
 {

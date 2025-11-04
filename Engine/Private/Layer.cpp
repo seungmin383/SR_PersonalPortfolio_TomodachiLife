@@ -14,7 +14,11 @@ HRESULT CLayer::Add_Object(CObject* pObject)
 int32_t CLayer::Update_Priority(_float fDT)
 {
 	for (auto& Object : m_ObjectList)
-		m_iFlag = Object->Update_Priority(fDT);
+	{
+		int32_t iFlag = Object->Update_Priority(fDT);
+		if (iFlag == PLACE_CHANGE)
+			return iFlag;
+	}
 
 	return 0;
 }
@@ -22,9 +26,13 @@ int32_t CLayer::Update_Priority(_float fDT)
 int32_t CLayer::Update(_float fDT)
 {
 	for (auto& Object : m_ObjectList)
-		m_iFlag = Object->Update(fDT);
+	{
+		int32_t iFlag = Object->Update(fDT);
+		if (iFlag == PLACE_CHANGE)
+			return iFlag;
+	}
 
-	return 0;
+	return UPDATE_OK;
 }
 void CLayer::Update_Late(_float fDT)
 {

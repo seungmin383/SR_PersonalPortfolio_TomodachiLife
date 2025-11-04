@@ -97,7 +97,23 @@ HRESULT CMainApp::Ready_Static()
 	 			tmp)))
 	 			return E_FAIL;
 	 	}
-	 	
+
+		// ProtoTag_Component_VtxMeshShader
+		{
+			tmp = CShaderCom::Create(
+				m_pDevice,
+				m_pContext,
+				TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Mesh.hlsl"),
+				Engine::VTX_TEX_MESH::Elements,
+				Engine::VTX_TEX_MESH::iNumElements);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::STATIC),
+				TEXT("ProtoTag_Component_VtxMeshShader"),
+				tmp)))
+				return E_FAIL;
+		}
+
 	 	// ProtoTag_Component_RectBuffer
 	 	{
 	 		tmp = CRectBufferCom::Create(m_pDevice, m_pContext);
@@ -108,7 +124,7 @@ HRESULT CMainApp::Ready_Static()
 	 			tmp)))
 	 			return E_FAIL;
 	 	}
-	 
+
 	 }
 
 	// Actor

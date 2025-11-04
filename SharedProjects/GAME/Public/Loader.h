@@ -72,7 +72,7 @@ private:
 	HRESULT Loading_For_Connect_Tent();
 	HRESULT Loading_For_Connect_Port();
 
-	HRESULT Loading_For_Live_Apartment();
+	HRESULT Loading_Apart();
 	HRESULT Loading_For_Live_Wedding_House();
 
 	HRESULT Loading_Island();

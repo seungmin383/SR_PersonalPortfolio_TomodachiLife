@@ -22,7 +22,6 @@ public:
 
 private:
 	list<CObject*> m_ObjectList;
-	int32_t  m_iFlag = { };
 
 public:
 	static CLayer* Create();

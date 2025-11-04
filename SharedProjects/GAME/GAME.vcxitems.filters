@@ -4,56 +4,8 @@
     <Filter Include="00.Manager">
       <UniqueIdentifier>{7d2e0689-80ad-4ec2-b227-e424708fe650}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Actor">
-      <UniqueIdentifier>{febbbda0-87bc-4501-8d57-05e918d05832}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.UI">
-      <UniqueIdentifier>{c9fc8f04-9edd-4ed5-b7db-821663fd95f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Place">
-      <UniqueIdentifier>{0e240cb9-2ef1-473d-96a5-fc786b030a5c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Shader">
       <UniqueIdentifier>{af548c31-02b7-42cc-86e0-521800aa8df5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.UI\00.Food">
-      <UniqueIdentifier>{f3ca4eda-82cd-4478-90d5-4770e9b366b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Actor\00.Island">
-      <UniqueIdentifier>{8f0dd0ca-76b3-41e8-8ba3-ad0b0689c3be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Actor\01.Mii">
-      <UniqueIdentifier>{4525ee75-8379-45e1-8b7c-b94af57b9c94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Place\00.Main">
-      <UniqueIdentifier>{9bf7e86f-1655-4008-a5ee-be415e756569}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Place\01.Setting">
-      <UniqueIdentifier>{f3582ffc-0e05-466e-9283-a6f2dd9a95ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Place\02.MiiEditor">
-      <UniqueIdentifier>{943b54fd-af8b-47f8-b48b-24953d039080}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Actor\99.Camera">
-      <UniqueIdentifier>{d0b085be-bc55-4a25-975d-231934b13d24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Actor\99.Camera\00.UI">
-      <UniqueIdentifier>{068f27c1-d7d5-4108-9f0a-b04f49b55425}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Actor\99.Camera\01.World">
-      <UniqueIdentifier>{9136af30-eb23-4eff-868c-438c985159d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Place\99.Loading">
-      <UniqueIdentifier>{3e30b2ca-97a5-4615-9cfa-5f5625c75ee6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.Place\99.Loading\Loader">
-      <UniqueIdentifier>{bb7c6c9d-00fe-4830-9855-7100d0982a82}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.UI\01.Button">
-      <UniqueIdentifier>{83102d93-ec98-47bf-8064-ceffdb4e3df1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.UI\01.Button\PlaceMoveButton">
-      <UniqueIdentifier>{c72994d6-5917-42e1-9ea0-57652cd652cd}</UniqueIdentifier>
     </Filter>
     <Filter Include="99.Defines">
       <UniqueIdentifier>{7c2f1dc1-6bd8-4528-9fe9-cfe565d9d131}</UniqueIdentifier>
@@ -70,17 +22,68 @@
     <Filter Include="GameData\02.ui">
       <UniqueIdentifier>{e93f651e-cfc7-4b44-8db9-94b31464c395}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.Place\03.Place_Island">
+    <Filter Include="00.Place">
+      <UniqueIdentifier>{0e240cb9-2ef1-473d-96a5-fc786b030a5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\00.Main">
+      <UniqueIdentifier>{9bf7e86f-1655-4008-a5ee-be415e756569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\01.Setting">
+      <UniqueIdentifier>{f3582ffc-0e05-466e-9283-a6f2dd9a95ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\02.MiiEditor">
+      <UniqueIdentifier>{943b54fd-af8b-47f8-b48b-24953d039080}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\99.Loading">
+      <UniqueIdentifier>{3e30b2ca-97a5-4615-9cfa-5f5625c75ee6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\99.Loading\Loader">
+      <UniqueIdentifier>{bb7c6c9d-00fe-4830-9855-7100d0982a82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\03.Place_Island">
       <UniqueIdentifier>{78475139-eaf0-487f-8592-a49bcf4e0583}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Actor\00.Island\00.Island">
+    <Filter Include="02.Actor">
+      <UniqueIdentifier>{febbbda0-87bc-4501-8d57-05e918d05832}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.Island">
+      <UniqueIdentifier>{8f0dd0ca-76b3-41e8-8ba3-ad0b0689c3be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.Island\00.Island">
       <UniqueIdentifier>{9bd0ccb7-4b8f-4e87-aca1-ec005cd41bd5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Actor\00.Island\01.Environment">
+    <Filter Include="02.Actor\00.Island\01.Environment">
       <UniqueIdentifier>{2874adf0-a9bb-4242-9332-67d9062f1cb6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.UI\02.BackGround">
+    <Filter Include="02.Actor\01.Mii">
+      <UniqueIdentifier>{4525ee75-8379-45e1-8b7c-b94af57b9c94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\99.Camera">
+      <UniqueIdentifier>{d0b085be-bc55-4a25-975d-231934b13d24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\99.Camera\00.UI">
+      <UniqueIdentifier>{068f27c1-d7d5-4108-9f0a-b04f49b55425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\99.Camera\01.World">
+      <UniqueIdentifier>{9136af30-eb23-4eff-868c-438c985159d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI">
+      <UniqueIdentifier>{c9fc8f04-9edd-4ed5-b7db-821663fd95f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\00.Food">
+      <UniqueIdentifier>{f3ca4eda-82cd-4478-90d5-4770e9b366b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button">
+      <UniqueIdentifier>{83102d93-ec98-47bf-8064-ceffdb4e3df1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\PlaceMoveButton">
+      <UniqueIdentifier>{c72994d6-5917-42e1-9ea0-57652cd652cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.BackGround">
       <UniqueIdentifier>{2d1ab535-d50c-48d0-9f8c-bbc0020a5ff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\04.Place_Apart">
+      <UniqueIdentifier>{f9c2eec9-1081-4242-b5f7-28b48c3cd65c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,99 +102,105 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h">
-      <Filter>02.UI\00.Food</Filter>
+      <Filter>03.UI\00.Food</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Mii.h">
-      <Filter>01.Actor\01.Mii</Filter>
+      <Filter>02.Actor\01.Mii</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Main.h">
-      <Filter>03.Place\00.Main</Filter>
+      <Filter>00.Place\00.Main</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_MiiEditor.h">
-      <Filter>03.Place\02.MiiEditor</Filter>
+      <Filter>00.Place\02.MiiEditor</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Setting.h">
-      <Filter>03.Place\01.Setting</Filter>
+      <Filter>00.Place\01.Setting</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h">
-      <Filter>01.Actor\99.Camera\00.UI</Filter>
+      <Filter>02.Actor\99.Camera\00.UI</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\WorldCamera.h">
-      <Filter>01.Actor\99.Camera\01.World</Filter>
+      <Filter>02.Actor\99.Camera\01.World</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Loader.h">
-      <Filter>03.Place\99.Loading\Loader</Filter>
+      <Filter>00.Place\99.Loading\Loader</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Loading.h">
-      <Filter>03.Place\99.Loading</Filter>
+      <Filter>00.Place\99.Loading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlaceMoveButton.h">
-      <Filter>02.UI\01.Button\PlaceMoveButton</Filter>
+      <Filter>03.UI\01.Button\PlaceMoveButton</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Defines.h">
       <Filter>99.Defines</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Terrain.h">
-      <Filter>01.Actor\00.Island</Filter>
+      <Filter>02.Actor\00.Island</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Island.h">
-      <Filter>03.Place\03.Place_Island</Filter>
+      <Filter>00.Place\03.Place_Island</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h">
-      <Filter>01.Actor\00.Island\00.Island</Filter>
+      <Filter>02.Actor\00.Island\00.Island</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SkyAndSea.h">
-      <Filter>01.Actor\00.Island\01.Environment</Filter>
+      <Filter>02.Actor\00.Island\01.Environment</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BackGround.h">
-      <Filter>02.UI\02.BackGround</Filter>
+      <Filter>03.UI\02.BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Apart.h">
+      <Filter>00.Place\04.Place_Apart</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
-      <Filter>02.UI\00.Food</Filter>
+      <Filter>03.UI\00.Food</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Loader.cpp">
-      <Filter>03.Place\99.Loading\Loader</Filter>
+      <Filter>00.Place\99.Loading\Loader</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Mii.cpp">
-      <Filter>01.Actor\01.Mii</Filter>
+      <Filter>02.Actor\01.Mii</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Loading.cpp">
-      <Filter>03.Place\99.Loading</Filter>
+      <Filter>00.Place\99.Loading</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Main.cpp">
-      <Filter>03.Place\00.Main</Filter>
+      <Filter>00.Place\00.Main</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_MiiEditor.cpp">
-      <Filter>03.Place\02.MiiEditor</Filter>
+      <Filter>00.Place\02.MiiEditor</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Setting.cpp">
-      <Filter>03.Place\01.Setting</Filter>
+      <Filter>00.Place\01.Setting</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp">
-      <Filter>02.UI\01.Button\PlaceMoveButton</Filter>
+      <Filter>03.UI\01.Button\PlaceMoveButton</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\UICamera.cpp">
-      <Filter>01.Actor\99.Camera\00.UI</Filter>
+      <Filter>02.Actor\99.Camera\00.UI</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\WorldCamera.cpp">
-      <Filter>01.Actor\99.Camera\01.World</Filter>
+      <Filter>02.Actor\99.Camera\01.World</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Terrain.cpp">
-      <Filter>01.Actor\00.Island</Filter>
+      <Filter>02.Actor\00.Island</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Island.cpp">
-      <Filter>03.Place\03.Place_Island</Filter>
+      <Filter>00.Place\03.Place_Island</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp">
-      <Filter>01.Actor\00.Island\00.Island</Filter>
+      <Filter>02.Actor\00.Island\00.Island</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SkyAndSea.cpp">
-      <Filter>01.Actor\00.Island\01.Environment</Filter>
+      <Filter>02.Actor\00.Island\01.Environment</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BackGround.cpp">
-      <Filter>02.UI\02.BackGround</Filter>
+      <Filter>03.UI\02.BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Apart.cpp">
+      <Filter>00.Place\04.Place_Apart</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

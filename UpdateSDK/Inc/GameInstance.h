@@ -82,6 +82,7 @@ public:
 
 	#pragma region PLACE_MANAGER
 
+	
 	HRESULT PlaceManager_Change_Place(
 		uint32_t PlaceID,
 		CPlace* pPlace);

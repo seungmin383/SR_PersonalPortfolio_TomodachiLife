@@ -22,10 +22,15 @@ int32_t CObjectManager::Update_Priority(_float fDT)
 	for (uint32_t i = 0; i < m_iMaxIndex; i++)
 	{
 		for (auto& pair : m_Layers[i])
-			pair.second->Update_Priority(fDT);
+		{
+			int32_t iFlag = pair.second->Update_Priority(fDT);
+			
+			if (iFlag == PLACE_CHANGE)
+				return iFlag;
+		}
 	}
 
-	return 0;
+	return UPDATE_OK;
 } 
 
 int32_t CObjectManager::Update(_float fDT)
@@ -33,10 +38,15 @@ int32_t CObjectManager::Update(_float fDT)
 	for (uint32_t i = 0; i < m_iMaxIndex; i++)
 	{
 		for (auto& pair : m_Layers[i])
-			pair.second->Update(fDT);
+		{
+			int32_t iFlag = pair.second->Update(fDT);
+
+			if (iFlag == PLACE_CHANGE)
+				return iFlag;
+		}
 	}
 
-	return 0;
+	return UPDATE_OK;
 }
 void CObjectManager::Update_Late(_float fDT)
 {

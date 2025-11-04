@@ -106,41 +106,6 @@ HRESULT CPlace_Main::Ready_Main_Actor_Layer()
 
 HRESULT CPlace_Main::Ready_Main_UI_Layer()
 {
-	CObject* tmp = m_pGameInstance->Proto_Get_Object_Clone(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_UI_Food"),
-		nullptr);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("LayerTag_UI"),
-		tmp)))
-	{
-		Safe_Release(tmp);
-		return E_FAIL;
-	}
-	
-
-
-	tmp = m_pGameInstance->Proto_Get_Object_Clone(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_UI_PlaceMoveButton"),
-		nullptr);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("LayerTag_UI"),
-		tmp)))
-	{
-		Safe_Release(tmp);
-		return E_FAIL;
-	}
 	return S_OK;
 }
 

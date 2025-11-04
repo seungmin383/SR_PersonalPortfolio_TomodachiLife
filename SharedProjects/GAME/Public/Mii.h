@@ -9,6 +9,7 @@ class CTextureCom;
 class CModel;
 
 NS_END
+
 NS_BEGIN(Game)
 
 class CMii final : public CActor 

@@ -50,9 +50,12 @@ int32_t CPlaceMoveButton::Update_Priority(_float fDT)
 int32_t CPlaceMoveButton::Update(_float fDT)
 {
 	if (m_isClicked)
+	{
 		On_Click();
+		return PLACE_CHANGE;
+	}
 
-	return 0;
+	return UPDATE_OK;
 }
 
 void CPlaceMoveButton::Update_Late(_float fDT)
@@ -154,12 +157,13 @@ HRESULT CPlaceMoveButton::Bind_ShaderResources()
 void CPlaceMoveButton::On_Click()
 {
 	m_pGameInstance->PlaceManager_Change_Place(
-		static_cast<uint32_t>(m_eNextPlaceID),
+		static_cast<uint32_t>(PLACE_ID::LOADING),
 		CPlace_Loading::Create(
 			m_pDevice,
 			m_pContext,
 			m_eNextPlaceID));
 
+	return;
 }
 
 CPlaceMoveButton* CPlaceMoveButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

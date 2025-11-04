@@ -31,6 +31,8 @@ private://디바이스 관리
 
 	CGameInstance*			m_pGameInstance = { nullptr };
 
+	uint32_t m_iFlag = {};
+
 public:
 	static CMainApp* Create();
 	virtual void Free()override;

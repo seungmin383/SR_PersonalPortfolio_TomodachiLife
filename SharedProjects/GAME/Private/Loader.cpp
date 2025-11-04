@@ -8,6 +8,7 @@
 #include "UICamera.h"
 #include "PlaceMoveButton.h"
 #include "BackGround.h"
+#include "Mii.h"
 
 USING(Engine)
 
@@ -124,8 +125,8 @@ HRESULT CLoader::Loading()
 	case PLACE_ID::CONNECT_PORT:
 		hr = Loading_For_Connect_Port();
 		break;
-	case PLACE_ID::LIVE_APARTMENT:
-		hr = Loading_For_Live_Apartment();
+	case PLACE_ID::APART:
+		hr = Loading_Apart();
 		break;
 	case PLACE_ID::LIVE_WEDDING_HOUSE:
 		hr = Loading_For_Live_Wedding_House();
@@ -158,9 +159,6 @@ HRESULT CLoader::Loading_For_Main()
 
 	lstrcpy(m_szFPS, TEXT("Component Loading Complete"));
 
-// Loading Complete // ====================================================
-	lstrcpy(m_szFPS, TEXT("Main Place Loading Complete"));
-	m_isFinished = true;
 
 	return S_OK;
 }
@@ -471,10 +469,46 @@ HRESULT CLoader::Loading_For_Connect_Port()
 	return S_OK;
 }
 
-HRESULT CLoader::Loading_For_Live_Apartment()
+HRESULT CLoader::Loading_Apart()
 {
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+	CObject* tmp = { nullptr };
 
+	// Component
+	{
+		// ProtoTag_Component_BasicManBody_Model
+		{
+			XMMATRIX InitMatrix;
+			InitMatrix = XMMatrixIdentity();
+
+			tmp = CModel::Create(
+				m_pDevice, 
+				m_pContext, 
+				"../../Resource/00Model/Actor - Body/BasicManBody.fbx",
+				InitMatrix);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::APART),
+				TEXT("ProtoTag_Component_BasicManBody_Model"),
+				tmp)))
+				return E_FAIL;
+		}
+	}
+
+	// Actor
+	{
+		tmp = CMii::Create(
+			m_pDevice,
+			m_pContext);
+
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+			static_cast<uint32_t>(PLACE_ID::APART),
+			TEXT("ProtoTag_Actor_Mii"),
+			tmp)))
+			return E_FAIL;
+	}
+	
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+	m_isFinished = true;
 	return S_OK;
 }
 
@@ -484,6 +518,7 @@ HRESULT CLoader::Loading_For_Live_Wedding_House()
 
 	return S_OK;
 }
+
 HRESULT CLoader::Loading_Island()
 {
 	CObject* tmp = { nullptr };

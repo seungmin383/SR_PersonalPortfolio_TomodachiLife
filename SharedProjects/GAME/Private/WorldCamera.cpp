@@ -31,7 +31,7 @@ HRESULT CWorldCamera::Initialize_Clone(void* pArg)
 
 int32_t CWorldCamera::Update_Priority(_float fDT)
 {
-	if (m_pGameInstance->Get_DIKeyState(DIK_W) & 0x80)
+	/*if (m_pGameInstance->Get_DIKeyState(DIK_W) & 0x80)
 	{
 		m_pTransformCom->Go_Straight(fDT);
 	}
@@ -58,7 +58,7 @@ int32_t CWorldCamera::Update_Priority(_float fDT)
 	if (MouseMove = m_pGameInstance->Get_DIMouseMove(MOUSEMOVESTATE::Y))
 	{
 		m_pTransformCom->Turn(m_pTransformCom->Get_State(TRANSFORM_STATE::RIGHT), m_fSensor * MouseMove * fDT);
-	}
+	}*/
 
 	return 0;
 }

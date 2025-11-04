@@ -123,7 +123,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 	tPlaceMoveButtonDesc.fSpeedPerSecond = 0.f;
 	 	tPlaceMoveButtonDesc.fRotationPerSecond = XMConvertToRadians(20.f);
 	 	tPlaceMoveButtonDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
-	 	tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::MAIN;
+	 	tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::ISLAND;
 		tPlaceMoveButtonDesc.iTextureNum = 0;
 
 	 	tmp = m_pGameInstance->Proto_Get_Object_Clone(

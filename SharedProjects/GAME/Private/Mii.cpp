@@ -34,20 +34,18 @@ int32_t CMii::Update_Priority(_float fDT)
 
 int32_t CMii::Update(_float fDT)
 {
-	int a = 0;
 	return 0;
 }
 
 void CMii::Update_Late(_float fDT)
 {
-	m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
+	CActor::Update_Late(fDT);
 }
 
 HRESULT CMii::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-
 
 	uint32_t iNumMesh = m_pModelCom->Get_NumMesh();
 
@@ -70,8 +68,8 @@ HRESULT CMii::Render()
 HRESULT CMii::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_Vtx_Mesh_TexShader"),
+		static_cast<uint32_t>(PLACE_ID::STATIC),
+		TEXT("ProtoTag_Component_VtxMeshShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
 		nullptr)))
@@ -79,8 +77,8 @@ HRESULT CMii::Ready_Component()
 
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_TestModel"),
+		static_cast<uint32_t>(PLACE_ID::APART),
+		TEXT("ProtoTag_Component_BasicManBody_Model"),
 		TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pModelCom),
 		nullptr)))
@@ -100,19 +98,19 @@ HRESULT CMii::Bind_ShaderResources()
 	m_pGameInstance->CameraManager_Bind_Matrix(
 		m_pShaderCom,
 		"g_ViewMatrix",
-		TEXT("World_Camera"),
+		TEXT("UI_Camera"),
 		D3DTS::VIEW);
 
 	m_pGameInstance->CameraManager_Bind_Matrix(
 		m_pShaderCom,
 		"g_ProjMatrix",
-		TEXT("World_Camera"),
+		TEXT("UI_Camera"),
 		D3DTS::PROJ);
 
 	m_pGameInstance->CameraManager_Bind_Camera_Pos(
 		m_pShaderCom,
 		"g_vCamPosition",
-		TEXT("World_Camera"));
+		TEXT("UI_Camera"));
 
 	return hr;
 }
