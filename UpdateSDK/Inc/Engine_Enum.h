@@ -7,6 +7,7 @@ namespace Engine
 	enum class SOLUTION_TYPE :int32_t {DEBUG, RELEASE, END};
 	enum class VIEWPORT_TYPE :int32_t { TOP, BOTTOM, END};
 	enum class LIGHT_TYPE : int32_t { DIRECTIONAL, POINT, END};
+	enum class ANIM_TYPE :  int32_t {ANIM, NONEANIM, END};
 
 	enum class MOUSEKEYSTATE { LB, RB, WHEEL, XB, END };
 	enum class MOUSEMOVESTATE { X, Y, WHEEL, END };
@@ -40,5 +41,6 @@ namespace Engine
 		PROJ,
 		END	
 	};
+
 }
 #endif // Engine_Enum_h__

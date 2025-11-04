@@ -1,6 +1,7 @@
 #include "Model.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "Bone.h"
 
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CComponent(pDevice, pContext)
@@ -13,22 +14,33 @@ CModel::CModel(const CModel& rhs)
 	m_Meshes(rhs.m_Meshes),
 	m_InitMatrix(rhs.m_InitMatrix),
 	m_iNumMaterial(rhs.m_iNumMaterial),
-	m_Materials(rhs.m_Materials)
+	m_Materials(rhs.m_Materials),
+	m_eAnimType(rhs.m_eAnimType),
+	m_Bones(rhs.m_Bones)
 {
 	for (auto& mesh : m_Meshes)
 		Safe_AddRef(mesh);
 
 	for (auto& material : m_Materials)
 		Safe_AddRef(material);
+
+	for (auto& pBone : m_Bones)
+		Safe_AddRef(pBone);
 }
 
 HRESULT CModel::Initialize_Origin(
+	ANIM_TYPE eAnimType,
 	const _char* pModelFilePath,
 	FXMMATRIX InitTransformMatrix)
 {
-	//aiProcess_PreTransformVertices
 	uint32_t iFlag =
-	{ aiProcess_PreTransformVertices | aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Quality };
+	{	aiProcess_ConvertToLeftHanded | 
+		aiProcessPreset_TargetRealtime_Quality };
+
+	m_eAnimType = eAnimType;
+
+	if (ANIM_TYPE::NONEANIM == m_eAnimType)
+		iFlag |= aiProcess_PreTransformVertices;
 
 	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
 	if (nullptr == m_pAIScene)
@@ -45,8 +57,12 @@ HRESULT CModel::Initialize_Origin(
 	if (FAILED(Ready_Material(pModelFilePath)))
 		return E_FAIL;
 
+	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
+		return E_FAIL;
+
 	uint32_t i = m_pAIScene->mNumAnimations;
-	int a = 0;
+
+
 	return S_OK;
 }
 
@@ -96,6 +112,7 @@ HRESULT CModel::Ready_Meshes()
 			CMesh::Create(
 				m_pDevice,
 				m_pContext,
+				m_eAnimType,
 				m_pAIScene->mMeshes[i],
 				XMLoadFloat4x4(&m_InitMatrix));
 
@@ -130,15 +147,35 @@ HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 	return S_OK;
 }
 
+HRESULT CModel::Ready_Bones(const aiNode* pAINode, int32_t iParentBoneIndex)
+{
+	CBone* pInstance = CBone::Create(pAINode, iParentBoneIndex);
+
+	if (nullptr == pInstance)
+		return E_FAIL;
+
+	m_Bones.push_back(pInstance);
+
+	int32_t iParentIndex = (m_Bones.size() - 1);
+
+	for (uint32_t i = 0; i < pAINode->mNumChildren; i++)
+	{
+		Ready_Bones(pAINode->mChildren[i], iParentIndex);
+	}
+
+	return S_OK;
+}
+
 CModel* CModel::Create(
 	ID3D11Device* pDevice, 
-	ID3D11DeviceContext* pContext, 
+	ID3D11DeviceContext* pContext,
+	ANIM_TYPE eAnimType,
 	const _char* pModelFIlePath,
 	FXMMATRIX InitTransformMatrix)
 {
 	CModel* pModel = new CModel(pDevice, pContext);
 
-	if (FAILED(pModel->Initialize_Origin(pModelFIlePath, InitTransformMatrix)))
+	if (FAILED(pModel->Initialize_Origin(eAnimType, pModelFIlePath, InitTransformMatrix)))
 	{
 		MSG_BOX("ErrCode : Model Initializing Failed");
 		Safe_Release(pModel);
@@ -170,6 +207,10 @@ void CModel::Free()
 	for (auto& pMaterial : m_Materials)
 		Safe_Release(pMaterial);
 	m_Materials.clear();
+
+	for (auto& pBone : m_Bones)
+		Safe_Release(pBone);
+	m_Bones.clear();
 
 	m_Importer.FreeScene();
 

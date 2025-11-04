@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Actor.h" />
     <ClInclude Include="..\Public\Base.h" />
+    <ClInclude Include="..\Public\Bone.h" />
     <ClInclude Include="..\Public\Button.h" />
     <ClInclude Include="..\Public\Camera.h" />
     <ClInclude Include="..\Public\CameraManager.h" />
@@ -72,6 +73,7 @@
   <ItemGroup>
     <ClCompile Include="..\Private\Actor.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
+    <ClCompile Include="..\Private\Bone.cpp" />
     <ClCompile Include="..\Private\Button.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />
     <ClCompile Include="..\Private\CameraManager.cpp" />

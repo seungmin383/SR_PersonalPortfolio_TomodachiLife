@@ -6,6 +6,7 @@ NS_BEGIN(Engine)
 class CMesh;
 class CMaterial;
 class CShaderCom;
+class CBone;
 
 class ENGINE_DLL CModel final : public CComponent
 {
@@ -16,6 +17,7 @@ private:
 
 public:
 	virtual HRESULT Initialize_Origin(
+		ANIM_TYPE eAnimType,
 		const _char* pModelFilePath,
 		FXMMATRIX InitTransformMatrix);
 	virtual HRESULT Initialize_Clone(void* pArg)override;
@@ -41,18 +43,23 @@ private:
 	uint32_t m_iNumMesh = {};
 	vector<CMesh*> m_Meshes;
 	XMFLOAT4X4 m_InitMatrix = {};
+	ANIM_TYPE m_eAnimType = { ANIM_TYPE::END };
 
 	uint32_t m_iNumMaterial = {};
 	vector<CMaterial*> m_Materials;
 
+	vector<CBone*> m_Bones;
+
 private:
 	HRESULT Ready_Meshes();
 	HRESULT	Ready_Material(const _char* pModelFIlePath);
+	HRESULT Ready_Bones(const aiNode* pAINode, int32_t iParentBoneIndex);
 
 public:
 	static CModel* Create(
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext,
+		ANIM_TYPE eAnimType,
 		const _char* pModelFIlePath,
 		FXMMATRIX InitTransformMatrix);
 

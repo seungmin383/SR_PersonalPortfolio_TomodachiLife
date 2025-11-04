@@ -482,7 +482,8 @@ HRESULT CLoader::Loading_Apart()
 
 			tmp = CModel::Create(
 				m_pDevice, 
-				m_pContext, 
+				m_pContext,
+				ANIM_TYPE::ANIM,
 				"../../Resource/00Model/Actor - Body/BasicManBody.fbx",
 				InitMatrix);
 
@@ -533,6 +534,7 @@ HRESULT CLoader::Loading_Island()
 			tmp = CModel::Create(
 				m_pDevice,
 				m_pContext,
+				ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/BackGround - Island/island.fbx",
 				initMatrix);
 
@@ -551,6 +553,7 @@ HRESULT CLoader::Loading_Island()
 			tmp = CModel::Create(
 				m_pDevice,
 				m_pContext,
+				ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/BackGround - Sea/sea.fbx",
 				initMatrix);
 
