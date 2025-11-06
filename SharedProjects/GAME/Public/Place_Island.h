@@ -3,6 +3,7 @@
 #include "Place.h"
 
 NS_BEGIN(Game)
+class CPlaceMoveButton;
 
 class CPlace_Island final : public CPlace
 {
@@ -20,6 +21,9 @@ public:
 	HRESULT Ready_UI_Layer();
 	HRESULT Ready_Environment_Layer();
 	HRESULT Ready_Camera_Layer();
+
+private:
+	vector<CPlaceMoveButton*> m_PlaceMoveButtons;
 
 public:
 	static CPlace_Island* Create(

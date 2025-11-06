@@ -49,11 +49,15 @@ int32_t CPlaceMoveButton::Update_Priority(_float fDT)
 
 int32_t CPlaceMoveButton::Update(_float fDT)
 {
-
 	if (m_isClicked)
 	{
 		On_Click();
 		return PLACE_CHANGE;
+	}
+
+	if (m_isSelected)
+	{
+		m_iSelectedTextureNum = 1;
 	}
 
 	return UPDATE_OK;
@@ -150,20 +154,23 @@ HRESULT CPlaceMoveButton::Bind_ShaderResources()
 	m_pOutlineTextureCom->Bind_ShaderResource(
 		m_pShaderCom,
 		"g_OutlineTexture",
-		5);
+		m_iSelectedTextureNum);
 
 	return hr;
 }
 
 void CPlaceMoveButton::On_Click()
 {
-	m_pGameInstance->PlaceManager_Change_Place(
-		static_cast<uint32_t>(PLACE_ID::LOADING),
-		CPlace_Loading::Create(
-			m_pDevice,
-			m_pContext,
-			m_eNextPlaceID));
+	//m_pGameInstance->PlaceManager_Change_Place(
+	//	static_cast<uint32_t>(PLACE_ID::LOADING),
+	//	CPlace_Loading::Create(
+	//		m_pDevice,
+	//		m_pContext,
+	//		m_eNextPlaceID));
 
+	m_pGameInstance->ButtonManager_All_Deactivate(
+		static_cast<uint32_t>(PLACE_ID::ISLAND));
+	m_isSelected = TRUE;
 	return;
 }
 

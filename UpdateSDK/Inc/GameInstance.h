@@ -14,10 +14,12 @@ class CCameraManager;
 class CLightManager;
 class CMouseManager;
 class CFileManager;
+class CButtonManager;
 
 class CObject;
 class CPlace;
 class CCamera;
+class CButton;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -184,6 +186,13 @@ public:
 	const nlohmann::json& FileManager_Get_Data(const string& strFilePath);
 #pragma endregion
 
+#pragma region BUTTONMANAGER
+	HRESULT ButtonManager_Add_Button(uint32_t iPlaceID, CButton* pButton);
+
+	void ButtonManager_All_Deactivate(uint32_t iPlaceID);
+#pragma endregion
+
+
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
 	CInput_Device*      m_pInput_Device = { nullptr };
@@ -197,6 +206,7 @@ private:
 	CLightManager*		m_pLightManager = { nullptr };
 	CMouseManager*		m_pMouseManager = { nullptr };
 	CFileManager*		m_pFileManager = { nullptr };
+	CButtonManager*		m_pButtonManager = { nullptr };
 
 public:
 	void Clear_Engine();

@@ -29,9 +29,13 @@ public:
 private:
 	void Compare_Position(const POINT& vMousePos);
 
+public:
+	void Set_isSelected(_bool is) { m_isSelected = is; }
+
 protected:
 	_bool m_isOverlappedMouse = { FALSE };
 	_bool m_isClicked = { FALSE };
+	_bool m_isSelected = { FALSE };
 
 	_float2 m_fLeftTop = {};
 	_float2 m_fRIghtBottom = {};

@@ -133,6 +133,9 @@
     <Filter Include="01.Utility\03.Object\02.Component\04.Model\02.Bone">
       <UniqueIdentifier>{046fb082-a942-4ba7-8294-8466d50e0a24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\03.UI\01.Button\Manager">
+      <UniqueIdentifier>{c5d4f6d6-9c62-4a8b-bca7-bff9de6c047c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -242,6 +245,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Bone.cpp">
       <Filter>01.Utility\03.Object\02.Component\04.Model\02.Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ButtonManager.cpp">
+      <Filter>01.Utility\03.Object\03.UI\01.Button\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -394,6 +400,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Mesh.h">
       <Filter>01.Utility\03.Object\02.Component\04.Model\00.Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ButtonManager.h">
+      <Filter>01.Utility\03.Object\03.UI\01.Button\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

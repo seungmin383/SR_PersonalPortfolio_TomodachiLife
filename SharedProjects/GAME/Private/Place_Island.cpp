@@ -170,6 +170,9 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 	}
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
+
 	 // Go Wear
 	 {
 		 tPlaceMoveButtonDesc.fX = 270.f;
@@ -194,6 +197,9 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
+
 	 // Go Antique
 	 {
 		 tPlaceMoveButtonDesc.fX = 220.f;
@@ -215,6 +221,9 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 return E_FAIL;
 		 }
 	 }
+
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 
 	 // Go Cap
 	 {
@@ -238,6 +247,10 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
+
 	// Go Food
 	 {
 		 tPlaceMoveButtonDesc.fX = 210.f;
@@ -259,6 +272,9 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 return E_FAIL;
 		 }
 	 }
+
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 
 	// Go Fountain
 	 {
@@ -282,6 +298,10 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
+
 	// Go Luxury
 	 {
 		 tPlaceMoveButtonDesc.fX = 300.f;
@@ -303,6 +323,9 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 return E_FAIL;
 		 }
 	 }
+
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 
 	// Go Music
 	 {
@@ -326,6 +349,9 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
+
 	// Go Sea
 	 {
 		 tPlaceMoveButtonDesc.fX = 400.f;
@@ -347,6 +373,9 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 return E_FAIL;
 		 }
 	 }
+
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 
 	// Go House
 	 {
@@ -370,6 +399,9 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
+
 	// Go CityHall
 	 {
 		 tPlaceMoveButtonDesc.fX = 500.f;
@@ -392,6 +424,9 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	// Go Rank
 	 {
 		 tPlaceMoveButtonDesc.fX = 475.f;
@@ -414,6 +449,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	// Go Tent
 	 {
 		 tPlaceMoveButtonDesc.fX = 475.f;
@@ -436,6 +473,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	// Go jeonMangDae
 	 {
 		 tPlaceMoveButtonDesc.fX = 565.f;
@@ -458,6 +497,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	// Go wedding
 	 {
 		 tPlaceMoveButtonDesc.fX = 600.f;
@@ -480,6 +521,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	// Go love
 	 {
 		 tPlaceMoveButtonDesc.fX = 570.f;
@@ -502,6 +545,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	// Go port
 	 {
 		 tPlaceMoveButtonDesc.fX = 600.f;
@@ -524,6 +569,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	// Go park
 	 {
 		 tPlaceMoveButtonDesc.fX = 660.f;
@@ -546,6 +593,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	// Go photo
 	 {
 		 tPlaceMoveButtonDesc.fX = 675.f;
@@ -568,6 +617,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	// Go news
 	 {
 		 tPlaceMoveButtonDesc.fX = 740.f;
@@ -590,6 +641,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	// Go play
 	 {
 		 tPlaceMoveButtonDesc.fX = 760.f;
@@ -612,6 +665,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	// Go cafe
 	 {
 		 tPlaceMoveButtonDesc.fX = 760.f;
@@ -634,6 +689,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	// Go export
 	 {
 		 tPlaceMoveButtonDesc.fX = 740.f;
@@ -656,6 +713,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 	 }
 
+	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
+	 Safe_AddRef(tmp);
 	 // ProtoTag_UI_BackGround
 	 {
 		 CBackGround::BACKGROUND_DESC tBackGroundDesc = {};

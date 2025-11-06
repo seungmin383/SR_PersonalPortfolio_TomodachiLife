@@ -11,6 +11,8 @@
 #include "LightManager.h"
 #include "MouseManager.h"
 #include "FileManager.h"
+#include "ButtonManager.h"
+#include "Button.h"
 
 #define CONFIG_FILE_PATH "../../SharedProjects/GAME/GameData/config.json"
 
@@ -132,6 +134,19 @@ HRESULT CGameInstance::Initialize(
 			return E_FAIL;
 		}
 	}
+
+	// ButtonManager
+	{
+		m_pButtonManager = CButtonManager::Create(
+			*ppDevice, 
+			*ppContext,
+			Engine_desc.PlaceCount);
+		if (nullptr == m_pFileManager) {
+			MSG_BOX("ErrCode : ButtonManager Create Failed");
+			return E_FAIL;
+		}
+	}
+
 	return S_OK;
 }
 
@@ -451,6 +466,18 @@ const nlohmann::json& CGameInstance::FileManager_Get_Data(const string& strFileP
 
 #pragma endregion
 
+#pragma region BUTTONMANAGER
+HRESULT CGameInstance::ButtonManager_Add_Button(uint32_t iPlaceID, CButton* pButton)
+{
+	return m_pButtonManager->Add_Button(iPlaceID, pButton);
+}
+
+void CGameInstance::ButtonManager_All_Deactivate(uint32_t iPlaceID)
+{
+	m_pButtonManager->All_Deactivate(iPlaceID);
+}
+
+#pragma endregion
 
 
 
