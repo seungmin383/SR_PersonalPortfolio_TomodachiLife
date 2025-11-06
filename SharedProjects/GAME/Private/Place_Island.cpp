@@ -153,8 +153,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 	tPlaceMoveButtonDesc.fRotationPerSecond = XMConvertToRadians(20.f);
 	 	tPlaceMoveButtonDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 	 	tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
-		tPlaceMoveButtonDesc.iTextureNum = 45;
-
+		tPlaceMoveButtonDesc.iTextureNum = 13;
+		tPlaceMoveButtonDesc.iOutlineTextureNum = 0;
 	 	tmp = m_pGameInstance->Proto_Get_Object_Clone(
 	 		static_cast<uint32_t>(PLACE_ID::ISLAND),
 	 		TEXT("ProtoTag_UI_PlaceMoveButton"),
@@ -168,10 +168,15 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 		Safe_Release(tmp);
 	 		return E_FAIL;
 	 	}
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			static_cast<uint32_t>(PLACE_ID::ISLAND),
+			static_cast<CButton*>(tmp))))
+		{
+			return E_FAIL;
+		}
 	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
 
 	 // Go Wear
 	 {
@@ -195,10 +200,14 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
-	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
+	 }
 
 	 // Go Antique
 	 {
@@ -220,10 +229,15 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
 	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
 
 	 // Go Cap
 	 {
@@ -245,11 +259,14 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
 	 }
-
-
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
 
 	// Go Food
 	 {
@@ -271,36 +288,14 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
-	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
-
-	// Go Fountain
-	 {
-		 tPlaceMoveButtonDesc.fX = 310.f;
-		 tPlaceMoveButtonDesc.fY = 250.f;
-		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
-		 tPlaceMoveButtonDesc.iTextureNum = 19;
-
-		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
 			 static_cast<uint32_t>(PLACE_ID::ISLAND),
-			 TEXT("ProtoTag_UI_PlaceMoveButton"),
-			 &tPlaceMoveButtonDesc);
-
-		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
-			 TEXT("LayerTag_UI"),
-			 tmp)))
+			 static_cast<CButton*>(tmp))))
 		 {
-			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
 	 }
-
-
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
 
 	// Go Luxury
 	 {
@@ -322,10 +317,14 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
-	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
+	 }
 
 	// Go Music
 	 {
@@ -347,35 +346,16 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
-	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
-
-	// Go Sea
-	 {
-		 tPlaceMoveButtonDesc.fX = 400.f;
-		 tPlaceMoveButtonDesc.fY = 373.f;
-		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
-		 tPlaceMoveButtonDesc.iTextureNum = 17;
-
-		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
 			 static_cast<uint32_t>(PLACE_ID::ISLAND),
-			 TEXT("ProtoTag_UI_PlaceMoveButton"),
-			 &tPlaceMoveButtonDesc);
-
-		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
-			 TEXT("LayerTag_UI"),
-			 tmp)))
+			 static_cast<CButton*>(tmp))))
 		 {
-			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
 	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
+	
 
 	// Go House
 	 {
@@ -397,10 +377,14 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
-	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
+	 }
 
 	// Go CityHall
 	 {
@@ -422,11 +406,15 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
 	 }
 
-
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
 	// Go Rank
 	 {
 		 tPlaceMoveButtonDesc.fX = 475.f;
@@ -447,10 +435,15 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
 	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
 	// Go Tent
 	 {
 		 tPlaceMoveButtonDesc.fX = 475.f;
@@ -471,34 +464,16 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
-	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
-	// Go jeonMangDae
-	 {
-		 tPlaceMoveButtonDesc.fX = 565.f;
-		 tPlaceMoveButtonDesc.fY = 60.f;
-		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
-		 tPlaceMoveButtonDesc.iTextureNum = 22;
-
-		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
 			 static_cast<uint32_t>(PLACE_ID::ISLAND),
-			 TEXT("ProtoTag_UI_PlaceMoveButton"),
-			 &tPlaceMoveButtonDesc);
-
-		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
-			 TEXT("LayerTag_UI"),
-			 tmp)))
+			 static_cast<CButton*>(tmp))))
 		 {
-			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
 	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
+
 	// Go wedding
 	 {
 		 tPlaceMoveButtonDesc.fX = 600.f;
@@ -519,10 +494,15 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
 	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
 	// Go love
 	 {
 		 tPlaceMoveButtonDesc.fX = 570.f;
@@ -543,10 +523,15 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
 	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
 	// Go port
 	 {
 		 tPlaceMoveButtonDesc.fX = 600.f;
@@ -567,34 +552,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
-	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
-	// Go park
-	 {
-		 tPlaceMoveButtonDesc.fX = 660.f;
-		 tPlaceMoveButtonDesc.fY = 60.f;
-		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
-		 tPlaceMoveButtonDesc.iTextureNum = 21;
-
-		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
 			 static_cast<uint32_t>(PLACE_ID::ISLAND),
-			 TEXT("ProtoTag_UI_PlaceMoveButton"),
-			 &tPlaceMoveButtonDesc);
-
-		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
-			 TEXT("LayerTag_UI"),
-			 tmp)))
+			 static_cast<CButton*>(tmp))))
 		 {
-			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
 	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
+	 
+
 	// Go photo
 	 {
 		 tPlaceMoveButtonDesc.fX = 675.f;
@@ -615,10 +583,15 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
 	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
 	// Go news
 	 {
 		 tPlaceMoveButtonDesc.fX = 740.f;
@@ -639,58 +612,15 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
-	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
-	// Go play
-	 {
-		 tPlaceMoveButtonDesc.fX = 760.f;
-		 tPlaceMoveButtonDesc.fY = 175.f;
-		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
-		 tPlaceMoveButtonDesc.iTextureNum = 20;
-
-		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
 			 static_cast<uint32_t>(PLACE_ID::ISLAND),
-			 TEXT("ProtoTag_UI_PlaceMoveButton"),
-			 &tPlaceMoveButtonDesc);
-
-		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
-			 TEXT("LayerTag_UI"),
-			 tmp)))
+			 static_cast<CButton*>(tmp))))
 		 {
-			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
 	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
-	// Go cafe
-	 {
-		 tPlaceMoveButtonDesc.fX = 760.f;
-		 tPlaceMoveButtonDesc.fY = 260.f;
-		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
-		 tPlaceMoveButtonDesc.iTextureNum = 18;
-
-		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
-			 TEXT("ProtoTag_UI_PlaceMoveButton"),
-			 &tPlaceMoveButtonDesc);
-
-		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
-			 TEXT("LayerTag_UI"),
-			 tmp)))
-		 {
-			 Safe_Release(tmp);
-			 return E_FAIL;
-		 }
-	 }
-
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
 	// Go export
 	 {
 		 tPlaceMoveButtonDesc.fX = 740.f;
@@ -711,10 +641,190 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 Safe_Release(tmp);
 			 return E_FAIL;
 		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
 	 }
 
-	 m_PlaceMoveButtons.push_back(static_cast<CPlaceMoveButton*>(tmp));
-	 Safe_AddRef(tmp);
+
+	 // Go Fountain
+	 {
+		 tPlaceMoveButtonDesc.fX = 310.f;
+		 tPlaceMoveButtonDesc.fY = 250.f;
+		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
+		 tPlaceMoveButtonDesc.iTextureNum = 19;
+		 tPlaceMoveButtonDesc.iOutlineTextureNum = 1;
+		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("ProtoTag_UI_PlaceMoveButton"),
+			 &tPlaceMoveButtonDesc);
+
+		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("LayerTag_UI"),
+			 tmp)))
+		 {
+			 Safe_Release(tmp);
+			 return E_FAIL;
+		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
+	 }
+
+	 // Go Sea
+	 {
+		 tPlaceMoveButtonDesc.fX = 400.f;
+		 tPlaceMoveButtonDesc.fY = 373.f;
+		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
+		 tPlaceMoveButtonDesc.iTextureNum = 17;
+
+		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("ProtoTag_UI_PlaceMoveButton"),
+			 &tPlaceMoveButtonDesc);
+
+		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("LayerTag_UI"),
+			 tmp)))
+		 {
+			 Safe_Release(tmp);
+			 return E_FAIL;
+		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
+	 }
+
+	 // Go jeonMangDae
+	 {
+		 tPlaceMoveButtonDesc.fX = 565.f;
+		 tPlaceMoveButtonDesc.fY = 60.f;
+		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
+		 tPlaceMoveButtonDesc.iTextureNum = 22;
+
+		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("ProtoTag_UI_PlaceMoveButton"),
+			 &tPlaceMoveButtonDesc);
+
+		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("LayerTag_UI"),
+			 tmp)))
+		 {
+			 Safe_Release(tmp);
+			 return E_FAIL;
+		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
+	 }
+
+	 // Go park
+	 {
+		 tPlaceMoveButtonDesc.fX = 660.f;
+		 tPlaceMoveButtonDesc.fY = 60.f;
+		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
+		 tPlaceMoveButtonDesc.iTextureNum = 21;
+
+		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("ProtoTag_UI_PlaceMoveButton"),
+			 &tPlaceMoveButtonDesc);
+
+		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("LayerTag_UI"),
+			 tmp)))
+		 {
+			 Safe_Release(tmp);
+			 return E_FAIL;
+		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
+	 }
+
+	 // Go play
+	 {
+		 tPlaceMoveButtonDesc.fX = 760.f;
+		 tPlaceMoveButtonDesc.fY = 175.f;
+		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
+		 tPlaceMoveButtonDesc.iTextureNum = 20;
+
+		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("ProtoTag_UI_PlaceMoveButton"),
+			 &tPlaceMoveButtonDesc);
+
+		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("LayerTag_UI"),
+			 tmp)))
+		 {
+			 Safe_Release(tmp);
+			 return E_FAIL;
+		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
+	 }
+
+	 // Go cafe
+	 {
+		 tPlaceMoveButtonDesc.fX = 760.f;
+		 tPlaceMoveButtonDesc.fY = 260.f;
+		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
+		 tPlaceMoveButtonDesc.iTextureNum = 18;
+
+		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("ProtoTag_UI_PlaceMoveButton"),
+			 &tPlaceMoveButtonDesc);
+
+		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 TEXT("LayerTag_UI"),
+			 tmp)))
+		 {
+			 Safe_Release(tmp);
+			 return E_FAIL;
+		 }
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<CButton*>(tmp))))
+		 {
+			 return E_FAIL;
+		 }
+	 }
+
 	 // ProtoTag_UI_BackGround
 	 {
 		 CBackGround::BACKGROUND_DESC tBackGroundDesc = {};

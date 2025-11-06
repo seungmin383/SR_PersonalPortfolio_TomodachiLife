@@ -23,7 +23,10 @@ HRESULT CPlaceMoveButton::Initialize_Clone(void* pArg)
 	
 	m_eNextPlaceID = tPlaceMoveButtonDesc->eNextPlace;
 	m_iTextureNum = tPlaceMoveButtonDesc->iTextureNum;
-	
+	m_iOutlineTextureNum = tPlaceMoveButtonDesc->iOutlineTextureNum;
+
+	m_iStoreOutlineTextureNum = m_iOutlineTextureNum;
+
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -55,9 +58,13 @@ int32_t CPlaceMoveButton::Update(_float fDT)
 		return PLACE_CHANGE;
 	}
 
-	if (m_isSelected)
+	if (!m_isSelected)
 	{
-		m_iSelectedTextureNum = 1;
+		m_iOutlineTextureNum = 5;
+	}
+	else
+	{
+		m_iOutlineTextureNum = m_iStoreOutlineTextureNum;
 	}
 
 	return UPDATE_OK;
@@ -154,7 +161,7 @@ HRESULT CPlaceMoveButton::Bind_ShaderResources()
 	m_pOutlineTextureCom->Bind_ShaderResource(
 		m_pShaderCom,
 		"g_OutlineTexture",
-		m_iSelectedTextureNum);
+		m_iOutlineTextureNum);
 
 	return hr;
 }
@@ -168,8 +175,10 @@ void CPlaceMoveButton::On_Click()
 	//		m_pContext,
 	//		m_eNextPlaceID));
 
+	// 버튼들을 아직 매니저에 안넣어줌
 	m_pGameInstance->ButtonManager_All_Deactivate(
 		static_cast<uint32_t>(PLACE_ID::ISLAND));
+
 	m_isSelected = TRUE;
 	return;
 }

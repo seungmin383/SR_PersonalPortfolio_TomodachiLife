@@ -488,6 +488,7 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pTimerManager);
 	Safe_Release(m_pInput_Device);
 	Safe_Release(m_pPipeLine);
+	Safe_Release(m_pButtonManager);
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pPlaceManager);
 	Safe_Release(m_pRenderManager);

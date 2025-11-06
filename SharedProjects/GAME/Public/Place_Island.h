@@ -22,9 +22,6 @@ public:
 	HRESULT Ready_Environment_Layer();
 	HRESULT Ready_Camera_Layer();
 
-private:
-	vector<CPlaceMoveButton*> m_PlaceMoveButtons;
-
 public:
 	static CPlace_Island* Create(
 		ID3D11Device* pDevice,

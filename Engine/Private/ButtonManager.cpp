@@ -24,6 +24,7 @@ HRESULT CButtonManager::Initialize(uint32_t iNumPlace)
 
 HRESULT CButtonManager::Add_Button(uint32_t iPlaceID, CButton* pButton)
 {
+	Safe_AddRef(pButton);
 	m_Buttons[iPlaceID].push_back(pButton);
 	return S_OK;
 }
@@ -52,6 +53,18 @@ CButtonManager* CButtonManager::Create(ID3D11Device* pDevice, ID3D11DeviceContex
 
 void CButtonManager::Free()
 {
+	CBase::Free();
+
+	for (uint32_t i = 0; i < m_iNumPlace; i++)
+	{
+		for (auto& pButton : m_Buttons[i])
+		{
+			Safe_Release(pButton);
+		}
+		m_Buttons[i].clear();
+	}
+	Safe_Delete_Array(m_Buttons);
+
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 	Safe_Release(m_pGameInstance);

@@ -16,8 +16,9 @@ public:
 	typedef struct tagPlaceMoveButtonDesc : public BUTTON_DESC
 	{
 		PLACE_ID eNextPlace = {};
-		uint32_t iTextureNum = {};
-		uint32_t iSelectedTextureNum = {};
+		uint8_t iTextureNum = {};
+		uint8_t iUnlockTextureNum = {};
+		uint8_t iOutlineTextureNum = {};
 
 	}PLACEMOVEBUTTON_DESC;
 
@@ -49,10 +50,10 @@ private:
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
 	PLACE_ID	m_eNextPlaceID = { PLACE_ID::END };
-	uint32_t	m_iTextureNum = {};
-	uint32_t	m_iOutlineTextureNum = {};
+	uint8_t	m_iTextureNum = {};
+	uint8_t	m_iOutlineTextureNum = {};
+	uint8_t m_iStoreOutlineTextureNum = {};
 
-	uint32_t m_iSelectedTextureNum = {5};
 	_bool m_isUnlock = { FALSE };
 
 public:
