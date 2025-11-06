@@ -65,8 +65,6 @@ HRESULT CMesh::Initialize_Origin(
 		pIndices[IndicesNum++] = pAIMesh->mFaces[i].mIndices[1];
 		pIndices[IndicesNum++] = pAIMesh->mFaces[i].mIndices[2];
 	}
-	
-
 
 	D3D11_SUBRESOURCE_DATA IBuffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
 	IBuffer_Init_Data.pSysMem = pIndices;
@@ -125,7 +123,6 @@ HRESULT CMesh::Ready_AnimMesh(
 		// Position
 		memcpy(&pVertices[i].vPos, &pAIMesh->mVertices[i], sizeof(_float3));
 		m_pVertexPositions[i] = pVertices[i].vPos;
-
 		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
 		memcpy(&pVertices[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
 		memcpy(&pVertices[i].vBinormal, &pAIMesh->mBitangents[i], sizeof(_float3));
