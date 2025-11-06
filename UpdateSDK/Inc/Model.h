@@ -32,9 +32,15 @@ public:
 		aiTextureType eMaterialType,
 		uint32_t iTextureIndex = 0);
 
+	HRESULT Bind_Bones(
+		CShaderCom* pShader,
+		const _char* pConstantName,
+		uint32_t iMeshIndex);
+
 public:
-	uint32_t Get_NumMesh() { return m_iNumMesh; }
-	void Get_Meshes_Vertices(_wstring MeshName, vector<_float2>& Out);
+	uint32_t Get_NumMesh()const{ return m_iNumMesh; }
+	int32_t Get_BoneIndex(const _char* pBoneName)const;
+	void Play_Animation(_float fDT);
 
 private:
 	Assimp::Importer m_Importer = {};
@@ -48,6 +54,7 @@ private:
 	uint32_t m_iNumMaterial = {};
 	vector<CMaterial*> m_Materials;
 
+	// 이 모델에 영향을 주는 모든 뼈
 	vector<CBone*> m_Bones;
 
 private:

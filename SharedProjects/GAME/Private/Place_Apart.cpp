@@ -58,7 +58,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		tMiiDesc.fCZ = 1.f;
 		tMiiDesc.fSpeedPerSecond = 0.f;
 		tMiiDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-		tMiiDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		tMiiDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(
 			static_cast<uint32_t>(PLACE_ID::APART),

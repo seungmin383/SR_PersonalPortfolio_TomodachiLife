@@ -23,7 +23,7 @@ HRESULT CPlaceMoveButton::Initialize_Clone(void* pArg)
 	
 	m_eNextPlaceID = tPlaceMoveButtonDesc->eNextPlace;
 	m_iTextureNum = tPlaceMoveButtonDesc->iTextureNum;
-
+	
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -44,11 +44,12 @@ int32_t CPlaceMoveButton::Update_Priority(_float fDT)
 		m_isClicked = TRUE;
 	}
 	
-	return 0;
+	return UPDATE_OK;
 }
 
 int32_t CPlaceMoveButton::Update(_float fDT)
 {
+
 	if (m_isClicked)
 	{
 		On_Click();

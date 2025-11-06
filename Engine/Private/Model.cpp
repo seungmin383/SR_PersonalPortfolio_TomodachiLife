@@ -35,7 +35,7 @@ HRESULT CModel::Initialize_Origin(
 {
 	uint32_t iFlag =
 	{	aiProcess_ConvertToLeftHanded | 
-		aiProcessPreset_TargetRealtime_Quality };
+		aiProcessPreset_TargetRealtime_Fast };
 
 	m_eAnimType = eAnimType;
 
@@ -51,13 +51,13 @@ HRESULT CModel::Initialize_Origin(
 
 	XMStoreFloat4x4(&m_InitMatrix, InitTransformMatrix);
 
+	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
+		return E_FAIL;
+
 	if (FAILED(Ready_Meshes()))
 		return E_FAIL;
 
 	if (FAILED(Ready_Material(pModelFilePath)))
-		return E_FAIL;
-
-	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
 		return E_FAIL;
 
 	uint32_t i = m_pAIScene->mNumAnimations;
@@ -82,7 +82,12 @@ HRESULT CModel::Render(uint32_t iMeshIndex)
 	return S_OK;
 }
 
-HRESULT CModel::Bind_Material(CShaderCom* pShader, const _char* pConstantName, uint32_t iMeshIndex, aiTextureType eMaterialType, uint32_t iTextureIndex)
+HRESULT CModel::Bind_Material(
+	CShaderCom* pShader,
+	const _char* pConstantName, 
+	uint32_t iMeshIndex, 
+	aiTextureType eMaterialType, 
+	uint32_t iTextureIndex)
 {
 	if (iMeshIndex >= m_iNumMesh)
 		return E_FAIL;
@@ -95,9 +100,45 @@ HRESULT CModel::Bind_Material(CShaderCom* pShader, const _char* pConstantName, u
 	return m_Materials[iMaterialIndex]->Bind_ShaderResource(pShader, pConstantName, eMaterialType, iTextureIndex);
 }
 
-void CModel::Get_Meshes_Vertices(_wstring MeshName, vector<_float2>& Out)
+HRESULT CModel::Bind_Bones(
+	CShaderCom* pShader, 
+	const _char* pConstantName, 
+	uint32_t iMeshIndex)
 {
+	if (iMeshIndex >= m_iNumMesh)
+		return E_FAIL;
 
+	return m_Meshes[iMeshIndex]->Bind_Bones(pShader, pConstantName, m_Bones);
+}
+
+int32_t CModel::Get_BoneIndex(const _char* pBoneName) const
+{
+	int32_t iIndex = { 0 };
+
+	auto iter = find_if(m_Bones.begin(), m_Bones.end(), [&](CBone* pBone)->_bool
+		{
+			if (pBone->Compare_Name(pBoneName))
+				return true;
+
+			++iIndex;
+
+			return false;
+		});
+
+	if (iter == m_Bones.end())
+		return -1;
+
+	return iIndex;
+}
+
+void CModel::Play_Animation(_float fDT)
+{
+	for (auto& pBone : m_Bones)
+	{
+		pBone->Update_CombinedTransformationMatrix(
+			m_Bones,
+			XMLoadFloat4x4(&m_InitMatrix));
+	}
 }
 
 HRESULT CModel::Ready_Meshes()
@@ -113,6 +154,7 @@ HRESULT CModel::Ready_Meshes()
 				m_pDevice,
 				m_pContext,
 				m_eAnimType,
+				this,
 				m_pAIScene->mMeshes[i],
 				XMLoadFloat4x4(&m_InitMatrix));
 
@@ -156,7 +198,7 @@ HRESULT CModel::Ready_Bones(const aiNode* pAINode, int32_t iParentBoneIndex)
 
 	m_Bones.push_back(pInstance);
 
-	int32_t iParentIndex = (m_Bones.size() - 1);
+	int32_t iParentIndex = static_cast<int32_t>(m_Bones.size() - 1);
 
 	for (uint32_t i = 0; i < pAINode->mNumChildren; i++)
 	{

@@ -377,9 +377,6 @@
     <ClInclude Include="..\Public\Model.h">
       <Filter>01.Utility\03.Object\02.Component\04.Model</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Mesh.h">
-      <Filter>01.Utility\03.Object\02.Component\04.Model\00.Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Button.h">
       <Filter>01.Utility\03.Object\03.UI\01.Button</Filter>
     </ClInclude>
@@ -394,6 +391,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Bone.h">
       <Filter>01.Utility\03.Object\02.Component\04.Model\02.Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mesh.h">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\00.Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Anim_Mesh.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Normal_Tex.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Tex.hlsl" />

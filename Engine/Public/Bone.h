@@ -11,6 +11,21 @@ private:
 
 public :
 	HRESULT Initialize(const aiNode* pAINode, int32_t iParentBoneIndex);
+	
+	/* 전체 뼈의 CombinedMatrix를 계산 
+	계산하기 위해서는 부모 뼈의 정보가 필요함*/
+	void Update_CombinedTransformationMatrix(
+		vector<CBone*>& EntireBones,
+		FXMMATRIX PreTransformMatrix);
+
+	_bool Compare_Name(const _char* pName){
+		return !strcmp(pName, m_szName);
+	}
+
+public:
+	XMMATRIX Get_CombinedTransformationMatrix(){
+		return XMLoadFloat4x4(&m_CombinedTransformationMatrix);
+	}
 
 private:
 	_char m_szName[MAX_PATH] = {};
@@ -19,7 +34,10 @@ private:
 	int32_t m_iParentBoneIndex = { -1 };
 
 public:
-	static CBone* Create(const aiNode* pAINode, int32_t iParentBoneIndex);
+	static CBone* Create(
+		const aiNode* pAINode, 
+		int32_t iParentBoneIndex);
+
 	virtual void Free()override;
 };
 

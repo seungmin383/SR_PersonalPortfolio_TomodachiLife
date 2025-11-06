@@ -99,6 +99,9 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Test.hlsl">
       <Filter>04.Shader</Filter>
     </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Anim_Mesh.hlsl">
+      <Filter>04.Shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h">

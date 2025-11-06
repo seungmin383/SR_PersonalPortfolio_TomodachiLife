@@ -50,12 +50,13 @@ int32_t CMii::Update_Priority(_float fDT)
 			j);
 	}
 
+	m_pModelCom->Play_Animation(fDT);
+
 	return 0;
 }
 
 int32_t CMii::Update(_float fDT)
 {
-	cout << m_eInfo.iGender << endl;
 	return 0;
 }
 
@@ -71,16 +72,24 @@ HRESULT CMii::Render()
 
 	uint32_t iNumMesh = m_pModelCom->Get_NumMesh();
 
-	for (size_t i = 0; i < iNumMesh; i++)
+	for (uint32_t i = 0; i < iNumMesh; i++)
 	{
-		m_pModelCom->Bind_Material(
+		if (FAILED(m_pModelCom->Bind_Material(
 			m_pShaderCom,
 			"g_DiffuseTexture",
 			i,
 			aiTextureType_DIFFUSE,
-			0);
+			0)))
+			return E_FAIL;
 
-		m_pShaderCom->Begin(0);
+		if (FAILED(m_pModelCom->Bind_Bones(m_pShaderCom,
+			"g_BoneMatrices",
+			i)))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Begin(0)))
+			return E_FAIL;
+
 		m_pModelCom->Render(i);
 	}
 
@@ -91,7 +100,7 @@ HRESULT CMii::Ready_Component()
 {
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACE_ID::STATIC),
-		TEXT("ProtoTag_Component_VtxMeshShader"),
+		TEXT("ProtoTag_Component_VtxAnimMeshShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
 		nullptr)))
@@ -120,19 +129,19 @@ HRESULT CMii::Bind_ShaderResources()
 	m_pGameInstance->CameraManager_Bind_Matrix(
 		m_pShaderCom,
 		"g_ViewMatrix",
-		TEXT("UI_Camera"),
+		TEXT("World_Camera"),
 		D3DTS::VIEW);
 
 	m_pGameInstance->CameraManager_Bind_Matrix(
 		m_pShaderCom,
 		"g_ProjMatrix",
-		TEXT("UI_Camera"),
+		TEXT("World_Camera"),
 		D3DTS::PROJ);
 
 	m_pGameInstance->CameraManager_Bind_Camera_Pos(
 		m_pShaderCom,
 		"g_vCamPosition",
-		TEXT("UI_Camera"));
+		TEXT("World_Camera"));
 
 	return hr;
 }

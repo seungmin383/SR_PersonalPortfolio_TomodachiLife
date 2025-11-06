@@ -55,6 +55,12 @@ using namespace DirectX;
 #include <dinput.h>
 
 #pragma warning(disable : 4251)
+#pragma warning(disable : 4099)
+
+namespace Engine
+{
+	static const unsigned int g_iMaxNumBones = 128;
+}
 #ifdef _DEBUG
 
 #define _CRTDBG_MAP_ALLOC

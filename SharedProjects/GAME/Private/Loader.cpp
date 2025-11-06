@@ -484,7 +484,7 @@ HRESULT CLoader::Loading_Apart()
 				m_pDevice, 
 				m_pContext,
 				ANIM_TYPE::ANIM,
-				"../../Resource/00Model/Actor - Body/BasicManBody.fbx",
+				"../../Resource/Models/Fiona/Fiona.fbx",
 				InitMatrix);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
