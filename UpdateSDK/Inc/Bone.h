@@ -27,6 +27,10 @@ public:
 		return XMLoadFloat4x4(&m_CombinedTransformationMatrix);
 	}
 
+	void Set_TransformMatrix(XMFLOAT4X4& TransformMatrix){
+		m_TransformationMatrix = TransformMatrix;
+	}
+
 private:
 	_char m_szName[MAX_PATH] = {};
 	XMFLOAT4X4 m_TransformationMatrix = {};

@@ -7,6 +7,7 @@ class CMesh;
 class CMaterial;
 class CShaderCom;
 class CBone;
+class CAnimation;
 
 class ENGINE_DLL CModel final : public CComponent
 {
@@ -41,6 +42,7 @@ public:
 	uint32_t Get_NumMesh()const{ return m_iNumMesh; }
 	int32_t Get_BoneIndex(const _char* pBoneName)const;
 	void Play_Animation(_float fDT);
+	void Set_Animation(uint32_t iAnimIndex, _bool isLoop = FALSE);
 
 private:
 	Assimp::Importer m_Importer = {};
@@ -57,10 +59,19 @@ private:
 	// 이 모델에 영향을 주는 모든 뼈
 	vector<CBone*> m_Bones;
 
+	uint32_t m_iNumAnimation = {};
+	uint32_t m_iCurAnimationIndex = {};
+
+	/* 애니메이션을 어떻게 보관할 것인가 */
+	vector<CAnimation* > m_Animations;
+	_bool m_isAnimLoop = { FALSE };
+	_bool m_isAnimFinished = { FALSE };
+
 private:
 	HRESULT Ready_Meshes();
 	HRESULT	Ready_Material(const _char* pModelFIlePath);
 	HRESULT Ready_Bones(const aiNode* pAINode, int32_t iParentBoneIndex);
+	HRESULT Ready_Animations();
 
 public:
 	static CModel* Create(

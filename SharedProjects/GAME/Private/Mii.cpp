@@ -50,6 +50,7 @@ int32_t CMii::Update_Priority(_float fDT)
 			j);
 	}
 
+	m_pModelCom->Set_Animation(0, TRUE);
 	m_pModelCom->Play_Animation(fDT);
 
 	return 0;

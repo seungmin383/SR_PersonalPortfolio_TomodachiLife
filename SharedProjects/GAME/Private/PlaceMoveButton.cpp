@@ -168,12 +168,12 @@ HRESULT CPlaceMoveButton::Bind_ShaderResources()
 
 void CPlaceMoveButton::On_Click()
 {
-	//m_pGameInstance->PlaceManager_Change_Place(
-	//	static_cast<uint32_t>(PLACE_ID::LOADING),
-	//	CPlace_Loading::Create(
-	//		m_pDevice,
-	//		m_pContext,
-	//		m_eNextPlaceID));
+	m_pGameInstance->PlaceManager_Change_Place(
+		static_cast<uint32_t>(PLACE_ID::LOADING),
+		CPlace_Loading::Create(
+			m_pDevice,
+			m_pContext,
+			m_eNextPlaceID));
 
 	// 버튼들을 아직 매니저에 안넣어줌
 	m_pGameInstance->ButtonManager_All_Deactivate(

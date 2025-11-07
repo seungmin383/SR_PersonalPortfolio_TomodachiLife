@@ -28,6 +28,15 @@ namespace Engine
 		_float fRange;
 	}LIGHT_DESC;
 
+	typedef struct tagKeyFrame
+	{
+		XMFLOAT3 vScale;
+		XMFLOAT4 vRotation;
+		XMFLOAT3 vTranslation;
+		/* 이 키프레임이 애니메이션의 어디에 위치하는가*/
+		float fTrackPosition;
+
+	}KEYFRAME;
 
 	typedef struct tagVertexCol
 	{

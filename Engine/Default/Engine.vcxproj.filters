@@ -136,6 +136,12 @@
     <Filter Include="01.Utility\03.Object\03.UI\01.Button\Manager">
       <UniqueIdentifier>{c5d4f6d6-9c62-4a8b-bca7-bff9de6c047c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\04.Model\03.Animation">
+      <UniqueIdentifier>{fe77bca4-b2f3-4303-96b3-7fe46109207f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\04.Model\03.Animation\Channel">
+      <UniqueIdentifier>{9414e6fa-84be-48e1-9f02-2824ab95b219}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -248,6 +254,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\ButtonManager.cpp">
       <Filter>01.Utility\03.Object\03.UI\01.Button\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Animation.cpp">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\03.Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Channel.cpp">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\03.Animation\Channel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -403,6 +415,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\ButtonManager.h">
       <Filter>01.Utility\03.Object\03.UI\01.Button\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Animation.h">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\03.Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Channel.h">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\03.Animation\Channel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

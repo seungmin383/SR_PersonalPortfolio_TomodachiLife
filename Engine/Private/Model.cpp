@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Bone.h"
+#include "Animation.h"
 
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CComponent(pDevice, pContext)
@@ -16,7 +17,8 @@ CModel::CModel(const CModel& rhs)
 	m_iNumMaterial(rhs.m_iNumMaterial),
 	m_Materials(rhs.m_Materials),
 	m_eAnimType(rhs.m_eAnimType),
-	m_Bones(rhs.m_Bones)
+	m_Bones(rhs.m_Bones),
+	m_Animations(rhs.m_Animations)
 {
 	for (auto& mesh : m_Meshes)
 		Safe_AddRef(mesh);
@@ -26,6 +28,9 @@ CModel::CModel(const CModel& rhs)
 
 	for (auto& pBone : m_Bones)
 		Safe_AddRef(pBone);
+
+	for (auto& pAnim : m_Animations)
+		Safe_AddRef(pAnim);
 }
 
 HRESULT CModel::Initialize_Origin(
@@ -58,6 +63,9 @@ HRESULT CModel::Initialize_Origin(
 		return E_FAIL;
 
 	if (FAILED(Ready_Material(pModelFilePath)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Animations()))
 		return E_FAIL;
 
 	uint32_t i = m_pAIScene->mNumAnimations;
@@ -133,12 +141,21 @@ int32_t CModel::Get_BoneIndex(const _char* pBoneName) const
 
 void CModel::Play_Animation(_float fDT)
 {
+	m_Animations[m_iCurAnimationIndex]->Update_TransformationMatrices(
+		m_Bones, fDT, m_isAnimLoop);
+
 	for (auto& pBone : m_Bones)
 	{
 		pBone->Update_CombinedTransformationMatrix(
 			m_Bones,
 			XMLoadFloat4x4(&m_InitMatrix));
 	}
+}
+
+void CModel::Set_Animation(uint32_t iAnimIndex, _bool isLoop)
+{
+	m_iCurAnimationIndex = iAnimIndex;
+	m_isAnimLoop = isLoop;
 }
 
 HRESULT CModel::Ready_Meshes()
@@ -208,6 +225,25 @@ HRESULT CModel::Ready_Bones(const aiNode* pAINode, int32_t iParentBoneIndex)
 	return S_OK;
 }
 
+HRESULT CModel::Ready_Animations()
+{
+	m_iNumAnimation = m_pAIScene->mNumAnimations;
+
+	/* 공격 애니메이션을 만들고 보관, 걷기 애니메이션을 만들고 보관 */
+	for (uint32_t i = 0; i < m_iNumAnimation; i++)
+	{
+		CAnimation* pInstance = CAnimation::Create(
+			m_pAIScene->mAnimations[i],
+			this);
+
+		if (nullptr == pInstance)
+			return E_FAIL;
+
+		m_Animations.push_back(pInstance);
+	}
+	return S_OK;
+}
+
 CModel* CModel::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext,
@@ -253,6 +289,10 @@ void CModel::Free()
 	for (auto& pBone : m_Bones)
 		Safe_Release(pBone);
 	m_Bones.clear();
+
+	for (auto& pAnim : m_Animations)
+		Safe_Release(pAnim);
+	m_Animations.clear();
 
 	m_Importer.FreeScene();
 
