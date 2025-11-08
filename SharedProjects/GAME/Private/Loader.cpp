@@ -46,7 +46,6 @@ HRESULT CLoader::Initialize(PLACE_ID NextPlaceID)
 	return S_OK;
 }
 
-// 
 #pragma region LOADING_FUCTION
 
 HRESULT CLoader::Loading()
@@ -69,7 +68,7 @@ HRESULT CLoader::Loading()
 		hr = Loading_For_Save();
 		break;
 	case PLACE_ID::MII_EDITOR:
-		hr = Loading_For_MiiEditor();
+		hr = Loading_MiiEditor();
 		break;
 	case PLACE_ID::STORE_CLOTHES:
 		hr = Loading_For_Store_Clothes();
@@ -336,8 +335,42 @@ HRESULT CLoader::Loading_For_Save()
 	return S_OK;
 }
 
-HRESULT CLoader::Loading_For_MiiEditor()
+HRESULT CLoader::Loading_MiiEditor()
 {
+	CObject* tmp = { nullptr };
+
+	// Component
+	{
+		// ProtoTag_Component_MiiEditor_Model
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+			tmp = CModel::Create(
+				m_pDevice,
+				m_pContext,
+				ANIM_TYPE::NONEANIM,
+				"../../Resource/Model_Environment/BackGround_MiiEditor/BackGround_MiiEditor.fbx",
+				initMatrix);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::MII_EDITOR),
+				TEXT("ProtoTag_Component_MiiEditor_Model"),
+				tmp)))
+				return E_FAIL;
+		}
+	}
+
+	// Actor
+	{
+		
+	}
+
+	// UI
+	{
+
+	}
+
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
 
 	return S_OK;
@@ -484,7 +517,7 @@ HRESULT CLoader::Loading_Apart()
 				m_pDevice, 
 				m_pContext,
 				ANIM_TYPE::ANIM,
-				"../../Resource/Models/Fiona/Fiona.fbx",
+				"../../Resource/00Model/00Body/Hoodie/Untitled.fbx",
 				InitMatrix);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
@@ -579,22 +612,6 @@ HRESULT CLoader::Loading_Island()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::ISLAND),
 				TEXT("ProtoTag_Component_Apart_Model"),
-				tmp)))
-				return E_FAIL;
-		}
-
-		// ProtoTag_Component_Mesh_Shader
-		{
-			tmp = CShaderCom::Create(
-				m_pDevice,
-				m_pContext,
-				TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Mesh.hlsl"),
-				VTX_TEX_MESH::Elements,
-				VTX_TEX_MESH::iNumElements);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_Component_Mesh_Shader"),
 				tmp)))
 				return E_FAIL;
 		}

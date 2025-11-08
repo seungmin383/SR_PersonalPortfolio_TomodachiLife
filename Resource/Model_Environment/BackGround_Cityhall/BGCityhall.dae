@@ -1,0 +1,465 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<COLLADA version="1.4.1" xmlns="http://www.collada.org/2005/11/COLLADASchema">
+	<asset>
+		<created>2025-11-07T11:30:23Z</created>
+		<modified>2025-11-07T11:30:23Z</modified>
+	</asset>
+	<library_images>
+		<image id="BG_Cmn00_id" name="BG_Cmn00">
+			<init_from>./BG_Cmn00.png</init_from>
+		</image>
+		<image id="BG_Cmn01_id" name="BG_Cmn01">
+			<init_from>./BG_Cmn01.png</init_from>
+		</image>
+		<image id="BG_Cmn02_id" name="BG_Cmn02">
+			<init_from>./BG_Cmn02.png</init_from>
+		</image>
+	</library_images>
+	<library_materials>
+		<material id="mtBGCityhall_mat_id" name="mtBGCityhall_mat">
+			<instance_effect url="#eff_mtBGCityhall_id" />
+		</material>
+		<material id="mtBGCityhall2_mat_id" name="mtBGCityhall2_mat">
+			<instance_effect url="#eff_mtBGCityhall2_id" />
+		</material>
+		<material id="mtBGCityhall3_mat_id" name="mtBGCityhall3_mat">
+			<instance_effect url="#eff_mtBGCityhall3_id" />
+		</material>
+	</library_materials>
+	<library_effects>
+		<effect id="eff_mtBGCityhall_id" name="eff_mtBGCityhall">
+			<profile_COMMON>
+				<newparam sid="img_surface">
+					<surface type="2D">
+						<init_from>BG_Cmn00_id</init_from>
+						<format>PNG</format>
+					</surface>
+				</newparam>
+				<newparam sid="img_sampler">
+					<sampler2D>
+						<source>img_surface</source>
+						<wrap_s>WRAP</wrap_s>
+						<wrap_t>WRAP</wrap_t>
+						<minfilter>NEAREST_MIPMAP_NEAREST</minfilter>
+						<magfilter>LINEAR</magfilter>
+						<mipfilter>LINEAR</mipfilter>
+					</sampler2D>
+				</newparam>
+				<technique sid="img_technique">
+					<phong>
+						<emission>
+							<color>0 0 0 1</color>
+						</emission>
+						<ambient>
+							<color>0 0 0 1</color>
+						</ambient>
+						<diffuse>
+							<texture texture="img_sampler" texcoord="uv" />
+						</diffuse>
+						<specular>
+							<color>1 1 1 1</color>
+						</specular>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
+		<effect id="eff_mtBGCityhall2_id" name="eff_mtBGCityhall2">
+			<profile_COMMON>
+				<newparam sid="img_surface">
+					<surface type="2D">
+						<init_from>BG_Cmn01_id</init_from>
+						<format>PNG</format>
+					</surface>
+				</newparam>
+				<newparam sid="img_sampler">
+					<sampler2D>
+						<source>img_surface</source>
+						<wrap_s>WRAP</wrap_s>
+						<wrap_t>WRAP</wrap_t>
+						<minfilter>NEAREST_MIPMAP_NEAREST</minfilter>
+						<magfilter>LINEAR</magfilter>
+						<mipfilter>LINEAR</mipfilter>
+					</sampler2D>
+				</newparam>
+				<technique sid="img_technique">
+					<phong>
+						<emission>
+							<color>0 0 0 1</color>
+						</emission>
+						<ambient>
+							<color>0 0 0 1</color>
+						</ambient>
+						<diffuse>
+							<texture texture="img_sampler" texcoord="uv" />
+						</diffuse>
+						<specular>
+							<color>1 1 1 1</color>
+						</specular>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
+		<effect id="eff_mtBGCityhall3_id" name="eff_mtBGCityhall3">
+			<profile_COMMON>
+				<newparam sid="img_surface">
+					<surface type="2D">
+						<init_from>BG_Cmn02_id</init_from>
+						<format>PNG</format>
+					</surface>
+				</newparam>
+				<newparam sid="img_sampler">
+					<sampler2D>
+						<source>img_surface</source>
+						<wrap_s>WRAP</wrap_s>
+						<wrap_t>WRAP</wrap_t>
+						<minfilter>NEAREST_MIPMAP_NEAREST</minfilter>
+						<magfilter>LINEAR</magfilter>
+						<mipfilter>LINEAR</mipfilter>
+					</sampler2D>
+				</newparam>
+				<technique sid="img_technique">
+					<phong>
+						<emission>
+							<color>0 0 0 1</color>
+						</emission>
+						<ambient>
+							<color>0 0 0 1</color>
+						</ambient>
+						<diffuse>
+							<texture texture="img_sampler" texcoord="uv" />
+						</diffuse>
+						<specular>
+							<color>1 1 1 1</color>
+						</specular>
+					</phong>
+				</technique>
+			</profile_COMMON>
+		</effect>
+	</library_effects>
+	<library_geometries>
+		<geometry id="mesh_0__id" name="mesh_0_">
+			<mesh>
+				<source id="mesh_0__position_id" name="mesh_0__position">
+					<float_array id="mesh_0__position_array_id" count="66">-1.948196 -1.19114 0.3929823 -1.573796 -1.19114 0.2520283 -1.948196 1.20886 0.3929823 -1.573796 1.20886 0.2520283 -1.189326 -1.19114 0.1414443 -1.189326 1.20886 0.1414443 -0.7972524 -1.19114 0.06193873 -0.7972524 1.20886 0.06193873 -0.4000795 -1.19114 0.01401993 -0.4000795 1.20886 0.01401993 -0.00034644 -1.19114 -0.00200567 -0.00034644 1.20886 -0.00200567 0.3993886 -1.19114 0.01396453 0.3993886 1.20886 0.01396453 0.7965686 -1.19114 0.06182833 0.7965686 1.20886 0.06182833 1.188654 -1.19114 0.1412793 1.188654 1.20886 0.1412793 1.573134 -1.19114 0.2518103 1.573134 1.20886 0.2518103 1.947554 -1.19114 0.3927123 1.947554 1.20886 0.3927123</float_array>
+					<technique_common>
+						<accessor source="#mesh_0__position_array_id" count="22" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_0__normal_id" name="mesh_0__normal">
+					<float_array id="mesh_0__normal_array_id" count="66">0.352339 0 0.935872 0.314632 0 0.949214 0.352339 0 0.935872 0.314632 0 0.949214 0.23777 0 0.971321 0.23777 0 0.971321 0.159387 0 0.987216 0.159387 0 0.987216 0.0799838 0 0.996796 0.0799838 0 0.996796 6.92881E-05 0 1 6.92881E-05 0 1 -0.0798456 0 0.996807 -0.0798456 0 0.996807 -0.15925 0 0.987238 -0.15925 0 0.987238 -0.237635 0 0.971354 -0.237635 0 0.971354 -0.314501 0 0.949257 -0.314501 0 0.949257 -0.352209 0 0.935921 -0.352209 0 0.935921</float_array>
+					<technique_common>
+						<accessor source="#mesh_0__normal_array_id" count="22" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_0__uv0_id" name="mesh_0__uv0">
+					<float_array id="mesh_0__uv0_array_id" count="44">-0.625 0 -0.3125 0 -0.625 1.875 -0.3125 1.875 0 0 0 1.875 0.3125 0 0.3125 1.875 0.625 0 0.625 1.875 0.9375 0 0.9375 1.875 1.25 0 1.25 1.875 1.5625 0 1.5625 1.875 1.875 0 1.875 1.875 2.1875 0 2.1875 1.875 2.5 0 2.5 1.875</float_array>
+					<technique_common>
+						<accessor source="#mesh_0__uv0_array_id" count="22" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_0__color_id" name="mesh_0__color">
+					<float_array id="mesh_0__color_array_id" count="88">1 1 0.7450981 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1</float_array>
+					<technique_common>
+						<accessor source="#mesh_0__color_array_id" count="22" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="mesh_0__vertices_id">
+					<input semantic="POSITION" source="#mesh_0__position_id" />
+				</vertices>
+				<triangles material="mtBGCityhall3" count="20">
+					<input semantic="VERTEX" source="#mesh_0__vertices_id" offset="0" />
+					<input semantic="NORMAL" source="#mesh_0__normal_id" offset="0" />
+					<input semantic="COLOR" source="#mesh_0__color_id" offset="0" />
+					<input semantic="TEXCOORD" source="#mesh_0__uv0_id" offset="0" set="0" />
+					<p>0 1 2 2 1 3 1 4 3 3 4 5 4 6 5 5 6 7 6 8 7 7 8 9 8 10 9 9 10 11 10 12 11 11 12 13 12 14 13 13 14 15 14 16 15 15 16 17 16 18 17 17 18 19 18 20 19 19 20 21</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="mesh_1__id" name="mesh_1_">
+			<mesh>
+				<source id="mesh_1__position_id" name="mesh_1__position">
+					<float_array id="mesh_1__position_array_id" count="66">-1.948196 -1.19114 0.382988 -1.573796 -1.19114 0.242034 -1.948196 1.20886 0.382988 -1.573796 1.20886 0.242034 -1.189326 -1.19114 0.13145 -1.189326 1.20886 0.13145 -0.7972524 -1.19114 0.0519444 -0.7972524 1.20886 0.0519444 -0.4000795 -1.19114 0.004025599 -0.4000795 1.20886 0.004025599 -0.00034644 -1.19114 -0.012 -0.00034644 1.20886 -0.012 0.3993886 -1.19114 0.0039702 0.3993886 1.20886 0.0039702 0.7965686 -1.19114 0.05183399 0.7965686 1.20886 0.05183399 1.188654 -1.19114 0.131285 1.188654 1.20886 0.131285 1.573134 -1.19114 0.241816 1.573134 1.20886 0.241816 1.947554 -1.19114 0.382718 1.947554 1.20886 0.382718</float_array>
+					<technique_common>
+						<accessor source="#mesh_1__position_array_id" count="22" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_1__normal_id" name="mesh_1__normal">
+					<float_array id="mesh_1__normal_array_id" count="66">0.352339 0 0.935872 0.314632 0 0.949214 0.352339 0 0.935872 0.314632 0 0.949214 0.23777 0 0.971321 0.23777 0 0.971321 0.159387 0 0.987216 0.159387 0 0.987216 0.0799838 0 0.996796 0.0799838 0 0.996796 6.92881E-05 0 1 6.92881E-05 0 1 -0.0798456 0 0.996807 -0.0798456 0 0.996807 -0.15925 0 0.987238 -0.15925 0 0.987238 -0.237635 0 0.971354 -0.237635 0 0.971354 -0.314501 0 0.949257 -0.314501 0 0.949257 -0.352209 0 0.935921 -0.352209 0 0.935921</float_array>
+					<technique_common>
+						<accessor source="#mesh_1__normal_array_id" count="22" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_1__uv0_id" name="mesh_1__uv0">
+					<float_array id="mesh_1__uv0_array_id" count="44">-0.625 0 -0.3125 0 -0.625 1.875 -0.3125 1.875 0 0 0 1.875 0.3125 0 0.3125 1.875 0.625 0 0.625 1.875 0.9375 0 0.9375 1.875 1.25 0 1.25 1.875 1.5625 0 1.5625 1.875 1.875 0 1.875 1.875 2.1875 0 2.1875 1.875 2.5 0 2.5 1.875</float_array>
+					<technique_common>
+						<accessor source="#mesh_1__uv0_array_id" count="22" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_1__color_id" name="mesh_1__color">
+					<float_array id="mesh_1__color_array_id" count="88">1 1 0.7450981 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1</float_array>
+					<technique_common>
+						<accessor source="#mesh_1__color_array_id" count="22" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="mesh_1__vertices_id">
+					<input semantic="POSITION" source="#mesh_1__position_id" />
+				</vertices>
+				<triangles material="mtBGCityhall2" count="20">
+					<input semantic="VERTEX" source="#mesh_1__vertices_id" offset="0" />
+					<input semantic="NORMAL" source="#mesh_1__normal_id" offset="0" />
+					<input semantic="COLOR" source="#mesh_1__color_id" offset="0" />
+					<input semantic="TEXCOORD" source="#mesh_1__uv0_id" offset="0" set="0" />
+					<p>0 1 2 2 1 3 1 4 3 3 4 5 4 6 5 5 6 7 6 8 7 7 8 9 8 10 9 9 10 11 10 12 11 11 12 13 12 14 13 13 14 15 14 16 15 15 16 17 16 18 17 17 18 19 18 20 19 19 20 21</p>
+				</triangles>
+			</mesh>
+		</geometry>
+		<geometry id="mesh_2__id" name="mesh_2_">
+			<mesh>
+				<source id="mesh_2__position_id" name="mesh_2__position">
+					<float_array id="mesh_2__position_array_id" count="66">-1.948196 -1.19114 0.372988 -1.573796 -1.19114 0.232034 -1.948196 1.20886 0.372988 -1.573796 1.20886 0.232034 -1.189326 -1.19114 0.12145 -1.189326 1.20886 0.12145 -0.7972524 -1.19114 0.0419444 -0.7972524 1.20886 0.0419444 -0.4000795 -1.19114 -0.005974401 -0.4000795 1.20886 -0.005974401 -0.00034644 -1.19114 -0.022 -0.00034644 1.20886 -0.022 0.3993886 -1.19114 -0.0060298 0.3993886 1.20886 -0.0060298 0.7965686 -1.19114 0.041834 0.7965686 1.20886 0.041834 1.188654 -1.19114 0.121285 1.188654 1.20886 0.121285 1.573134 -1.19114 0.231816 1.573134 1.20886 0.231816 1.947554 -1.19114 0.372718 1.947554 1.20886 0.372718</float_array>
+					<technique_common>
+						<accessor source="#mesh_2__position_array_id" count="22" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_2__normal_id" name="mesh_2__normal">
+					<float_array id="mesh_2__normal_array_id" count="66">0.352339 0 0.935872 0.314632 0 0.949214 0.352339 0 0.935872 0.314632 0 0.949214 0.23777 0 0.971321 0.23777 0 0.971321 0.159387 0 0.987216 0.159387 0 0.987216 0.0799838 0 0.996796 0.0799838 0 0.996796 6.92881E-05 0 1 6.92881E-05 0 1 -0.0798456 0 0.996807 -0.0798456 0 0.996807 -0.15925 0 0.987238 -0.15925 0 0.987238 -0.237635 0 0.971354 -0.237635 0 0.971354 -0.314501 0 0.949257 -0.314501 0 0.949257 -0.352209 0 0.935921 -0.352209 0 0.935921</float_array>
+					<technique_common>
+						<accessor source="#mesh_2__normal_array_id" count="22" stride="3">
+							<param name="X" type="float" />
+							<param name="Y" type="float" />
+							<param name="Z" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_2__uv0_id" name="mesh_2__uv0">
+					<float_array id="mesh_2__uv0_array_id" count="44">-0.625 0 -0.3125 0 -0.625 1.875 -0.3125 1.875 0 0 0 1.875 0.3125 0 0.3125 1.875 0.625 0 0.625 1.875 0.9375 0 0.9375 1.875 1.25 0 1.25 1.875 1.5625 0 1.5625 1.875 1.875 0 1.875 1.875 2.1875 0 2.1875 1.875 2.5 0 2.5 1.875</float_array>
+					<technique_common>
+						<accessor source="#mesh_2__uv0_array_id" count="22" stride="2">
+							<param name="S" type="float" />
+							<param name="T" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_2__color_id" name="mesh_2__color">
+					<float_array id="mesh_2__color_array_id" count="88">1 1 0.7450981 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1 1 1 0.7450981 1 1 0.7843137 0.03921569 1</float_array>
+					<technique_common>
+						<accessor source="#mesh_2__color_array_id" count="22" stride="4">
+							<param name="R" type="float" />
+							<param name="G" type="float" />
+							<param name="B" type="float" />
+							<param name="A" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<vertices id="mesh_2__vertices_id">
+					<input semantic="POSITION" source="#mesh_2__position_id" />
+				</vertices>
+				<triangles material="mtBGCityhall" count="20">
+					<input semantic="VERTEX" source="#mesh_2__vertices_id" offset="0" />
+					<input semantic="NORMAL" source="#mesh_2__normal_id" offset="0" />
+					<input semantic="COLOR" source="#mesh_2__color_id" offset="0" />
+					<input semantic="TEXCOORD" source="#mesh_2__uv0_id" offset="0" set="0" />
+					<p>0 1 2 2 1 3 1 4 3 3 4 5 4 6 5 5 6 7 6 8 7 7 8 9 8 10 9 9 10 11 10 12 11 11 12 13 12 14 13 13 14 15 14 16 15 15 16 17 16 18 17 17 18 19 18 20 19 19 20 21</p>
+				</triangles>
+			</mesh>
+		</geometry>
+	</library_geometries>
+	<library_controllers>
+		<controller id="mesh_0__ctrl_id">
+			<skin source="#mesh_0__id">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="mesh_0__ctrl_joint_names_id">
+					<Name_array id="mesh_0__ctrl_joint_names_array_id" count="1">BGCityhallRoot</Name_array>
+					<technique_common>
+						<accessor source="#mesh_0__ctrl_joint_names_array_id" count="1" stride="1">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_0__ctrl_inv_bind_poses_id">
+					<float_array id="mesh_0__ctrl_inv_bind_poses_array_id" count="16">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#mesh_0__ctrl_inv_bind_poses_array_id" count="1" stride="16">
+							<param name="TRANSFORM" type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_0__ctrl_weights_id">
+					<float_array id="mesh_0__ctrl_weights_array_id" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#mesh_0__ctrl_weights_array_id" count="1" stride="1">
+							<param name="WEIGHT" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#mesh_0__ctrl_joint_names_id" />
+					<input semantic="INV_BIND_MATRIX" source="#mesh_0__ctrl_inv_bind_poses_id" />
+				</joints>
+				<vertex_weights count="22">
+					<input semantic="JOINT" source="#mesh_0__ctrl_joint_names_id" offset="0" />
+					<input semantic="WEIGHT" source="#mesh_0__ctrl_weights_id" offset="1" />
+					<vcount>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</vcount>
+					<v>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="mesh_1__ctrl_id">
+			<skin source="#mesh_1__id">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="mesh_1__ctrl_joint_names_id">
+					<Name_array id="mesh_1__ctrl_joint_names_array_id" count="1">BGCityhallRoot</Name_array>
+					<technique_common>
+						<accessor source="#mesh_1__ctrl_joint_names_array_id" count="1" stride="1">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_1__ctrl_inv_bind_poses_id">
+					<float_array id="mesh_1__ctrl_inv_bind_poses_array_id" count="16">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#mesh_1__ctrl_inv_bind_poses_array_id" count="1" stride="16">
+							<param name="TRANSFORM" type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_1__ctrl_weights_id">
+					<float_array id="mesh_1__ctrl_weights_array_id" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#mesh_1__ctrl_weights_array_id" count="1" stride="1">
+							<param name="WEIGHT" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#mesh_1__ctrl_joint_names_id" />
+					<input semantic="INV_BIND_MATRIX" source="#mesh_1__ctrl_inv_bind_poses_id" />
+				</joints>
+				<vertex_weights count="22">
+					<input semantic="JOINT" source="#mesh_1__ctrl_joint_names_id" offset="0" />
+					<input semantic="WEIGHT" source="#mesh_1__ctrl_weights_id" offset="1" />
+					<vcount>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</vcount>
+					<v>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+		<controller id="mesh_2__ctrl_id">
+			<skin source="#mesh_2__id">
+				<bind_shape_matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</bind_shape_matrix>
+				<source id="mesh_2__ctrl_joint_names_id">
+					<Name_array id="mesh_2__ctrl_joint_names_array_id" count="1">BGCityhallRoot</Name_array>
+					<technique_common>
+						<accessor source="#mesh_2__ctrl_joint_names_array_id" count="1" stride="1">
+							<param name="JOINT" type="Name" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_2__ctrl_inv_bind_poses_id">
+					<float_array id="mesh_2__ctrl_inv_bind_poses_array_id" count="16">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</float_array>
+					<technique_common>
+						<accessor source="#mesh_2__ctrl_inv_bind_poses_array_id" count="1" stride="16">
+							<param name="TRANSFORM" type="float4x4" />
+						</accessor>
+					</technique_common>
+				</source>
+				<source id="mesh_2__ctrl_weights_id">
+					<float_array id="mesh_2__ctrl_weights_array_id" count="1">1</float_array>
+					<technique_common>
+						<accessor source="#mesh_2__ctrl_weights_array_id" count="1" stride="1">
+							<param name="WEIGHT" type="float" />
+						</accessor>
+					</technique_common>
+				</source>
+				<joints>
+					<input semantic="JOINT" source="#mesh_2__ctrl_joint_names_id" />
+					<input semantic="INV_BIND_MATRIX" source="#mesh_2__ctrl_inv_bind_poses_id" />
+				</joints>
+				<vertex_weights count="22">
+					<input semantic="JOINT" source="#mesh_2__ctrl_joint_names_id" offset="0" />
+					<input semantic="WEIGHT" source="#mesh_2__ctrl_weights_id" offset="1" />
+					<vcount>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</vcount>
+					<v>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</v>
+				</vertex_weights>
+			</skin>
+		</controller>
+	</library_controllers>
+	<library_visual_scenes>
+		<visual_scene id="vs_BGCityhall_id" name="vs_BGCityhall">
+			<node id="BGCityhallRoot_bone_id" name="BGCityhallRoot" sid="BGCityhallRoot" type="JOINT">
+				<matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+			</node>
+			<node id="vsn_mesh_0__id" name="vsn_mesh_0_" type="NODE">
+				<matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+				<instance_controller url="#mesh_0__ctrl_id">
+					<skeleton>#BGCityhallRoot_bone_id</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="mtBGCityhall3" target="#mtBGCityhall3_mat_id" />
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="vsn_mesh_1__id" name="vsn_mesh_1_" type="NODE">
+				<matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+				<instance_controller url="#mesh_1__ctrl_id">
+					<skeleton>#BGCityhallRoot_bone_id</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="mtBGCityhall2" target="#mtBGCityhall2_mat_id" />
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+			<node id="vsn_mesh_2__id" name="vsn_mesh_2_" type="NODE">
+				<matrix>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+				<instance_controller url="#mesh_2__ctrl_id">
+					<skeleton>#BGCityhallRoot_bone_id</skeleton>
+					<bind_material>
+						<technique_common>
+							<instance_material symbol="mtBGCityhall" target="#mtBGCityhall_mat_id" />
+						</technique_common>
+					</bind_material>
+				</instance_controller>
+			</node>
+		</visual_scene>
+	</library_visual_scenes>
+	<scene>
+		<instance_visual_scene url="#vs_BGCityhall_id" />
+	</scene>
+</COLLADA>

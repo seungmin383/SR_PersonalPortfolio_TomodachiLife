@@ -48,7 +48,7 @@ private:
 	HRESULT Loading_For_Main();
 	HRESULT Loading_For_Setting();
 	HRESULT Loading_For_Save();
-	HRESULT Loading_For_MiiEditor();
+	HRESULT Loading_MiiEditor();
 	HRESULT Loading_For_Store_Clothes();
 
 	HRESULT Loading_For_Store_Antique();

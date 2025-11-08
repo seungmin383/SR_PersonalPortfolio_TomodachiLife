@@ -85,6 +85,9 @@
     <Filter Include="GameData\00.ConvertJson">
       <UniqueIdentifier>{dbb028a7-ade3-4339-99d7-efebe914fe39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Actor\03.BackGroundModel">
+      <UniqueIdentifier>{f2373129-f6f7-4e87-95cb-0ae5f1eed7a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">

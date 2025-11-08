@@ -3,6 +3,7 @@
 #include "Place.h"
 
 NS_BEGIN(Game)
+class CPlaceMoveButton;
 
 class CPlace_MiiEditor final : public CPlace
 {
@@ -16,11 +17,10 @@ public:
 	virtual HRESULT Render_Priority()override;
 	virtual HRESULT Render_Late()override;
 
-	HRESULT Ready_MiiEditor_Actor_Layer();
-	HRESULT Ready_MiiEditor_UI_Layer();
-	HRESULT Ready_MiiEditor_Environment_Layer();
-	HRESULT Ready_MiiEditor_Camera_Layer();
-
+	HRESULT Ready_Actor_Layer();
+	HRESULT Ready_UI_Layer();
+	HRESULT Ready_Environment_Layer();
+	HRESULT Ready_Camera_Layer();
 
 public:
 	static CPlace_MiiEditor* Create(

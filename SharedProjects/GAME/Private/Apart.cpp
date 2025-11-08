@@ -76,8 +76,8 @@ void CApart::Calc_Object_Place_Point()
 HRESULT CApart::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::ISLAND),
-		TEXT("ProtoTag_Component_Mesh_Shader"),
+		static_cast<uint32_t>(PLACE_ID::STATIC),
+		TEXT("ProtoTag_Component_VtxMeshShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
 		nullptr)))
