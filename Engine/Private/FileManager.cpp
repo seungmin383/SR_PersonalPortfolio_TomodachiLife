@@ -16,7 +16,6 @@ HRESULT CFileManager::Initialize(
 	}
 
 	fInput >> m_InitData;
-
 	
 	m_iNumFiles = static_cast<int32_t>(m_InitData["FilePath"].size());
 

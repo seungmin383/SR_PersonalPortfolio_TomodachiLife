@@ -85,8 +85,8 @@
     <Filter Include="GameData\00.ConvertJson">
       <UniqueIdentifier>{dbb028a7-ade3-4339-99d7-efebe914fe39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Actor\03.BackGroundModel">
-      <UniqueIdentifier>{f2373129-f6f7-4e87-95cb-0ae5f1eed7a7}</UniqueIdentifier>
+    <Filter Include="00.Place\05.Place_CityHall">
+      <UniqueIdentifier>{bb5a38e8-ed61-414a-a52a-d0928db01468}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

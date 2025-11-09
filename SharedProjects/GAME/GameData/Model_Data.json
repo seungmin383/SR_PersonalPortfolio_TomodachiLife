@@ -1,3 +1,40 @@
 {
+  "Model": [
+    {
+      "ProtoTag": "",
+      "isAnim": false,
+      "BoneData": [
+        {
+          "BoneName": "aaaa",
+          "ParentBoneIndex": -1,
+          "TransformationMatrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          "Order": "row-major"
+        }
+      ]
+    },
+    {
+      "ProtoTag": "",
+      "isAnim": false,
+      "BoneData": [
 
+      ]
+    }
+  ]
 }

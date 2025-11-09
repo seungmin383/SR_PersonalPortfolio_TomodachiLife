@@ -18,6 +18,7 @@ private:
 
 public:
 	virtual HRESULT Initialize_Origin(
+		_string strProtoTag,
 		ANIM_TYPE eAnimType,
 		const _char* pModelFilePath,
 		FXMMATRIX InitTransformMatrix);
@@ -45,6 +46,10 @@ public:
 	void Set_Animation(uint32_t iAnimIndex, _bool isLoop = FALSE);
 
 private:
+	nlohmann::json m_ModelData = {};
+	int32_t m_iDataIndex = {};
+	_bool m_isFirstInstantiaed = { TRUE };
+
 	Assimp::Importer m_Importer = {};
 	const aiScene* m_pAIScene = { nullptr };
 	
@@ -56,8 +61,9 @@ private:
 	uint32_t m_iNumMaterial = {};
 	vector<CMaterial*> m_Materials;
 
-	// ÀÌ ¸ðµ¨¿¡ ¿µÇâÀ» ÁÖ´Â ¸ðµç »À
+	// ÀÌ ¸ðµ¨ÀÇ ¸ðµç »À
 	vector<CBone*> m_Bones;
+	int32_t m_iBoneIndex = {0};
 
 	uint32_t m_iNumAnimation = {};
 	uint32_t m_iCurAnimationIndex = {};
@@ -67,16 +73,29 @@ private:
 	_bool m_isAnimLoop = { FALSE };
 	_bool m_isAnimFinished = { FALSE };
 
+
 private:
 	HRESULT Ready_Meshes();
 	HRESULT	Ready_Material(const _char* pModelFIlePath);
-	HRESULT Ready_Bones(const aiNode* pAINode, int32_t iParentBoneIndex);
+	HRESULT Ready_Bones_Assimp(
+		nlohmann::json& Data,
+		const aiNode* pAINode,
+		int32_t iParentBoneIndex);
+
+
+
 	HRESULT Ready_Animations();
+
+	void Ready_Model(
+		 nlohmann::json& Data, 
+		_string strProtoTag,
+		ANIM_TYPE eAnimType);
 
 public:
 	static CModel* Create(
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext,
+		_string strProtoTag,
 		ANIM_TYPE eAnimType,
 		const _char* pModelFIlePath,
 		FXMMATRIX InitTransformMatrix);

@@ -12,7 +12,7 @@ private:
 public:
 	HRESULT Initialize(
 		const _char* ConfigFilePath);
-	
+
 	HRESULT Read_File(
 		const string& strFilePath,
 		nlohmann::json& pOut);
@@ -22,12 +22,12 @@ public:
 		nlohmann::json& Data);
 	
 public:
-	const nlohmann::json& Get_Data(const string& strFilePath)
+	nlohmann::json& Get_Data(const string& strFilePath)
 	{
 		auto iter = m_DataMap.find(strFilePath);
 		if (iter == m_DataMap.end())
 		{
-			return NULL;
+			MSG_BOX("ErrCode : No Json Data");
 		}
 		return iter->second;
 	}

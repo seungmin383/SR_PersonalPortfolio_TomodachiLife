@@ -10,7 +10,11 @@ private:
 	virtual ~CBone() = default;
 
 public :
-	HRESULT Initialize(const aiNode* pAINode, int32_t iParentBoneIndex);
+	HRESULT Initialize(
+		nlohmann::json& BoneData,
+		const aiNode* pAINode, 
+		int32_t iParentBoneIndex);
+
 	
 	/* 전체 뼈의 CombinedMatrix를 계산 
 	계산하기 위해서는 부모 뼈의 정보가 필요함*/
@@ -18,8 +22,11 @@ public :
 		vector<CBone*>& EntireBones,
 		FXMMATRIX PreTransformMatrix);
 
-	_bool Compare_Name(const _char* pName){
-		return !strcmp(pName, m_szName);
+	_bool Compare_Name(_string strName){
+		
+		if (m_strName == strName)
+			return TRUE;
+		return FALSE;
 	}
 
 public:
@@ -32,13 +39,14 @@ public:
 	}
 
 private:
-	_char m_szName[MAX_PATH] = {};
+	_string m_strName = {};
 	XMFLOAT4X4 m_TransformationMatrix = {};
 	XMFLOAT4X4 m_CombinedTransformationMatrix = {};
 	int32_t m_iParentBoneIndex = { -1 };
 
 public:
 	static CBone* Create(
+		nlohmann::json& BoneData,
 		const aiNode* pAINode, 
 		int32_t iParentBoneIndex);
 

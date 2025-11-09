@@ -1,3 +1,4 @@
+#include "GameInstance.h"
 #include "Model.h"
 #include "Mesh.h"
 #include "Material.h"
@@ -34,20 +35,30 @@ CModel::CModel(const CModel& rhs)
 }
 
 HRESULT CModel::Initialize_Origin(
+	_string strProtoTag,
 	ANIM_TYPE eAnimType,
 	const _char* pModelFilePath,
 	FXMMATRIX InitTransformMatrix)
 {
+	nlohmann::json ModelData =
+		m_pGameInstance->FileManager_Get_Data(
+			MODEL_DATA_PATH);
+
+	/* ProtoTag가 있다면 m_isFirstIntantiated 를 FALSE로, 없다면 TRUE로*/
+	Ready_Model(ModelData, strProtoTag, eAnimType);
+
+	m_ModelData = ModelData["Model"][m_iDataIndex];
+
 	uint32_t iFlag =
 	{	aiProcess_ConvertToLeftHanded | 
 		aiProcessPreset_TargetRealtime_Fast };
 
-	m_eAnimType = eAnimType;
-
 	if (ANIM_TYPE::NONEANIM == m_eAnimType)
 		iFlag |= aiProcess_PreTransformVertices;
 
+	//Assimp
 	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
+
 	if (nullptr == m_pAIScene)
 	{
 		MSG_BOX("ErrCode : 긴장해라.");
@@ -56,7 +67,7 @@ HRESULT CModel::Initialize_Origin(
 
 	XMStoreFloat4x4(&m_InitMatrix, InitTransformMatrix);
 
-	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
+	if (FAILED(Ready_Bones_Assimp(m_ModelData, m_pAIScene->mRootNode, -1)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Meshes()))
@@ -69,8 +80,6 @@ HRESULT CModel::Initialize_Origin(
 		return E_FAIL;
 
 	uint32_t i = m_pAIScene->mNumAnimations;
-
-
 	return S_OK;
 }
 
@@ -78,6 +87,7 @@ HRESULT CModel::Initialize_Clone(void* pArg)
 {
 	return S_OK;
 }
+
 
 HRESULT CModel::Render(uint32_t iMeshIndex)
 {
@@ -206,9 +216,14 @@ HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 	return S_OK;
 }
 
-HRESULT CModel::Ready_Bones(const aiNode* pAINode, int32_t iParentBoneIndex)
+HRESULT CModel::Ready_Bones_Assimp(
+	nlohmann::json& Data,
+	const aiNode* pAINode, 
+	int32_t iParentBoneIndex)
 {
-	CBone* pInstance = CBone::Create(pAINode, iParentBoneIndex);
+	auto& CurBoneData = Data["BoneData"][m_iBoneIndex++];
+
+	CBone* pInstance = CBone::Create(CurBoneData, pAINode, iParentBoneIndex);
 
 	if (nullptr == pInstance)
 		return E_FAIL;
@@ -219,7 +234,7 @@ HRESULT CModel::Ready_Bones(const aiNode* pAINode, int32_t iParentBoneIndex)
 
 	for (uint32_t i = 0; i < pAINode->mNumChildren; i++)
 	{
-		Ready_Bones(pAINode->mChildren[i], iParentIndex);
+		Ready_Bones_Assimp(Data, pAINode->mChildren[i], iParentIndex);
 	}
 
 	return S_OK;
@@ -244,16 +259,55 @@ HRESULT CModel::Ready_Animations()
 	return S_OK;
 }
 
+void CModel::Ready_Model(
+	nlohmann::json& Data, 
+	_string strProtoTag,
+	ANIM_TYPE eAnimType)
+{
+	m_eAnimType = eAnimType;
+
+	auto& arr = Data["Model"];
+	int32_t iSize = static_cast<int32_t>(arr.size());
+
+	for (int32_t i = 0; i < iSize; i++)
+	{
+		auto& object = arr[i];
+
+		if (strProtoTag == object["ProtoTag"].get<_string>())
+		{
+			m_iDataIndex = i;
+			m_isFirstInstantiaed = FALSE;
+			return;
+		}
+	}
+
+	nlohmann::json NewData = {};
+
+	if (ANIM_TYPE::NONEANIM == eAnimType)
+		NewData = { {"ProtoTag", strProtoTag}, {"isAnim", false} };
+	else
+		NewData = { {"ProtoTag", strProtoTag}, {"isAnim", true} };
+
+	m_iDataIndex = static_cast<int32_t>(arr.size());
+	m_isFirstInstantiaed = TRUE;
+	arr.push_back(NewData);
+}
+
 CModel* CModel::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext,
+	_string strProtoTag,
 	ANIM_TYPE eAnimType,
 	const _char* pModelFIlePath,
 	FXMMATRIX InitTransformMatrix)
 {
 	CModel* pModel = new CModel(pDevice, pContext);
-
-	if (FAILED(pModel->Initialize_Origin(eAnimType, pModelFIlePath, InitTransformMatrix)))
+	
+	if (FAILED(pModel->Initialize_Origin(
+		strProtoTag,
+		eAnimType, 
+		pModelFIlePath, 
+		InitTransformMatrix)))
 	{
 		MSG_BOX("ErrCode : Model Initializing Failed");
 		Safe_Release(pModel);

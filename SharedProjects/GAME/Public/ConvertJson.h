@@ -74,7 +74,26 @@ namespace Game
 
 	}MII_INFO;
 
+
+
+
+	typedef struct tagMeshInfo
+	{
+
+	}MESH_INFO	;
+
+	typedef struct tagModelInfo
+	{
+		_wstring strProtoTag;
+
+		MESH_INFO eMeshInfo;
+
+	}MODEL_INFO	;
+
     void to_json(nlohmann::json& j, const MII_INFO& info);
-    void from_json(const nlohmann::json& j, MII_INFO& info);
+    void to_json(nlohmann::json& j, const MODEL_INFO& info);
+   
+	void from_json(const nlohmann::json& j, MII_INFO& info);
+	void from_json(const nlohmann::json& j, MODEL_INFO& info);
 
 }

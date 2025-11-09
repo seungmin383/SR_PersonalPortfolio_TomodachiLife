@@ -57,7 +57,6 @@ HRESULT CMaterial::Initialize_Origin(const aiMaterial* pAIMaterial, const _char*
 			m_SRVs[i].push_back(pSRV);
 		}
 	}
-
 	return S_OK;
 }
 

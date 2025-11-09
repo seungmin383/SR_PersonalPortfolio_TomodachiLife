@@ -341,24 +341,7 @@ HRESULT CLoader::Loading_MiiEditor()
 
 	// Component
 	{
-		// ProtoTag_Component_MiiEditor_Model
-		{
-			XMMATRIX initMatrix = XMMatrixIdentity();
-			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-			tmp = CModel::Create(
-				m_pDevice,
-				m_pContext,
-				ANIM_TYPE::NONEANIM,
-				"../../Resource/Model_Environment/BackGround_MiiEditor/BackGround_MiiEditor.fbx",
-				initMatrix);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::MII_EDITOR),
-				TEXT("ProtoTag_Component_MiiEditor_Model"),
-				tmp)))
-				return E_FAIL;
-		}
+		
 	}
 
 	// Actor
@@ -516,6 +499,7 @@ HRESULT CLoader::Loading_Apart()
 			tmp = CModel::Create(
 				m_pDevice, 
 				m_pContext,
+				"ProtoTag_Component_BasicManBody_Model",
 				ANIM_TYPE::ANIM,
 				"../../Resource/00Model/00Body/Hoodie/Untitled.fbx",
 				InitMatrix);
@@ -567,6 +551,7 @@ HRESULT CLoader::Loading_Island()
 			tmp = CModel::Create(
 				m_pDevice,
 				m_pContext,
+				"ProtoTag_Component_Island_Model",
 				ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/BackGround - Island/island.fbx",
 				initMatrix);
@@ -586,6 +571,7 @@ HRESULT CLoader::Loading_Island()
 			tmp = CModel::Create(
 				m_pDevice,
 				m_pContext,
+				"ProtoTag_Component_SkyAndSea_Model",
 				ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/BackGround - Sea/sea.fbx",
 				initMatrix);
@@ -605,6 +591,7 @@ HRESULT CLoader::Loading_Island()
 			tmp = CModel::Create(
 				m_pDevice,
 				m_pContext,
+				"ProtoTag_Component_Apart_Model",
 				ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/Actor - Apart/apart1.fbx",
 				initMatrix);

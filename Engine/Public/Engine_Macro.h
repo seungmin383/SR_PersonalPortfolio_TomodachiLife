@@ -16,6 +16,10 @@ namespace Engine
 #define UPDATE_OK 0x0000
 #define PLACE_CHANGE 0x0001
 
+#define MII_DATA_PATH "../../SharedProjects/GAME/GameData/Mii_Data.json"
+#define MODEL_DATA_PATH "../../SharedProjects/GAME/GameData/Model_Data.json"
+
+
 //만약 ENGINE_EXPORTS가 정의되어 있다면 _declspec(dllexport) // 정의되어 있지 않다면 _declspec(dllimport)
 #ifdef	ENGINE_EXPORTS
 #define ENGINE_DLL		_declspec(dllexport)

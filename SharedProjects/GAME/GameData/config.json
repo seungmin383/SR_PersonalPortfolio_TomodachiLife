@@ -1,5 +1,6 @@
 {
   "FilePath": [
-    "../../SharedProjects/GAME/GameData/Mii_Data.json"
+    "../../SharedProjects/GAME/GameData/Mii_Data.json",
+    "../../SharedProjects/GAME/GameData/Model_Data.json"
   ]
 }

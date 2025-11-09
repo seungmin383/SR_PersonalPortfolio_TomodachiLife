@@ -13,7 +13,6 @@ CIsland::CIsland(const CIsland& rhs)
 
 HRESULT CIsland::Initialize_Origin()
 {
-	int a = 0;
 	return S_OK;
 }
 

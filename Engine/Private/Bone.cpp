@@ -5,23 +5,62 @@ CBone::CBone()
 }
 
 HRESULT CBone::Initialize(
+	nlohmann::json& BoneData,
 	const aiNode* pAINode, 
 	int32_t iParentBoneIndex)
 {
-	// 본의 이름 받아오기
-	strcpy_s(m_szName, pAINode->mName.data);
-
-	// 부모 뼈의 인덱스 받아오기
-	m_iParentBoneIndex = iParentBoneIndex;
+	_float fArr[16] = {};
+	XMFLOAT4X4 tmpTransformMatrix = {};
 
 	memcpy(
-		&m_TransformationMatrix, 
-		&pAINode->mTransformation, 
+		&tmpTransformMatrix,
+		&pAINode->mTransformation,
 		sizeof(XMFLOAT4X4));
-	
+
 	XMStoreFloat4x4(
-		&m_TransformationMatrix, 
-		XMMatrixTranspose(XMLoadFloat4x4(&m_TransformationMatrix)));
+		&tmpTransformMatrix,
+		XMMatrixTranspose(
+			XMLoadFloat4x4(&tmpTransformMatrix)));
+	
+	int32_t iIndex = { 0 };
+
+	for (int32_t i = 0; i < 4; i++)
+	{
+		for (int32_t j = 0; j < 4; j++)
+		{
+			iIndex = i * 4 + j;
+			fArr[iIndex] = tmpTransformMatrix.m[i][j];
+		}
+	}
+
+	nlohmann::json newBoneData = {
+		{"BoneName", pAINode->mName.data},
+		{"ParentBoneIndex",iParentBoneIndex },
+		{"TransformationMatrix", fArr},
+		{"Order", "Row-Major"}
+	};
+
+	BoneData.push_back(newBoneData);
+
+	const auto& LastData = BoneData.back();
+
+	m_strName = LastData.at("BoneName").get<string>();
+	m_iParentBoneIndex = LastData.at("ParentBoneIndex").get<int32_t>();;
+	vector<_float>vec;
+	vec.reserve(16);
+
+	vec = LastData.at("TransformationMatrix").get<vector<_float>>();
+
+	int32_t iIndex1 = { 0 };
+
+	for (int32_t i = 0; i < 4; i++)
+	{
+		for (int32_t j = 0; j < 4; j++)
+		{
+			iIndex1 = i * 4 + j;
+			m_TransformationMatrix.m[i][j] = vec[iIndex1];
+		}
+	}
 
 	XMStoreFloat4x4(
 		&m_CombinedTransformationMatrix, 
@@ -63,11 +102,14 @@ void CBone::Update_CombinedTransformationMatrix(
 }
 
 
-CBone* CBone::Create(const aiNode* pAINode, int32_t iParentBoneIndex)
+CBone* CBone::Create(
+	nlohmann::json& BoneData,
+	const aiNode* pAINode, 
+	int32_t iParentBoneIndex)
 {
 	CBone* pInstance = new CBone;
 
-	if (FAILED(pInstance->Initialize(pAINode, iParentBoneIndex)))
+	if (FAILED(pInstance->Initialize(BoneData, pAINode, iParentBoneIndex)))
 	{
 		MSG_BOX("ErrCode : Bone Create Failed");
 		Safe_Release(pInstance);
