@@ -78,7 +78,7 @@ private:
 	HRESULT Ready_Meshes();
 	HRESULT	Ready_Material(const _char* pModelFIlePath);
 	HRESULT Ready_Bones_Assimp(
-		nlohmann::json& Data,
+		nlohmann::json& ModelData,
 		const aiNode* pAINode,
 		int32_t iParentBoneIndex);
 

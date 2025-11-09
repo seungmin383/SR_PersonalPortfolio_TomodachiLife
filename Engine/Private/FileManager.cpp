@@ -60,7 +60,7 @@ HRESULT CFileManager::Write_File(
 		MSG_BOX("ErrCode : File Read Failed");
 		return E_FAIL;
 	}
-	fOutput << (Data).dump(4);
+	fOutput << (Data).dump(1);
 	fOutput.close();
 
 	return S_OK;

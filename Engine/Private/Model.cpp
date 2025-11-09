@@ -40,14 +40,15 @@ HRESULT CModel::Initialize_Origin(
 	const _char* pModelFilePath,
 	FXMMATRIX InitTransformMatrix)
 {
-	nlohmann::json ModelData =
+	m_ModelData  =
 		m_pGameInstance->FileManager_Get_Data(
 			MODEL_DATA_PATH);
 
 	/* ProtoTag가 있다면 m_isFirstIntantiated 를 FALSE로, 없다면 TRUE로*/
-	Ready_Model(ModelData, strProtoTag, eAnimType);
+	Ready_Model(m_ModelData, strProtoTag, eAnimType);
 
-	m_ModelData = ModelData["Model"][m_iDataIndex];
+	// Model에 Index번째 배열의 값, {{"ProtoTag" : ""}, ...}가 저장됨
+
 
 	uint32_t iFlag =
 	{	aiProcess_ConvertToLeftHanded | 
@@ -67,7 +68,7 @@ HRESULT CModel::Initialize_Origin(
 
 	XMStoreFloat4x4(&m_InitMatrix, InitTransformMatrix);
 
-	if (FAILED(Ready_Bones_Assimp(m_ModelData, m_pAIScene->mRootNode, -1)))
+	if (FAILED(Ready_Bones_Assimp(m_ModelData["Model"][m_iDataIndex], m_pAIScene->mRootNode, -1)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Meshes()))
@@ -78,6 +79,10 @@ HRESULT CModel::Initialize_Origin(
 
 	if (FAILED(Ready_Animations()))
 		return E_FAIL;
+
+	m_pGameInstance->FileManager_Write_File(
+		MODEL_DATA_PATH,
+		m_ModelData);
 
 	uint32_t i = m_pAIScene->mNumAnimations;
 	return S_OK;
@@ -180,6 +185,8 @@ HRESULT CModel::Ready_Meshes()
 			CMesh::Create(
 				m_pDevice,
 				m_pContext,
+				m_ModelData["Model"][m_iDataIndex],
+				i,
 				m_eAnimType,
 				this,
 				m_pAIScene->mMeshes[i],
@@ -217,11 +224,11 @@ HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 }
 
 HRESULT CModel::Ready_Bones_Assimp(
-	nlohmann::json& Data,
+	nlohmann::json& ModelData,
 	const aiNode* pAINode, 
 	int32_t iParentBoneIndex)
 {
-	auto& CurBoneData = Data["BoneData"][m_iBoneIndex++];
+	auto& CurBoneData = ModelData["BoneData"];
 
 	CBone* pInstance = CBone::Create(CurBoneData, pAINode, iParentBoneIndex);
 
@@ -234,7 +241,7 @@ HRESULT CModel::Ready_Bones_Assimp(
 
 	for (uint32_t i = 0; i < pAINode->mNumChildren; i++)
 	{
-		Ready_Bones_Assimp(Data, pAINode->mChildren[i], iParentIndex);
+		Ready_Bones_Assimp(ModelData, pAINode->mChildren[i], iParentIndex);
 	}
 
 	return S_OK;
@@ -291,6 +298,7 @@ void CModel::Ready_Model(
 	m_iDataIndex = static_cast<int32_t>(arr.size());
 	m_isFirstInstantiaed = TRUE;
 	arr.push_back(NewData);
+
 }
 
 CModel* CModel::Create(

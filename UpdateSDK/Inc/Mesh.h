@@ -15,10 +15,13 @@ private:
 
 public:
 	virtual HRESULT Initialize_Origin(
+		nlohmann::json& ModelData,
+		int32_t iMeshIndex,
 		ANIM_TYPE eAnimType,
 		CModel* pModel,
 		aiMesh* pAIMesh, 
 		FXMMATRIX InitTransformMatrix);
+
 	virtual HRESULT Initialize_Clone(void* pArg)override;
 
 public:
@@ -39,9 +42,15 @@ private:
 		const aiMesh* pAIMesh,
 		CModel* pModel);
 
-	HRESULT Ready_NoneAnimMesh(const aiMesh* pAIMesh, FXMMATRIX InitTransforMatrix);
+	HRESULT Ready_NoneAnimMesh(
+		nlohmann::json& MeshData,
+		const aiMesh* pAIMesh, 
+		FXMMATRIX InitTransforMatrix);
 
 private:
+	//모델에서 이 메쉬가 몇번째 메쉬인지
+	int32_t m_iMeshindex = {0};
+
 	_char m_szName[MAX_PATH] = {};
 	uint32_t m_iMaterialIndex = {};
 	uint32_t m_iNumBones = {};
@@ -57,6 +66,8 @@ public:
 	static CMesh* Create(
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext,
+		nlohmann::json& ModelData,
+		int32_t iMeshIndex,
 		ANIM_TYPE eAnimType,
 		CModel* pModel,
 		aiMesh* pAIMesh,

@@ -14,11 +14,26 @@ CMesh::CMesh(const CMesh& rhs)
 }
 
 HRESULT CMesh::Initialize_Origin(
+	nlohmann::json& ModelData,
+	int32_t iMeshIndex,
 	ANIM_TYPE eAnimType,
 	CModel* pModel,
 	aiMesh* pAIMesh,
 	FXMMATRIX InitTransformMatrix)
 {
+	m_iMeshindex = iMeshIndex;
+
+	auto& arr = ModelData["MeshData"];
+
+	nlohmann::json NewData = {};
+	NewData = {
+		{"MeshName", pAIMesh->mName.data},
+		{"MaterialIndex", pAIMesh->mMaterialIndex},
+		{"NumVertices", pAIMesh->mNumVertices},
+		{"NumIndices", pAIMesh->mNumFaces * 3}
+	};
+	arr.push_back(NewData);
+
 	strcpy_s(m_szName, pAIMesh->mName.data);
 
 	m_iMaterialIndex = pAIMesh->mMaterialIndex;
@@ -40,7 +55,7 @@ HRESULT CMesh::Initialize_Origin(
 		Ready_AnimMesh(pAIMesh, pModel);
 		break;
 	case Engine::ANIM_TYPE::NONEANIM:
-		Ready_NoneAnimMesh(pAIMesh, InitTransformMatrix);
+		Ready_NoneAnimMesh(arr, pAIMesh, InitTransformMatrix);
 		break;
 	default:
 		return E_FAIL;
@@ -55,6 +70,7 @@ HRESULT CMesh::Initialize_Origin(
 	IBuffer_Data.CPUAccessFlags = 0;
 	IBuffer_Data.MiscFlags = 0;
 	IBuffer_Data.StructureByteStride = m_iIndexStride;
+	nlohmann::json jIndexArray = nlohmann::json::array();
 
 	uint32_t* pIndices = new uint32_t[m_iNumIndices];
 	uint64_t IndicesNum = {};
@@ -64,7 +80,13 @@ HRESULT CMesh::Initialize_Origin(
 		pIndices[IndicesNum++] = pAIMesh->mFaces[i].mIndices[0];
 		pIndices[IndicesNum++] = pAIMesh->mFaces[i].mIndices[1];
 		pIndices[IndicesNum++] = pAIMesh->mFaces[i].mIndices[2];
+	
+		jIndexArray.push_back({
+			pAIMesh->mFaces[i].mIndices[0] ,
+			pAIMesh->mFaces[i].mIndices[1] ,
+			pAIMesh->mFaces[i].mIndices[2] });
 	}
+	arr[m_iMeshindex]["Indices"] = std::move(jIndexArray);
 
 	D3D11_SUBRESOURCE_DATA IBuffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
 	IBuffer_Init_Data.pSysMem = pIndices;
@@ -202,7 +224,10 @@ HRESULT CMesh::Ready_AnimMesh(
 	
 }
 
-HRESULT CMesh::Ready_NoneAnimMesh(const aiMesh* pAIMesh, FXMMATRIX InitTransformMatrix)
+HRESULT CMesh::Ready_NoneAnimMesh(
+	nlohmann::json& MeshData,
+	const aiMesh* pAIMesh, 
+	FXMMATRIX InitTransformMatrix)
 {
 	m_iVertexStride = sizeof(VTX_TEX_MESH);							//정점 하나의 크기
 	D3D11_BUFFER_DESC VBuffer_Data = {}; //버텍스 버퍼의 속성을 설정해주는 것
@@ -216,7 +241,20 @@ HRESULT CMesh::Ready_NoneAnimMesh(const aiMesh* pAIMesh, FXMMATRIX InitTransform
 
 	VTX_TEX_MESH* pVertices = new VTX_TEX_MESH[m_iNumVertices];
 	ZeroMemory(pVertices, sizeof(VTX_TEX_MESH) * m_iNumVertices);
+	
+	nlohmann::json& meshObj = MeshData[m_iMeshindex];
 
+	nlohmann::json jPositions	= nlohmann::json::array();
+	nlohmann::json jNormals		= nlohmann::json::array();
+	nlohmann::json jTangents	= nlohmann::json::array();   // mTangents 없으면 아예 생략 가능
+	nlohmann::json jBinormals	= nlohmann::json::array();   // mBitangents 없으면 생략 가능
+	nlohmann::json jTexcoords	= nlohmann::json::array();
+	
+	// UV/탄젠트 포인터 존재 여부 체크
+	const bool hasUV0 = (pAIMesh->mTextureCoords[0] != nullptr);
+	const bool hasTangents = (pAIMesh->mTangents != nullptr);
+	const bool hasBinormals = (pAIMesh->mBitangents != nullptr);
+	
 	for (uint64_t i = 0; i < m_iNumVertices; i++)
 	{
 		// Position
@@ -227,20 +265,74 @@ HRESULT CMesh::Ready_NoneAnimMesh(const aiMesh* pAIMesh, FXMMATRIX InitTransform
 		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
 		XMStoreFloat3(&pVertices[i].vNormal, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), InitTransformMatrix));
 
-		// Tangent
-		if (pAIMesh->mTangents == NULL)
-			continue;
-
-		memcpy(&pVertices[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
-		XMStoreFloat3(&pVertices[i].vTangent, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vTangent), InitTransformMatrix));
+		if (hasTangents)
+		{
+			memcpy(&pVertices[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
+			XMStoreFloat3(&pVertices[i].vTangent, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vTangent), InitTransformMatrix));
+		}
 
 		// Binormal
-		memcpy(&pVertices[i].vBinormal, &pAIMesh->mBitangents[i], sizeof(_float3));
-		XMStoreFloat3(&pVertices[i].vBinormal, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vBinormal), InitTransformMatrix));
+		if (hasBinormals)
+		{
+			memcpy(&pVertices[i].vBinormal, &pAIMesh->mBitangents[i], sizeof(_float3));
+			XMStoreFloat3(&pVertices[i].vBinormal, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vBinormal), InitTransformMatrix));
+		}
 
 		// TexCoord
+		if (hasUV0)
+		{
 		memcpy(&pVertices[i].vTexCoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
+		}
+	
+	
+		jPositions.push_back({
+	   pVertices[i].vPos.x,
+	   pVertices[i].vPos.y,
+	   pVertices[i].vPos.z
+			});
+
+		// 2) Normals
+		jNormals.push_back({
+			pVertices[i].vNormal.x,
+			pVertices[i].vNormal.y,
+			pVertices[i].vNormal.z
+			});
+
+		// 3) Tangents (있을 때만)
+		if (hasTangents) {
+			jTangents.push_back({
+				pVertices[i].vTangent.x,
+				pVertices[i].vTangent.y,
+				pVertices[i].vTangent.z
+				});
+		}
+
+		// 4) Binormals (있을 때만)
+		if (hasBinormals) {
+			jBinormals.push_back({
+				pVertices[i].vBinormal.x,
+				pVertices[i].vBinormal.y,
+				pVertices[i].vBinormal.z
+				});
+		}
+
+		// 5) Texcoords0
+		if (hasUV0) {
+			jTexcoords.push_back({
+				pVertices[i].vTexCoord.x,
+				pVertices[i].vTexCoord.y
+				});
+		}
 	}
+
+	meshObj["Vertices"] = std::move(jPositions);
+	meshObj["Normals"] = std::move(jNormals);
+	if (hasTangents)   
+		meshObj["Tangents"] = std::move(jTangents);
+	if (hasBinormals)  
+		meshObj["Binormals"] = std::move(jBinormals);
+	if (hasUV0)        
+		meshObj["Texcoords"] = std::move(jTexcoords);
 
 	D3D11_SUBRESOURCE_DATA VBuffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
 	VBuffer_Init_Data.pSysMem = pVertices;
@@ -265,7 +357,9 @@ HRESULT CMesh::Initialize_Clone(void* pArg)
 
 CMesh* CMesh::Create(
 	ID3D11Device* pDevice, 
-	ID3D11DeviceContext* pContext, 
+	ID3D11DeviceContext* pContext,
+	nlohmann::json& ModelData, 
+	int32_t iMeshIndex,
 	ANIM_TYPE eAnimType,
 	CModel* pModel,
 	aiMesh* pAIMesh,
@@ -274,6 +368,8 @@ CMesh* CMesh::Create(
 	CMesh* pMesh = new CMesh(pDevice, pContext);
 
 	if (FAILED(pMesh->Initialize_Origin(
+		ModelData,
+		iMeshIndex,
 		eAnimType,
 		pModel,
 		pAIMesh, 
