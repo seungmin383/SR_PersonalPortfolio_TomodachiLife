@@ -152,6 +152,7 @@ HRESULT CGameInstance::Initialize(
 
 int32_t CGameInstance::Update_Priority(_float fDT)
 {
+
 	m_pInput_Device->Update();
 	m_pMouseManager->Update(fDT);
 	m_pObjectManager->Update_Priority(fDT);

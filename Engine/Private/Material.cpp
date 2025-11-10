@@ -8,25 +8,56 @@ CMaterial::CMaterial(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	Safe_AddRef(m_pContext);
 }
 
-HRESULT CMaterial::Initialize_Origin(const aiMaterial* pAIMaterial, const _char* pModelFilePath)
+HRESULT CMaterial::Initialize_Origin(
+	nlohmann::json& MatData,
+	int32_t iMatIndex,
+	const aiMaterial* pAIMaterial, 
+	const _char* pModelFilePath)
 {
+	nlohmann::json& jMaterials = MatData["MaterialData"];
+	nlohmann::json jMaterial = nlohmann::json::object();
 
-	
+	jMaterial["MaterialIndex"] = (iMatIndex);
+	jMaterial["MaterialType"] = nlohmann::json::array();
+
+	nlohmann::json jMaterialType = nlohmann::json::object();
+	jMaterialType["TextureType"];
+	jMaterialType["NumTexture"];
+	jMaterialType["TextureFilePath"] = nlohmann::json::array();
+
 	for (uint32_t i = 0; i < AI_TEXTURE_TYPE_MAX; i++)
 	{
+		jMaterialType["TextureType"] = i;
+
 		_char szTextureFilePath[MAX_PATH] = {};
 		_char szDrivePath[MAX_PATH] = {};
 		_char szDirPath[MAX_PATH] = {};
-		_splitpath_s(pModelFilePath, szDrivePath, MAX_PATH, szDirPath, MAX_PATH, nullptr, 0, nullptr, 0);
-		
-		uint32_t iNumTexures = pAIMaterial->GetTextureCount(static_cast<aiTextureType>(i));
+
+		_splitpath_s(
+			pModelFilePath, 
+			szDrivePath, MAX_PATH, 
+			szDirPath, MAX_PATH, 
+			nullptr, 0, 
+			nullptr, 0);
+	
+		uint32_t iNumTexures =
+			pAIMaterial->GetTextureCount(
+				static_cast<aiTextureType>(i));
+		jMaterialType["NumTexture"] = iNumTexures;
 
 		for (uint32_t j = 0; j < iNumTexures; j++)
 		{
 			aiString strTextureFilePath = {};
 
-			if (aiReturn_SUCCESS != (pAIMaterial->GetTexture(static_cast<aiTextureType>(i), j, &strTextureFilePath)))
+			if (aiReturn_SUCCESS != 
+				(pAIMaterial->GetTexture(
+					static_cast<aiTextureType>(i), 
+					j, 
+					&strTextureFilePath)))
 				return E_FAIL;
+
+			_string TextureFilePath = strTextureFilePath.C_Str();
+			jMaterialType["TextureFilePath"].push_back(TextureFilePath);
 
 			_char szFileName[MAX_PATH] = {};
 			_char szExt[MAX_PATH] = {};
@@ -45,7 +76,8 @@ HRESULT CMaterial::Initialize_Origin(const aiMaterial* pAIMaterial, const _char*
 			ID3D11ShaderResourceView* pSRV = { nullptr };
 
 			if (false == strcmp(szExt, ".dds"))
-				hr = CreateDDSTextureFromFile(m_pDevice, szFinalPath, nullptr, &pSRV);
+				hr = CreateDDSTextureFromFile(
+					m_pDevice, szFinalPath, nullptr, &pSRV);
 			else if (false == strcmp(szExt, ".tga"))
 				return E_FAIL;
 			else
@@ -56,7 +88,10 @@ HRESULT CMaterial::Initialize_Origin(const aiMaterial* pAIMaterial, const _char*
 
 			m_SRVs[i].push_back(pSRV);
 		}
+		jMaterial["MaterialType"].push_back(jMaterialType);
 	}
+
+	jMaterials[iMatIndex] = std::move(jMaterial);
 	return S_OK;
 }
 
@@ -71,18 +106,18 @@ HRESULT CMaterial::Bind_ShaderResource(CShaderCom* pShader, const _char* pConsta
 CMaterial* CMaterial::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext, 
+	nlohmann::json& MatData,
+	int32_t iMatDataIndex,
 	const aiMaterial* pAIMaterial,
 	const _char* pModelFilePath)
 {
 	CMaterial* pMaterial = new CMaterial(pDevice, pContext);
 
-	if (nullptr == pMaterial)
-	{
-		MSG_BOX("ErrCode : Material Create Failed");
-		return nullptr;
-	}
-
-	if (FAILED(pMaterial->Initialize_Origin(pAIMaterial, pModelFilePath)))
+	if (FAILED(pMaterial->Initialize_Origin(
+		MatData,
+		iMatDataIndex,
+		pAIMaterial, 
+		pModelFilePath)))
 	{
 		Safe_Release(pMaterial);
 		MSG_BOX("ErrCode : Material Initialize Failed");

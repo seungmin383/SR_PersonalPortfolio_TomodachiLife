@@ -12,6 +12,8 @@ private:
 
 public:
 	virtual HRESULT Initialize_Origin(
+		nlohmann::json& MatData,
+		int32_t iMatIndex,
 		const aiMaterial* pAIMaterial,
 		const _char* pModelFilePath);
 
@@ -31,6 +33,8 @@ public:
 	static CMaterial* Create(
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext,
+		nlohmann::json& MatData,
+		int32_t iMatDataIndex,
 		const aiMaterial* pAIMaterial,
 		const _char* pModelFilePath);
 	

@@ -211,6 +211,8 @@ HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 			CMaterial::Create(
 				m_pDevice,
 				m_pContext,
+				m_ModelData["Model"][m_iDataIndex],
+				i,
 				m_pAIScene->mMaterials[i],
 				pModelFIlePath);
 
@@ -274,6 +276,7 @@ void CModel::Ready_Model(
 	m_eAnimType = eAnimType;
 
 	auto& arr = Data["Model"];
+
 	int32_t iSize = static_cast<int32_t>(arr.size());
 
 	for (int32_t i = 0; i < iSize; i++)

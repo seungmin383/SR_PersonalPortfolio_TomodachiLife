@@ -31,19 +31,22 @@ HRESULT CPlace_Island::Initialize()
 
 int32_t CPlace_Island::Update(_float fDT)
 {
-
+	double fps = 1.f/ fDT;
+	WCHAR buf[128];
+	swprintf_s(buf, L"FPS: %.1f", fps);   // º“ºˆ¡° 1¿⁄∏Æ
+	SetWindowTextW(g_hWnd, buf);
 	return 0;
 }
 
 HRESULT CPlace_Island::Render_Priority()
 {
-	SetWindowText(g_hWnd, TEXT("º∂¿Ã¥Ÿ."));
+	// SetWindowText(g_hWnd, TEXT("º∂¿Ã¥Ÿ."));
 	return S_OK;
 }
 
 HRESULT CPlace_Island::Render_Late()
 {
-	SetWindowText(g_hWnd, TEXT("º∂¿Ã¥Ÿ."));
+	// SetWindowText(g_hWnd, TEXT("º∂¿Ã¥Ÿ."));
 	return S_OK;
 }
 

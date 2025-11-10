@@ -50,6 +50,7 @@ HRESULT CMainApp::Initialize()
 
 int32_t CMainApp::Update_Priority(_float _fDT)
 {
+
 	return m_pGameInstance->Update_Priority(_fDT);
 }
 
