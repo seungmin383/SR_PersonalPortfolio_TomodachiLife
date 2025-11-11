@@ -2,6 +2,7 @@
 #include "ImgWin.h"
 
 NS_BEGIN(Maptool)
+class CModelConverter;
 
 class CProjectWindow final : public CImgWin
 {
@@ -10,7 +11,7 @@ private:
 	virtual ~CProjectWindow() = default;
 
 public:
-	virtual HRESULT	Initialize()override;
+	virtual HRESULT	Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Update_Priority(_float fDT)override;
 	virtual void Update(_float fDT)override;
 	virtual void Update_Late(_float fDT)override;
@@ -33,6 +34,8 @@ private:
 	ImGuiTabBarFlags m_TabBarFlag = {};
  
 private:
+	CModelConverter* m_pModelConverterWindow = { nullptr };
+
 	vector<const char*> m_ItemNames;
 
 

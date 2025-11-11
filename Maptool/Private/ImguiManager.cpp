@@ -10,6 +10,8 @@ CImguiManager::CImguiManager()
 
 HRESULT CImguiManager::Initialize_Imgui(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
+	CoInitialize(NULL);
+
 	m_pDevice = pDevice;
 	m_pContext = pContext;
 	Safe_AddRef(m_pDevice);
@@ -115,5 +117,8 @@ void CImguiManager::Free()
 		Safe_Release(ImguiWindow);
 	m_ImguiWindows.clear();
 
+	CoUninitialize();
+
 	CBase::Free();
+
 }

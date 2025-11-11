@@ -91,9 +91,9 @@ HRESULT CModel::Initialize_Origin(
 	if (FAILED(Ready_Animations()))
 		return E_FAIL;
 
-	m_pGameInstance->FileManager_Write_File(
-		MODEL_DATA_PATH,
-		m_ModelData);
+	//m_pGameInstance->FileManager_Write_File(
+	//	MODEL_DATA_PATH,
+	//	m_ModelData);
 
 	uint32_t i = m_pAIScene->mNumAnimations;
 	return S_OK;
@@ -193,7 +193,7 @@ HRESULT CModel::Ready_Meshes()
 	auto& jCurModel = jModelArr.at(m_iCurModelDataIndex);
 	nlohmann::json jMeshData = nlohmann::json::array();
 
-	for (uint64_t i = 0; i < m_iNumMesh; i++)
+	for (uint32_t i = 0; i < m_iNumMesh; i++)
 	{
 		m_pAIScene->mMeshes[i]->mName;
 
@@ -222,7 +222,7 @@ HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 {
 	m_iNumMaterial = m_pAIScene->mNumMaterials;
 
-	for (uint64_t i = 0; i < m_iNumMaterial; i++)
+	for (uint32_t i = 0; i < m_iNumMaterial; i++)
 	{
 		CMaterial* pMaterial =
 			CMaterial::Create(

@@ -11,7 +11,7 @@ typedef struct tagSEMeshData
 
 	void WriteMeshFile(ofstream& Out)
 	{
-		uint32_t NameSize = strName.size();
+		uint32_t NameSize = static_cast<uint32_t>(strName.size());
 		Out.write(reinterpret_cast<const char*>(&NameSize), sizeof(uint32_t));
 		Out.write(strName.data(), NameSize);
 
@@ -42,7 +42,7 @@ typedef struct tagSEAnimMeshData
 	
 	void WriteAnimMeshFile(ofstream& Out)
 	{
-		uint32_t NameSize = strName.size();
+		uint32_t NameSize = static_cast<uint32_t>(strName.size());
 		Out.write(reinterpret_cast<const char*>(&NameSize), sizeof(uint32_t));
 		Out.write(strName.data(), NameSize);
 

@@ -16,7 +16,7 @@ typedef struct tagSEMaterialData
 			Out.write(reinterpret_cast<const char*>(&NumTexture), sizeof(uint32_t));
 
 			for (uint32_t j = 0; j < NumTexture; ++j){
-				uint32_t iPathSize = TexturePaths[i][j].size();
+				uint32_t iPathSize = static_cast<uint32_t>(TexturePaths[i][j].size());
 				Out.write(reinterpret_cast<const char*>(&iPathSize), sizeof(uint32_t));
 				Out.write(TexturePaths[i][j].c_str(), sizeof(char) * iPathSize);
 			}

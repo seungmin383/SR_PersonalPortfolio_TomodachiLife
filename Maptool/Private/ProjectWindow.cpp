@@ -2,14 +2,16 @@
 #include "Object.h"
 #include "GameInstance.h"
 #include "Prototype.h"
+#include "ModelConverter.h"
 
 CProjectWindow::CProjectWindow(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CImgWin(pDevice, pContext)
 {
 }
 
-HRESULT CProjectWindow::Initialize()
+HRESULT CProjectWindow::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
+    m_pModelConverterWindow = CModelConverter::Create(pDevice, pContext);
 	return S_OK;
 }
 
@@ -32,6 +34,8 @@ void CProjectWindow::Update_Priority(_float fDT)
 
 void CProjectWindow::Update(_float fDT)
 {
+    m_pModelConverterWindow->OpenBtn_FileExplorer();
+    m_pModelConverterWindow->TextBox_CurFilePath();
 }
 
 void CProjectWindow::Update_Late(_float fDT)
@@ -43,7 +47,7 @@ void CProjectWindow::Stuck_Window()
 {
 	GetWindowRect(g_hWnd, &m_MainWindowRc);
 
-	m_vPos.x = m_MainWindowRc.right + m_iGapFromWindow;
+	m_vPos.x = static_cast<_float>(m_MainWindowRc.right + (LONG)m_iGapFromWindow);
 	m_vPos.y = m_MainWindowRc.top;
 
 	SetNextWindowPos(m_vPos, ImGuiCond_Always);
@@ -266,7 +270,7 @@ void CProjectWindow::Show_Texture_list(uint32_t iPlaceID, _wstring ProtoTag)
 CProjectWindow* CProjectWindow::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CProjectWindow* pInstance = new CProjectWindow(pDevice, pContext);
-	if (FAILED(pInstance->Initialize()))
+	if (FAILED(pInstance->Initialize(pDevice, pContext)))
 	{
 		Safe_Release(pInstance);
 		MSG_BOX("ErrCode : ProjectWindow Create Failed");
@@ -277,5 +281,7 @@ CProjectWindow* CProjectWindow::Create(ID3D11Device* pDevice, ID3D11DeviceContex
 
 void CProjectWindow::Free()
 {
+    Safe_Release(m_pModelConverterWindow);
+
 	__super::Free();
 }

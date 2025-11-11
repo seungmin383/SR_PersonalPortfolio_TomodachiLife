@@ -19,8 +19,17 @@
     <Filter Include="01.Imgui\00.ImguiBase">
       <UniqueIdentifier>{4a672bfa-9476-4264-ad02-ad292c546fcb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Imgui\01.ProjectWindow">
+    <Filter Include="01.Windows">
+      <UniqueIdentifier>{09492798-4778-46ab-9f02-4be2501b1220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Components">
+      <UniqueIdentifier>{444e0bfe-f090-486c-879a-60b695b13c13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Windows\01.ProjectWindow">
       <UniqueIdentifier>{2a9b780f-e3b1-45e3-b775-98b4a52a3262}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Components\00.AssimpToBin">
+      <UniqueIdentifier>{90f4716e-fe57-4f5e-9b92-fe70a8745179}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,7 +58,13 @@
       <Filter>01.Imgui\00.ImguiBase</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ProjectWindow.h">
-      <Filter>01.Imgui\01.ProjectWindow</Filter>
+      <Filter>01.Windows\01.ProjectWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImgComponent.h">
+      <Filter>01.Imgui\00.ImguiBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ModelConverter.h">
+      <Filter>02.Components\00.AssimpToBin</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -74,7 +89,13 @@
       <Filter>01.Imgui\00.ImguiBase</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ProjectWindow.cpp">
-      <Filter>01.Imgui\01.ProjectWindow</Filter>
+      <Filter>01.Windows\01.ProjectWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImgComponent.cpp">
+      <Filter>01.Imgui\00.ImguiBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ModelConverter.cpp">
+      <Filter>02.Components\00.AssimpToBin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

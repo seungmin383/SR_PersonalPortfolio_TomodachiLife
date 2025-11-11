@@ -121,6 +121,38 @@ HRESULT CMainApp::Ready_Static()
 				return E_FAIL;
 		}
 
+		// ProtoTag_Component_VtxMeshShader
+		{
+			tmp = CShaderCom::Create(
+				m_pDevice,
+				m_pContext,
+				TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Mesh.hlsl"),
+				Engine::VTX_TEX_MESH::Elements,
+				Engine::VTX_TEX_MESH::iNumElements);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::STATIC),
+				TEXT("ProtoTag_Component_VtxMeshShader"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Component_VtxMeshShader
+		{
+			tmp = CShaderCom::Create(
+				m_pDevice,
+				m_pContext,
+				TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Anim_Mesh.hlsl"),
+				Engine::VTX_TEX_ANIM_MESH::Elements,
+				Engine::VTX_TEX_ANIM_MESH::iNumElements);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::STATIC),
+				TEXT("ProtoTag_Component_VtxAnimMeshShader"),
+				tmp)))
+				return E_FAIL;
+		}
+
 		// ProtoTag_Component_RectBuffer
 		{
 			tmp = CRectBufferCom::Create(m_pDevice, m_pContext);
@@ -156,8 +188,8 @@ HRESULT CMainApp::Ready_Static()
 			tWorldCameraDesc.fHeight = static_cast<_float>(WINCY / 2);
 			tWorldCameraDesc.fSpeedPerSecond = 5.f;
 			tWorldCameraDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-			tWorldCameraDesc.vEye = _float3(0.f, 10.f, -10.f);
-			tWorldCameraDesc.vAt = _float3(0.f, 0.f, 0.f);
+			tWorldCameraDesc.vEye = _float3(2.f, 5.f, -30.f);
+			tWorldCameraDesc.vAt = _float3(2.f, 0.f, 0.f);
 			tWorldCameraDesc.fCX = 1.f;
 			tWorldCameraDesc.fCY = 1.f;
 			tWorldCameraDesc.fCZ = 1.f;
@@ -233,6 +265,8 @@ HRESULT CMainApp::Ready_Static()
 	}
 
 
+
+	return S_OK;
 
 	return S_OK;
 }

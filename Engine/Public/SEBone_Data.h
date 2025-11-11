@@ -11,7 +11,7 @@ typedef struct tagSEBone
 
 	void WriteBoneFile(ofstream& Out)
 	{
-		uint32_t NameSize = strName.size();
+		uint32_t NameSize = static_cast<uint32_t>(strName.size());
 		Out.write(reinterpret_cast<const char*>(&NameSize), sizeof(uint32_t));
 		Out.write(strName.data(), NameSize);
 
