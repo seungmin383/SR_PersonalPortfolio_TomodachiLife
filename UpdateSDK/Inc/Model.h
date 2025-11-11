@@ -1,5 +1,8 @@
 #pragma once
 #include "Component.h"
+#include "SEBone_Data.h"
+#include "SEMaterial_Data.h"
+#include "SEMesh_Data.h"
 
 NS_BEGIN(Engine)
 
@@ -8,6 +11,10 @@ class CMaterial;
 class CShaderCom;
 class CBone;
 class CAnimation;
+
+class CSEBone;
+class CSEMaterial;
+class CSEMesh;
 
 class ENGINE_DLL CModel final : public CComponent
 {
@@ -46,6 +53,16 @@ public:
 	void Set_Animation(uint32_t iAnimIndex, _bool isLoop = FALSE);
 
 private:
+	// Bin Test begin
+	vector<SE_BONE*> m_SEBonesToWrite;
+	vector<SE_MATERIAL*> m_SEMaterialsToWrite;
+	vector<SE_MESH*> m_SEMeshesToWrite;
+
+	vector<CSEBone*> m_SEBoneToRead;
+	vector<CSEMaterial*> m_SEMaterialToRead;
+	vector<CSEMesh*> m_SEMeshToRead;
+	// Bin Test end
+
 	nlohmann::json m_ModelData = {};
 	int32_t m_iCurModelDataIndex = {};
 	_bool m_isFirstInstantiaed = { TRUE };
@@ -82,13 +99,6 @@ private:
 		const aiNode* pAINode,
 		int32_t iParentBoneIndex);
 	HRESULT Ready_Animations();
-
-
-	HRESULT Ready_Json_Meshes();
-	HRESULT	Ready_Json_Material(const _char* pModelFIlePath);
-	HRESULT Ready_Json_Bones(nlohmann::json& BoneDataArr);
-	HRESULT Ready_Json_Animations();
-
 
 	void Ready_Model(
 		 nlohmann::json& InitModelData, 

@@ -273,6 +273,15 @@
     <ClCompile Include="..\Private\ContainerObject.cpp">
       <Filter>01.Utility\03.Object\01.Actor\02.ContainerObject</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\SEBone.cpp">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\02.Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SEMaterial.cpp">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\01.Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SEMesh.cpp">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\00.Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -439,6 +448,24 @@
     </ClInclude>
     <ClInclude Include="..\Public\ContainerObject.h">
       <Filter>01.Utility\03.Object\01.Actor\02.ContainerObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SEBone_Data.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SEMesh_Data.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SEMaterial_Data.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SEBone.h">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\02.Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SEMaterial.h">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\01.Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SEMesh.h">
+      <Filter>01.Utility\03.Object\02.Component\04.Model\00.Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -44,10 +44,10 @@ int32_t CMii::Update_Priority(_float fDT)
 	{
 		MSG_BOX("µÆ³ª?");
 
-		nlohmann::json j = m_eInfo;
+		/*nlohmann::json j = m_eInfo;
 		m_pGameInstance->FileManager_Write_File(
 			"../../SharedProjects/GAME/GameData/Mii_Data.json",
-			j);
+			j);*/
 	}
 
 	m_pModelCom->Set_Animation(0, TRUE);

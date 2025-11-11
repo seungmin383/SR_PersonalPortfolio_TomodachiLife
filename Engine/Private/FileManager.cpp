@@ -19,7 +19,6 @@ HRESULT CFileManager::Initialize(
 	
 	m_iNumFiles = static_cast<int32_t>(m_InitData["FilePath"].size());
 
-
 	for (uint32_t i = 0; i < m_iNumFiles; i++)
 	{
 		string strFilePath = m_InitData["FilePath"][i].get<string>();
@@ -47,6 +46,7 @@ HRESULT CFileManager::Read_File(
 
 	fInput >> pOut;
 	fInput.close();
+
 	return S_OK;
 }
 
@@ -62,7 +62,6 @@ HRESULT CFileManager::Write_File(
 	}
 	fOutput << (Data).dump(1);
 	fOutput.close();
-
 	return S_OK;
 }
 

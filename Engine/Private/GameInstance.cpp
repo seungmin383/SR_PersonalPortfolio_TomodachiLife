@@ -455,7 +455,8 @@ HRESULT CGameInstance::FileManager_Read_File(const string& strFilePath, nlohmann
 	return m_pFileManager->Read_File(strFilePath, pOut);
 }
 
-HRESULT CGameInstance::FileManager_Write_File(const string& strFilePath, nlohmann::json& Data)
+HRESULT CGameInstance::FileManager_Write_File(
+	const string& strFilePath, nlohmann::json& Data)
 {
 	return m_pFileManager->Write_File(strFilePath, Data);
 }

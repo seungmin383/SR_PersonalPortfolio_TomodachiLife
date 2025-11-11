@@ -29,6 +29,7 @@ HRESULT CMesh::Initialize_Origin(
 	NewMeshData["MaterialIndex"] = pAIMesh->mMaterialIndex;
 	NewMeshData["NumVertices"] = pAIMesh->mNumVertices;
 	NewMeshData["NumIndices"] = pAIMesh->mNumFaces * 3;
+
 	strcpy_s(m_szName, pAIMesh->mName.data);
 
 	m_iMaterialIndex = pAIMesh->mMaterialIndex;

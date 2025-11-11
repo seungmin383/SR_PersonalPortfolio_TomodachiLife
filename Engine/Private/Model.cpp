@@ -66,7 +66,7 @@ HRESULT CModel::Initialize_Origin(
 	auto& jModelArr = m_ModelData["Model"];
 	auto& jCurModelData = jModelArr.at(m_iCurModelDataIndex);
 	
-	if (m_isFirstInstantiaed)
+	if (true)//m_isFirstInstantiaed)
 	{
 		nlohmann::json jBoneData = nlohmann::json::array();
 
@@ -80,7 +80,6 @@ HRESULT CModel::Initialize_Origin(
 	}
 	else
 	{
-		Ready_Json_Bones(jCurModelData);
 	}
 
 	if (FAILED(Ready_Meshes()))
@@ -288,42 +287,6 @@ HRESULT CModel::Ready_Animations()
 
 		m_Animations.push_back(pInstance);
 	}
-	return S_OK;
-}
-
-HRESULT CModel::Ready_Json_Meshes()
-{
-	return S_OK;
-}
-
-HRESULT CModel::Ready_Json_Material(const _char* pModelFIlePath)
-{
-	return S_OK;
-}
-
-HRESULT CModel::Ready_Json_Bones(
-	nlohmann::json& BoneDataArr)
-{
-	int32_t iSize = BoneDataArr["BoneData"].size();
-
-	for(int32_t i = 0; i < iSize; i++)
-	{
-		CBone* pInstance = CBone::Create(
-			BoneDataArr["BoneData"],
-			m_iCurBoneIndex,
-			BoneDataArr["BoneData"][m_iCurBoneIndex]["ParentBoneIndex"].get<int32_t>());
-		m_iCurBoneIndex++;
-		if (nullptr == pInstance)
-			return E_FAIL;
-
-		m_Bones.push_back(pInstance);
-	}
-
-	return S_OK;
-}
-
-HRESULT CModel::Ready_Json_Animations()
-{
 	return S_OK;
 }
 
