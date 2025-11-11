@@ -2,6 +2,7 @@
 #include "Actor.h"
 
 NS_BEGIN(Engine)
+class CPartObject;
 
 class ENGINE_DLL CContainerObject abstract : public CActor
 {
@@ -18,6 +19,18 @@ public:
 	virtual void Update_Late(_float fDT)override;
 
 	virtual HRESULT Render()override;
+
+protected:
+	HRESULT Add_PartObject(
+		uint32_t iPlaceID, 
+		const _wstring& strProtoTag, 
+		const _wstring& strPartObjectTag, 
+		void* pArg);
+	CPartObject* Find_PartObject(
+		const _wstring& strPartObjectTag);
+
+protected:
+	map<const _wstring, CPartObject*> m_PartObjects;
 
 public:
 	virtual void Free()override;

@@ -47,7 +47,7 @@ int32_t CPlaceMoveButton::Update_Priority(_float fDT)
 		m_isClicked = TRUE;
 	}
 	
-	return UPDATE_OK;
+	return UPDATE_CLEAR;
 }
 
 int32_t CPlaceMoveButton::Update(_float fDT)
@@ -67,7 +67,7 @@ int32_t CPlaceMoveButton::Update(_float fDT)
 		m_iOutlineTextureNum = m_iStoreOutlineTextureNum;
 	}
 
-	return UPDATE_OK;
+	return UPDATE_CLEAR;
 }
 
 void CPlaceMoveButton::Update_Late(_float fDT)

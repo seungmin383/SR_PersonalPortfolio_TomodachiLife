@@ -13,7 +13,7 @@ namespace Engine
 
 #define			USING(NAMESPACE)	using namespace NAMESPACE;
 
-#define UPDATE_OK 0x0000
+#define UPDATE_CLEAR 0x0000
 #define PLACE_CHANGE 0x0001
 
 #define MII_DATA_PATH "../../SharedProjects/GAME/GameData/Mii_Data.json"

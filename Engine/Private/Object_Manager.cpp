@@ -30,7 +30,7 @@ int32_t CObjectManager::Update_Priority(_float fDT)
 		}
 	}
 
-	return UPDATE_OK;
+	return UPDATE_CLEAR;
 } 
 
 int32_t CObjectManager::Update(_float fDT)
@@ -46,7 +46,7 @@ int32_t CObjectManager::Update(_float fDT)
 		}
 	}
 
-	return UPDATE_OK;
+	return UPDATE_CLEAR;
 }
 void CObjectManager::Update_Late(_float fDT)
 {

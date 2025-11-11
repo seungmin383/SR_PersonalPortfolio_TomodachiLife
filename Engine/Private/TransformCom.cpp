@@ -22,6 +22,9 @@ HRESULT CTransformCom::Initialize_Origin()
 
 HRESULT CTransformCom::Initialize_Clone(void* _pArg)
 {
+	if (nullptr == _pArg)
+		return S_OK;
+
 	OBJECT_DESC* tmp = static_cast<OBJECT_DESC*> (_pArg);
 
 	m_fRotationPerSecond = tmp->fRotationPerSecond;

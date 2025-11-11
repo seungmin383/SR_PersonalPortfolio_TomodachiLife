@@ -24,6 +24,7 @@ HRESULT CActor::Initialize_Clone(void* pArg)
 
 	m_pTransformCom = CTransformCom::Create(m_pDevice, m_pContext);
 	m_pTransformCom->Initialize_Clone(pArg);
+
 	ACTOR_DESC* pActorDesc = static_cast<ACTOR_DESC*>(pArg);
 
 	m_fX = pActorDesc->fX;
@@ -52,16 +53,21 @@ HRESULT CActor::Initialize_Clone(void* pArg)
 
 int32_t CActor::Update_Priority(_float fDT)
 {
+	CObject::Update_Priority(fDT);
 	return 0;
 }
 
 int32_t CActor::Update(_float fDT)
 {
+	CObject::Update(fDT);
+
 	return 0;
 }
  
 void CActor::Update_Late(_float fDT)
 {
+	CObject::Update_Late(fDT);
+
 	m_pGameInstance->RenderManager_Add_RenderGroup(m_eRenderGroup, this);
 	return;
 }

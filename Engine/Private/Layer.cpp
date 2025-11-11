@@ -32,7 +32,7 @@ int32_t CLayer::Update(_float fDT)
 			return iFlag;
 	}
 
-	return UPDATE_OK;
+	return UPDATE_CLEAR;
 }
 void CLayer::Update_Late(_float fDT)
 {
