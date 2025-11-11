@@ -15,7 +15,7 @@ private:
 
 public:
 	virtual HRESULT Initialize_Origin(
-		nlohmann::json& ModelData,
+		nlohmann::json& MeshDataArr,
 		int32_t iMeshIndex,
 		ANIM_TYPE eAnimType,
 		CModel* pModel,
@@ -39,6 +39,7 @@ public:
 
 private:
 	HRESULT Ready_AnimMesh(
+		nlohmann::json& MeshData,
 		const aiMesh* pAIMesh,
 		CModel* pModel);
 
@@ -66,7 +67,7 @@ public:
 	static CMesh* Create(
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext,
-		nlohmann::json& ModelData,
+		nlohmann::json& MeshDataArr,
 		int32_t iMeshIndex,
 		ANIM_TYPE eAnimType,
 		CModel* pModel,

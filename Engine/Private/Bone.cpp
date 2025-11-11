@@ -5,13 +5,21 @@ CBone::CBone()
 }
 
 HRESULT CBone::Initialize(
-	nlohmann::json& BoneData,
+	nlohmann::json& BoneDataArr,
+	int32_t iCurBoneIndex,
 	const aiNode* pAINode, 
 	int32_t iParentBoneIndex)
 {
-	_float fArr[16] = {};
-	XMFLOAT4X4 tmpTransformMatrix = {};
+	/* BoneDataArr 라는 배열에 들어갈 객체 정보 생성 */
+	nlohmann::json NewBoneData = nlohmann::json::object();
 
+	NewBoneData["BoneName"] = pAINode->mName.data;
+	NewBoneData["ParentBoneIndex"] = iParentBoneIndex;
+	NewBoneData["Order"] = "Row-Major";
+	NewBoneData["TransformationMatrix"] = 
+		nlohmann::json::array();
+
+	XMFLOAT4X4 tmpTransformMatrix = {};
 	memcpy(
 		&tmpTransformMatrix,
 		&pAINode->mTransformation,
@@ -29,36 +37,29 @@ HRESULT CBone::Initialize(
 		for (int32_t j = 0; j < 4; j++)
 		{
 			iIndex = i * 4 + j;
-			fArr[iIndex] = tmpTransformMatrix.m[i][j];
+			NewBoneData["TransformationMatrix"][iIndex] = tmpTransformMatrix.m[i][j];
 		}
 	}
 
-	nlohmann::json newBoneData = {
-		{"BoneName", pAINode->mName.data},
-		{"ParentBoneIndex",iParentBoneIndex },
-		{"TransformationMatrix", fArr},
-		{"Order", "Row-Major"}
-	};
+	BoneDataArr.push_back(NewBoneData);
 
-	BoneData.push_back(newBoneData);
+	const auto& jCurBoneData = BoneDataArr[iCurBoneIndex];
 
-	const auto& LastData = BoneData.back();
+	m_strName = jCurBoneData.at("BoneName").get<string>();
+	m_iParentBoneIndex = jCurBoneData.at("ParentBoneIndex").get<int32_t>();;
 
-	m_strName = LastData.at("BoneName").get<string>();
-	m_iParentBoneIndex = LastData.at("ParentBoneIndex").get<int32_t>();;
-	vector<_float>vec;
-	vec.reserve(16);
+	vector<_float> TransformMatrixData;
+	TransformMatrixData.reserve(16);
+	TransformMatrixData = jCurBoneData.at("TransformationMatrix").get<vector<_float>>();
 
-	vec = LastData.at("TransformationMatrix").get<vector<_float>>();
-
-	int32_t iIndex1 = { 0 };
+	iIndex = { 0 };
 
 	for (int32_t i = 0; i < 4; i++)
 	{
 		for (int32_t j = 0; j < 4; j++)
 		{
-			iIndex1 = i * 4 + j;
-			m_TransformationMatrix.m[i][j] = vec[iIndex1];
+			iIndex = i * 4 + j;
+			m_TransformationMatrix.m[i][j] = TransformMatrixData[iIndex];
 		}
 	}
 
@@ -69,26 +70,39 @@ HRESULT CBone::Initialize(
 	return S_OK;
 }
 
+HRESULT CBone::Initialize(nlohmann::json& BoneDataArr, int32_t iCurBoneIndex, int32_t iParentBoneIndex)
+{
+	const auto& jCurBoneData = BoneDataArr[iCurBoneIndex];
+
+	m_strName = jCurBoneData.at("BoneName").get<string>();
+	m_iParentBoneIndex = jCurBoneData.at("ParentBoneIndex").get<int32_t>();;
+
+	vector<_float> TransformMatrixData;
+	TransformMatrixData.reserve(16);
+	TransformMatrixData = jCurBoneData.at("TransformationMatrix").get<vector<_float>>();
+
+	int32_t iIndex = { 0 };
+
+	for (int32_t i = 0; i < 4; i++)
+	{
+		for (int32_t j = 0; j < 4; j++)
+		{
+			iIndex = i * 4 + j;
+			m_TransformationMatrix.m[i][j] = TransformMatrixData[iIndex];
+		}
+	}
+
+	XMStoreFloat4x4(
+		&m_CombinedTransformationMatrix,
+		XMMatrixIdentity());
+
+	return S_OK;
+}
+
 void CBone::Update_CombinedTransformationMatrix(
 	vector<CBone*>& EntireBones,
 	FXMMATRIX PreTransformMatrix)
 {
-	//// 내가 최상위 뼈라면
-	//if (-1 == m_iParentBoneIndex)
-	//{
-	//	XMStoreFloat4x4(
-	//		&m_CombinedTransformationMatrix,
-	//		XMLoadFloat4x4(&m_TransformationMatrix) 
-	//		* PreTransformMatrix);
-	//}
-	//else
-	//{
-	//	XMStoreFloat4x4(
-	//		&m_CombinedTransformationMatrix,
-	//		XMLoadFloat4x4(&m_TransformationMatrix)
-	//		* XMLoadFloat4x4(&EntireBones[m_iParentBoneIndex]->m_CombinedTransformationMatrix));
-	//}
-
 	if (-1 == m_iParentBoneIndex)
 	{
 		XMStoreFloat4x4(&m_CombinedTransformationMatrix,
@@ -103,15 +117,36 @@ void CBone::Update_CombinedTransformationMatrix(
 
 
 CBone* CBone::Create(
-	nlohmann::json& BoneData,
+	nlohmann::json& BoneDataArr,
+	int32_t iCurBoneIndex,
 	const aiNode* pAINode, 
 	int32_t iParentBoneIndex)
 {
 	CBone* pInstance = new CBone;
 
-	if (FAILED(pInstance->Initialize(BoneData, pAINode, iParentBoneIndex)))
+	if (FAILED(pInstance->Initialize(
+		BoneDataArr,
+		iCurBoneIndex, 
+		pAINode, 
+		iParentBoneIndex)))
 	{
 		MSG_BOX("ErrCode : Bone Create Failed");
+		Safe_Release(pInstance);
+		return nullptr;
+	}
+	return pInstance;
+}
+
+CBone* CBone::Create(nlohmann::json& BoneDataArr, int32_t iCurBoneIndex, int32_t iParentBoneIndex)
+{
+	CBone* pInstance = new CBone;
+
+	if (FAILED(pInstance->Initialize(
+		BoneDataArr,
+		iCurBoneIndex,
+		iParentBoneIndex)))
+	{
+		MSG_BOX("ErrCode : Bone Create With Json is Failed");
 		Safe_Release(pInstance);
 		return nullptr;
 	}

@@ -142,6 +142,12 @@
     <Filter Include="01.Utility\03.Object\02.Component\04.Model\03.Animation\Channel">
       <UniqueIdentifier>{9414e6fa-84be-48e1-9f02-2824ab95b219}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\01.Actor\01.PartObject">
+      <UniqueIdentifier>{08e09fbb-ba7e-4500-bdc6-498a78debbaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\01.Actor\02.ContainerObject">
+      <UniqueIdentifier>{869e5348-dda3-4495-8806-1e59825e26da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -260,6 +266,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Channel.cpp">
       <Filter>01.Utility\03.Object\02.Component\04.Model\03.Animation\Channel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PartObject.cpp">
+      <Filter>01.Utility\03.Object\01.Actor\01.PartObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ContainerObject.cpp">
+      <Filter>01.Utility\03.Object\01.Actor\02.ContainerObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -421,6 +433,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Channel.h">
       <Filter>01.Utility\03.Object\02.Component\04.Model\03.Animation\Channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PartObject.h">
+      <Filter>01.Utility\03.Object\01.Actor\01.PartObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ContainerObject.h">
+      <Filter>01.Utility\03.Object\01.Actor\02.ContainerObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -47,7 +47,7 @@ public:
 
 private:
 	nlohmann::json m_ModelData = {};
-	int32_t m_iDataIndex = {};
+	int32_t m_iCurModelDataIndex = {};
 	_bool m_isFirstInstantiaed = { TRUE };
 
 	Assimp::Importer m_Importer = {};
@@ -63,7 +63,7 @@ private:
 
 	// ÀÌ ¸ðµ¨ÀÇ ¸ðµç »À
 	vector<CBone*> m_Bones;
-	int32_t m_iBoneIndex = {0};
+	int32_t m_iCurBoneIndex = {0};
 
 	uint32_t m_iNumAnimation = {};
 	uint32_t m_iCurAnimationIndex = {};
@@ -77,17 +77,21 @@ private:
 private:
 	HRESULT Ready_Meshes();
 	HRESULT	Ready_Material(const _char* pModelFIlePath);
-	HRESULT Ready_Bones_Assimp(
-		nlohmann::json& ModelData,
+	HRESULT Ready_Bones(
+		nlohmann::json& BoneDataArr,
 		const aiNode* pAINode,
 		int32_t iParentBoneIndex);
-
-
-
 	HRESULT Ready_Animations();
 
+
+	HRESULT Ready_Json_Meshes();
+	HRESULT	Ready_Json_Material(const _char* pModelFIlePath);
+	HRESULT Ready_Json_Bones(nlohmann::json& BoneDataArr);
+	HRESULT Ready_Json_Animations();
+
+
 	void Ready_Model(
-		 nlohmann::json& Data, 
+		 nlohmann::json& InitModelData, 
 		_string strProtoTag,
 		ANIM_TYPE eAnimType);
 

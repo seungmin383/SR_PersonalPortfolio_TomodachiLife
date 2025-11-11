@@ -11,10 +11,15 @@ private:
 
 public :
 	HRESULT Initialize(
-		nlohmann::json& BoneData,
-		const aiNode* pAINode, 
+		nlohmann::json& BoneDataArr,
+		int32_t iCurBoneIndex,
+		const aiNode* pAINode,
 		int32_t iParentBoneIndex);
 
+	HRESULT Initialize(
+		nlohmann::json& BoneDataArr,
+		int32_t iCurBoneIndex,
+		int32_t iParentBoneIndex);
 	
 	/* 전체 뼈의 CombinedMatrix를 계산 
 	계산하기 위해서는 부모 뼈의 정보가 필요함*/
@@ -22,11 +27,8 @@ public :
 		vector<CBone*>& EntireBones,
 		FXMMATRIX PreTransformMatrix);
 
-	_bool Compare_Name(_string strName){
-		
-		if (m_strName == strName)
-			return TRUE;
-		return FALSE;
+	_bool Compare_Name(const _string& strName){
+		return  (m_strName == strName);
 	}
 
 public:
@@ -46,8 +48,14 @@ private:
 
 public:
 	static CBone* Create(
-		nlohmann::json& BoneData,
+		nlohmann::json& BoneDataArr,
+		int32_t iCurBoneIndex,
 		const aiNode* pAINode, 
+		int32_t iParentBoneIndex);
+
+	static CBone* Create(
+		nlohmann::json& BoneData,
+		int32_t iCurBoneIndex,
 		int32_t iParentBoneIndex);
 
 	virtual void Free()override;

@@ -184,6 +184,9 @@ public:
 		nlohmann::json& Data);
 
 	const nlohmann::json& FileManager_Get_Data(const string& strFilePath);
+
+	void FileManager_RoundFloatsInJson(nlohmann::json& j, int32_t n = 6);
+
 #pragma endregion
 
 #pragma region BUTTONMANAGER

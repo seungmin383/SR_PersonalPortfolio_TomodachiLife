@@ -465,6 +465,11 @@ const nlohmann::json& CGameInstance::FileManager_Get_Data(const string& strFileP
 	return m_pFileManager->Get_Data(strFilePath);
 }
 
+void CGameInstance::FileManager_RoundFloatsInJson(nlohmann::json& j, int32_t n)
+{
+	m_pFileManager->RoundFloatsInJson(j, n);
+}
+
 #pragma endregion
 
 #pragma region BUTTONMANAGER

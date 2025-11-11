@@ -14,7 +14,7 @@ CMesh::CMesh(const CMesh& rhs)
 }
 
 HRESULT CMesh::Initialize_Origin(
-	nlohmann::json& ModelData,
+	nlohmann::json& MeshDataArr,
 	int32_t iMeshIndex,
 	ANIM_TYPE eAnimType,
 	CModel* pModel,
@@ -23,17 +23,12 @@ HRESULT CMesh::Initialize_Origin(
 {
 	m_iMeshindex = iMeshIndex;
 
-	auto& arr = ModelData["MeshData"];
+	nlohmann::json NewMeshData = nlohmann::json::object();
 
-	nlohmann::json NewData = {};
-	NewData = {
-		{"MeshName", pAIMesh->mName.data},
-		{"MaterialIndex", pAIMesh->mMaterialIndex},
-		{"NumVertices", pAIMesh->mNumVertices},
-		{"NumIndices", pAIMesh->mNumFaces * 3}
-	};
-	arr.push_back(NewData);
-
+	NewMeshData["MeshName"] = pAIMesh->mName.data;
+	NewMeshData["MaterialIndex"] = pAIMesh->mMaterialIndex;
+	NewMeshData["NumVertices"] = pAIMesh->mNumVertices;
+	NewMeshData["NumIndices"] = pAIMesh->mNumFaces * 3;
 	strcpy_s(m_szName, pAIMesh->mName.data);
 
 	m_iMaterialIndex = pAIMesh->mMaterialIndex;
@@ -52,10 +47,10 @@ HRESULT CMesh::Initialize_Origin(
 	switch (eAnimType)
 	{
 	case Engine::ANIM_TYPE::ANIM:
-		Ready_AnimMesh(pAIMesh, pModel);
+		Ready_AnimMesh(NewMeshData, pAIMesh, pModel);
 		break;
 	case Engine::ANIM_TYPE::NONEANIM:
-		Ready_NoneAnimMesh(arr, pAIMesh, InitTransformMatrix);
+		Ready_NoneAnimMesh(NewMeshData, pAIMesh, InitTransformMatrix);
 		break;
 	default:
 		return E_FAIL;
@@ -75,18 +70,20 @@ HRESULT CMesh::Initialize_Origin(
 	uint32_t* pIndices = new uint32_t[m_iNumIndices];
 	uint64_t IndicesNum = {};
 
+	NewMeshData["Indices"] = nlohmann::json::array();
+
 	for (uint64_t i = 0; i < pAIMesh->mNumFaces; i++)
 	{
 		pIndices[IndicesNum++] = pAIMesh->mFaces[i].mIndices[0];
 		pIndices[IndicesNum++] = pAIMesh->mFaces[i].mIndices[1];
 		pIndices[IndicesNum++] = pAIMesh->mFaces[i].mIndices[2];
 	
-		jIndexArray.push_back({
+		NewMeshData["Indices"].push_back({
 			pAIMesh->mFaces[i].mIndices[0] ,
 			pAIMesh->mFaces[i].mIndices[1] ,
 			pAIMesh->mFaces[i].mIndices[2] });
 	}
-	arr[m_iMeshindex]["Indices"] = std::move(jIndexArray);
+
 
 	D3D11_SUBRESOURCE_DATA IBuffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
 	IBuffer_Init_Data.pSysMem = pIndices;
@@ -100,8 +97,9 @@ HRESULT CMesh::Initialize_Origin(
 		return E_FAIL;
 	}
 
-	Safe_Delete_Array(pIndices);
+	MeshDataArr.push_back(NewMeshData);
 
+	Safe_Delete_Array(pIndices);
 	return S_OK;
 }
 
@@ -124,6 +122,7 @@ HRESULT CMesh::Bind_Bones(
 }
 
 HRESULT CMesh::Ready_AnimMesh(
+	nlohmann::json& MeshData,
 	const aiMesh* pAIMesh,
 	CModel* pModel)
 {
@@ -139,6 +138,20 @@ HRESULT CMesh::Ready_AnimMesh(
 
 	VTX_TEX_ANIM_MESH* pVertices = new VTX_TEX_ANIM_MESH[m_iNumVertices];
 	ZeroMemory(pVertices, sizeof(VTX_TEX_ANIM_MESH) * m_iNumVertices);
+	
+	nlohmann::json jPositions = nlohmann::json::array();
+	nlohmann::json jNormals = nlohmann::json::array();
+	nlohmann::json jTangents = nlohmann::json::array();   // mTangents 없으면 아예 생략 가능
+	nlohmann::json jBinormals = nlohmann::json::array();   // mBitangents 없으면 생략 가능
+	nlohmann::json jTexcoords = nlohmann::json::array();
+	nlohmann::json jBlendIndex = nlohmann::json::array();
+	nlohmann::json jBlendWeight = nlohmann::json::array();
+	nlohmann::json jNumBone = nlohmann::json::array();
+
+	// UV/탄젠트 포인터 존재 여부 체크
+	const bool hasUV0 = (pAIMesh->mTextureCoords[0] != nullptr);
+	const bool hasTangents = (pAIMesh->mTangents != nullptr);
+	const bool hasBinormals = (pAIMesh->mBitangents != nullptr);
 
 	for (uint64_t i = 0; i < m_iNumVertices; i++)
 	{
@@ -146,11 +159,18 @@ HRESULT CMesh::Ready_AnimMesh(
 		memcpy(&pVertices[i].vPos, &pAIMesh->mVertices[i], sizeof(_float3));
 		m_pVertexPositions[i] = pVertices[i].vPos;
 		memcpy(&pVertices[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
-		memcpy(&pVertices[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
-		memcpy(&pVertices[i].vBinormal, &pAIMesh->mBitangents[i], sizeof(_float3));
-		memcpy(&pVertices[i].vTexCoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
+		
+		if(hasTangents)
+			memcpy(&pVertices[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
+		
+		if(hasBinormals)
+			memcpy(&pVertices[i].vBinormal, &pAIMesh->mBitangents[i], sizeof(_float3));
+		
+		if(hasUV0)
+			memcpy(&pVertices[i].vTexCoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 	}
 
+	jNumBone.push_back(pAIMesh->mNumBones);
 	m_iNumBones = pAIMesh->mNumBones;
 
 	for (uint32_t i = 0; i < m_iNumBones; i++)
@@ -177,25 +197,71 @@ HRESULT CMesh::Ready_AnimMesh(
 			{
 				pVertices[AIWeight.mVertexId].vBlendIndex.x = i;
 				pVertices[AIWeight.mVertexId].vBlendWeight.x = AIWeight.mWeight;
+				jBlendWeight = AIWeight.mWeight;
 			}
 			else if (0.f == pVertices[AIWeight.mVertexId].vBlendWeight.y)
 			{
 				pVertices[AIWeight.mVertexId].vBlendIndex.y = i;
 				pVertices[AIWeight.mVertexId].vBlendWeight.y = AIWeight.mWeight;
+				jBlendWeight = AIWeight.mWeight;
 			}
 			else if (0.f == pVertices[AIWeight.mVertexId].vBlendWeight.z)
 			{
 				pVertices[AIWeight.mVertexId].vBlendIndex.z = i;
 				pVertices[AIWeight.mVertexId].vBlendWeight.z = AIWeight.mWeight;
+				jBlendWeight = AIWeight.mWeight;
 			}
 			else
 			{
 				pVertices[AIWeight.mVertexId].vBlendIndex.w = i;
 				pVertices[AIWeight.mVertexId].vBlendWeight.w = AIWeight.mWeight;
+				jBlendWeight = AIWeight.mWeight;
 			}
+			jBlendIndex.push_back(i);
+		}
+
+		jPositions.push_back({
+	   pVertices[i].vPos.x,
+	   pVertices[i].vPos.y,
+	   pVertices[i].vPos.z
+			});
+
+		// 2) Normals
+		jNormals.push_back({
+			pVertices[i].vNormal.x,
+			pVertices[i].vNormal.y,
+			pVertices[i].vNormal.z
+			});
+
+		// 3) Tangents (있을 때만)
+		if (hasTangents) {
+			jTangents.push_back({
+				pVertices[i].vTangent.x,
+				pVertices[i].vTangent.y,
+				pVertices[i].vTangent.z
+				});
+		}
+
+		// 4) Binormals (있을 때만)
+		if (hasBinormals) {
+			jBinormals.push_back({
+				pVertices[i].vBinormal.x,
+				pVertices[i].vBinormal.y,
+				pVertices[i].vBinormal.z
+				});
+		}
+
+		// 5) Texcoords0
+		if (hasUV0) {
+			jTexcoords.push_back({
+				pVertices[i].vTexCoord.x,
+				pVertices[i].vTexCoord.y
+				});
 		}
 	}
+
 	
+
 	if (0 == m_iNumBones)
 	{
 		m_iNumBones = 1;
@@ -206,6 +272,18 @@ HRESULT CMesh::Ready_AnimMesh(
 		m_OffsetMatrices.push_back(OffsetMatrix);
 		m_BoneIndices.push_back(pModel->Get_BoneIndex(m_szName));
 	}
+
+	MeshData["Vertices"] = std::move(jPositions);
+	MeshData["Normals"] = std::move(jNormals);
+	if (hasTangents)
+		MeshData["Tangents"] = std::move(jTangents);
+	if (hasBinormals)
+		MeshData["Binormals"] = std::move(jBinormals);
+	if (hasUV0)
+		MeshData["Texcoords"] = std::move(jTexcoords);
+	MeshData["BlendIndex"] = std::move(jBlendIndex);
+	MeshData["BlendWeight"] = std::move(jBlendWeight);
+	MeshData["NumBone"] = std::move(jNumBone);
 
 	D3D11_SUBRESOURCE_DATA VBuffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
 	VBuffer_Init_Data.pSysMem = pVertices;
@@ -242,7 +320,6 @@ HRESULT CMesh::Ready_NoneAnimMesh(
 	VTX_TEX_MESH* pVertices = new VTX_TEX_MESH[m_iNumVertices];
 	ZeroMemory(pVertices, sizeof(VTX_TEX_MESH) * m_iNumVertices);
 	
-	nlohmann::json& meshObj = MeshData[m_iMeshindex];
 
 	nlohmann::json jPositions	= nlohmann::json::array();
 	nlohmann::json jNormals		= nlohmann::json::array();
@@ -325,14 +402,14 @@ HRESULT CMesh::Ready_NoneAnimMesh(
 		}
 	}
 
-	meshObj["Vertices"] = std::move(jPositions);
-	meshObj["Normals"] = std::move(jNormals);
+	MeshData["Vertices"] = std::move(jPositions);
+	MeshData["Normals"] = std::move(jNormals);
 	if (hasTangents)   
-		meshObj["Tangents"] = std::move(jTangents);
+		MeshData["Tangents"] = std::move(jTangents);
 	if (hasBinormals)  
-		meshObj["Binormals"] = std::move(jBinormals);
+		MeshData["Binormals"] = std::move(jBinormals);
 	if (hasUV0)        
-		meshObj["Texcoords"] = std::move(jTexcoords);
+		MeshData["Texcoords"] = std::move(jTexcoords);
 
 	D3D11_SUBRESOURCE_DATA VBuffer_Init_Data = {}; //초기화 데이터를 설정해주는 것
 	VBuffer_Init_Data.pSysMem = pVertices;
@@ -358,7 +435,7 @@ HRESULT CMesh::Initialize_Clone(void* pArg)
 CMesh* CMesh::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext,
-	nlohmann::json& ModelData, 
+	nlohmann::json& MeshDataArr,
 	int32_t iMeshIndex,
 	ANIM_TYPE eAnimType,
 	CModel* pModel,
@@ -368,7 +445,7 @@ CMesh* CMesh::Create(
 	CMesh* pMesh = new CMesh(pDevice, pContext);
 
 	if (FAILED(pMesh->Initialize_Origin(
-		ModelData,
+		MeshDataArr,
 		iMeshIndex,
 		eAnimType,
 		pModel,

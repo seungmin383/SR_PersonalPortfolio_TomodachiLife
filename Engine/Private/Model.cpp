@@ -40,24 +40,19 @@ HRESULT CModel::Initialize_Origin(
 	const _char* pModelFilePath,
 	FXMMATRIX InitTransformMatrix)
 {
-	m_ModelData  =
-		m_pGameInstance->FileManager_Get_Data(
-			MODEL_DATA_PATH);
+	m_pGameInstance->FileManager_Read_File(
+		MODEL_DATA_PATH, m_ModelData);
 
+	m_pGameInstance->FileManager_RoundFloatsInJson(m_ModelData, 6);
 	/* ProtoTag가 있다면 m_isFirstIntantiated 를 FALSE로, 없다면 TRUE로*/
-	Ready_Model(m_ModelData, strProtoTag, eAnimType);
+	Ready_Model(m_ModelData["Model"], strProtoTag, eAnimType);
 
-	// Model에 Index번째 배열의 값, {{"ProtoTag" : ""}, ...}가 저장됨
-
-
-	uint32_t iFlag =
-	{	aiProcess_ConvertToLeftHanded | 
+	uint32_t iFlag ={
+		aiProcess_ConvertToLeftHanded | 
 		aiProcessPreset_TargetRealtime_Fast };
 
 	if (ANIM_TYPE::NONEANIM == m_eAnimType)
 		iFlag |= aiProcess_PreTransformVertices;
-
-	//Assimp
 	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
 
 	if (nullptr == m_pAIScene)
@@ -68,8 +63,25 @@ HRESULT CModel::Initialize_Origin(
 
 	XMStoreFloat4x4(&m_InitMatrix, InitTransformMatrix);
 
-	if (FAILED(Ready_Bones_Assimp(m_ModelData["Model"][m_iDataIndex], m_pAIScene->mRootNode, -1)))
-		return E_FAIL;
+	auto& jModelArr = m_ModelData["Model"];
+	auto& jCurModelData = jModelArr.at(m_iCurModelDataIndex);
+	
+	if (m_isFirstInstantiaed)
+	{
+		nlohmann::json jBoneData = nlohmann::json::array();
+
+		if (FAILED(Ready_Bones(
+			jBoneData,
+			m_pAIScene->mRootNode,
+			-1)))
+			return E_FAIL;
+
+		jCurModelData["BoneData"].push_back(jBoneData);
+	}
+	else
+	{
+		Ready_Json_Bones(jCurModelData);
+	}
 
 	if (FAILED(Ready_Meshes()))
 		return E_FAIL;
@@ -175,7 +187,12 @@ void CModel::Set_Animation(uint32_t iAnimIndex, _bool isLoop)
 
 HRESULT CModel::Ready_Meshes()
 {
+	// m_iNumMesh = (m_ModelData["Model"][m_iCurModelDataIndex]["MeshData"].size());
 	m_iNumMesh = m_pAIScene->mNumMeshes;
+
+	auto& jModelArr = m_ModelData["Model"];
+	auto& jCurModel = jModelArr.at(m_iCurModelDataIndex);
+	nlohmann::json jMeshData = nlohmann::json::array();
 
 	for (uint64_t i = 0; i < m_iNumMesh; i++)
 	{
@@ -185,7 +202,7 @@ HRESULT CModel::Ready_Meshes()
 			CMesh::Create(
 				m_pDevice,
 				m_pContext,
-				m_ModelData["Model"][m_iDataIndex],
+				jMeshData,
 				i,
 				m_eAnimType,
 				this,
@@ -198,6 +215,7 @@ HRESULT CModel::Ready_Meshes()
 		m_Meshes.push_back(pMesh);
 	}
 
+	jCurModel["MeshData"].push_back(jMeshData);
 	return S_OK;
 }
 
@@ -211,7 +229,7 @@ HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 			CMaterial::Create(
 				m_pDevice,
 				m_pContext,
-				m_ModelData["Model"][m_iDataIndex],
+				m_ModelData["Model"][m_iCurModelDataIndex],
 				i,
 				m_pAIScene->mMaterials[i],
 				pModelFIlePath);
@@ -225,14 +243,16 @@ HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 	return S_OK;
 }
 
-HRESULT CModel::Ready_Bones_Assimp(
-	nlohmann::json& ModelData,
+HRESULT CModel::Ready_Bones(
+	nlohmann::json& BoneDataArr,
 	const aiNode* pAINode, 
 	int32_t iParentBoneIndex)
 {
-	auto& CurBoneData = ModelData["BoneData"];
-
-	CBone* pInstance = CBone::Create(CurBoneData, pAINode, iParentBoneIndex);
+	CBone* pInstance = CBone::Create(
+		BoneDataArr,
+		m_iCurBoneIndex++,
+		pAINode, 
+		iParentBoneIndex);
 
 	if (nullptr == pInstance)
 		return E_FAIL;
@@ -243,7 +263,10 @@ HRESULT CModel::Ready_Bones_Assimp(
 
 	for (uint32_t i = 0; i < pAINode->mNumChildren; i++)
 	{
-		Ready_Bones_Assimp(ModelData, pAINode->mChildren[i], iParentIndex);
+		Ready_Bones(
+			BoneDataArr,
+			pAINode->mChildren[i], 
+			iParentIndex);
 	}
 
 	return S_OK;
@@ -268,40 +291,80 @@ HRESULT CModel::Ready_Animations()
 	return S_OK;
 }
 
+HRESULT CModel::Ready_Json_Meshes()
+{
+	return S_OK;
+}
+
+HRESULT CModel::Ready_Json_Material(const _char* pModelFIlePath)
+{
+	return S_OK;
+}
+
+HRESULT CModel::Ready_Json_Bones(
+	nlohmann::json& BoneDataArr)
+{
+	int32_t iSize = BoneDataArr["BoneData"].size();
+
+	for(int32_t i = 0; i < iSize; i++)
+	{
+		CBone* pInstance = CBone::Create(
+			BoneDataArr["BoneData"],
+			m_iCurBoneIndex,
+			BoneDataArr["BoneData"][m_iCurBoneIndex]["ParentBoneIndex"].get<int32_t>());
+		m_iCurBoneIndex++;
+		if (nullptr == pInstance)
+			return E_FAIL;
+
+		m_Bones.push_back(pInstance);
+	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Ready_Json_Animations()
+{
+	return S_OK;
+}
+
 void CModel::Ready_Model(
-	nlohmann::json& Data, 
+	nlohmann::json& InitModelData,
 	_string strProtoTag,
 	ANIM_TYPE eAnimType)
 {
 	m_eAnimType = eAnimType;
 
-	auto& arr = Data["Model"];
-
-	int32_t iSize = static_cast<int32_t>(arr.size());
+	int32_t iSize = static_cast<int32_t>(InitModelData.size());
 
 	for (int32_t i = 0; i < iSize; i++)
 	{
-		auto& object = arr[i];
-
-		if (strProtoTag == object["ProtoTag"].get<_string>())
+		if (strProtoTag == InitModelData[i]["ProtoTag"].get<_string>())
 		{
-			m_iDataIndex = i;
+			m_iCurModelDataIndex = i;
 			m_isFirstInstantiaed = FALSE;
 			return;
 		}
 	}
 
-	nlohmann::json NewData = {};
+	nlohmann::json jNewModelData = nlohmann::json::object();
 
 	if (ANIM_TYPE::NONEANIM == eAnimType)
-		NewData = { {"ProtoTag", strProtoTag}, {"isAnim", false} };
+	{
+		jNewModelData = { 
+			{"ProtoTag", strProtoTag}, 
+			{"isAnim", false} };
+	}
 	else
-		NewData = { {"ProtoTag", strProtoTag}, {"isAnim", true} };
+	{
+		jNewModelData = { 
+			{"ProtoTag", strProtoTag}, 
+			{"isAnim", true} };
 
-	m_iDataIndex = static_cast<int32_t>(arr.size());
+	}
+
+	m_iCurModelDataIndex = static_cast<int32_t>(InitModelData.size());
 	m_isFirstInstantiaed = TRUE;
-	arr.push_back(NewData);
-
+	InitModelData.push_back(jNewModelData);
 }
 
 CModel* CModel::Create(
