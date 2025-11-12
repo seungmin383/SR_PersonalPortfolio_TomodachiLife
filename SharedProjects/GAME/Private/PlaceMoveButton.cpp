@@ -52,19 +52,28 @@ int32_t CPlaceMoveButton::Update_Priority(_float fDT)
 
 int32_t CPlaceMoveButton::Update(_float fDT)
 {
-	if (m_isClicked)
+
+	if (m_isSelected && m_isClicked)
 	{
-		On_Click();
+		m_pGameInstance->PlaceManager_Change_Place(
+			static_cast<uint32_t>(PLACE_ID::LOADING),
+			CPlace_Loading::Create(
+				m_pDevice,
+				m_pContext,
+				m_eNextPlaceID));
 		return PLACE_CHANGE;
 	}
+	else if (m_isClicked)
+	{
 
-	if (!m_isSelected)
-	{
-		m_iOutlineTextureNum = 5;
-	}
-	else
-	{
+		On_Click();
+
 		m_iOutlineTextureNum = m_iStoreOutlineTextureNum;
+	}
+	else if(!m_isSelected)
+	{
+
+		m_iOutlineTextureNum = 5;
 	}
 
 	return UPDATE_CLEAR;
@@ -168,13 +177,6 @@ HRESULT CPlaceMoveButton::Bind_ShaderResources()
 
 void CPlaceMoveButton::On_Click()
 {
-	m_pGameInstance->PlaceManager_Change_Place(
-		static_cast<uint32_t>(PLACE_ID::LOADING),
-		CPlace_Loading::Create(
-			m_pDevice,
-			m_pContext,
-			m_eNextPlaceID));
-
 	// 버튼들을 아직 매니저에 안넣어줌
 	m_pGameInstance->ButtonManager_All_Deactivate(
 		static_cast<uint32_t>(PLACE_ID::ISLAND));

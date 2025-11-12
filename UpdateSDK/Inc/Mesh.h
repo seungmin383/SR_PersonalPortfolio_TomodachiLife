@@ -1,5 +1,6 @@
 #pragma once
 #include "VIBufferCom.h"
+#include"SEMesh_Data.h"
 
 NS_BEGIN(Engine)
 class CShaderCom;
@@ -15,8 +16,8 @@ private:
 
 public:
 	virtual HRESULT Initialize_Origin(
-		nlohmann::json& MeshDataArr,
-		int32_t iMeshIndex,
+		SE_MESH& seMesh,
+		SE_ANIM_MESH& seAnimMesh,
 		ANIM_TYPE eAnimType,
 		CModel* pModel,
 		aiMesh* pAIMesh, 
@@ -36,28 +37,30 @@ public:
 
 public:
 	uint32_t Get_MaterialIndex() { return m_iMaterialIndex; }
-
+	const vector<int32_t>& Get_BoneIndices() const noexcept
+	{
+		return m_BoneIndices;
+	}
 private:
 	HRESULT Ready_AnimMesh(
-		nlohmann::json& MeshData,
+		SE_ANIM_MESH& seAnimMesh,
 		const aiMesh* pAIMesh,
 		CModel* pModel);
 
 	HRESULT Ready_NoneAnimMesh(
-		nlohmann::json& MeshData,
+		SE_MESH& seMesh,
 		const aiMesh* pAIMesh, 
 		FXMMATRIX InitTransforMatrix);
 
 private:
-	//모델에서 이 메쉬가 몇번째 메쉬인지
-	int32_t m_iMeshindex = {0};
-
 	_char m_szName[MAX_PATH] = {};
 	uint32_t m_iMaterialIndex = {};
 	uint32_t m_iNumBones = {};
 
 	// 이 메쉬에 영향을 주는 뼈 인덱스
+
 	vector<int32_t > m_BoneIndices;
+
 	// 이 메쉬에 영향을 주는 뼈 매트릭스
 	XMFLOAT4X4 m_BoneMatrices[g_iMaxNumBones] = {};
 
@@ -67,8 +70,8 @@ public:
 	static CMesh* Create(
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext,
-		nlohmann::json& MeshDataArr,
-		int32_t iMeshIndex,
+		SE_MESH& seMesh,
+		SE_ANIM_MESH& seAnimMesh,
 		ANIM_TYPE eAnimType,
 		CModel* pModel,
 		aiMesh* pAIMesh,

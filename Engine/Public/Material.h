@@ -1,5 +1,6 @@
 #pragma once
 #include "Base.h"
+#include "SEMaterial_Data.h"
 
 NS_BEGIN(Engine)
 class CShaderCom;
@@ -12,8 +13,7 @@ private:
 
 public:
 	virtual HRESULT Initialize_Origin(
-		nlohmann::json& MatData,
-		int32_t iMatIndex,
+		SE_MATERIAL& seMat,
 		const aiMaterial* pAIMaterial,
 		const _char* pModelFilePath);
 
@@ -33,8 +33,7 @@ public:
 	static CMaterial* Create(
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext,
-		nlohmann::json& MatData,
-		int32_t iMatDataIndex,
+		SE_MATERIAL& seMat,
 		const aiMaterial* pAIMaterial,
 		const _char* pModelFilePath);
 	

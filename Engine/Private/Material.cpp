@@ -9,25 +9,13 @@ CMaterial::CMaterial(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 }
 
 HRESULT CMaterial::Initialize_Origin(
-	nlohmann::json& MatData,
-	int32_t iMatIndex,
+	SE_MATERIAL& seMat,
 	const aiMaterial* pAIMaterial, 
 	const _char* pModelFilePath)
 {
-	nlohmann::json& jMaterials = MatData["MaterialData"];
-	nlohmann::json jMaterial = nlohmann::json::object();
-
-	jMaterial["MaterialIndex"] = (iMatIndex);
-	jMaterial["MaterialType"] = nlohmann::json::array();
-
-	nlohmann::json jMaterialType = nlohmann::json::object();
-	jMaterialType["TextureType"];
-	jMaterialType["NumTexture"];
-	jMaterialType["TextureFilePath"] = nlohmann::json::array();
-
+	
 	for (uint32_t i = 0; i < AI_TEXTURE_TYPE_MAX; i++)
 	{
-		jMaterialType["TextureType"] = i;
 
 		_char szTextureFilePath[MAX_PATH] = {};
 		_char szDrivePath[MAX_PATH] = {};
@@ -43,8 +31,9 @@ HRESULT CMaterial::Initialize_Origin(
 		uint32_t iNumTexures =
 			pAIMaterial->GetTextureCount(
 				static_cast<aiTextureType>(i));
-		jMaterialType["NumTexture"] = iNumTexures;
 
+		seMat.TexturePaths[i].resize(iNumTexures);
+		
 		for (uint32_t j = 0; j < iNumTexures; j++)
 		{
 			aiString strTextureFilePath = {};
@@ -56,9 +45,6 @@ HRESULT CMaterial::Initialize_Origin(
 					&strTextureFilePath)))
 				return E_FAIL;
 
-			_string TextureFilePath = strTextureFilePath.C_Str();
-			jMaterialType["TextureFilePath"].push_back(TextureFilePath);
-
 			_char szFileName[MAX_PATH] = {};
 			_char szExt[MAX_PATH] = {};
 
@@ -68,6 +54,8 @@ HRESULT CMaterial::Initialize_Origin(
 			_splitpath_s(strTextureFilePath.data, nullptr, 0, nullptr, 0, szFileName, MAX_PATH, szExt, MAX_PATH);
 			strcat_s(szTextureFilePath, szFileName);
 			strcat_s(szTextureFilePath, szExt);
+
+			seMat.TexturePaths[i][j] = szTextureFilePath;
 
 			_tchar		szFinalPath[MAX_PATH] = {};
 			MultiByteToWideChar(CP_ACP, 0, szTextureFilePath, static_cast<int32_t>(strlen(szTextureFilePath)), szFinalPath, MAX_PATH);
@@ -88,10 +76,7 @@ HRESULT CMaterial::Initialize_Origin(
 
 			m_SRVs[i].push_back(pSRV);
 		}
-		jMaterial["MaterialType"].push_back(jMaterialType);
 	}
-
-	jMaterials[iMatIndex] = std::move(jMaterial);
 	return S_OK;
 }
 
@@ -105,17 +90,15 @@ HRESULT CMaterial::Bind_ShaderResource(CShaderCom* pShader, const _char* pConsta
 
 CMaterial* CMaterial::Create(
 	ID3D11Device* pDevice, 
-	ID3D11DeviceContext* pContext, 
-	nlohmann::json& MatData,
-	int32_t iMatDataIndex,
+	ID3D11DeviceContext* pContext,
+	SE_MATERIAL& seMat,
 	const aiMaterial* pAIMaterial,
 	const _char* pModelFilePath)
 {
 	CMaterial* pMaterial = new CMaterial(pDevice, pContext);
 
 	if (FAILED(pMaterial->Initialize_Origin(
-		MatData,
-		iMatDataIndex,
+		seMat,
 		pAIMaterial, 
 		pModelFilePath)))
 	{

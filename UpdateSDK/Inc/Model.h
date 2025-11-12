@@ -28,7 +28,8 @@ public:
 		_string strProtoTag,
 		ANIM_TYPE eAnimType,
 		const _char* pModelFilePath,
-		FXMMATRIX InitTransformMatrix);
+		FXMMATRIX InitTransformMatrix,
+		const _char* pSaveDataName);
 	virtual HRESULT Initialize_Clone(void* pArg)override;
 
 	virtual HRESULT Render(uint32_t iMeshIndex);
@@ -54,18 +55,15 @@ public:
 
 private:
 	// Bin Test begin
-	vector<SE_BONE*> m_SEBonesToWrite;
-	vector<SE_MATERIAL*> m_SEMaterialsToWrite;
-	vector<SE_MESH*> m_SEMeshesToWrite;
+	vector<SE_BONE> m_SEBonesToWrite;
+	vector<SE_MATERIAL> m_SEMaterialsToWrite;
+	vector<SE_MESH> m_SEMeshesToWrite;
+	vector<SE_ANIM_MESH> m_SEAnimMeshesToWrite;
 
 	vector<CSEBone*> m_SEBoneToRead;
 	vector<CSEMaterial*> m_SEMaterialToRead;
 	vector<CSEMesh*> m_SEMeshToRead;
 	// Bin Test end
-
-	nlohmann::json m_ModelData = {};
-	int32_t m_iCurModelDataIndex = {};
-	_bool m_isFirstInstantiaed = { TRUE };
 
 	Assimp::Importer m_Importer = {};
 	const aiScene* m_pAIScene = { nullptr };
@@ -80,7 +78,6 @@ private:
 
 	// 이 모델의 모든 뼈
 	vector<CBone*> m_Bones;
-	int32_t m_iCurBoneIndex = {0};
 
 	uint32_t m_iNumAnimation = {};
 	uint32_t m_iCurAnimationIndex = {};
@@ -90,20 +87,30 @@ private:
 	_bool m_isAnimLoop = { FALSE };
 	_bool m_isAnimFinished = { FALSE };
 
+	// 애니메이션 선형보간
+	// bin 마무리
+	// 플레이어 상태 제어 
+	//
 
 private:
+	std::unordered_map<_string, XMFLOAT4X4> m_OffsetMap; // 본 이름 → OffsetMatrix
+public:
+	const XMFLOAT4X4& Get_OffsetMatrixByName(
+		const _string& name) const;
+
+private:
+	void BuildOffsetMap();
+
+	HRESULT Save_Bone(const _char* pModelName);
+	HRESULT Save_Mesh(const _char* pModelName);
+	HRESULT Save_Material(const _char* pModelName);
+
 	HRESULT Ready_Meshes();
 	HRESULT	Ready_Material(const _char* pModelFIlePath);
 	HRESULT Ready_Bones(
-		nlohmann::json& BoneDataArr,
 		const aiNode* pAINode,
 		int32_t iParentBoneIndex);
 	HRESULT Ready_Animations();
-
-	void Ready_Model(
-		 nlohmann::json& InitModelData, 
-		_string strProtoTag,
-		ANIM_TYPE eAnimType);
 
 public:
 	static CModel* Create(
@@ -112,10 +119,15 @@ public:
 		_string strProtoTag,
 		ANIM_TYPE eAnimType,
 		const _char* pModelFIlePath,
-		FXMMATRIX InitTransformMatrix);
+		FXMMATRIX InitTransformMatrix,
+		const _char* pSaveDataName);
 
 	virtual CObject* Clone(void* pArg)override;
 	virtual void Free()override;
 };
 
 NS_END
+
+// 컷씬 툴을  
+// 
+//

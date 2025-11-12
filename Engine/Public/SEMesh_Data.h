@@ -17,9 +17,11 @@ typedef struct tagSEMeshData
 
 		Out.write(reinterpret_cast<const char*>(&iMaterialIndex), sizeof(uint32_t));
 
-		uint32_t NumBoneIndicies = static_cast<uint32_t>(BoneIndices.size());
-		Out.write(reinterpret_cast<const char*>(&NumBoneIndicies), sizeof(uint32_t));
-		Out.write(reinterpret_cast<const char*>(&BoneIndices[0]), sizeof(int32_t) * NumBoneIndicies);
+		 uint32_t NumBoneIndicies = static_cast<uint32_t>(BoneIndices.size());
+		 Out.write(reinterpret_cast<const char*>(&NumBoneIndicies), sizeof(uint32_t));
+		 if(0 != NumBoneIndicies)
+			Out.write(reinterpret_cast<const char*>(&BoneIndices[0]), sizeof(int32_t) * NumBoneIndicies);
+
 
 		uint32_t NumVertices = static_cast<uint32_t>(Vertices.size());
 		Out.write(reinterpret_cast<const char*>(&NumVertices), sizeof(uint32_t));

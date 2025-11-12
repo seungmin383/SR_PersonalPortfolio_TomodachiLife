@@ -501,8 +501,9 @@ HRESULT CLoader::Loading_Apart()
 				m_pContext,
 				"ProtoTag_Component_BasicManBody_Model",
 				ANIM_TYPE::ANIM,
-				"../../Resource/00Model/00Body/Hoodie/Untitled.fbx",
-				InitMatrix);
+				"../../Resource/00Model/00Body/Hoodie/uy.fbx",
+				InitMatrix,
+				"BasicManBody");
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::APART),
@@ -554,7 +555,8 @@ HRESULT CLoader::Loading_Island()
 				"ProtoTag_Component_Island_Model",
 				ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/BackGround - Island/island.fbx",
-				initMatrix);
+				initMatrix,
+				"Island");
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::ISLAND),
@@ -574,7 +576,8 @@ HRESULT CLoader::Loading_Island()
 				"ProtoTag_Component_SkyAndSea_Model",
 				ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/BackGround - Sea/sea.fbx",
-				initMatrix);
+				initMatrix,
+				"SkyAndSea");
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::ISLAND),
@@ -594,7 +597,8 @@ HRESULT CLoader::Loading_Island()
 				"ProtoTag_Component_Apart_Model",
 				ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/Actor - Apart/apart1.fbx",
-				initMatrix);
+				initMatrix,
+				"Apart");
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::ISLAND),

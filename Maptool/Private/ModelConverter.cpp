@@ -29,6 +29,10 @@ void CModelConverter::OpenBtn_FileExplorer()
                 {
                     MSG_BOX("ErrCode : Maptool AiScene Create Failed");
                 }
+                else
+                {
+
+                }
             }
             else
             {

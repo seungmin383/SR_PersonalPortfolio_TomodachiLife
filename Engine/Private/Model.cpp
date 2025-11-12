@@ -38,21 +38,18 @@ HRESULT CModel::Initialize_Origin(
 	_string strProtoTag,
 	ANIM_TYPE eAnimType,
 	const _char* pModelFilePath,
-	FXMMATRIX InitTransformMatrix)
+	FXMMATRIX InitTransformMatrix,
+	const _char* pSaveDataName)
 {
-	m_pGameInstance->FileManager_Read_File(
-		MODEL_DATA_PATH, m_ModelData);
-
-	m_pGameInstance->FileManager_RoundFloatsInJson(m_ModelData, 6);
-	/* ProtoTag가 있다면 m_isFirstIntantiated 를 FALSE로, 없다면 TRUE로*/
-	Ready_Model(m_ModelData["Model"], strProtoTag, eAnimType);
-
 	uint32_t iFlag ={
 		aiProcess_ConvertToLeftHanded | 
 		aiProcessPreset_TargetRealtime_Fast };
 
+	m_eAnimType = eAnimType;
+
 	if (ANIM_TYPE::NONEANIM == m_eAnimType)
 		iFlag |= aiProcess_PreTransformVertices;
+
 	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
 
 	if (nullptr == m_pAIScene)
@@ -63,24 +60,12 @@ HRESULT CModel::Initialize_Origin(
 
 	XMStoreFloat4x4(&m_InitMatrix, InitTransformMatrix);
 
-	auto& jModelArr = m_ModelData["Model"];
-	auto& jCurModelData = jModelArr.at(m_iCurModelDataIndex);
-	
-	if (true)//m_isFirstInstantiaed)
-	{
-		nlohmann::json jBoneData = nlohmann::json::array();
+	BuildOffsetMap();
 
-		if (FAILED(Ready_Bones(
-			jBoneData,
-			m_pAIScene->mRootNode,
-			-1)))
-			return E_FAIL;
-
-		jCurModelData["BoneData"].push_back(jBoneData);
-	}
-	else
-	{
-	}
+	if (FAILED(Ready_Bones(
+		m_pAIScene->mRootNode,
+		-1)))
+		return E_FAIL;
 
 	if (FAILED(Ready_Meshes()))
 		return E_FAIL;
@@ -91,11 +76,12 @@ HRESULT CModel::Initialize_Origin(
 	if (FAILED(Ready_Animations()))
 		return E_FAIL;
 
-	//m_pGameInstance->FileManager_Write_File(
-	//	MODEL_DATA_PATH,
-	//	m_ModelData);
-
 	uint32_t i = m_pAIScene->mNumAnimations;
+
+	Save_Bone(pSaveDataName);
+	Save_Mesh(pSaveDataName);
+	Save_Material(pSaveDataName);
+
 	return S_OK;
 }
 
@@ -184,37 +170,156 @@ void CModel::Set_Animation(uint32_t iAnimIndex, _bool isLoop)
 	m_isAnimLoop = isLoop;
 }
 
+const XMFLOAT4X4& CModel::Get_OffsetMatrixByName(const _string& name) const
+{
+	static XMFLOAT4X4 s_identity;
+	static bool s_inited = false;
+	if (!s_inited) { XMStoreFloat4x4(&s_identity, XMMatrixIdentity()); s_inited = true; }
+
+	auto it = m_OffsetMap.find(name);
+	return (it != m_OffsetMap.end()) ? it->second : s_identity;
+}
+
+void CModel::BuildOffsetMap()
+{ 
+	m_OffsetMap.clear();
+
+    for (uint32_t i = 0; i < m_pAIScene->mNumMeshes; ++i)
+    {
+        const aiMesh* pMesh = m_pAIScene->mMeshes[i];
+        if (!pMesh)
+			continue;
+
+        for (uint32_t j = 0; j < pMesh->mNumBones; ++j)
+        {
+            const aiBone* pBone = pMesh->mBones[j];
+            if (!pBone) 
+				continue;
+
+            _string name = pBone->mName.C_Str();
+			XMFLOAT4X4 offsetMatrix = {};
+			memcpy(&offsetMatrix, &pBone->mOffsetMatrix, sizeof(XMFLOAT4X4));
+			XMFLOAT4X4 xm = {};
+			XMStoreFloat4x4(&xm, XMMatrixTranspose(XMLoadFloat4x4(&offsetMatrix))); // ※ 전치 필요 시 정책에 따라 여기서 1회만
+
+            auto it = m_OffsetMap.find(name);
+
+            if (it == m_OffsetMap.end())
+            {
+                m_OffsetMap.emplace(std::move(name), xm);
+            }
+            else
+            {
+            }
+        }
+    }
+}
+
+HRESULT CModel::Save_Bone(const _char* pModelName)
+{
+	_char file[MAX_PATH] = {};
+
+	strcpy_s(file, MAX_PATH, "../Asset/");
+	strcat_s(file, MAX_PATH, pModelName);
+	strcat_s(file, MAX_PATH, "_Bone_Data.bin");
+
+	ofstream out(file, std::ios::binary | std::ios::trunc);
+
+	uint32_t count = static_cast<uint32_t>(m_SEBonesToWrite.size());
+	out.write(reinterpret_cast<const char*>(&count), sizeof(uint32_t));
+
+	for (uint32_t i = 0; i < count; ++i)
+	{
+		m_SEBonesToWrite[i].WriteBoneFile(out);
+	}
+	
+	return S_OK;
+}
+
+HRESULT CModel::Save_Mesh(const _char* pModelName)
+{
+	_char file[MAX_PATH] = {};
+
+	strcpy_s(file, MAX_PATH, "../Asset/");
+	strcat_s(file, MAX_PATH, pModelName);
+	strcat_s(file, MAX_PATH, "_Mesh_Data.bin");
+
+	ofstream out(file, std::ios::binary | std::ios::trunc);
+
+	uint32_t count = static_cast<uint32_t>(m_SEMeshesToWrite.size());
+	out.write(reinterpret_cast<const char*>(&count), sizeof(uint32_t));
+
+	for (uint32_t i = 0; i < count; ++i)
+	{
+		m_SEMeshesToWrite[i].WriteMeshFile(out);
+	}
+
+	return S_OK;
+}
+
+HRESULT CModel::Save_Material(const _char* pModelName)
+{
+	_char file[MAX_PATH] = {};
+
+	strcpy_s(file, MAX_PATH, "../Asset/");
+	strcat_s(file, MAX_PATH, pModelName);
+	strcat_s(file, MAX_PATH, "_Mat_Data.bin");
+
+	ofstream out(file, std::ios::binary | std::ios::trunc);
+
+	uint32_t count = static_cast<uint32_t>(m_SEMaterialsToWrite.size());
+	out.write(reinterpret_cast<const char*>(&count), sizeof(uint32_t));
+
+	for (uint32_t i = 0; i < count; ++i)
+	{
+		m_SEMaterialsToWrite[i].WriteMaterialFile(out);
+	}
+
+	return S_OK;
+}
+
 HRESULT CModel::Ready_Meshes()
 {
-	// m_iNumMesh = (m_ModelData["Model"][m_iCurModelDataIndex]["MeshData"].size());
 	m_iNumMesh = m_pAIScene->mNumMeshes;
-
-	auto& jModelArr = m_ModelData["Model"];
-	auto& jCurModel = jModelArr.at(m_iCurModelDataIndex);
-	nlohmann::json jMeshData = nlohmann::json::array();
 
 	for (uint32_t i = 0; i < m_iNumMesh; i++)
 	{
+		SE_MESH seMesh = {};
+		SE_ANIM_MESH seAnimMesh = {};
 		m_pAIScene->mMeshes[i]->mName;
 
-		CMesh* pMesh = 
-			CMesh::Create(
-				m_pDevice,
-				m_pContext,
-				jMeshData,
-				i,
-				m_eAnimType,
-				this,
-				m_pAIScene->mMeshes[i],
-				XMLoadFloat4x4(&m_InitMatrix));
+			CMesh* pMesh = 
+				CMesh::Create(
+					m_pDevice,
+					m_pContext,
+					seMesh,
+					seAnimMesh,
+					m_eAnimType,
+					this,
+					m_pAIScene->mMeshes[i],
+					XMLoadFloat4x4(&m_InitMatrix));
+	
 
-		if (nullptr == pMesh)
-			return E_FAIL;
+		if (m_eAnimType == ANIM_TYPE::ANIM)
+		{
+			if (nullptr == pMesh)
+				return E_FAIL;
 
-		m_Meshes.push_back(pMesh);
+			m_Meshes.push_back(pMesh);
+			m_SEAnimMeshesToWrite.push_back(seAnimMesh);
+
+		}
+		else if (m_eAnimType == ANIM_TYPE::NONEANIM)
+		{
+			if (nullptr == pMesh)
+				return E_FAIL;
+
+			m_Meshes.push_back(pMesh);
+			m_SEMeshesToWrite.push_back(seMesh);
+
+		}
 	}
 
-	jCurModel["MeshData"].push_back(jMeshData);
 	return S_OK;
 }
 
@@ -224,12 +329,12 @@ HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 
 	for (uint32_t i = 0; i < m_iNumMaterial; i++)
 	{
+		SE_MATERIAL seMat = {};
 		CMaterial* pMaterial =
 			CMaterial::Create(
 				m_pDevice,
 				m_pContext,
-				m_ModelData["Model"][m_iCurModelDataIndex],
-				i,
+				seMat,
 				m_pAIScene->mMaterials[i],
 				pModelFIlePath);
 
@@ -243,13 +348,13 @@ HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 }
 
 HRESULT CModel::Ready_Bones(
-	nlohmann::json& BoneDataArr,
 	const aiNode* pAINode, 
 	int32_t iParentBoneIndex)
 {
+	SE_BONE seBone = {};
+
 	CBone* pInstance = CBone::Create(
-		BoneDataArr,
-		m_iCurBoneIndex++,
+		seBone,
 		pAINode, 
 		iParentBoneIndex);
 
@@ -258,12 +363,14 @@ HRESULT CModel::Ready_Bones(
 
 	m_Bones.push_back(pInstance);
 
+	seBone.OffsetMatrix = Get_OffsetMatrixByName(seBone.strName);
+	m_SEBonesToWrite.push_back(seBone);
+
 	int32_t iParentIndex = static_cast<int32_t>(m_Bones.size() - 1);
 
 	for (uint32_t i = 0; i < pAINode->mNumChildren; i++)
 	{
 		Ready_Bones(
-			BoneDataArr,
 			pAINode->mChildren[i], 
 			iParentIndex);
 	}
@@ -290,45 +397,6 @@ HRESULT CModel::Ready_Animations()
 	return S_OK;
 }
 
-void CModel::Ready_Model(
-	nlohmann::json& InitModelData,
-	_string strProtoTag,
-	ANIM_TYPE eAnimType)
-{
-	m_eAnimType = eAnimType;
-
-	int32_t iSize = static_cast<int32_t>(InitModelData.size());
-
-	for (int32_t i = 0; i < iSize; i++)
-	{
-		if (strProtoTag == InitModelData[i]["ProtoTag"].get<_string>())
-		{
-			m_iCurModelDataIndex = i;
-			m_isFirstInstantiaed = FALSE;
-			return;
-		}
-	}
-
-	nlohmann::json jNewModelData = nlohmann::json::object();
-
-	if (ANIM_TYPE::NONEANIM == eAnimType)
-	{
-		jNewModelData = { 
-			{"ProtoTag", strProtoTag}, 
-			{"isAnim", false} };
-	}
-	else
-	{
-		jNewModelData = { 
-			{"ProtoTag", strProtoTag}, 
-			{"isAnim", true} };
-
-	}
-
-	m_iCurModelDataIndex = static_cast<int32_t>(InitModelData.size());
-	m_isFirstInstantiaed = TRUE;
-	InitModelData.push_back(jNewModelData);
-}
 
 CModel* CModel::Create(
 	ID3D11Device* pDevice, 
@@ -336,7 +404,8 @@ CModel* CModel::Create(
 	_string strProtoTag,
 	ANIM_TYPE eAnimType,
 	const _char* pModelFIlePath,
-	FXMMATRIX InitTransformMatrix)
+	FXMMATRIX InitTransformMatrix,
+	const _char* pSaveDataName)
 {
 	CModel* pModel = new CModel(pDevice, pContext);
 	
@@ -344,7 +413,8 @@ CModel* CModel::Create(
 		strProtoTag,
 		eAnimType, 
 		pModelFIlePath, 
-		InitTransformMatrix)))
+		InitTransformMatrix,
+		pSaveDataName)))
 	{
 		MSG_BOX("ErrCode : Model Initializing Failed");
 		Safe_Release(pModel);

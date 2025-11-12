@@ -5,98 +5,23 @@ CBone::CBone()
 }
 
 HRESULT CBone::Initialize(
-	nlohmann::json& BoneDataArr,
-	int32_t iCurBoneIndex,
+	SE_BONE& seBone,
 	const aiNode* pAINode, 
 	int32_t iParentBoneIndex)
 {
-	/* BoneDataArr 라는 배열에 들어갈 객체 정보 생성 */
-	nlohmann::json NewBoneData = nlohmann::json::object();
+	(m_strName = pAINode->mName.data);
+	seBone.strName = pAINode->mName.C_Str();
 
-	NewBoneData["BoneName"] = pAINode->mName.data;
-	NewBoneData["ParentBoneIndex"] = iParentBoneIndex;
-	NewBoneData["Order"] = "Row-Major";
-	NewBoneData["TransformationMatrix"] = 
-		nlohmann::json::array();
+	m_iParentBoneIndex = iParentBoneIndex;
+	seBone.iParentIndex = iParentBoneIndex;
 
-	XMFLOAT4X4 tmpTransformMatrix = {};
-	memcpy(
-		&tmpTransformMatrix,
-		&pAINode->mTransformation,
-		sizeof(XMFLOAT4X4));
+	memcpy(&m_TransformationMatrix, &pAINode->mTransformation, sizeof(_float4x4));
+	XMStoreFloat4x4(&m_TransformationMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_TransformationMatrix)));
+	memcpy(&seBone.TransformMatrix, &m_TransformationMatrix, sizeof(_float4x4));
 
-	XMStoreFloat4x4(
-		&tmpTransformMatrix,
-		XMMatrixTranspose(
-			XMLoadFloat4x4(&tmpTransformMatrix)));
-	
-	int32_t iIndex = { 0 };
-
-	for (int32_t i = 0; i < 4; i++)
-	{
-		for (int32_t j = 0; j < 4; j++)
-		{
-			iIndex = i * 4 + j;
-			NewBoneData["TransformationMatrix"][iIndex] = tmpTransformMatrix.m[i][j];
-		}
-	}
-
-	BoneDataArr.push_back(NewBoneData);
-
-	const auto& jCurBoneData = BoneDataArr[iCurBoneIndex];
-
-	m_strName = jCurBoneData.at("BoneName").get<string>();
-	m_iParentBoneIndex = jCurBoneData.at("ParentBoneIndex").get<int32_t>();;
-
-	vector<_float> TransformMatrixData;
-	TransformMatrixData.reserve(16);
-	TransformMatrixData = jCurBoneData.at("TransformationMatrix").get<vector<_float>>();
-
-	iIndex = { 0 };
-
-	for (int32_t i = 0; i < 4; i++)
-	{
-		for (int32_t j = 0; j < 4; j++)
-		{
-			iIndex = i * 4 + j;
-			m_TransformationMatrix.m[i][j] = TransformMatrixData[iIndex];
-		}
-	}
-
-	XMStoreFloat4x4(
-		&m_CombinedTransformationMatrix, 
-		XMMatrixIdentity());
-
+	XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMMatrixIdentity());
 	return S_OK;
-}
 
-HRESULT CBone::Initialize(nlohmann::json& BoneDataArr, int32_t iCurBoneIndex, int32_t iParentBoneIndex)
-{
-	const auto& jCurBoneData = BoneDataArr[iCurBoneIndex];
-
-	m_strName = jCurBoneData.at("BoneName").get<string>();
-	m_iParentBoneIndex = jCurBoneData.at("ParentBoneIndex").get<int32_t>();;
-
-	vector<_float> TransformMatrixData;
-	TransformMatrixData.reserve(16);
-	TransformMatrixData = jCurBoneData.at("TransformationMatrix").get<vector<_float>>();
-
-	int32_t iIndex = { 0 };
-
-	for (int32_t i = 0; i < 4; i++)
-	{
-		for (int32_t j = 0; j < 4; j++)
-		{
-			iIndex = i * 4 + j;
-			m_TransformationMatrix.m[i][j] = TransformMatrixData[iIndex];
-		}
-	}
-
-	XMStoreFloat4x4(
-		&m_CombinedTransformationMatrix,
-		XMMatrixIdentity());
-
-	return S_OK;
 }
 
 void CBone::Update_CombinedTransformationMatrix(
@@ -117,36 +42,18 @@ void CBone::Update_CombinedTransformationMatrix(
 
 
 CBone* CBone::Create(
-	nlohmann::json& BoneDataArr,
-	int32_t iCurBoneIndex,
+	SE_BONE& seBone,
 	const aiNode* pAINode, 
 	int32_t iParentBoneIndex)
 {
 	CBone* pInstance = new CBone;
 
 	if (FAILED(pInstance->Initialize(
-		BoneDataArr,
-		iCurBoneIndex, 
+		seBone,
 		pAINode, 
 		iParentBoneIndex)))
 	{
 		MSG_BOX("ErrCode : Bone Create Failed");
-		Safe_Release(pInstance);
-		return nullptr;
-	}
-	return pInstance;
-}
-
-CBone* CBone::Create(nlohmann::json& BoneDataArr, int32_t iCurBoneIndex, int32_t iParentBoneIndex)
-{
-	CBone* pInstance = new CBone;
-
-	if (FAILED(pInstance->Initialize(
-		BoneDataArr,
-		iCurBoneIndex,
-		iParentBoneIndex)))
-	{
-		MSG_BOX("ErrCode : Bone Create With Json is Failed");
 		Safe_Release(pInstance);
 		return nullptr;
 	}
