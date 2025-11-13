@@ -51,18 +51,25 @@ HRESULT CIsland::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
+#ifdef TEST
 	uint32_t iNumMeshes = m_pModel->Get_NumMesh();
-	
 	for (uint32_t i = 0; i < iNumMeshes; i++)
 	{
-		m_pModel->Bind_Material(
-			m_pShaderCom,
-			"g_DiffuseTexture",
-			i,
-			aiTextureType_DIFFUSE);
+		m_pModel->Bind_Material(m_pShaderCom,"g_DiffuseTexture",i,aiTextureType_DIFFUSE);
 		m_pShaderCom->Begin(0);
 		m_pModel->Render(i);
 	}
+#else
+	uint32_t iNumMeshes = m_pseModel->Get_NumMesh();
+	for (uint32_t i = 0; i < iNumMeshes; i++)
+	{
+		m_pseModel->Bind_Material(m_pShaderCom,"g_DiffuseTexture",i,se_TextureType_DIFFUSE);
+		m_pShaderCom->Begin(0);
+		m_pseModel->Render_SeModel(i);
+	}
+#endif // TEST
+
+	
 
 	return S_OK;
 }
@@ -72,6 +79,7 @@ void CIsland::Calc_Object_Place_Point()
 	//m_vObjectPlaceVertices
 }
 
+//ProtoTag_Component_Island_seModel
 HRESULT CIsland::Ready_Component()
 {
 	if (FAILED(Add_Component(
@@ -81,7 +89,7 @@ HRESULT CIsland::Ready_Component()
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
 		nullptr)))
 		return E_FAIL;
-
+#ifdef TEST
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACE_ID::ISLAND),
 		TEXT("ProtoTag_Component_Island_Model"),
@@ -89,6 +97,17 @@ HRESULT CIsland::Ready_Component()
 		reinterpret_cast<CComponent**>(&m_pModel),
 		nullptr)))
 		return E_FAIL;
+#else
+	if (FAILED(Add_Component(
+		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		TEXT("ProtoTag_Component_Island_seModel"),
+		TEXT("Com_Model"),
+		reinterpret_cast<CComponent**>(&m_pseModel),
+		nullptr)))
+		return E_FAIL;
+#endif // TEST
+
+
 
 	return S_OK;
 }
@@ -152,6 +171,7 @@ CObject* CIsland::Clone(void* pArg)
 void CIsland::Free()
 {
 	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pModel);
+	 Safe_Release(m_pModel);
+	//Safe_Release(m_pseModel);
 	CActor::Free();
 }

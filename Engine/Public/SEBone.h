@@ -1,5 +1,6 @@
 #pragma once
 #include "Base.h"
+#include "SEBone_Data.h"
 
 NS_BEGIN(Engine)
 
@@ -10,7 +11,16 @@ private:
 	virtual ~CSEBone() = default;
 
 public:
-	void ReadSEBoneFile(ifstream& In);
+	HRESULT Initialize(SE_BONE& seBone);
+
+public:
+	void Update_CombinedTransformMatrix(
+		vector<CSEBone*>& EntireSEBones,
+		FXMMATRIX PreTranformMatrix);
+
+public:
+	XMMATRIX Get_OffsetMatrix() { return XMLoadFloat4x4(&m_OffsetMatrix); }
+	XMMATRIX Get_CombinedTransformMatrix() { return XMLoadFloat4x4(&m_CombinedTransformMatrix); }
 
 private:
 	string m_strName = {};
@@ -19,8 +29,11 @@ private:
 	XMFLOAT4X4 m_TransformMatrix = {};
 	XMFLOAT4X4 m_OffsetMatrix = {};
 
+private:
+	XMFLOAT4X4 m_CombinedTransformMatrix = {};
+
 public:
-	static CSEBone* Create();
+	static CSEBone* Create(SE_BONE& seBone);
 	virtual void Free()override;
 };
 

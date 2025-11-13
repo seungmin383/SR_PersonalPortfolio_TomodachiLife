@@ -42,5 +42,36 @@ namespace Engine
 		END	
 	};
 
+	enum SE_TEXTURE_TYPE {
+        se_TextureType_NONE = 0,
+        se_TextureType_DIFFUSE = 1,
+        se_TextureType_SPECULAR = 2,
+        se_TextureType_AMBIENT = 3,
+        se_TextureType_EMISSIVE = 4,
+        se_TextureType_HEIGHT = 5,
+        se_TextureType_NORMALS = 6,
+        se_TextureType_SHININESS = 7,
+        se_TextureType_OPACITY = 8,
+        se_TextureType_DISPLACEMENT = 9,
+        se_TextureType_LIGHTMAP = 10,
+        se_TextureType_REFLECTION = 11,
+        se_TextureType_BASE_COLOR = 12,
+        se_TextureType_NORMAL_CAMERA = 13,
+        se_TextureType_EMISSION_COLOR = 14,
+        se_TextureType_METALNESS = 15,
+        se_TextureType_DIFFUSE_ROUGHNESS = 16,
+        se_TextureType_AMBIENT_OCCLUSION = 17,
+        se_TextureType_UNKNOWN = 18,
+        se_TextureType_SHEEN = 19,
+        se_TextureType_CLEARCOAT = 20,
+        se_TextureType_TRANSMISSION = 21,
+        se_TextureType_MAYA_BASE = 22,
+        se_TextureType_MAYA_SPECULAR = 23,
+        se_TextureType_MAYA_SPECULAR_COLOR = 24,
+        se_TextureType_MAYA_SPECULAR_ROUGHNESS = 25,
+        se_TextureType_ANISOTROPY = 26,
+        se_TextureType_GLTF_METALLIC_ROUGHNESS = 27,
+	};
+
 }
 #endif // Engine_Enum_h__

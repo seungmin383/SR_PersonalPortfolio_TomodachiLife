@@ -23,4 +23,25 @@ typedef struct tagSEMaterialData
 		}
 	}
 
+	void ReadSEMaterialFile(ifstream& In)
+	{
+		In.read(reinterpret_cast<char*>(&iIndex), sizeof(int32_t));
+
+		for (uint32_t i = 0; i < 27; ++i)
+		{
+			uint32_t iNumTextures = {};
+			In.read(reinterpret_cast<char*>(&iNumTextures), sizeof(uint32_t));
+			TexturePaths[i].resize(iNumTextures);
+
+			for (uint32_t j = 0; j < iNumTextures; ++j)
+			{
+				uint32_t iPathSize = {};
+				In.read(reinterpret_cast<char*>(&iPathSize), sizeof(uint32_t));
+				TexturePaths[i][j].resize(iPathSize);
+				In.read(TexturePaths[i][j].data(), iPathSize);
+			}
+		}
+	}
+
+
 }SE_MATERIAL;

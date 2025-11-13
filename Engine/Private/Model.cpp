@@ -90,7 +90,6 @@ HRESULT CModel::Initialize_Clone(void* pArg)
 	return S_OK;
 }
 
-
 HRESULT CModel::Render(uint32_t iMeshIndex)
 {
 	if (FAILED(m_Meshes[iMeshIndex]->Bind_Resource()))
@@ -238,22 +237,43 @@ HRESULT CModel::Save_Bone(const _char* pModelName)
 
 HRESULT CModel::Save_Mesh(const _char* pModelName)
 {
-	_char file[MAX_PATH] = {};
-
-	strcpy_s(file, MAX_PATH, "../Asset/");
-	strcat_s(file, MAX_PATH, pModelName);
-	strcat_s(file, MAX_PATH, "_Mesh_Data.bin");
-
-	ofstream out(file, std::ios::binary | std::ios::trunc);
-
-	uint32_t count = static_cast<uint32_t>(m_SEMeshesToWrite.size());
-	out.write(reinterpret_cast<const char*>(&count), sizeof(uint32_t));
-
-	for (uint32_t i = 0; i < count; ++i)
+	if (m_eAnimType == ANIM_TYPE::NONEANIM)
 	{
-		m_SEMeshesToWrite[i].WriteMeshFile(out);
-	}
+		_char file[MAX_PATH] = {};
 
+		strcpy_s(file, MAX_PATH, "../Asset/");
+		strcat_s(file, MAX_PATH, pModelName);
+		strcat_s(file, MAX_PATH, "_Mesh_Data.bin");
+
+		ofstream out(file, std::ios::binary | std::ios::trunc);
+
+		uint32_t count = static_cast<uint32_t>(m_SEMeshesToWrite.size());
+		out.write(reinterpret_cast<const char*>(&count), sizeof(uint32_t));
+
+		for (uint32_t i = 0; i < count; ++i)
+		{
+			m_SEMeshesToWrite[i].WriteMeshFile(out);
+		}
+
+	}
+	else if (m_eAnimType == ANIM_TYPE::ANIM)
+	{
+		_char file[MAX_PATH] = {};
+
+		strcpy_s(file, MAX_PATH, "../Asset/");
+		strcat_s(file, MAX_PATH, pModelName);
+		strcat_s(file, MAX_PATH, "_AnimMesh_Data.bin");
+
+		ofstream out(file, std::ios::binary | std::ios::trunc);
+
+		uint32_t count = static_cast<uint32_t>(m_SEAnimMeshesToWrite.size());
+		out.write(reinterpret_cast<const char*>(&count), sizeof(uint32_t));
+
+		for (uint32_t i = 0; i < count; ++i)
+		{
+			m_SEAnimMeshesToWrite[i].WriteAnimMeshFile(out);
+		}
+	}
 	return S_OK;
 }
 
@@ -323,6 +343,7 @@ HRESULT CModel::Ready_Meshes()
 	return S_OK;
 }
 
+
 HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 {
 	m_iNumMaterial = m_pAIScene->mNumMaterials;
@@ -342,6 +363,7 @@ HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 			return E_FAIL;
 
 		m_Materials.push_back(pMaterial);
+		m_SEMaterialsToWrite.push_back(seMat);
 	}
 
 	return S_OK;
@@ -364,6 +386,7 @@ HRESULT CModel::Ready_Bones(
 	m_Bones.push_back(pInstance);
 
 	seBone.OffsetMatrix = Get_OffsetMatrixByName(seBone.strName);
+	seBone.iIndex = m_iBoneIndex++;
 	m_SEBonesToWrite.push_back(seBone);
 
 	int32_t iParentIndex = static_cast<int32_t>(m_Bones.size() - 1);
@@ -396,7 +419,6 @@ HRESULT CModel::Ready_Animations()
 	}
 	return S_OK;
 }
-
 
 CModel* CModel::Create(
 	ID3D11Device* pDevice, 

@@ -8,6 +8,7 @@
 #include "TextureCom.h"
 #include "Camera.h"
 #include "Model.h"
+#include "SEModel.h"
 
 NS_BEGIN(Engine)
 class CPrototype final : public CBase

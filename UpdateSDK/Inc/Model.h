@@ -78,6 +78,7 @@ private:
 
 	// ÀÌ ¸ðµ¨ÀÇ ¸ðµç »À
 	vector<CBone*> m_Bones;
+	uint32_t m_iBoneIndex = {};
 
 	uint32_t m_iNumAnimation = {};
 	uint32_t m_iCurAnimationIndex = {};

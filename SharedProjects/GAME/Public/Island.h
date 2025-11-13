@@ -2,11 +2,13 @@
 #include "Game_Defines.h"
 #include "Actor.h"
 
+#define TEST 1
+
 NS_BEGIN(Engine)
 
 class CShaderCom;
 class CModel;
-
+class CSEModel;
 NS_END
 
 NS_BEGIN(Game)
@@ -39,10 +41,16 @@ public:
 private:
 	HRESULT Ready_Component();
 	HRESULT Bind_ShaderResources();
-
+	
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
+
+#ifdef TEST
 	CModel* m_pModel = { nullptr };
+#else
+	CSEModel* m_pseModel = { nullptr };
+#endif // TEST
+
 	vector<_float2> m_vObjectPlaceVertices;
 
 public:

@@ -24,7 +24,7 @@ const _float2& CMouseManager::Mouse_Picking()
 {
 	// DirectX::TriangleTests::Intersects()
 
-	return _float2();
+	return _float2{ 1.f, 1.f };
 }
 
 void CMouseManager::Mouse_Input()

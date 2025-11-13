@@ -152,6 +152,8 @@ HRESULT CMesh::Bind_Bones(
 	const _char* pConstantName,
 	vector<CBone*>& Bones)
 {
+	uint32_t iNumBone =static_cast<uint32_t>( m_BoneIndices.size());
+
 	for (uint32_t i = 0; i < m_iNumBones; i++)
 	{
 		XMStoreFloat4x4(&m_BoneMatrices[i],

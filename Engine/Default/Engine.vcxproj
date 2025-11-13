@@ -63,6 +63,7 @@
     <ClInclude Include="..\Public\SEMaterial_Data.h" />
     <ClInclude Include="..\Public\SEMesh.h" />
     <ClInclude Include="..\Public\SEMesh_Data.h" />
+    <ClInclude Include="..\Public\SEModel.h" />
     <ClInclude Include="..\Public\ShaderCom.h" />
     <ClInclude Include="..\Public\Sound_Manager.h" />
     <ClInclude Include="..\Public\TerrainBufferCom.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="..\Private\SEBone.cpp" />
     <ClCompile Include="..\Private\SEMaterial.cpp" />
     <ClCompile Include="..\Private\SEMesh.cpp" />
+    <ClCompile Include="..\Private\SEModel.cpp" />
     <ClCompile Include="..\Private\ShaderCom.cpp" />
     <ClCompile Include="..\Private\Sound_Manager.cpp" />
     <ClCompile Include="..\Private\TerrainBufferCom.cpp" />

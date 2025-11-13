@@ -5,6 +5,7 @@ NS_BEGIN(Engine)
 
 class CShaderCom;
 class CModel;
+class CSEModel;
 
 NS_END
 
@@ -42,6 +43,8 @@ private:
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CModel* m_pModel = { nullptr };
+	CSEModel* m_seModel = { nullptr };
+
 	vector<_float2> m_vObjectPlaceVertices;
 
 public:

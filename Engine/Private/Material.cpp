@@ -58,7 +58,10 @@ HRESULT CMaterial::Initialize_Origin(
 			seMat.TexturePaths[i][j] = szTextureFilePath;
 
 			_tchar		szFinalPath[MAX_PATH] = {};
-			MultiByteToWideChar(CP_ACP, 0, szTextureFilePath, static_cast<int32_t>(strlen(szTextureFilePath)), szFinalPath, MAX_PATH);
+			MultiByteToWideChar(CP_ACP, 0, 
+				szTextureFilePath, 
+				static_cast<int32_t>(strlen(szTextureFilePath)), 
+				szFinalPath, MAX_PATH);
 
 			HRESULT         hr = {};
 			ID3D11ShaderResourceView* pSRV = { nullptr };

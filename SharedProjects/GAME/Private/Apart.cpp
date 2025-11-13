@@ -25,7 +25,9 @@ HRESULT CApart::Initialize_Clone(void* pArg)
 
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
+	
 
+	m_pTransformCom->Set_State(TRANSFORM_STATE::POS, XMVECTOR{ 0.f, 0.3f, 0.1, 1.f });
 	return S_OK;
 }
 

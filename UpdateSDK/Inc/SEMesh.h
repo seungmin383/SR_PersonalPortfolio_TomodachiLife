@@ -1,27 +1,50 @@
 #pragma once
-#include "Base.h"
+#include "VIBufferCom.h"
+#include "SEMesh_Data.h"
+#include "SEBone_Data.h"
 
 NS_BEGIN(Engine)
+class CShaderCom;
+class CSEBone;
 
-class ENGINE_DLL CSEMesh final : public CBase
+class ENGINE_DLL CSEMesh final : public CVIBufferCom
 {
 private:
-	CSEMesh();
+	CSEMesh(ID3D11Device* pDevice, ID3D11DeviceContext* pContext );
 	virtual ~CSEMesh() = default;
 
 public:
-	void ReadSEMeshFile(ifstream& In);
+	HRESULT Initialize_Mesh(SE_MESH& seMesh, vector<CSEBone*>& pBones);
+	HRESULT Initialize_AnimMesh(SE_ANIM_MESH& seAnimMesh, vector<CSEBone*>& pBones);
+	
+	HRESULT Bind_Bones(
+		CShaderCom* pShader,
+		const _char* pConstantName,
+		vector<CSEBone*>& pBones);
+
+public:
+	const uint32_t Get_MaterialIndex()const { return m_iMaterialIndex; }
 
 private:
 	string m_strName = {};
 	uint32_t m_iMaterialIndex = {};
 	vector<int32_t> m_BoneIndices;
 	vector<VTX_TEX_MESH> m_Vertices;
-	vector<int32_t> mIndices;
+	vector<VTX_TEX_ANIM_MESH> m_AnimVertices;
+	vector<int32_t> m_Indices;
 
+	vector<XMFLOAT4X4>	m_OffsetMatrices;
+	XMFLOAT4X4 m_BoneMatrices[g_iMaxNumBones] = {};
 
 public:
-	static CSEMesh* Create();
+	static CSEMesh* Create_Mesh(
+		ID3D11Device* pDevice, ID3D11DeviceContext* pContext,
+		SE_MESH& seMesh, vector<CSEBone*>& pBones);
+	static CSEMesh* Create_AnimMesh(
+		ID3D11Device* pDevice, ID3D11DeviceContext* pContext, 
+		SE_ANIM_MESH& seAnimMesh, vector<CSEBone*>& pBones);
+
+	CObject* Clone(void* pArg) override;
 	virtual void Free()override;
 };
 

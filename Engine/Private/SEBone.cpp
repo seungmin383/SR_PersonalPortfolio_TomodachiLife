@@ -4,23 +4,44 @@ CSEBone::CSEBone()
 {
 }
 
-void CSEBone::ReadSEBoneFile(ifstream& In)
+HRESULT CSEBone::Initialize(SE_BONE& seBone)
 {
-	uint32_t NameSize = {};
-	In.read(reinterpret_cast<char*>(&NameSize), sizeof(uint32_t));
+	 m_strName = seBone.strName;
+	 m_iIndex = seBone.iIndex;
+	 m_iParentIndex = seBone.iParentIndex;
+	 m_TransformMatrix = seBone.TransformMatrix;
+	 m_OffsetMatrix = seBone.OffsetMatrix;
 
-	m_strName.resize(NameSize);
-	In.read(m_strName.data(), NameSize);
-
-	In.read(reinterpret_cast<char*>(&m_iIndex), sizeof(int32_t));
-	In.read(reinterpret_cast<char*>(&m_iParentIndex), sizeof(int32_t));
-	In.read(reinterpret_cast<char*>(&m_TransformMatrix), sizeof(XMFLOAT4X4));
-	In.read(reinterpret_cast<char*>(&m_OffsetMatrix), sizeof(XMFLOAT4X4));
+	 return S_OK;
 }
 
-CSEBone* CSEBone::Create()
+void CSEBone::Update_CombinedTransformMatrix(
+	vector<CSEBone*>& EntireSEBones,
+	FXMMATRIX PreTranformMatrix)
 {
-	return new CSEBone;
+	if (-1 == m_iParentIndex)
+	{
+		XMStoreFloat4x4(&m_CombinedTransformMatrix,
+			XMLoadFloat4x4(&m_TransformMatrix) * PreTranformMatrix);
+	}
+	else
+	{
+		XMStoreFloat4x4(&m_CombinedTransformMatrix,
+			XMLoadFloat4x4(&m_TransformMatrix) * XMLoadFloat4x4(&EntireSEBones[m_iParentIndex]->m_CombinedTransformMatrix));
+	}
+}
+
+
+CSEBone* CSEBone::Create(SE_BONE& seBone)
+{
+	CSEBone* pInstance = new CSEBone;
+	if (FAILED(pInstance->Initialize(seBone)))
+	{
+		MSG_BOX("ErrCode : SEBone Create Failed");
+		Safe_Release(pInstance);
+		return nullptr;
+	}
+	return pInstance;
 }
 
 void CSEBone::Free()

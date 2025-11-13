@@ -24,6 +24,7 @@ HRESULT CBone::Initialize(
 
 }
 
+
 void CBone::Update_CombinedTransformationMatrix(
 	vector<CBone*>& EntireBones,
 	FXMMATRIX PreTransformMatrix)
@@ -59,6 +60,8 @@ CBone* CBone::Create(
 	}
 	return pInstance;
 }
+
+
 
 void CBone::Free()
 {

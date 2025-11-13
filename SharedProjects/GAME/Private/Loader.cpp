@@ -544,6 +544,7 @@ HRESULT CLoader::Loading_Island()
 
 	//Component
  	{
+		 
 		// ProtoTag_Component_Island_Model
 		{
 			XMMATRIX initMatrix = XMMatrixIdentity();
@@ -564,6 +565,25 @@ HRESULT CLoader::Loading_Island()
 				tmp)))
 				return E_FAIL;
 		}
+		
+
+		//// ProtoTag_Component_Island_seModel
+		//{
+		//	XMMATRIX initMatrix = XMMatrixIdentity();
+		//	initMatrix;// = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+		//	tmp = CSEModel::Create(
+		//		m_pDevice,
+		//		m_pContext,
+		//		ANIM_TYPE::NONEANIM,
+		//		"Island");
+
+		//	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		//		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		//		TEXT("ProtoTag_Component_Island_seModel"),
+		//		tmp)))
+		//		return E_FAIL;
+		//}
 
 		// ProtoTag_Component_SkyAndSea_Model
 		{
@@ -585,6 +605,24 @@ HRESULT CLoader::Loading_Island()
 				tmp)))
 				return E_FAIL;
 		}
+
+		//// ProtoTag_Component_SkyAndSea_seModel
+		//{
+		//	XMMATRIX initMatrix = XMMatrixIdentity();
+		//	initMatrix;// = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+		//	tmp = CSEModel::Create(
+		//		m_pDevice,
+		//		m_pContext,
+		//		ANIM_TYPE::NONEANIM,
+		//		"SkyAndSea");
+
+		//	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		//		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		//		TEXT("ProtoTag_Component_SkyAndSea_seModel"),
+		//		tmp)))
+		//		return E_FAIL;
+		//}
 
 		// ProtoTag_Component_Apart_Model
 		{

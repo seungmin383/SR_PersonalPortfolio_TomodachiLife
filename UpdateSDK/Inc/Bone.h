@@ -14,8 +14,6 @@ public :
 		SE_BONE& seBone,
 		const aiNode* pAINode,
 		int32_t iParentBoneIndex);
-
-	
 	/* 전체 뼈의 CombinedMatrix를 계산 
 	계산하기 위해서는 부모 뼈의 정보가 필요함*/
 	void Update_CombinedTransformationMatrix(
