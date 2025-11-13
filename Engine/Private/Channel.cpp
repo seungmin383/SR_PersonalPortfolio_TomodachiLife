@@ -107,7 +107,7 @@ void CChannel::Update_TransformationMatrix(
 	}
 	else
 	{
-		if (fCurTrackPosition > m_KeyFrames[m_iCurKeyframeIndex + 1].fTrackPosition)
+		while (fCurTrackPosition > m_KeyFrames[m_iCurKeyframeIndex + 1].fTrackPosition)
 			++m_iCurKeyframeIndex;
 
 		_float fRatio =

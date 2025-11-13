@@ -393,7 +393,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 500.f;
 		 tPlaceMoveButtonDesc.fY = 150.f;
-		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::APART;
+		 tPlaceMoveButtonDesc.eNextPlace = PLACE_ID::CITYHALL;
 		 tPlaceMoveButtonDesc.iTextureNum = 16;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(

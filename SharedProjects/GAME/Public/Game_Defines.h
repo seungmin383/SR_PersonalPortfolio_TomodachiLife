@@ -24,7 +24,7 @@ namespace Game
 
 		LOADING,
 		SETTING,
-		SAVE,
+		CITYHALL,
 		MII_EDITOR,
 
 		STORE_CLOTHES,

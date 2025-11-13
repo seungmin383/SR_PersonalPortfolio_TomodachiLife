@@ -16,9 +16,9 @@ typedef struct tagSEMaterialData
 			Out.write(reinterpret_cast<const char*>(&NumTexture), sizeof(uint32_t));
 
 			for (uint32_t j = 0; j < NumTexture; ++j){
-				uint32_t iPathSize = static_cast<uint32_t>(TexturePaths[i][j].size());
-				Out.write(reinterpret_cast<const char*>(&iPathSize), sizeof(uint32_t));
-				Out.write(TexturePaths[i][j].c_str(), sizeof(char) * iPathSize);
+				uint32_t PathSize = static_cast<uint32_t>(TexturePaths[i][j].size());
+				Out.write(reinterpret_cast<const char*>(&PathSize), sizeof(uint32_t));
+				Out.write(TexturePaths[i][j].c_str(), sizeof(char) * PathSize);
 			}
 		}
 	}
@@ -29,16 +29,16 @@ typedef struct tagSEMaterialData
 
 		for (uint32_t i = 0; i < 27; ++i)
 		{
-			uint32_t iNumTextures = {};
-			In.read(reinterpret_cast<char*>(&iNumTextures), sizeof(uint32_t));
-			TexturePaths[i].resize(iNumTextures);
+			uint32_t NumTextures = {};
+			In.read(reinterpret_cast<char*>(&NumTextures), sizeof(uint32_t));
+			TexturePaths[i].resize(NumTextures);
 
-			for (uint32_t j = 0; j < iNumTextures; ++j)
+			for (uint32_t j = 0; j < NumTextures; ++j)
 			{
-				uint32_t iPathSize = {};
-				In.read(reinterpret_cast<char*>(&iPathSize), sizeof(uint32_t));
-				TexturePaths[i][j].resize(iPathSize);
-				In.read(TexturePaths[i][j].data(), iPathSize);
+				uint32_t PathSize = {};
+				In.read(reinterpret_cast<char*>(&PathSize), sizeof(uint32_t));
+				TexturePaths[i][j].resize(PathSize);
+				In.read(TexturePaths[i][j].data(), PathSize);
 			}
 		}
 	}

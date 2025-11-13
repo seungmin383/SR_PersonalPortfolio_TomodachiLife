@@ -31,6 +31,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Apart.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_CityHall.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Island.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Loading.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Main.cpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlaceMoveButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Apart.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_CityHall.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Island.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Loading.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Main.h" />

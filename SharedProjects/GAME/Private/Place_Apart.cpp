@@ -56,7 +56,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		tMiiDesc.fCX = 1.f;
 		tMiiDesc.fCY = 1.f;
 		tMiiDesc.fCZ = 1.f;
-		tMiiDesc.fSpeedPerSecond = 0.f;
+		tMiiDesc.fSpeedPerSecond = 10.f;
 		tMiiDesc.fRotationPerSecond = XMConvertToRadians(20.f);
 		tMiiDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 

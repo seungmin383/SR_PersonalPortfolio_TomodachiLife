@@ -57,6 +57,7 @@
     <ClInclude Include="..\Public\Prototype.h" />
     <ClInclude Include="..\Public\RectBufferCom.h" />
     <ClInclude Include="..\Public\Render_Manager.h" />
+    <ClInclude Include="..\Public\SEAnimation.h" />
     <ClInclude Include="..\Public\SEBone.h" />
     <ClInclude Include="..\Public\SEBone_Data.h" />
     <ClInclude Include="..\Public\SEMaterial.h" />

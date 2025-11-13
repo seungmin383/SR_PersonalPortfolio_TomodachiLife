@@ -20,18 +20,18 @@ typedef struct tagSEMeshData
 		 uint32_t NumBoneIndicies = static_cast<uint32_t>(BoneIndices.size());
 		 Out.write(reinterpret_cast<const char*>(&NumBoneIndicies), sizeof(uint32_t));
 		 if(0 < NumBoneIndicies)
-			Out.write(reinterpret_cast<const char*>(&BoneIndices[0]), sizeof(int32_t) * NumBoneIndicies);
+			Out.write(reinterpret_cast<const char*>(BoneIndices.data()), sizeof(int32_t) * NumBoneIndicies);
 
 
 		uint32_t NumVertices = static_cast<uint32_t>(Vertices.size());
 		Out.write(reinterpret_cast<const char*>(&NumVertices), sizeof(uint32_t));
 		if (0 < NumVertices)
-			Out.write(reinterpret_cast<const char*>(&Vertices[0]), sizeof(VTX_TEX_MESH) * NumVertices);
+			Out.write(reinterpret_cast<const char*>(Vertices.data()), sizeof(VTX_TEX_MESH) * NumVertices);
 
 		uint32_t NumIndicies = static_cast<uint32_t>(Indices.size());
 		Out.write(reinterpret_cast<const char*>(&NumIndicies), sizeof(uint32_t));
 		if(0 < NumIndicies)
-			Out.write(reinterpret_cast<const char*>(&Indices[0]), sizeof(int32_t) * NumIndicies);
+			Out.write(reinterpret_cast<const char*>(Indices.data()), sizeof(int32_t) * NumIndicies);
 	}
 
 	void ReadSEMeshFile(ifstream& In)
@@ -49,7 +49,7 @@ typedef struct tagSEMeshData
 		if (0 < NumBoneIndices)
 		{
 			BoneIndices.resize(NumBoneIndices);
-			In.read(reinterpret_cast<char*>(&BoneIndices[0]), sizeof(int32_t) * NumBoneIndices);
+			In.read(reinterpret_cast<char*>(BoneIndices.data()), sizeof(int32_t) * NumBoneIndices);
 		}
 
 		uint32_t NumVertices = {};
@@ -57,7 +57,7 @@ typedef struct tagSEMeshData
 		if (0 < NumVertices)
 		{
 			Vertices.resize(NumVertices);
-			In.read(reinterpret_cast<char*>(&Vertices[0]), sizeof(VTX_TEX_MESH) * NumVertices);
+			In.read(reinterpret_cast<char*>(Vertices.data()), sizeof(VTX_TEX_MESH) * NumVertices);
 		}
 
 		uint32_t NumIndices = {};
@@ -65,7 +65,7 @@ typedef struct tagSEMeshData
 		if (0 < NumIndices)
 		{
 			Indices.resize(NumIndices);
-			In.read(reinterpret_cast<char*>(&Indices[0]), sizeof(int32_t) * NumIndices);
+			In.read(reinterpret_cast<char*>(Indices.data()), sizeof(int32_t) * NumIndices);
 		}
 
 	}
@@ -90,17 +90,17 @@ typedef struct tagSEAnimMeshData
 		uint32_t NumBoneIndicies = static_cast<uint32_t>(BoneIndices.size());
 		Out.write(reinterpret_cast<const char*>(&NumBoneIndicies), sizeof(uint32_t));
 		if(0 < NumBoneIndicies)
-			Out.write(reinterpret_cast<const char*>(&BoneIndices[0]), sizeof(int32_t) * NumBoneIndicies);
+			Out.write(reinterpret_cast<const char*>(BoneIndices.data()), sizeof(int32_t) * NumBoneIndicies);
 
 		uint32_t NumVertices = static_cast<uint32_t>(Vertices.size());
 		Out.write(reinterpret_cast<const char*>(&NumVertices), sizeof(uint32_t));
 		if (0 < NumVertices)
-			Out.write(reinterpret_cast<const char*>(&Vertices[0]), sizeof(VTX_TEX_ANIM_MESH) * NumVertices);
+			Out.write(reinterpret_cast<const char*>(Vertices.data()), sizeof(VTX_TEX_ANIM_MESH) * NumVertices);
 
 		uint32_t NumIndicies = static_cast<uint32_t>(Indices.size());
 		Out.write(reinterpret_cast<const char*>(&NumIndicies), sizeof(uint32_t));
 		if (0 < NumIndicies)
-			Out.write(reinterpret_cast<const char*>(&Indices[0]), sizeof(int32_t) * NumIndicies);
+			Out.write(reinterpret_cast<const char*>(Indices.data()), sizeof(int32_t) * NumIndicies);
 	}
 
 	void ReadSEAnimMeshFile(ifstream& In)
@@ -118,7 +118,7 @@ typedef struct tagSEAnimMeshData
 		if (0 < NumBoneIndices)
 		{
 			BoneIndices.resize(NumBoneIndices);
-			In.read(reinterpret_cast<char*>(&BoneIndices[0]), sizeof(int32_t) * NumBoneIndices);
+			In.read(reinterpret_cast<char*>(BoneIndices.data()), sizeof(int32_t) * NumBoneIndices);
 		}
 
 		uint32_t NumVertices = {};
@@ -126,7 +126,7 @@ typedef struct tagSEAnimMeshData
 		if (0 < NumVertices)
 		{
 			Vertices.resize(NumVertices);
-			In.read(reinterpret_cast<char*>(&Vertices[0]), sizeof(VTX_TEX_ANIM_MESH) * NumVertices);
+			In.read(reinterpret_cast<char*>(Vertices.data()), sizeof(VTX_TEX_ANIM_MESH) * NumVertices);
 		}
 
 		uint32_t NumIndices = {};
@@ -134,7 +134,7 @@ typedef struct tagSEAnimMeshData
 		if (0 < NumIndices)
 		{
 			Indices.resize(NumIndices);
-			In.read(reinterpret_cast<char*>(&Indices[0]), sizeof(int32_t) * NumIndices);
+			In.read(reinterpret_cast<char*>(Indices.data()), sizeof(int32_t) * NumIndices);
 		}
 	}
 }SE_ANIM_MESH;

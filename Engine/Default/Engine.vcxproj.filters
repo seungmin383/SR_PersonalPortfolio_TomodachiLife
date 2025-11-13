@@ -473,6 +473,9 @@
     <ClInclude Include="..\Public\SEModel.h">
       <Filter>01.Utility\03.Object\02.Component\04.Model</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\SEAnimation.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="fmod.dll">

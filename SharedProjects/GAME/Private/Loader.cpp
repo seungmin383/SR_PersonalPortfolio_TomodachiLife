@@ -9,6 +9,7 @@
 #include "PlaceMoveButton.h"
 #include "BackGround.h"
 #include "Apart.h"
+#include "Terrain.h"
 
 USING(Engine)
 
@@ -64,8 +65,8 @@ HRESULT CLoader::Loading()
 	case PLACE_ID::SETTING:
 		hr = Loading_For_Setting();
 		break;
-	case PLACE_ID::SAVE:
-		hr = Loading_For_Save();
+	case PLACE_ID::CITYHALL:
+		hr = Loading_CityHall();
 		break;
 	case PLACE_ID::MII_EDITOR:
 		hr = Loading_MiiEditor();
@@ -286,6 +287,21 @@ HRESULT CLoader::Loading_For_Setting()
 
 
 
+	// Island Texture Component //
+	tmp = CTextureCom::Create(
+		m_pDevice,
+		m_pContext,
+		TEXT("../../Resource/Textures/Terrain/Tile%d.dds"),
+		2);
+
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+		static_cast<uint32_t>(PLACE_ID::SETTING),
+		TEXT("ProtoTag_Component_IslandTexture"),
+		tmp)))
+		return E_FAIL;
 	// Food Texture Component //
 	tmp = CTextureCom::Create(
 		m_pDevice,
@@ -303,21 +319,6 @@ HRESULT CLoader::Loading_For_Setting()
 		return E_FAIL;
 
 
-	// Island Texture Component //
-	tmp = CTextureCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../Resource/Textures/Terrain/Tile%d.dds"),
-		2);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("ProtoTag_Component_IslandTexture"),
-		tmp)))
-		return E_FAIL;
 
 
 
@@ -328,10 +329,146 @@ HRESULT CLoader::Loading_For_Setting()
 	return S_OK;
 }
 
-HRESULT CLoader::Loading_For_Save()
+HRESULT CLoader::Loading_CityHall()
 {
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+	CObject* tmp = { nullptr };
 
+	// Component
+	{
+		// ProtoTag_Component_VtxMeshShader
+		{
+			tmp = CShaderCom::Create(
+				m_pDevice,
+				m_pContext,
+				TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Normal_Tex.hlsl"),
+				Engine::VTX_TEX_NORMAL::Elements,
+				Engine::VTX_TEX_NORMAL::iNumElements);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::CITYHALL),
+				TEXT("ProtoTag_Component_VtxNormalMeshShader"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Component_IslandMaskTexture
+		{
+			{
+				tmp = CTextureCom::Create(
+					m_pDevice,
+					m_pContext,
+					TEXT("../../Resource/Textures/Terrain/Mask.bmp"),
+					1);
+
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+					static_cast<uint32_t>(PLACE_ID::CITYHALL),
+					TEXT("ProtoTag_Component_IslandMaskTexture"),
+					tmp)))
+					return E_FAIL;
+			}
+		}
+		
+
+		// ProtoTag_Component_IslandTexture
+		{
+			tmp = CTextureCom::Create(
+				m_pDevice,
+				m_pContext,
+				TEXT("../../Resource/Textures/Terrain/Tile%d.dds"),
+				2);
+
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::CITYHALL),
+				TEXT("ProtoTag_Component_IslandTexture"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		// Terrain Buffer Component // 
+		{
+			tmp = CTerrainBufferCom::Create(
+				m_pDevice,
+				m_pContext,
+				TEXT("../../Resource/Textures/Terrain/Height.bmp"));
+
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::CITYHALL),
+				TEXT("ProtoTag_Component_TerrainBuffer"),
+				tmp)))
+				return E_FAIL;
+		}
+
+
+		// ProtoTag_Component_Fiona_Model
+		{
+			XMMATRIX InitMatrix;
+			InitMatrix = XMMatrixIdentity();
+
+			tmp = CModel::Create(
+				m_pDevice,
+				m_pContext,
+				"ProtoTag_Component_BasicManBody_Model", // 
+				ANIM_TYPE::ANIM,
+				"../../Resource/Models/Fiona/Fiona.fbx",
+				InitMatrix,
+				"Fiona");
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::CITYHALL),
+				TEXT("ProtoTag_Component_BasicManBody_Model"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		
+	}
+
+	// Actor
+	{
+		// ProtoTag_Actor_Fiona
+		{
+			tmp = CMii::Create(
+				m_pDevice,
+				m_pContext);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::CITYHALL),
+				TEXT("ProtoTag_Actor_Fiona"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Actor_Terrain
+		{
+			XMMATRIX InitMatrix;
+			InitMatrix = XMMatrixIdentity();
+
+			tmp = CTerrain::Create(
+				m_pDevice,
+				m_pContext);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::CITYHALL),
+				TEXT("ProtoTag_Actor_Terrain"),
+				tmp)))
+				return E_FAIL;
+		}
+		
+	}
+	
+
+
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+	m_isFinished = true;
 	return S_OK;
 }
 
@@ -485,6 +622,8 @@ HRESULT CLoader::Loading_For_Connect_Port()
 	return S_OK;
 }
 
+#define path "../../Resource/Models/Fiona/Fiona.fbx",
+#define path1 "../../Resource/00Model/00Body/CamouflageJacket/Untitled.fbx",
 HRESULT CLoader::Loading_Apart()
 {
 	CObject* tmp = { nullptr };
@@ -501,7 +640,7 @@ HRESULT CLoader::Loading_Apart()
 				m_pContext,
 				"ProtoTag_Component_BasicManBody_Model",
 				ANIM_TYPE::ANIM,
-				"../../Resource/00Model/00Body/Hoodie/uy.fbx",
+				path
 				InitMatrix,
 				"BasicManBody");
 

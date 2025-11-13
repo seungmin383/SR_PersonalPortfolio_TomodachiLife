@@ -50,7 +50,25 @@ int32_t CMii::Update_Priority(_float fDT)
 			j);*/
 	}
 
-	m_pModelCom->Set_Animation(0, TRUE);
+
+	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
+	{
+		m_pTransformCom->Go_Straight(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
+	{
+		m_pTransformCom->Go_Backward(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
+	{
+		m_pTransformCom->TurnY(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
+	{
+		m_pTransformCom->TurnY(-fDT);
+	}
+
+	m_pModelCom->Set_Animation(1, TRUE);
 	m_pModelCom->Play_Animation(fDT);
 
 	return 0;

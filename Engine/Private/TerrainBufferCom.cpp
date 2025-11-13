@@ -99,6 +99,7 @@ HRESULT CTerrainBufferCom::Initialize_Origin(const _tchar* HeightMapFilePath)
 			pVertices[Index].vPos = 
 				_float3(static_cast<_float>(j), (Pixels[Index] & 0x000000ff) / 10.f, static_cast<_float>(i));
 			pVertices[Index].vTexCoord	= _float2(j / (PixelNumX - 1.f), i / (PixelNumZ - 1.f));
+
 			pVertices[Index].vNormal	= _float3(0.f, 0.f, 0.f);
 		}
 	}

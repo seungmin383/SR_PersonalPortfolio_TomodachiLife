@@ -152,6 +152,7 @@ int32_t CModel::Get_BoneIndex(const _char* pBoneName) const
 
 void CModel::Play_Animation(_float fDT)
 {
+
 	m_Animations[m_iCurAnimationIndex]->Update_TransformationMatrices(
 		m_Bones, fDT, m_isAnimLoop);
 
