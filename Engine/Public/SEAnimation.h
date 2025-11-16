@@ -14,7 +14,7 @@ private:
 public:
 	HRESULT Initialize(SE_ANIMATION& seAnim);
 	_bool Update_TransformationMatrix(
-		_float fDT);
+		_float fDT, _bool& isChangeAnim);
 
 	const uint32_t Get_NumChannel() const{ return m_iNumChannel; }
 	const vector<CHANNEL_POS>& Get_ChannelPos()const  { return m_ChannelPos; }
@@ -28,6 +28,7 @@ private:
 	_float m_fTickPerSec = {};
 	_float m_fDuration = {};
 	_float m_fCurTrackPosition = {};
+
 public:
 	static CSEAnimation* Create(SE_ANIMATION& seAnim);
 	virtual void Free()override;

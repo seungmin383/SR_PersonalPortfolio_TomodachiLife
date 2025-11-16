@@ -31,6 +31,7 @@ private:
 	CSEAnimation* m_pPreAnimation = { nullptr };
 
 	vector<CSEBone*> m_pBones;
+	_bool m_isChangedAnimation = { FALSE };
 
 public:
 	static CAnimationPlayer* Create(

@@ -44,11 +44,14 @@ void CAnimationPlayer::Play_Animation(_float fDT)
 
 void CAnimationPlayer::Change_Animation(const _string& strInitAnimTag)
 {
+	m_pPreAnimation = m_pCurAnimation;
+	m_pCurAnimation = m_pGameInstance->AnimationManager_Get_Animation(strInitAnimTag);
+	m_isChangedAnimation = TRUE;
 }
 
 void CAnimationPlayer::Update_TransformationMatrix(_float fDT)
 {
-	m_pCurAnimation->Update_TransformationMatrix(fDT);
+	m_pCurAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation);
 
 	uint32_t NumChannel = m_pCurAnimation->Get_NumChannel();
 	const vector<CHANNEL_POS>& ChannelPos = m_pCurAnimation->Get_ChannelPos();

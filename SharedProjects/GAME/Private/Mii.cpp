@@ -68,6 +68,10 @@ int32_t CMii::Update_Priority(_float fDT)
 		m_pTransformCom->TurnY(-fDT);
 	}
 
+	if (m_pGameInstance->Get_DIKeyState(DIK_1))
+	{
+		m_pSeModel->Change_Animation("CM_Call");
+	}
 #ifdef ANIM_TEST
 	 m_pSeModel->Play_Animation(fDT);
 #else

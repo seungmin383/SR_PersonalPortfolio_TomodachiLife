@@ -287,6 +287,11 @@ HRESULT CSEModel::Bind_Bones(
 	return m_pMeshes[iMeshIndex]->Bind_Bones(pShader, pConstantName, m_pBones);
 }
 
+void CSEModel::Change_Animation(const _string strAnimTag)
+{
+	m_pAnimPlayer->Change_Animation(strAnimTag);
+}
+
 void CSEModel::Play_Animation(_float fDT)
 {
 	m_pAnimPlayer->Play_Animation(fDT);
