@@ -17,6 +17,7 @@ class CSEBone;
 class CSEMaterial;
 class CSEMesh;
 class CSEAnimation;
+class CAnimationPlayer;
 
 class ENGINE_DLL CSEModel final : public CComponent
 {
@@ -28,7 +29,8 @@ private:
 public:
 	HRESULT Initialize_SeModel(
 		ANIM_TYPE eAnimType,
-		const _char* SaveDataName);
+		const _char* SaveDataName,
+		FXMMATRIX InitMatrix);
 
 	HRESULT Initialize_Clone(void* pArg);
 	HRESULT Render_SeModel(uint32_t iMeshIndex);
@@ -55,6 +57,8 @@ public:
 		const _char* pConstantName,
 		uint32_t iMeshIndex);
 
+	void Play_Animation(_float fDT);
+
 public:
 	const uint32_t Get_NumMesh()const { return m_iNumMesh; }
 
@@ -76,14 +80,16 @@ private:
 	vector<CSEBone*> m_pBones;
 	vector<CSEMesh*> m_pMeshes;
 	vector<CSEMaterial*> m_pMaterials;
-
+	CAnimationPlayer* m_pAnimPlayer = { nullptr };
+	XMFLOAT4X4 m_InitMatrix = {};
 
 public:
 	static CSEModel* Create(
 		ID3D11Device* pDevice, 
 		ID3D11DeviceContext* pContext,
 		ANIM_TYPE eAnimType,
-		const _char* SaveDataName);
+		const _char* SaveDataName,
+		FXMMATRIX InitTransformMatrix);
 	CObject* Clone(void* pArg) override;
 	virtual void Free()override;
 };

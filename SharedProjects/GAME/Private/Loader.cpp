@@ -409,9 +409,9 @@ HRESULT CLoader::Loading_CityHall()
 				m_pContext,
 				"ProtoTag_Component_BasicManBody_Model",
 				ANIM_TYPE::ANIM,
-				"../../../../../../Resource/dev/05_Anim_fbx/CM_Call_Anim.fbx",
+				"../../../../../../Resource/dev/05_Anim_fbx/CM_Choke_Anim.fbx",
 				InitMatrix,
-				"Fiona");
+				"AAAAA");
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::CITYHALL),
@@ -420,7 +420,24 @@ HRESULT CLoader::Loading_CityHall()
 				return E_FAIL;
 		}
 
-		
+		// ProtoTag_Component_BasicManBody_SEModel
+		{
+			XMMATRIX InitMatrix;
+			InitMatrix = XMMatrixIdentity();
+
+			tmp = CSEModel::Create(
+				m_pDevice,
+				m_pContext,
+				ANIM_TYPE::ANIM,
+				"AAAAA",
+				InitMatrix);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::CITYHALL),
+				TEXT("ProtoTag_Component_BasicManBody_SEModel"),
+				tmp)))
+				return E_FAIL;
+		}
 	}
 
 	// Actor

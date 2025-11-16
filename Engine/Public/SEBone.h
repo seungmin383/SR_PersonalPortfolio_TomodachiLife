@@ -21,6 +21,7 @@ public:
 public:
 	XMMATRIX Get_OffsetMatrix() { return XMLoadFloat4x4(&m_OffsetMatrix); }
 	XMMATRIX Get_CombinedTransformMatrix() { return XMLoadFloat4x4(&m_CombinedTransformMatrix); }
+	void Set_TransformationMatrix(XMFLOAT4X4 tm) { m_TransformMatrix = tm; }
 
 private:
 	string m_strName = {};

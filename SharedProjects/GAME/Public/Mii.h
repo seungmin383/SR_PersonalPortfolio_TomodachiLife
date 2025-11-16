@@ -3,11 +3,14 @@
 #include "Actor.h"
 #include "ConvertJson.h"
 
+#define ANIM_TEST 0
+
 NS_BEGIN(Engine)
 
 class CShaderCom;
 class CTextureCom;
 class CModel;
+class CSEModel;
 
 NS_END
 
@@ -43,6 +46,7 @@ private:
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CModel* m_pModelCom = { nullptr };
+	CSEModel* m_pSeModel = { nullptr };
 
 	MII_INFO m_eInfo = {};
 

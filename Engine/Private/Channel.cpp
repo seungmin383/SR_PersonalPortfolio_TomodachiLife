@@ -12,7 +12,6 @@ HRESULT CChannel::Initialize(
 	CModel* pModel)
 {
 	m_iBoneIndex = pModel->Get_BoneIndex(pAIChannel->mNodeName.data);
-	
 	seChannel.iBoneIndex = pModel->Get_BoneIndex(pAIChannel->mNodeName.data);
 
 	if (-1 == m_iBoneIndex)
@@ -76,7 +75,6 @@ HRESULT CChannel::Initialize(
 		m_KeyFrames.push_back(KeyFrame);
 		seChannel.Keyframes.push_back(KeyFrame);
 	}
-
 
 	return S_OK;
 }

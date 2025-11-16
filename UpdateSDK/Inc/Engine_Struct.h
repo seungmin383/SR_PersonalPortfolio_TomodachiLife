@@ -38,6 +38,14 @@ namespace Engine
 
 	}KEYFRAME;
 
+	typedef struct tagChannelPos
+	{
+		uint32_t iBoneIndex;
+		XMFLOAT3 vCurScale;
+		XMFLOAT4 vCurRotation;
+		XMFLOAT3 vCurTranslation;
+	}CHANNEL_POS;
+
 	typedef struct tagVertexCol
 	{
 		XMFLOAT3 Pos;		//À§Ä¡

@@ -41,6 +41,7 @@ HRESULT CAnimation::Initialize(
 			return E_FAIL;
 
 		m_Channels.push_back(pChannel);
+		seAnim.Channels.push_back(seChannel);
 	}
 
 	return S_OK;

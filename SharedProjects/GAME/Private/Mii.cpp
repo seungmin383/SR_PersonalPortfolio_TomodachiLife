@@ -68,8 +68,14 @@ int32_t CMii::Update_Priority(_float fDT)
 		m_pTransformCom->TurnY(-fDT);
 	}
 
+#ifdef ANIM_TEST
+	 m_pSeModel->Play_Animation(fDT);
+#else
 	m_pModelCom->Set_Animation(0, TRUE);
 	m_pModelCom->Play_Animation(fDT);
+
+#endif // ANIM_TEST
+
 
 	return 0;
 }
@@ -89,10 +95,36 @@ HRESULT CMii::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
+#ifdef ANIM_TEST
+	uint32_t iNumMesh = m_pSeModel->Get_NumMesh();
+
+#else
 	uint32_t iNumMesh = m_pModelCom->Get_NumMesh();
+
+#endif // ANIM_TEST
+
 
 	for (uint32_t i = 0; i < iNumMesh; i++)
 	{
+#ifdef ANIM_TEST
+		if (FAILED(m_pSeModel->Bind_Material(
+			m_pShaderCom,
+			"g_DiffuseTexture",
+			i,
+			se_TextureType_DIFFUSE,
+			0)))
+			return E_FAIL;
+
+		if (FAILED(m_pSeModel->Bind_Bones(m_pShaderCom,
+			"g_BoneMatrices",
+			i)))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom->Begin(0)))
+			return E_FAIL;
+
+		m_pSeModel->Render_SeModel(i);
+#else
 		if (FAILED(m_pModelCom->Bind_Material(
 			m_pShaderCom,
 			"g_DiffuseTexture",
@@ -110,6 +142,8 @@ HRESULT CMii::Render()
 			return E_FAIL;
 
 		m_pModelCom->Render(i);
+#endif // ANIM_TEST
+
 	}
 
 	return S_OK;
@@ -125,7 +159,17 @@ HRESULT CMii::Ready_Component()
 		nullptr)))
 		return E_FAIL;
 
+#ifdef ANIM_TEST
+	if (FAILED(Add_Component(
+		static_cast<uint32_t>(PLACE_ID::CITYHALL),
+		TEXT("ProtoTag_Component_BasicManBody_SEModel"),
+		TEXT("Com_ModelCom"),
+		reinterpret_cast<CComponent**>(&m_pSeModel),
+		nullptr)))
+		return E_FAIL;
 
+
+#else
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACE_ID::CITYHALL),
 		TEXT("ProtoTag_Component_BasicManBody_Model"),
@@ -133,6 +177,9 @@ HRESULT CMii::Ready_Component()
 		reinterpret_cast<CComponent**>(&m_pModelCom),
 		nullptr)))
 		return E_FAIL;
+
+#endif // ANIM_TEST
+
 
 	return S_OK;
 }
@@ -199,5 +246,6 @@ void CMii::Free()
 {
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pSeModel);
 	CActor::Free();
 }

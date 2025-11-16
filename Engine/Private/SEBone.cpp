@@ -27,7 +27,8 @@ void CSEBone::Update_CombinedTransformMatrix(
 	else
 	{
 		XMStoreFloat4x4(&m_CombinedTransformMatrix,
-			XMLoadFloat4x4(&m_TransformMatrix) * XMLoadFloat4x4(&EntireSEBones[m_iParentIndex]->m_CombinedTransformMatrix));
+			XMLoadFloat4x4(&m_TransformMatrix) * 
+			XMLoadFloat4x4(&EntireSEBones[m_iParentIndex]->m_CombinedTransformMatrix));
 	}
 }
 

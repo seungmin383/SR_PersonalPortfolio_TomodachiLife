@@ -3,6 +3,7 @@
 #include "SEMesh.h"
 #include "SEMaterial.h"
 #include "SEAnimation.h"
+#include "AnimationPlayer.h"
 
 CSEModel::CSEModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CComponent(pDevice, pContext)
@@ -22,7 +23,9 @@ CSEModel::CSEModel(const CSEModel& rhs)
 	, m_seMaterials{ rhs.m_seMaterials }
 	, m_pBones{ rhs.m_pBones }         
 	, m_pMeshes{ rhs.m_pMeshes }       
-	, m_pMaterials{ rhs.m_pMaterials } 
+	, m_pMaterials{ rhs.m_pMaterials }
+	, m_pAnimPlayer(rhs.m_pAnimPlayer)
+	, m_InitMatrix{rhs.m_InitMatrix }
 {
 	for (auto& pBone : m_pBones)
 		Safe_AddRef(pBone);
@@ -32,15 +35,18 @@ CSEModel::CSEModel(const CSEModel& rhs)
 
 	for (auto& pMat : m_pMaterials)
 		Safe_AddRef(pMat);
+
+	Safe_AddRef(m_pAnimPlayer);
 }
 
 HRESULT CSEModel::Initialize_SeModel(
 	ANIM_TYPE eAnimType,
-	const _char* SaveDataName)
+	const _char* SaveDataName,
+	FXMMATRIX InitMatrix)
 {
 	m_strSaveDataName = SaveDataName;
 	m_eAnimType = eAnimType;
-
+	XMStoreFloat4x4(&m_InitMatrix, InitMatrix);
 	if (FAILED(Load_BoneData()))
 		return E_FAIL;
 
@@ -64,6 +70,9 @@ HRESULT CSEModel::Initialize_SeModel(
 		return E_FAIL;
 	if(FAILED(Ready_seMaterial()))
 		return E_FAIL;
+
+	m_pAnimPlayer = CAnimationPlayer::Create(
+		m_pDevice, m_pContext, "CM_Choke", m_pBones);
 
 	return S_OK;
 }
@@ -278,15 +287,25 @@ HRESULT CSEModel::Bind_Bones(
 	return m_pMeshes[iMeshIndex]->Bind_Bones(pShader, pConstantName, m_pBones);
 }
 
+void CSEModel::Play_Animation(_float fDT)
+{
+	m_pAnimPlayer->Play_Animation(fDT);
+	for (auto& pBone : m_pBones)
+	{
+		pBone->Update_CombinedTransformMatrix(m_pBones, XMLoadFloat4x4(&m_InitMatrix));
+	}
+}
+
 CSEModel* CSEModel::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext, 
 	ANIM_TYPE eAnimType,
-	const _char* SaveDataName)
+	const _char* SaveDataName,
+	FXMMATRIX InitTransformMatrix)
 {
 	CSEModel* pInstance = new CSEModel(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_SeModel(eAnimType, SaveDataName)))
+	if (FAILED(pInstance->Initialize_SeModel(eAnimType, SaveDataName, InitTransformMatrix)))
 	{
 		MSG_BOX("ErrCode : SeModel Create Failed");
 		Safe_Release(pInstance);
@@ -320,4 +339,6 @@ void CSEModel::Free()
 
 	for (auto& pMat : m_pMaterials)
 		Safe_Release(pMat);
+
+	Safe_Release(m_pAnimPlayer);
 }

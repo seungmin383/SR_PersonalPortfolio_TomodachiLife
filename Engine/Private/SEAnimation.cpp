@@ -22,6 +22,23 @@ HRESULT CSEAnimation::Initialize(SE_ANIMATION& seAnim)
 	 return S_OK;
 }
 
+_bool CSEAnimation::Update_TransformationMatrix(
+	_float fDT)
+{
+	m_fCurTrackPosition += m_fTickPerSec * fDT;
+	m_iNumChannel = m_Channels.size();
+	m_ChannelPos.resize(m_iNumChannel);
+
+	for (uint32_t i = 0; i < m_iNumChannel; ++i)
+	{
+		CHANNEL_POS chPos = {};
+		m_Channels[i]->Update_TransformationMatrix(
+			m_fCurTrackPosition,
+			m_ChannelPos[i]);
+	}
+	return false;
+}
+
 CSEAnimation* CSEAnimation::Create(SE_ANIMATION& seAnim)
 {
 	CSEAnimation* pInstance = new CSEAnimation;

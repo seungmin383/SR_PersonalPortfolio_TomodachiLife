@@ -48,17 +48,17 @@ int32_t CWorldCamera::Update_Priority(_float fDT)
 		m_pTransformCom->Go_Right(fDT);
 	}
 
-	 //_long    MouseMove = {};
-	 //
-	 //if (MouseMove = m_pGameInstance->Get_DIMouseMove(MOUSEMOVESTATE::X))
-	 //{
-	 //	m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_fSensor * MouseMove * fDT);
-	 //}
-	 //
-	 //if (MouseMove = m_pGameInstance->Get_DIMouseMove(MOUSEMOVESTATE::Y))
-	 //{
-	 //	m_pTransformCom->Turn(m_pTransformCom->Get_State(TRANSFORM_STATE::RIGHT), m_fSensor * MouseMove * fDT);
-	 //}
+	 _long    MouseMove = {};
+	 
+	 if (MouseMove = m_pGameInstance->Get_DIMouseMove(MOUSEMOVESTATE::X))
+	 {
+	 	m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_fSensor * MouseMove * fDT);
+	 }
+	 
+	 if (MouseMove = m_pGameInstance->Get_DIMouseMove(MOUSEMOVESTATE::Y))
+	 {
+	 	m_pTransformCom->Turn(m_pTransformCom->Get_State(TRANSFORM_STATE::RIGHT), m_fSensor * MouseMove * fDT);
+	 }
 
 	return 0;
 }

@@ -12,10 +12,15 @@ private:
 
 public:
 	HRESULT Initialize(SE_CHANNEL& seChannel);
+	void Update_TransformationMatrix(
+		_float fCurTrackPosition,
+		CHANNEL_POS& ChannelPos);
 
 private:
 	uint32_t m_iBoneIndex = {};
 	vector<KEYFRAME> m_Keyframes;
+
+	uint32_t m_iCurKeyframeIndex = {};
 
 public:
 	static CSEChannel* Create(SE_CHANNEL& seChannel);

@@ -150,11 +150,11 @@ HRESULT CSEMesh::Bind_Bones(
 
 	for (uint32_t i = 0; i < iNumBone; i++)
 	{
-		XMStoreFloat4x4(&m_BoneMatrices[i],
-			XMLoadFloat4x4(&m_OffsetMatrices[i]) *
-			pBones[m_BoneIndices[i]]->Get_CombinedTransformMatrix());
+		 XMStoreFloat4x4(&m_BoneMatrices[i],
+		 	XMLoadFloat4x4(&m_OffsetMatrices[i]) *
+		 	pBones[m_BoneIndices[i]]->Get_CombinedTransformMatrix());
 	}
-
+	
 	return pShader->Bind_Matrices(
 		pConstantName,
 		m_BoneMatrices,
