@@ -24,15 +24,14 @@ HRESULT CSEAnimation::Initialize(SE_ANIMATION& seAnim)
 
 _bool CSEAnimation::Update_TransformationMatrix(
 	_float fDT,
-	_bool& isChangeAnim)
+	_bool isChangeAnim)
 {
+	m_fCurTrackPosition += m_fTickPerSec * fDT;
 	if (isChangeAnim)
 	{
 		m_fCurTrackPosition = 0.f;
-		isChangeAnim = FALSE;
 	}
 
-	m_fCurTrackPosition += m_fTickPerSec * fDT;
 	m_iNumChannel = m_Channels.size();
 	m_ChannelPos.resize(m_iNumChannel);
 

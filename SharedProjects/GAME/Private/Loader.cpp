@@ -409,7 +409,7 @@ HRESULT CLoader::Loading_CityHall()
 				m_pContext,
 				"ProtoTag_Component_BasicManBody_Model",
 				ANIM_TYPE::ANIM,
-				"../../../../../../Resource/dev/05_Anim_fbx/CM_Choke_Anim.fbx",
+				"../../../../../../Resource/dev/05_Anim_fbx/CM_JumpDelight.fbx",
 				InitMatrix,
 				"AAAAA");
 

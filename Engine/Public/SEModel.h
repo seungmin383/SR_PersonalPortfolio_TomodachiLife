@@ -57,7 +57,7 @@ public:
 		const _char* pConstantName,
 		uint32_t iMeshIndex);
 
-	void Change_Animation(const _string strAnimTag);
+	void Change_Animation(const _string strAnimTag, _float fBlendDuration);
 	void Play_Animation(_float fDT);
 
 public:

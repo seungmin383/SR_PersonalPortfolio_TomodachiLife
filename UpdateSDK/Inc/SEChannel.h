@@ -16,6 +16,8 @@ public:
 		_float fCurTrackPosition,
 		CHANNEL_POS& ChannelPos);
 
+    const uint32_t Get_CurKeyframeIndex()const  { return m_iCurKeyframeIndex; }
+
 private:
 	uint32_t m_iBoneIndex = {};
 	vector<KEYFRAME> m_Keyframes;

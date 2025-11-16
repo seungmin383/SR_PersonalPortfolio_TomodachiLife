@@ -287,14 +287,15 @@ HRESULT CSEModel::Bind_Bones(
 	return m_pMeshes[iMeshIndex]->Bind_Bones(pShader, pConstantName, m_pBones);
 }
 
-void CSEModel::Change_Animation(const _string strAnimTag)
+void CSEModel::Change_Animation(const _string strAnimTag, _float fBlendDuration )
 {
-	m_pAnimPlayer->Change_Animation(strAnimTag);
+	m_pAnimPlayer->Change_Animation(strAnimTag, fBlendDuration);
 }
 
 void CSEModel::Play_Animation(_float fDT)
 {
 	m_pAnimPlayer->Play_Animation(fDT);
+
 	for (auto& pBone : m_pBones)
 	{
 		pBone->Update_CombinedTransformMatrix(m_pBones, XMLoadFloat4x4(&m_InitMatrix));

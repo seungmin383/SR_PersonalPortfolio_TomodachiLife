@@ -68,17 +68,16 @@ int32_t CMii::Update_Priority(_float fDT)
 		m_pTransformCom->TurnY(-fDT);
 	}
 
+	/* Change Animation 을 하고 PlayAnimation 권장 */
 	if (m_pGameInstance->Get_DIKeyState(DIK_1))
 	{
-		m_pSeModel->Change_Animation("CM_Call");
+		m_pSeModel->Change_Animation("CM_Call", 0.1f);
 	}
-#ifdef ANIM_TEST
-	 m_pSeModel->Play_Animation(fDT);
-#else
-	m_pModelCom->Set_Animation(0, TRUE);
-	m_pModelCom->Play_Animation(fDT);
+	if (m_pGameInstance->Get_DIKeyState(DIK_2))
+	{
+		m_pSeModel->Change_Animation("CM_JumpDelight", 0.1f);
+	}
 
-#endif // ANIM_TEST
 
 
 	return 0;
@@ -86,6 +85,13 @@ int32_t CMii::Update_Priority(_float fDT)
 
 int32_t CMii::Update(_float fDT)
 {
+#ifdef ANIM_TEST
+	 m_pSeModel->Play_Animation(fDT);
+#else
+	m_pModelCom->Set_Animation(0, TRUE);
+	m_pModelCom->Play_Animation(fDT);
+
+#endif // ANIM_TEST
 	return 0;
 }
 

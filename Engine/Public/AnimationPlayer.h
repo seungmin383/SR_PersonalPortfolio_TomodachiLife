@@ -21,17 +21,26 @@ public:
 public:
 	void Play_Animation(_float fDT);
 	void Change_Animation(
-		const _string& strAnimaTag);
+		const _string& strAnimaTag, _float fBlendDuration);
 
 private:
 	void Update_TransformationMatrix(_float fDT);
+	void Blend_Animation(_float fDT);
 
 private:
 	CSEAnimation* m_pCurAnimation = { nullptr };
 	CSEAnimation* m_pPreAnimation = { nullptr };
 
 	vector<CSEBone*> m_pBones;
+
+	/* 애니메이션이 바뀌었는지? */
 	_bool m_isChangedAnimation = { FALSE };
+
+	/* 애니메이션 블렌딩을 하고 있는지? */
+	_bool m_isBlending = { TRUE };
+
+	_float m_fBlendDuration = { 0.f };
+	_float m_fBlendTime = { 0.f };
 
 public:
 	static CAnimationPlayer* Create(
