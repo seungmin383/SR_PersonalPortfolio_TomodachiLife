@@ -3,6 +3,7 @@
 #include "SEBone_Data.h"
 #include "SEMaterial_Data.h"
 #include "SEMesh_Data.h"
+#include "SEAnimation_Data.h"
 
 NS_BEGIN(Engine)
 
@@ -15,6 +16,7 @@ class CAnimation;
 class CSEBone;
 class CSEMaterial;
 class CSEMesh;
+class CSEAnimation;
 
 class ENGINE_DLL CModel final : public CComponent
 {
@@ -46,6 +48,11 @@ public:
 		CShaderCom* pShader,
 		const _char* pConstantName,
 		uint32_t iMeshIndex);
+public:
+	const XMFLOAT4X4& Get_OffsetMatrixByName(
+		const _string& name) const;
+
+	const XMFLOAT4X4* Get_BoneMatrixPtr(const _char* pBoneName)const;
 
 public:
 	uint32_t Get_NumMesh()const{ return m_iNumMesh; }
@@ -59,10 +66,12 @@ private:
 	vector<SE_MATERIAL> m_SEMaterialsToWrite;
 	vector<SE_MESH> m_SEMeshesToWrite;
 	vector<SE_ANIM_MESH> m_SEAnimMeshesToWrite;
+	vector<SE_ANIMATION> m_SEAnimationToWrite;
 
 	vector<CSEBone*> m_SEBoneToRead;
 	vector<CSEMaterial*> m_SEMaterialToRead;
 	vector<CSEMesh*> m_SEMeshToRead;
+	vector<CSEAnimation*>m_SEAnimationToRead;
 	// Bin Test end
 
 	Assimp::Importer m_Importer = {};
@@ -95,9 +104,6 @@ private:
 
 private:
 	std::unordered_map<_string, XMFLOAT4X4> m_OffsetMap; // ∫ª ¿Ã∏ß °Ê OffsetMatrix
-public:
-	const XMFLOAT4X4& Get_OffsetMatrixByName(
-		const _string& name) const;
 
 private:
 	void BuildOffsetMap();
@@ -105,6 +111,7 @@ private:
 	HRESULT Save_Bone(const _char* pModelName);
 	HRESULT Save_Mesh(const _char* pModelName);
 	HRESULT Save_Material(const _char* pModelName);
+	HRESULT Save_Animation(const _char* pAnimationName);
 
 	HRESULT Ready_Meshes();
 	HRESULT	Ready_Material(const _char* pModelFIlePath);

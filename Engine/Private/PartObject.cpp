@@ -6,6 +6,12 @@ CPartObject::CPartObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 }
 
+CPartObject::CPartObject(const CPartObject& rhs)
+	:CActor(rhs)
+{
+}
+
+
 HRESULT CPartObject::Initialize_Origin()
 {
 	return S_OK;
@@ -48,7 +54,7 @@ void CPartObject::SetUp_CombinedWorldMatrix(FXMMATRIX ParentMatrix)
 {
 	XMStoreFloat4x4(
 		&m_CombinedWorldMatrix, 
-		(m_pTransformCom->Get_WorldMatrix()) * ParentMatrix);
+		XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()) * ParentMatrix);
 }
 
 void CPartObject::Free()

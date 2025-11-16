@@ -2,6 +2,7 @@
 #include "SEBone.h"
 #include "SEMesh.h"
 #include "SEMaterial.h"
+#include "SEAnimation.h"
 
 CSEModel::CSEModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CComponent(pDevice, pContext)

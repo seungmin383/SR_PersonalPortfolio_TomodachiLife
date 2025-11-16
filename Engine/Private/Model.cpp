@@ -4,6 +4,7 @@
 #include "Material.h"
 #include "Bone.h"
 #include "Animation.h"
+#include "SEAnimation.h"
 
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CComponent(pDevice, pContext)
@@ -81,7 +82,20 @@ HRESULT CModel::Initialize_Origin(
 	Save_Bone(pSaveDataName);
 	Save_Mesh(pSaveDataName);
 	Save_Material(pSaveDataName);
+	
 
+	if (eAnimType == ANIM_TYPE::ANIM)
+	{
+		_char file[MAX_PATH] = {};
+
+		strcpy_s(file, MAX_PATH, "../Asset/Animations/");
+		strcat_s(file, MAX_PATH, m_SEAnimationToWrite[0].strName.c_str());
+		strcat_s(file, MAX_PATH, "_Anim.bin");
+
+		ofstream out(file, std::ios::binary | std::ios::trunc);
+		m_SEAnimationToWrite[0].WriteAnimationFile(out);
+	}
+	
 	return S_OK;
 }
 
@@ -152,7 +166,6 @@ int32_t CModel::Get_BoneIndex(const _char* pBoneName) const
 
 void CModel::Play_Animation(_float fDT)
 {
-
 	m_Animations[m_iCurAnimationIndex]->Update_TransformationMatrices(
 		m_Bones, fDT, m_isAnimLoop);
 
@@ -178,6 +191,15 @@ const XMFLOAT4X4& CModel::Get_OffsetMatrixByName(const _string& name) const
 
 	auto it = m_OffsetMap.find(name);
 	return (it != m_OffsetMap.end()) ? it->second : s_identity;
+}
+
+const XMFLOAT4X4* CModel::Get_BoneMatrixPtr(const _char* pBoneName) const
+{
+	int32_t iBoneIndex = Get_BoneIndex(pBoneName);
+	if (-1 == iBoneIndex)
+		return nullptr;
+
+	return m_Bones[iBoneIndex]->Get_CombinedTransformationMatrixPtr();
 }
 
 void CModel::BuildOffsetMap()
@@ -299,6 +321,27 @@ HRESULT CModel::Save_Material(const _char* pModelName)
 	return S_OK;
 }
 
+HRESULT CModel::Save_Animation(const _char* pAnimationName)
+{
+	_char file[MAX_PATH] = {};
+
+	strcpy_s(file, MAX_PATH, "../Asset/Animations/");
+	strcat_s(file, MAX_PATH, pAnimationName);
+	strcat_s(file, MAX_PATH, "_Anim_Data.bin");
+
+	ofstream out(file, std::ios::binary | std::ios::trunc);
+
+	uint32_t count = static_cast<uint32_t>(m_SEAnimationToWrite.size());
+	out.write(reinterpret_cast<const char*>(&count), sizeof(uint32_t));
+
+	for (uint32_t i = 0; i < count; ++i)
+	{
+		m_SEAnimationToWrite[i].WriteAnimationFile(out);
+	}
+
+	return S_OK;
+}
+
 HRESULT CModel::Ready_Meshes()
 {
 	m_iNumMesh = m_pAIScene->mNumMeshes;
@@ -409,7 +452,10 @@ HRESULT CModel::Ready_Animations()
 	/* 공격 애니메이션을 만들고 보관, 걷기 애니메이션을 만들고 보관 */
 	for (uint32_t i = 0; i < m_iNumAnimation; i++)
 	{
+		SE_ANIMATION seAnim = {};
+
 		CAnimation* pInstance = CAnimation::Create(
+			seAnim,
 			m_pAIScene->mAnimations[i],
 			this);
 
@@ -417,6 +463,7 @@ HRESULT CModel::Ready_Animations()
 			return E_FAIL;
 
 		m_Animations.push_back(pInstance);
+		m_SEAnimationToWrite.push_back(seAnim);
 	}
 	return S_OK;
 }

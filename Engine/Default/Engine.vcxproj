@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="..\Public\Actor.h" />
     <ClInclude Include="..\Public\Animation.h" />
+    <ClInclude Include="..\Public\AnimationManager.h" />
+    <ClInclude Include="..\Public\AnimationPlayer.h" />
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\Public\Bone.h" />
     <ClInclude Include="..\Public\Button.h" />
@@ -58,8 +60,10 @@
     <ClInclude Include="..\Public\RectBufferCom.h" />
     <ClInclude Include="..\Public\Render_Manager.h" />
     <ClInclude Include="..\Public\SEAnimation.h" />
+    <ClInclude Include="..\Public\SEAnimation_Data.h" />
     <ClInclude Include="..\Public\SEBone.h" />
     <ClInclude Include="..\Public\SEBone_Data.h" />
+    <ClInclude Include="..\Public\SEChannel.h" />
     <ClInclude Include="..\Public\SEMaterial.h" />
     <ClInclude Include="..\Public\SEMaterial_Data.h" />
     <ClInclude Include="..\Public\SEMesh.h" />
@@ -86,6 +90,8 @@
   <ItemGroup>
     <ClCompile Include="..\Private\Actor.cpp" />
     <ClCompile Include="..\Private\Animation.cpp" />
+    <ClCompile Include="..\Private\AnimationManager.cpp" />
+    <ClCompile Include="..\Private\AnimationPlayer.cpp" />
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\Private\Bone.cpp" />
     <ClCompile Include="..\Private\Button.cpp" />
@@ -116,7 +122,9 @@
     <ClCompile Include="..\Private\Prototype.cpp" />
     <ClCompile Include="..\Private\RectBufferCom.cpp" />
     <ClCompile Include="..\Private\Render_Manager.cpp" />
+    <ClCompile Include="..\Private\SEAnimation.cpp" />
     <ClCompile Include="..\Private\SEBone.cpp" />
+    <ClCompile Include="..\Private\SEChannel.cpp" />
     <ClCompile Include="..\Private\SEMaterial.cpp" />
     <ClCompile Include="..\Private\SEMesh.cpp" />
     <ClCompile Include="..\Private\SEModel.cpp" />

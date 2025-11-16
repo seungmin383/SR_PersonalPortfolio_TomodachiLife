@@ -10,6 +10,9 @@
 #include "BackGround.h"
 #include "Apart.h"
 #include "Terrain.h"
+#include "Body.h"
+#include "Player.h"
+#include "Weapon.h"
 
 USING(Engine)
 
@@ -162,18 +165,6 @@ HRESULT CLoader::Loading_For_Main()
 
 	return S_OK;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Loading For Setting Place // =========================================
 
@@ -406,8 +397,8 @@ HRESULT CLoader::Loading_CityHall()
 				tmp)))
 				return E_FAIL;
 		}
-
-
+		//../../Resource/00Model/00Body/CamouflageJacket/Action3.fbx
+//..\..\..\..\..\..\Resource\dev\05_Anim_fbx\
 		// ProtoTag_Component_Fiona_Model
 		{
 			XMMATRIX InitMatrix;
@@ -416,9 +407,9 @@ HRESULT CLoader::Loading_CityHall()
 			tmp = CModel::Create(
 				m_pDevice,
 				m_pContext,
-				"ProtoTag_Component_BasicManBody_Model", // 
+				"ProtoTag_Component_BasicManBody_Model",
 				ANIM_TYPE::ANIM,
-				"../../Resource/Models/Fiona/Fiona.fbx",
+				"../../../../../../Resource/dev/05_Anim_fbx/CM_Call_Anim.fbx",
 				InitMatrix,
 				"Fiona");
 
@@ -622,8 +613,9 @@ HRESULT CLoader::Loading_For_Connect_Port()
 	return S_OK;
 }
 
-#define path "../../Resource/Models/Fiona/Fiona.fbx",
-#define path1 "../../Resource/00Model/00Body/CamouflageJacket/Untitled.fbx",
+#define path "../../Resource/Models/Fiona/Fiona.fbx"
+#define path1 "../../Resource/00Model/00Body/CamouflageJacket/Untitled.fbx"
+#define path2 "../../Resource/00Model/00Body/CamouflageJacket/Untitled.fbx"
 HRESULT CLoader::Loading_Apart()
 {
 	CObject* tmp = { nullptr };
@@ -634,35 +626,78 @@ HRESULT CLoader::Loading_Apart()
 		{
 			XMMATRIX InitMatrix;
 			InitMatrix = XMMatrixIdentity();
-
 			tmp = CModel::Create(
-				m_pDevice, 
+				m_pDevice,
 				m_pContext,
 				"ProtoTag_Component_BasicManBody_Model",
 				ANIM_TYPE::ANIM,
-				path
+				path,
 				InitMatrix,
 				"BasicManBody");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::APART), TEXT("ProtoTag_Component_BasicManBody_Model"), tmp)))
+				return E_FAIL;
+		}
 
+		// ProtoTag_Component_GirlHair1_Model
+		{
+			XMMATRIX InitMatrix;
+			InitMatrix = XMMatrixIdentity();
+			tmp = CModel::Create(
+				m_pDevice,
+				m_pContext,
+				"ProtoTag_Component_GirlHair1_Model",
+				ANIM_TYPE::ANIM,
+				path1,
+				InitMatrix,
+				"Hair1");
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::APART),
-				TEXT("ProtoTag_Component_BasicManBody_Model"),
-				tmp)))
+				static_cast<uint32_t>(PLACE_ID::APART), 
+				TEXT("ProtoTag_Component_GirlHair1_Model"), tmp)))
 				return E_FAIL;
 		}
 	}
 
 	// Actor
 	{
-		tmp = CMii::Create(
-			m_pDevice,
-			m_pContext);
+		// ProtoTag_Actor_Mii
+		{
+			tmp = CMii::Create(m_pDevice,m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::APART),
+				TEXT("ProtoTag_Actor_Mii"),
+				tmp)))
+				return E_FAIL;
+		}
 
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-			static_cast<uint32_t>(PLACE_ID::APART),
-			TEXT("ProtoTag_Actor_Mii"),
-			tmp)))
-			return E_FAIL;
+		// ProtoTag_Actor_Player_Body
+		{
+			tmp = CBody::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::APART), 
+				TEXT("ProtoTag_Actor_Player_Body"), 
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Actor_Player_Weapon
+		{
+			tmp = CWeapon::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::APART),
+				TEXT("ProtoTag_Actor_Player_Weapon"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Actor_Player
+		{
+			tmp = CPlayer::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::APART), 
+				TEXT("ProtoTag_Actor_Player"), 
+				tmp)))
+				return E_FAIL;
+		}
 	}
 	
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));

@@ -148,6 +148,21 @@
     <Filter Include="01.Utility\03.Object\01.Actor\02.ContainerObject">
       <UniqueIdentifier>{869e5348-dda3-4495-8806-1e59825e26da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\05.Animation">
+      <UniqueIdentifier>{762b0e9a-7d51-4668-8c91-e308071e8043}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\05.Animation\SEAnimation">
+      <UniqueIdentifier>{16670dfa-2c25-422f-84bd-0f1f58326003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\05.Animation\SEAnimation\SEChannel">
+      <UniqueIdentifier>{49607fb2-7358-420d-983d-5cbc77c24eae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\00.Manager\05.AnimationManager">
+      <UniqueIdentifier>{c29792ce-98c5-4f4b-af0d-d822a29a2137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\05.Animation\01.AnimPlayer">
+      <UniqueIdentifier>{ae346ed3-d509-4b9a-af37-f1a2ff94e7b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -284,6 +299,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\SEModel.cpp">
       <Filter>01.Utility\03.Object\02.Component\04.Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SEAnimation.cpp">
+      <Filter>01.Utility\03.Object\02.Component\05.Animation\SEAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SEChannel.cpp">
+      <Filter>01.Utility\03.Object\02.Component\05.Animation\SEAnimation\SEChannel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AnimationManager.cpp">
+      <Filter>01.Utility\00.Manager\05.AnimationManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AnimationPlayer.cpp">
+      <Filter>01.Utility\03.Object\02.Component\05.Animation\01.AnimPlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -473,8 +500,20 @@
     <ClInclude Include="..\Public\SEModel.h">
       <Filter>01.Utility\03.Object\02.Component\04.Model</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\SEAnimation.h">
+    <ClInclude Include="..\Public\SEAnimation_Data.h">
       <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SEAnimation.h">
+      <Filter>01.Utility\03.Object\02.Component\05.Animation\SEAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SEChannel.h">
+      <Filter>01.Utility\03.Object\02.Component\05.Animation\SEAnimation\SEChannel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AnimationManager.h">
+      <Filter>01.Utility\00.Manager\05.AnimationManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AnimationPlayer.h">
+      <Filter>01.Utility\03.Object\02.Component\05.Animation\01.AnimPlayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

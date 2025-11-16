@@ -6,6 +6,8 @@
 
 #include "Mii.h"
 #include "Terrain.h"
+#include "Player.h"
+
 
 CPlace_CityHall::CPlace_CityHall(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -65,7 +67,7 @@ HRESULT CPlace_CityHall::Ready_Actor_Layer()
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(
 				static_cast<uint32_t>(PLACE_ID::CITYHALL),
-				TEXT("ProtoTag_Component_BasicManBody_Model"),
+				TEXT("ProtoTag_Actor_Fiona"),
 				&tMiiDesc);
 
 			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(

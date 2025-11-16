@@ -15,6 +15,7 @@ class CLightManager;
 class CMouseManager;
 class CFileManager;
 class CButtonManager;
+class CAnimationManager;
 
 class CObject;
 class CPlace;
@@ -45,6 +46,7 @@ public:
 	void	End_Render();
 
 	HRESULT Clear_Resources(uint32_t PlaceID);
+	_float Random(_float fMin, _float fMax);
 public:
 	#pragma region TIMER_MANAGER
 	
@@ -195,6 +197,11 @@ public:
 	void ButtonManager_All_Deactivate(uint32_t iPlaceID);
 #pragma endregion
 
+#pragma region ANIMATIONMANAGER
+	CSEAnimation* AnimationManager_Get_Animation(const _string& strAnimationTag);
+
+#pragma endregion
+
 
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
@@ -210,6 +217,7 @@ private:
 	CMouseManager*		m_pMouseManager = { nullptr };
 	CFileManager*		m_pFileManager = { nullptr };
 	CButtonManager*		m_pButtonManager = { nullptr };
+	CAnimationManager* m_pAnimationManager = { nullptr };
 
 public:
 	void Clear_Engine();

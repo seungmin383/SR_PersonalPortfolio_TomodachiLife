@@ -8,6 +8,7 @@ class ENGINE_DLL CContainerObject abstract : public CActor
 {
 protected:
 	CContainerObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CContainerObject(const CContainerObject& rhs);
 	virtual ~CContainerObject() = default;
 
 public:

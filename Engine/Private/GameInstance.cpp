@@ -13,6 +13,7 @@
 #include "FileManager.h"
 #include "ButtonManager.h"
 #include "Button.h"
+#include "AnimationManager.h"
 
 #define CONFIG_FILE_PATH "../../SharedProjects/GAME/GameData/config.json"
 
@@ -147,6 +148,15 @@ HRESULT CGameInstance::Initialize(
 		}
 	}
 
+	// AnimationManager
+	{
+		m_pAnimationManager = CAnimationManager::Create();
+		if(nullptr == m_pAnimationManager) {
+			MSG_BOX("ErrCode : AnimationManager Create Failed");
+			return E_FAIL;
+		}
+	}
+
 	return S_OK;
 }
 
@@ -229,6 +239,13 @@ HRESULT CGameInstance::Clear_Resources(uint32_t PlaceID)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+_float CGameInstance::Random(_float fMin, _float fMax)
+{
+	_float		fRandNormal = static_cast<_float>(rand()) / RAND_MAX;
+
+	return (fMax - fMin) * fRandNormal + fMin;
 }
 
 #pragma region TIMER_MANAGER
@@ -486,6 +503,16 @@ void CGameInstance::ButtonManager_All_Deactivate(uint32_t iPlaceID)
 
 #pragma endregion
 
+#pragma region ANIMATIONMANAGER
+
+CSEAnimation* CGameInstance::AnimationManager_Get_Animation(const _string& strAnimationTag)
+{
+	return m_pAnimationManager->Get_Animation(strAnimationTag);
+}
+
+#pragma endregion
+
+
 
 
 
@@ -500,6 +527,7 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pPlaceManager);
 	Safe_Release(m_pRenderManager);
 	Safe_Release(m_pObjectManager);
+	Safe_Release(m_pAnimationManager);
 	Safe_Release(m_pPrototype);
 	Safe_Release(m_pGraphicDevice);
 	Safe_Release(m_pMouseManager);

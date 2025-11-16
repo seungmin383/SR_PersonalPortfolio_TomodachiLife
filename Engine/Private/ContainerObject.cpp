@@ -7,6 +7,11 @@ CContainerObject::CContainerObject(ID3D11Device* pDevice, ID3D11DeviceContext* p
 {
 }
 
+CContainerObject::CContainerObject(const CContainerObject& rhs)
+	:CActor(rhs)
+{
+}
+
 HRESULT CContainerObject::Initialize_Origin()
 {
 	return S_OK;
@@ -14,6 +19,7 @@ HRESULT CContainerObject::Initialize_Origin()
 
 HRESULT CContainerObject::Initialize_Clone(void* pArg)
 {
+	CActor::Initialize_Clone(pArg);
 	return S_OK;
 }
 

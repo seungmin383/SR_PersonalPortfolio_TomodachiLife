@@ -1,5 +1,6 @@
 #pragma once
 #include "Base.h"
+#include "SEAnimation_Data.h"
 
 NS_BEGIN(Engine)
 
@@ -16,6 +17,7 @@ private:
 
 public:
 	HRESULT Initialize(
+		SE_CHANNEL& seChannel,
 		const aiNodeAnim* pAIChannel,
 		CModel* pModel);
 	
@@ -38,6 +40,7 @@ private:
 public:
 	/* aiNodeAnim -> 애니메이션을 위한 상태를 가짐 */
 	static CChannel* Create(
+		SE_CHANNEL& seChannel,
 		const aiNodeAnim* pAIChannel,
 		CModel* pModel);
 

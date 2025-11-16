@@ -23,6 +23,7 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Apart.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BackGround.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Body.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ConvertJson.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp" />
@@ -37,14 +38,17 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Main.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_MiiEditor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Setting.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SkyAndSea.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Terrain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\UICamera.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Weapon.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\WorldCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Apart.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BackGround.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Body.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ConvertJson.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Defines.h" />
@@ -61,9 +65,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Main.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_MiiEditor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Setting.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SkyAndSea.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Terrain.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Weapon.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\WorldCamera.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 #pragma once
 #include "Base.h"
+#include "SEAnimation_Data.h"
 
 NS_BEGIN(Engine)
 class CChannel;
@@ -17,6 +18,7 @@ private:
 
 public:
 	HRESULT Initialize(
+		SE_ANIMATION& seAnim, 
 		const aiAnimation* pAIAnimation,
 		CModel* pModel);
 	
@@ -51,6 +53,7 @@ private:
 
 public:
 	static CAnimation* Create(
+		SE_ANIMATION& seAnim,
 		const aiAnimation* pAIAnimation,
 		CModel* pModel);
 	virtual void Free() override;

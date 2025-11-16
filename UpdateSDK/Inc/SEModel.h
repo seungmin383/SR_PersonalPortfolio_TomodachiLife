@@ -3,6 +3,7 @@
 #include "SEBone_Data.h"
 #include "SEMesh_Data.h"
 #include "SEMaterial_Data.h"
+#include "SEAnimation_Data.h"
 
 NS_BEGIN(Engine)
 
@@ -15,6 +16,7 @@ class CAnimation;
 class CSEBone;
 class CSEMaterial;
 class CSEMesh;
+class CSEAnimation;
 
 class ENGINE_DLL CSEModel final : public CComponent
 {
@@ -74,6 +76,7 @@ private:
 	vector<CSEBone*> m_pBones;
 	vector<CSEMesh*> m_pMeshes;
 	vector<CSEMaterial*> m_pMaterials;
+
 
 public:
 	static CSEModel* Create(

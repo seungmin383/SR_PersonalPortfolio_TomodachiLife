@@ -7,10 +7,14 @@ CChannel::CChannel()
 }
 
 HRESULT CChannel::Initialize(
+	SE_CHANNEL& seChannel,
 	const aiNodeAnim* pAIChannel,
 	CModel* pModel)
 {
 	m_iBoneIndex = pModel->Get_BoneIndex(pAIChannel->mNodeName.data);
+	
+	seChannel.iBoneIndex = pModel->Get_BoneIndex(pAIChannel->mNodeName.data);
+
 	if (-1 == m_iBoneIndex)
 		return E_FAIL;
 
@@ -70,6 +74,7 @@ HRESULT CChannel::Initialize(
 		KeyFrame.vTranslation = vTranslation;
 
 		m_KeyFrames.push_back(KeyFrame);
+		seChannel.Keyframes.push_back(KeyFrame);
 	}
 
 
@@ -149,12 +154,13 @@ void CChannel::Update_TransformationMatrix(
 }
 
 CChannel* CChannel::Create(
+	SE_CHANNEL& seChannel,
 	const aiNodeAnim* pAIChannel,
 	CModel* pModel)
 {
 	CChannel* pInstance = new CChannel();
 
-	if (FAILED(pInstance->Initialize(pAIChannel, pModel)))
+	if (FAILED(pInstance->Initialize(seChannel, pAIChannel, pModel)))
 	{
 		MSG_BOX("ErrCode : Channel Create Failed");
 		Safe_Release(pInstance);

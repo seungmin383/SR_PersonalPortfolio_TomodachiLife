@@ -68,7 +68,7 @@ int32_t CMii::Update_Priority(_float fDT)
 		m_pTransformCom->TurnY(-fDT);
 	}
 
-	m_pModelCom->Set_Animation(1, TRUE);
+	m_pModelCom->Set_Animation(0, TRUE);
 	m_pModelCom->Play_Animation(fDT);
 
 	return 0;
@@ -127,7 +127,7 @@ HRESULT CMii::Ready_Component()
 
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::APART),
+		static_cast<uint32_t>(PLACE_ID::CITYHALL),
 		TEXT("ProtoTag_Component_BasicManBody_Model"),
 		TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pModelCom),

@@ -67,6 +67,9 @@ public:
 		return XMLoadFloat4x4(&m_WorldMatrix);
 	}
 
+	XMFLOAT4X4* Get_WorldMatrixPtr() {
+		return (&m_WorldMatrix);
+	}
 
 private:
 	_float		m_fSpeedPerSecond = {};

@@ -73,5 +73,11 @@ namespace Engine
         se_TextureType_GLTF_METALLIC_ROUGHNESS = 27,
 	};
 
+	enum class ANIM_CLIP
+	{
+		BANZAI,
+		CALL,
+		END
+	};
 }
 #endif // Engine_Enum_h__

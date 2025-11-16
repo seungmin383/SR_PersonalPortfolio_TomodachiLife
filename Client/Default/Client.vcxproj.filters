@@ -38,6 +38,9 @@
     <Filter Include="00.MainApp">
       <UniqueIdentifier>{bf77c15e-f0ee-4fd4-88eb-411ec47c06d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Place">
+      <UniqueIdentifier>{03814993-eee5-47ae-b70b-db3af821881a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">

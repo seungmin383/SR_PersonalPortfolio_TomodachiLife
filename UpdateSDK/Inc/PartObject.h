@@ -14,6 +14,7 @@ public:
 
 protected:
 	CPartObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CPartObject(const CPartObject& rhs);
 	virtual ~CPartObject() = default;
 
 public:

@@ -91,6 +91,12 @@
     <Filter Include="02.Actor\01.Mii\00.Player">
       <UniqueIdentifier>{6fe74e70-63b5-4685-99b1-c22ff0cf1080}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Actor\01.Mii\00.Player\Body">
+      <UniqueIdentifier>{ad7c952c-f0fa-485b-8d51-de9e5066a9c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.Mii\00.Player\Weapon">
+      <UniqueIdentifier>{dcd9ff2b-fb95-4606-adb2-4625493fcb2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -176,6 +182,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_CityHall.h">
       <Filter>00.Place\05.Place_CityHall</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Body.h">
+      <Filter>02.Actor\01.Mii\00.Player\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Player.h">
+      <Filter>02.Actor\01.Mii\00.Player</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Weapon.h">
+      <Filter>02.Actor\01.Mii\00.Player\Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -237,6 +252,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_CityHall.cpp">
       <Filter>00.Place\05.Place_CityHall</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Body.cpp">
+      <Filter>02.Actor\01.Mii\00.Player\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Player.cpp">
+      <Filter>02.Actor\01.Mii\00.Player</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Weapon.cpp">
+      <Filter>02.Actor\01.Mii\00.Player\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

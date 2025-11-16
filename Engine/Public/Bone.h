@@ -29,6 +29,10 @@ public:
 		return XMLoadFloat4x4(&m_CombinedTransformationMatrix);
 	}
 
+	XMFLOAT4X4* Get_CombinedTransformationMatrixPtr() {
+		return (&m_CombinedTransformationMatrix);
+	}
+
 	void Set_TransformMatrix(XMFLOAT4X4& TransformMatrix){
 		m_TransformationMatrix = TransformMatrix;
 	}
