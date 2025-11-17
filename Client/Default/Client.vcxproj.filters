@@ -19,6 +19,18 @@
     <ClInclude Include="..\Public\MainApp.h">
       <Filter>00.MainApp</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Place_Apart.h">
+      <Filter>01.Place\03.Place_Apart</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Place_CityHall.h">
+      <Filter>01.Place\01.Place_CityHall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Place_Island.h">
+      <Filter>01.Place\00.Place_Island</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Place_MiiEditor.h">
+      <Filter>01.Place\02.Place_MiiEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -41,6 +53,18 @@
     <Filter Include="01.Place">
       <UniqueIdentifier>{03814993-eee5-47ae-b70b-db3af821881a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Place\00.Place_Island">
+      <UniqueIdentifier>{91f5299c-ead3-4f2d-b499-1e9c6f6690bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Place\01.Place_CityHall">
+      <UniqueIdentifier>{a51316ea-e0e7-4ca6-a8f4-4f0d14f0bfa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Place\02.Place_MiiEditor">
+      <UniqueIdentifier>{27b1dfe3-68ca-4d8c-9bb1-4ea6a9b7d40a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Place\03.Place_Apart">
+      <UniqueIdentifier>{47dfdd6b-7fc9-4ad7-824a-49f0d9a48718}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -48,6 +72,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\MainApp.cpp">
       <Filter>00.MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_Apart.cpp">
+      <Filter>01.Place\03.Place_Apart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_CityHall.cpp">
+      <Filter>01.Place\01.Place_CityHall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_Island.cpp">
+      <Filter>01.Place\00.Place_Island</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_MiiEditor.cpp">
+      <Filter>01.Place\02.Place_MiiEditor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

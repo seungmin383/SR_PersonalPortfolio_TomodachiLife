@@ -8,6 +8,7 @@ class ENGINE_DLL CSEBone final : public CBase
 {
 private:
 	CSEBone();
+	CSEBone(const CSEBone& rhs);
 	virtual ~CSEBone() = default;
 
 public:
@@ -35,6 +36,7 @@ private:
 
 public:
 	static CSEBone* Create(SE_BONE& seBone);
+	CSEBone* Clone();
 	virtual void Free()override;
 };
 

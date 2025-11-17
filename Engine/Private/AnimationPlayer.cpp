@@ -10,22 +10,23 @@ CAnimationPlayer::CAnimationPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* p
 }
 
 CAnimationPlayer::CAnimationPlayer(const CAnimationPlayer& rhs)
-	:CComponent(rhs)
+	:CComponent(rhs),
+	m_strCurAnimTag(rhs.m_strCurAnimTag),
+	m_fCurTrackPosition(rhs.m_fCurTrackPosition),
+	m_fBlendDuration(rhs.m_fBlendDuration),
+	m_fBlendTime(rhs.m_fBlendTime)
 {
+	m_pCurAnimation = m_pGameInstance->AnimationManager_Get_Animation(m_strCurAnimTag);
 }
 
 HRESULT CAnimationPlayer::Initialize(
 	const _string& strInitAnimTag,
-	vector<CSEBone*>& pBones)
+	vector<CSEBone*>* pBones)
 {
 	m_pBones = pBones;
-	for (auto& pBone : m_pBones)
-		Safe_AddRef(pBone);
-
 	m_strCurAnimTag = strInitAnimTag;
 	m_pCurAnimation = 
 		m_pGameInstance->AnimationManager_Get_Animation(strInitAnimTag);
-	Safe_AddRef(m_pCurAnimation);
 
 	if (nullptr == m_pCurAnimation)
 		return E_FAIL;
@@ -35,11 +36,17 @@ HRESULT CAnimationPlayer::Initialize(
 
 HRESULT CAnimationPlayer::Initialize_Clone(void* pArg)
 {
+	ANIMATIONPLAYER_DESC* pDesc = static_cast<ANIMATIONPLAYER_DESC*>(pArg);
+	m_pBones = (pDesc->m_pBones);
+
 	return S_OK;
 }
 
 void CAnimationPlayer::Play_Animation(_float fDT)
 {
+	if (nullptr == m_pCurAnimation)
+		return;
+
 	if (m_isChangedAnimation)
 	{
 		Blend_Animation(fDT);
@@ -64,9 +71,12 @@ void CAnimationPlayer::Change_Animation(
 
 	m_fBlendDuration = fBlendDuration;
 	m_strCurAnimTag = strAnimaTag;
+	
 	m_pPreAnimation = m_pCurAnimation;
+	m_fPreTrackPosition = m_fCurTrackPosition;
+	m_fCurTrackPosition = 0.f;
+
 	m_pCurAnimation = m_pGameInstance->AnimationManager_Get_Animation(strAnimaTag);
-	Safe_AddRef(m_pCurAnimation);
 
 	m_isChangedAnimation = TRUE;
 	m_isLoop = isLoop;
@@ -74,10 +84,11 @@ void CAnimationPlayer::Change_Animation(
 
 void CAnimationPlayer::Update_TransformationMatrix(_float fDT)
 {
-	m_pCurAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation, m_isLoop);
+
+	m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, m_isChangedAnimation, m_isLoop);
 	if (nullptr != m_pPreAnimation)
 	{
-		m_pPreAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation, m_isLoop);
+		m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, m_isChangedAnimation, m_isLoop);
 	}
 
 	uint32_t NumChannel = m_pCurAnimation->Get_NumChannel();
@@ -95,15 +106,15 @@ void CAnimationPlayer::Update_TransformationMatrix(_float fDT)
 				XMVectorSetW(XMLoadFloat3(&ChannelPos[i].vCurTranslation), 1.f)));
 
 		//여기서 채널의 BoneInddex를 가져와야됨
-		m_pBones[ChannelPos[i].iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
+		(*m_pBones)[ChannelPos[i].iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
 	}
 }
 
 void CAnimationPlayer::Blend_Animation(_float fDT)
 {
 	_bool isFalse = FALSE;
-	m_pCurAnimation->Update_TransformationMatrix(fDT, isFalse, m_isLoop);
-	m_pPreAnimation->Update_TransformationMatrix(fDT, isFalse, m_isLoop);
+	m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, isFalse, m_isLoop);
+	m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, isFalse, m_isLoop);
 
 	uint32_t NumChannel = m_pCurAnimation->Get_NumChannel();
 	const vector<CHANNEL_POS>& CurChannelPos = m_pCurAnimation->Get_ChannelPos();
@@ -118,8 +129,8 @@ void CAnimationPlayer::Blend_Animation(_float fDT)
 	if (m_fBlendDuration < m_fBlendTime)
 	{
 		m_fBlendTime = 0.f;
-		m_pCurAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation, m_isLoop);
-		m_pPreAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation, m_isLoop);
+		m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, m_isChangedAnimation, m_isLoop);
+		m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, m_isChangedAnimation, m_isLoop);
 
 		m_isChangedAnimation = FALSE;
 		return;
@@ -161,9 +172,9 @@ void CAnimationPlayer::Blend_Animation(_float fDT)
 
 		// 3-4) 본 인덱스에 적용
 		uint32_t iBoneIndex = static_cast<uint32_t>(cur.iBoneIndex); // 또는 pre.iBoneIndex
-		if (iBoneIndex < m_pBones.size() && m_pBones[iBoneIndex])
+		if (iBoneIndex < (*m_pBones).size() && (*m_pBones)[iBoneIndex])
 		{
-			m_pBones[iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
+			(*m_pBones)[iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
 		}
 	}
 }
@@ -172,7 +183,7 @@ CAnimationPlayer* CAnimationPlayer::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext, 
 	const _string& strInitAnimationTag,
-	vector<CSEBone*>& pBones)
+	vector<CSEBone*>* pBones)
 {
 	CAnimationPlayer* pInstance = new CAnimationPlayer(pDevice, pContext);
 	if (FAILED(pInstance->Initialize(strInitAnimationTag, pBones)))
@@ -198,10 +209,7 @@ CObject* CAnimationPlayer::Clone(void* pArg)
 }
 
 void CAnimationPlayer::Free()
-{
-	for (auto& pBone : m_pBones)
-		Safe_Release(pBone);
-	m_pBones.clear();
+{	
 	Safe_Release(m_pCurAnimation);
 	Safe_Release(m_pPreAnimation);
 

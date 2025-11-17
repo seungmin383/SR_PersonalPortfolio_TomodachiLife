@@ -21,14 +21,14 @@ CSEModel::CSEModel(const CSEModel& rhs)
 	, m_seAnimMeshes{ rhs.m_seAnimMeshes }
 	, m_iNumMaterial{ rhs.m_iNumMaterial }
 	, m_seMaterials{ rhs.m_seMaterials }
-	, m_pBones{ rhs.m_pBones }         
+	// , m_pBones{ rhs.m_pBones }         
 	, m_pMeshes{ rhs.m_pMeshes }       
 	, m_pMaterials{ rhs.m_pMaterials }
-	, m_pAnimPlayer(rhs.m_pAnimPlayer)
+	// , m_pAnimPlayer(rhs.m_pAnimPlayer)
 	, m_InitMatrix{rhs.m_InitMatrix }
 {
-	for (auto& pBone : m_pBones)
-		Safe_AddRef(pBone);
+	for (auto& pBone : rhs.m_pBones)
+		m_pBones.push_back(pBone->Clone());
 
 	for (auto& pMesh : m_pMeshes)
 		Safe_AddRef(pMesh);
@@ -36,7 +36,9 @@ CSEModel::CSEModel(const CSEModel& rhs)
 	for (auto& pMat : m_pMaterials)
 		Safe_AddRef(pMat);
 
-	Safe_AddRef(m_pAnimPlayer);
+	CAnimationPlayer::ANIMATIONPLAYER_DESC AnimationPlayerDesc = {};
+	AnimationPlayerDesc.m_pBones = &m_pBones;
+	m_pAnimPlayer = static_cast<CAnimationPlayer*>(rhs.m_pAnimPlayer->Clone(&AnimationPlayerDesc));
 }
 
 HRESULT CSEModel::Initialize_SeModel(
@@ -72,7 +74,7 @@ HRESULT CSEModel::Initialize_SeModel(
 		return E_FAIL;
 
 	m_pAnimPlayer = CAnimationPlayer::Create(
-		m_pDevice, m_pContext, "CM_Walk01", m_pBones);
+		m_pDevice, m_pContext, "CM_JumpDelight", &m_pBones);
 
 	return S_OK;
 }

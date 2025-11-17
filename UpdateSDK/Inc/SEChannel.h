@@ -8,6 +8,7 @@ class CSEChannel final : public CBase
 {
 private:
 	CSEChannel();
+	CSEChannel(const CSEChannel& rhs);
 	virtual ~CSEChannel() = default;
 
 public:
@@ -26,6 +27,7 @@ private:
 
 public:
 	static CSEChannel* Create(SE_CHANNEL& seChannel);
+	CSEChannel* Clone();
 	virtual void Free()override;
 
 };

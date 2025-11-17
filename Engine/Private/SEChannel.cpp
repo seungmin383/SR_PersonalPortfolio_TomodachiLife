@@ -4,6 +4,13 @@ CSEChannel::CSEChannel()
 {
 }
 
+CSEChannel::CSEChannel(const CSEChannel& rhs)
+	:m_iBoneIndex(rhs.m_iBoneIndex),
+	m_Keyframes(rhs.m_Keyframes),
+	m_iCurKeyframeIndex(rhs.m_iCurKeyframeIndex)
+{
+}
+
 HRESULT CSEChannel::Initialize(SE_CHANNEL& seChannel)
 {
 	m_iBoneIndex = seChannel.iBoneIndex;
@@ -87,6 +94,11 @@ CSEChannel* CSEChannel::Create(SE_CHANNEL& seChannel)
 		return nullptr;
 	}
 	return pInstance;
+}
+
+CSEChannel* CSEChannel::Clone()
+{
+	return new CSEChannel(*this);
 }
 
 void CSEChannel::Free()

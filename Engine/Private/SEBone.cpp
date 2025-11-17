@@ -4,6 +4,15 @@ CSEBone::CSEBone()
 {
 }
 
+CSEBone::CSEBone(const CSEBone& rhs)
+	:m_strName(rhs.m_strName)
+	, m_iIndex(rhs.m_iIndex)
+	, m_iParentIndex(rhs.m_iParentIndex)
+	, m_TransformMatrix(rhs.m_TransformMatrix)
+	, m_OffsetMatrix(rhs.m_OffsetMatrix)
+{
+}
+
 HRESULT CSEBone::Initialize(SE_BONE& seBone)
 {
 	 m_strName = seBone.strName;
@@ -43,6 +52,11 @@ CSEBone* CSEBone::Create(SE_BONE& seBone)
 		return nullptr;
 	}
 	return pInstance;
+}
+
+CSEBone* CSEBone::Clone()
+{
+	return new CSEBone(*this);
 }
 
 void CSEBone::Free()

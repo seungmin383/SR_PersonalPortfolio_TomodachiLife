@@ -54,29 +54,33 @@ HRESULT CPlace_CityHall::Ready_Actor_Layer()
 	{
 		// ProtoTag_Actor_Mii
 		{
-			CTestMii::TEST_MII_DESC tMiiDesc = {};
-			tMiiDesc.fX = 0.f;
-			tMiiDesc.fY = 0.f;
-			tMiiDesc.fZ = 0.f;
-			tMiiDesc.fCX = 1.f;
-			tMiiDesc.fCY = 1.f;
-			tMiiDesc.fCZ = 1.f;
-			tMiiDesc.fSpeedPerSecond = 10.f;
-			tMiiDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-			tMiiDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
-
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(
-				static_cast<uint32_t>(PLACE_ID::CITYHALL),
-				TEXT("ProtoTag_Actor_Fiona"),
-				&tMiiDesc);
-
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-				static_cast<uint32_t>(PLACE_ID::CITYHALL),
-				TEXT("LayerTag_Actor"),
-				tmp)))
+			for (uint32_t i = 0; i < 20; ++i)
 			{
-				Safe_Release(tmp);
-				return E_FAIL;
+				CTestMii::TEST_MII_DESC tMiiDesc = {};
+				tMiiDesc.fX = m_pGameInstance->Random(0.f, 20.f);
+				tMiiDesc.fY = 0.f;
+				tMiiDesc.fZ = m_pGameInstance->Random(0.f, 20.f);
+				tMiiDesc.fCX = 1.f;
+				tMiiDesc.fCY = 1.f;
+				tMiiDesc.fCZ = 1.f;
+				tMiiDesc.fSpeedPerSecond = 10.f;
+				tMiiDesc.fRotationPerSecond = XMConvertToRadians(20.f);
+				tMiiDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(
+					static_cast<uint32_t>(PLACE_ID::CITYHALL),
+					TEXT("ProtoTag_Actor_Fiona"),
+					&tMiiDesc);
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+					static_cast<uint32_t>(PLACE_ID::CITYHALL),
+					TEXT("LayerTag_Actor"),
+					tmp)))
+				{
+					Safe_Release(tmp);
+					return E_FAIL;
+				}
+
 			}
 		}
 		

@@ -9,12 +9,13 @@ class CSEAnimation final : public CBase
 {
 private:
 	CSEAnimation();
+	CSEAnimation(const CSEAnimation& rhs);
 	virtual ~CSEAnimation() = default;
 
 public:
 	HRESULT Initialize(SE_ANIMATION& seAnim);
 	_bool Update_TransformationMatrix(
-		_float fDT, _bool isChangeAnim, _bool isLoop);
+		_float& fCurTrackPosition, _float fDT, _bool isChangeAnim, _bool isLoop);
 
 	const uint32_t Get_NumChannel() const{ return m_iNumChannel; }
 	const vector<CHANNEL_POS>& Get_ChannelPos()const  { return m_ChannelPos; }
@@ -28,10 +29,10 @@ private:
 	_string m_strName = {};
 	_float m_fTickPerSec = {};
 	_float m_fDuration = {};
-	_float m_fCurTrackPosition = {};
 
 public:
 	static CSEAnimation* Create(SE_ANIMATION& seAnim);
+	CSEAnimation* Clone();
 	virtual void Free()override;
 };
 

@@ -25,9 +25,6 @@
     <Filter Include="02.Actor\00.Island\01.Environment">
       <UniqueIdentifier>{2874adf0-a9bb-4242-9332-67d9062f1cb6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Actor\01.Mii">
-      <UniqueIdentifier>{4525ee75-8379-45e1-8b7c-b94af57b9c94}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Actor\99.Camera">
       <UniqueIdentifier>{d0b085be-bc55-4a25-975d-231934b13d24}</UniqueIdentifier>
     </Filter>
@@ -61,20 +58,11 @@
     <Filter Include="00.Place\01.Setting">
       <UniqueIdentifier>{f3582ffc-0e05-466e-9283-a6f2dd9a95ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.Place\02.MiiEditor">
-      <UniqueIdentifier>{943b54fd-af8b-47f8-b48b-24953d039080}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.Place\99.Loading">
       <UniqueIdentifier>{3e30b2ca-97a5-4615-9cfa-5f5625c75ee6}</UniqueIdentifier>
     </Filter>
     <Filter Include="00.Place\99.Loading\Loader">
       <UniqueIdentifier>{bb7c6c9d-00fe-4830-9855-7100d0982a82}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place\03.Place_Island">
-      <UniqueIdentifier>{78475139-eaf0-487f-8592-a49bcf4e0583}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place\04.Place_Apart">
-      <UniqueIdentifier>{f9c2eec9-1081-4242-b5f7-28b48c3cd65c}</UniqueIdentifier>
     </Filter>
     <Filter Include="00.Manager\MiiManager">
       <UniqueIdentifier>{9e28ff50-4901-491d-8668-2293e6804782}</UniqueIdentifier>
@@ -88,14 +76,38 @@
     <Filter Include="00.Place\05.Place_CityHall">
       <UniqueIdentifier>{bb5a38e8-ed61-414a-a52a-d0928db01468}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Actor\01.Mii\00.Player">
+    <Filter Include="02.Actor\01.PlayerTest">
+      <UniqueIdentifier>{4525ee75-8379-45e1-8b7c-b94af57b9c94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\01.PlayerTest\00.Player">
       <UniqueIdentifier>{6fe74e70-63b5-4685-99b1-c22ff0cf1080}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Actor\01.Mii\00.Player\Body">
+    <Filter Include="02.Actor\01.PlayerTest\00.Player\Body">
       <UniqueIdentifier>{ad7c952c-f0fa-485b-8d51-de9e5066a9c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Actor\01.Mii\00.Player\Weapon">
+    <Filter Include="02.Actor\01.PlayerTest\00.Player\Weapon">
       <UniqueIdentifier>{dcd9ff2b-fb95-4606-adb2-4625493fcb2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\03.Mii">
+      <UniqueIdentifier>{7711f28c-733d-4d39-92e0-f3da380c7774}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\03.Mii\Body">
+      <UniqueIdentifier>{968f68e6-0109-4e42-abe2-a182dc25726a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\03.Mii\Head">
+      <UniqueIdentifier>{36365f15-e6e8-45b0-8549-78251ade4987}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\03.Mii\Hair">
+      <UniqueIdentifier>{8b4a4735-d984-4cb3-bf5f-488d710a0336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\03.Mii\Nose">
+      <UniqueIdentifier>{777d45d6-2d28-463d-b78f-82fefee71df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\03.Mii\Items">
+      <UniqueIdentifier>{2dee03a3-ee22-4ce6-9234-d9da67fdcde7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\05.Place_MiiEditor">
+      <UniqueIdentifier>{67907d03-32f0-45c5-8982-f64b08a8f8e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -122,9 +134,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Main.h">
       <Filter>00.Place\00.Main</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_MiiEditor.h">
-      <Filter>00.Place\02.MiiEditor</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Setting.h">
       <Filter>00.Place\01.Setting</Filter>
     </ClInclude>
@@ -149,9 +158,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Terrain.h">
       <Filter>02.Actor\00.Island</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Island.h">
-      <Filter>00.Place\03.Place_Island</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h">
       <Filter>02.Actor\00.Island\00.Island</Filter>
     </ClInclude>
@@ -160,9 +166,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BackGround.h">
       <Filter>03.UI\02.BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Apart.h">
-      <Filter>00.Place\04.Place_Apart</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiManager.h">
       <Filter>00.Manager\MiiManager</Filter>
@@ -180,16 +183,25 @@
       <Filter>00.Place\05.Place_CityHall</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Body.h">
-      <Filter>02.Actor\01.Mii\00.Player\Body</Filter>
+      <Filter>02.Actor\01.PlayerTest\00.Player\Body</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Player.h">
-      <Filter>02.Actor\01.Mii\00.Player</Filter>
+      <Filter>02.Actor\01.PlayerTest\00.Player</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Weapon.h">
-      <Filter>02.Actor\01.Mii\00.Player\Weapon</Filter>
+      <Filter>02.Actor\01.PlayerTest\00.Player\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TestMii.h">
-      <Filter>02.Actor\01.Mii</Filter>
+      <Filter>02.Actor\01.PlayerTest</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiBody.h">
+      <Filter>02.Actor\03.Mii\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Mii.h">
+      <Filter>02.Actor\03.Mii</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiHead.h">
+      <Filter>02.Actor\03.Mii\Head</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,9 +216,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Main.cpp">
       <Filter>00.Place\00.Main</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_MiiEditor.cpp">
-      <Filter>00.Place\02.MiiEditor</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Setting.cpp">
       <Filter>00.Place\01.Setting</Filter>
@@ -223,9 +232,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Terrain.cpp">
       <Filter>02.Actor\00.Island</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Island.cpp">
-      <Filter>00.Place\03.Place_Island</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp">
       <Filter>02.Actor\00.Island\00.Island</Filter>
     </ClCompile>
@@ -234,9 +240,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BackGround.cpp">
       <Filter>03.UI\02.BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Apart.cpp">
-      <Filter>00.Place\04.Place_Apart</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiManager.cpp">
       <Filter>00.Manager\MiiManager</Filter>
@@ -251,16 +254,25 @@
       <Filter>00.Place\05.Place_CityHall</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Body.cpp">
-      <Filter>02.Actor\01.Mii\00.Player\Body</Filter>
+      <Filter>02.Actor\01.PlayerTest\00.Player\Body</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Player.cpp">
-      <Filter>02.Actor\01.Mii\00.Player</Filter>
+      <Filter>02.Actor\01.PlayerTest\00.Player</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Weapon.cpp">
-      <Filter>02.Actor\01.Mii\00.Player\Weapon</Filter>
+      <Filter>02.Actor\01.PlayerTest\00.Player\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TestMii.cpp">
-      <Filter>02.Actor\01.Mii</Filter>
+      <Filter>02.Actor\01.PlayerTest</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiBody.cpp">
+      <Filter>02.Actor\03.Mii\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Mii.cpp">
+      <Filter>02.Actor\03.Mii</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiHead.cpp">
+      <Filter>02.Actor\03.Mii\Head</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

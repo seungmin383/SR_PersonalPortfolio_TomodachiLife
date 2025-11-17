@@ -7,6 +7,13 @@ class CSEBone;
 
 class CAnimationPlayer final : public CComponent
 {
+public:
+	typedef struct tagAnimationPlayerDesc : public CComponent::COMPONENT_DESC
+	{
+		vector<CSEBone*>* m_pBones;
+
+	}ANIMATIONPLAYER_DESC;
+
 private:
 	CAnimationPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CAnimationPlayer(const CAnimationPlayer& rhs);
@@ -15,7 +22,7 @@ private:
 public: 
 	HRESULT Initialize(
 		const _string& strInitAnimTag,
-		vector<CSEBone*>& pBones);
+		vector<CSEBone*>* pBones);
 	HRESULT Initialize_Clone(void* pArg);
 
 public:
@@ -34,7 +41,10 @@ private:
 	CSEAnimation* m_pCurAnimation = { nullptr };
 	CSEAnimation* m_pPreAnimation = { nullptr };
 
-	vector<CSEBone*> m_pBones;
+	vector<CSEBone*>* m_pBones;
+	
+	_float m_fCurTrackPosition = {};
+	_float m_fPreTrackPosition = {};
 
 	/* 현재 애니메이션을 반복할건지 */
 	_bool m_isLoop = { TRUE };
@@ -53,7 +63,7 @@ public:
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext,
 		const _string& strInitAnimationTag,
-		vector<CSEBone*>& pBones);
+		vector<CSEBone*>* pBones);
 
 	virtual CObject* Clone(void* pArg)override;
 	virtual void Free()override;

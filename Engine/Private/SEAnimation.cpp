@@ -5,6 +5,23 @@ CSEAnimation::CSEAnimation()
 {
 }
 
+CSEAnimation::CSEAnimation(const CSEAnimation& rhs)
+	:m_strName(rhs.m_strName),
+	m_fTickPerSec(rhs.m_fTickPerSec),
+	m_fDuration(rhs.m_fDuration),
+	// m_Channels(rhs.m_Channels),
+	m_iNumChannel(rhs.m_iNumChannel),
+	m_ChannelPos(rhs.m_ChannelPos)
+{
+	m_iNumChannel = static_cast<uint32_t>(rhs.m_Channels.size());
+
+	m_Channels.reserve(m_iNumChannel);
+	for (auto* pChannel : rhs.m_Channels)
+	{
+		m_Channels.push_back(pChannel->Clone());
+	}
+}
+
 HRESULT CSEAnimation::Initialize(SE_ANIMATION& seAnim)
 {
 	 m_strName = seAnim.strName;
@@ -19,41 +36,41 @@ HRESULT CSEAnimation::Initialize(SE_ANIMATION& seAnim)
 			 return E_FAIL;
 		 m_Channels.push_back(pChannel);
 	 }
+
+	
 	 return S_OK;
 }
 
 _bool CSEAnimation::Update_TransformationMatrix(
+	_float& fCurTrackPosition,
 	_float fDT,
 	_bool isChangeAnim,
 	_bool isLoop)
 {
-	m_fCurTrackPosition += m_fTickPerSec * fDT;
+	fCurTrackPosition += m_fTickPerSec * fDT;
 
 	if (isChangeAnim)
 	{
-		m_fCurTrackPosition = 0.f;
+		fCurTrackPosition = 0.f;
 	}
 
-	if (m_fCurTrackPosition >= m_fDuration)
+	if (fCurTrackPosition >= m_fDuration)
 	{
 		if (false == isLoop)
 		{
 			return true;
 		}
 
-		m_fCurTrackPosition = 0.f;
-
-
+		fCurTrackPosition = 0.f;
 	}
 
 	m_iNumChannel = m_Channels.size();
 	m_ChannelPos.resize(m_iNumChannel);
-
 	for (uint32_t i = 0; i < m_iNumChannel; ++i)
 	{
 		CHANNEL_POS chPos = {};
 		m_Channels[i]->Update_TransformationMatrix(
-			m_fCurTrackPosition,
+			fCurTrackPosition,
 			m_ChannelPos[i]);
 	}
 	return false;
@@ -69,6 +86,10 @@ CSEAnimation* CSEAnimation::Create(SE_ANIMATION& seAnim)
 		return nullptr;
 	}
 	return pInstance;
+}
+CSEAnimation* CSEAnimation::Clone()
+{
+	return new CSEAnimation(*this);
 }
 
 void CSEAnimation::Free()

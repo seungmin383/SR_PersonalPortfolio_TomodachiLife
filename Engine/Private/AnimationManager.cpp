@@ -41,12 +41,14 @@ HRESULT CAnimationManager::Initialize()
 CSEAnimation* CAnimationManager::Get_Animation(const _string& strAnimationTag)
 {
     auto iter = m_Animations.find(strAnimationTag);
+
     if (m_Animations.end() == iter)
     {
         MSG_BOX("ErrCode : No Animation");
         return nullptr;
     }
-    return iter->second;
+
+    return iter->second->Clone();
 }
 
 CAnimationManager* CAnimationManager::Create()
