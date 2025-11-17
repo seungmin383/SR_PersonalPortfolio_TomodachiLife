@@ -16,18 +16,18 @@ NS_END
 
 NS_BEGIN(Game)
 
-class CMii final : public CActor 
+class CTestMii final : public CActor 
 {
 public:
-	typedef struct tagMiiDesc : public ACTOR_DESC
+	typedef struct tagTestMiiDesc : public ACTOR_DESC
 	{
 
-	}MII_DESC;
+	}TEST_MII_DESC;
 
 protected:
-	CMii(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CMii(const CMii& rhs);
-	virtual ~CMii() = default;
+	CTestMii(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CTestMii(const CTestMii& rhs);
+	virtual ~CTestMii() = default;
 
 public:
 	virtual HRESULT Initialize_Origin()override;
@@ -51,7 +51,7 @@ private:
 	MII_INFO m_eInfo = {};
 
 public:
-	static CMii* Create(
+	static CTestMii* Create(
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext);
 

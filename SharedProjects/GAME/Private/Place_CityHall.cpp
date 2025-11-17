@@ -4,7 +4,7 @@
 #include "WorldCamera.h"
 #include "UICamera.h"
 
-#include "Mii.h"
+#include "TestMii.h"
 #include "Terrain.h"
 #include "Player.h"
 
@@ -54,7 +54,7 @@ HRESULT CPlace_CityHall::Ready_Actor_Layer()
 	{
 		// ProtoTag_Actor_Mii
 		{
-			CMii::MII_DESC tMiiDesc = {};
+			CTestMii::TEST_MII_DESC tMiiDesc = {};
 			tMiiDesc.fX = 0.f;
 			tMiiDesc.fY = 0.f;
 			tMiiDesc.fZ = 0.f;

@@ -24,12 +24,26 @@ HRESULT CSEAnimation::Initialize(SE_ANIMATION& seAnim)
 
 _bool CSEAnimation::Update_TransformationMatrix(
 	_float fDT,
-	_bool isChangeAnim)
+	_bool isChangeAnim,
+	_bool isLoop)
 {
 	m_fCurTrackPosition += m_fTickPerSec * fDT;
+
 	if (isChangeAnim)
 	{
 		m_fCurTrackPosition = 0.f;
+	}
+
+	if (m_fCurTrackPosition >= m_fDuration)
+	{
+		if (false == isLoop)
+		{
+			return true;
+		}
+
+		m_fCurTrackPosition = 0.f;
+
+
 	}
 
 	m_iNumChannel = m_Channels.size();

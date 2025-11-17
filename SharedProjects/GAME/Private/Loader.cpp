@@ -3,7 +3,7 @@
 #include "Food.h"
 #include "Island.h"
 #include "SkyAndSea.h"
-#include "Mii.h"
+#include "TestMii.h"
 #include "WorldCamera.h"
 #include "UICamera.h"
 #include "PlaceMoveButton.h"
@@ -409,9 +409,9 @@ HRESULT CLoader::Loading_CityHall()
 				m_pContext,
 				"ProtoTag_Component_BasicManBody_Model",
 				ANIM_TYPE::ANIM,
-				"../../../../../../Resource/dev/05_Anim_fbx/CM_JumpDelight.fbx",
+				"../../../../../../Resource/dev/01_Model_fbx/BabyJumper/BabyJumper.fbx",
 				InitMatrix,
-				"AAAAA");
+				"AAAAABB");
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::CITYHALL),
@@ -429,7 +429,7 @@ HRESULT CLoader::Loading_CityHall()
 				m_pDevice,
 				m_pContext,
 				ANIM_TYPE::ANIM,
-				"AAAAA",
+				"AAAAABB",
 				InitMatrix);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
@@ -444,7 +444,7 @@ HRESULT CLoader::Loading_CityHall()
 	{
 		// ProtoTag_Actor_Fiona
 		{
-			tmp = CMii::Create(
+			tmp = CTestMii::Create(
 				m_pDevice,
 				m_pContext);
 
@@ -678,7 +678,7 @@ HRESULT CLoader::Loading_Apart()
 	{
 		// ProtoTag_Actor_Mii
 		{
-			tmp = CMii::Create(m_pDevice,m_pContext);
+			tmp = CTestMii::Create(m_pDevice,m_pContext);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::APART),
 				TEXT("ProtoTag_Actor_Mii"),

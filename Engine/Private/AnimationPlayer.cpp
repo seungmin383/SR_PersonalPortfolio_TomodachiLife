@@ -22,9 +22,9 @@ HRESULT CAnimationPlayer::Initialize(
 	for (auto& pBone : m_pBones)
 		Safe_AddRef(pBone);
 
+	m_strCurAnimTag = strInitAnimTag;
 	m_pCurAnimation = 
 		m_pGameInstance->AnimationManager_Get_Animation(strInitAnimTag);
-	
 	Safe_AddRef(m_pCurAnimation);
 
 	if (nullptr == m_pCurAnimation)
@@ -51,27 +51,33 @@ void CAnimationPlayer::Play_Animation(_float fDT)
 }
 
 void CAnimationPlayer::Change_Animation(
-	const _string& strInitAnimTag,
-	_float fBlendDuration)
+	const _string& strAnimaTag,
+	_float fBlendDuration,
+	_bool isLoop)
 {
+	if (m_strCurAnimTag == strAnimaTag)
+		return;
+	
 	if (m_pPreAnimation != nullptr)
 		Safe_Release(m_pPreAnimation);
 
-	m_fBlendDuration = fBlendDuration;
 
+	m_fBlendDuration = fBlendDuration;
+	m_strCurAnimTag = strAnimaTag;
 	m_pPreAnimation = m_pCurAnimation;
-	m_pCurAnimation = m_pGameInstance->AnimationManager_Get_Animation(strInitAnimTag);
+	m_pCurAnimation = m_pGameInstance->AnimationManager_Get_Animation(strAnimaTag);
 	Safe_AddRef(m_pCurAnimation);
 
 	m_isChangedAnimation = TRUE;
+	m_isLoop = isLoop;
 }
 
 void CAnimationPlayer::Update_TransformationMatrix(_float fDT)
 {
-	m_pCurAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation);
+	m_pCurAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation, m_isLoop);
 	if (nullptr != m_pPreAnimation)
 	{
-		m_pPreAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation);
+		m_pPreAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation, m_isLoop);
 	}
 
 	uint32_t NumChannel = m_pCurAnimation->Get_NumChannel();
@@ -96,17 +102,28 @@ void CAnimationPlayer::Update_TransformationMatrix(_float fDT)
 void CAnimationPlayer::Blend_Animation(_float fDT)
 {
 	_bool isFalse = FALSE;
-	m_pCurAnimation->Update_TransformationMatrix(fDT, isFalse);
-	m_pPreAnimation->Update_TransformationMatrix(fDT, isFalse);
+	m_pCurAnimation->Update_TransformationMatrix(fDT, isFalse, m_isLoop);
+	m_pPreAnimation->Update_TransformationMatrix(fDT, isFalse, m_isLoop);
 
 	uint32_t NumChannel = m_pCurAnimation->Get_NumChannel();
 	const vector<CHANNEL_POS>& CurChannelPos = m_pCurAnimation->Get_ChannelPos();
 	const vector<CHANNEL_POS>& PreChannelPos = m_pPreAnimation->Get_ChannelPos();
 	const vector<CSEChannel*> tmpChannel = m_pPreAnimation->Get_Channel();
 
+	m_fBlendTime += fDT;
 	_float fRatio = 0.f;
 	if (m_fBlendDuration > 0.f)
 		fRatio = m_fBlendTime / m_fBlendDuration;
+
+	if (m_fBlendDuration < m_fBlendTime)
+	{
+		m_fBlendTime = 0.f;
+		m_pCurAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation, m_isLoop);
+		m_pPreAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation, m_isLoop);
+
+		m_isChangedAnimation = FALSE;
+		return;
+	}
 
 	// 0 ~ 1로 클램프
 	if (fRatio < 0.f) fRatio = 0.f;
@@ -148,17 +165,6 @@ void CAnimationPlayer::Blend_Animation(_float fDT)
 		{
 			m_pBones[iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
 		}
-	}
-	m_fBlendTime += fDT;
-
-	if (m_fBlendDuration < m_fBlendTime)
-	{
-		m_fBlendTime = 0.f;
-		m_pCurAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation);
-		m_pPreAnimation->Update_TransformationMatrix(fDT, m_isChangedAnimation);
-
-		m_isChangedAnimation = FALSE;
-		return;
 	}
 }
 

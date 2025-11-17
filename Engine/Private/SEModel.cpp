@@ -72,7 +72,7 @@ HRESULT CSEModel::Initialize_SeModel(
 		return E_FAIL;
 
 	m_pAnimPlayer = CAnimationPlayer::Create(
-		m_pDevice, m_pContext, "CM_Choke", m_pBones);
+		m_pDevice, m_pContext, "CM_Walk01", m_pBones);
 
 	return S_OK;
 }
@@ -287,9 +287,9 @@ HRESULT CSEModel::Bind_Bones(
 	return m_pMeshes[iMeshIndex]->Bind_Bones(pShader, pConstantName, m_pBones);
 }
 
-void CSEModel::Change_Animation(const _string strAnimTag, _float fBlendDuration )
+void CSEModel::Change_Animation(const _string strAnimTag, _float fBlendDuration, _bool isLoop )
 {
-	m_pAnimPlayer->Change_Animation(strAnimTag, fBlendDuration);
+	m_pAnimPlayer->Change_Animation(strAnimTag, fBlendDuration, isLoop);
 }
 
 void CSEModel::Play_Animation(_float fDT)

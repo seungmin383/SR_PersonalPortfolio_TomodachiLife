@@ -4,7 +4,7 @@
 #include "WorldCamera.h"
 #include "UICamera.h"
 
-#include "Mii.h"
+#include "TestMii.h"
 #include "Player.h"
 
 CPlace_Apart::CPlace_Apart(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -50,7 +50,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 	// ProtoTag_Actor_Mii
 	{
-		/*CMii::MII_DESC tMiiDesc = {};
+		/*CTestMii::TEST_MII_DESC tMiiDesc = {};
 		tMiiDesc.fX = 0.f;
 		tMiiDesc.fY = 0.f;
 		tMiiDesc.fZ = 0.f;

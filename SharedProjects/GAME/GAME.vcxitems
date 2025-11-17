@@ -28,7 +28,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Loader.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Mii.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Apart.cpp" />
@@ -41,6 +40,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SkyAndSea.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Terrain.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\TestMii.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\UICamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Weapon.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\WorldCamera.cpp" />
@@ -55,7 +55,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Struct.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Loader.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Mii.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlaceMoveButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Apart.h" />
@@ -68,6 +67,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SkyAndSea.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Terrain.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\TestMii.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Weapon.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\WorldCamera.h" />

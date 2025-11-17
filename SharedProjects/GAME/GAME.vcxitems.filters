@@ -119,9 +119,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h">
       <Filter>03.UI\00.Food</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Mii.h">
-      <Filter>02.Actor\01.Mii</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Main.h">
       <Filter>00.Place\00.Main</Filter>
     </ClInclude>
@@ -191,6 +188,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Weapon.h">
       <Filter>02.Actor\01.Mii\00.Player\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\TestMii.h">
+      <Filter>02.Actor\01.Mii</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -198,9 +198,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Loader.cpp">
       <Filter>00.Place\99.Loading\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Mii.cpp">
-      <Filter>02.Actor\01.Mii</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Loading.cpp">
       <Filter>00.Place\99.Loading</Filter>
@@ -261,6 +258,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Weapon.cpp">
       <Filter>02.Actor\01.Mii\00.Player\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\TestMii.cpp">
+      <Filter>02.Actor\01.Mii</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

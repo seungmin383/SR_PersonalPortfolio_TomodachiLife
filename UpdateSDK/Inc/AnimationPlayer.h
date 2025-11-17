@@ -21,17 +21,23 @@ public:
 public:
 	void Play_Animation(_float fDT);
 	void Change_Animation(
-		const _string& strAnimaTag, _float fBlendDuration);
+		const _string& strAnimaTag, 
+		_float fBlendDuration,
+		_bool isLoop);
 
 private:
 	void Update_TransformationMatrix(_float fDT);
 	void Blend_Animation(_float fDT);
 
 private:
+	_string m_strCurAnimTag = {};
 	CSEAnimation* m_pCurAnimation = { nullptr };
 	CSEAnimation* m_pPreAnimation = { nullptr };
 
 	vector<CSEBone*> m_pBones;
+
+	/* 현재 애니메이션을 반복할건지 */
+	_bool m_isLoop = { TRUE };
 
 	/* 애니메이션이 바뀌었는지? */
 	_bool m_isChangedAnimation = { FALSE };

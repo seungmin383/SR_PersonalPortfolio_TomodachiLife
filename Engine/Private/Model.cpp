@@ -86,6 +86,10 @@ HRESULT CModel::Initialize_Origin(
 
 	if (eAnimType == ANIM_TYPE::ANIM)
 	{
+		uint32_t NumAnim = m_SEAnimationToWrite.size();
+		if (NumAnim == 0)
+			return S_OK;
+
 		_char file[MAX_PATH] = {};
 
 		strcpy_s(file, MAX_PATH, "../Asset/Animations/");

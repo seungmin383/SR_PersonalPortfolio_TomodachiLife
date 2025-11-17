@@ -1,22 +1,22 @@
-#include "Mii.h"
+#include "TestMii.h"
 #include "GameInstance.h"
 
-CMii::CMii(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CTestMii::CTestMii(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CActor(pDevice, pContext)
 {
 }
 
-CMii::CMii(const CMii& rhs)
+CTestMii::CTestMii(const CTestMii& rhs)
 	:CActor(rhs)
 {
 }
 
-HRESULT CMii::Initialize_Origin()
+HRESULT CTestMii::Initialize_Origin()
 {
 	return S_OK;
 }
 
-HRESULT CMii::Initialize_Clone(void* pArg)
+HRESULT CTestMii::Initialize_Clone(void* pArg)
 {
 	m_eInfo.arrEyebrowState[0] = 1;
 	m_eInfo.fFat = 1.f;
@@ -38,7 +38,7 @@ HRESULT CMii::Initialize_Clone(void* pArg)
 	return S_OK;
 }
 
-int32_t CMii::Update_Priority(_float fDT)
+int32_t CTestMii::Update_Priority(_float fDT)
 {
 	if (m_pGameInstance->Get_DIKeyState(DIK_H) & 0x8000)
 	{
@@ -71,19 +71,25 @@ int32_t CMii::Update_Priority(_float fDT)
 	/* Change Animation 을 하고 PlayAnimation 권장 */
 	if (m_pGameInstance->Get_DIKeyState(DIK_1))
 	{
-		m_pSeModel->Change_Animation("CM_Call", 0.1f);
+		m_pSeModel->Change_Animation("CM_Call", 0.2f, TRUE);
 	}
 	if (m_pGameInstance->Get_DIKeyState(DIK_2))
 	{
-		m_pSeModel->Change_Animation("CM_JumpDelight", 0.1f);
+		m_pSeModel->Change_Animation("CM_JumpDelight", 0.2f, TRUE);
 	}
-
-
+	if (m_pGameInstance->Get_DIKeyState(DIK_3))
+	{
+		m_pSeModel->Change_Animation("CM_Walk01", 0.2f, TRUE);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_4))
+	{
+		m_pSeModel->Change_Animation("CM_Wait03", 0.2f, TRUE);
+	}
 
 	return 0;
 }
 
-int32_t CMii::Update(_float fDT)
+int32_t CTestMii::Update(_float fDT)
 {
 #ifdef ANIM_TEST
 	 m_pSeModel->Play_Animation(fDT);
@@ -95,12 +101,12 @@ int32_t CMii::Update(_float fDT)
 	return 0;
 }
 
-void CMii::Update_Late(_float fDT)
+void CTestMii::Update_Late(_float fDT)
 {
 	CActor::Update_Late(fDT);
 }
 
-HRESULT CMii::Render()
+HRESULT CTestMii::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
@@ -159,7 +165,7 @@ HRESULT CMii::Render()
 	return S_OK;
 }
 
-HRESULT CMii::Ready_Component()
+HRESULT CTestMii::Ready_Component()
 {
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACE_ID::STATIC),
@@ -194,7 +200,7 @@ HRESULT CMii::Ready_Component()
 	return S_OK;
 }
 
-HRESULT CMii::Bind_ShaderResources()
+HRESULT CTestMii::Bind_ShaderResources()
 {
 	HRESULT hr = {};
 
@@ -222,11 +228,11 @@ HRESULT CMii::Bind_ShaderResources()
 	return hr;
 }
 
-CMii* CMii::Create(
+CTestMii* CTestMii::Create(
 	ID3D11Device* pDevice,
 	ID3D11DeviceContext* pContext)
 {
-	CMii* tmp = new CMii(pDevice, pContext);
+	CTestMii* tmp = new CTestMii(pDevice, pContext);
 
 	if (FAILED(tmp->Initialize_Origin()))
 	{
@@ -238,9 +244,9 @@ CMii* CMii::Create(
 	return tmp;
 }
 
-CObject* CMii::Clone(void* pArg)
+CObject* CTestMii::Clone(void* pArg)
 {
-	CMii* tmp = new CMii(*this);
+	CTestMii* tmp = new CTestMii(*this);
 
 	if (FAILED(tmp->Initialize_Clone(pArg)))
 	{
@@ -252,7 +258,7 @@ CObject* CMii::Clone(void* pArg)
 	return tmp;
 }
 
-void CMii::Free()
+void CTestMii::Free()
 {
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
