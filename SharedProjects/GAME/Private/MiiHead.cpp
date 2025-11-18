@@ -65,12 +65,7 @@ HRESULT CMiiHead::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-	D3D11_RASTERIZER_DESC desc = {};
-	desc.FillMode = D3D11_FILL_SOLID;
-	desc.CullMode = D3D11_CULL_NONE;
-	desc.DepthClipEnable = TRUE;
-	m_pDevice->CreateRasterizerState(&desc, &m_pNoCullRS);
-	m_pContext->RSSetState(m_pNoCullRS);
+
 	uint32_t NumMesh = m_pSeModel->Get_NumMesh();
 	for (uint32_t i = 0; i < NumMesh; ++i)
 	{
@@ -92,7 +87,7 @@ HRESULT CMiiHead::Ready_Component()
 		return E_FAIL;
 
 	/* Model */
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_seHead1"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_seHead2"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 
 	return S_OK;

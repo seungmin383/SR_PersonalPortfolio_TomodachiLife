@@ -31,7 +31,7 @@ public:
 	virtual int32_t Update_Priority(_float fDT)override;
 	virtual int32_t Update(_float fDT)override;
 	virtual void Update_Late(_float fDT)override;
-	ID3D11RasterizerState* m_pNoCullRS;
+
 
 	virtual HRESULT Render()override;
 
