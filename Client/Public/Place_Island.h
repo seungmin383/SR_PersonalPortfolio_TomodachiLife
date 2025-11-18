@@ -1,9 +1,14 @@
 #pragma once
 #include "Game_Defines.h"
+#include "Client_Defines.h"
+
 #include "Place.h"
 
 NS_BEGIN(Game)
 class CPlaceMoveButton;
+NS_END
+
+NS_BEGIN(Client)
 
 class CPlace_Island final : public CPlace
 {

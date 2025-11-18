@@ -63,8 +63,10 @@ public:
 
 public:
 	const uint32_t Get_NumMesh()const { return m_iNumMesh; }
+	const XMFLOAT4X4* Get_BoneCombinedTransformMatrixPtr(const _char* pBoneName)const;
 
 private:
+	_string					m_strSaveFilePath = {};
 	_string m_strSaveDataName = {};
 	ANIM_TYPE m_eAnimType = { ANIM_TYPE::END };
 

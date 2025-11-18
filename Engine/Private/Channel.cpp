@@ -12,22 +12,13 @@ HRESULT CChannel::Initialize(
 	CModel* pModel)
 {
 	m_iBoneIndex = pModel->Get_BoneIndex(pAIChannel->mNodeName.data);
-	seChannel.iBoneIndex = pModel->Get_BoneIndex(pAIChannel->mNodeName.data);
+	seChannel.iBoneIndex = m_iBoneIndex;
 
 	if (-1 == m_iBoneIndex)
 		return E_FAIL;
 
-	pAIChannel->mNumPositionKeys;
-	pAIChannel->mNumRotationKeys;
-	pAIChannel->mNumScalingKeys;
-
-	/* Assimp에서는 변하지 않는 구간을 비워두지 않기 때문에 가능*/
-	m_iNumKeyFrames = max(
-		pAIChannel->mNumScalingKeys,
-		pAIChannel->mNumRotationKeys);
-	m_iNumKeyFrames = max(
-		m_iNumKeyFrames,
-		pAIChannel->mNumPositionKeys);
+	m_iNumKeyFrames = max(pAIChannel->mNumScalingKeys, pAIChannel->mNumRotationKeys);
+	m_iNumKeyFrames = max(m_iNumKeyFrames, pAIChannel->mNumPositionKeys);
 
 	_float3 vScale = {};
 	_float4 vRotation = {};
@@ -39,12 +30,8 @@ HRESULT CChannel::Initialize(
 
 		if (pAIChannel->mNumScalingKeys > i)
 		{
-			memcpy(&vScale, 
-				&pAIChannel->mScalingKeys[i].mValue, 
-				sizeof(_float3));
-
-			KeyFrame.fTrackPosition =
-				pAIChannel->mScalingKeys[i].mTime;
+			memcpy(&vScale, &pAIChannel->mScalingKeys[i].mValue, sizeof(_float3));
+			KeyFrame.fTrackPosition = static_cast<_float>(pAIChannel->mScalingKeys[i].mTime);
 		}
 
 		if (pAIChannel->mNumRotationKeys > i)
@@ -54,18 +41,13 @@ HRESULT CChannel::Initialize(
 			vRotation.z = pAIChannel->mRotationKeys[i].mValue.z;
 			vRotation.w = pAIChannel->mRotationKeys[i].mValue.w;
 
-			KeyFrame.fTrackPosition =
-				pAIChannel->mRotationKeys[i].mTime;
+			KeyFrame.fTrackPosition = static_cast<_float>(pAIChannel->mRotationKeys[i].mTime);
 		}
 
 		if (pAIChannel->mNumPositionKeys > i)
 		{
-			memcpy(&vTranslation, 
-				&pAIChannel->mPositionKeys[i].mValue, 
-				sizeof(_float3));
-
-			KeyFrame.fTrackPosition = 
-				pAIChannel->mPositionKeys[i].mTime;
+			memcpy(&vTranslation, &pAIChannel->mPositionKeys[i].mValue, sizeof(_float3));
+			KeyFrame.fTrackPosition = static_cast<_float>(pAIChannel->mPositionKeys[i].mTime);
 		}
 
 		KeyFrame.vScale = vScale;

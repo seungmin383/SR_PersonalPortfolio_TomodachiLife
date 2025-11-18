@@ -28,6 +28,9 @@ public:
 		uint32_t iTextureIndex);
 
 private:
+	HRESULT Bind_tmpSRV(CShaderCom* pShader);
+
+private:
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
 

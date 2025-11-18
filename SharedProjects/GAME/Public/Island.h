@@ -2,7 +2,7 @@
 #include "Game_Defines.h"
 #include "Actor.h"
 
-#define TEST 1
+// #define TEST 1
 
 NS_BEGIN(Engine)
 

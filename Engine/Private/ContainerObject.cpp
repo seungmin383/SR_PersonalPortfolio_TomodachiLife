@@ -44,6 +44,7 @@ int32_t CContainerObject::Update(_float fDT)
 void CContainerObject::Update_Late(_float fDT)
 {
 	CActor::Update_Late(fDT);
+
 	for (auto& pair : m_PartObjects)
 		pair.second->Update_Late(fDT);
 }

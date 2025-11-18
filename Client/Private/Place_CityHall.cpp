@@ -7,6 +7,7 @@
 #include "TestMii.h"
 #include "Terrain.h"
 #include "Player.h"
+#include "Mii.h"
 
 
 CPlace_CityHall::CPlace_CityHall(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -101,6 +102,34 @@ HRESULT CPlace_CityHall::Ready_Actor_Layer()
 				static_cast<uint32_t>(PLACE_ID::CITYHALL),
 				TEXT("ProtoTag_Actor_Terrain"),
 				&tTerrainDesc);
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+				static_cast<uint32_t>(PLACE_ID::CITYHALL),
+				TEXT("LayerTag_Actor"),
+				tmp)))
+			{
+				Safe_Release(tmp);
+				return E_FAIL;
+			}
+		}
+
+		// ProtoTag_Actor_Mii
+		{
+			CMii::MII_DESC MiiDesc = {};
+			MiiDesc.fX = 0.f;
+			MiiDesc.fY = 0.f;
+			MiiDesc.fZ = 0.f;
+			MiiDesc.fCX = 1.f;
+			MiiDesc.fCY = 1.f;
+			MiiDesc.fCZ = 1.f;
+			MiiDesc.fSpeedPerSecond = 30.f;
+			MiiDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+			MiiDesc.fRotationPerSecond = XMConvertToRadians(90.f);
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(
+				static_cast<uint32_t>(PLACE_ID::STATIC),
+				TEXT("ProtoTag_Actor_Mii"),
+				&MiiDesc);
 
 			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
 				static_cast<uint32_t>(PLACE_ID::CITYHALL),

@@ -41,6 +41,13 @@ void CSEBone::Update_CombinedTransformMatrix(
 	}
 }
 
+_bool CSEBone::Compare_Name(const _char* pBoneName)
+{
+	if (m_strName == pBoneName)
+		return TRUE;
+	return FALSE;
+}
+
 
 CSEBone* CSEBone::Create(SE_BONE& seBone)
 {

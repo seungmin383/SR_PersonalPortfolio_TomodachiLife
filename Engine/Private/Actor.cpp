@@ -38,12 +38,7 @@ HRESULT CActor::Initialize_Clone(void* pArg)
 	m_eRenderGroup = pActorDesc->eRenderGroup;
 
 	m_pTransformCom->Set_Scale(m_fCX, m_fCY, m_fCZ);
-	m_pTransformCom->Set_State(TRANSFORM_STATE::POS,
-		XMVectorSet(
-			m_fX,
-			m_fY,
-			m_fZ,
-			1.f));
+	m_pTransformCom->Set_State(TRANSFORM_STATE::POS, XMVectorSet(m_fX, m_fY, m_fZ, 1.f));
 
 	m_Components.emplace(TEXT("Com_Transform"), m_pTransformCom);
 	Safe_AddRef(m_pTransformCom);

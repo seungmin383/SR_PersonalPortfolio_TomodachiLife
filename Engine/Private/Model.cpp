@@ -6,6 +6,10 @@
 #include "Animation.h"
 #include "SEAnimation.h"
 
+#define ANIM_MODEL_PATH "../../SharedProjects/GAME/Asset/Anim_Models/"
+#define NONE_ANIM_MODEL_PATH "../../SharedProjects/GAME/Asset/None_Anim_Models/"
+#define ANIMATION_FILE_PATH "../../SharedProjects/GAME/Asset/Animations/"
+
 CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CComponent(pDevice, pContext)
 {
@@ -13,20 +17,20 @@ CModel::CModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 CModel::CModel(const CModel& rhs)
 	:CComponent(rhs),
-	m_iNumMesh(rhs.m_iNumMesh),
-	m_Meshes(rhs.m_Meshes),
-	m_InitMatrix(rhs.m_InitMatrix),
-	m_iNumMaterial(rhs.m_iNumMaterial),
-	m_Materials(rhs.m_Materials),
-	m_eAnimType(rhs.m_eAnimType),
 	m_Bones(rhs.m_Bones),
-	m_Animations(rhs.m_Animations)
+	m_Meshes(rhs.m_Meshes),
+	m_iNumMesh(rhs.m_iNumMesh),
+	m_eAnimType(rhs.m_eAnimType),
+	m_Materials(rhs.m_Materials),
+	m_Animations(rhs.m_Animations),
+	m_InitMatrix(rhs.m_InitMatrix),
+	m_iNumMaterial(rhs.m_iNumMaterial)
 {
-	for (auto& mesh : m_Meshes)
-		Safe_AddRef(mesh);
+	for (auto& pMesh : m_Meshes)
+		Safe_AddRef(pMesh);
 
-	for (auto& material : m_Materials)
-		Safe_AddRef(material);
+	for (auto& pMaterial : m_Materials)
+		Safe_AddRef(pMaterial);
 
 	for (auto& pBone : m_Bones)
 		Safe_AddRef(pBone);
@@ -42,30 +46,31 @@ HRESULT CModel::Initialize_Origin(
 	FXMMATRIX InitTransformMatrix,
 	const _char* pSaveDataName)
 {
-	uint32_t iFlag ={
-		aiProcess_ConvertToLeftHanded | 
-		aiProcessPreset_TargetRealtime_Fast };
-
+	uint32_t iFlag ={ aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_Fast };
 	m_eAnimType = eAnimType;
 
 	if (ANIM_TYPE::NONEANIM == m_eAnimType)
+	{
 		iFlag |= aiProcess_PreTransformVertices;
+		m_strSaveFilePath = NONE_ANIM_MODEL_PATH;
+	}
+	else
+	{
+		m_strSaveFilePath = ANIM_MODEL_PATH;
+	}
 
 	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
 
 	if (nullptr == m_pAIScene)
 	{
-		MSG_BOX("ErrCode : 긴장해라.");
+		MSG_BOX("ErrCode : AIScene Create Failed");
 		return E_FAIL;
 	}
 
+	BuildOffsetMap();
 	XMStoreFloat4x4(&m_InitMatrix, InitTransformMatrix);
 
-	BuildOffsetMap();
-
-	if (FAILED(Ready_Bones(
-		m_pAIScene->mRootNode,
-		-1)))
+	if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Meshes()))
@@ -77,22 +82,19 @@ HRESULT CModel::Initialize_Origin(
 	if (FAILED(Ready_Animations()))
 		return E_FAIL;
 
-	uint32_t i = m_pAIScene->mNumAnimations;
-
 	Save_Bone(pSaveDataName);
 	Save_Mesh(pSaveDataName);
 	Save_Material(pSaveDataName);
 	
-
 	if (eAnimType == ANIM_TYPE::ANIM)
 	{
-		uint32_t NumAnim = m_SEAnimationToWrite.size();
-		if (NumAnim == 0)
+		uint32_t NumAnimation = static_cast<uint32_t>(m_SEAnimationToWrite.size());
+		if (NumAnimation == 0)
 			return S_OK;
 
 		_char file[MAX_PATH] = {};
 
-		strcpy_s(file, MAX_PATH, "../Asset/Animations/");
+		strcpy_s(file, MAX_PATH, ANIMATION_FILE_PATH);
 		strcat_s(file, MAX_PATH, m_SEAnimationToWrite[0].strName.c_str());
 		strcat_s(file, MAX_PATH, "_Anim.bin");
 
@@ -148,7 +150,26 @@ HRESULT CModel::Bind_Bones(
 	return m_Meshes[iMeshIndex]->Bind_Bones(pShader, pConstantName, m_Bones);
 }
 
-int32_t CModel::Get_BoneIndex(const _char* pBoneName) const
+void CModel::Play_Animation(_float fDT)
+{
+	m_Animations[m_iCurAnimationIndex]->Update_TransformationMatrices(
+		m_Bones, fDT, m_isAnimLoop);
+
+	for (auto& pBone : m_Bones)
+	{
+		pBone->Update_CombinedTransformationMatrix(
+			m_Bones,
+			XMLoadFloat4x4(&m_InitMatrix));
+	}
+}
+
+void CModel::Set_Animation(uint32_t iAnimIndex, _bool isLoop)
+{
+	m_iCurAnimationIndex = iAnimIndex;
+	m_isAnimLoop = isLoop;
+}
+
+const int32_t CModel::Get_BoneIndex(const _char* pBoneName) const
 {
 	int32_t iIndex = { 0 };
 
@@ -168,24 +189,7 @@ int32_t CModel::Get_BoneIndex(const _char* pBoneName) const
 	return iIndex;
 }
 
-void CModel::Play_Animation(_float fDT)
-{
-	m_Animations[m_iCurAnimationIndex]->Update_TransformationMatrices(
-		m_Bones, fDT, m_isAnimLoop);
 
-	for (auto& pBone : m_Bones)
-	{
-		pBone->Update_CombinedTransformationMatrix(
-			m_Bones,
-			XMLoadFloat4x4(&m_InitMatrix));
-	}
-}
-
-void CModel::Set_Animation(uint32_t iAnimIndex, _bool isLoop)
-{
-	m_iCurAnimationIndex = iAnimIndex;
-	m_isAnimLoop = isLoop;
-}
 
 const XMFLOAT4X4& CModel::Get_OffsetMatrixByName(const _string& name) const
 {
@@ -241,161 +245,39 @@ void CModel::BuildOffsetMap()
     }
 }
 
-HRESULT CModel::Save_Bone(const _char* pModelName)
-{
-	_char file[MAX_PATH] = {};
-
-	strcpy_s(file, MAX_PATH, "../Asset/");
-	strcat_s(file, MAX_PATH, pModelName);
-	strcat_s(file, MAX_PATH, "_Bone_Data.bin");
-
-	ofstream out(file, std::ios::binary | std::ios::trunc);
-
-	uint32_t count = static_cast<uint32_t>(m_SEBonesToWrite.size());
-	out.write(reinterpret_cast<const char*>(&count), sizeof(uint32_t));
-
-	for (uint32_t i = 0; i < count; ++i)
-	{
-		m_SEBonesToWrite[i].WriteBoneFile(out);
-	}
-	
-	return S_OK;
-}
-
-HRESULT CModel::Save_Mesh(const _char* pModelName)
-{
-	if (m_eAnimType == ANIM_TYPE::NONEANIM)
-	{
-		_char file[MAX_PATH] = {};
-
-		strcpy_s(file, MAX_PATH, "../Asset/");
-		strcat_s(file, MAX_PATH, pModelName);
-		strcat_s(file, MAX_PATH, "_Mesh_Data.bin");
-
-		ofstream out(file, std::ios::binary | std::ios::trunc);
-
-		uint32_t count = static_cast<uint32_t>(m_SEMeshesToWrite.size());
-		out.write(reinterpret_cast<const char*>(&count), sizeof(uint32_t));
-
-		for (uint32_t i = 0; i < count; ++i)
-		{
-			m_SEMeshesToWrite[i].WriteMeshFile(out);
-		}
-
-	}
-	else if (m_eAnimType == ANIM_TYPE::ANIM)
-	{
-		_char file[MAX_PATH] = {};
-
-		strcpy_s(file, MAX_PATH, "../Asset/");
-		strcat_s(file, MAX_PATH, pModelName);
-		strcat_s(file, MAX_PATH, "_AnimMesh_Data.bin");
-
-		ofstream out(file, std::ios::binary | std::ios::trunc);
-
-		uint32_t count = static_cast<uint32_t>(m_SEAnimMeshesToWrite.size());
-		out.write(reinterpret_cast<const char*>(&count), sizeof(uint32_t));
-
-		for (uint32_t i = 0; i < count; ++i)
-		{
-			m_SEAnimMeshesToWrite[i].WriteAnimMeshFile(out);
-		}
-	}
-	return S_OK;
-}
-
-HRESULT CModel::Save_Material(const _char* pModelName)
-{
-	_char file[MAX_PATH] = {};
-
-	strcpy_s(file, MAX_PATH, "../Asset/");
-	strcat_s(file, MAX_PATH, pModelName);
-	strcat_s(file, MAX_PATH, "_Mat_Data.bin");
-
-	ofstream out(file, std::ios::binary | std::ios::trunc);
-
-	uint32_t count = static_cast<uint32_t>(m_SEMaterialsToWrite.size());
-	out.write(reinterpret_cast<const char*>(&count), sizeof(uint32_t));
-
-	for (uint32_t i = 0; i < count; ++i)
-	{
-		m_SEMaterialsToWrite[i].WriteMaterialFile(out);
-	}
-
-	return S_OK;
-}
-
-HRESULT CModel::Save_Animation(const _char* pAnimationName)
-{
-	_char file[MAX_PATH] = {};
-
-	strcpy_s(file, MAX_PATH, "../Asset/Animations/");
-	strcat_s(file, MAX_PATH, pAnimationName);
-	strcat_s(file, MAX_PATH, "_Anim_Data.bin");
-
-	ofstream out(file, std::ios::binary | std::ios::trunc);
-
-	uint32_t count = static_cast<uint32_t>(m_SEAnimationToWrite.size());
-	out.write(reinterpret_cast<const char*>(&count), sizeof(uint32_t));
-
-	for (uint32_t i = 0; i < count; ++i)
-	{
-		m_SEAnimationToWrite[i].WriteAnimationFile(out);
-	}
-
-	return S_OK;
-}
-
 HRESULT CModel::Ready_Meshes()
 {
 	m_iNumMesh = m_pAIScene->mNumMeshes;
-
 	for (uint32_t i = 0; i < m_iNumMesh; i++)
 	{
 		SE_MESH seMesh = {};
 		SE_ANIM_MESH seAnimMesh = {};
-		m_pAIScene->mMeshes[i]->mName;
 
-			CMesh* pMesh = 
-				CMesh::Create(
-					m_pDevice,
-					m_pContext,
-					seMesh,
-					seAnimMesh,
-					m_eAnimType,
-					this,
-					m_pAIScene->mMeshes[i],
-					XMLoadFloat4x4(&m_InitMatrix));
-	
+		CMesh* pMesh = CMesh::Create(
+			m_pDevice, m_pContext, seMesh, seAnimMesh, m_eAnimType,
+			this, m_pAIScene->mMeshes[i], XMLoadFloat4x4(&m_InitMatrix));
+
+		if (nullptr == pMesh)
+			return E_FAIL;
 
 		if (m_eAnimType == ANIM_TYPE::ANIM)
 		{
-			if (nullptr == pMesh)
-				return E_FAIL;
-
 			m_Meshes.push_back(pMesh);
 			m_SEAnimMeshesToWrite.push_back(seAnimMesh);
 
 		}
 		else if (m_eAnimType == ANIM_TYPE::NONEANIM)
 		{
-			if (nullptr == pMesh)
-				return E_FAIL;
-
 			m_Meshes.push_back(pMesh);
 			m_SEMeshesToWrite.push_back(seMesh);
-
 		}
 	}
-
 	return S_OK;
 }
-
 
 HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 {
 	m_iNumMaterial = m_pAIScene->mNumMaterials;
-
 	for (uint32_t i = 0; i < m_iNumMaterial; i++)
 	{
 		SE_MATERIAL seMat = {};
@@ -418,14 +300,14 @@ HRESULT CModel::Ready_Material(const _char* pModelFIlePath)
 }
 
 HRESULT CModel::Ready_Bones(
-	const aiNode* pAINode, 
+	const aiNode* pAINode,
 	int32_t iParentBoneIndex)
 {
 	SE_BONE seBone = {};
 
 	CBone* pInstance = CBone::Create(
 		seBone,
-		pAINode, 
+		pAINode,
 		iParentBoneIndex);
 
 	if (nullptr == pInstance)
@@ -442,7 +324,7 @@ HRESULT CModel::Ready_Bones(
 	for (uint32_t i = 0; i < pAINode->mNumChildren; i++)
 	{
 		Ready_Bones(
-			pAINode->mChildren[i], 
+			pAINode->mChildren[i],
 			iParentIndex);
 	}
 
@@ -453,7 +335,6 @@ HRESULT CModel::Ready_Animations()
 {
 	m_iNumAnimation = m_pAIScene->mNumAnimations;
 
-	/* 공격 애니메이션을 만들고 보관, 걷기 애니메이션을 만들고 보관 */
 	for (uint32_t i = 0; i < m_iNumAnimation; i++)
 	{
 		SE_ANIMATION seAnim = {};
@@ -468,6 +349,108 @@ HRESULT CModel::Ready_Animations()
 
 		m_Animations.push_back(pInstance);
 		m_SEAnimationToWrite.push_back(seAnim);
+	}
+	return S_OK;
+}
+
+HRESULT CModel::Save_Bone(const _char* pModelName)
+{
+	_char file[MAX_PATH] = {};
+
+	strcpy_s(file, MAX_PATH, m_strSaveFilePath.c_str());
+	strcat_s(file, MAX_PATH, pModelName);
+	strcat_s(file, MAX_PATH, "_Bone.bin");
+
+	ofstream out(file, std::ios::binary | std::ios::trunc);
+
+	uint32_t NumBone = static_cast<uint32_t>(m_SEBonesToWrite.size());
+	out.write(reinterpret_cast<const char*>(&NumBone), sizeof(uint32_t));
+
+	for (uint32_t i = 0; i < NumBone; ++i)
+	{
+		m_SEBonesToWrite[i].WriteBoneFile(out);
+	}
+	return S_OK;
+}
+
+HRESULT CModel::Save_Mesh(const _char* pModelName)
+{
+	if (m_eAnimType == ANIM_TYPE::NONEANIM)
+	{
+		_char file[MAX_PATH] = {};
+
+		strcpy_s(file, MAX_PATH, m_strSaveFilePath.c_str());
+		strcat_s(file, MAX_PATH, pModelName);
+		strcat_s(file, MAX_PATH, "_Mesh.bin");
+
+		ofstream out(file, std::ios::binary | std::ios::trunc);
+
+		uint32_t NumMesh = static_cast<uint32_t>(m_SEMeshesToWrite.size());
+		out.write(reinterpret_cast<const char*>(&NumMesh), sizeof(uint32_t));
+
+		for (uint32_t i = 0; i < NumMesh; ++i)
+		{
+			m_SEMeshesToWrite[i].WriteMeshFile(out);
+		}
+
+	}
+	else if (m_eAnimType == ANIM_TYPE::ANIM)
+	{
+		_char file[MAX_PATH] = {};
+
+		strcpy_s(file, MAX_PATH, m_strSaveFilePath.c_str());
+		strcat_s(file, MAX_PATH, pModelName);
+		strcat_s(file, MAX_PATH, "_AnimMesh.bin");
+
+		ofstream out(file, std::ios::binary | std::ios::trunc);
+
+		uint32_t NumAnimMesh = static_cast<uint32_t>(m_SEAnimMeshesToWrite.size());
+		out.write(reinterpret_cast<const char*>(&NumAnimMesh), sizeof(uint32_t));
+
+		for (uint32_t i = 0; i < NumAnimMesh; ++i)
+		{
+			m_SEAnimMeshesToWrite[i].WriteAnimMeshFile(out);
+		}
+	}
+	return S_OK;
+}
+
+HRESULT CModel::Save_Material(const _char* pModelName)
+{
+	_char file[MAX_PATH] = {};
+
+	strcpy_s(file, MAX_PATH, m_strSaveFilePath.c_str());
+	strcat_s(file, MAX_PATH, pModelName);
+	strcat_s(file, MAX_PATH, "_Material.bin");
+
+	ofstream out(file, std::ios::binary | std::ios::trunc);
+
+	uint32_t NumMaterial = static_cast<uint32_t>(m_SEMaterialsToWrite.size());
+	out.write(reinterpret_cast<const char*>(&NumMaterial), sizeof(uint32_t));
+
+	for (uint32_t i = 0; i < NumMaterial; ++i)
+	{
+		m_SEMaterialsToWrite[i].WriteMaterialFile(out);
+	}
+	return S_OK;
+}
+
+HRESULT CModel::Save_Animation(const _char* pAnimationName)
+{
+	_char file[MAX_PATH] = {};
+
+	strcpy_s(file, MAX_PATH, ANIMATION_FILE_PATH);
+	strcat_s(file, MAX_PATH, pAnimationName);
+	strcat_s(file, MAX_PATH, "_Anim.bin");
+
+	ofstream out(file, std::ios::binary | std::ios::trunc);
+
+	uint32_t NumAnimation = static_cast<uint32_t>(m_SEAnimationToWrite.size());
+	out.write(reinterpret_cast<const char*>(&NumAnimation), sizeof(uint32_t));
+
+	for (uint32_t i = 0; i < NumAnimation; ++i)
+	{
+		m_SEAnimationToWrite[i].WriteAnimationFile(out);
 	}
 	return S_OK;
 }
@@ -490,7 +473,7 @@ CModel* CModel::Create(
 		InitTransformMatrix,
 		pSaveDataName)))
 	{
-		MSG_BOX("ErrCode : Model Initializing Failed");
+		MSG_BOX("ErrCode : Model Create Failed");
 		Safe_Release(pModel);
 		return nullptr;
 	}

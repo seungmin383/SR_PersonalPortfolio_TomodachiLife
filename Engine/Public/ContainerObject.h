@@ -6,6 +6,12 @@ class CPartObject;
 
 class ENGINE_DLL CContainerObject abstract : public CActor
 {
+public:
+	typedef struct tagContainerObjectDesc : public CActor::ACTOR_DESC
+	{
+
+	}CONTAINEROBJECT_DESC;
+
 protected:
 	CContainerObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CContainerObject(const CContainerObject& rhs);

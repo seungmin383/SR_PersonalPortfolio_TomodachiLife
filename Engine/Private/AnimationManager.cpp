@@ -1,7 +1,7 @@
 #include "AnimationManager.h"
 #include "SEAnimation.h"
 
-#define ANIM_FOLDER_PATH L"../../Maptool/Asset/Animations"
+#define ANIM_FOLDER_PATH L"../../SharedProjects/GAME/Asset/Animations"
 
 CAnimationManager::CAnimationManager()
 {
@@ -17,7 +17,7 @@ HRESULT CAnimationManager::Initialize()
         if (entry.path().extension() != L".bin")
             continue;
 
-        std::ifstream in(entry.path(), std::ios::binary);
+        ifstream in(entry.path(), ios::binary);
         if (!in.is_open())
             continue;
 
@@ -26,15 +26,14 @@ HRESULT CAnimationManager::Initialize()
         m_vecAnimationData.push_back(seAnim);
     }
 
-    uint32_t NumAnimation = m_vecAnimationData.size();
+    uint32_t NumAnimation = static_cast<uint32_t>(m_vecAnimationData.size());
     for (uint32_t i = 0; i < NumAnimation; ++i)
     {
-        CSEAnimation* pAnim = CSEAnimation::Create(m_vecAnimationData[i]);
-        if (nullptr == pAnim)
+        CSEAnimation* pAnimation = CSEAnimation::Create(m_vecAnimationData[i]);
+        if (nullptr == pAnimation)
             return E_FAIL;
-        m_Animations.emplace(m_vecAnimationData[i].strName, pAnim);
+        m_Animations.emplace(m_vecAnimationData[i].strName, pAnimation);
     }
-
     return S_OK;
 }
 

@@ -48,7 +48,7 @@ typedef struct tagAnimationData
 		Out.write(reinterpret_cast<const char*>(&fTickPerSec), sizeof(_float));
 		Out.write(reinterpret_cast<const char*>(&fDuration), sizeof(_float));
 
-		uint32_t NumChannel = Channels.size();
+		uint32_t NumChannel = static_cast<uint32_t>(Channels.size());
 		Out.write(reinterpret_cast<const char*>(&NumChannel), sizeof(uint32_t));
 		for (auto& ch : Channels)
 			ch.WriteChannelFile(Out);

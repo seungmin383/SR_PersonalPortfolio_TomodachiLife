@@ -22,20 +22,16 @@ HRESULT CAnimation::Initialize(
 		seAnim.strName = seAnim.strName.substr(pos + 1); // '|' 뒤부터 끝까지
 	}
 
-	m_fTickPerSecond = pAIAnimation->mTicksPerSecond;
-	seAnim.fTickPerSec = pAIAnimation->mTicksPerSecond;
+	m_fTickPerSecond = static_cast<_float>(pAIAnimation->mTicksPerSecond);
+	seAnim.fTickPerSec = static_cast<_float>(pAIAnimation->mTicksPerSecond);
 
-	m_fDuration = pAIAnimation->mDuration;
-	seAnim.fDuration = pAIAnimation->mDuration;
+	m_fDuration = static_cast<_float>(pAIAnimation->mDuration);
+	seAnim.fDuration = static_cast<_float>(pAIAnimation->mDuration);
 
 	for (uint32_t i = 0; i < m_iNumChannels; i++)
 	{
 		SE_CHANNEL seChannel = {};
-
-		CChannel* pChannel = CChannel::Create(
-			seChannel,
-			pAIAnimation->mChannels[i],
-			pModel);
+		CChannel* pChannel = CChannel::Create(seChannel, pAIAnimation->mChannels[i], pModel);
 
 		if (nullptr == pChannel)
 			return E_FAIL;

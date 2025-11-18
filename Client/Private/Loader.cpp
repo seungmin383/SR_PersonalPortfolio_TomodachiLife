@@ -14,8 +14,6 @@
 #include "Player.h"
 #include "Weapon.h"
 
-USING(Engine)
-
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
 	m_pDevice(pDevice), m_pContext(pContext)
@@ -409,9 +407,9 @@ HRESULT CLoader::Loading_CityHall()
 				m_pContext,
 				"ProtoTag_Component_BasicManBody_Model",
 				ANIM_TYPE::ANIM,
-				"../../../../../../Resource/dev/01_Model_fbx/BabyJumper/BabyJumper.fbx",
+				"../../../../../../Resource/dev/05_Anim_fbx/CM_Run00.fbx",
 				InitMatrix,
-				"AAAAABB");
+				"ChineseDress");
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::CITYHALL),
@@ -429,7 +427,7 @@ HRESULT CLoader::Loading_CityHall()
 				m_pDevice,
 				m_pContext,
 				ANIM_TYPE::ANIM,
-				"AAAAABB",
+				"ChineseDress",
 				InitMatrix);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(

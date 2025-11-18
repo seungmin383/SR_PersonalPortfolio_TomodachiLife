@@ -5,6 +5,10 @@
 #include "WorldCamera.h"
 #include "UICamera.h"
 
+#include "Mii.h"
+#include "MiiBody.h"
+#include "MiiHead.h"
+
 USING(Client)
 
 CMainApp::CMainApp()
@@ -142,6 +146,10 @@ HRESULT CMainApp::Ready_Static()
 	 			return E_FAIL;
 	 	}
 
+		if (FAILED(Ready_ModelCom()))
+			return E_FAIL;
+		if (FAILED(Ready_HeadModelCom()))
+			return E_FAIL;
 	 }
 
 	// Actor
@@ -234,6 +242,27 @@ HRESULT CMainApp::Ready_Static()
 				return E_FAIL;
 		}
 
+
+				// ProtoTag_Component_Island_Model
+			// ProtoTag_Component_Island_seModel
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix;// = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+			tmp = CSEModel::Create(
+				m_pDevice,
+				m_pContext,
+				ANIM_TYPE::NONEANIM,
+				"Island",
+				initMatrix);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::STATIC),
+				TEXT("ProtoTag_Component_Island_seModel"),
+				tmp)))
+				return E_FAIL;
+		}
+		Ready_ModelActor();
 	}
 
 
@@ -243,6 +272,135 @@ HRESULT CMainApp::Ready_Static()
 	}
 
 	
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_ModelCom()
+{	
+	CObject* tmp = { nullptr };
+
+	// ProtoTag_Component_AnimationTester
+	{
+		XMMATRIX InitMatrix = XMMatrixIdentity();
+		InitMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+
+		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_AnimationTester", ANIM_TYPE::ANIM, "../../../../../../Resource/dev/05_Anim_fbx/CM_Wait00.fbx", InitMatrix, "AnimTester");
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_AnimationTester"), tmp)))
+			return E_FAIL;
+	}
+
+	// ProtoTag_Component_BabyJumper
+	// ProtoTag_Component_seBabyJumper
+	{
+		XMMATRIX InitMatrix = XMMatrixIdentity();
+		InitMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+
+		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_BabyJumper", ANIM_TYPE::ANIM, "../../Resource/Model_Body/BabyJumper/BabyJumper.fbx", InitMatrix, "BabyJumper");
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_BabyJumper"), tmp)))
+			return E_FAIL;
+
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "BabyJumper", InitMatrix);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_seBabyJumper"), tmp)))
+			return E_FAIL;
+	}
+
+	// ProtoTag_Component_ChineseDress
+	// ProtoTag_Component_seChineseDress
+	{
+		XMMATRIX InitMatrix = XMMatrixIdentity();
+		InitMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+
+		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_ChineseDress", ANIM_TYPE::ANIM, "../../Resource/Model_Body/ChineseDress/ChineseDress.fbx", InitMatrix, "ChineseDress");
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_ChineseDress"), tmp)))
+			return E_FAIL;
+
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_seChineseDress"), tmp)))
+			return E_FAIL;
+	}
+
+	// ProtoTag_Component_CamouflageJacket
+	// ProtoTag_Component_seCamouflageJacket
+	{
+		XMMATRIX InitMatrix = XMMatrixIdentity();
+		InitMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+
+		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_CamouflageJacket", ANIM_TYPE::ANIM, "../../Resource/Model_Body/CamouflageJacket/CamouflageJacket.fbx", InitMatrix, "CamouflageJacket");
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_CamouflageJacket"), tmp)))
+			return E_FAIL;
+
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "CamouflageJacket", InitMatrix);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_seCamouflageJacket"), tmp)))
+			return E_FAIL;
+	}
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_HeadModelCom()
+{
+	CObject* tmp = { nullptr };
+	
+	// ProtoTag_Component_Head1
+	// ProtoTag_Component_seHead1
+	{
+		XMMATRIX InitMatrix = XMMatrixIdentity();
+		InitMatrix;// = XMMatrixRotationX(XMConvertToRadians(90.f)) * XMMatrixRotationY(XMConvertToRadians(90.f));// *XMMatrixRotationZ(XMConvertToRadians(90.f));
+		/* ProtoTag_Component_Head9 */
+
+		for (uint32_t i = 1; i < 10; ++i)
+		{
+			_string Name = "Head";
+			_string path = "../../Resource/Model_Head/Head";
+
+			_string path2 = ".fbx";
+			path += to_string(i);
+			path += path2;
+			_wstring Prototag = L"ProtoTag_Component_seHead";
+			_string Prototag1 = "ProtoTag_Component_Head";
+			_wstring wPrototag1 = L"ProtoTag_Component_Head";
+
+			Name += to_string(i);
+			Prototag += to_wstring(i);
+			Prototag1 += to_string(i);
+			wPrototag1 += to_wstring(i);
+
+			tmp = CModel::Create(m_pDevice, m_pContext, Prototag1, ANIM_TYPE::NONEANIM, path.c_str(), InitMatrix, Name.c_str());
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), wPrototag1, tmp)))
+				return E_FAIL;
+
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, Name.c_str(), InitMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), Prototag, tmp)))
+				return E_FAIL;
+		}
+	}
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_ModelActor()
+{
+	CObject* tmp = { nullptr };
+
+	// ProtoTag_Actor_MiiBody
+	{
+		tmp = CMiiBody::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Actor_MiiBody"), tmp)))
+			return E_FAIL;
+	}
+
+	// ProtoTag_Actor_MiiHead
+	{
+		tmp = CMiiHead::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Actor_MiiHead"), tmp)))
+			return E_FAIL;
+	}
+
+	// ProtoTag_Actor_Mii
+	{
+		tmp = CMii::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Actor_Mii"), tmp)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

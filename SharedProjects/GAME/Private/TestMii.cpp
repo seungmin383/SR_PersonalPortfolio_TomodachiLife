@@ -51,22 +51,22 @@ int32_t CTestMii::Update_Priority(_float fDT)
 	}
 
 
-	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
-	{
-		m_pTransformCom->Go_Straight(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
-	{
-		m_pTransformCom->Go_Backward(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
-	{
-		m_pTransformCom->TurnY(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
-	{
-		m_pTransformCom->TurnY(-fDT);
-	}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_UP))
+	//{
+	//	m_pTransformCom->Go_Straight(fDT);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
+	//{
+	//	m_pTransformCom->Go_Backward(fDT);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
+	//{
+	//	m_pTransformCom->TurnY(fDT);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
+	//{
+	//	m_pTransformCom->TurnY(-fDT);
+	//}
 
 	/* Change Animation 을 하고 PlayAnimation 권장 */
 	if (m_pGameInstance->Get_DIKeyState(DIK_1))
@@ -84,6 +84,10 @@ int32_t CTestMii::Update_Priority(_float fDT)
 	if (m_pGameInstance->Get_DIKeyState(DIK_4))
 	{
 		m_pSeModel->Change_Animation("CM_Wait03", 0.2f, TRUE);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_5))
+	{
+		m_pSeModel->Change_Animation("CM_Run00", 0.2f, TRUE);
 	}
 
 	return 0;
@@ -176,19 +180,35 @@ HRESULT CTestMii::Ready_Component()
 		return E_FAIL;
 
 #ifdef ANIM_TEST
+	//if (FAILED(Add_Component(
+	//	static_cast<uint32_t>(PLACE_ID::STATIC),
+	//	TEXT("ProtoTag_Component_seBabyJumper"),
+	//	TEXT("Com_ModelCom"),
+	//	reinterpret_cast<CComponent**>(&m_pSeModel),
+	//	nullptr)))
+	//	return E_FAIL;
+
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::CITYHALL),
-		TEXT("ProtoTag_Component_BasicManBody_SEModel"),
+		static_cast<uint32_t>(PLACE_ID::STATIC),
+		TEXT("ProtoTag_Component_seCamouflageJacket"),
 		TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pSeModel),
 		nullptr)))
 		return E_FAIL;
 
+	//if (FAILED(Add_Component(
+	//	static_cast<uint32_t>(PLACE_ID::CITYHALL),
+	//	TEXT("ProtoTag_Component_BasicManBody_SEModel"),
+	//	TEXT("Com_ModelCom"),
+	//	reinterpret_cast<CComponent**>(&m_pSeModel),
+	//	nullptr)))
+	//	return E_FAIL;
+
 
 #else
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::CITYHALL),
-		TEXT("ProtoTag_Component_BasicManBody_Model"),
+		static_cast<uint32_t>(PLACE_ID::STATIC),
+		TEXT("ProtoTag_Component_ChineseDress"),
 		TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pModelCom),
 		nullptr)))

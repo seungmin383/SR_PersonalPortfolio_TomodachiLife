@@ -3,7 +3,7 @@
 #include "Actor.h"
 #include "ConvertJson.h"
 
-#define ANIM_TEST 0
+  #define ANIM_TEST 0
 
 NS_BEGIN(Engine)
 

@@ -58,12 +58,6 @@
     <Filter Include="00.Place\01.Setting">
       <UniqueIdentifier>{f3582ffc-0e05-466e-9283-a6f2dd9a95ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.Place\99.Loading">
-      <UniqueIdentifier>{3e30b2ca-97a5-4615-9cfa-5f5625c75ee6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place\99.Loading\Loader">
-      <UniqueIdentifier>{bb7c6c9d-00fe-4830-9855-7100d0982a82}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.Manager\MiiManager">
       <UniqueIdentifier>{9e28ff50-4901-491d-8668-2293e6804782}</UniqueIdentifier>
     </Filter>
@@ -72,9 +66,6 @@
     </Filter>
     <Filter Include="GameData\00.ConvertJson">
       <UniqueIdentifier>{dbb028a7-ade3-4339-99d7-efebe914fe39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place\05.Place_CityHall">
-      <UniqueIdentifier>{bb5a38e8-ed61-414a-a52a-d0928db01468}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.Actor\01.PlayerTest">
       <UniqueIdentifier>{4525ee75-8379-45e1-8b7c-b94af57b9c94}</UniqueIdentifier>
@@ -105,9 +96,6 @@
     </Filter>
     <Filter Include="02.Actor\03.Mii\Items">
       <UniqueIdentifier>{2dee03a3-ee22-4ce6-9234-d9da67fdcde7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place\05.Place_MiiEditor">
-      <UniqueIdentifier>{67907d03-32f0-45c5-8982-f64b08a8f8e8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -143,12 +131,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\WorldCamera.h">
       <Filter>02.Actor\99.Camera\01.World</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Loader.h">
-      <Filter>00.Place\99.Loading\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Loading.h">
-      <Filter>00.Place\99.Loading</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlaceMoveButton.h">
       <Filter>03.UI\01.Button\PlaceMoveButton</Filter>
     </ClInclude>
@@ -179,14 +161,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ConvertJson.h">
       <Filter>GameData\00.ConvertJson</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_CityHall.h">
-      <Filter>00.Place\05.Place_CityHall</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Body.h">
       <Filter>02.Actor\01.PlayerTest\00.Player\Body</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Player.h">
-      <Filter>02.Actor\01.PlayerTest\00.Player</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Weapon.h">
       <Filter>02.Actor\01.PlayerTest\00.Player\Weapon</Filter>
@@ -203,16 +179,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiHead.h">
       <Filter>02.Actor\03.Mii\Head</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Player.h">
+      <Filter>02.Actor\01.PlayerTest\00.Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
       <Filter>03.UI\00.Food</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Loader.cpp">
-      <Filter>00.Place\99.Loading\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Loading.cpp">
-      <Filter>00.Place\99.Loading</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Main.cpp">
       <Filter>00.Place\00.Main</Filter>
@@ -249,9 +222,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ConvertJson.cpp">
       <Filter>GameData\00.ConvertJson</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_CityHall.cpp">
-      <Filter>00.Place\05.Place_CityHall</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Body.cpp">
       <Filter>02.Actor\01.PlayerTest\00.Player\Body</Filter>

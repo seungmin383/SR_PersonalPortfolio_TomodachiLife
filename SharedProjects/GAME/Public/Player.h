@@ -12,6 +12,7 @@ public:
 		RUN = 0x00000002,
 		ATTACK = 0x00000004,
 	};
+
 private:
 	CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CPlayer(const CPlayer& rhs); /* 메모리 복사를 통해 객체를 생성. */

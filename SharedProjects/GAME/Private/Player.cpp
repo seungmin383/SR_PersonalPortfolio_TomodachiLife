@@ -122,6 +122,7 @@ HRESULT CPlayer::Ready_PartObjects()
     WeaponDesc.fX = 0.f;
     WeaponDesc.fY = 0.f;
     WeaponDesc.fZ = -0.f;
+
     if (FAILED(__super::Add_PartObject(
         static_cast<uint32_t>(PLACE_ID::APART), 
         TEXT("ProtoTag_Actor_Player_Weapon"),

@@ -5,6 +5,10 @@
 #include "SEAnimation.h"
 #include "AnimationPlayer.h"
 
+#define ANIM_MODEL_PATH "../../SharedProjects/GAME/Asset/Anim_Models/"
+#define NONE_ANIM_MODEL_PATH "../../SharedProjects/GAME/Asset/None_Anim_Models/"
+#define ANIMATION_FILE_PATH "../../SharedProjects/GAME/Asset/Animations/"
+
 CSEModel::CSEModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CComponent(pDevice, pContext)
 {
@@ -48,6 +52,15 @@ HRESULT CSEModel::Initialize_SeModel(
 {
 	m_strSaveDataName = SaveDataName;
 	m_eAnimType = eAnimType;
+	if (m_eAnimType == ANIM_TYPE::ANIM)
+	{
+		m_strSaveFilePath = ANIM_MODEL_PATH;
+	}
+	else if (m_eAnimType == ANIM_TYPE::NONEANIM)
+	{
+		m_strSaveFilePath = NONE_ANIM_MODEL_PATH;
+	}
+
 	XMStoreFloat4x4(&m_InitMatrix, InitMatrix);
 	if (FAILED(Load_BoneData()))
 		return E_FAIL;
@@ -99,9 +112,9 @@ HRESULT CSEModel::Render_SeModel(uint32_t iMeshIndex)
 HRESULT CSEModel::Load_BoneData()
 {
 	_char file[MAX_PATH] = {};
-	strcpy_s(file, MAX_PATH, "../Asset/");
+	strcpy_s(file, MAX_PATH, m_strSaveFilePath.c_str());
 	strcat_s(file, MAX_PATH, m_strSaveDataName.c_str());
-	strcat_s(file, MAX_PATH, "_Bone_Data.bin");
+	strcat_s(file, MAX_PATH, "_Bone.bin");
 
 	ifstream in(file, std::ios::binary );
 
@@ -125,9 +138,9 @@ HRESULT CSEModel::Load_BoneData()
 HRESULT CSEModel::Load_MeshData()
 {
 	_char file[MAX_PATH] = {};
-	strcpy_s(file, MAX_PATH, "../Asset/");
+	strcpy_s(file, MAX_PATH, m_strSaveFilePath.c_str());
 	strcat_s(file, MAX_PATH, m_strSaveDataName.c_str());
-	strcat_s(file, MAX_PATH, "_Mesh_Data.bin");
+	strcat_s(file, MAX_PATH, "_Mesh.bin");
 
 	ifstream in(file, std::ios::binary );
 
@@ -151,9 +164,9 @@ HRESULT CSEModel::Load_MeshData()
 HRESULT CSEModel::Load_AnimMeshData()
 {
 	_char file[MAX_PATH] = {};
-	strcpy_s(file, MAX_PATH, "../Asset/");
+	strcpy_s(file, MAX_PATH, m_strSaveFilePath.c_str());
 	strcat_s(file, MAX_PATH, m_strSaveDataName.c_str());
-	strcat_s(file, MAX_PATH, "_AnimMesh_Data.bin");
+	strcat_s(file, MAX_PATH, "_AnimMesh.bin");
 
 	ifstream in(file, std::ios::binary);
 
@@ -177,9 +190,9 @@ HRESULT CSEModel::Load_AnimMeshData()
 HRESULT CSEModel::Load_MaterialData()
 {
 	_char file[MAX_PATH] = {};
-	strcpy_s(file, MAX_PATH, "../Asset/");
+	strcpy_s(file, MAX_PATH, m_strSaveFilePath.c_str());
 	strcat_s(file, MAX_PATH, m_strSaveDataName.c_str());
-	strcat_s(file, MAX_PATH, "_Mat_Data.bin");
+	strcat_s(file, MAX_PATH, "_Material.bin");
 
 	ifstream in(file, std::ios::binary);
 
@@ -302,6 +315,18 @@ void CSEModel::Play_Animation(_float fDT)
 	{
 		pBone->Update_CombinedTransformMatrix(m_pBones, XMLoadFloat4x4(&m_InitMatrix));
 	}
+}
+
+const XMFLOAT4X4* CSEModel::Get_BoneCombinedTransformMatrixPtr(const _char* pBoneName) const
+{
+	for (auto& pBone : m_pBones)
+	{
+		if (pBone->Compare_Name(pBoneName))
+			return pBone->Get_CombinedTransformMatrixPtr();
+	}
+
+	MSG_BOX("ErrCode : No Bone");
+	return nullptr;
 }
 
 CSEModel* CSEModel::Create(

@@ -31,6 +31,12 @@
     <ClInclude Include="..\Public\Place_MiiEditor.h">
       <Filter>01.Place\02.Place_MiiEditor</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Place_Loading.h">
+      <Filter>01.Place\99.Place_Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Loader.h">
+      <Filter>01.Place\99.Place_Loading\Loader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -65,6 +71,12 @@
     <Filter Include="01.Place\03.Place_Apart">
       <UniqueIdentifier>{47dfdd6b-7fc9-4ad7-824a-49f0d9a48718}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Place\99.Place_Loading">
+      <UniqueIdentifier>{81502a0f-ff44-468f-81b1-089fb034ba84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Place\99.Place_Loading\Loader">
+      <UniqueIdentifier>{485a53e4-a25c-4f6f-b411-84e92f1dda87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -84,6 +96,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Place_MiiEditor.cpp">
       <Filter>01.Place\02.Place_MiiEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_Loading.cpp">
+      <Filter>01.Place\99.Place_Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Loader.cpp">
+      <Filter>01.Place\99.Place_Loading\Loader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

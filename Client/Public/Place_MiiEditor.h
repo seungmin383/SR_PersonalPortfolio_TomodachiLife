@@ -1,8 +1,10 @@
 #pragma once
 #include "Game_Defines.h"
+#include "Client_Defines.h"
+
 #include "Place.h"
 
-NS_BEGIN(Game)
+NS_BEGIN(Client)
 class CPlaceMoveButton;
 
 class CPlace_MiiEditor final : public CPlace

@@ -22,7 +22,9 @@ public:
 public:
 	XMMATRIX Get_OffsetMatrix() { return XMLoadFloat4x4(&m_OffsetMatrix); }
 	XMMATRIX Get_CombinedTransformMatrix() { return XMLoadFloat4x4(&m_CombinedTransformMatrix); }
+	const XMFLOAT4X4* Get_CombinedTransformMatrixPtr() { return &m_CombinedTransformMatrix; }
 	void Set_TransformationMatrix(XMFLOAT4X4 tm) { m_TransformMatrix = tm; }
+	_bool Compare_Name(const _char* pBoneName);
 
 private:
 	string m_strName = {};

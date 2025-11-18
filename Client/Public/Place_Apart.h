@@ -1,9 +1,11 @@
 
 #pragma once
 #include "Game_Defines.h"
+#include "Client_Defines.h"
+
 #include "Place.h"
 
-NS_BEGIN(Game)
+NS_BEGIN(Client)
 
 class CPlace_Apart final : public CPlace
 {

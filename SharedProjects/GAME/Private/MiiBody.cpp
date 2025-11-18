@@ -18,7 +18,14 @@ HRESULT CMiiBody::Initialize_Origin()
 
 HRESULT CMiiBody::Initialize_Clone(void* pArg)
 {
+	MIIBODY_DESC* pDesc = static_cast<MIIBODY_DESC*>(pArg);
+	m_pParentState = pDesc->pParnetState;
+	m_pParentClothState = pDesc->pParentClothState;
+
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
+		return E_FAIL;
+
+	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
 	return S_OK;
@@ -36,24 +43,64 @@ int32_t CMiiBody::Update(_float fDT)
 
 void CMiiBody::Update_Late(_float fDT)
 {
+	m_pSeModel->Play_Animation(fDT);
+	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
 	CPartObject::Update_Late(fDT);
 }
 
 HRESULT CMiiBody::Render()
 {
+	if (FAILED(Bind_ShaderResources()))
+		return E_FAIL;
+
+	uint32_t NumMesh = m_pSeModel->Get_NumMesh();
+	for (uint32_t i = 0; i < NumMesh; ++i)
+	{
+		if (FAILED(m_pSeModel->Bind_Material(m_pShader, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
+			return E_FAIL;
+
+		if (FAILED(m_pSeModel->Bind_Bones(m_pShader, "g_BoneMatrices", i)))
+			return E_FAIL;
+
+		if (FAILED(m_pShader->Begin(0)))
+			return E_FAIL;
+
+		if (FAILED(m_pSeModel->Render_SeModel(i)))
+			return E_FAIL;
+	}
+
 	return S_OK;
 }
 
 HRESULT CMiiBody::Ready_Component()
 {
+	/* Shader */
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_VtxAnimMeshShader"), TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
+		return E_FAIL;
+
+	/* Model */
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_seChineseDress"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CMiiBody::Bind_ShaderResources()
 {
-	return S_OK;
+	HRESULT hr = {};
+
+	m_pShader->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix);
+	hr = m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ViewMatrix", TEXT("World_Camera"), D3DTS::VIEW);
+	hr = m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ);
+	hr = m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShader, "g_vCamPosition", TEXT("World_Camera"));
+
+	return hr;
 }
 
+const XMFLOAT4X4* CMiiBody::Get_SocketMatrix(const _char* pBoneName)
+{
+	return m_pSeModel->Get_BoneCombinedTransformMatrixPtr(pBoneName);
+}
 
 CMiiBody* CMiiBody::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
@@ -81,5 +128,8 @@ CObject* CMiiBody::Clone(void* pArg)
 
 void CMiiBody::Free()
 {
+	Safe_Release(m_pSeModel);
+	Safe_Release(m_pShader);
+
 	CPartObject::Free();
 }

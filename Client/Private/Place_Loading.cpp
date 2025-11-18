@@ -17,12 +17,10 @@ HRESULT CPlace_Loading::Initialize(
 	PLACE_ID NextPlaceID)
 {
 	m_eNextPlaceID = NextPlaceID;
-
 	m_pLoader = CLoader::Create(m_pDevice, m_pContext, m_eNextPlaceID);
 
 	if (nullptr == m_pLoader)
 		return E_FAIL;
-
 	return S_OK;
 }
 

@@ -99,7 +99,7 @@ HRESULT CIsland::Ready_Component()
 		return E_FAIL;
 #else
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		static_cast<uint32_t>(PLACE_ID::STATIC),
 		TEXT("ProtoTag_Component_Island_seModel"),
 		TEXT("Com_Model"),
 		reinterpret_cast<CComponent**>(&m_pseModel),
@@ -171,7 +171,7 @@ CObject* CIsland::Clone(void* pArg)
 void CIsland::Free()
 {
 	Safe_Release(m_pShaderCom);
-	 Safe_Release(m_pModel);
-	//Safe_Release(m_pseModel);
+	// Safe_Release(m_pModel);
+	Safe_Release(m_pseModel);
 	CActor::Free();
 }

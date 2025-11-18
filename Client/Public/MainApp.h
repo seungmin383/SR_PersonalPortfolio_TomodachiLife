@@ -25,6 +25,11 @@ public:
 
 	HRESULT Ready_Static();
 
+	HRESULT Ready_ModelCom();
+	HRESULT Ready_HeadModelCom();
+
+	HRESULT Ready_ModelActor();
+
 private://디바이스 관리
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };

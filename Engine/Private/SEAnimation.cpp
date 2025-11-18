@@ -25,10 +25,10 @@ CSEAnimation::CSEAnimation(const CSEAnimation& rhs)
 HRESULT CSEAnimation::Initialize(SE_ANIMATION& seAnim)
 {
 	 m_strName = seAnim.strName;
-	 m_fTickPerSec = seAnim.fTickPerSec;
 	 m_fDuration = seAnim.fDuration;
+	 m_fTickPerSec = seAnim.fTickPerSec;
 	 
-	 uint32_t NumChannel = seAnim.Channels.size();
+	 uint32_t NumChannel = static_cast<uint32_t>(seAnim.Channels.size());
 	 for (uint32_t i = 0; i < NumChannel; ++i)
 	 {
 		 CSEChannel* pChannel = CSEChannel::Create(seAnim.Channels[i]);
@@ -36,12 +36,10 @@ HRESULT CSEAnimation::Initialize(SE_ANIMATION& seAnim)
 			 return E_FAIL;
 		 m_Channels.push_back(pChannel);
 	 }
-
-	
 	 return S_OK;
 }
 
-_bool CSEAnimation::Update_TransformationMatrix(
+void CSEAnimation::Update_TransformationMatrix(
 	_float& fCurTrackPosition,
 	_float fDT,
 	_bool isChangeAnim,
@@ -49,31 +47,24 @@ _bool CSEAnimation::Update_TransformationMatrix(
 {
 	fCurTrackPosition += m_fTickPerSec * fDT;
 
-	if (isChangeAnim)
-	{
-		fCurTrackPosition = 0.f;
-	}
-
 	if (fCurTrackPosition >= m_fDuration)
 	{
 		if (false == isLoop)
 		{
-			return true;
+			return;
 		}
 
 		fCurTrackPosition = 0.f;
 	}
 
-	m_iNumChannel = m_Channels.size();
+	m_iNumChannel = static_cast<uint32_t>(m_Channels.size());
 	m_ChannelPos.resize(m_iNumChannel);
+
 	for (uint32_t i = 0; i < m_iNumChannel; ++i)
 	{
-		CHANNEL_POS chPos = {};
-		m_Channels[i]->Update_TransformationMatrix(
-			fCurTrackPosition,
-			m_ChannelPos[i]);
+		m_Channels[i]->Update_TransformationMatrix(fCurTrackPosition, m_ChannelPos[i]);
 	}
-	return false;
+	return;
 }
 
 CSEAnimation* CSEAnimation::Create(SE_ANIMATION& seAnim)

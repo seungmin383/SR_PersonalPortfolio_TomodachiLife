@@ -2,10 +2,23 @@
 #include "Game_Defines.h"
 #include "PartObject.h"
 
+NS_BEGIN(Engine)
+class CSEModel;
+class CShaderCom;
+NS_END
+
 NS_BEGIN(Game)
 
 class CMiiHead final : public CPartObject
 {
+public:
+	typedef struct tagMiiHead : public CPartObject::PARTOBJECT_DESC
+	{
+		const uint32_t* pParentState;
+		const XMFLOAT4X4* pSocketMatrix;
+
+	}MIIHEAD_DESC;
+
 private:
 	CMiiHead(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CMiiHead(const CMiiHead& rhs);
@@ -18,8 +31,24 @@ public:
 	virtual int32_t Update_Priority(_float fDT)override;
 	virtual int32_t Update(_float fDT)override;
 	virtual void Update_Late(_float fDT)override;
+	ID3D11RasterizerState* m_pNoCullRS;
 
 	virtual HRESULT Render()override;
+
+private:
+	HRESULT Ready_Component();
+	HRESULT Bind_ShaderResources();
+
+public:
+	const XMFLOAT4X4* Get_SocketMatrix(const _char* pBoneName);
+
+private:
+	CSEModel* m_pSeModel = { nullptr };
+	CShaderCom* m_pShader = { nullptr };
+
+private:
+	const uint32_t* m_pParentState = { nullptr };
+	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
 
 public:
 	static CMiiHead* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

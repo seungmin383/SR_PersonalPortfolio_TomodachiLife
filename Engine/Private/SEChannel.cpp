@@ -14,8 +14,7 @@ CSEChannel::CSEChannel(const CSEChannel& rhs)
 HRESULT CSEChannel::Initialize(SE_CHANNEL& seChannel)
 {
 	m_iBoneIndex = seChannel.iBoneIndex;
-
-	uint32_t NumKeyframe = seChannel.Keyframes.size();
+	uint32_t NumKeyframe = static_cast<uint32_t>(seChannel.Keyframes.size());
 
 	for (uint32_t i = 0; i < NumKeyframe; ++i)
 	{

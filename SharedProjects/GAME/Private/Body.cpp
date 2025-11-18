@@ -56,11 +56,10 @@ HRESULT CBody::Render()
 
 	_uint   iNumMeshes = m_pModel->Get_NumMesh();
 
-	for (size_t i = 0; i < iNumMeshes; i++)
+	for (uint32_t i = 0; i < iNumMeshes; i++)
 	{
 		if (FAILED(m_pModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE, 0)))
 			return E_FAIL;
-		/*m_pModelCom->Bind_Material(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS, 0);*/
 
 		if (FAILED(m_pModel->Bind_Bones(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;

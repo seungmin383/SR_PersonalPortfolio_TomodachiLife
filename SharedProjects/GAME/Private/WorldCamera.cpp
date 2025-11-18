@@ -41,7 +41,7 @@ int32_t CWorldCamera::Update_Priority(_float fDT)
 	}
 	if (m_pGameInstance->Get_DIKeyState(DIK_S) & 0x80)
 	{
-		m_pTransformCom->Go_Backward(fDT);
+		m_pTransformCom->Go_Backward(fDT*10.f);
 	}
 	if (m_pGameInstance->Get_DIKeyState(DIK_D) & 0x80)
 	{

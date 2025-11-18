@@ -19,6 +19,8 @@ namespace Engine
 #define MII_DATA_PATH "../../SharedProjects/GAME/GameData/Mii_Data.json"
 #define MODEL_DATA_PATH "../../SharedProjects/GAME/GameData/Model_Data.json"
 
+#define D3DCOLOR_ARGB(a,r,g,b) \
+    ((D3DCOLOR)((((a)&0xff)<<24)|(((b)&0xff)<<16)|(((g)&0xff)<<8)|((r)&0xff)))
 
 //만약 ENGINE_EXPORTS가 정의되어 있다면 _declspec(dllexport) // 정의되어 있지 않다면 _declspec(dllimport)
 #ifdef	ENGINE_EXPORTS
