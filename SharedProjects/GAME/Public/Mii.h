@@ -9,8 +9,9 @@ class CMii final : public CContainerObject
 public:
 	enum STATE
 	{
-		WALK = 0x0001,
-		RUN = 0x0002
+		IDLE = 1 << 0,
+		WALK = 1 << 1,
+		RUN = 1 << 2
 	};
 
 public:

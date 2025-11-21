@@ -2,12 +2,18 @@
 #include "GameInstance.h"
 #include "Place_Loading.h"
 
+// Actor
 #include "WorldCamera.h"
 #include "UICamera.h"
 
+// Componenet
 #include "Mii.h"
 #include "MiiBody.h"
 #include "MiiHead.h"
+#include "MiiHair.h"
+
+// UI
+
 
 USING(Client)
 
@@ -148,6 +154,8 @@ HRESULT CMainApp::Ready_Static()
 
 		if (FAILED(Ready_ModelCom()))
 			return E_FAIL;
+		if (FAILED(Ready_HairModelCom()))
+			return E_FAIL;
 		if (FAILED(Ready_HeadModelCom()))
 			return E_FAIL;
 	 }
@@ -268,7 +276,6 @@ HRESULT CMainApp::Ready_Static()
 
 	// UI
 	{
-
 	}
 
 	
@@ -348,29 +355,66 @@ HRESULT CMainApp::Ready_HeadModelCom()
 		InitMatrix;// = XMMatrixRotationX(XMConvertToRadians(90.f)) * XMMatrixRotationY(XMConvertToRadians(90.f));// *XMMatrixRotationZ(XMConvertToRadians(90.f));
 		/* ProtoTag_Component_Head9 */
 
-		for (uint32_t i = 1; i < 10; ++i)
+		for (uint32_t i = 1; i < 9; ++i)
 		{
 			_string Name = "Head";
-			_string path = "../../Resource/Model_Head/Head";
-
-			_string path2 = ".fbx";
-			path += to_string(i);
-			path += path2;
 			_wstring Prototag = L"ProtoTag_Component_seHead";
-			_string Prototag1 = "ProtoTag_Component_Head";
-			_wstring wPrototag1 = L"ProtoTag_Component_Head";
-
 			Name += to_string(i);
 			Prototag += to_wstring(i);
-			Prototag1 += to_string(i);
-			wPrototag1 += to_wstring(i);
 
-			tmp = CModel::Create(m_pDevice, m_pContext, Prototag1, ANIM_TYPE::NONEANIM, path.c_str(), InitMatrix, Name.c_str());
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), wPrototag1, tmp)))
-				return E_FAIL;
+			// _string path = "../../Resource/Model_Head/Head";
+			// _string path2 = ".fbx";
+			// path += to_string(i);
+			// path += path2;
+			// _string Prototag1 = "ProtoTag_Component_Head";
+			// _wstring wPrototag1 = L"ProtoTag_Component_Head";
+			//
+			// Prototag1 += to_string(i);
+			// wPrototag1 += to_wstring(i);
+			// 
+			// tmp = CModel::Create(m_pDevice, m_pContext, Prototag1, ANIM_TYPE::NONEANIM, path.c_str(), InitMatrix, Name.c_str());
+			// if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), wPrototag1, tmp)))
+			// 	return E_FAIL;
 
 			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, Name.c_str(), InitMatrix);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), Prototag, tmp)))
+				return E_FAIL;
+		}
+	}
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_HairModelCom()
+{
+	CObject* tmp = { nullptr };
+
+	/* ProtoTag_Component_Hair*/
+	{
+		XMMATRIX InitMatrix = XMMatrixIdentity();
+		InitMatrix;
+		for (uint32_t i = 1; i < 12; ++i)
+		{
+			_string seSaveName = "Hair";
+			_wstring seProtoTag = L"ProtoTag_Component_seHair";
+			seSaveName += to_string(i);
+			seProtoTag += to_wstring(i);
+
+			 _string path = "../../Resource/Model_Hair/Hair";
+			 _string path2 = ".fbx";
+			 path += to_string(i);
+			 path += path2;
+			 _string ProtoTag = "ProtoTag_Component_Hair";
+			 _wstring wPrototag = L"ProtoTag_Component_Hair";
+			
+			 ProtoTag += to_string(i);
+			 wPrototag += to_wstring(i);
+			 
+			 tmp = CModel::Create(m_pDevice, m_pContext, ProtoTag, ANIM_TYPE::NONEANIM, path.c_str(), InitMatrix, seSaveName.c_str());
+			 if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), wPrototag, tmp)))
+			 	return E_FAIL;
+
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, seSaveName.c_str(), InitMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), seProtoTag, tmp)))
 				return E_FAIL;
 		}
 	}
@@ -392,6 +436,13 @@ HRESULT CMainApp::Ready_ModelActor()
 	{
 		tmp = CMiiHead::Create(m_pDevice, m_pContext);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Actor_MiiHead"), tmp)))
+			return E_FAIL;
+	}
+
+	// ProtoTag_Actor_MiiHair
+	{
+		tmp = CMiiHair::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Actor_MiiHair"), tmp)))
 			return E_FAIL;
 	}
 

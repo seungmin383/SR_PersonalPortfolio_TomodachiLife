@@ -56,6 +56,8 @@ public:
 	void Set_ProjMatrix(FXMMATRIX mat) { XMStoreFloat4x4(&m_ProjMatrix, mat); }
 	void Set_ViewMatrix(FXMMATRIX mat) { XMStoreFloat4x4(&m_ViewMatrix, mat); }
 
+	void FocusOnTarget(FXMVECTOR vTargetPos, _float fTargetFov, _float fRatio);
+
 protected:
 	_float3 m_vEye = {};
 	_float3 m_vAt = {};

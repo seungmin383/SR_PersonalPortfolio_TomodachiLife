@@ -289,6 +289,11 @@ void CGameInstance::GraphicDevice_Bind_Viewport(VIEWPORT_TYPE ViewportType)
 	m_pGraphicDevice->Bind_Viewport(ViewportType);
 }
 
+void CGameInstance::GraphicDevice_Bind_RenderState(RENDER_STATE eRenderState)
+{
+	m_pGraphicDevice->Bind_RenderState(eRenderState);
+}
+
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
@@ -390,6 +395,18 @@ HRESULT CGameInstance::CameraManager_Bind_Camera_Pos(CShaderCom* pShader, const 
 {
 	return m_pCameraManager->Bind_Camera_Pos(pShader, pConstantName, CameraTag);
 }
+
+const CCamera* CGameInstance::CameraManager_Get_Camera(const _wstring& strCameraTag)
+{
+	return m_pCameraManager->Get_Camera(strCameraTag);
+}
+
+void CGameInstance::CameraManager_FocusOnTarget(const _wstring& strCameraTag, FXMVECTOR vTargetPos, _float fTargetFov, _float fRatio)
+{
+	m_pCameraManager->FocusOnTarget(strCameraTag, vTargetPos, fTargetFov, fRatio);
+}
+
+
 #pragma endregion
 
 #pragma region INPUTDEVICE

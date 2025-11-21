@@ -470,7 +470,22 @@ HRESULT CLoader::Loading_CityHall()
 		}
 		
 	}
-	
+
+	// UI
+	{
+		// ProtoTag_UI_PlaceMoveButton
+		{
+			tmp = CPlaceMoveButton::Create(
+				m_pDevice,
+				m_pContext);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::CITYHALL),
+				TEXT("ProtoTag_UI_PlaceMoveButton"),
+				tmp)))
+				return E_FAIL;
+		}
+	}
 
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
@@ -875,6 +890,21 @@ HRESULT CLoader::Loading_Island()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::ISLAND),
 				TEXT("ProtoTag_Component_BackGround_Texture"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Component_CommonButton_Texture
+		{
+			tmp = CTextureCom::Create(
+				m_pDevice,
+				m_pContext,
+				TEXT("../../Resource/Textures/CommonButton/CommonButtonTexture%d.png"),
+				3);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_Component_CommonButton_Texture"),
 				tmp)))
 				return E_FAIL;
 		}

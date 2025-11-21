@@ -287,10 +287,27 @@ void CTransformCom::LookAt(FXMVECTOR vPoint)
 	Set_State(TRANSFORM_STATE::LOOK,	vLook * fScale.z);
 }
 
+void CTransformCom::LookAtLerp(FXMVECTOR vPoint, _float fRatio)
+{
+	_float3 fScale = Get_Scale();
+	XMVECTOR vPos = Get_State(TRANSFORM_STATE::POS);
+
+	XMVECTOR vTargetLook = XMVector3Normalize(vPoint - vPos);
+	XMVECTOR vCurLook = XMVector3Normalize(Get_State(TRANSFORM_STATE::LOOK));
+
+	XMVECTOR vLerpLook = XMVector3Normalize( XMVectorLerp(vCurLook, vTargetLook, fRatio));
+
+	XMVECTOR vRight = XMVector3Normalize(XMVector3Cross(XMVECTOR{ 0.f, 1.f, 0.f, 0.f }, vLerpLook));
+	XMVECTOR vUp = XMVector3Normalize(XMVector3Cross(vLerpLook, vRight));
+
+	Set_State(TRANSFORM_STATE::RIGHT, vRight * fScale.x);
+	Set_State(TRANSFORM_STATE::UP, vUp * fScale.y);
+	Set_State(TRANSFORM_STATE::LOOK, vLerpLook * fScale.z);
+}
+
 void CTransformCom::Chase(FXMVECTOR vTarget, _float fDT, _float fLeastDist)
 {
 	XMVECTOR     vPosition = Get_State(TRANSFORM_STATE::POS);
-
 	XMVECTOR     vMoveDir = vTarget - vPosition;
 
 	if (fLeastDist <= XMVectorGetX(XMVector3Length(vMoveDir)))
@@ -301,9 +318,7 @@ void CTransformCom::Chase(FXMVECTOR vTarget, _float fDT, _float fLeastDist)
 
 HRESULT CTransformCom::Bind_ShaderResource(CShaderCom* pShader, const _char* WorldMatrixTag)
 {
-	return pShader->Bind_Matrix(
-		WorldMatrixTag,
-		&m_WorldMatrix);
+	return pShader->Bind_Matrix(WorldMatrixTag, &m_WorldMatrix);
 }
 
 CTransformCom* CTransformCom::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)

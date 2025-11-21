@@ -18,6 +18,7 @@ public:
 	
 	HRESULT Present();
 	void Bind_Viewport(VIEWPORT_TYPE ViewportType);
+	void Bind_RenderState(RENDER_STATE eRenderState);
 
 private:	
 	ID3D11Device*				m_pDevice = { nullptr };
@@ -28,6 +29,7 @@ private:
 	ID3D11DepthStencilView*		m_pDepthStencilView = { nullptr };
 
 	D3D11_VIEWPORT m_Viewports[static_cast<int32_t>(VIEWPORT_TYPE::END)] = {};
+	ID3D11RasterizerState* m_pRenderState [static_cast<int32_t>(RENDER_STATE::END)];
 
 private:
 	HRESULT Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iWinCX, _uint iWinCY);

@@ -67,6 +67,7 @@ public:
 	HRESULT GraphicDevice_Present();
 
 	void GraphicDevice_Bind_Viewport(VIEWPORT_TYPE ViewportType);
+	void GraphicDevice_Bind_RenderState(RENDER_STATE eRenderState);
 #pragma endregion
 
 	#pragma region OBJECT_MANAGER
@@ -147,6 +148,11 @@ public:
 		CShaderCom* pShader,
 		const _char* pConstantName,
 		const _wstring CameraTag);
+
+	const CCamera* CameraManager_Get_Camera(const _wstring& strCameraTag);
+
+	void CameraManager_FocusOnTarget(const _wstring& strCameraTag, FXMVECTOR vTargetPos, _float fTargetFov, _float fRatio);
+
 #pragma endregion
 
 #pragma region INPUTDEVICE

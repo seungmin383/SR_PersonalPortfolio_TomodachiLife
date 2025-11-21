@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Mii.h"
 
+#include "PlaceMoveButton.h"
 
 CPlace_CityHall::CPlace_CityHall(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -122,7 +123,7 @@ HRESULT CPlace_CityHall::Ready_Actor_Layer()
 			MiiDesc.fCX = 1.f;
 			MiiDesc.fCY = 1.f;
 			MiiDesc.fCZ = 1.f;
-			MiiDesc.fSpeedPerSecond = 30.f;
+			MiiDesc.fSpeedPerSecond = 15.f;
 			MiiDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
 			MiiDesc.fRotationPerSecond = XMConvertToRadians(90.f);
 
@@ -149,7 +150,8 @@ HRESULT CPlace_CityHall::Ready_Actor_Layer()
 
 	//UI
 	{
-
+		
+		
 	}
 	
 	

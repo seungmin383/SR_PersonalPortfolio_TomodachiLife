@@ -97,6 +97,18 @@
     <Filter Include="02.Actor\03.Mii\Items">
       <UniqueIdentifier>{2dee03a3-ee22-4ce6-9234-d9da67fdcde7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Actor\NewFilter1">
+      <UniqueIdentifier>{33bff0d4-1722-45de-a8bb-ec4b1406ff36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\CommonButton">
+      <UniqueIdentifier>{52f76ce3-df12-4b8e-91f1-d54e494aa6b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\00.OnclickStrategy">
+      <UniqueIdentifier>{6aaf7a8a-4e37-437b-8485-fd2c0810f749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\00.OnclickStrategy\Interface">
+      <UniqueIdentifier>{c95e6265-7401-41a1-9a4c-3eaf8d5209a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -182,6 +194,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Player.h">
       <Filter>02.Actor\01.PlayerTest\00.Player</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiHair.h">
+      <Filter>02.Actor\03.Mii\Hair</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\CommonButton.h">
+      <Filter>03.UI\01.Button\CommonButton</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\IOnClick.h">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangePlace_Strategy.h">
+      <Filter>03.UI\01.Button\00.OnclickStrategy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -243,6 +267,18 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiHead.cpp">
       <Filter>02.Actor\03.Mii\Head</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiHair.cpp">
+      <Filter>02.Actor\03.Mii\Hair</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\CommonButton.cpp">
+      <Filter>03.UI\01.Button\CommonButton</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\IOnClick.cpp">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangePlace_Strategy.cpp">
+      <Filter>03.UI\01.Button\00.OnclickStrategy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

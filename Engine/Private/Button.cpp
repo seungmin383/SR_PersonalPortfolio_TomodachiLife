@@ -36,12 +36,6 @@ HRESULT CButton::Initialize_Clone(void* pArg)
 
 int32_t CButton::Update_Priority(_float fDT)
 {
-	// 초기화 후 다시 계산
-	{
-		m_isClicked = FALSE;
-		m_isOverlappedMouse = FALSE;
-	}
-
 	// 아마 마우스 매니저에서 뷰포트에 따른 포지션이 제공될 것
 	Compare_Position(m_pGameInstance->MouseManager_Get_MousePos());
 	return 0;
@@ -63,6 +57,12 @@ HRESULT CButton::Render()
 
 void CButton::Compare_Position(const POINT& vMousePos)
 {
+	// 초기화 후 다시 계산
+	{
+		m_isClicked = FALSE;
+		m_isOverlappedMouse = FALSE;
+	}
+
 	_bool isOverlapMouseX = { FALSE };
 	_bool isOverlapMouseY = { FALSE };
 

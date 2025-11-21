@@ -10,12 +10,16 @@ NS_END
 
 NS_BEGIN(Game)
 
+class IOnClick;
 class CPlaceMoveButton final : public CButton
 {
 public:
 	typedef struct tagPlaceMoveButtonDesc : public BUTTON_DESC
 	{
-		PLACE_ID eNextPlace = {};
+		IOnClick* pStrategy = { nullptr };
+
+		PLACE_ID eCurPlaceID = {};
+
 		uint8_t iTextureNum = {};
 		uint8_t iUnlockTextureNum = {};
 		uint8_t iOutlineTextureNum = {};
@@ -41,7 +45,7 @@ private:
 	HRESULT Ready_Component();
 	HRESULT Bind_ShaderResources();
 
-	void On_Click() override;
+	int32_t On_Click() override;
 
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
@@ -49,7 +53,9 @@ private:
 	CTextureCom* m_pOutlineTextureCom = { nullptr };
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
-	PLACE_ID	m_eNextPlaceID = { PLACE_ID::END };
+	IOnClick* m_pClickStrategy = { nullptr };
+
+	PLACE_ID m_eCurPlaceID = { PLACE_ID::END };
 	uint8_t	m_iTextureNum = {};
 	uint8_t	m_iOutlineTextureNum = {};
 	uint8_t m_iStoreOutlineTextureNum = {};

@@ -49,6 +49,7 @@ private:
 private:
 	const uint32_t* m_pParentState = { nullptr };
 	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
+	XMFLOAT4 m_vSkinColor = {};
 
 public:
 	static CMiiHead* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

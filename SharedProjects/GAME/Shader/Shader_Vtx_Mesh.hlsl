@@ -1,3 +1,4 @@
+float4 g_MatColor = float4(0.96f, 0.78f, 0.63f, 1.0f); 
 
 matrix g_WorldMatrix;
 matrix g_ViewMatrix;
@@ -56,6 +57,27 @@ VS_OUT VS_MAIN(VS_IN In)
     return Out;
 }
 
+VS_OUT VS_HAIR(VS_IN In)
+{
+    VS_OUT Out;
+    
+    float4 vPosition = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
+    
+    float3 normal = normalize(mul(In.vNormal, (float3x3) g_WorldMatrix));
+    
+    vPosition.xyz += normal * 0.005f; // 0.001~0.01 사이 조절
+    
+    vPosition = mul(vPosition, g_ViewMatrix);
+    vPosition = mul(vPosition, g_ProjMatrix);
+    
+    Out.vPosition = vPosition;
+    Out.vNormal = mul(float4(In.vNormal, 0.f), g_WorldMatrix);
+    Out.vTexcoord = In.vTexcoord;
+    Out.vWorldPosition = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
+    
+    return Out;
+}
+
 struct PS_IN
 {
     float4 vPosition        : SV_POSITION;
@@ -97,12 +119,11 @@ PS_OUT PS_MAIN(PS_IN In)
     
     return Out;
 }
-float4 g_PeachColor = float4(0.96f, 0.78f, 0.63f, 1.0f); 
 
 PS_OUT PS_MAIN_NOMAT(PS_IN In)
 {
     PS_OUT Out;
-    vector vMtrlDiffuse = g_PeachColor;
+    vector vMtrlDiffuse = g_MatColor;
     
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a;
@@ -116,9 +137,6 @@ PS_OUT PS_MAIN_NOMAT(PS_IN In)
     float3 vFinalColor =
     (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
     
-    
-    if (fAlpha < 0.1f)
-        discard;
     
     Out.vColor = float4(vFinalColor, fAlpha);
     return Out;
@@ -136,5 +154,12 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN_NOMAT();
     }
+    pass NoMaterialModelHair
+    {
+        VertexShader = compile vs_5_0 VS_HAIR();
+        PixelShader = compile ps_5_0 PS_MAIN_NOMAT();
+    }
+
+
 }
 

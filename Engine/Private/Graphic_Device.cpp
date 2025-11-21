@@ -84,6 +84,16 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pDeviceContext);
 
+	D3D11_RASTERIZER_DESC rsDesc{};
+	rsDesc.FillMode = D3D11_FILL_SOLID;
+	rsDesc.CullMode = D3D11_CULL_NONE;
+	rsDesc.FrontCounterClockwise = FALSE;
+	rsDesc.DepthClipEnable = TRUE;
+	m_pDevice->CreateRasterizerState(&rsDesc, &m_pRenderState[static_cast<int32_t>(RENDER_STATE::NONE_BACKCULL)]);
+
+	rsDesc.CullMode = D3D11_CULL_BACK;
+	m_pDevice->CreateRasterizerState(&rsDesc, &m_pRenderState[static_cast<int32_t>(RENDER_STATE::BACKCULL)]);
+
 	return S_OK;
 }
 
@@ -124,6 +134,11 @@ HRESULT CGraphic_Device::Present()
 void CGraphic_Device::Bind_Viewport(VIEWPORT_TYPE ViewportType)
 {
 	m_pDeviceContext->RSSetViewports(1, &m_Viewports[static_cast<int32_t>(ViewportType)]);
+}
+
+void CGraphic_Device::Bind_RenderState(RENDER_STATE eRenderState)
+{
+	m_pDeviceContext->RSSetState(m_pRenderState[static_cast<int32_t>(eRenderState)]);
 }
 
 
@@ -272,6 +287,10 @@ void CGraphic_Device::Free()
 	Safe_Release(m_pBackBufferRTV);
 	Safe_Release(m_pDeviceContext);
 
+	for (int32_t i = 0; i < static_cast<int32_t>(RENDER_STATE::END); ++i)
+	{
+		Safe_Release(m_pRenderState[i]);
+	}
 
 #if defined(DEBUG) || defined(_DEBUG)
 	ID3D11Debug* d3dDebug;

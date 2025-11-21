@@ -1,6 +1,9 @@
 #include "PlaceMoveButton.h"
 #include "GameInstance.h"
 #include "Place_Loading.h"
+#include "IOnClick.h"
+#include "WorldCamera.h"
+
 
 CPlaceMoveButton::CPlaceMoveButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CButton(pDevice, pContext)
@@ -21,7 +24,9 @@ HRESULT CPlaceMoveButton::Initialize_Clone(void* pArg)
 {
 	PLACEMOVEBUTTON_DESC* tPlaceMoveButtonDesc = static_cast<PLACEMOVEBUTTON_DESC*>(pArg);
 	
-	m_eNextPlaceID = tPlaceMoveButtonDesc->eNextPlace;
+	m_pClickStrategy = tPlaceMoveButtonDesc->pStrategy;
+
+	m_eCurPlaceID = tPlaceMoveButtonDesc->eCurPlaceID;
 	m_iTextureNum = tPlaceMoveButtonDesc->iTextureNum;
 	m_iOutlineTextureNum = tPlaceMoveButtonDesc->iOutlineTextureNum;
 
@@ -52,27 +57,13 @@ int32_t CPlaceMoveButton::Update_Priority(_float fDT)
 
 int32_t CPlaceMoveButton::Update(_float fDT)
 {
-
-	if (m_isSelected && m_isClicked)
+	if (m_isClicked)
 	{
-		m_pGameInstance->PlaceManager_Change_Place(
-			static_cast<uint32_t>(PLACE_ID::LOADING),
-			CPlace_Loading::Create(
-				m_pDevice,
-				m_pContext,
-				m_eNextPlaceID));
-		return PLACE_CHANGE;
+		return On_Click();
 	}
-	else if (m_isClicked)
+
+	if(!m_isSelected)
 	{
-
-		On_Click();
-
-		m_iOutlineTextureNum = m_iStoreOutlineTextureNum;
-	}
-	else if(!m_isSelected)
-	{
-
 		m_iOutlineTextureNum = 5;
 	}
 
@@ -175,14 +166,22 @@ HRESULT CPlaceMoveButton::Bind_ShaderResources()
 	return hr;
 }
 
-void CPlaceMoveButton::On_Click()
+int32_t CPlaceMoveButton::On_Click()
 {
-	// 버튼들을 아직 매니저에 안넣어줌
-	m_pGameInstance->ButtonManager_All_Deactivate(
-		static_cast<uint32_t>(PLACE_ID::ISLAND));
-
-	m_isSelected = TRUE;
-	return;
+	/* 이 버튼이 선택이 안되어 있었는데 클릭 되었다면 -> 아웃라인 생성 및 타겟 포인트로 확대 */
+	if (!m_isSelected)
+	{
+		m_pGameInstance->ButtonManager_All_Deactivate( static_cast<uint32_t>(m_eCurPlaceID));
+		m_iOutlineTextureNum = m_iStoreOutlineTextureNum;
+		m_isSelected = TRUE;
+	}
+	/* 이 버튼이 선택되어 있었는데 클릭되었다면 -> 씬 전환*/
+	else
+	{
+		m_pClickStrategy->OnClick();
+		return PLACE_CHANGE;
+	}
+	return UPDATE_CLEAR;
 }
 
 CPlaceMoveButton* CPlaceMoveButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -215,6 +214,8 @@ CObject* CPlaceMoveButton::Clone(void* pArg)
 
 void CPlaceMoveButton::Free()
 {
+	Safe_Release(m_pClickStrategy);
+
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pOutlineTextureCom);

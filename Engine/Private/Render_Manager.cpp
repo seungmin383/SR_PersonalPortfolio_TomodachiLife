@@ -71,6 +71,7 @@ HRESULT CRenderManager::Render_Top_Priority()
 
 HRESULT CRenderManager::Render_Top_NonBlend()
 {
+
 	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONBLEND)])
 	{
 		if (nullptr == Object)
@@ -92,6 +93,8 @@ HRESULT CRenderManager::Render_Top_NonBlend()
 
 HRESULT CRenderManager::Render_Top_Blend()
 {
+	m_pGameInstance->GraphicDevice_Bind_RenderState(RENDER_STATE::NONE_BACKCULL);
+
 	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_BLEND)])
 	{
 		if (nullptr == Object)
@@ -106,6 +109,8 @@ HRESULT CRenderManager::Render_Top_Blend()
 	}
 
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_BLEND)].clear();
+
+	m_pGameInstance->GraphicDevice_Bind_RenderState(RENDER_STATE::BACKCULL);
 
 	return S_OK;
 }
@@ -178,6 +183,7 @@ HRESULT CRenderManager::Render_Bottom_NonBlend()
 
 HRESULT CRenderManager::Render_Bottom_Blend()
 {
+	m_pGameInstance->GraphicDevice_Bind_RenderState(RENDER_STATE::NONE_BACKCULL);
 	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_BLEND)])
 	{
 		if (nullptr == Object)
@@ -192,6 +198,7 @@ HRESULT CRenderManager::Render_Bottom_Blend()
 	}
 
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_BLEND)].clear();
+	m_pGameInstance->GraphicDevice_Bind_RenderState(RENDER_STATE::BACKCULL);
 
 	return S_OK;
 }

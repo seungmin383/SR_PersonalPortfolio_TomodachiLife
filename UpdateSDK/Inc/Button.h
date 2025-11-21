@@ -41,7 +41,7 @@ protected:
 	_float2 m_fRIghtBottom = {};
 
 public:
-	virtual void On_Click()PURE;
+	virtual int32_t On_Click()PURE;
 	virtual void Free()override;
 };
 

@@ -95,6 +95,28 @@ HRESULT CCameraManager::Bind_Camera_Pos(
 	return S_OK;
 }
 
+void CCameraManager::FocusOnTarget(const _wstring& strCameraTag, FXMVECTOR vTargetPos, _float fTargetFov, _float fRatio)
+{
+	CCamera* pInstance = Get_Camera(strCameraTag);
+
+	if (nullptr == pInstance)
+		return;
+
+	pInstance->FocusOnTarget(vTargetPos, fTargetFov, fRatio);
+}
+
+CCamera* CCameraManager::Get_Camera(const _wstring& strCameraTag)
+{
+	auto iter = m_Cameras.find(strCameraTag);
+
+	if (m_Cameras.end() == iter)
+	{
+		MSG_BOX("ErrCode : No Camera");
+		return nullptr;
+	}
+	return iter->second;
+}
+
 CCameraManager* CCameraManager::Create()
 {
 	return new CCameraManager;

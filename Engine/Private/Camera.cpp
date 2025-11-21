@@ -193,6 +193,13 @@ void CCamera::Update_PipeLine()
 //	m_ViewMatrix( 3, 3) = 1.f;
 //}
 
+void CCamera::FocusOnTarget(FXMVECTOR vTargetPos, _float fTargetFov, _float fRatio)
+{
+	m_pTransformCom->LookAtLerp(vTargetPos, fRatio);
+
+	m_fFov += ((fTargetFov - m_fFov) * fRatio);
+}
+
 void CCamera::Free()
 {
 	CActor::Free();

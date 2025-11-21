@@ -28,23 +28,13 @@ HRESULT CMiiHead::Initialize_Clone(void* pArg)
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
+	m_vSkinColor = { 0.96f, 0.78f, 0.63f, 1.0f };
 	return S_OK;
 }
 
 int32_t CMiiHead::Update_Priority(_float fDT)
 {
-	if (m_pGameInstance->Get_DIKeyState(DIK_Z))
-	{
-		m_pTransformCom->Go_Straight(fDT*2.f);
-	}
-	else if (m_pGameInstance->Get_DIKeyState(DIK_X))
-	{
-		m_pTransformCom->Go_Left(fDT * 2.f);
-	}
-	else if (m_pGameInstance->Get_DIKeyState(DIK_C))
-	{
-		m_pTransformCom->Go_Up(fDT * 2.f);
-	}
+
 
 	return 0;
 }
@@ -87,7 +77,7 @@ HRESULT CMiiHead::Ready_Component()
 		return E_FAIL;
 
 	/* Model */
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_seHead2"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_seHead1"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 
 	return S_OK;
@@ -97,6 +87,7 @@ HRESULT CMiiHead::Bind_ShaderResources()
 {
 	HRESULT hr = {};
 
+	m_pShader->Bind_RawValue("g_MatColor", &m_vSkinColor, sizeof(XMFLOAT4));
 	m_pShader->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix);
 	hr = m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ViewMatrix", TEXT("World_Camera"), D3DTS::VIEW);
 	hr = m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ);

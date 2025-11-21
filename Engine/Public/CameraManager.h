@@ -37,6 +37,11 @@ public:
 		const _char* pConstantName,
 		const _wstring CameraTag);
 
+	void FocusOnTarget(const _wstring& strCameraTag, FXMVECTOR vTargetPos, _float fTargetFov, _float fRatio);
+
+public:
+	CCamera* Get_Camera(const _wstring& strCameraTag);
+
 private:
 	map<const _wstring, CCamera*> m_Cameras;
 

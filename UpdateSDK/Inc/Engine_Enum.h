@@ -8,6 +8,7 @@ namespace Engine
 	enum class VIEWPORT_TYPE :int32_t { TOP, BOTTOM, END};
 	enum class LIGHT_TYPE : int32_t { DIRECTIONAL, POINT, END};
 	enum class ANIM_TYPE :  int32_t {ANIM, NONEANIM, END};
+	enum class RENDER_STATE : int32_t { NONE_BACKCULL, BACKCULL, END};
 
 	enum class MOUSEKEYSTATE { LB, RB, WHEEL, XB, END };
 	enum class MOUSEMOVESTATE { X, Y, WHEEL, END };
@@ -73,11 +74,5 @@ namespace Engine
         se_TextureType_GLTF_METALLIC_ROUGHNESS = 27,
 	};
 
-	enum class ANIM_CLIP
-	{
-		BANZAI,
-		CALL,
-		END
-	};
 }
 #endif // Engine_Enum_h__

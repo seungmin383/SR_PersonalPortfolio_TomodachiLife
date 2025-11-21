@@ -27,11 +27,14 @@ public:
 	HRESULT Ready_Environment_Layer();
 	HRESULT Ready_Camera_Layer();
 
+private:
+	_float m_tmpTime = {};
+	XMVECTOR m_tmpTargetPos = {};
+
 public:
 	static CPlace_Island* Create(
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext);
-
 	virtual void Free() override;
 };
 

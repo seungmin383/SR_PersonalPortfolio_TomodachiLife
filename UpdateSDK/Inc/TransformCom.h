@@ -55,6 +55,7 @@ public:
 
 	//바라보기
 	void LookAt(FXMVECTOR vPoint);
+	void LookAtLerp(FXMVECTOR vPoint, _float fRatio);
 	//추적
 	void Chase(FXMVECTOR vTarget, _float fDT, _float fLeastDist = 0.1f);
 

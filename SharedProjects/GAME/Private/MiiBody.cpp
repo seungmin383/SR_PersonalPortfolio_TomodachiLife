@@ -1,6 +1,8 @@
 #include "MiiBody.h"
 #include "GameInstance.h"
 
+#include "Mii.h"
+
 CMiiBody::CMiiBody(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPartObject(pDevice, pContext)
 {
@@ -38,6 +40,18 @@ int32_t CMiiBody::Update_Priority(_float fDT)
 
 int32_t CMiiBody::Update(_float fDT)
 {
+	if (CMii::STATE::IDLE & *m_pParentState)
+		m_pSeModel->Change_Animation("CM_Wait00", 0.2f, TRUE);
+	if (CMii::STATE::WALK & *m_pParentState)
+		m_pSeModel->Change_Animation("CM_Walk01", 0.2f, TRUE);
+	if (CMii::STATE::RUN & *m_pParentState)
+		m_pSeModel->Change_Animation("CM_Run00", 0.2f, TRUE);
+
+	if (m_pGameInstance->Get_DIKeyState(DIK_B))
+	{
+		if (FAILED(Add_Component(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_BabyJumper"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
+			return E_FAIL;
+	}
 	return 0;
 }
 
