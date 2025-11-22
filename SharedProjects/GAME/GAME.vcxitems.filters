@@ -218,6 +218,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IUnlock.h">
       <Filter>02.Actor\04.TempModels\UnlockStrategy</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEditorBG.h">
+      <Filter>02.Actor\05.MiiEditorBGModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -297,6 +300,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IUnlock.cpp">
       <Filter>02.Actor\04.TempModels\UnlockStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEditorBG.cpp">
+      <Filter>02.Actor\05.MiiEditorBGModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

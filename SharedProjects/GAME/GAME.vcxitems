@@ -33,6 +33,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IUnlock.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Mii.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiBody.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEditorBG.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiHair.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiHead.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiManager.cpp" />
@@ -63,6 +64,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IUnlock.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Mii.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiBody.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEditorBG.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiHair.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiHead.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiManager.h" />

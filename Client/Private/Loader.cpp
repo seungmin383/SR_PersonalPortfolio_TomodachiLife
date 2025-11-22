@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "Weapon.h"
 #include "TempModel.h"
+#include "MiiEditorBG.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -500,17 +501,42 @@ HRESULT CLoader::Loading_MiiEditor()
 
 	// Component
 	{
-		
+		/* Mii 에디터 배경 모델 */
+		// ProtoTag_Component_EditorBG
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
+
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_EditorBG", ANIM_TYPE::ANIM,
+				"../../Resource/00Model/BackGround - MiiEditor/EditorBG.fbx", initMatrix, "EditorBG");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::CITYHALL), TEXT("ProtoTag_Component_EditorBG"), tmp)))
+				return E_FAIL;
+
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "EditorBG", initMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::CITYHALL), TEXT("ProtoTag_Component_seEditorBG"), tmp)))
+				return E_FAIL;
+		}
 	}
 
 	// Actor
-	{
-		
+	{	
+		// ProtoTag_Actor_EditorBG
+		{
+			tmp = CMiiEditorBG::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::CITYHALL), TEXT("ProtoTag_Actor_EditorBG"), tmp)))
+				return E_FAIL;
+		}
 	}
 
 	// UI
 	{
+		// ProtoTag_UI_PlaceMoveButton
+		{
+			tmp = CPlaceMoveButton::Create(m_pDevice, m_pContext);
 
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::CITYHALL), TEXT("ProtoTag_UI_PlaceMoveButton"), tmp)))
+				return E_FAIL;
+		}
 	}
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));

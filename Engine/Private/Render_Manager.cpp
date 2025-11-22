@@ -1,6 +1,7 @@
 #include "Render_Manager.h"
 #include "Object.h"
 #include "GameInstance.h"
+#include "UI.h"
 
 CRenderManager::CRenderManager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pDevice(pDevice), m_pContext(pContext),
@@ -9,7 +10,6 @@ CRenderManager::CRenderManager(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
 	Safe_AddRef(m_pGameInstance);
-
 }
 
 HRESULT CRenderManager::Add_RenderGroup(
@@ -21,7 +21,6 @@ HRESULT CRenderManager::Add_RenderGroup(
 
 	m_RenderGroup[static_cast<uint32_t>(eRenderGroup)].push_back(pObject);
 	Safe_AddRef(pObject);
-
 	return S_OK;
 }
 
@@ -36,7 +35,6 @@ HRESULT CRenderManager::Render_Top()
 	Render_Top_NonBlend();
 	Render_Top_Blend();
 	Render_Top_UI();
-
 	return S_OK;
 }
 HRESULT CRenderManager::Render_Bottom()
@@ -45,7 +43,6 @@ HRESULT CRenderManager::Render_Bottom()
 	Render_Bottom_NonBlend();
 	Render_Bottom_Blend();
 	Render_Bottom_UI();
-
 	return S_OK;
 }
 
@@ -63,15 +60,12 @@ HRESULT CRenderManager::Render_Top_Priority()
 		}
 		Safe_Release(Object);
 	}
-
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_PRIORITY)].clear();
-
 	return S_OK;
 }
 
 HRESULT CRenderManager::Render_Top_NonBlend()
 {
-
 	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONBLEND)])
 	{
 		if (nullptr == Object)
@@ -82,19 +76,15 @@ HRESULT CRenderManager::Render_Top_NonBlend()
 			MSG_BOX("ErrCode :Top Non Blend Object Render Failed");
 			return E_FAIL;
 		}
-
 		Safe_Release(Object);
 	}
-
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONBLEND)].clear();
-
 	return S_OK;
 }
 
 HRESULT CRenderManager::Render_Top_Blend()
 {
 	m_pGameInstance->GraphicDevice_Bind_RenderState(RENDER_STATE::NONE_BACKCULL);
-
 	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_BLEND)])
 	{
 		if (nullptr == Object)
@@ -107,11 +97,8 @@ HRESULT CRenderManager::Render_Top_Blend()
 		}
 		Safe_Release(Object);
 	}
-
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_BLEND)].clear();
-
 	m_pGameInstance->GraphicDevice_Bind_RenderState(RENDER_STATE::BACKCULL);
-
 	return S_OK;
 }
 
@@ -122,16 +109,18 @@ HRESULT CRenderManager::Render_Top_UI()
 		if (nullptr == Object)
 			break;
 
-		if (FAILED(Object->Render()))
+		if (static_cast<CUI*>(Object)->Get_Visible())
 		{
-			MSG_BOX("ErrCode :Top UI Object Render Failed");
-			return E_FAIL;
+			if (FAILED(Object->Render()))
+			{
+				MSG_BOX("ErrCode :Top UI Object Render Failed");
+				return E_FAIL;
+			}
 		}
+
 		Safe_Release(Object);
 	}
-
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_UI)].clear();
-
 	return S_OK;
 }
 
@@ -154,9 +143,7 @@ HRESULT CRenderManager::Render_Bottom_Priority()
 		}
 		Safe_Release(Object);
 	}
-
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_PRIORITY)].clear();
-
 	return S_OK;
 }
 
@@ -175,9 +162,7 @@ HRESULT CRenderManager::Render_Bottom_NonBlend()
 
 		Safe_Release(Object);
 	}
-
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_NONBLEND)].clear();
-
 	return S_OK;
 }
 
@@ -196,10 +181,8 @@ HRESULT CRenderManager::Render_Bottom_Blend()
 		}
 		Safe_Release(Object);
 	}
-
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_BLEND)].clear();
 	m_pGameInstance->GraphicDevice_Bind_RenderState(RENDER_STATE::BACKCULL);
-
 	return S_OK;
 }
 
@@ -210,16 +193,17 @@ HRESULT CRenderManager::Render_Bottom_UI()
 		if (nullptr == Object)
 			break;
 
-		if (FAILED(Object->Render()))
+		if (static_cast<CUI*>(Object)->Get_Visible())
 		{
-			MSG_BOX("ErrCode :Bottom UI Object Render Failed");
-			return E_FAIL;
+			if (FAILED(Object->Render()))
+			{
+				MSG_BOX("ErrCode :Bottom UI Object Render Failed");
+				return E_FAIL;
+			}
 		}
 		Safe_Release(Object);
 	}
-
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI)].clear();
-
 	return S_OK;
 }
 
@@ -243,7 +227,6 @@ CRenderManager* CRenderManager::Create(ID3D11Device* pDevice, ID3D11DeviceContex
 
 void CRenderManager::Free()
 {
-
 	for (uint32_t i = 0; i < static_cast<uint32_t>(RENDER_GROUP::END); i++)
 	{
 		for (auto& Object : m_RenderGroup[i])
@@ -253,7 +236,6 @@ void CRenderManager::Free()
 
 			Safe_Release(Object);
 		}
-
 		m_RenderGroup[i].clear();
 	}
 

@@ -35,9 +35,8 @@ HRESULT CCommonButton::Initialize_Clone(void* pArg)
 
 int32_t CCommonButton::Update_Priority(_float fDT)
 {
-	CButton::Update_Priority(fDT);	// 마우스랑 확인
+	CButton::Update_Priority(fDT);
 
-	// 커서랑 버튼이 겹쳐있고, 좌클릭이 눌렀다 때졌을 때
 	if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isClickLBT())
 	{
 		m_isClicked = TRUE;
@@ -55,7 +54,6 @@ int32_t CCommonButton::Update(_float fDT)
 
 void CCommonButton::Update_Late(_float fDT)
 {
-	//m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::BOTTOM_UI, this);
 	CUI::Update_Late(fDT);
 }
 
@@ -64,13 +62,13 @@ HRESULT CCommonButton::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	if (FAILED(m_pRectBufferCom->Bind_Resource()))
+	if (FAILED(m_pRectBuffer->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(0)))
+	if (FAILED(m_pShader->Begin(0)))
 		return E_FAIL;
 
-	if (FAILED(m_pRectBufferCom->Begin_Draw()))
+	if (FAILED(m_pRectBuffer->Begin_Draw()))
 		return E_FAIL;
 
 	return S_OK;
@@ -82,7 +80,7 @@ HRESULT CCommonButton::Ready_Component()
 		static_cast<uint32_t>(PLACE_ID::STATIC),
 		TEXT("ProtoTag_Component_VtxTexShader"),
 		TEXT("Com_Shader"),
-		reinterpret_cast<CComponent**>(&m_pShaderCom),
+		reinterpret_cast<CComponent**>(&m_pShader),
 		nullptr)))
 		return E_FAIL;
 
@@ -90,7 +88,7 @@ HRESULT CCommonButton::Ready_Component()
 		static_cast<uint32_t>(PLACE_ID::STATIC),
 		TEXT("ProtoTag_Component_RectBuffer"),
 		TEXT("Com_RectBuffer"),
-		reinterpret_cast<CComponent**>(&m_pRectBufferCom),
+		reinterpret_cast<CComponent**>(&m_pRectBuffer),
 		nullptr)))
 		return E_FAIL;
 
@@ -98,7 +96,7 @@ HRESULT CCommonButton::Ready_Component()
 		static_cast<uint32_t>(PLACE_ID::ISLAND),
 		TEXT("ProtoTag_Component_PlaceMoveButton_Texture"),
 		TEXT("Com_Texture"),
-		reinterpret_cast<CComponent**>(&m_pTextureCom),
+		reinterpret_cast<CComponent**>(&m_pTexture),
 		nullptr)))
 		return E_FAIL;
 
@@ -106,7 +104,7 @@ HRESULT CCommonButton::Ready_Component()
 		static_cast<uint32_t>(PLACE_ID::ISLAND),
 		TEXT("ProtoTag_Component_OutLine_Texture"),
 		TEXT("Com_OutLineTexture"),
-		reinterpret_cast<CComponent**>(&m_pOutlineTextureCom),
+		reinterpret_cast<CComponent**>(&m_pIconTexture),
 		nullptr)))
 		return E_FAIL;
 
@@ -115,25 +113,16 @@ HRESULT CCommonButton::Ready_Component()
 
 HRESULT CCommonButton::Bind_ShaderResources()
 {
-	HRESULT hr = {};
+	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShader, "g_WorldMatrix")))
+		return E_FAIL;
 
-	hr = m_pTransformCom->Bind_ShaderResource(
-		m_pShaderCom,
-		"g_WorldMatrix");
+	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ViewMatrix", TEXT("UI_Camera"), D3DTS::VIEW)))
+		return E_FAIL;
 
-	m_pGameInstance->CameraManager_Bind_Matrix(
-		m_pShaderCom,
-		"g_ViewMatrix",
-		TEXT("UI_Camera"),
-		D3DTS::VIEW);
+	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ)))
+		return E_FAIL;
 
-	m_pGameInstance->CameraManager_Bind_Matrix(
-		m_pShaderCom,
-		"g_ProjMatrix",
-		TEXT("UI_Camera"),
-		D3DTS::PROJ);
-
-	return hr;
+	return S_OK;;
 }
 
 int32_t CCommonButton::On_Click()
@@ -144,40 +133,40 @@ int32_t CCommonButton::On_Click()
 
 CCommonButton* CCommonButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CCommonButton* tmp = new CCommonButton(pDevice, pContext);
+	CCommonButton* pInstance = new CCommonButton(pDevice, pContext);
 
-	if (FAILED(tmp->Initialize_Origin()))
+	if (FAILED(pInstance->Initialize_Origin()))
 	{
 		MSG_BOX("ErrCode : CCommonButton Create Failed");
-		Safe_Release(tmp);
+		Safe_Release(pInstance);
 		return nullptr;
 	}
 
-	return tmp;
+	return pInstance;
 }
 
 CObject* CCommonButton::Clone(void* pArg)
 {
-	CCommonButton* tmp = new CCommonButton(*this);
+	CCommonButton* pInstance = new CCommonButton(*this);
 
-	if (FAILED(tmp->Initialize_Clone(pArg)))
+	if (FAILED(pInstance->Initialize_Clone(pArg)))
 	{
 		MSG_BOX("ErrCode : CCommonButton Clone Failed");
-		Safe_Release(tmp);
+		Safe_Release(pInstance);
 		return nullptr;
 	}
 
-	return tmp;
+	return pInstance;
 }
 
 void CCommonButton::Free()
 {
 	Safe_Release(m_pClickStrategy);
 
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pOutlineTextureCom);
-	Safe_Release(m_pRectBufferCom);
+	Safe_Release(m_pShader);
+	Safe_Release(m_pTexture);
+	Safe_Release(m_pIconTexture);
+	Safe_Release(m_pRectBuffer);
 	CButton::Free();
 }
 

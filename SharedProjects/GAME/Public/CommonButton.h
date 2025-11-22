@@ -42,10 +42,10 @@ private:
 	int32_t On_Click() override;
 
 private:
-	CShaderCom* m_pShaderCom = { nullptr };
-	CTextureCom* m_pTextureCom = { nullptr };
-	CTextureCom* m_pOutlineTextureCom = { nullptr };
-	CRectBufferCom* m_pRectBufferCom = { nullptr };
+	CShaderCom* m_pShader = { nullptr };
+	CTextureCom* m_pTexture = { nullptr };
+	CTextureCom* m_pIconTexture = { nullptr };
+	CRectBufferCom* m_pRectBuffer = { nullptr };
 
 	IOnClick* m_pClickStrategy = { nullptr };
 

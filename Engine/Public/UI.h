@@ -37,9 +37,12 @@ public:
 
 	virtual HRESULT Render()override;
 
+public:
+	const _bool Get_Visible()const { return m_isVisible; }
+	void Set_Visible(_bool is) { m_isVisible = is; }
+
 protected:
 	CTransformCom* m_pTransformCom = { nullptr };
-
 	map	<const _wstring, CComponent*> m_Components;
 	
 protected:
@@ -55,6 +58,8 @@ protected:
 	XMFLOAT4X4 m_ProjMatrix = {};
 
 	RENDER_GROUP m_eRenderGroup = { RENDER_GROUP::END };
+
+	_bool m_isVisible = { TRUE };
 
 protected:
 	HRESULT Add_Component(
