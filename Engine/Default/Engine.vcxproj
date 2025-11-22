@@ -77,6 +77,8 @@
     <ClInclude Include="..\Public\Timer_Manager.h" />
     <ClInclude Include="..\Public\TransformCom.h" />
     <ClInclude Include="..\Public\UI.h" />
+    <ClInclude Include="..\Public\UIGroup.h" />
+    <ClInclude Include="..\Public\UIManager.h" />
     <ClInclude Include="..\Public\VIBufferCom.h" />
     <ClInclude Include="fmod.h" />
     <ClInclude Include="fmod.hpp" />
@@ -136,11 +138,16 @@
     <ClCompile Include="..\Private\Timer_Manager.cpp" />
     <ClCompile Include="..\Private\TransformCom.cpp" />
     <ClCompile Include="..\Private\UI.cpp" />
+    <ClCompile Include="..\Private\UIGroup.cpp" />
+    <ClCompile Include="..\Private\UIManager.cpp" />
     <ClCompile Include="..\Private\VIBufferCom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fmod.dll" />
     <None Include="fmodL.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\Debug\Shader\Engine_Shader_Vtx_Tex.hlsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -246,6 +253,12 @@
       <AdditionalDependencies>d3d11.lib;dinput8.lib;dxguid.lib;fmodL_vc.lib;Effects11d.lib;DirectXTKd.lib;assimp-vc143-mtd.lib;jsoncppd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\ThirdPartyLib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

@@ -163,6 +163,21 @@
     <Filter Include="01.Utility\03.Object\02.Component\05.Animation\01.AnimPlayer">
       <UniqueIdentifier>{ae346ed3-d509-4b9a-af37-f1a2ff94e7b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\03.UI\00.Manager">
+      <UniqueIdentifier>{c173b4cb-ea07-43d4-a8e4-2636f627a201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\03.UI\00.Manager\UIGroup">
+      <UniqueIdentifier>{96d7857b-8902-483e-b256-1c196b41adfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\07.Effect">
+      <UniqueIdentifier>{d2d5d30e-caa0-4d40-a37e-dddca1389ccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\07.Effect\00.Shade">
+      <UniqueIdentifier>{214b651a-0a34-4a8d-83e4-2ed78b734b41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Shader">
+      <UniqueIdentifier>{70240ba4-81be-429d-a4e1-092e917db884}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -311,6 +326,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\AnimationPlayer.cpp">
       <Filter>01.Utility\03.Object\02.Component\05.Animation\01.AnimPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UIManager.cpp">
+      <Filter>01.Utility\03.Object\03.UI\00.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UIGroup.cpp">
+      <Filter>01.Utility\03.Object\03.UI\00.Manager\UIGroup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -515,6 +536,12 @@
     <ClInclude Include="..\Public\AnimationPlayer.h">
       <Filter>01.Utility\03.Object\02.Component\05.Animation\01.AnimPlayer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\UIManager.h">
+      <Filter>01.Utility\03.Object\03.UI\00.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UIGroup.h">
+      <Filter>01.Utility\03.Object\03.UI\00.Manager\UIGroup</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="fmod.dll">
@@ -523,5 +550,10 @@
     <None Include="fmodL.dll">
       <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\Debug\Shader\Engine_Shader_Vtx_Tex.hlsl">
+      <Filter>02.Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -68,7 +68,6 @@ HRESULT CObjectManager::Add_Object_in_Layer(
 	auto iter = m_Layers[PlaceID].find(LayerTag);
 
 	//만약 없다 -> Layer를 만들고 Layer에 Object 추가 후 Layers에 추가
-
 	if (iter == m_Layers[PlaceID].end())
 	{
 		CLayer* pLayer = CLayer::Create();

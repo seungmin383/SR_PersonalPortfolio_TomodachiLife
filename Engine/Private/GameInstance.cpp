@@ -1,19 +1,23 @@
-#include "GameInstance.h"
-#include "Timer_Manager.h"
-#include "Graphic_Device.h"
-#include "Input_Device.h"
-#include "Place_Manager.h"
-#include "Render_Manager.h"
-#include "Object_Manager.h"
-#include "PipeLine.h"
+#include "AnimationManager.h"
+#include "Button.h"
+#include "ButtonManager.h"
 #include "Camera.h"
 #include "CameraManager.h"
+#include "FileManager.h"
+#include "GameInstance.h"
+#include "Graphic_Device.h"
+#include "Input_Device.h"
 #include "LightManager.h"
 #include "MouseManager.h"
-#include "FileManager.h"
-#include "ButtonManager.h"
-#include "Button.h"
-#include "AnimationManager.h"
+#include "Object_Manager.h"
+#include "PipeLine.h"
+#include "Place_Manager.h"
+#include "Render_Manager.h"
+#include "Timer_Manager.h"
+#include "UI.h"
+#include "UIManager.h"
+
+
 
 #define CONFIG_FILE_PATH "../../SharedProjects/GAME/GameData/config.json"
 
@@ -151,8 +155,17 @@ HRESULT CGameInstance::Initialize(
 	// AnimationManager
 	{
 		m_pAnimationManager = CAnimationManager::Create();
-		if(nullptr == m_pAnimationManager) {
+		if (nullptr == m_pAnimationManager) {
 			MSG_BOX("ErrCode : AnimationManager Create Failed");
+			return E_FAIL;
+		}
+	}
+
+	// UIManager
+	{
+		m_pUIManager = CUIManager::Create(*ppDevice, *ppContext);
+		if (nullptr == m_pUIManager) {
+			MSG_BOX("ErrCode : UIManager Create Failed");
 			return E_FAIL;
 		}
 	}
@@ -167,6 +180,7 @@ int32_t CGameInstance::Update_Priority(_float fDT)
 	m_pMouseManager->Update(fDT);
 	m_pObjectManager->Update_Priority(fDT);
 	m_pCameraManager->Update_Priority(fDT);
+	m_pUIManager->UIGroup_Update_Priority(fDT);
 	return 0;
 }
 
@@ -178,6 +192,7 @@ int32_t CGameInstance::Update(_float fDT)
 	
 	m_pObjectManager->Update(fDT);
 	m_pCameraManager->Update(fDT);
+	m_pUIManager->UIGroup_Update(fDT);
 	return 	0;
 }
 
@@ -185,6 +200,7 @@ void CGameInstance::Update_Late( _float fDT)
 {
 	m_pObjectManager->Update_Late(fDT);	
 	m_pCameraManager->Update_Late(fDT);
+	m_pUIManager->UIGroup_Update_Late(fDT);
 }
 
 void CGameInstance::Begin_Render()
@@ -533,6 +549,27 @@ CSEAnimation* CGameInstance::AnimationManager_Get_Animation(const _string& strAn
 }
 
 #pragma endregion
+
+#pragma region UIMANAGER
+
+HRESULT CGameInstance::UIManager_Add_UI(uint32_t iUIGroupIndex, const _wstring& strUITag, CUI* pUI)
+{
+	return m_pUIManager->Add_UI(iUIGroupIndex, strUITag, pUI);
+}
+
+void CGameInstance::UIManager_Change_UIGroup(uint32_t iNextGroupIndex, _bool isLoading)
+{
+	m_pUIManager->Change_UIGroup(iNextGroupIndex, isLoading);
+}
+
+void CGameInstance::UIManager_Change_Place(uint32_t iInitGroupIndex)
+{
+	m_pUIManager->Change_Place(iInitGroupIndex);
+}
+
+#pragma endregion
+
+
 
 
 

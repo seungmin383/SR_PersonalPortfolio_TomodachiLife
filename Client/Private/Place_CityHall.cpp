@@ -32,7 +32,6 @@ HRESULT CPlace_CityHall::Initialize()
 
 int32_t CPlace_CityHall::Update(_float fDT)
 {
-	int a = 0;
 	return 0;
 }
 
@@ -80,7 +79,6 @@ HRESULT CPlace_CityHall::Ready_Actor_Layer()
 				Safe_Release(tmp);
 				return E_FAIL;
 			}
-
 		}
 	}
 		
@@ -145,8 +143,6 @@ HRESULT CPlace_CityHall::Ready_Actor_Layer()
 
 HRESULT CPlace_CityHall::Ready_UI_Layer()
 {
-	CObject* tmp = { nullptr };
-
 	return S_OK;
 }
 

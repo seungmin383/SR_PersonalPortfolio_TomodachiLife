@@ -3,24 +3,25 @@
 #include "Prototype.h"
 
 NS_BEGIN(Engine)
-class CTimerManager;
+class CAnimationManager;
+class CButton;
+class CButtonManager;
+class CCamera;
+class CCameraManager;
+class CFileManager;
 class CGraphic_Device;
 class CInput_Device;
-class CPlaceManager;
-class CObjectManager;
-class CRenderManager;
-class CPipeLine;
-class CCameraManager;
 class CLightManager;
 class CMouseManager;
-class CFileManager;
-class CButtonManager;
-class CAnimationManager;
-
 class CObject;
+class CObjectManager;
+class CPipeLine;
 class CPlace;
-class CCamera;
-class CButton;
+class CPlaceManager;
+class CRenderManager;
+class CTimerManager;
+class CUI;
+class CUIManager;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -210,6 +211,13 @@ public:
 
 #pragma endregion
 
+#pragma region UIMANAGER
+	HRESULT UIManager_Add_UI(uint32_t iUIGroupIndex, const _wstring& strUITag, CUI* pUI);
+	void UIManager_Change_UIGroup(uint32_t iNextGroupIndex, _bool isLoading = FALSE);
+	void UIManager_Change_Place(uint32_t iInitGroupIndex);
+
+#pragma endregion
+
 
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
@@ -225,7 +233,8 @@ private:
 	CMouseManager*		m_pMouseManager = { nullptr };
 	CFileManager*		m_pFileManager = { nullptr };
 	CButtonManager*		m_pButtonManager = { nullptr };
-	CAnimationManager* m_pAnimationManager = { nullptr };
+	CAnimationManager*	m_pAnimationManager = { nullptr };
+	CUIManager*			m_pUIManager = { nullptr };
 
 public:
 	void Clear_Engine();
