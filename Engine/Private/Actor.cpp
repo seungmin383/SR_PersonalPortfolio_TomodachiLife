@@ -27,9 +27,18 @@ HRESULT CActor::Initialize_Clone(void* pArg)
 
 	ACTOR_DESC* pActorDesc = static_cast<ACTOR_DESC*>(pArg);
 
-	m_fX = pActorDesc->fX;
-	m_fY = pActorDesc->fY;
-	m_fZ = pActorDesc->fZ;
+	if (pActorDesc->vPos.x == 0.f && pActorDesc->vPos.y == 0.f && pActorDesc->vPos.z == 0.f)
+	{
+		m_fX = pActorDesc->fX;
+		m_fY = pActorDesc->fY;
+		m_fZ = pActorDesc->fZ;
+	}
+	else
+	{
+		m_fX = pActorDesc->vPos.x;
+		m_fY = pActorDesc->vPos.y;
+		m_fZ = pActorDesc->vPos.z;
+	}
 
 	m_fCX = pActorDesc->fCX;
 	m_fCY = pActorDesc->fCY;

@@ -51,7 +51,11 @@ int32_t CTempModel::Update(_float fDT)
 	XMFLOAT4 tmp = {};
 	XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
 
-	//cout << "X : " << tmp.x << " Y : " << tmp.y << " Z : " << tmp.z << endl;
+	if (m_iBuildingIndex == 10)
+	{
+		cout << "X : " << tmp.x << " Y : " << tmp.y << " Z : " << tmp.z << endl;
+
+	
 	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
 	{
 		m_pTransformCom->Go_Straight(fDT);
@@ -77,6 +81,7 @@ int32_t CTempModel::Update(_float fDT)
 		m_pTransformCom->Go_Down(fDT);
 	}
 
+	}
 	return UPDATE_CLEAR;
 }
 
@@ -89,14 +94,27 @@ HRESULT CTempModel::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-
-	uint32_t NumMesh = m_pSeModel->Get_NumMesh();
-
-	for (uint32_t i = 0; i < NumMesh; i++)
+	if (m_isUnlock)
 	{
-		m_pSeModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i,	se_TextureType_DIFFUSE);
-		m_pShaderCom->Begin(0);
-		m_pSeModel->Render_SeModel(i);
+		uint32_t NumMesh = m_pSeModel->Get_NumMesh();
+
+		for (uint32_t i = 0; i < NumMesh; i++)
+		{
+			m_pSeModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i,	se_TextureType_DIFFUSE);
+			m_pShaderCom->Begin(0);
+			m_pSeModel->Render_SeModel(i);
+		}
+	}
+	else if (!m_isUnlock)
+	{
+		uint32_t NumMesh = m_pSeConstructionModel->Get_NumMesh();
+
+		for (uint32_t i = 0; i < NumMesh; i++)
+		{
+			m_pSeConstructionModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, se_TextureType_DIFFUSE);
+			m_pShaderCom->Begin(0);
+			m_pSeConstructionModel->Render_SeModel(i);
+		}
 	}
 
 	return S_OK;
@@ -115,11 +133,18 @@ HRESULT CTempModel::Ready_Component()
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(m_ePlaceID),
 		m_strModelProtoTag,
-		TEXT("Com_Model"),
+		TEXT("Com_SeModel"),
 		reinterpret_cast<CComponent**>(&m_pSeModel),
 		nullptr)))
 		return E_FAIL;
 
+	if (FAILED(Add_Component(
+		static_cast<uint32_t>(m_ePlaceID),
+		TEXT("ProtoTag_Component_seBuilding0"),
+		TEXT("Com_SeConstructionModel"),
+		reinterpret_cast<CComponent**>(&m_pSeConstructionModel),
+		nullptr)))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -193,6 +218,7 @@ void CTempModel::Free()
 {
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pSeModel);
+	Safe_Release(m_pSeConstructionModel);
 	Safe_Release(m_pUnlockStrategy);
 
 	CActor::Free();

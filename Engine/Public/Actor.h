@@ -15,6 +15,8 @@ public:
 		_float fY = {};
 		_float fZ = {};
 
+		XMFLOAT4 vPos = {};
+
 		_float fCX = {};
 		_float fCY = {};
 		_float fCZ = {};

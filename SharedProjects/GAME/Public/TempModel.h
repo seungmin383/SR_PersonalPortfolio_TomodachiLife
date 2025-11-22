@@ -47,6 +47,7 @@ private:
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CSEModel* m_pSeModel = { nullptr };
+	CSEModel* m_pSeConstructionModel = { nullptr };
 
 	IUnlock* m_pUnlockStrategy = { nullptr };
 

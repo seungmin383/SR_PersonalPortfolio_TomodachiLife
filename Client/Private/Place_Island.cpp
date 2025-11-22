@@ -13,6 +13,18 @@
 #include "ChangePlace_Strategy.h"
 #include "IUnlock.h"
 
+/* y += 1.f */
+#define FOODSTORE_POS XMFLOAT4{- 7.47224f,-0.561126f, -10.7086f, 1.f}
+#define FOODSTORE_TARGETPOS XMFLOAT4{- 7.47224f,0.561126f, -10.7086f, 1.f}
+
+/* y += 1.9f */
+#define APART_POS XMFLOAT4{0.f, 0.3f, 0.f, 1.f}
+#define APART_TARGETPOS XMFLOAT4{0.f, 2.2f, 0.f, 1.f}
+
+/* y += 2.f */
+#define CITYHALL_POS XMFLOAT4{4.93322f, 0.0844781f, -2.84163f, 1.f}
+#define CITYHALL_TARGETPOS XMFLOAT4{4.93322f, 2.0844781f, -2.84163f, 1.f}
+
 CPlace_Island::CPlace_Island(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
 {
@@ -148,13 +160,15 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 	//	}
 	//}
 
+	CTempModel::TEMPMODEL_DESC tTmpModelDesc = {};
+
 	/* 음식점 */
 	// ProtoTag_Actor_TempModel
 	{
-		CTempModel::TEMPMODEL_DESC tTmpModelDesc = {};
 		tTmpModelDesc.fX = -7.47224f;
 		tTmpModelDesc.fY = -0.561126f;
 		tTmpModelDesc.fZ = -10.7086f;
+		tTmpModelDesc.vPos = FOODSTORE_POS;
 		tTmpModelDesc.fCX = 1.f;
 		tTmpModelDesc.fCY = 1.f;
 		tTmpModelDesc.fCZ = 1.f;
@@ -173,21 +187,32 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 		}
 	}
 
-	/* 음식점 */
+	/* 아파트 */
 	// ProtoTag_Actor_TempModel
 	{
-		CTempModel::TEMPMODEL_DESC tTmpModelDesc = {};
-		tTmpModelDesc.fX = -7.47224f;
-		tTmpModelDesc.fY = -0.561126f;
-		tTmpModelDesc.fZ = -10.7086f;
-		tTmpModelDesc.fCX = 1.f;
-		tTmpModelDesc.fCY = 1.f;
-		tTmpModelDesc.fCZ = 1.f;
-		tTmpModelDesc.iBuildingIndex = 4;
-		tTmpModelDesc.fSpeedPerSecond = 1.f;
-		tTmpModelDesc.eCurPlaceID = PLACE_ID::ISLAND;
-		tTmpModelDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
-		tTmpModelDesc.fRotationPerSecond = XMConvertToRadians(0.f);
+		tTmpModelDesc.fX = 0.f;
+		tTmpModelDesc.fY = 0.3f;
+		tTmpModelDesc.fZ = 0.f;
+		tTmpModelDesc.vPos = APART_POS;
+		tTmpModelDesc.iBuildingIndex = 1;
+		tTmpModelDesc.pUnlockStrategy = CFoodStore_UnlockStrategy::Create();
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), &tTmpModelDesc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("LayerTag_Actor"), tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}
+	}
+
+	/* 주민센터 */
+	// ProtoTag_Actor_TempModel
+	{
+		tTmpModelDesc.fX = 0.f;
+		tTmpModelDesc.fY = 0.3f;
+		tTmpModelDesc.fZ = 0.f;
+		tTmpModelDesc.vPos = CITYHALL_POS;
+		tTmpModelDesc.iBuildingIndex = 10;
 		tTmpModelDesc.pUnlockStrategy = CFoodStore_UnlockStrategy::Create();
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), &tTmpModelDesc);
@@ -220,8 +245,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		tPlaceMoveButtonDesc.iOutlineTextureNum = 0;
 		tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
 		tPlaceMoveButtonDesc.fLerpTime = 0.1f;
-		tPlaceMoveButtonDesc.fTargetFov = XMConvertToRadians(8.f);
-		tPlaceMoveButtonDesc.vTargetPos = XMFLOAT4{ -0.5f, 1.f, 0.f, 1.f};
+		tPlaceMoveButtonDesc.fTargetFov = XMConvertToRadians(10.f);
+		tPlaceMoveButtonDesc.vTargetPos = APART_TARGETPOS;
 		
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(
 	 		static_cast<uint32_t>(PLACE_ID::ISLAND),
@@ -346,7 +371,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 8;
-		 tPlaceMoveButtonDesc.vTargetPos = XMFLOAT4{ -7.47224f, 0.561126f, -10.7086f, 1.f };
+		 tPlaceMoveButtonDesc.vTargetPos = FOODSTORE_TARGETPOS;
 		
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
 			 static_cast<uint32_t>(PLACE_ID::ISLAND),
@@ -469,6 +494,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::CITYHALL);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 16;
+		 tPlaceMoveButtonDesc.vTargetPos = CITYHALL_TARGETPOS;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
 			 static_cast<uint32_t>(PLACE_ID::ISLAND),

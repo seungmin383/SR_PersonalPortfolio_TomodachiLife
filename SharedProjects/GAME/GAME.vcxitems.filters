@@ -106,14 +106,14 @@
     <Filter Include="03.UI\01.Button\00.OnclickStrategy\Interface">
       <UniqueIdentifier>{c95e6265-7401-41a1-9a4c-3eaf8d5209a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Actor\NewFilter2">
-      <UniqueIdentifier>{6a4279a7-8c55-4cea-9639-19e3ab33027e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.Actor\04.TempModels">
       <UniqueIdentifier>{33bff0d4-1722-45de-a8bb-ec4b1406ff36}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.Actor\04.TempModels\UnlockStrategy">
       <UniqueIdentifier>{5f5a5711-fe29-4a76-acf8-070a93971bfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\05.MiiEditorBGModel">
+      <UniqueIdentifier>{6a4279a7-8c55-4cea-9639-19e3ab33027e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
