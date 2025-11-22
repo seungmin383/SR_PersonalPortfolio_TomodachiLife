@@ -105,6 +105,16 @@ void CCameraManager::FocusOnTarget(const _wstring& strCameraTag, FXMVECTOR vTarg
 	pInstance->FocusOnTarget(vTargetPos, fTargetFov, fRatio);
 }
 
+void CCameraManager::Reset_State(const _wstring& strCameraTag)
+{
+	CCamera* pInstance = Get_Camera(strCameraTag);
+
+	if (nullptr == pInstance)
+		return;
+
+	pInstance->Reset_State();
+}
+
 CCamera* CCameraManager::Get_Camera(const _wstring& strCameraTag)
 {
 	auto iter = m_Cameras.find(strCameraTag);

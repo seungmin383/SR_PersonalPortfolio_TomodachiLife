@@ -26,6 +26,7 @@ public:
 	virtual void Update_Late(_float fDT)override;
 
 	virtual void Set_Matrices()override;
+	virtual void Reset_State()override;
 
 private:
 	_float m_fSensor = {};

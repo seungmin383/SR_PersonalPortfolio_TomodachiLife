@@ -13,6 +13,7 @@
 #include "Body.h"
 #include "Player.h"
 #include "Weapon.h"
+#include "TempModel.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -749,103 +750,180 @@ HRESULT CLoader::Loading_Island()
 	//Component
  	{
 		 
-		// ProtoTag_Component_Island_Model
-		{
-			XMMATRIX initMatrix = XMMatrixIdentity();
-			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-			tmp = CModel::Create(
-				m_pDevice,
-				m_pContext,
-				"ProtoTag_Component_Island_Model",
-				ANIM_TYPE::NONEANIM,
-				"../../Resource/00Model/BackGround - Island/island.fbx",
-				initMatrix,
-				"Island");
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_Component_Island_Model"),
-				tmp)))
-				return E_FAIL;
-		}
-		
-
-		//// ProtoTag_Component_Island_seModel
+		//// ProtoTag_Component_Island_Model
 		//{
 		//	XMMATRIX initMatrix = XMMatrixIdentity();
-		//	initMatrix;// = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
+		//	initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
 
-		//	tmp = CSEModel::Create(
+		//	tmp = CModel::Create(
 		//		m_pDevice,
 		//		m_pContext,
+		//		"ProtoTag_Component_Island_Model",
 		//		ANIM_TYPE::NONEANIM,
+		//		"../../Resource/00Model/BackGround - Island/island.fbx",
+		//		initMatrix,
 		//		"Island");
 
 		//	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 		//		static_cast<uint32_t>(PLACE_ID::ISLAND),
-		//		TEXT("ProtoTag_Component_Island_seModel"),
+		//		TEXT("ProtoTag_Component_Island_Model"),
 		//		tmp)))
 		//		return E_FAIL;
 		//}
+		
 
-		// ProtoTag_Component_SkyAndSea_Model
+		// ProtoTag_Component_Island_seModel
 		{
 			XMMATRIX initMatrix = XMMatrixIdentity();
-			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
+			initMatrix;// = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
 
-			tmp = CModel::Create(
+			tmp = CSEModel::Create(
 				m_pDevice,
 				m_pContext,
-				"ProtoTag_Component_SkyAndSea_Model",
 				ANIM_TYPE::NONEANIM,
-				"../../Resource/00Model/BackGround - Sea/sea.fbx",
-				initMatrix,
-				"SkyAndSea");
+				"Island",
+				initMatrix);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_Component_SkyAndSea_Model"),
+				TEXT("ProtoTag_Component_Island_seModel"),
 				tmp)))
 				return E_FAIL;
 		}
 
-		//// ProtoTag_Component_SkyAndSea_seModel
+		//// ProtoTag_Component_SkyAndSea_Model
 		//{
 		//	XMMATRIX initMatrix = XMMatrixIdentity();
-		//	initMatrix;// = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
+		//	initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
 
-		//	tmp = CSEModel::Create(
+		//	tmp = CModel::Create(
 		//		m_pDevice,
 		//		m_pContext,
+		//		"ProtoTag_Component_SkyAndSea_Model",
 		//		ANIM_TYPE::NONEANIM,
+		//		"../../Resource/00Model/BackGround - Sea/sea.fbx",
+		//		initMatrix,
 		//		"SkyAndSea");
 
 		//	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 		//		static_cast<uint32_t>(PLACE_ID::ISLAND),
-		//		TEXT("ProtoTag_Component_SkyAndSea_seModel"),
+		//		TEXT("ProtoTag_Component_SkyAndSea_Model"),
 		//		tmp)))
 		//		return E_FAIL;
 		//}
 
-		// ProtoTag_Component_Apart_Model
+		// ProtoTag_Component_SkyAndSea_seModel
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix;// = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+			tmp = CSEModel::Create(
+				m_pDevice,
+				m_pContext,
+				ANIM_TYPE::NONEANIM,
+				"SkyAndSea",
+				initMatrix);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				TEXT("ProtoTag_Component_SkyAndSea_seModel"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		/* 공사중 표지판 */
+		// ProtoTag_Component_Building0
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
+
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building0", ANIM_TYPE::NONEANIM,
+				"../../Resource/00Model/Actor - Building/Building0/Building.fbx", initMatrix, "Building0");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_Building0"),tmp)))
+				return E_FAIL;
+
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building0", initMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype( static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_seBuilding0"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 아파트 */
+		// ProtoTag_Component_Building1
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
+
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building1", ANIM_TYPE::NONEANIM,
+				"../../Resource/00Model/Actor - Building/Building1/Building.fbx", initMatrix, "Building1");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND),TEXT("ProtoTag_Component_Building1"),tmp)))
+				return E_FAIL;
+
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building1", initMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_seBuilding1"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 음식가게 */
+		// ProtoTag_Component_Building1
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
+
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building4", ANIM_TYPE::NONEANIM,
+				"../../Resource/00Model/Actor - Building/Building4/Building.fbx", initMatrix, "Building4");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_Building4"), tmp)))
+				return E_FAIL;
+
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building4", initMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_seBuilding4"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 주민센터 */
+		// ProtoTag_Component_Building10
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
+
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building10", ANIM_TYPE::NONEANIM,
+				"../../Resource/00Model/Actor - Building/Building10/Building.fbx", initMatrix, "Building10");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_Building10"), tmp)))
+				return E_FAIL;
+
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building10", initMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_seBuilding10"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 뉴스 센터 */
+		// ProtoTag_Component_Building19
 		{
 			XMMATRIX initMatrix = XMMatrixIdentity();
 			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
 
-			tmp = CModel::Create(
-				m_pDevice,
-				m_pContext,
-				"ProtoTag_Component_Apart_Model",
-				ANIM_TYPE::NONEANIM,
-				"../../Resource/00Model/Actor - Apart/apart1.fbx",
-				initMatrix,
-				"Apart");
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building19", ANIM_TYPE::NONEANIM,
+				"../../Resource/00Model/Actor - Building/Building19/Building.fbx", initMatrix, "Building19");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_Building19"), tmp)))
+				return E_FAIL;
 
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_Component_Apart_Model"),
-				tmp)))
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building19", initMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_seBuilding19"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 카페 */
+		// ProtoTag_Component_Building21
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building21", ANIM_TYPE::NONEANIM,
+				"../../Resource/00Model/Actor - Building/Building21/Building.fbx", initMatrix, "Building21");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_Building21"), tmp)))
+				return E_FAIL;
+
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building21", initMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_seBuilding21"), tmp)))
 				return E_FAIL;
 		}
 
@@ -948,6 +1026,13 @@ HRESULT CLoader::Loading_Island()
 				static_cast<uint32_t>(PLACE_ID::ISLAND),
 				TEXT("ProtoTag_Actor_Apart"),
 				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Actor_TempModel
+		{
+			tmp = CTempModel::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), tmp)))
 				return E_FAIL;
 		}
 	}

@@ -396,7 +396,7 @@ HRESULT CGameInstance::CameraManager_Bind_Camera_Pos(CShaderCom* pShader, const 
 	return m_pCameraManager->Bind_Camera_Pos(pShader, pConstantName, CameraTag);
 }
 
-const CCamera* CGameInstance::CameraManager_Get_Camera(const _wstring& strCameraTag)
+CCamera* CGameInstance::CameraManager_Get_Camera(const _wstring& strCameraTag)
 {
 	return m_pCameraManager->Get_Camera(strCameraTag);
 }
@@ -404,6 +404,11 @@ const CCamera* CGameInstance::CameraManager_Get_Camera(const _wstring& strCamera
 void CGameInstance::CameraManager_FocusOnTarget(const _wstring& strCameraTag, FXMVECTOR vTargetPos, _float fTargetFov, _float fRatio)
 {
 	m_pCameraManager->FocusOnTarget(strCameraTag, vTargetPos, fTargetFov, fRatio);
+}
+
+void CGameInstance::CameraManager_Reset_State(const _wstring& strCameraTag)
+{
+	m_pCameraManager->Reset_State(strCameraTag);
 }
 
 

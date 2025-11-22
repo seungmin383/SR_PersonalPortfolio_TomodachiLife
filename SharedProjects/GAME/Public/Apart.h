@@ -1,3 +1,4 @@
+#pragma once
 #include "Game_Defines.h"
 #include "Actor.h"
 

@@ -30,6 +30,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IOnClick.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\IUnlock.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Mii.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiBody.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiHair.cpp" />
@@ -40,6 +41,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Setting.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SkyAndSea.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\TempModel.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Terrain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TestMii.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\UICamera.cpp" />
@@ -58,6 +60,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Struct.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IOnClick.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\IUnlock.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Mii.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiBody.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiHair.h" />
@@ -68,6 +71,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Setting.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SkyAndSea.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\TempModel.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Terrain.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TestMii.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h" />

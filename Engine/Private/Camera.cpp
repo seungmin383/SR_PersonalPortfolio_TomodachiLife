@@ -200,6 +200,10 @@ void CCamera::FocusOnTarget(FXMVECTOR vTargetPos, _float fTargetFov, _float fRat
 	m_fFov += ((fTargetFov - m_fFov) * fRatio);
 }
 
+void CCamera::Reset_State()
+{
+}
+
 void CCamera::Free()
 {
 	CActor::Free();

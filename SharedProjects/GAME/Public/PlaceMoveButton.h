@@ -24,6 +24,10 @@ public:
 		uint8_t iUnlockTextureNum = {};
 		uint8_t iOutlineTextureNum = {};
 
+		XMFLOAT4 vTargetPos = {};
+		_float fLerpTime = {};
+		_float fTargetFov = {};
+
 	}PLACEMOVEBUTTON_DESC;
 
 private:
@@ -46,6 +50,7 @@ private:
 	HRESULT Bind_ShaderResources();
 
 	int32_t On_Click() override;
+	void Camera_Control(_float fDT);
 
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
@@ -61,6 +66,12 @@ private:
 	uint8_t m_iStoreOutlineTextureNum = {};
 
 	_bool m_isUnlock = { FALSE };
+
+	XMFLOAT4 m_vTargetPos = {};
+	_float m_fLerpTime = {};
+	_float m_fTargetFov = {};
+
+	_float m_fLerpTimer = {};
 
 public:
 	static CPlaceMoveButton* Create(

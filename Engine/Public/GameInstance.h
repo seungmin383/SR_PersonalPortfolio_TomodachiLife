@@ -149,9 +149,11 @@ public:
 		const _char* pConstantName,
 		const _wstring CameraTag);
 
-	const CCamera* CameraManager_Get_Camera(const _wstring& strCameraTag);
+	CCamera* CameraManager_Get_Camera(const _wstring& strCameraTag);
 
 	void CameraManager_FocusOnTarget(const _wstring& strCameraTag, FXMVECTOR vTargetPos, _float fTargetFov, _float fRatio);
+	
+	void CameraManager_Reset_State(const _wstring& strCameraTag);
 
 #pragma endregion
 

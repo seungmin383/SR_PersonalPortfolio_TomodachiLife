@@ -8,6 +8,11 @@ namespace Engine
 #define			MSG_BOX(_message)			MessageBox(NULL, TEXT(_message), L"System Message", MB_OK)
 #endif
 
+#ifndef MSG_BOXW
+#define MSG_BOXW(msg) MessageBoxW(nullptr, (msg), L"System Message", MB_OK)
+#endif
+
+
 #define			NS_BEGIN(NAMESPACE)			namespace NAMESPACE {
 #define			NS_END						}
 

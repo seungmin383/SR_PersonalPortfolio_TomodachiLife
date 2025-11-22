@@ -9,7 +9,9 @@
 #include "PlaceMoveButton.h"
 #include "BackGround.h"
 #include "Apart.h"
+#include "TempModel.h"
 #include "ChangePlace_Strategy.h"
+#include "IUnlock.h"
 
 CPlace_Island::CPlace_Island(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -39,12 +41,9 @@ int32_t CPlace_Island::Update(_float fDT)
 	SetWindowTextW(g_hWnd, buf);
 
 	
-	m_tmpTime += fDT;
-	if (m_tmpTime < 3.f)
-	{
-		m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), m_tmpTargetPos,
-			XMConvertToRadians(30.f), fDT / 3.f);
-	}
+		//m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), m_tmpTargetPos,
+		//	XMConvertToRadians(30.f), fDT / 3.f);
+
 	return 0;
 }
 
@@ -121,28 +120,78 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 		}
 	}
 
-	// ProtoTag_Actor_Apart
+	//// ProtoTag_Actor_Apart
+	//{
+	//	CApart::APART_DESC tApartDesc = {};
+	//	tApartDesc.fX = 0.f;
+	//	tApartDesc.fY = 0.f;
+	//	tApartDesc.fZ = 0.f;
+	//	tApartDesc.fCX = 1.f;
+	//	tApartDesc.fCY = 1.f;
+	//	tApartDesc.fCZ = 1.f;
+	//	tApartDesc.fSpeedPerSecond = 0.f;
+	//	tApartDesc.fRotationPerSecond = XMConvertToRadians(20.f);
+	//	tApartDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+
+	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(
+	//		static_cast<uint32_t>(PLACE_ID::ISLAND),
+	//		TEXT("ProtoTag_Actor_Apart"),
+	//		&tApartDesc);
+
+	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+	//		static_cast<uint32_t>(PLACE_ID::ISLAND),
+	//		TEXT("LayerTag_Actor"),
+	//		tmp)))
+	//	{
+	//		Safe_Release(tmp);
+	//		return E_FAIL;
+	//	}
+	//}
+
+	/* 음식점 */
+	// ProtoTag_Actor_TempModel
 	{
-		CApart::APART_DESC tApartDesc = {};
-		tApartDesc.fX = 0.f;
-		tApartDesc.fY = 0.f;
-		tApartDesc.fZ = 0.f;
-		tApartDesc.fCX = 1.f;
-		tApartDesc.fCY = 1.f;
-		tApartDesc.fCZ = 1.f;
-		tApartDesc.fSpeedPerSecond = 0.f;
-		tApartDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-		tApartDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+		CTempModel::TEMPMODEL_DESC tTmpModelDesc = {};
+		tTmpModelDesc.fX = -7.47224f;
+		tTmpModelDesc.fY = -0.561126f;
+		tTmpModelDesc.fZ = -10.7086f;
+		tTmpModelDesc.fCX = 1.f;
+		tTmpModelDesc.fCY = 1.f;
+		tTmpModelDesc.fCZ = 1.f;
+		tTmpModelDesc.iBuildingIndex = 4;
+		tTmpModelDesc.fSpeedPerSecond = 1.f;
+		tTmpModelDesc.eCurPlaceID = PLACE_ID::ISLAND;
+		tTmpModelDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+		tTmpModelDesc.fRotationPerSecond = XMConvertToRadians(0.f);
+		tTmpModelDesc.pUnlockStrategy = CFoodStore_UnlockStrategy::Create();
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			static_cast<uint32_t>(PLACE_ID::ISLAND),
-			TEXT("ProtoTag_Actor_Apart"),
-			&tApartDesc);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), &tTmpModelDesc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("LayerTag_Actor"), tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}
+	}
 
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			static_cast<uint32_t>(PLACE_ID::ISLAND),
-			TEXT("LayerTag_Actor"),
-			tmp)))
+	/* 음식점 */
+	// ProtoTag_Actor_TempModel
+	{
+		CTempModel::TEMPMODEL_DESC tTmpModelDesc = {};
+		tTmpModelDesc.fX = -7.47224f;
+		tTmpModelDesc.fY = -0.561126f;
+		tTmpModelDesc.fZ = -10.7086f;
+		tTmpModelDesc.fCX = 1.f;
+		tTmpModelDesc.fCY = 1.f;
+		tTmpModelDesc.fCZ = 1.f;
+		tTmpModelDesc.iBuildingIndex = 4;
+		tTmpModelDesc.fSpeedPerSecond = 1.f;
+		tTmpModelDesc.eCurPlaceID = PLACE_ID::ISLAND;
+		tTmpModelDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+		tTmpModelDesc.fRotationPerSecond = XMConvertToRadians(0.f);
+		tTmpModelDesc.pUnlockStrategy = CFoodStore_UnlockStrategy::Create();
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), &tTmpModelDesc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("LayerTag_Actor"), tmp)))
 		{
 			Safe_Release(tmp);
 			return E_FAIL;
@@ -170,7 +219,11 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		tPlaceMoveButtonDesc.iTextureNum = 13;
 		tPlaceMoveButtonDesc.iOutlineTextureNum = 0;
 		tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
-	 	tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		tPlaceMoveButtonDesc.fLerpTime = 0.1f;
+		tPlaceMoveButtonDesc.fTargetFov = XMConvertToRadians(8.f);
+		tPlaceMoveButtonDesc.vTargetPos = XMFLOAT4{ -0.5f, 1.f, 0.f, 1.f};
+		
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(
 	 		static_cast<uint32_t>(PLACE_ID::ISLAND),
 	 		TEXT("ProtoTag_UI_PlaceMoveButton"),
 	 		&tPlaceMoveButtonDesc);
@@ -293,7 +346,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 8;
-
+		 tPlaceMoveButtonDesc.vTargetPos = XMFLOAT4{ -7.47224f, 0.561126f, -10.7086f, 1.f };
+		
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
 			 static_cast<uint32_t>(PLACE_ID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),

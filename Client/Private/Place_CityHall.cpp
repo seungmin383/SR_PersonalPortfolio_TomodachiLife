@@ -174,6 +174,7 @@ HRESULT CPlace_CityHall::Ready_Environment_Layer()
 
 HRESULT CPlace_CityHall::Ready_Camera_Layer()
 {
+	m_pGameInstance->CameraManager_Reset_State(TEXT("World_Camera"));
 	return S_OK;
 }
 

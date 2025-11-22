@@ -32,6 +32,10 @@ HRESULT CPlaceMoveButton::Initialize_Clone(void* pArg)
 
 	m_iStoreOutlineTextureNum = m_iOutlineTextureNum;
 
+	m_vTargetPos = tPlaceMoveButtonDesc->vTargetPos;
+	m_fLerpTime = tPlaceMoveButtonDesc->fLerpTime;
+	m_fTargetFov = tPlaceMoveButtonDesc->fTargetFov;
+
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -59,12 +63,18 @@ int32_t CPlaceMoveButton::Update(_float fDT)
 {
 	if (m_isClicked)
 	{
+
 		return On_Click();
 	}
 
 	if(!m_isSelected)
 	{
 		m_iOutlineTextureNum = 5;
+	}
+	else if(m_isSelected)
+	{
+		Camera_Control(fDT);
+		
 	}
 
 	return UPDATE_CLEAR;
@@ -171,10 +181,12 @@ int32_t CPlaceMoveButton::On_Click()
 	/* 이 버튼이 선택이 안되어 있었는데 클릭 되었다면 -> 아웃라인 생성 및 타겟 포인트로 확대 */
 	if (!m_isSelected)
 	{
+		m_fLerpTimer = 0.f;
 		m_pGameInstance->ButtonManager_All_Deactivate( static_cast<uint32_t>(m_eCurPlaceID));
 		m_iOutlineTextureNum = m_iStoreOutlineTextureNum;
 		m_isSelected = TRUE;
 	}
+
 	/* 이 버튼이 선택되어 있었는데 클릭되었다면 -> 씬 전환*/
 	else
 	{
@@ -182,6 +194,13 @@ int32_t CPlaceMoveButton::On_Click()
 		return PLACE_CHANGE;
 	}
 	return UPDATE_CLEAR;
+}
+
+void CPlaceMoveButton::Camera_Control(_float fDT)
+{
+	_float fRatio = fDT / m_fLerpTime;
+
+	m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMLoadFloat4(&m_vTargetPos), m_fTargetFov, fRatio);
 }
 
 CPlaceMoveButton* CPlaceMoveButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

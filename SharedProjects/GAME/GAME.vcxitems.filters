@@ -97,9 +97,6 @@
     <Filter Include="02.Actor\03.Mii\Items">
       <UniqueIdentifier>{2dee03a3-ee22-4ce6-9234-d9da67fdcde7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Actor\NewFilter1">
-      <UniqueIdentifier>{33bff0d4-1722-45de-a8bb-ec4b1406ff36}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\01.Button\CommonButton">
       <UniqueIdentifier>{52f76ce3-df12-4b8e-91f1-d54e494aa6b3}</UniqueIdentifier>
     </Filter>
@@ -108,6 +105,15 @@
     </Filter>
     <Filter Include="03.UI\01.Button\00.OnclickStrategy\Interface">
       <UniqueIdentifier>{c95e6265-7401-41a1-9a4c-3eaf8d5209a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\NewFilter2">
+      <UniqueIdentifier>{6a4279a7-8c55-4cea-9639-19e3ab33027e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\04.TempModels">
+      <UniqueIdentifier>{33bff0d4-1722-45de-a8bb-ec4b1406ff36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\04.TempModels\UnlockStrategy">
+      <UniqueIdentifier>{5f5a5711-fe29-4a76-acf8-070a93971bfb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +212,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangePlace_Strategy.h">
       <Filter>03.UI\01.Button\00.OnclickStrategy</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\TempModel.h">
+      <Filter>02.Actor\04.TempModels</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\IUnlock.h">
+      <Filter>02.Actor\04.TempModels\UnlockStrategy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -279,6 +291,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangePlace_Strategy.cpp">
       <Filter>03.UI\01.Button\00.OnclickStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\TempModel.cpp">
+      <Filter>02.Actor\04.TempModels</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\IUnlock.cpp">
+      <Filter>02.Actor\04.TempModels\UnlockStrategy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

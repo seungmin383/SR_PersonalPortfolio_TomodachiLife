@@ -40,8 +40,8 @@ private:
 
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
-	 CModel* m_pModel = { nullptr };
-	// CSEModel* m_pseModel = { nullptr };
+	 // CModel* m_pModel = { nullptr };
+	CSEModel* m_pseModel = { nullptr };
 
 public:
 	static CSkyAndSea* Create(

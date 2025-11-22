@@ -87,7 +87,7 @@ HRESULT CApart::Ready_Component()
 
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACE_ID::ISLAND),
-		TEXT("ProtoTag_Component_Apart_Model"),
+		TEXT("ProtoTag_Component_Building1"),
 		TEXT("Com_Model"),
 		reinterpret_cast<CComponent**>(&m_pModel),
 		nullptr)))

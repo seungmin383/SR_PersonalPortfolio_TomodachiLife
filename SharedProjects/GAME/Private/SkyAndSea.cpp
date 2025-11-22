@@ -52,26 +52,26 @@ HRESULT CSkyAndSea::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	 uint32_t iNumMeshes = m_pModel->Get_NumMesh();
-	//uint32_t iNumMeshes = m_pseModel->Get_NumMesh();
+	// uint32_t iNumMeshes = m_pModel->Get_NumMesh();
+	uint32_t iNumMeshes = m_pseModel->Get_NumMesh();
 
 	for (uint32_t i = 0; i < iNumMeshes; i++)
 	{
-		m_pModel->Bind_Material(
-			m_pShaderCom,
-			"g_DiffuseTexture",
-			i,
-			aiTextureType_DIFFUSE);
+		//m_pModel->Bind_Material(
+		//	m_pShaderCom,
+		//	"g_DiffuseTexture",
+		//	i,
+		//	aiTextureType_DIFFUSE);
 
-		/*m_pseModel->Bind_Material(
+		m_pseModel->Bind_Material(
 			m_pShaderCom,
 			"g_DiffuseTexture",
 			i,
-			se_TextureType_DIFFUSE);*/
+			se_TextureType_DIFFUSE);
 
 		m_pShaderCom->Begin(0);
-		 m_pModel->Render(i);
-		//m_pseModel->Render_SeModel(i);
+		 //m_pModel->Render(i);
+		m_pseModel->Render_SeModel(i);
 	}
 
 	return S_OK;
@@ -87,21 +87,21 @@ HRESULT CSkyAndSea::Ready_Component()
 		nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::ISLAND),
-		TEXT("ProtoTag_Component_SkyAndSea_Model"),
-		TEXT("Com_Model"),
-		reinterpret_cast<CComponent**>(&m_pModel),
-		nullptr)))
-		return E_FAIL;
-
 	//if (FAILED(Add_Component(
 	//	static_cast<uint32_t>(PLACE_ID::ISLAND),
-	//	TEXT("ProtoTag_Component_SkyAndSea_seModel"),
+	//	TEXT("ProtoTag_Component_SkyAndSea_Model"),
 	//	TEXT("Com_Model"),
-	//	reinterpret_cast<CComponent**>(&m_pseModel),
+	//	reinterpret_cast<CComponent**>(&m_pModel),
 	//	nullptr)))
 	//	return E_FAIL;
+
+	if (FAILED(Add_Component(
+		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		TEXT("ProtoTag_Component_SkyAndSea_seModel"),
+		TEXT("Com_Model"),
+		reinterpret_cast<CComponent**>(&m_pseModel),
+		nullptr)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -165,7 +165,7 @@ CObject* CSkyAndSea::Clone(void* pArg)
 void CSkyAndSea::Free()
 {
 	Safe_Release(m_pShaderCom);
- Safe_Release(m_pModel);
-//	Safe_Release(m_pseModel);
+// Safe_Release(m_pModel);
+	Safe_Release(m_pseModel);
 	CActor::Free();
 }

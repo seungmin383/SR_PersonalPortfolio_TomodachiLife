@@ -79,6 +79,12 @@ void CWorldCamera::Set_Matrices()
 		XMMatrixPerspectiveFovLH(m_fFov, m_fAspect, m_fNearZ, m_fFarZ));
 }
 
+void CWorldCamera::Reset_State()
+{
+	m_fFov = XMConvertToRadians(45.f);
+	m_pTransformCom->LookAtLerp(XMVECTOR{ 0.f, 0.f, 0.f, 1.f }, 0.1f);
+}
+
 CWorldCamera* CWorldCamera::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CWorldCamera* tmp = new CWorldCamera(pDevice, pContext);
