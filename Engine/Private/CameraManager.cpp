@@ -63,7 +63,6 @@ HRESULT CCameraManager::Bind_Matrix(
 		XMStoreFloat4x4(&tmpMat, iter->second->Get_ProjMatrix());
 		if (FAILED(pShader->Bind_Matrix(ConstantName, &(tmpMat))))
 			return E_FAIL;
-			return E_FAIL;
 		break;
 
 	case Engine::D3DTS::END:
@@ -113,6 +112,16 @@ void CCameraManager::Reset_State(const _wstring& strCameraTag)
 		return;
 
 	pInstance->Reset_State();
+}
+
+void CCameraManager::Set_Position(const _wstring& strCameraTag, FXMVECTOR vPos)
+{
+	CCamera* pInstance = Get_Camera(strCameraTag);
+
+	if (nullptr == pInstance)
+		return;
+
+	pInstance->Set_Position(vPos);
 }
 
 CCamera* CCameraManager::Get_Camera(const _wstring& strCameraTag)

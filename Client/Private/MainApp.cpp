@@ -26,11 +26,11 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	 AllocConsole();                          // 콘솔 창 생성
-	 FILE* fp;
-	 freopen_s(&fp, "CONOUT$", "w", stdout);  // 표준 출력(stdout)을 콘솔로 리디렉션
-	 freopen_s(&fp, "CONOUT$", "w", stderr);  // 표준 에러(stderr)도 콘솔로 리디렉션
-	 freopen_s(&fp, "CONIN$", "r", stdin);    // 표준 입력(stdin)도 콘솔로 리디렉션
+	 //AllocConsole();                          // 콘솔 창 생성
+	 //FILE* fp;
+	 //freopen_s(&fp, "CONOUT$", "w", stdout);  // 표준 출력(stdout)을 콘솔로 리디렉션
+	 //freopen_s(&fp, "CONOUT$", "w", stderr);  // 표준 에러(stderr)도 콘솔로 리디렉션
+	 //freopen_s(&fp, "CONIN$", "r", stdin);    // 표준 입력(stdin)도 콘솔로 리디렉션
 
 	ENGINE_DESC EngineDesc = {};
 	EngineDesc.hWnd = g_hWnd;
@@ -299,7 +299,7 @@ HRESULT CMainApp::Ready_ModelCom()
 	// ProtoTag_Component_AnimationTester
 	{
 		XMMATRIX InitMatrix = XMMatrixIdentity();
-		InitMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+		InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
 
 		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_AnimationTester", ANIM_TYPE::ANIM, "../../../../../../Resource/dev/05_Anim_fbx/CM_Wait00.fbx", InitMatrix, "AnimTester");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_AnimationTester"), tmp)))
@@ -310,7 +310,7 @@ HRESULT CMainApp::Ready_ModelCom()
 	// ProtoTag_Component_seBabyJumper
 	{
 		XMMATRIX InitMatrix = XMMatrixIdentity();
-		InitMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+		InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
 
 		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_BabyJumper", ANIM_TYPE::ANIM, "../../Resource/Model_Body/BabyJumper/BabyJumper.fbx", InitMatrix, "BabyJumper");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_BabyJumper"), tmp)))
@@ -325,7 +325,7 @@ HRESULT CMainApp::Ready_ModelCom()
 	// ProtoTag_Component_seChineseDress
 	{
 		XMMATRIX InitMatrix = XMMatrixIdentity();
-		InitMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+		InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
 
 		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_ChineseDress", ANIM_TYPE::ANIM, "../../Resource/Model_Body/ChineseDress/ChineseDress.fbx", InitMatrix, "ChineseDress");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_ChineseDress"), tmp)))
@@ -340,7 +340,7 @@ HRESULT CMainApp::Ready_ModelCom()
 	// ProtoTag_Component_seCamouflageJacket
 	{
 		XMMATRIX InitMatrix = XMMatrixIdentity();
-		InitMatrix = XMMatrixRotationY(XMConvertToRadians(180.f));
+		InitMatrix; //= XMMatrixRotationY(XMConvertToRadians(180.f));
 
 		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_CamouflageJacket", ANIM_TYPE::ANIM, "../../Resource/Model_Body/CamouflageJacket/CamouflageJacket.fbx", InitMatrix, "CamouflageJacket");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_CamouflageJacket"), tmp)))

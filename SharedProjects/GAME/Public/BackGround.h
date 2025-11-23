@@ -17,8 +17,10 @@ class CBackGround final : public CUI
 public:
 	typedef struct tagBackGroundDesc : public UI_DESC
 	{
+		PLACEID eTexturePlaceID = {};
+		_wstring strTextureTag = {};
 
-	}BACKGROUND_DESC	;
+	}BACKGROUND_DESC;
 
 protected:
 	CBackGround(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -43,6 +45,10 @@ private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CTextureCom* m_pTextureCom = { nullptr };
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
+
+private:
+	PLACEID m_eTexturePlaceID = {};
+	_wstring m_strTextureTag = {};
 
 public:
 	static CBackGround* Create(

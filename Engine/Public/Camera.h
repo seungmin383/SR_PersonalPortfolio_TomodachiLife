@@ -58,6 +58,7 @@ public:
 
 	void FocusOnTarget(FXMVECTOR vTargetPos, _float fTargetFov, _float fRatio);
 	virtual void Reset_State();
+	void Set_Position(FXMVECTOR vPos);
 
 protected:
 	_float3 m_vEye = {};

@@ -39,7 +39,7 @@ public:
 
 	void FocusOnTarget(const _wstring& strCameraTag, FXMVECTOR vTargetPos, _float fTargetFov, _float fRatio);
 	void Reset_State(const _wstring& strCameraTag);
-
+	void Set_Position(const _wstring& strCameraTag, FXMVECTOR vPos);
 public:
 	CCamera* Get_Camera(const _wstring& strCameraTag);
 

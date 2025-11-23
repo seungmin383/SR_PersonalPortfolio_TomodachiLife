@@ -29,14 +29,15 @@ HRESULT CMiiEditorBG::Initialize_Clone(void* pArg)
 
 int32_t CMiiEditorBG::Update_Priority(_float fDT)
 {
+
+	
 	return UPDATE_CLEAR;
 }
 
 int32_t CMiiEditorBG::Update(_float fDT)
 {
-	m_pSeModel->Play_Animation(fDT);
+	// m_pSeModel->Play_Animation(fDT);
 	return UPDATE_CLEAR;
-
 }
 
 void CMiiEditorBG::Update_Late(_float fDT)
@@ -56,10 +57,10 @@ HRESULT CMiiEditorBG::Render()
 		if (FAILED(m_pSeModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
 			return E_FAIL;
 
-		if (FAILED(m_pSeModel->Bind_Bones(m_pShaderCom, "g_BoneMatrices", i)))
-			return E_FAIL;
+		//if (FAILED(m_pSeModel->Bind_Bones(m_pShaderCom, "g_BoneMatrices", i)))
+		//	return E_FAIL;
 
-		if (FAILED(m_pShaderCom->Begin(0)))
+		if (FAILED(m_pShaderCom->Begin(3)))
 			return E_FAIL;
 
 		m_pSeModel->Render_SeModel(i);
@@ -70,11 +71,11 @@ HRESULT CMiiEditorBG::Render()
 
 HRESULT CMiiEditorBG::Ready_Component()
 {
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxAnimMeshShader"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxMeshShader"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Component_BasicManBody_SEModel"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Componenet_seMiiEditorBG"),
 		TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 

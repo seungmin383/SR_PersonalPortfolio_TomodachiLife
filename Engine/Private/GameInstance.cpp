@@ -447,6 +447,11 @@ void CGameInstance::CameraManager_Reset_State(const _wstring& strCameraTag)
 	m_pCameraManager->Reset_State(strCameraTag);
 }
 
+void CGameInstance::CameraManager_Set_Position(const _wstring& strCameraTag, FXMVECTOR vPos)
+{
+	m_pCameraManager->Set_Position(strCameraTag, vPos);
+}
+
 
 #pragma endregion
 

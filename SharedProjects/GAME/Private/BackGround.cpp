@@ -24,6 +24,10 @@ HRESULT CBackGround::Initialize_Origin()
 
 HRESULT CBackGround::Initialize_Clone(void* pArg)
 {
+	BACKGROUND_DESC* pDesc = static_cast<BACKGROUND_DESC*>(pArg);
+	m_eTexturePlaceID = pDesc->eTexturePlaceID;
+	m_strTextureTag = pDesc->strTextureTag;
+
 	if (FAILED(CUI::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -35,13 +39,12 @@ HRESULT CBackGround::Initialize_Clone(void* pArg)
 
 int32_t CBackGround::Update_Priority(_float fDT)
 {
-	return 0;
+	return UPDATE_CLEAR;
 }
 
 int32_t CBackGround::Update(_float fDT)
 {
-
-	return 0;
+	return UPDATE_CLEAR;
 }
 
 void CBackGround::Update_Late(_float fDT)
@@ -57,9 +60,8 @@ HRESULT CBackGround::Render()
 	if (FAILED(m_pRectBufferCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(0)))
+	if (FAILED(m_pShaderCom->Begin(1)))
 		return E_FAIL;
-
 
 	if (FAILED(m_pRectBufferCom->Begin_Draw()))
 		return E_FAIL;
@@ -77,15 +79,13 @@ HRESULT CBackGround::Ready_Component()
 		nullptr)))
 		return E_FAIL;
 
-
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::ISLAND),
-		TEXT("ProtoTag_Component_BackGround_Texture"),
+		static_cast<uint32_t>(m_eTexturePlaceID),
+		m_strTextureTag,
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTextureCom),
 		nullptr)))
 		return E_FAIL;
-
 
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACEID::STATIC),

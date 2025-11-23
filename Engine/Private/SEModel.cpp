@@ -87,7 +87,7 @@ HRESULT CSEModel::Initialize_SeModel(
 		return E_FAIL;
 
 	m_pAnimPlayer = CAnimationPlayer::Create(
-		m_pDevice, m_pContext, "CM_JumpDelight", &m_pBones);
+		m_pDevice, m_pContext, "CM_Wait00", &m_pBones);
 
 	return S_OK;
 }

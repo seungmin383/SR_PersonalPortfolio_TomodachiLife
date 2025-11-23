@@ -954,6 +954,9 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 tBackGroundDesc.fRotationPerSecond = XMConvertToRadians(0.f);
 		 tBackGroundDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 
+		 tBackGroundDesc.eTexturePlaceID = PLACEID::ISLAND;
+		 tBackGroundDesc.strTextureTag = TEXT("ProtoTag_Component_BackGround_Texture");
+
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
 			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_BackGround"),

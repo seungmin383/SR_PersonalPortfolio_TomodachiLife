@@ -16,8 +16,15 @@ class CCommonButton final : public CButton
 public:
 	typedef struct tagCommonButton : public BUTTON_DESC
 	{
-		IOnClick* pClickStrategy = {nullptr};
-		const _wstring& strIconTextureTag = {};
+		PLACEID eTexturePlaceID = {};
+		PLACEID eIconTexturePlaceID = {};
+
+		IOnClick* pStrategy = {nullptr};
+
+		_wstring strTextureTag = {};
+		_wstring strIconTextureTag = {};
+
+		uint32_t iIconTextureIndex = {};
 
 	}COMMONBUTTON_DESC;
 
@@ -51,7 +58,13 @@ private:
 	IOnClick* m_pClickStrategy = { nullptr };
 
 private:
+	PLACEID m_eTexturePlaceID = {PLACEID::END};
+	PLACEID m_eIconTexturePlaceID = {PLACEID::END};
+
+	_wstring m_strTextureTag = {};
 	_wstring m_strIconTextureTag = {};
+
+	uint32_t m_iIconTextureIndex = {};
 
 public:
 	static CCommonButton* Create(

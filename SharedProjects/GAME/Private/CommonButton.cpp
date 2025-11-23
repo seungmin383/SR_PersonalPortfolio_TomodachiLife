@@ -21,8 +21,16 @@ HRESULT CCommonButton::Initialize_Origin()
 HRESULT CCommonButton::Initialize_Clone(void* pArg)
 {
 	COMMONBUTTON_DESC* tCommonButtonDesc = static_cast<COMMONBUTTON_DESC*>(pArg);
-	m_pClickStrategy = tCommonButtonDesc->pClickStrategy;
+	m_eTexturePlaceID = tCommonButtonDesc->eTexturePlaceID;
+	m_eIconTexturePlaceID = tCommonButtonDesc->eIconTexturePlaceID;
+
+	m_pClickStrategy = tCommonButtonDesc->pStrategy;
+	
+	m_strTextureTag = tCommonButtonDesc->strTextureTag;
 	m_strIconTextureTag = tCommonButtonDesc->strIconTextureTag;
+
+	m_iIconTextureIndex = tCommonButtonDesc->iIconTextureIndex;
+
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -48,7 +56,33 @@ int32_t CCommonButton::Update_Priority(_float fDT)
 
 int32_t CCommonButton::Update(_float fDT)
 {
-	On_Click();
+	if(m_isClicked)
+		On_Click();
+
+	XMFLOAT4 tmp = {};
+	XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
+
+	if (m_iIconTextureIndex == 0)
+	{
+		cout << "X : " << tmp.x << " Y : " << tmp.y << " Z : " << tmp.z << endl;
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
+	{
+		m_pTransformCom->Go_Up(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
+	{
+		m_pTransformCom->Go_Down(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
+	{
+		m_pTransformCom->Go_Right(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
+	{
+		m_pTransformCom->Go_Left(fDT);
+	}
+
 
 	return UPDATE_CLEAR;
 }
@@ -66,7 +100,7 @@ HRESULT CCommonButton::Render()
 	if (FAILED(m_pRectBuffer->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Begin(0)))
+	if (FAILED(m_pShader->Begin(2)))
 		return E_FAIL;
 
 	if (FAILED(m_pRectBuffer->Begin_Draw()))
@@ -94,17 +128,17 @@ HRESULT CCommonButton::Ready_Component()
 		return E_FAIL;
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::ISLAND),
-		TEXT("ProtoTag_Component_PlaceMoveButton_Texture"),
+		static_cast<uint32_t>(m_eTexturePlaceID),
+		m_strTextureTag,
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTexture),
 		nullptr)))
 		return E_FAIL;
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::ISLAND),
+		static_cast<uint32_t>(m_eIconTexturePlaceID),
 		m_strIconTextureTag,
-		TEXT("Com_OutLineTexture"),
+		TEXT("Com_IconTexture"),
 		reinterpret_cast<CComponent**>(&m_pIconTexture),
 		nullptr)))
 		return E_FAIL;
@@ -123,12 +157,24 @@ HRESULT CCommonButton::Bind_ShaderResources()
 	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ)))
 		return E_FAIL;
 
+
+	if (m_isClicked)
+	{
+		m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", 1);
+	}
+	else 
+		m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", 0);
+
+	m_pIconTexture->Bind_ShaderResource(m_pShader,"g_IconTexture",m_iIconTextureIndex);
+
 	return S_OK;;
 }
 
 int32_t CCommonButton::On_Click()
 {
 	m_pClickStrategy->OnClick();
+	m_isClicked = FALSE;
+
 	return UPDATE_CLEAR;
 }
 

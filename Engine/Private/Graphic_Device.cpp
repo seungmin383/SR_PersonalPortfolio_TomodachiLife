@@ -313,6 +313,7 @@ void CGraphic_Device::Free()
 	Safe_Release(m_pSwapChain);
 	Safe_Release(m_pDepthStencilView);
 	Safe_Release(m_pBackBufferRTV);
+	Safe_Release(m_pAlphaBlendState);
 	Safe_Release(m_pDeviceContext);
 
 	for (int32_t i = 0; i < static_cast<int32_t>(RENDER_STATE::END); ++i)

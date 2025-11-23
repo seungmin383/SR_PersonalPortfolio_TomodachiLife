@@ -123,11 +123,9 @@ HRESULT CObjectManager::Enable_Layer(uint32_t iPlaceID, const _wstring& strLayer
 		return E_FAIL;
 	}
 
+	/* 비활성화 레이어 모음에 없다면 */
 	if (m_DisableLayers[iPlaceID].find(strLayerTag) == m_DisableLayers[iPlaceID].end())
-	{
-		MSG_BOX("ErrCode : Layer Already Enable");
-		return E_FAIL;
-	}
+		return S_OK;
 
 	m_DisableLayers[iPlaceID].erase(strLayerTag);
 	return S_OK;
@@ -142,11 +140,9 @@ HRESULT CObjectManager::Disable_Layer(uint32_t iPlaceID, const _wstring& strLaye
 		return E_FAIL;
 	}
 
+	/* 비활성화 레이어 모음에 있다면 */
 	if (m_DisableLayers[iPlaceID].find(strLayerTag) != m_DisableLayers[iPlaceID].end())
-	{
-		MSG_BOX("ErrCode : Layer Already Disable");
-		return E_FAIL;
-	}
+		return S_OK;
 
 	m_DisableLayers[iPlaceID].insert(strLayerTag);
 	return S_OK;

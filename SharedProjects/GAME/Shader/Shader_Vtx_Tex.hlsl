@@ -6,6 +6,8 @@ matrix g_ProjMatrix; // 투영 매트릭스
 Texture2D g_Texture : register(t0);
 Texture2D g_OutlineTexture : register(t1);
 
+Texture2D g_IconTexture : register(t2);
+
 float2 g_vData = 1.f;
 
 //Vertex Shader ====================================== //
@@ -65,12 +67,25 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
+    float4 col = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+
+    if (col.a < 0.1f)
+        discard;
+  
+    Out.vColor = col;
+    return Out;
+}
+
+PS_OUT PS_PLACEMOVEBUTTON(PS_IN In)
+{
+    PS_OUT Out;
+    
     float4 OutLineCol = g_OutlineTexture.Sample(DefaultSampler, In.vTexcoord);
     float4 col = g_Texture.Sample(DefaultSampler, In.vTexcoord);
 
     float4 Color = (1.f - OutLineCol) * col + OutLineCol * float4(1.0f, 0.423f, 0.051f, 1.0f);
 
-    if(Color.a < 0.1f)
+    if (Color.a < 0.1f)
         discard;
   
     Out.vColor = Color;
@@ -99,24 +114,44 @@ PS_OUT PS_MAIN2(PS_IN In)
     PS_OUT Out;
     
     float4 col = g_Texture.Sample(DefaultSampler, In.vTexcoord);
-    
-    col.a = 1.f;
-    
-    Out.vColor = float4(1.f, 0.f, 0.f, 0.f);
+    float4 iconCol = g_IconTexture.Sample(DefaultSampler, In.vTexcoord);
+
+    float Darkness = 1.2f;
+    col.rgb = col.rgb * Darkness; // 배경만 살짝 어둡게
+
+    // 아이콘 알파 기반으로 배경 위에 아이콘 얹기
+    float iconAlpha = saturate(iconCol.a);
+
+    float3 finalRgb = lerp(col.rgb, iconCol.rgb, iconAlpha);
+    float finalA = max(col.a, iconAlpha); // 필요에 따라 col.a로 해도 됨
+
+    Out.vColor = float4(finalRgb, finalA);
     return Out;
 }
 
 technique11 DefaultTechnique
 {
-    pass Button
+    pass PlaceMoveButton
     {
         VertexShader = compile vs_5_0 VS_MAIN();
-        PixelShader = compile ps_5_0 PS_MAIN();
+        PixelShader = compile ps_5_0 PS_PLACEMOVEBUTTON();
     }
 
     pass BackGround
     {
         VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_MAIN1();
+    }
+
+    pass CMButton
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN2();
+    }
+
+    pass Default
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_MAIN();
     }
 }

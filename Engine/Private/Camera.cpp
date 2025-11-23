@@ -204,6 +204,11 @@ void CCamera::Reset_State()
 {
 }
 
+void CCamera::Set_Position(FXMVECTOR vPos)
+{
+	m_pTransformCom->Set_State(TRANSFORM_STATE::POS, vPos);
+}
+
 void CCamera::Free()
 {
 	CActor::Free();

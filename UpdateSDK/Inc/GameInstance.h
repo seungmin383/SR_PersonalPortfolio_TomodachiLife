@@ -163,6 +163,8 @@ public:
 	
 	void CameraManager_Reset_State(const _wstring& strCameraTag);
 
+	void CameraManager_Set_Position(const _wstring& strCameraTag, FXMVECTOR vPos);
+
 #pragma endregion
 
 #pragma region INPUTDEVICE

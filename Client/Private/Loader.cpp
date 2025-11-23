@@ -16,7 +16,7 @@
 #include "UICamera.h"
 #include "Weapon.h"
 #include "WorldCamera.h"
-
+#include "MiiEditButton.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -427,16 +427,59 @@ HRESULT CLoader::Loading_CityHall()
 		/* 일반 버튼 텍스쳐 */
 		// ProtoTag_Component_CMButtonTexture
 		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Sprite_City_Hall_Icon/CMButton%d.png"), 2);
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Sprite_CityHall_Icon/CMButton%d.png"), 2);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_CMButtonTexture"), tmp)))
 				return E_FAIL;
+		}
 
+		/* 아이콘 텍스쳐 */
+		// ProtoTag_Component_IconTexture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Sprite_CityHall_Icon/IconTexture%d.png"), 6);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_IconTexture"), tmp)))
+				return E_FAIL;
+		}
+
+		/* UI 배경 텍스쳐 */
+		// ProtoTag_Component_UIBGTexture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/UIBG.png"), 1);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_UIBGTexture"), tmp)))
+				return E_FAIL;
+		}
+
+		/* mii 편집 버튼 */
+		// ProtoTag_Component_EditButtonTexture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/EditButton/%d.png"), 40);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_EditButtonTexture"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 배경 모델 */
+		// ProtoTag_Componenet_MiiEditorBG
+		{
+			XMMATRIX InitMatrix = XMMatrixIdentity();
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Componenet_MiiEditorBG", ANIM_TYPE::NONEANIM,
+				"../../Resource/00Model/BackGround - MiiEditor/EditorBG.fbx", InitMatrix, "EditorBG");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Componenet_MiiEditorBG"), tmp)))
+				return E_FAIL;
+
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "EditorBG", InitMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Componenet_seMiiEditorBG"), tmp)))
+				return E_FAIL;
 		}
 	}
 
 	// Actor
 	{
-
+		/* 플레이어 */
+		// ProtoTag_Actor_Player
+		{
+			tmp = CPlayer::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL,TEXT("ProtoTag_Actor_Player"),tmp)))
+				return E_FAIL;
+		}
 	}
 
 	// UI
@@ -446,6 +489,30 @@ HRESULT CLoader::Loading_CityHall()
 		{
 			tmp = CCommonButton::Create(m_pDevice, m_pContext);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_CMButton"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 에디터 배경 */
+		// ProtoTag_Actor_EditorBG
+		{
+			tmp = CMiiEditorBG::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Actor_EditorBG"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 아래 UI 배경*/
+		// ProtoTag_UI_BackGround
+		{
+			tmp = CBackGround::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_BackGround"), tmp)))
+				return E_FAIL;
+		}
+
+		/* mii 편집 버튼 */
+		// ProtoTag_UI_MiiEditButton
+		{
+			tmp = CMiiEditButton::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_MiiEditButton"), tmp)))
 				return E_FAIL;
 		}
 	}

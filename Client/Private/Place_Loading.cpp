@@ -7,6 +7,7 @@
 #include "Place_Island.h"
 #include "Place_Apart.h"
 #include "Place_CityHall.h"
+#include "Place_Developer.h"
 
 CPlace_Loading::CPlace_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -52,6 +53,7 @@ int32_t CPlace_Loading::Update(_float fDT)
 			break;
 
 		case PLACEID::DEVELOPER:
+			pPlace = CPlace_Developer::Create(m_pDevice, m_pContext);
 			break;
 
 		case PLACEID::END:

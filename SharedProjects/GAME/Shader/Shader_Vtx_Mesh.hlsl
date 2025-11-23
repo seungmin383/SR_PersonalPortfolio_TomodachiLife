@@ -142,6 +142,23 @@ PS_OUT PS_MAIN_NOMAT(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_MIIEDITORBG(PS_IN In)
+{
+    PS_OUT Out;
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+
+    float4 vColor = vMtrlDiffuse;
+    
+    vColor += 0.1f;
+    
+    if(vMtrlDiffuse.a < 0.1f)
+        discard;
+        
+    float4 vFinalColor = float4(vColor.x, vColor.y, vColor.z, vMtrlDiffuse.a);
+    Out.vColor = vFinalColor;
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
     pass Model
@@ -159,7 +176,12 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_HAIR();
         PixelShader = compile ps_5_0 PS_MAIN_NOMAT();
     }
-
+    
+    pass MiiEditorBG
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_MIIEDITORBG();
+    }
 
 }
 
