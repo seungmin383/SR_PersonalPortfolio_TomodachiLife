@@ -13,9 +13,7 @@ private:
 	virtual ~CPlaceManager() = default;
 
 public:
-	HRESULT Change_Place(
-		uint32_t PlaceID, 
-		CPlace* pPlace);
+	HRESULT Change_Place(uint32_t PlaceID, CPlace* pPlace);
 
 public:
 	int32_t Update(_float fDT);

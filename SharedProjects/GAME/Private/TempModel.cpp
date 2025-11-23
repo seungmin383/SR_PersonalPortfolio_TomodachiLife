@@ -123,7 +123,7 @@ HRESULT CTempModel::Render()
 HRESULT CTempModel::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_VtxMeshShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),

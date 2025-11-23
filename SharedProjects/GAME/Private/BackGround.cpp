@@ -40,7 +40,6 @@ int32_t CBackGround::Update_Priority(_float fDT)
 
 int32_t CBackGround::Update(_float fDT)
 {
-	m_pTransformCom->Go_Down(fDT);
 
 	return 0;
 }
@@ -58,7 +57,7 @@ HRESULT CBackGround::Render()
 	if (FAILED(m_pRectBufferCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(1)))
+	if (FAILED(m_pShaderCom->Begin(0)))
 		return E_FAIL;
 
 
@@ -71,7 +70,7 @@ HRESULT CBackGround::Render()
 HRESULT CBackGround::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_VtxTexShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
@@ -80,7 +79,7 @@ HRESULT CBackGround::Ready_Component()
 
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		static_cast<uint32_t>(PLACEID::ISLAND),
 		TEXT("ProtoTag_Component_BackGround_Texture"),
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTextureCom),
@@ -89,7 +88,7 @@ HRESULT CBackGround::Ready_Component()
 
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_RectBuffer"),
 		TEXT("Com_RectBuffer"),
 		reinterpret_cast<CComponent**>(&m_pRectBufferCom),

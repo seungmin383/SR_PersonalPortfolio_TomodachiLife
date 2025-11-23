@@ -70,11 +70,11 @@ HRESULT CMiiEditorBG::Render()
 
 HRESULT CMiiEditorBG::Ready_Component()
 {
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Component_VtxAnimMeshShader"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxAnimMeshShader"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACE_ID::CITYHALL), TEXT("ProtoTag_Component_BasicManBody_SEModel"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Component_BasicManBody_SEModel"),
 		TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 

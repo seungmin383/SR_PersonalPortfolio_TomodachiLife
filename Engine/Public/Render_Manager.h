@@ -27,11 +27,13 @@ private:
 	HRESULT Render_Top_NonBlend();
 	HRESULT Render_Top_Blend();
 	HRESULT Render_Top_UI();
+	HRESULT Render_Top_UI_Blend();
 
 	HRESULT Render_Bottom_Priority();
 	HRESULT Render_Bottom_NonBlend();
 	HRESULT Render_Bottom_Blend();
 	HRESULT Render_Bottom_UI();
+	HRESULT Render_Bottom_UI_Blend();
 
 private:
 	list<CObject*> m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::END)];

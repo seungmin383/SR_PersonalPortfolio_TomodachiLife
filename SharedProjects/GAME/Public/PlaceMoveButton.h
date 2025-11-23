@@ -18,7 +18,7 @@ public:
 	{
 		IOnClick* pStrategy = { nullptr };
 
-		PLACE_ID eCurPlaceID = {};
+		PLACEID eCurPlaceID = {};
 
 		uint8_t iTextureNum = {};
 		uint8_t iUnlockTextureNum = {};
@@ -60,7 +60,7 @@ private:
 
 	IOnClick* m_pClickStrategy = { nullptr };
 
-	PLACE_ID m_eCurPlaceID = { PLACE_ID::END };
+	PLACEID m_eCurPlaceID = { PLACEID::END };
 	uint8_t	m_iTextureNum = {};
 	uint8_t	m_iOutlineTextureNum = {};
 	uint8_t m_iStoreOutlineTextureNum = {};

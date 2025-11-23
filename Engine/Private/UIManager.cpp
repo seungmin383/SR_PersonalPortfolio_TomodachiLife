@@ -14,7 +14,6 @@ CUIManager::CUIManager(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CUIManager::Initialize()
 {
-
 	return S_OK;
 }
 
@@ -30,7 +29,7 @@ void CUIManager::UIGroup_Update_Priority(_float fDT)
 	{
 		if (m_isLoading)
 		{
-			Show_Loading(fDT);
+			Calc_FadeForce(fDT);
 			m_iCurGroupIndex = m_iNextGroupIndex;
 
 			if (m_isLoadingFin)
@@ -142,6 +141,7 @@ void CUIManager::Change_UIGroup(uint32_t iNextGroupIndex, _bool isLoading)
 	m_iNextGroupIndex = iNextGroupIndex;
 	m_isGroupChange = TRUE;
 	m_isLoading = isLoading;
+
 	if (m_isLoading)
 	{
 		m_fFadeTimer = 0.f;
@@ -154,43 +154,6 @@ void CUIManager::Change_Place(uint32_t iInitGroupIndex)
 {
 	m_iNextGroupIndex = iInitGroupIndex;
 	m_isPlaceChange = TRUE;
-}
-
-HRESULT CUIManager::Ready_Component()
-{
-	m_pShader = CShaderCom::Create(m_pDevice, m_pContext, TEXT("../../SharedProjects/GAME/Shader/Engine_Shader_Vtx_Tex.hlsl"), VTX_TEX::Elements, VTX_TEX::iNumElements);
-	if (nullptr == m_pShader)
-		return E_FAIL;
-
-	m_pTexture = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Sprite_CityHall_Icon/Loading.dds"), 1);
-	if (nullptr == m_pTexture)
-		return E_FAIL;
-
-	m_pRectBuffer = CRectBufferCom::Create(m_pDevice, m_pContext);
-	if (nullptr == m_pRectBuffer)
-		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CUIManager::Bind_ShaderResources()
-{
-	HRESULT hr = {};
-
-	XMFLOAT4X4 tmpMatrix = {};
-	XMStoreFloat4x4(&tmpMatrix, XMMatrixIdentity());
-
-	m_pShader->Bind_Matrix("g_WorldMatrix", &tmpMatrix);
-
-	m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ViewMatrix", TEXT("UI_Camera"), D3DTS::VIEW);
-
-	m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ);
-
-	m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", 0);
-
-	m_pShader->Bind_RawValue("g_Fade", &m_fFadeForce, sizeof(_float));
-
-	return hr;
 }
 
 void CUIManager::Reset_UIManager(uint32_t iInitGroupIndex)
@@ -210,7 +173,7 @@ void CUIManager::Clear_UIManager(uint32_t iInitGroupIndex)
 	Reset_UIManager(iInitGroupIndex);
 }
 
-HRESULT CUIManager::Show_Loading(_float fDT)
+_float CUIManager::Calc_FadeForce(_float fDT)
 {
 	m_fFadeTimer += fDT;
 
@@ -231,24 +194,26 @@ HRESULT CUIManager::Show_Loading(_float fDT)
 		m_fFadeForce = 1.f - t;                 
 	}
 
-	if (FAILED(Bind_ShaderResources()))
-		return E_FAIL;
-
-	if (FAILED(m_pRectBuffer->Bind_Resource()))
-		return E_FAIL;
-
-	if (FAILED(m_pShader->Begin(0)))
-		return E_FAIL;
-
-	if (FAILED(m_pRectBuffer->Begin_Draw()))
-		return E_FAIL;
-
 	return S_OK;
+}
+
+_float CUIManager::Get_FadeForce()
+{
+	return m_fFadeForce;
 }
 
 CUIManager* CUIManager::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	return new CUIManager(pDevice, pContext);
+	CUIManager* pInstance = new CUIManager(pDevice, pContext);
+	
+	if (FAILED(pInstance->Initialize()))
+	{
+		MSG_BOX("ErrCode : CUIManager Create Failed");
+		Safe_Release(pInstance);
+		return nullptr;
+	}
+	
+	return pInstance;
 }
 
 void CUIManager::Free()
@@ -257,10 +222,6 @@ void CUIManager::Free()
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
-
-	Safe_Release(m_pShader);
-	Safe_Release(m_pTexture);
-	Safe_Release(m_pRectBuffer);
 
 	for (auto& pGroup : m_UIGroups)
 	{

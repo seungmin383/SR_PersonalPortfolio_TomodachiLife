@@ -18,21 +18,24 @@ private:
 
 public:
 	virtual HRESULT Initialize(
-		PLACE_ID NextPlaceID);
+		PLACEID NextPlaceID);
 
 	virtual int32_t	 Update(_float fDT) override;
 	virtual HRESULT Render_Priority() override;
 	virtual HRESULT Render_Late() override;
 
 private:
+	HRESULT Ready_UILayer();
+
+private:
 	CLoader*				m_pLoader = { nullptr };
-	PLACE_ID		m_eNextPlaceID = { PLACE_ID::END };
+	PLACEID		m_eNextPlaceID = { PLACEID::END };
 
 public:
 	static CPlace_Loading* Create(
 		ID3D11Device* pDevice, 
 		ID3D11DeviceContext* pContext, 
-		PLACE_ID NextPlaceID);
+		PLACEID NextPlaceID);
 
 	virtual void Free() override;
 };

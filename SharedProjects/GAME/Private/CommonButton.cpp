@@ -22,6 +22,7 @@ HRESULT CCommonButton::Initialize_Clone(void* pArg)
 {
 	COMMONBUTTON_DESC* tCommonButtonDesc = static_cast<COMMONBUTTON_DESC*>(pArg);
 	m_pClickStrategy = tCommonButtonDesc->pClickStrategy;
+	m_strIconTextureTag = tCommonButtonDesc->strIconTextureTag;
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -77,7 +78,7 @@ HRESULT CCommonButton::Render()
 HRESULT CCommonButton::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_VtxTexShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShader),
@@ -85,7 +86,7 @@ HRESULT CCommonButton::Ready_Component()
 		return E_FAIL;
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_RectBuffer"),
 		TEXT("Com_RectBuffer"),
 		reinterpret_cast<CComponent**>(&m_pRectBuffer),
@@ -93,7 +94,7 @@ HRESULT CCommonButton::Ready_Component()
 		return E_FAIL;
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		static_cast<uint32_t>(PLACEID::ISLAND),
 		TEXT("ProtoTag_Component_PlaceMoveButton_Texture"),
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTexture),
@@ -101,8 +102,8 @@ HRESULT CCommonButton::Ready_Component()
 		return E_FAIL;
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::ISLAND),
-		TEXT("ProtoTag_Component_OutLine_Texture"),
+		static_cast<uint32_t>(PLACEID::ISLAND),
+		m_strIconTextureTag,
 		TEXT("Com_OutLineTexture"),
 		reinterpret_cast<CComponent**>(&m_pIconTexture),
 		nullptr)))

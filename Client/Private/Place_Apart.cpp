@@ -62,12 +62,12 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		tMiiDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			static_cast<uint32_t>(PLACE_ID::APART),
+			static_cast<uint32_t>(PLACEID::APART),
 			TEXT("ProtoTag_Actor_Mii"),
 			&tMiiDesc);
 
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			static_cast<uint32_t>(PLACE_ID::APART),
+			static_cast<uint32_t>(PLACEID::APART),
 			TEXT("LayerTag_Actor"),
 			tmp)))
 		{
@@ -89,12 +89,12 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 			tMiiDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(
-				static_cast<uint32_t>(PLACE_ID::APART),
+				static_cast<uint32_t>(PLACEID::APART),
 				TEXT("ProtoTag_Actor_Player"),
 				&tMiiDesc);
 
 			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-				static_cast<uint32_t>(PLACE_ID::APART),
+				static_cast<uint32_t>(PLACEID::APART),
 				TEXT("LayerTag_Actor"),
 				tmp)))
 			{

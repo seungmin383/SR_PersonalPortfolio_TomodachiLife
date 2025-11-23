@@ -100,7 +100,7 @@ HRESULT CPlayer::Ready_PartObjects()
     tBodyDesc.fZ = -0.f;
 
     Add_PartObject(
-        static_cast<uint32_t>(PLACE_ID::APART),
+        static_cast<uint32_t>(PLACEID::APART),
         TEXT("ProtoTag_Actor_Player_Body"),
         TEXT("Part_Body"),
         &tBodyDesc);
@@ -124,7 +124,7 @@ HRESULT CPlayer::Ready_PartObjects()
     WeaponDesc.fZ = -0.f;
 
     if (FAILED(__super::Add_PartObject(
-        static_cast<uint32_t>(PLACE_ID::APART), 
+        static_cast<uint32_t>(PLACEID::APART), 
         TEXT("ProtoTag_Actor_Player_Weapon"),
         TEXT("Part_Weapon"), &WeaponDesc)))
         return E_FAIL;

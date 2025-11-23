@@ -151,6 +151,7 @@
     <ClInclude Include="..\Public\MainApp.h" />
     <ClInclude Include="..\Public\Place_Apart.h" />
     <ClInclude Include="..\Public\Place_CityHall.h" />
+    <ClInclude Include="..\Public\Place_Developer.h" />
     <ClInclude Include="..\Public\Place_Island.h" />
     <ClInclude Include="..\Public\Place_Loading.h" />
     <ClInclude Include="..\Public\Place_MiiEditor.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="..\Private\MainApp.cpp" />
     <ClCompile Include="..\Private\Place_Apart.cpp" />
     <ClCompile Include="..\Private\Place_CityHall.cpp" />
+    <ClCompile Include="..\Private\Place_Developer.cpp" />
     <ClCompile Include="..\Private\Place_Island.cpp" />
     <ClCompile Include="..\Private\Place_Loading.cpp" />
     <ClCompile Include="..\Private\Place_MiiEditor.cpp" />

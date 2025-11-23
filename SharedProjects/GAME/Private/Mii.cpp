@@ -145,7 +145,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiBodyDesc.pParentClothState = &m_iClothState;
 		MiiBodyDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Actor_MiiBody"), TEXT("Part_Body"), &MiiBodyDesc)))
+		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiBody"), TEXT("Part_Body"), &MiiBodyDesc)))
 			return E_FAIL;
 	}
 
@@ -167,7 +167,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiHeadDesc.pSocketMatrix = BodySockeMatrix;
 		MiiHeadDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Actor_MiiHead"), TEXT("Part_Head"), &MiiHeadDesc)))
+		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiHead"), TEXT("Part_Head"), &MiiHeadDesc)))
 			return E_FAIL;
 	}
 
@@ -189,7 +189,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiHeadDesc.pSocketMatrix = BodySockeMatrix;
 		MiiHeadDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACE_ID::STATIC), TEXT("ProtoTag_Actor_MiiHair"), TEXT("Part_Hair"), &MiiHeadDesc)))
+		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiHair"), TEXT("Part_Hair"), &MiiHeadDesc)))
 			return E_FAIL;
 	}
 	return S_OK;

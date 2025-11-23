@@ -37,6 +37,9 @@
     <ClInclude Include="..\Public\Loader.h">
       <Filter>01.Place\99.Place_Loading\Loader</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Place_Developer.h">
+      <Filter>01.Place\98.Place_Developer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -77,6 +80,9 @@
     <Filter Include="01.Place\99.Place_Loading\Loader">
       <UniqueIdentifier>{485a53e4-a25c-4f6f-b411-84e92f1dda87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Place\98.Place_Developer">
+      <UniqueIdentifier>{0050ec29-051c-4501-8cd7-cd761253aa3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -102,6 +108,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Loader.cpp">
       <Filter>01.Place\99.Place_Loading\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_Developer.cpp">
+      <Filter>01.Place\98.Place_Developer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -78,7 +78,7 @@ void CApart::Calc_Object_Place_Point()
 HRESULT CApart::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_VtxMeshShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
@@ -86,7 +86,7 @@ HRESULT CApart::Ready_Component()
 		return E_FAIL;
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		static_cast<uint32_t>(PLACEID::ISLAND),
 		TEXT("ProtoTag_Component_Building1"),
 		TEXT("Com_Model"),
 		reinterpret_cast<CComponent**>(&m_pModel),

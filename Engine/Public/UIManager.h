@@ -33,13 +33,12 @@ public:
 	void Change_Place(uint32_t iInitGroupIndex);
 
 private:
-	HRESULT Ready_Component();
-	HRESULT Bind_ShaderResources();
-
 	void Reset_UIManager(uint32_t iInitGroupIndex);
 	void Clear_UIManager(uint32_t iInitGroupIndex);
-	HRESULT Show_Loading(_float fDT);
+	_float Calc_FadeForce(_float fDT);
 
+public:
+	_float Get_FadeForce();
 
 private:
 	ID3D11Device* m_pDevice = { nullptr };
@@ -47,10 +46,6 @@ private:
 
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
-
-	CShaderCom* m_pShader = { nullptr };
-	CTextureCom* m_pTexture = { nullptr };
-	CRectBufferCom* m_pRectBuffer = { nullptr };
 
 private:
 	map <uint32_t, CUIGroup*> m_UIGroups;

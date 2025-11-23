@@ -93,12 +93,18 @@ PS_OUT PS_MAIN1(PS_IN In)
     Out.vColor = col;
     return Out;
 }
-//그래픽 카드 사면 이 그래픽 카드는 쉐이더 버전 스펙이 있다 지원해주는
-//패스 : 렌더링 기법의 캡슐화 (모아둘께요)
-/*
-일반적인 투패스 렌더링은 모델을 두번 그리는 것 -> 미친짓
 
-*/
+PS_OUT PS_MAIN2(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float4 col = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    
+    col.a = 1.f;
+    
+    Out.vColor = float4(1.f, 0.f, 0.f, 0.f);
+    return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -111,6 +117,6 @@ technique11 DefaultTechnique
     pass BackGround
     {
         VertexShader = compile vs_5_0 VS_MAIN();
-        PixelShader = compile ps_5_0 PS_MAIN1();
+        PixelShader = compile ps_5_0 PS_MAIN2();
     }
 }

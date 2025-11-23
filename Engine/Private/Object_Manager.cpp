@@ -14,6 +14,8 @@ HRESULT CObjectManager::Initialize(uint32_t FinalPlace)
 {
 	m_iMaxIndex = FinalPlace;
 	m_Layers = new map<const _wstring, CLayer*>[FinalPlace];
+	m_DisableLayers.resize(FinalPlace);
+
 	return S_OK;
 }
 
@@ -23,15 +25,18 @@ int32_t CObjectManager::Update_Priority(_float fDT)
 	{
 		for (auto& pair : m_Layers[i])
 		{
+			if (m_DisableLayers[i].find(pair.first) != m_DisableLayers[i].end())
+				continue;
+
 			int32_t iFlag = pair.second->Update_Priority(fDT);
-			
+
 			if (iFlag == PLACE_CHANGE)
 				return iFlag;
 		}
 	}
 
 	return UPDATE_CLEAR;
-} 
+}
 
 int32_t CObjectManager::Update(_float fDT)
 {
@@ -39,6 +44,9 @@ int32_t CObjectManager::Update(_float fDT)
 	{
 		for (auto& pair : m_Layers[i])
 		{
+			if (m_DisableLayers[i].find(pair.first) != m_DisableLayers[i].end())
+				continue;
+
 			int32_t iFlag = pair.second->Update(fDT);
 
 			if (iFlag == PLACE_CHANGE)
@@ -48,14 +56,21 @@ int32_t CObjectManager::Update(_float fDT)
 
 	return UPDATE_CLEAR;
 }
+
 void CObjectManager::Update_Late(_float fDT)
 {
 	for (uint32_t i = 0; i < m_iMaxIndex; i++)
 	{
 		for (auto& pair : m_Layers[i])
+		{
+			if (m_DisableLayers[i].find(pair.first) != m_DisableLayers[i].end())
+				continue;
+
 			pair.second->Update_Late(fDT);
+		}
 	}
 }
+
 
 HRESULT CObjectManager::Add_Object_in_Layer(
 	uint32_t PlaceID,
@@ -96,6 +111,44 @@ HRESULT CObjectManager::Clear_Objects(uint32_t PlaceID)
 		Safe_Release(pair.second);
 	m_Layers[PlaceID].clear();
 
+	return S_OK;
+}
+
+HRESULT CObjectManager::Enable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag)
+{
+	auto iter = m_Layers[iPlaceID].find(strLayerTag);
+	if (iter == m_Layers[iPlaceID].end())
+	{
+		MSG_BOX("ErrCode : NO Layer");
+		return E_FAIL;
+	}
+
+	if (m_DisableLayers[iPlaceID].find(strLayerTag) == m_DisableLayers[iPlaceID].end())
+	{
+		MSG_BOX("ErrCode : Layer Already Enable");
+		return E_FAIL;
+	}
+
+	m_DisableLayers[iPlaceID].erase(strLayerTag);
+	return S_OK;
+}
+
+HRESULT CObjectManager::Disable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag)
+{
+	auto iter = m_Layers[iPlaceID].find(strLayerTag);
+	if (iter == m_Layers[iPlaceID].end())
+	{
+		MSG_BOX("ErrCode : NO Layer");
+		return E_FAIL;
+	}
+
+	if (m_DisableLayers[iPlaceID].find(strLayerTag) != m_DisableLayers[iPlaceID].end())
+	{
+		MSG_BOX("ErrCode : Layer Already Disable");
+		return E_FAIL;
+	}
+
+	m_DisableLayers[iPlaceID].insert(strLayerTag);
 	return S_OK;
 }
 

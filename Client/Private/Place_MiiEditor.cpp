@@ -56,8 +56,8 @@ HRESULT CPlace_MiiEditor::Ready_Actor_Layer()
 		tMiiEditorDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
 		tMiiEditorDesc.vPos = XMFLOAT4{ 0.f, 0.f, -10.f, 1.f };
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACE_ID::CITYHALL), TEXT("ProtoTag_Component_EditorBG"), &tMiiEditorDesc);
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACE_ID::CITYHALL), TEXT("LayerTag_Actor"), tmp)))
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Component_EditorBG"), &tMiiEditorDesc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_Actor"), tmp)))
 		{
 			Safe_Release(tmp);
 			return E_FAIL;

@@ -16,7 +16,7 @@ private:
 	virtual ~CLoader() = default;
 
 public:
-	HRESULT Initialize(PLACE_ID NextPlaceID);
+	HRESULT Initialize(PLACEID NextPlaceID);
 	HRESULT Loading();
 
 	_bool isFinished() const 
@@ -32,7 +32,7 @@ public:
 private:
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };
-	PLACE_ID				m_eNextPlaceID = { PLACE_ID::END };
+	PLACEID				m_eNextPlaceID = { PLACEID::END };
 	CGameInstance*			m_pGameInstance = { nullptr };
 
 private:
@@ -46,45 +46,19 @@ private:
 
 private:
 #pragma region LOADING_FUCTION
-
-	HRESULT Loading_For_Main();
-	HRESULT Loading_For_Setting();
+	HRESULT Loading_Island();
+	HRESULT Loading_Apart();
 	HRESULT Loading_CityHall();
 	HRESULT Loading_MiiEditor();
-	HRESULT Loading_For_Store_Clothes();
+	HRESULT Loading_Developer();
 
-	HRESULT Loading_For_Store_Antique();
-	HRESULT Loading_For_Store_Hat();
-	HRESULT Loading_For_Store_Food();
-	HRESULT Loading_For_Store_Luxury();
-	HRESULT Loading_For_Store_House();
-
-	HRESULT Loading_For_Envi_Fountain();
-	HRESULT Loading_For_Envi_Ocean();
-	HRESULT Loading_For_Envi_Park();
-	HRESULT Loading_For_Envi_Playground();
-	HRESULT Loading_For_Envi_Cafe();
-
-	HRESULT Loading_For_Etc_Community();
-	HRESULT Loading_For_Etc_Music();
-	HRESULT Loading_For_Etc_Ranking();
-	HRESULT Loading_For_Etc_News();
-	HRESULT Loading_For_Etc_Photo();
-
-	HRESULT Loading_For_Connect_Tent();
-	HRESULT Loading_For_Connect_Port();
-
-	HRESULT Loading_Apart();
-	HRESULT Loading_For_Live_Wedding_House();
-
-	HRESULT Loading_Island();
 #pragma endregion
 
 public:
 	static CLoader* Create(
 		ID3D11Device* pDevice, 
 		ID3D11DeviceContext* pContext,
-		PLACE_ID NextPlaceID);
+		PLACEID NextPlaceID);
 
 	virtual void Free() override;
 };

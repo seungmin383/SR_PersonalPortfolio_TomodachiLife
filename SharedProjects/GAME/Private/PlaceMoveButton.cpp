@@ -74,7 +74,6 @@ int32_t CPlaceMoveButton::Update(_float fDT)
 	else if(m_isSelected)
 	{
 		Camera_Control(fDT);
-		
 	}
 
 	return UPDATE_CLEAR;
@@ -82,7 +81,6 @@ int32_t CPlaceMoveButton::Update(_float fDT)
 
 void CPlaceMoveButton::Update_Late(_float fDT)
 {
-	//m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::BOTTOM_UI, this);
 	CUI::Update_Late(fDT);
 }
 
@@ -107,7 +105,7 @@ HRESULT CPlaceMoveButton::Render()
 HRESULT CPlaceMoveButton::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_VtxTexShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
@@ -115,7 +113,7 @@ HRESULT CPlaceMoveButton::Ready_Component()
 		return E_FAIL;
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_RectBuffer"),
 		TEXT("Com_RectBuffer"),
 		reinterpret_cast<CComponent**>(&m_pRectBufferCom),
@@ -123,7 +121,7 @@ HRESULT CPlaceMoveButton::Ready_Component()
 		return E_FAIL;
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		static_cast<uint32_t>(PLACEID::ISLAND),
 		TEXT("ProtoTag_Component_PlaceMoveButton_Texture"),
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTextureCom),
@@ -131,7 +129,7 @@ HRESULT CPlaceMoveButton::Ready_Component()
 		return E_FAIL;
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		static_cast<uint32_t>(PLACEID::ISLAND),
 		TEXT("ProtoTag_Component_OutLine_Texture"),
 		TEXT("Com_OutLineTexture"),
 		reinterpret_cast<CComponent**>(&m_pOutlineTextureCom),

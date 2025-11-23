@@ -175,9 +175,6 @@
     <Filter Include="01.Utility\07.Effect\00.Shade">
       <UniqueIdentifier>{214b651a-0a34-4a8d-83e4-2ed78b734b41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Shader">
-      <UniqueIdentifier>{70240ba4-81be-429d-a4e1-092e917db884}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -550,10 +547,5 @@
     <None Include="fmodL.dll">
       <Filter>00.System\01.Manager\99.Sound_Manager\99.fMod</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\Bin\Debug\Shader\Engine_Shader_Vtx_Tex.hlsl">
-      <Filter>02.Shader</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

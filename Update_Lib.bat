@@ -12,7 +12,5 @@ xcopy			/y			.\Engine\Bin\Release\Engine.lib				.\UpdateSDK\Lib\Release\
 xcopy			/y			.\Engine\ThirdPartyLib\Debug\*.lib			.\UpdateSDK\Lib\Debug\
 xcopy			/y			.\Engine\ThirdPartyLib\Release\*.lib		.\UpdateSDK\Lib\Release\
 
-xcopy			/y			.\Engine\Bin\Debug\Shader\*.hlsl			.\SharedProjects\GAME\Shader\
-xcopy			/y			.\Engine\Bin\Debug\Shader\*.hlsl			.\Engine\Bin\Release\Shader\
 
 xcopy			/y/s		.\Engine\Public\*.*							.\UpdateSDK\Inc\

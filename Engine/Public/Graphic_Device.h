@@ -19,6 +19,8 @@ public:
 	HRESULT Present();
 	void Bind_Viewport(VIEWPORT_TYPE ViewportType);
 	void Bind_RenderState(RENDER_STATE eRenderState);
+	void AlphaBlend_On();
+	void AlphaBlend_Off();
 
 private:	
 	ID3D11Device*				m_pDevice = { nullptr };
@@ -30,6 +32,8 @@ private:
 
 	D3D11_VIEWPORT m_Viewports[static_cast<int32_t>(VIEWPORT_TYPE::END)] = {};
 	ID3D11RasterizerState* m_pRenderState [static_cast<int32_t>(RENDER_STATE::END)];
+
+	ID3D11BlendState* m_pAlphaBlendState = { nullptr };
 
 private:
 	HRESULT Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iWinCX, _uint iWinCY);

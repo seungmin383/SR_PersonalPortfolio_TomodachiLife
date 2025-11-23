@@ -172,7 +172,7 @@ HRESULT CTestMii::Render()
 HRESULT CTestMii::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_VtxAnimMeshShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
@@ -181,7 +181,7 @@ HRESULT CTestMii::Ready_Component()
 
 #ifdef ANIM_TEST
 	//if (FAILED(Add_Component(
-	//	static_cast<uint32_t>(PLACE_ID::STATIC),
+	//	static_cast<uint32_t>(PLACEID::STATIC),
 	//	TEXT("ProtoTag_Component_seBabyJumper"),
 	//	TEXT("Com_ModelCom"),
 	//	reinterpret_cast<CComponent**>(&m_pSeModel),
@@ -189,7 +189,7 @@ HRESULT CTestMii::Ready_Component()
 	//	return E_FAIL;
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_seCamouflageJacket"),
 		TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pSeModel),
@@ -197,7 +197,7 @@ HRESULT CTestMii::Ready_Component()
 		return E_FAIL;
 
 	//if (FAILED(Add_Component(
-	//	static_cast<uint32_t>(PLACE_ID::CITYHALL),
+	//	static_cast<uint32_t>(PLACEID::CITYHALL),
 	//	TEXT("ProtoTag_Component_BasicManBody_SEModel"),
 	//	TEXT("Com_ModelCom"),
 	//	reinterpret_cast<CComponent**>(&m_pSeModel),

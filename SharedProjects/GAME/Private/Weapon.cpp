@@ -80,7 +80,7 @@ HRESULT CWeapon::Render()
 HRESULT CWeapon::Ready_Components()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_VtxAnimMeshShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
@@ -89,7 +89,7 @@ HRESULT CWeapon::Ready_Components()
 
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::APART),
+		static_cast<uint32_t>(PLACEID::APART),
 		TEXT("ProtoTag_Component_GirlHair1_Model"),
 		TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pModel),

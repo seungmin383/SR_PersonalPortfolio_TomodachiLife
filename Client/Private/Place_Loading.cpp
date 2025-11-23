@@ -14,13 +14,14 @@ CPlace_Loading::CPlace_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 }
 
 HRESULT CPlace_Loading::Initialize(
-	PLACE_ID NextPlaceID)
+	PLACEID NextPlaceID)
 {
 	m_eNextPlaceID = NextPlaceID;
 	m_pLoader = CLoader::Create(m_pDevice, m_pContext, m_eNextPlaceID);
 
 	if (nullptr == m_pLoader)
 		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -32,71 +33,28 @@ int32_t CPlace_Loading::Update(_float fDT)
 
 		switch (m_eNextPlaceID)
 		{
-		case PLACE_ID::STATIC:
+		case PLACEID::STATIC:
 			break;
 
-		case PLACE_ID::MAIN:
-			pPlace = CPlace_Main::Create(m_pDevice, m_pContext);
+		case PLACEID::ISLAND:
+			pPlace = CPlace_Island::Create(m_pDevice, m_pContext);
 			break;
 
-		case PLACE_ID::LOADING:
+		case PLACEID::APART:
+			pPlace = CPlace_Apart::Create(m_pDevice, m_pContext);
 			break;
 
-		case PLACE_ID::SETTING:
-			pPlace = CPlace_Setting::Create(m_pDevice, m_pContext);
-			break;
-
-		case PLACE_ID::CITYHALL:
+		case PLACEID::CITYHALL:
 			pPlace = CPlace_CityHall::Create(m_pDevice, m_pContext);
 			break;
 
-		case PLACE_ID::MII_EDITOR:
+		case PLACEID::MII_EDITOR:
 			break;
-		case PLACE_ID::STORE_CLOTHES:
+
+		case PLACEID::DEVELOPER:
 			break;
-		case PLACE_ID::STORE_ANTIQUE:
-			break;
-		case PLACE_ID::STORE_HAT:
-			break;
-		case PLACE_ID::STORE_FOOD:
-			break;
-		case PLACE_ID::STORE_LUXURY:
-			break;
-		case PLACE_ID::STORE_HOUSE:
-			break;
-		case PLACE_ID::ENVI_FOUNTAIN:
-			break;
-		case PLACE_ID::ENVI_OCEAN:
-			break;
-		case PLACE_ID::ENVI_PARK:
-			break;
-		case PLACE_ID::ENVI_PLAYGROUND:
-			break;
-		case PLACE_ID::ENVI_CAFE:
-			break;
-		case PLACE_ID::ETC_COMMUINTY:
-			break;
-		case PLACE_ID::ETC_MUSIC:
-			break;
-		case PLACE_ID::ETC_RANKING:
-			break;
-		case PLACE_ID::ETC_NEWS:
-			break;
-		case PLACE_ID::ETC_PHOTO:
-			break;
-		case PLACE_ID::CONNECT_TENT:
-			break;
-		case PLACE_ID::CONNECT_PORT:
-			break;
-		case PLACE_ID::APART:
-			pPlace = CPlace_Apart::Create(m_pDevice, m_pContext);
-			break;
-		case PLACE_ID::LIVE_WEDDING_HOUSE:
-			break;
-		case PLACE_ID::ISLAND:
-			pPlace = CPlace_Island::Create(m_pDevice, m_pContext);
-			break;
-		case PLACE_ID::END:
+
+		case PLACEID::END:
 			break;
 		default:
 			break;
@@ -105,12 +63,10 @@ int32_t CPlace_Loading::Update(_float fDT)
 		if (nullptr == pPlace)
 			return 1;
 
-		if (SUCCEEDED(m_pGameInstance->PlaceManager_Change_Place(
-			static_cast<uint32_t>(m_eNextPlaceID),
-			pPlace)))
+		if (SUCCEEDED(m_pGameInstance->PlaceManager_Change_Place(static_cast<uint32_t>(m_eNextPlaceID), pPlace)))
 			return 1;
 
-		MSG_BOX(" ErrCode : 왜 여기까지 왔지? ");
+		MSG_BOX("ErrCode : 왜 여기까지 왔지? ");
 	}
 
 	return 0;
@@ -130,7 +86,7 @@ HRESULT CPlace_Loading::Render_Late()
 CPlace_Loading* CPlace_Loading::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext, 
-	PLACE_ID NextPlaceID)
+	PLACEID NextPlaceID)
 {
 	CPlace_Loading* pPlaceLoading = new CPlace_Loading(pDevice, pContext);
 

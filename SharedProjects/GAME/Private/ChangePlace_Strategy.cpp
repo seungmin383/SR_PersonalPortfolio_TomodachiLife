@@ -7,7 +7,7 @@ CChangePlace_Strategy::CChangePlace_Strategy(ID3D11Device* pDevice, ID3D11Device
 {
 }
 
-HRESULT CChangePlace_Strategy::Initialize(PLACE_ID eNextPlaceID)
+HRESULT CChangePlace_Strategy::Initialize(PLACEID eNextPlaceID)
 {
 	m_eNextPlaceID = eNextPlaceID;
 	return S_OK;
@@ -15,12 +15,14 @@ HRESULT CChangePlace_Strategy::Initialize(PLACE_ID eNextPlaceID)
 
 void CChangePlace_Strategy::OnClick()
 {
+	// m_pGameInstance->ObjectManager_Disable_Layer(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"));
+
 	m_pGameInstance->PlaceManager_Change_Place(
-		static_cast<uint32_t>(PLACE_ID::LOADING),
+		static_cast<uint32_t>(PLACEID::LOADING),
 		CPlace_Loading::Create(m_pDevice,m_pContext,m_eNextPlaceID));
 }
 
-CChangePlace_Strategy* CChangePlace_Strategy::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,PLACE_ID eNextPlaceID)
+CChangePlace_Strategy* CChangePlace_Strategy::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,PLACEID eNextPlaceID)
 {
 	CChangePlace_Strategy* pInstance = new CChangePlace_Strategy(pDevice, pContext);
 	if (FAILED(pInstance->Initialize(eNextPlaceID)))

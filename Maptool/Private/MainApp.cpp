@@ -31,19 +31,19 @@ HRESULT CMainApp::Initialize()
 	EngineDesc.WinMode = Engine::WINMODE::WIN;
 	EngineDesc.iWinCX = WINCX;
 	EngineDesc.iWinCY = WINCY;
-	EngineDesc.PlaceCount = static_cast<uint32_t>(PLACE_ID::END);
+	EngineDesc.PlaceCount = static_cast<uint32_t>(PLACEID::END);
 
 	if (FAILED(m_pGameInstance->Initialize(EngineDesc, &m_pDevice, &m_pContext)))
 		return E_FAIL;
 
 	// // 만약 내가 현재 씬을 유지하고, 다음 씬으로 넘어가고 싶다.
 	// if (FAILED(m_pGameInstance->PlaceManager_Change_Place(
-	// 	static_cast<uint32_t>(PLACE_ID::LOADING),	// 로딩씬으로 갈래
+	// 	static_cast<uint32_t>(PLACEID::LOADING),	// 로딩씬으로 갈래
 	// 	RETAIN_POLICY::RETAIN,						// 이전껀 유지하고
 	// 	CPlace_Loading::Create(						// 로딩씬 포인터
 	// 		m_pDevice,
 	// 		m_pContext,
-	// 		PLACE_ID::MAIN,							// 로딩 끝나면 메인으로 갈래
+	// 		PLACEID::MAIN,							// 로딩 끝나면 메인으로 갈래
 	// 		RETAIN_POLICY::CLEAR_LOADING))))		// 로딩씬을 지우고
 	// 	return E_FAIL;	
 
@@ -53,11 +53,11 @@ HRESULT CMainApp::Initialize()
 
 	// 다 지우고 다음 씬으로 넘어가고 싶다.
 	if (FAILED(m_pGameInstance->PlaceManager_Change_Place(
-		static_cast<uint32_t>(PLACE_ID::LOADING),	// 로딩씬으로 갈래
+		static_cast<uint32_t>(PLACEID::LOADING),	// 로딩씬으로 갈래
 		CPlace_Loading::Create(
 			m_pDevice,
 			m_pContext,
-			PLACE_ID::ISLAND))))		// 로딩씬을 지우고
+			PLACEID::ISLAND))))		// 로딩씬을 지우고
 		return E_FAIL;
 
 
@@ -115,7 +115,7 @@ HRESULT CMainApp::Ready_Static()
 				Engine::VTX_TEX::iNumElements);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::STATIC),
+				static_cast<uint32_t>(PLACEID::STATIC),
 				TEXT("ProtoTag_Component_VtxTexShader"),
 				tmp)))
 				return E_FAIL;
@@ -131,7 +131,7 @@ HRESULT CMainApp::Ready_Static()
 				Engine::VTX_TEX_MESH::iNumElements);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::STATIC),
+				static_cast<uint32_t>(PLACEID::STATIC),
 				TEXT("ProtoTag_Component_VtxMeshShader"),
 				tmp)))
 				return E_FAIL;
@@ -147,7 +147,7 @@ HRESULT CMainApp::Ready_Static()
 				Engine::VTX_TEX_ANIM_MESH::iNumElements);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::STATIC),
+				static_cast<uint32_t>(PLACEID::STATIC),
 				TEXT("ProtoTag_Component_VtxAnimMeshShader"),
 				tmp)))
 				return E_FAIL;
@@ -158,7 +158,7 @@ HRESULT CMainApp::Ready_Static()
 			tmp = CRectBufferCom::Create(m_pDevice, m_pContext);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::STATIC),
+				static_cast<uint32_t>(PLACEID::STATIC),
 				TEXT("ProtoTag_Component_RectBuffer"),
 				tmp)))
 				return E_FAIL;
@@ -174,7 +174,7 @@ HRESULT CMainApp::Ready_Static()
 			tmp = CWorldCamera::Create(m_pDevice, m_pContext);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::STATIC),
+				static_cast<uint32_t>(PLACEID::STATIC),
 				TEXT("ProtoTag_Actor_WorldCamera"),
 				tmp)))
 				return E_FAIL;
@@ -199,7 +199,7 @@ HRESULT CMainApp::Ready_Static()
 			tWorldCameraDesc.fZ = 0.f;
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(
-				static_cast<uint32_t>(PLACE_ID::STATIC),
+				static_cast<uint32_t>(PLACEID::STATIC),
 				TEXT("ProtoTag_Actor_WorldCamera"),
 				&tWorldCameraDesc);
 
@@ -219,7 +219,7 @@ HRESULT CMainApp::Ready_Static()
 			tmp = CUICamera::Create(m_pDevice, m_pContext);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::STATIC),
+				static_cast<uint32_t>(PLACEID::STATIC),
 				TEXT("ProtoTag_Actor_UICamera"),
 				tmp)))
 				return E_FAIL;
@@ -244,7 +244,7 @@ HRESULT CMainApp::Ready_Static()
 			tUICameraDesc.fZ = 0.f;
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(
-				static_cast<uint32_t>(PLACE_ID::STATIC),
+				static_cast<uint32_t>(PLACEID::STATIC),
 				TEXT("ProtoTag_Actor_UICamera"),
 				&tUICameraDesc);
 

@@ -12,6 +12,7 @@
 #include "TempModel.h"
 #include "ChangePlace_Strategy.h"
 #include "IUnlock.h"
+#include "LoadingBG.h"
 
 /* y += 1.f */
 #define FOODSTORE_POS XMFLOAT4{- 7.47224f,-0.561126f, -10.7086f, 1.f}
@@ -90,12 +91,12 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			static_cast<uint32_t>(PLACE_ID::ISLAND),
+			static_cast<uint32_t>(PLACEID::ISLAND),
 			TEXT("ProtoTag_Actor_Island"),
 			&tIslandDesc);
 
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			static_cast<uint32_t>(PLACE_ID::ISLAND),
+			static_cast<uint32_t>(PLACEID::ISLAND),
 			TEXT("LayerTag_Actor"),
 			tmp)))
 		{
@@ -118,12 +119,12 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 		tSkyAndSeaDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			static_cast<uint32_t>(PLACE_ID::ISLAND),
+			static_cast<uint32_t>(PLACEID::ISLAND),
 			TEXT("ProtoTag_Actor_SkyAndSea"),
 			&tSkyAndSeaDesc);
 
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			static_cast<uint32_t>(PLACE_ID::ISLAND),
+			static_cast<uint32_t>(PLACEID::ISLAND),
 			TEXT("LayerTag_Actor"),
 			tmp)))
 		{
@@ -146,12 +147,12 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 	//	tApartDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 
 	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(
-	//		static_cast<uint32_t>(PLACE_ID::ISLAND),
+	//		static_cast<uint32_t>(PLACEID::ISLAND),
 	//		TEXT("ProtoTag_Actor_Apart"),
 	//		&tApartDesc);
 
 	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-	//		static_cast<uint32_t>(PLACE_ID::ISLAND),
+	//		static_cast<uint32_t>(PLACEID::ISLAND),
 	//		TEXT("LayerTag_Actor"),
 	//		tmp)))
 	//	{
@@ -174,13 +175,13 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 		tTmpModelDesc.fCZ = 1.f;
 		tTmpModelDesc.iBuildingIndex = 4;
 		tTmpModelDesc.fSpeedPerSecond = 1.f;
-		tTmpModelDesc.eCurPlaceID = PLACE_ID::ISLAND;
+		tTmpModelDesc.eCurPlaceID = PLACEID::ISLAND;
 		tTmpModelDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		tTmpModelDesc.fRotationPerSecond = XMConvertToRadians(0.f);
 		tTmpModelDesc.pUnlockStrategy = CFoodStore_UnlockStrategy::Create();
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), &tTmpModelDesc);
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("LayerTag_Actor"), tmp)))
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), &tTmpModelDesc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_Actor"), tmp)))
 		{
 			Safe_Release(tmp);
 			return E_FAIL;
@@ -197,8 +198,8 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 		tTmpModelDesc.iBuildingIndex = 1;
 		tTmpModelDesc.pUnlockStrategy = CFoodStore_UnlockStrategy::Create();
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), &tTmpModelDesc);
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("LayerTag_Actor"), tmp)))
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), &tTmpModelDesc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_Actor"), tmp)))
 		{
 			Safe_Release(tmp);
 			return E_FAIL;
@@ -215,8 +216,8 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 		tTmpModelDesc.iBuildingIndex = 10;
 		tTmpModelDesc.pUnlockStrategy = CFoodStore_UnlockStrategy::Create();
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), &tTmpModelDesc);
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("LayerTag_Actor"), tmp)))
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), &tTmpModelDesc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_Actor"), tmp)))
 		{
 			Safe_Release(tmp);
 			return E_FAIL;
@@ -240,21 +241,21 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 	tPlaceMoveButtonDesc.fSpeedPerSecond = 0.f;
 	 	tPlaceMoveButtonDesc.fRotationPerSecond = XMConvertToRadians(20.f);
 	 	tPlaceMoveButtonDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
-		tPlaceMoveButtonDesc.eCurPlaceID = PLACE_ID::ISLAND;
+		tPlaceMoveButtonDesc.eCurPlaceID = PLACEID::ISLAND;
 		tPlaceMoveButtonDesc.iTextureNum = 13;
 		tPlaceMoveButtonDesc.iOutlineTextureNum = 0;
-		tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 		tPlaceMoveButtonDesc.fLerpTime = 0.1f;
 		tPlaceMoveButtonDesc.fTargetFov = XMConvertToRadians(10.f);
 		tPlaceMoveButtonDesc.vTargetPos = APART_TARGETPOS;
 		
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(
-	 		static_cast<uint32_t>(PLACE_ID::ISLAND),
+	 		static_cast<uint32_t>(PLACEID::ISLAND),
 	 		TEXT("ProtoTag_UI_PlaceMoveButton"),
 	 		&tPlaceMoveButtonDesc);
 	 
 	 	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-	 		static_cast<uint32_t>(PLACE_ID::ISLAND),
+	 		static_cast<uint32_t>(PLACEID::ISLAND),
 	 		TEXT("LayerTag_UI"),
 	 		tmp)))
 	 	{
@@ -263,7 +264,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 	}
 
 		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			static_cast<uint32_t>(PLACE_ID::ISLAND),
+			static_cast<uint32_t>(PLACEID::ISLAND),
 			static_cast<CButton*>(tmp))))
 		{
 			return E_FAIL;
@@ -277,17 +278,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 tPlaceMoveButtonDesc.fY = 70.f;
 		 tPlaceMoveButtonDesc.fCX = 115.f;
 		 tPlaceMoveButtonDesc.fCY = 115.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 0;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -296,7 +297,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -307,17 +308,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 220.f;
 		 tPlaceMoveButtonDesc.fY = 150.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 2;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -326,7 +327,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -338,17 +339,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 225.f;
 		 tPlaceMoveButtonDesc.fY = 250.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 3;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -357,7 +358,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -368,18 +369,18 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 210.f;
 		 tPlaceMoveButtonDesc.fY = 340.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 8;
 		 tPlaceMoveButtonDesc.vTargetPos = FOODSTORE_TARGETPOS;
 		
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -388,7 +389,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -399,17 +400,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 300.f;
 		 tPlaceMoveButtonDesc.fY = 340.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 9;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -418,7 +419,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -429,17 +430,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 400.f;
 		 tPlaceMoveButtonDesc.fY = 250.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 4;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -448,7 +449,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -461,17 +462,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 490.f;
 		 tPlaceMoveButtonDesc.fY = 60.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 1;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -480,7 +481,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -491,18 +492,18 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 500.f;
 		 tPlaceMoveButtonDesc.fY = 150.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::CITYHALL);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::CITYHALL);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 16;
 		 tPlaceMoveButtonDesc.vTargetPos = CITYHALL_TARGETPOS;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -511,7 +512,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -522,17 +523,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 475.f;
 		 tPlaceMoveButtonDesc.fY = 250.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 5;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -541,7 +542,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -552,17 +553,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 475.f;
 		 tPlaceMoveButtonDesc.fY = 340.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 10;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -571,7 +572,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -583,17 +584,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 600.f;
 		 tPlaceMoveButtonDesc.fY = 150.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 15;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -602,7 +603,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -613,17 +614,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 570.f;
 		 tPlaceMoveButtonDesc.fY = 260.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 6;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -632,7 +633,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -643,17 +644,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 600.f;
 		 tPlaceMoveButtonDesc.fY = 375.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 11;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -662,7 +663,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -675,17 +676,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 675.f;
 		 tPlaceMoveButtonDesc.fY = 250.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 7;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -694,7 +695,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -705,17 +706,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 740.f;
 		 tPlaceMoveButtonDesc.fY = 100.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 14;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -724,7 +725,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -735,17 +736,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 740.f;
 		 tPlaceMoveButtonDesc.fY = 370.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 12;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -754,7 +755,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -766,17 +767,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 310.f;
 		 tPlaceMoveButtonDesc.fY = 250.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 19;
 		 tPlaceMoveButtonDesc.iOutlineTextureNum = 1;
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -785,7 +786,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -796,17 +797,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 400.f;
 		 tPlaceMoveButtonDesc.fY = 373.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 17;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -815,7 +816,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -826,17 +827,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 565.f;
 		 tPlaceMoveButtonDesc.fY = 60.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 22;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -845,7 +846,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -856,17 +857,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 660.f;
 		 tPlaceMoveButtonDesc.fY = 60.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 21;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -875,7 +876,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -886,17 +887,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 760.f;
 		 tPlaceMoveButtonDesc.fY = 175.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 20;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -905,7 +906,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -916,17 +917,17 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 760.f;
 		 tPlaceMoveButtonDesc.fY = 260.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACE_ID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 18;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_PlaceMoveButton"),
 			 &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -935,7 +936,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -954,12 +955,12 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 tBackGroundDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 
 		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("ProtoTag_UI_BackGround"),
 			 &tBackGroundDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACE_ID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND),
 			 TEXT("LayerTag_UI"),
 			 tmp)))
 		 {
@@ -967,6 +968,57 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 return E_FAIL;
 		 }
 	 }
+	 
+	 //// ProtoTag_UI_BackGround
+	 //{
+		// CLoadingBG::LOADINGBG_DESC tBackGroundDesc = {};
+		// tBackGroundDesc.fX = 480.f;
+		// tBackGroundDesc.fY = 240.f;
+		// tBackGroundDesc.fCX = 960.f;
+		// tBackGroundDesc.fCY = 480.f;
+		// tBackGroundDesc.fSpeedPerSecond = 0.f;
+		// tBackGroundDesc.fRotationPerSecond = XMConvertToRadians(0.f);
+		// tBackGroundDesc.eRenderGroup = RENDER_GROUP::TOP_UI_BLEND;
+
+		// tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		//	 static_cast<uint32_t>(PLACEID::STATIC),
+		//	 TEXT("ProtoTag_UI_LoadingBG"),
+		//	 &tBackGroundDesc);
+
+		// if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+		//	 static_cast<uint32_t>(PLACEID::ISLAND),
+		//	 TEXT("LayerTag_UI"),
+		//	 tmp)))
+		// {
+		//	 Safe_Release(tmp);
+		//	 return E_FAIL;
+		// }
+	 //}
+	 //// ProtoTag_UI_BackGround
+	 //{
+		// CLoadingBG::LOADINGBG_DESC tBackGroundDesc = {};
+		// tBackGroundDesc.fX = 480.f;
+		// tBackGroundDesc.fY = 240.f;
+		// tBackGroundDesc.fCX = 960.f;
+		// tBackGroundDesc.fCY = 480.f;
+		// tBackGroundDesc.fSpeedPerSecond = 0.f;
+		// tBackGroundDesc.fRotationPerSecond = XMConvertToRadians(0.f);
+		// tBackGroundDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI_BLEND;
+
+		// tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		//	 static_cast<uint32_t>(PLACEID::STATIC),
+		//	 TEXT("ProtoTag_UI_LoadingBG"),
+		//	 &tBackGroundDesc);
+
+		// if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+		//	 static_cast<uint32_t>(PLACEID::ISLAND),
+		//	 TEXT("LayerTag_UI"),
+		//	 tmp)))
+		// {
+		//	 Safe_Release(tmp);
+		//	 return E_FAIL;
+		// }
+	 //}
 	
 	return S_OK;
 }

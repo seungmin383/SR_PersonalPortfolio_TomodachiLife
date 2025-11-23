@@ -146,9 +146,6 @@
     <None Include="fmod.dll" />
     <None Include="fmodL.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\Bin\Debug\Shader\Engine_Shader_Vtx_Tex.hlsl" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

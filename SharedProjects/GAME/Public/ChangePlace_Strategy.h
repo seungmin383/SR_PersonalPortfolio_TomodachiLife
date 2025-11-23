@@ -10,16 +10,16 @@ private:
 	virtual ~CChangePlace_Strategy() = default;
 
 public:
-	HRESULT Initialize(PLACE_ID eNextPlaceID);
+	HRESULT Initialize(PLACEID eNextPlaceID);
 
 public:
 	void OnClick() override;
 
 private:
-	PLACE_ID m_eNextPlaceID = {};
+	PLACEID m_eNextPlaceID = {};
 
 public:
-	static CChangePlace_Strategy* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,PLACE_ID eNextPlaceID);
+	static CChangePlace_Strategy* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,PLACEID eNextPlaceID);
 	virtual void Free()override;
 };
 

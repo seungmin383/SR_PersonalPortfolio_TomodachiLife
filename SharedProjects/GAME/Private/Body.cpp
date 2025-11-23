@@ -81,7 +81,7 @@ const XMFLOAT4X4* CBody::Get_SocketMatrix(const _char* pBoneName)
 HRESULT CBody::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_VtxAnimMeshShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
@@ -90,7 +90,7 @@ HRESULT CBody::Ready_Component()
 
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::APART),
+		static_cast<uint32_t>(PLACEID::APART),
 		TEXT("ProtoTag_Component_BasicManBody_Model"),
 		TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pModel),

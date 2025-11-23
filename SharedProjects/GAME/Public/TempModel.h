@@ -20,7 +20,7 @@ public:
 	{
 		IUnlock* pUnlockStrategy = { nullptr };
 
-		PLACE_ID eCurPlaceID; 
+		PLACEID eCurPlaceID; 
 		uint32_t iBuildingIndex;
 
 	}TEMPMODEL_DESC;
@@ -53,7 +53,7 @@ private:
 
 	_wstring m_strModelProtoTag = {};
 	int32_t m_iBuildingIndex = {};
-	PLACE_ID m_ePlaceID = { PLACE_ID::END };
+	PLACEID m_ePlaceID = { PLACEID::END };
 
 	_bool m_isUnlock = { FALSE };
 

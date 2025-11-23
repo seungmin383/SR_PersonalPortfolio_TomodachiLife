@@ -1,20 +1,22 @@
-#include "Loader.h"
-#include "GameInstance.h"
-#include "Food.h"
-#include "Island.h"
-#include "SkyAndSea.h"
-#include "TestMii.h"
-#include "WorldCamera.h"
-#include "UICamera.h"
-#include "PlaceMoveButton.h"
-#include "BackGround.h"
 #include "Apart.h"
-#include "Terrain.h"
+#include "BackGround.h"
 #include "Body.h"
-#include "Player.h"
-#include "Weapon.h"
-#include "TempModel.h"
+#include "CommonButton.h"
+#include "Food.h"
+#include "GameInstance.h"
+#include "Island.h"
+#include "Loader.h"
 #include "MiiEditorBG.h"
+#include "PlaceMoveButton.h"
+#include "Player.h"
+#include "SkyAndSea.h"
+#include "TempModel.h"
+#include "Terrain.h"
+#include "TestMii.h"
+#include "UICamera.h"
+#include "Weapon.h"
+#include "WorldCamera.h"
+
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -35,14 +37,13 @@ _uint APIENTRY ThreadMain(void* _pArg)
 	return 0;
 }
 
-HRESULT CLoader::Initialize(PLACE_ID NextPlaceID)
+HRESULT CLoader::Initialize(PLACEID NextPlaceID)
 {
 	m_eNextPlaceID = NextPlaceID;
 
 	InitializeCriticalSection(&m_CriticalSection);
 
-	m_hThread = (HANDLE)_beginthreadex(
-		nullptr, 0, ThreadMain, this, 0, nullptr);
+	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, ThreadMain, this, 0, nullptr);
 
 	if (0 == m_hThread)
 		return E_FAIL;
@@ -62,89 +63,32 @@ HRESULT CLoader::Loading()
 
 	switch (m_eNextPlaceID)
 	{
-	case PLACE_ID::MAIN:
-		hr = Loading_For_Main();
+	case PLACEID::ISLAND:
+		hr = Loading_Island();
 		break;
-	case PLACE_ID::SETTING:
-		hr = Loading_For_Setting();
-		break;
-	case PLACE_ID::CITYHALL:
-		hr = Loading_CityHall();
-		break;
-	case PLACE_ID::MII_EDITOR:
-		hr = Loading_MiiEditor();
-		break;
-	case PLACE_ID::STORE_CLOTHES:
-		hr = Loading_For_Store_Clothes();
-		break;
-	case PLACE_ID::STORE_ANTIQUE:
-		hr = Loading_For_Store_Antique();
-		break;
-	case PLACE_ID::STORE_HAT:
-		hr = Loading_For_Store_Hat();
-		break;
-	case PLACE_ID::STORE_FOOD:
-		hr = Loading_For_Store_Food();
-		break;
-	case PLACE_ID::STORE_LUXURY:
-		hr = Loading_For_Store_Luxury();
-		break;
-	case PLACE_ID::STORE_HOUSE:
-		hr = Loading_For_Store_House();
-		break;
-	case PLACE_ID::ENVI_FOUNTAIN:
-		hr = Loading_For_Envi_Fountain();
-		break;
-	case PLACE_ID::ENVI_OCEAN:
-		hr = Loading_For_Envi_Ocean();
-		break;
-	case PLACE_ID::ENVI_PARK:
-		hr = Loading_For_Envi_Park();
-		break;
-	case PLACE_ID::ENVI_PLAYGROUND:
-		hr = Loading_For_Envi_Playground();
-		break;
-	case PLACE_ID::ENVI_CAFE:
-		hr = Loading_For_Envi_Cafe();
-		break;
-	case PLACE_ID::ETC_COMMUINTY:
-		hr = Loading_For_Etc_Community();
-		break;
-	case PLACE_ID::ETC_MUSIC:
-		hr = Loading_For_Etc_Music();
-		break;
-	case PLACE_ID::ETC_RANKING:
-		hr = Loading_For_Etc_Ranking();
-		break;
-	case PLACE_ID::ETC_NEWS:
-		hr = Loading_For_Etc_News();
-		break;
-	case PLACE_ID::ETC_PHOTO:
-		hr = Loading_For_Etc_Photo();
-		break;
-	case PLACE_ID::CONNECT_TENT:
-		hr = Loading_For_Connect_Tent();
-		break;
-	case PLACE_ID::CONNECT_PORT:
-		hr = Loading_For_Connect_Port();
-		break;
-	case PLACE_ID::APART:
+
+	case PLACEID::APART:
 		hr = Loading_Apart();
 		break;
-	case PLACE_ID::LIVE_WEDDING_HOUSE:
-		hr = Loading_For_Live_Wedding_House();
+
+	case PLACEID::CITYHALL:
+		hr = Loading_CityHall();
 		break;
-	case PLACE_ID::END:
+
+	case PLACEID::MII_EDITOR:
+		hr = Loading_MiiEditor();
 		break;
-	case PLACE_ID::ISLAND:
-		hr = Loading_Island();
+
+	case PLACEID::DEVELOPER:
+		hr = Loading_Developer();
+		break;
+
+	case PLACEID::END:
 		break;
 
 	default:
 		break;
 	}
-
-
 
 	CoUninitialize();
 	LeaveCriticalSection(&m_CriticalSection);
@@ -154,621 +98,6 @@ HRESULT CLoader::Loading()
 
 	return S_OK;
 }
-
-// Loading For Main Place // ===========================================
-
-HRESULT CLoader::Loading_For_Main()
-{
-
-	lstrcpy(m_szFPS, TEXT("Component Loading Complete"));
-
-
-	return S_OK;
-}
-
-// Loading For Setting Place // =========================================
-
-HRESULT CLoader::Loading_For_Setting()
-{
-	CObject* tmp = { nullptr };
-
-	// Island //
-	tmp = CIsland::Create(m_pDevice, m_pContext);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("ProtoTag_Actor_Island"),
-		tmp)))
-		return E_FAIL;
-
-
-	lstrcpy(m_szFPS, TEXT("Actor Loading Complete"));
-
-	// UI Loading // ====================================================
-
-
-
-		// Food //
-	tmp = CFood::Create(m_pDevice, m_pContext);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("ProtoTag_UI_Food"),
-		tmp)))
-		return E_FAIL;
-
-
-
-	
-
-	lstrcpy(m_szFPS, TEXT("UI Loading Complete"));
-
-	//Components Loading // ====================================================
-
-		//Vtx_Tex Shader Component //
-	tmp = CShaderCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Tex.hlsl"),
-		Engine::VTX_TEX::Elements,
-		Engine::VTX_TEX::iNumElements);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("ProtoTag_Component_Vtx_TexShader"),
-		tmp)))
-		return E_FAIL;
-
-
-	//Normal Shader Component //
-	tmp = CShaderCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Normal_Tex.hlsl"),
-		Engine::VTX_TEX_NORMAL::Elements,
-		Engine::VTX_TEX_NORMAL::iNumElements);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("ProtoTag_Component_Vtx_Normal_TexShader"),
-		tmp)))
-		return E_FAIL;
-
-
-
-	// Rect Buffer Component //
-	tmp = CRectBufferCom::Create(m_pDevice, m_pContext);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("ProtoTag_Component_RectBuffer"),
-		tmp)))
-		return E_FAIL;
-
-
-	// Terrain Buffer Component // 
-	tmp = CTerrainBufferCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../Resource/Textures/Terrain/Height.bmp"));
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("ProtoTag_Component_TerrainBuffer"),
-		tmp)))
-		return E_FAIL;
-
-
-
-	// Island Texture Component //
-	tmp = CTextureCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../Resource/Textures/Terrain/Tile%d.dds"),
-		2);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("ProtoTag_Component_IslandTexture"),
-		tmp)))
-		return E_FAIL;
-	// Food Texture Component //
-	tmp = CTextureCom::Create(
-		m_pDevice,
-		m_pContext,
-		TEXT("../../Resource/Textures/item_Food102.png"),
-		1);
-
-	if (nullptr == tmp)
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		static_cast<uint32_t>(PLACE_ID::SETTING),
-		TEXT("ProtoTag_Component_FoodTexture"),
-		tmp)))
-		return E_FAIL;
-
-
-
-
-
-	// Loading Complete // ====================================================
-	lstrcpy(m_szFPS, TEXT("Setting Loading Complete"));
-	m_isFinished = true;
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_CityHall()
-{
-	CObject* tmp = { nullptr };
-
-	// Component
-	{
-		// ProtoTag_Component_VtxMeshShader
-		{
-			tmp = CShaderCom::Create(
-				m_pDevice,
-				m_pContext,
-				TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Normal_Tex.hlsl"),
-				Engine::VTX_TEX_NORMAL::Elements,
-				Engine::VTX_TEX_NORMAL::iNumElements);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::CITYHALL),
-				TEXT("ProtoTag_Component_VtxNormalMeshShader"),
-				tmp)))
-				return E_FAIL;
-		}
-
-		// ProtoTag_Component_IslandMaskTexture
-		{
-			{
-				tmp = CTextureCom::Create(
-					m_pDevice,
-					m_pContext,
-					TEXT("../../Resource/Textures/Terrain/Mask.bmp"),
-					1);
-
-				if (nullptr == tmp)
-					return E_FAIL;
-
-				if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-					static_cast<uint32_t>(PLACE_ID::CITYHALL),
-					TEXT("ProtoTag_Component_IslandMaskTexture"),
-					tmp)))
-					return E_FAIL;
-			}
-		}
-		
-
-		// ProtoTag_Component_IslandTexture
-		{
-			tmp = CTextureCom::Create(
-				m_pDevice,
-				m_pContext,
-				TEXT("../../Resource/Textures/Terrain/Tile%d.dds"),
-				2);
-
-			if (nullptr == tmp)
-				return E_FAIL;
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::CITYHALL),
-				TEXT("ProtoTag_Component_IslandTexture"),
-				tmp)))
-				return E_FAIL;
-		}
-
-		// Terrain Buffer Component // 
-		{
-			tmp = CTerrainBufferCom::Create(
-				m_pDevice,
-				m_pContext,
-				TEXT("../../Resource/Textures/Terrain/Height.bmp"));
-
-			if (nullptr == tmp)
-				return E_FAIL;
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::CITYHALL),
-				TEXT("ProtoTag_Component_TerrainBuffer"),
-				tmp)))
-				return E_FAIL;
-		}
-		//../../Resource/00Model/00Body/CamouflageJacket/Action3.fbx
-//..\..\..\..\..\..\Resource\dev\05_Anim_fbx\
-		// ProtoTag_Component_Fiona_Model
-		{
-			XMMATRIX InitMatrix;
-			InitMatrix = XMMatrixIdentity();
-
-			tmp = CModel::Create(
-				m_pDevice,
-				m_pContext,
-				"ProtoTag_Component_BasicManBody_Model",
-				ANIM_TYPE::ANIM,
-				"../../../../../../Resource/dev/05_Anim_fbx/CM_Run00.fbx",
-				InitMatrix,
-				"ChineseDress");
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::CITYHALL),
-				TEXT("ProtoTag_Component_BasicManBody_Model"),
-				tmp)))
-				return E_FAIL;
-		}
-
-		// ProtoTag_Component_BasicManBody_SEModel
-		{
-			XMMATRIX InitMatrix;
-			InitMatrix = XMMatrixIdentity();
-
-			tmp = CSEModel::Create(
-				m_pDevice,
-				m_pContext,
-				ANIM_TYPE::ANIM,
-				"ChineseDress",
-				InitMatrix);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::CITYHALL),
-				TEXT("ProtoTag_Component_BasicManBody_SEModel"),
-				tmp)))
-				return E_FAIL;
-		}
-	}
-
-	// Actor
-	{
-		// ProtoTag_Actor_Fiona
-		{
-			tmp = CTestMii::Create(
-				m_pDevice,
-				m_pContext);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::CITYHALL),
-				TEXT("ProtoTag_Actor_Fiona"),
-				tmp)))
-				return E_FAIL;
-		}
-
-		// ProtoTag_Actor_Terrain
-		{
-			XMMATRIX InitMatrix;
-			InitMatrix = XMMatrixIdentity();
-
-			tmp = CTerrain::Create(
-				m_pDevice,
-				m_pContext);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::CITYHALL),
-				TEXT("ProtoTag_Actor_Terrain"),
-				tmp)))
-				return E_FAIL;
-		}
-		
-	}
-
-	// UI
-	{
-		// ProtoTag_UI_PlaceMoveButton
-		{
-			tmp = CPlaceMoveButton::Create(
-				m_pDevice,
-				m_pContext);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::CITYHALL),
-				TEXT("ProtoTag_UI_PlaceMoveButton"),
-				tmp)))
-				return E_FAIL;
-		}
-	}
-
-
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-	m_isFinished = true;
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_MiiEditor()
-{
-	CObject* tmp = { nullptr };
-
-	// Component
-	{
-		/* Mii 에디터 배경 모델 */
-		// ProtoTag_Component_EditorBG
-		{
-			XMMATRIX initMatrix = XMMatrixIdentity();
-			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
-
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_EditorBG", ANIM_TYPE::ANIM,
-				"../../Resource/00Model/BackGround - MiiEditor/EditorBG.fbx", initMatrix, "EditorBG");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::CITYHALL), TEXT("ProtoTag_Component_EditorBG"), tmp)))
-				return E_FAIL;
-
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "EditorBG", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::CITYHALL), TEXT("ProtoTag_Component_seEditorBG"), tmp)))
-				return E_FAIL;
-		}
-	}
-
-	// Actor
-	{	
-		// ProtoTag_Actor_EditorBG
-		{
-			tmp = CMiiEditorBG::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::CITYHALL), TEXT("ProtoTag_Actor_EditorBG"), tmp)))
-				return E_FAIL;
-		}
-	}
-
-	// UI
-	{
-		// ProtoTag_UI_PlaceMoveButton
-		{
-			tmp = CPlaceMoveButton::Create(m_pDevice, m_pContext);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::CITYHALL), TEXT("ProtoTag_UI_PlaceMoveButton"), tmp)))
-				return E_FAIL;
-		}
-	}
-
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Store_Clothes()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Store_Antique()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Store_Hat()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Store_Food()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Store_Luxury()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Store_House()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Envi_Fountain()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Envi_Ocean()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Envi_Park()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Envi_Playground()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Envi_Cafe()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Etc_Community()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Etc_Music()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Etc_Ranking()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Etc_News()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Etc_Photo()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Connect_Tent()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Connect_Port()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
-#define path "../../Resource/Models/Fiona/Fiona.fbx"
-#define path1 "../../Resource/00Model/00Body/CamouflageJacket/Untitled.fbx"
-#define path2 "../../Resource/00Model/00Body/CamouflageJacket/Untitled.fbx"
-HRESULT CLoader::Loading_Apart()
-{
-	CObject* tmp = { nullptr };
-
-	// Component
-	{
-		// ProtoTag_Component_BasicManBody_Model
-		{
-			XMMATRIX InitMatrix;
-			InitMatrix = XMMatrixIdentity();
-			tmp = CModel::Create(
-				m_pDevice,
-				m_pContext,
-				"ProtoTag_Component_BasicManBody_Model",
-				ANIM_TYPE::ANIM,
-				path,
-				InitMatrix,
-				"BasicManBody");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::APART), TEXT("ProtoTag_Component_BasicManBody_Model"), tmp)))
-				return E_FAIL;
-		}
-
-		// ProtoTag_Component_GirlHair1_Model
-		{
-			XMMATRIX InitMatrix;
-			InitMatrix = XMMatrixIdentity();
-			tmp = CModel::Create(
-				m_pDevice,
-				m_pContext,
-				"ProtoTag_Component_GirlHair1_Model",
-				ANIM_TYPE::ANIM,
-				path1,
-				InitMatrix,
-				"Hair1");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::APART), 
-				TEXT("ProtoTag_Component_GirlHair1_Model"), tmp)))
-				return E_FAIL;
-		}
-	}
-
-	// Actor
-	{
-		// ProtoTag_Actor_Mii
-		{
-			tmp = CTestMii::Create(m_pDevice,m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::APART),
-				TEXT("ProtoTag_Actor_Mii"),
-				tmp)))
-				return E_FAIL;
-		}
-
-		// ProtoTag_Actor_Player_Body
-		{
-			tmp = CBody::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::APART), 
-				TEXT("ProtoTag_Actor_Player_Body"), 
-				tmp)))
-				return E_FAIL;
-		}
-
-		// ProtoTag_Actor_Player_Weapon
-		{
-			tmp = CWeapon::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::APART),
-				TEXT("ProtoTag_Actor_Player_Weapon"),
-				tmp)))
-				return E_FAIL;
-		}
-
-		// ProtoTag_Actor_Player
-		{
-			tmp = CPlayer::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::APART), 
-				TEXT("ProtoTag_Actor_Player"), 
-				tmp)))
-				return E_FAIL;
-		}
-	}
-	
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-	m_isFinished = true;
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_For_Live_Wedding_House()
-{
-	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
-
-	return S_OK;
-}
-
 HRESULT CLoader::Loading_Island()
 {
 	CObject* tmp = { nullptr };
@@ -791,13 +120,13 @@ HRESULT CLoader::Loading_Island()
 		//		"Island");
 
 		//	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		//		static_cast<uint32_t>(PLACE_ID::ISLAND),
+		//		static_cast<uint32_t>(PLACEID::ISLAND),
 		//		TEXT("ProtoTag_Component_Island_Model"),
 		//		tmp)))
 		//		return E_FAIL;
 		//}
 		
-
+		/* 섬 */
 		// ProtoTag_Component_Island_seModel
 		{
 			XMMATRIX initMatrix = XMMatrixIdentity();
@@ -811,33 +140,12 @@ HRESULT CLoader::Loading_Island()
 				initMatrix);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				static_cast<uint32_t>(PLACEID::ISLAND),
 				TEXT("ProtoTag_Component_Island_seModel"),
 				tmp)))
 				return E_FAIL;
 		}
-
-		//// ProtoTag_Component_SkyAndSea_Model
-		//{
-		//	XMMATRIX initMatrix = XMMatrixIdentity();
-		//	initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-		//	tmp = CModel::Create(
-		//		m_pDevice,
-		//		m_pContext,
-		//		"ProtoTag_Component_SkyAndSea_Model",
-		//		ANIM_TYPE::NONEANIM,
-		//		"../../Resource/00Model/BackGround - Sea/sea.fbx",
-		//		initMatrix,
-		//		"SkyAndSea");
-
-		//	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		//		static_cast<uint32_t>(PLACE_ID::ISLAND),
-		//		TEXT("ProtoTag_Component_SkyAndSea_Model"),
-		//		tmp)))
-		//		return E_FAIL;
-		//}
-
+		/* 하늘이랑 바다 */
 		// ProtoTag_Component_SkyAndSea_seModel
 		{
 			XMMATRIX initMatrix = XMMatrixIdentity();
@@ -851,12 +159,11 @@ HRESULT CLoader::Loading_Island()
 				initMatrix);
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
+				static_cast<uint32_t>(PLACEID::ISLAND),
 				TEXT("ProtoTag_Component_SkyAndSea_seModel"),
 				tmp)))
 				return E_FAIL;
 		}
-
 		/* 공사중 표지판 */
 		// ProtoTag_Component_Building0
 		{
@@ -865,14 +172,13 @@ HRESULT CLoader::Loading_Island()
 
 			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building0", ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/Actor - Building/Building0/Building.fbx", initMatrix, "Building0");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_Building0"),tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Building0"),tmp)))
 				return E_FAIL;
 
 			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building0", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype( static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_seBuilding0"), tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype( static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding0"), tmp)))
 				return E_FAIL;
 		}
-
 		/* 아파트 */
 		// ProtoTag_Component_Building1
 		{
@@ -881,14 +187,13 @@ HRESULT CLoader::Loading_Island()
 
 			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building1", ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/Actor - Building/Building1/Building.fbx", initMatrix, "Building1");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND),TEXT("ProtoTag_Component_Building1"),tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),TEXT("ProtoTag_Component_Building1"),tmp)))
 				return E_FAIL;
 
 			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building1", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_seBuilding1"), tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding1"), tmp)))
 				return E_FAIL;
 		}
-
 		/* 음식가게 */
 		// ProtoTag_Component_Building1
 		{
@@ -897,14 +202,13 @@ HRESULT CLoader::Loading_Island()
 
 			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building4", ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/Actor - Building/Building4/Building.fbx", initMatrix, "Building4");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_Building4"), tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Building4"), tmp)))
 				return E_FAIL;
 
 			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building4", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_seBuilding4"), tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding4"), tmp)))
 				return E_FAIL;
 		}
-
 		/* 주민센터 */
 		// ProtoTag_Component_Building10
 		{
@@ -913,14 +217,13 @@ HRESULT CLoader::Loading_Island()
 
 			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building10", ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/Actor - Building/Building10/Building.fbx", initMatrix, "Building10");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_Building10"), tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Building10"), tmp)))
 				return E_FAIL;
 
 			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building10", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_seBuilding10"), tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding10"), tmp)))
 				return E_FAIL;
 		}
-
 		/* 뉴스 센터 */
 		// ProtoTag_Component_Building19
 		{
@@ -929,14 +232,13 @@ HRESULT CLoader::Loading_Island()
 
 			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building19", ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/Actor - Building/Building19/Building.fbx", initMatrix, "Building19");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_Building19"), tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Building19"), tmp)))
 				return E_FAIL;
 
 			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building19", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_seBuilding19"), tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding19"), tmp)))
 				return E_FAIL;
 		}
-
 		/* 카페 */
 		// ProtoTag_Component_Building21
 		{
@@ -945,174 +247,368 @@ HRESULT CLoader::Loading_Island()
 
 			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building21", ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/Actor - Building/Building21/Building.fbx", initMatrix, "Building21");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_Building21"), tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Building21"), tmp)))
 				return E_FAIL;
 
 			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building21", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Component_seBuilding21"), tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding21"), tmp)))
 				return E_FAIL;
 		}
-
+		/* 건물 버튼 텍스쳐 */
 		// ProtoTag_Component_PlaceMoveButton_Texture
 		{
-			tmp = CTextureCom::Create(
-				m_pDevice,
-				m_pContext,
-				TEXT("../../Resource/Textures/PlaceMoveButton/PlaceMoveButtonTexture%d.dds"),
-				46);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_Component_PlaceMoveButton_Texture"),
-				tmp)))
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/PlaceMoveButton/PlaceMoveButtonTexture%d.dds"), 46);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_Component_PlaceMoveButton_Texture"), tmp)))
 				return E_FAIL;
 		}
-
+		/* 건물 버튼 아웃라인 텍스쳐*/
 		// ProtoTag_Component_OutLine_Texture
 		{
-			tmp = CTextureCom::Create(
-				m_pDevice,
-				m_pContext,
-				TEXT("../../Resource/Textures/OutLine/OutLine%d.dds"),
-				6);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_Component_OutLine_Texture"),
-				tmp)))
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/OutLine/OutLine%d.dds"), 6);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_Component_OutLine_Texture"), tmp)))
 				return E_FAIL;
 		}
-
+		/* 아래 UI 배경 */
 		// ProtoTag_Component_BackGround_Texture
 		{
-			tmp = CTextureCom::Create(
-				m_pDevice,
-				m_pContext,
-				TEXT("../../Resource/Textures/UIBackGorund/UIBackGround.png"),
-				1);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_Component_BackGround_Texture"),
-				tmp)))
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/UIBackGorund/UIBackGround.png"), 1);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_Component_BackGround_Texture"), tmp)))
 				return E_FAIL;
 		}
-
+		/* 뒤로가기 같은 버튼 텍스쳐 */
 		// ProtoTag_Component_CommonButton_Texture
 		{
-			tmp = CTextureCom::Create(
-				m_pDevice,
-				m_pContext,
-				TEXT("../../Resource/Textures/CommonButton/CommonButtonTexture%d.png"),
-				3);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_Component_CommonButton_Texture"),
-				tmp)))
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/CommonButton/CommonButtonTexture%d.png"), 3);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_Component_CommonButton_Texture"), tmp)))
 				return E_FAIL;
 		}
 	}
 
 	// Actor
 	{
+		/* 섬 */
 		// ProtoTag_Actor_Island
 		{
-			tmp = CIsland::Create(
-				m_pDevice,
-				m_pContext);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_Actor_Island"),
-				tmp)))
+			tmp = CIsland::Create(m_pDevice,m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_Actor_Island"), tmp)))
 				return E_FAIL;
 		}
-
+		/* 하늘이랑 바다 */
 		// ProtoTag_Actor_SkyAndSea
 		{
-			tmp = CSkyAndSea::Create(
-				m_pDevice,
-				m_pContext);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_Actor_SkyAndSea"),
-				tmp)))
+			tmp = CSkyAndSea::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_Actor_SkyAndSea"), tmp)))
 				return E_FAIL;
 		}
-
-		// ProtoTag_Actor_Apart
-		{
-			tmp = CApart::Create(
-				m_pDevice,
-				m_pContext);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_Actor_Apart"),
-				tmp)))
-				return E_FAIL;
-		}
-
+		/* 건물들 */
 		// ProtoTag_Actor_TempModel
 		{
 			tmp = CTempModel::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACE_ID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), tmp)))
 				return E_FAIL;
 		}
 	}
 	
 	// UI
 	{
+		/* 건물 버튼 */
 		// ProtoTag_UI_PlaceMoveButton
 		{
-			tmp = CPlaceMoveButton::Create(
-				m_pDevice,
-				m_pContext);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_UI_PlaceMoveButton"),
-				tmp)))
+			tmp = CPlaceMoveButton::Create(m_pDevice,m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_UI_PlaceMoveButton"), tmp)))
 				return E_FAIL;
 		}
-
+		/* 아래 UI 배경*/
 		// ProtoTag_UI_BackGround
 		{
-			tmp = CBackGround::Create(
-				m_pDevice,
-				m_pContext);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACE_ID::ISLAND),
-				TEXT("ProtoTag_UI_BackGround"),
-				tmp)))
+			tmp = CBackGround::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_UI_BackGround"), tmp)))
 				return E_FAIL;
 		}
 	}
 
 	lstrcpy(m_szFPS, TEXT("Place Island Loading Complete"));
 	m_isFinished = true;
-
 	return S_OK;
 }
+
+HRESULT CLoader::Loading_Apart()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iAPART = static_cast<uint32_t>(PLACEID::APART);
+
+	// Component
+	{
+		// ProtoTag_Component_BasicManBody_Model
+		{
+			XMMATRIX InitMatrix;
+			InitMatrix = XMMatrixIdentity();
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_BasicManBody_Model", ANIM_TYPE::ANIM,
+				"../../Resource/Models/Fiona/Fiona.fbx", InitMatrix, "BasicManBody");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_BasicManBody_Model"), tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Component_GirlHair1_Model
+		{
+			XMMATRIX InitMatrix;
+			InitMatrix = XMMatrixIdentity();
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_GirlHair1_Model", ANIM_TYPE::ANIM,
+				"../../Resource/00Model/00Body/CamouflageJacket/Untitled.fbx", InitMatrix, "Hair1");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_GirlHair1_Model"), tmp)))
+				return E_FAIL;
+		}
+	}
+
+	// Actor
+	{
+		// ProtoTag_Actor_Mii
+		{
+			tmp = CTestMii::Create(m_pDevice,m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				iAPART,
+				TEXT("ProtoTag_Actor_Mii"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Actor_Player_Body
+		{
+			tmp = CBody::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				iAPART, 
+				TEXT("ProtoTag_Actor_Player_Body"), 
+				tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Actor_Player_Weapon
+		{
+			tmp = CWeapon::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				iAPART,
+				TEXT("ProtoTag_Actor_Player_Weapon"),
+				tmp)))
+				return E_FAIL;
+		}
+
+		/* 플레이어 */
+		// ProtoTag_Actor_Player
+		{
+			tmp = CPlayer::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
+				iAPART, 
+				TEXT("ProtoTag_Actor_Player"), 
+				tmp)))
+				return E_FAIL;
+		}
+	}
+	
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_CityHall()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iCITYHALL = static_cast<uint32_t>(PLACEID::CITYHALL);
+
+	// Component
+	{
+		/* 일반 버튼 텍스쳐 */
+		// ProtoTag_Component_CMButtonTexture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Sprite_City_Hall_Icon/CMButton%d.png"), 2);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_CMButtonTexture"), tmp)))
+				return E_FAIL;
+
+		}
+	}
+
+	// Actor
+	{
+
+	}
+
+	// UI
+	{
+		/* 일반 버튼 */
+		// ProtoTag_UI_CMButton
+		{
+			tmp = CCommonButton::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_CMButton"), tmp)))
+				return E_FAIL;
+		}
+	}
+
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_MiiEditor()
+{
+	CObject* tmp = { nullptr };
+
+	// Component
+	{
+		/* Mii 에디터 배경 모델 */
+		// ProtoTag_Component_EditorBG
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
+
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_EditorBG", ANIM_TYPE::ANIM,
+				"../../Resource/00Model/BackGround - MiiEditor/EditorBG.fbx", initMatrix, "EditorBG");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Component_EditorBG"), tmp)))
+				return E_FAIL;
+
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "EditorBG", initMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Component_seEditorBG"), tmp)))
+				return E_FAIL;
+		}
+	}
+
+	// Actor
+	{	
+		// ProtoTag_Actor_EditorBG
+		{
+			tmp = CMiiEditorBG::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Actor_EditorBG"), tmp)))
+				return E_FAIL;
+		}
+	}
+
+	// UI
+	{
+		// ProtoTag_UI_PlaceMoveButton
+		{
+			tmp = CPlaceMoveButton::Create(m_pDevice, m_pContext);
+
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_UI_PlaceMoveButton"), tmp)))
+				return E_FAIL;
+		}
+	}
+
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_Developer()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::DEVELOPER);
+
+	// Component
+	{
+		/* VTXNOR 쉐이더 */
+		// ProtoTag_Component_VtxNormalMeshShader
+		{
+			tmp = CShaderCom::Create(m_pDevice,m_pContext,TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Normal_Tex.hlsl"),
+				Engine::VTX_TEX_NORMAL::Elements,Engine::VTX_TEX_NORMAL::iNumElements);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_VtxNormalMeshShader"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 터레인 마스크 텍스쳐 */
+		// ProtoTag_Component_IslandMaskTexture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/Terrain/Mask.bmp"), 1);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_IslandMaskTexture"), tmp)))
+					return E_FAIL;
+		}
+		/* 터레인 텍스쳐 */
+		// ProtoTag_Component_IslandTexture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/Terrain/Tile%d.dds"), 2);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_IslandTexture"), tmp)))
+				return E_FAIL;
+		}
+		/* 터레인 버퍼 */
+		// Terrain Buffer Component // 
+		{
+			tmp = CTerrainBufferCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/Terrain/Height.bmp"));
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_TerrainBuffer"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 테스트 모델 */
+		// ProtoTag_Component_BasicManBody_Model
+		{
+			XMMATRIX InitMatrix;
+			InitMatrix = XMMatrixIdentity();
+
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_BasicManBody_Model", ANIM_TYPE::ANIM,
+				"../../../../../../Resource/dev/05_Anim_fbx/CM_Run00.fbx", InitMatrix, "ChineseDress");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_BasicManBody_Model"), tmp)))
+				return E_FAIL;
+		}
+
+		// ProtoTag_Component_BasicManBody_SEModel
+		{
+			XMMATRIX InitMatrix;
+			InitMatrix = XMMatrixIdentity();
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_BasicManBody_SEModel"), tmp)))
+				return E_FAIL;
+		}
+	}
+
+	// Actor
+	{
+		/* 테스트 mii*/
+		// ProtoTag_Actor_Fiona
+		{
+			tmp = CTestMii::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Fiona"), tmp)))
+				return E_FAIL;
+		}
+		/* 터레인 */
+		// ProtoTag_Actor_Terrain
+		{
+			tmp = CTerrain::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Terrain"), tmp)))
+				return E_FAIL;
+		}
+	}
+	// UI
+	{
+		// ProtoTag_UI_CommonButton
+		{
+			tmp = CCommonButton::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_CommonButton"), tmp)))
+				return E_FAIL;
+		}
+	}
+	lstrcpy(m_szFPS, TEXT("로딩 끝"));
+	m_isFinished = true;
+	return S_OK;
+}
+
 #pragma endregion
 
 CLoader* CLoader::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext, 
-	PLACE_ID NextPlaceID)
+	PLACEID NextPlaceID)
 {
-	CLoader* pLoader = new CLoader(pDevice, pContext);
-
-	if (FAILED(pLoader->Initialize(NextPlaceID)))
+	CLoader* pInstance = new CLoader(pDevice, pContext);
+	if (FAILED(pInstance->Initialize(NextPlaceID)))
 	{
 		MSG_BOX("ErrCode : Loader Create Failed");
-		Safe_Release(pLoader);
+		Safe_Release(pInstance);
+		return nullptr;
 	}
-
-	return pLoader;
+	return pInstance;
 }
 
 void CLoader::Free()

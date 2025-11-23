@@ -124,6 +124,30 @@ HRESULT CRenderManager::Render_Top_UI()
 	return S_OK;
 }
 
+HRESULT CRenderManager::Render_Top_UI_Blend()
+{
+	m_pGameInstance->GraphicDevice_AlphaBlend_On();
+	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI_BLEND)])
+	{
+		if (nullptr == Object)
+			break;
+
+		if (static_cast<CUI*>(Object)->Get_Visible())
+		{
+			if (FAILED(Object->Render()))
+			{
+				MSG_BOX("ErrCode :Top UI Blend Object Render Failed");
+				return E_FAIL;
+			}
+		}
+
+		Safe_Release(Object);
+	}
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI_BLEND)].clear();
+	m_pGameInstance->GraphicDevice_AlphaBlend_Off();
+	return S_OK;
+}
+
 
 
 
@@ -204,6 +228,29 @@ HRESULT CRenderManager::Render_Bottom_UI()
 		Safe_Release(Object);
 	}
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI)].clear();
+	return S_OK;
+}
+
+HRESULT CRenderManager::Render_Bottom_UI_Blend()
+{
+	m_pGameInstance->GraphicDevice_AlphaBlend_On();
+	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI_BLEND)])
+	{
+		if (nullptr == Object)
+			break;
+
+		if (static_cast<CUI*>(Object)->Get_Visible())
+		{
+			if (FAILED(Object->Render()))
+			{
+				MSG_BOX("ErrCode :Bottom UI Blend Object Render Failed");
+				return E_FAIL;
+			}
+		}
+		Safe_Release(Object);
+	}
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI_BLEND)].clear();
+	m_pGameInstance->GraphicDevice_AlphaBlend_Off();
 	return S_OK;
 }
 

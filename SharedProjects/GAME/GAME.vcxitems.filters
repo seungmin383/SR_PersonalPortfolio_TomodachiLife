@@ -4,9 +4,6 @@
     <Filter Include="00.Manager">
       <UniqueIdentifier>{7d2e0689-80ad-4ec2-b227-e424708fe650}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Shader">
-      <UniqueIdentifier>{af548c31-02b7-42cc-86e0-521800aa8df5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="99.Defines">
       <UniqueIdentifier>{7c2f1dc1-6bd8-4528-9fe9-cfe565d9d131}</UniqueIdentifier>
     </Filter>
@@ -115,6 +112,15 @@
     <Filter Include="02.Actor\05.MiiEditorBGModel">
       <UniqueIdentifier>{6a4279a7-8c55-4cea-9639-19e3ab33027e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\02.BackGround\IslandBackGround">
+      <UniqueIdentifier>{1a8f4437-e6c1-4e44-a430-359a23127061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Shader">
+      <UniqueIdentifier>{af548c31-02b7-42cc-86e0-521800aa8df5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.BackGround\LoadingBG">
+      <UniqueIdentifier>{668a96fc-19e4-46a6-b3cb-ec459a852f93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -163,9 +169,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SkyAndSea.h">
       <Filter>02.Actor\00.Island\01.Environment</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\BackGround.h">
-      <Filter>03.UI\02.BackGround</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiManager.h">
       <Filter>00.Manager\MiiManager</Filter>
@@ -221,6 +224,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEditorBG.h">
       <Filter>02.Actor\05.MiiEditorBGModel</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\BackGround.h">
+      <Filter>03.UI\02.BackGround\IslandBackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\LoadingBG.h">
+      <Filter>03.UI\02.BackGround\LoadingBG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -249,9 +258,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SkyAndSea.cpp">
       <Filter>02.Actor\00.Island\01.Environment</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\BackGround.cpp">
-      <Filter>03.UI\02.BackGround</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiManager.cpp">
       <Filter>00.Manager\MiiManager</Filter>
@@ -303,6 +309,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEditorBG.cpp">
       <Filter>02.Actor\05.MiiEditorBGModel</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\BackGround.cpp">
+      <Filter>03.UI\02.BackGround\IslandBackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\LoadingBG.cpp">
+      <Filter>03.UI\02.BackGround\LoadingBG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

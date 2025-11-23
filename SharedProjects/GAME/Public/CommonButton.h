@@ -17,6 +17,7 @@ public:
 	typedef struct tagCommonButton : public BUTTON_DESC
 	{
 		IOnClick* pClickStrategy = {nullptr};
+		const _wstring& strIconTextureTag = {};
 
 	}COMMONBUTTON_DESC;
 
@@ -48,6 +49,9 @@ private:
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
 	IOnClick* m_pClickStrategy = { nullptr };
+
+private:
+	_wstring m_strIconTextureTag = {};
 
 public:
 	static CCommonButton* Create(

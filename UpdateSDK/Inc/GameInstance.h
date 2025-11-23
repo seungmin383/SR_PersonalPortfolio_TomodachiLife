@@ -3,6 +3,7 @@
 #include "Prototype.h"
 
 NS_BEGIN(Engine)
+
 class CAnimationManager;
 class CButton;
 class CButtonManager;
@@ -69,6 +70,9 @@ public:
 
 	void GraphicDevice_Bind_Viewport(VIEWPORT_TYPE ViewportType);
 	void GraphicDevice_Bind_RenderState(RENDER_STATE eRenderState);
+
+	void GraphicDevice_AlphaBlend_On();
+	void GraphicDevice_AlphaBlend_Off();
 #pragma endregion
 
 	#pragma region OBJECT_MANAGER
@@ -77,6 +81,9 @@ public:
 		uint32_t PlaceID,
 		const _wstring LayerTag,
 		CObject* pObject);
+
+	HRESULT ObjectManager_Enable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag);
+	HRESULT ObjectManager_Disable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag);
 
 #pragma endregion
 
@@ -216,6 +223,7 @@ public:
 	void UIManager_Change_UIGroup(uint32_t iNextGroupIndex, _bool isLoading = FALSE);
 	void UIManager_Change_Place(uint32_t iInitGroupIndex);
 
+	_float  UIManager_Get_FadeForce();
 #pragma endregion
 
 

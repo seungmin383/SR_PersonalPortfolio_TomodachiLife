@@ -94,6 +94,23 @@ HRESULT CGraphic_Device::Initialize(HWND hWnd, WINMODE isWindowed, _uint iWinSiz
 	rsDesc.CullMode = D3D11_CULL_BACK;
 	m_pDevice->CreateRasterizerState(&rsDesc, &m_pRenderState[static_cast<int32_t>(RENDER_STATE::BACKCULL)]);
 
+
+	D3D11_BLEND_DESC desc = {};
+	desc.AlphaToCoverageEnable = FALSE;
+	desc.IndependentBlendEnable = FALSE;
+
+	D3D11_RENDER_TARGET_BLEND_DESC& rt = desc.RenderTarget[0];
+	rt.BlendEnable = TRUE;
+	rt.SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	rt.DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	rt.BlendOp = D3D11_BLEND_OP_ADD;
+	rt.SrcBlendAlpha = D3D11_BLEND_ONE;
+	rt.DestBlendAlpha = D3D11_BLEND_ZERO;
+	rt.BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	rt.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	m_pDevice->CreateBlendState(&desc, &m_pAlphaBlendState);
+
 	return S_OK;
 }
 
@@ -141,6 +158,17 @@ void CGraphic_Device::Bind_RenderState(RENDER_STATE eRenderState)
 	m_pDeviceContext->RSSetState(m_pRenderState[static_cast<int32_t>(eRenderState)]);
 }
 
+void CGraphic_Device::AlphaBlend_On()
+{
+	float blendFactor[4] = { 0,0,0,0 };
+	UINT sampleMask = 0xffffffff;
+	m_pDeviceContext->OMSetBlendState(m_pAlphaBlendState, blendFactor, sampleMask);
+}
+
+void CGraphic_Device::AlphaBlend_Off()
+{
+	m_pDeviceContext->OMSetBlendState(nullptr, nullptr, 0xffffffff);
+}
 
 HRESULT CGraphic_Device::Ready_SwapChain(HWND hWnd, WINMODE isWindowed, _uint iWinCX, _uint iWinCY)
 {

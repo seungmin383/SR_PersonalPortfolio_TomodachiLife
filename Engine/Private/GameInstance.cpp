@@ -310,6 +310,16 @@ void CGameInstance::GraphicDevice_Bind_RenderState(RENDER_STATE eRenderState)
 	m_pGraphicDevice->Bind_RenderState(eRenderState);
 }
 
+void CGameInstance::GraphicDevice_AlphaBlend_On()
+{
+	m_pGraphicDevice->AlphaBlend_On();
+}
+
+void CGameInstance::GraphicDevice_AlphaBlend_Off()
+{
+	m_pGraphicDevice->AlphaBlend_Off();
+}
+
 #pragma endregion
 
 #pragma region OBJECT_MANAGER
@@ -320,6 +330,16 @@ inline HRESULT CGameInstance::ObjectManager_Add_Object_in_Layer(
 	CObject* pObject)
 {
 	return m_pObjectManager->Add_Object_in_Layer(PlaceID, LayerTag, pObject);
+}
+
+HRESULT CGameInstance::ObjectManager_Enable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag)
+{
+	return m_pObjectManager->Enable_Layer(iPlaceID, strLayerTag);
+}
+
+HRESULT CGameInstance::ObjectManager_Disable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag)
+{
+	return m_pObjectManager->Disable_Layer(iPlaceID, strLayerTag);
 }
 
 #pragma endregion
@@ -567,6 +587,11 @@ void CGameInstance::UIManager_Change_Place(uint32_t iInitGroupIndex)
 	m_pUIManager->Change_Place(iInitGroupIndex);
 }
 
+_float CGameInstance::UIManager_Get_FadeForce()
+{
+	return m_pUIManager->Get_FadeForce();
+}
+
 #pragma endregion
 
 
@@ -590,6 +615,7 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pPrototype);
 	Safe_Release(m_pGraphicDevice);
 	Safe_Release(m_pMouseManager);
+	Safe_Release(m_pUIManager);
 	Safe_Release(m_pFileManager);
 
 	CGameInstance::GetInstance()->DestroyInstance();

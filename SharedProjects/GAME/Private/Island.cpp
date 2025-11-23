@@ -83,7 +83,7 @@ void CIsland::Calc_Object_Place_Point()
 HRESULT CIsland::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_VtxMeshShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
@@ -99,7 +99,7 @@ HRESULT CIsland::Ready_Component()
 		return E_FAIL;
 #else
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::STATIC),
+		static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_Island_seModel"),
 		TEXT("Com_Model"),
 		reinterpret_cast<CComponent**>(&m_pseModel),

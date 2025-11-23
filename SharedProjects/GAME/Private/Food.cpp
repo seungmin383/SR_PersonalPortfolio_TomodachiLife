@@ -87,31 +87,31 @@ HRESULT CFood::Render()
 
 HRESULT CFood::Ready_Component()
 {
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_Vtx_TexShader"),
-		TEXT("Com_Shader"),
-		reinterpret_cast<CComponent**>(&m_pShaderCom),
-		nullptr)))
-		return E_FAIL;
+	//if (FAILED(Add_Component(
+	//	static_cast<uint32_t>(PLACEID::MAIN),
+	//	TEXT("ProtoTag_Component_Vtx_TexShader"),
+	//	TEXT("Com_Shader"),
+	//	reinterpret_cast<CComponent**>(&m_pShaderCom),
+	//	nullptr)))
+	//	return E_FAIL;
 
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_FoodTexture"),
-		TEXT("Com_Texture"),
-		reinterpret_cast<CComponent**>(&m_pTextureCom),
-		nullptr)))
-		return E_FAIL;
+	//if (FAILED(Add_Component(
+	//	static_cast<uint32_t>(PLACEID::MAIN),
+	//	TEXT("ProtoTag_Component_FoodTexture"),
+	//	TEXT("Com_Texture"),
+	//	reinterpret_cast<CComponent**>(&m_pTextureCom),
+	//	nullptr)))
+	//	return E_FAIL;
 
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::MAIN),
-		TEXT("ProtoTag_Component_RectBuffer"),
-		TEXT("Com_RectBuffer"),
-		reinterpret_cast<CComponent**>(&m_pRectBufferCom),
-		nullptr)))
-		return E_FAIL;
+	//if (FAILED(Add_Component(
+	//	static_cast<uint32_t>(PLACEID::MAIN),
+	//	TEXT("ProtoTag_Component_RectBuffer"),
+	//	TEXT("Com_RectBuffer"),
+	//	reinterpret_cast<CComponent**>(&m_pRectBufferCom),
+	//	nullptr)))
+	//	return E_FAIL;
 
 
 	return S_OK;
