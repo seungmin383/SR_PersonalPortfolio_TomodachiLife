@@ -554,14 +554,24 @@ void CGameInstance::FileManager_RoundFloatsInJson(nlohmann::json& j, int32_t n)
 #pragma endregion
 
 #pragma region BUTTONMANAGER
-HRESULT CGameInstance::ButtonManager_Add_Button(uint32_t iPlaceID, CButton* pButton)
+HRESULT CGameInstance::ButtonManager_Add_Button(uint32_t iPlaceID, const _wstring& strLayerTag, CButton* pButton)
 {
-	return m_pButtonManager->Add_Button(iPlaceID, pButton);
+	return m_pButtonManager->Add_Button(iPlaceID, strLayerTag, pButton);
 }
 
-void CGameInstance::ButtonManager_All_Deactivate(uint32_t iPlaceID)
+HRESULT CGameInstance::ButtonManager_All_Deactivate(uint32_t iPlaceID, const _wstring& strLayerTag)
 {
-	m_pButtonManager->All_Deactivate(iPlaceID);
+	return m_pButtonManager->All_Deactivate(iPlaceID, strLayerTag);
+}
+
+void CGameInstance::ButtonManager_Set_CurButton(CButton* pButton)
+{
+	m_pButtonManager->Set_CurButton(pButton);
+}
+
+CButton* CGameInstance::ButtonManager_Get_CurButton()
+{
+	return m_pButtonManager->Get_CurButton();
 }
 
 #pragma endregion

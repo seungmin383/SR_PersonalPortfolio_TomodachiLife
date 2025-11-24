@@ -18,23 +18,59 @@ HRESULT CButtonManager::Initialize(uint32_t iNumPlace)
 {
 	m_iNumPlace = iNumPlace;
 
-	m_Buttons = new vector<CButton*>[iNumPlace];
+	m_Buttons = new map<_wstring, vector<CButton*>>[iNumPlace];
+
 	return S_OK;
 }
 
-HRESULT CButtonManager::Add_Button(uint32_t iPlaceID, CButton* pButton)
+HRESULT CButtonManager::Add_Button(uint32_t iPlaceID, const _wstring& strLayertag, CButton* pButton)
 {
+	if (m_Buttons == nullptr || pButton == nullptr)
+		return E_FAIL;
+
 	Safe_AddRef(pButton);
-	m_Buttons[iPlaceID].push_back(pButton);
+
+	auto iter = m_Buttons[iPlaceID].find(strLayertag);
+
+	if (iter == m_Buttons[iPlaceID].end())
+	{
+		vector<CButton*> vec;
+		vec.push_back(pButton);
+
+		m_Buttons[iPlaceID].emplace(strLayertag, std::move(vec));
+	}
+	else
+	{
+		iter->second.push_back(pButton);
+	}
 	return S_OK;
 }
 
-void CButtonManager::All_Deactivate(uint32_t iPlaceID)
+HRESULT CButtonManager::All_Deactivate(uint32_t iPlaceID, const _wstring& strLayertag)
 {
-	for (auto& pButton : m_Buttons[iPlaceID])
+	auto iter = m_Buttons[iPlaceID].find(strLayertag);
+	if (iter == m_Buttons[iPlaceID].end())
+	{
+		MSG_BOX("ErrCode : No Layer");
+		return E_FAIL;
+	}
+
+	for (auto& pButton : iter->second)
 	{
 		pButton->Set_isSelected(FALSE);
 	}
+
+	return S_OK;
+}
+
+void CButtonManager::Set_CurButton(CButton* pButton)
+{
+	m_pActivatedButton = pButton;
+}
+
+CButton* CButtonManager::Get_CurButton()
+{
+	return m_pActivatedButton;
 }
 
 CButtonManager* CButtonManager::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, uint32_t iNumPlace)
@@ -57,13 +93,19 @@ void CButtonManager::Free()
 
 	for (uint32_t i = 0; i < m_iNumPlace; i++)
 	{
-		for (auto& pButton : m_Buttons[i])
+		for (auto& pair : m_Buttons[i])
 		{
-			Safe_Release(pButton);
+			for (auto& pButton : pair.second)
+			{
+				Safe_Release(pButton);
+			}
+			pair.second.clear();
 		}
 		m_Buttons[i].clear();
 	}
+
 	Safe_Delete_Array(m_Buttons);
+
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);

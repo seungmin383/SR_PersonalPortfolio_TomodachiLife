@@ -264,7 +264,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 	}
 
 		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			static_cast<uint32_t>(PLACEID::ISLAND),
+			static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			static_cast<CButton*>(tmp))))
 		{
 			return E_FAIL;
@@ -297,7 +297,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -327,7 +327,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -358,7 +358,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -389,7 +389,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -419,7 +419,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -449,7 +449,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -481,7 +481,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -512,7 +512,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -542,7 +542,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -572,7 +572,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -603,7 +603,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -633,7 +633,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -663,7 +663,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -695,7 +695,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -725,7 +725,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -755,7 +755,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -786,7 +786,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -816,7 +816,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -846,7 +846,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -876,7 +876,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -906,7 +906,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;
@@ -936,7 +936,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 }
 
 		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"),
 			 static_cast<CButton*>(tmp))))
 		 {
 			 return E_FAIL;

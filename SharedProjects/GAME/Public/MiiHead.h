@@ -43,8 +43,10 @@ public:
 	const XMFLOAT4X4* Get_SocketMatrix(const _char* pBoneName);
 
 private:
-	CSEModel* m_pSeModel = { nullptr };
+	CSEModel* m_pSeModel[8] = { nullptr };
 	CShaderCom* m_pShader = { nullptr };
+
+	uint32_t m_iCurModelIndex = {};
 
 private:
 	const uint32_t* m_pParentState = { nullptr };

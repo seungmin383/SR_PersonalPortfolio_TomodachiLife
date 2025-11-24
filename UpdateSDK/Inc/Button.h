@@ -31,6 +31,8 @@ private:
 
 public:
 	void Set_isSelected(_bool is) { m_isSelected = is; }
+	void Set_ButtonIndex(_int i) { m_iButtonIndex = i; }
+	int32_t Get_ButtonIndex() { return m_iButtonIndex; }
 
 protected:
 	_bool m_isOverlappedMouse = { FALSE };
@@ -39,6 +41,8 @@ protected:
 
 	_float2 m_fLeftTop = {};
 	_float2 m_fRIghtBottom = {};
+
+	_int m_iButtonIndex = 0;
 
 public:
 	virtual int32_t On_Click()PURE;

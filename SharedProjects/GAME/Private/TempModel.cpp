@@ -53,7 +53,7 @@ int32_t CTempModel::Update(_float fDT)
 
 	if (m_iBuildingIndex == 10)
 	{
-		cout << "X : " << tmp.x << " Y : " << tmp.y << " Z : " << tmp.z << endl;
+		// cout << "X : " << tmp.x << " Y : " << tmp.y << " Z : " << tmp.z << endl;
 
 	
 	if (m_pGameInstance->Get_DIKeyState(DIK_UP))

@@ -180,7 +180,7 @@ int32_t CPlaceMoveButton::On_Click()
 	if (!m_isSelected)
 	{
 		m_fLerpTimer = 0.f;
-		m_pGameInstance->ButtonManager_All_Deactivate( static_cast<uint32_t>(m_eCurPlaceID));
+		m_pGameInstance->ButtonManager_All_Deactivate( static_cast<uint32_t>(m_eCurPlaceID), TEXT("LayerTag_UI"));
 		m_iOutlineTextureNum = m_iStoreOutlineTextureNum;
 		m_isSelected = TRUE;
 	}

@@ -210,9 +210,12 @@ public:
 #pragma endregion
 
 #pragma region BUTTONMANAGER
-	HRESULT ButtonManager_Add_Button(uint32_t iPlaceID, CButton* pButton);
+	HRESULT ButtonManager_Add_Button(uint32_t iPlaceID, const _wstring& strLayerTag, CButton* pButton);
 
-	void ButtonManager_All_Deactivate(uint32_t iPlaceID);
+	HRESULT ButtonManager_All_Deactivate(uint32_t iPlaceID, const _wstring& strLayerTag);
+
+	void ButtonManager_Set_CurButton(CButton* pButton);
+	CButton* ButtonManager_Get_CurButton();
 #pragma endregion
 
 #pragma region ANIMATIONMANAGER

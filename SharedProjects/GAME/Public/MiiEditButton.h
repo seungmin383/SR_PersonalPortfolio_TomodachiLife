@@ -19,7 +19,7 @@ public:
 		IOnClick* pStrategy = { nullptr };
 
 		uint32_t iTextureIndex = {};
-
+		uint32_t iModelIndex = {};
 	}MIIEDITBUTTON_DESC;
 
 private:
@@ -43,6 +43,8 @@ private:
 
 	int32_t On_Click() override;
 
+public:
+	const uint32_t Get_iModelIndex()const { return m_iModelIndex; }
 private:
 	CShaderCom* m_pShader = { nullptr };
 	CTextureCom* m_pTexture = { nullptr };
@@ -53,6 +55,8 @@ private:
 
 private:
 	uint32_t m_iTextureIndex = {};
+
+	uint32_t m_iModelIndex = {};
 
 public:
 	static CMiiEditButton* Create(

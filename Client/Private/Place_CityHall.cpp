@@ -12,6 +12,11 @@
 #include "MiiEditButton.h"
 #include "ChangePlace_Strategy.h"
 
+#define HEAD_BASE_POS_X 300.f
+#define HEAD_BASE_POS_Y 120.f
+#define BTNGAPX 98.f
+#define BTNGAPY 85.f
+
 CPlace_CityHall::CPlace_CityHall(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
 {
@@ -141,8 +146,8 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 			CCommonButton::COMMONBUTTON_DESC Desc = {};
 			Desc.fX = 210.f;
 			Desc.fY = 340.f;
-			Desc.fCX = 130.f;
-			Desc.fCY = 120.f;
+			Desc.fCX = 95.f;
+			Desc.fCY = 81.4f;
 			Desc.fSpeedPerSecond = 15.f;
 
 			vector<_wstring> tmpEnable;
@@ -173,29 +178,21 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 
 	// LayerTag_UI2
 	{
-		// Go Food
+		// Head0
 		{
-			CCommonButton::COMMONBUTTON_DESC Desc = {};
-			Desc.fX = 100.f;
-			Desc.fY = 100.f;
-			Desc.fCX = 130.f;
-			Desc.fCY = 120.f;
-
-			vector<_wstring> tmpEnable;
-			tmpEnable.push_back(TEXT("LayerTag_UI1"));
-
-			vector<_wstring> tmpDisable;
-			tmpDisable.push_back(TEXT("LayerTag_UI2"));
-
-			Desc.pStrategy = CChangeUI_Strategy::Create(m_pDevice, m_pContext, PLACEID::CITYHALL, tmpDisable, tmpEnable);
-			Desc.eTexturePlaceID = PLACEID::CITYHALL;
-			Desc.eIconTexturePlaceID = PLACEID::CITYHALL;
-			Desc.strTextureTag = TEXT("ProtoTag_Component_CMButtonTexture");
-			Desc.strIconTextureTag = TEXT("ProtoTag_Component_IconTexture");
+			CMiiEditButton::MIIEDITBUTTON_DESC Desc = {};
+			Desc.fX = HEAD_BASE_POS_X;
+			Desc.fY = HEAD_BASE_POS_Y;
+			Desc.fCX = 84.f;
+			Desc.fCY = 72.f;
+			Desc.fSpeedPerSecond = 30.f;
 			Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+			Desc.iTextureIndex = 0;
+			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+			Desc.iModelIndex = 0;
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("ProtoTag_UI_CMButton"), &Desc);
+				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
 
 			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
 				TEXT("LayerTag_UI2"), tmp)))
@@ -203,17 +200,62 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 				Safe_Release(tmp);
 				return E_FAIL;
 			}
-		}
 
-		// Go Food
-		{
-			CMiiEditButton::MIIEDITBUTTON_DESC Desc = {};
-			Desc.fX = 300.f;
-			Desc.fY = 200.f;
-			Desc.fCX = 100.f;
-			Desc.fCY = 100.f;
-			Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
-			Desc.iTextureIndex = 0;
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
+				static_cast<CButton*>(tmp))))
+			{
+				return E_FAIL;
+			}
+
+			Desc.fX = HEAD_BASE_POS_X + BTNGAPX;
+			Desc.fY = HEAD_BASE_POS_Y;
+			Desc.iTextureIndex = 2;
+			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+			Desc.iModelIndex = 1;
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+				TEXT("LayerTag_UI2"), tmp)))
+			{
+				Safe_Release(tmp);
+				return E_FAIL;
+			}
+
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
+				static_cast<CButton*>(tmp))))
+			{
+				return E_FAIL;
+			}
+
+
+			Desc.fX = HEAD_BASE_POS_X;
+			Desc.fY = HEAD_BASE_POS_Y + BTNGAPY;
+			Desc.iTextureIndex = 4;
+			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+			Desc.iModelIndex = 2;
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+				TEXT("LayerTag_UI2"), tmp)))
+			{
+				Safe_Release(tmp);
+				return E_FAIL;
+			}
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
+				static_cast<CButton*>(tmp))))
+			{
+				return E_FAIL;
+			}
+
+			Desc.fX = HEAD_BASE_POS_X + BTNGAPX;
+			Desc.fY = HEAD_BASE_POS_Y + BTNGAPY;
+			Desc.iTextureIndex = 6;
+			Desc.iModelIndex = 3;
 			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
 				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
@@ -222,6 +264,101 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 				TEXT("LayerTag_UI2"), tmp)))
 			{
 				Safe_Release(tmp);
+				return E_FAIL;
+			}
+
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
+				static_cast<CButton*>(tmp))))
+			{
+				return E_FAIL;
+			}
+
+			Desc.fX = HEAD_BASE_POS_X ;
+			Desc.fY = HEAD_BASE_POS_Y + BTNGAPY*2.f;
+			Desc.iTextureIndex = 8;
+			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+			Desc.iModelIndex = 4;
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+				TEXT("LayerTag_UI2"), tmp)))
+			{
+				Safe_Release(tmp);
+				return E_FAIL;
+			}
+
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
+				static_cast<CButton*>(tmp))))
+			{
+				return E_FAIL;
+			}
+
+			Desc.fX = HEAD_BASE_POS_X + BTNGAPX;
+			Desc.fY = HEAD_BASE_POS_Y + +BTNGAPY*2.f;
+			Desc.iTextureIndex = 10;
+			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+			Desc.iModelIndex = 5;
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+				TEXT("LayerTag_UI2"), tmp)))
+			{
+				Safe_Release(tmp);
+				return E_FAIL;
+			}
+
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
+				static_cast<CButton*>(tmp))))
+			{
+				return E_FAIL;
+			}
+
+			Desc.fX = HEAD_BASE_POS_X ;
+			Desc.fY = HEAD_BASE_POS_Y + BTNGAPY * 3.f;
+			Desc.iTextureIndex = 12;
+			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+			Desc.iModelIndex = 6;
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+				TEXT("LayerTag_UI2"), tmp)))
+			{
+				Safe_Release(tmp);
+				return E_FAIL;
+			}
+
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
+				static_cast<CButton*>(tmp))))
+			{
+				return E_FAIL;
+			}
+
+			Desc.fX = HEAD_BASE_POS_X + BTNGAPX;
+			Desc.fY = HEAD_BASE_POS_Y + BTNGAPY * 3.f;
+			Desc.iTextureIndex = 14;
+			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+			Desc.iModelIndex = 7;
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+				TEXT("LayerTag_UI2"), tmp)))
+			{
+				Safe_Release(tmp);
+				return E_FAIL;
+			}
+
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
+				static_cast<CButton*>(tmp))))
+			{
 				return E_FAIL;
 			}
 		}
