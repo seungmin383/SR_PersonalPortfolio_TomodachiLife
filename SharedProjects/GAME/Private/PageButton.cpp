@@ -136,7 +136,7 @@ int32_t CPageButton::On_Click()
 	/* 이 버튼이 선택이 안되어 있었는데 클릭 되었다면 -> 아웃라인 생성 및 타겟 포인트로 확대 */
 	if (!m_isSelected)
 	{
-		m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"));
+		m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_Page"));
 		m_isSelected = TRUE;
 		m_pClickStrategy->OnClick();
 	}

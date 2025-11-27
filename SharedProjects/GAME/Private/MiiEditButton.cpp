@@ -23,6 +23,7 @@ HRESULT CMiiEditButton::Initialize_Clone(void* pArg)
 	MIIEDITBUTTON_DESC* pDesc = static_cast<MIIEDITBUTTON_DESC*>(pArg);
 	m_pClickStrategy = pDesc->pStrategy;
 	m_iTextureIndex = pDesc->iTextureIndex;
+	m_strLayerTag = pDesc->strLayerTag;
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -135,7 +136,7 @@ int32_t CMiiEditButton::On_Click()
 	/* 이 버튼이 선택이 안되어 있었는데 클릭 되었다면 -> 아웃라인 생성 및 타겟 포인트로 확대 */
 	if (!m_isSelected)
 	{
-		m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"));
+		m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::CITYHALL), m_strLayerTag);
 		m_isSelected = TRUE;
 		m_pClickStrategy->OnClick();
 	}
@@ -143,7 +144,7 @@ int32_t CMiiEditButton::On_Click()
 	/* 이 버튼이 선택되어 있었는데 클릭되었다면 -> 씬 전환*/
 	else
 	{
-		return PLACE_CHANGE;
+		return UPDATE_CLEAR;
 	}
 
 	return UPDATE_CLEAR;

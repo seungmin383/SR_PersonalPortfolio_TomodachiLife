@@ -736,7 +736,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	 {
 		 tPlaceMoveButtonDesc.fX = 740.f;
 		 tPlaceMoveButtonDesc.fY = 370.f;
-		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
+		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::DEVELOPER);
 
 		 tPlaceMoveButtonDesc.iTextureNum = 12;
 

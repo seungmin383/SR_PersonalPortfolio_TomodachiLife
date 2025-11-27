@@ -18,6 +18,8 @@
 #include "WorldCamera.h"
 #include "MiiEditButton.h"
 #include "PageButton.h"
+#include "Collider.h"
+
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -452,7 +454,7 @@ HRESULT CLoader::Loading_CityHall()
 		/* mii 편집 버튼 */
 		// ProtoTag_Component_EditButtonTexture
 		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/EditButton/%d.png"), 40);
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/EditButton/%d.dds"), 262);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_EditButtonTexture"), tmp)))
 				return E_FAIL;
 		}
@@ -643,6 +645,14 @@ HRESULT CLoader::Loading_Developer()
 			InitMatrix = XMMatrixIdentity();
 			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_BasicManBody_SEModel"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 콜라이더 */
+		// ProtoTag_Component_AABBCollider
+		{
+			tmp = CCollider::Create(m_pDevice, m_pContext, COLLIDER::AABB);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_AABBCollider"), tmp)))
 				return E_FAIL;
 		}
 	}

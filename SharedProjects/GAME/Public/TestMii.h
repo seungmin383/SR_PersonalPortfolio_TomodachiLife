@@ -11,6 +11,7 @@ class CShaderCom;
 class CTextureCom;
 class CModel;
 class CSEModel;
+class CCollider;
 
 NS_END
 
@@ -47,6 +48,8 @@ private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CModel* m_pModelCom = { nullptr };
 	CSEModel* m_pSeModel = { nullptr };
+	CCollider* m_pCollider = { nullptr };
+
 
 	MII_INFO m_eInfo = {};
 

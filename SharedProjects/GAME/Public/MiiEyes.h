@@ -18,7 +18,6 @@ public:
 		const uint32_t* pParentState;
 		const XMFLOAT4X4* pSocketMatrix;
 
-		uint32_t iTextureIndex = {};
 		_float fBlinkTime = {};
 		_float fBlinkDuration = { 0.3f };
 

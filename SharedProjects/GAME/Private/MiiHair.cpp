@@ -1,5 +1,6 @@
 #include "MiiHair.h"
 #include "GameInstance.h"
+#include "MiiManager.h"
 
 CMiiHair::CMiiHair(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPartObject(pDevice, pContext)
@@ -35,7 +36,8 @@ HRESULT CMiiHair::Initialize_Clone(void* pArg)
 int32_t CMiiHair::Update_Priority(_float fDT)
 {
 	
-
+	uint32_t i = CMiiManager::GetInstance()->Get_HairInfo().iIndex;
+	m_iCurModelIndex = CMiiManager::GetInstance()->Get_HairInfo().iIndex;
 	return 0;
 }
 

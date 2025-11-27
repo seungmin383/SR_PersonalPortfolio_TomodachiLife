@@ -13,6 +13,8 @@ namespace Engine
 	enum class MOUSEKEYSTATE { LB, RB, WHEEL, XB, END };
 	enum class MOUSEMOVESTATE { X, Y, WHEEL, END };
 
+	enum class COLLIDER {SPHERE, AABB, OBB, END};
+
 	enum class RENDER_GROUP : int32_t {
 		TOP_PRIORITY,
 		TOP_NONBLEND,

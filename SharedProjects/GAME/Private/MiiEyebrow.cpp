@@ -1,5 +1,6 @@
 #include "MiiEyebrow.h"
 #include "GameInstance.h"
+#include "MiiManager.h"
 
 CMiiEyebrow::CMiiEyebrow(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPartObject(pDevice, pContext)
@@ -22,7 +23,6 @@ HRESULT CMiiEyebrow::Initialize_Clone(void* pArg)
 	m_pParentState = pDesc->pParentState;
 	m_pSocketMatrix = pDesc->pSocketMatrix;
 	m_vEyebrowColor = pDesc->vEyebrowColor;
-	m_iTextureIndex = pDesc->iTextureIndex;
 	m_isRight = pDesc->isRight;
 
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
@@ -41,12 +41,7 @@ HRESULT CMiiEyebrow::Initialize_Clone(void* pArg)
 
 int32_t CMiiEyebrow::Update_Priority(_float fDT)
 {
-	if (m_pGameInstance->Get_DIKeyState(DIK_0))
-	{
-		m_iTextureIndex += 1;
-	}
-
-
+	m_iTextureIndex = CMiiManager::GetInstance()->Get_EyebrowInfo().iIndex;
 	return 0;
 }
 

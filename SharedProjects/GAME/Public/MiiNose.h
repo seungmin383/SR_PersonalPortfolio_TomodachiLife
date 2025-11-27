@@ -18,8 +18,6 @@ public:
 		const uint32_t* pParentState;
 		const XMFLOAT4X4* pSocketMatrix;
 
-		uint32_t iTextureIndex = {};
-
 	}MIINOSE_DESC;
 
 private:

@@ -1,5 +1,6 @@
 #include "MiiNose.h"
 #include "GameInstance.h"
+#include "MiiManager.h"
 
 CMiiNose::CMiiNose(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPartObject(pDevice, pContext)
@@ -21,7 +22,6 @@ HRESULT CMiiNose::Initialize_Clone(void* pArg)
 	MIINOSE_DESC* pDesc = static_cast<MIINOSE_DESC*>(pArg);
 	m_pParentState = pDesc->pParentState;
 	m_pSocketMatrix = pDesc->pSocketMatrix;
-	m_iTextureIndex = pDesc->iTextureIndex;
 
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -36,10 +36,8 @@ HRESULT CMiiNose::Initialize_Clone(void* pArg)
 
 int32_t CMiiNose::Update_Priority(_float fDT)
 {
-	if (m_pGameInstance->Get_DIKeyState(DIK_0))
-	{
-		m_iTextureIndex += 1;
-	}
+
+	m_iTextureIndex = CMiiManager::GetInstance()->Get_NoseInfo().iIndex;
 
 	return 0;
 }

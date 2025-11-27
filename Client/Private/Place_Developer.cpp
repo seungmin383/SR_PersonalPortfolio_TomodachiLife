@@ -51,6 +51,7 @@ HRESULT CPlace_Developer::Render_Late()
 HRESULT CPlace_Developer::Ready_Actor_Layer()
 {
 	CObject* tmp = { nullptr };
+	uint32_t iDevelop = static_cast<uint32_t>(PLACEID::DEVELOPER);
 
 	// ProtoTag_Actor_Mii
 	{
@@ -68,12 +69,12 @@ HRESULT CPlace_Developer::Ready_Actor_Layer()
 			tMiiDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(
-				static_cast<uint32_t>(PLACEID::CITYHALL),
+				iDevelop,
 				TEXT("ProtoTag_Actor_Fiona"),
 				&tMiiDesc);
 
 			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-				static_cast<uint32_t>(PLACEID::CITYHALL),
+				iDevelop,
 				TEXT("LayerTag_Actor"),
 				tmp)))
 			{
@@ -97,12 +98,12 @@ HRESULT CPlace_Developer::Ready_Actor_Layer()
 		tTerrainDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			static_cast<uint32_t>(PLACEID::CITYHALL),
+			iDevelop,
 			TEXT("ProtoTag_Actor_Terrain"),
 			&tTerrainDesc);
 
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			static_cast<uint32_t>(PLACEID::CITYHALL),
+			iDevelop,
 			TEXT("LayerTag_Actor"),
 			tmp)))
 		{
@@ -130,7 +131,7 @@ HRESULT CPlace_Developer::Ready_Actor_Layer()
 			&MiiDesc);
 
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			static_cast<uint32_t>(PLACEID::CITYHALL),
+			iDevelop,
 			TEXT("LayerTag_Actor"),
 			tmp)))
 		{

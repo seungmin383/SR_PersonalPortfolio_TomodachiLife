@@ -123,6 +123,7 @@ typedef struct tagMiiInfo
 		HairInfo.WriteFile(Out);
 		EyebrowInfo.WriteFile(Out);
 		EyesInfo.WriteFile(Out);
+		NoseInfo.WriteFile(Out);
 		MouthInfo.WriteFile(Out);
 	}
 
@@ -132,6 +133,7 @@ typedef struct tagMiiInfo
 		HairInfo.ReadFile(In);
 		EyebrowInfo.ReadFile(In);
 		EyesInfo.ReadFile(In);
+		NoseInfo.ReadFile(In);
 		MouthInfo.ReadFile(In);
 	}
 

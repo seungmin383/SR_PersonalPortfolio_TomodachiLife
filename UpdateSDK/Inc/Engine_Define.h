@@ -10,6 +10,15 @@
 #include <DirectXTK/DDSTextureLoader.h>	//dds 로드
 #include <DirectXTK/WICTextureLoader.h>	//window tex 로드
 
+#include <DirectXTK/ScreenGrab.h>
+#include <DirectXTK/PrimitiveBatch.h>
+#include <DirectXTK/Effects.h>		// 쉐이더
+#include <DirectXTK/VertexTypes.h>	// 정점
+
+#include <DirectXTK/SpriteBatch.h>
+#include <DirectXTK/SpriteFont.h>
+
+
 // 나중에 절때 뺼 것
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>

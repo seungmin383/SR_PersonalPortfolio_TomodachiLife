@@ -19,6 +19,9 @@ public:
 		IOnClick* pStrategy = { nullptr };
 
 		uint32_t iTextureIndex = {};
+
+		_wstring strLayerTag = {};
+
 	}MIIEDITBUTTON_DESC;
 
 private:
@@ -53,8 +56,9 @@ private:
 	IOnClick* m_pClickStrategy = { nullptr };
 
 private:
-	uint32_t m_iTextureIndex = {};
+	_wstring m_strLayerTag = {};
 
+	uint32_t m_iTextureIndex = {};
 	uint32_t m_iModelIndex = {};
 
 public:

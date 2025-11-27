@@ -2,6 +2,8 @@
 #include "GameInstance.h"
 #include "Place_Loading.h"
 
+#include "MiiManager.h"
+
 // Actor
 #include "WorldCamera.h"
 #include "UICamera.h"
@@ -442,7 +444,7 @@ HRESULT CMainApp::Ready_FacePartsTexture()
 	CObject* tmp = { nullptr };
 
 	// ProtoTag_Component_FacePartsTexture
-	tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/MiiParts/%d.png"), 129);
+	tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/MiiParts/%d.png"), 118);
 	if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_FacePartsTexture"), tmp)))
 		return E_FAIL;
 
@@ -538,6 +540,8 @@ void CMainApp::Free()
 	CBase::Free();
 
 	FreeConsole();
+
+	CMiiManager::DestroyInstance();
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);

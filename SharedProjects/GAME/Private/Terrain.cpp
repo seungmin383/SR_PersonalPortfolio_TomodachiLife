@@ -67,7 +67,7 @@ HRESULT CTerrain::Render()
 HRESULT CTerrain::Ready_Component()
 {
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::CITYHALL),
+		static_cast<uint32_t>(PLACEID::DEVELOPER),
 		TEXT("ProtoTag_Component_VtxNormalMeshShader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
@@ -76,7 +76,7 @@ HRESULT CTerrain::Ready_Component()
 
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::CITYHALL),
+		static_cast<uint32_t>(PLACEID::DEVELOPER),
 		TEXT("ProtoTag_Component_IslandTexture"),
 		TEXT("Com_Texture"),
 		reinterpret_cast<CComponent**>(&m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::DIFFUSE)]),
@@ -84,7 +84,7 @@ HRESULT CTerrain::Ready_Component()
 		return E_FAIL;
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::CITYHALL),
+		static_cast<uint32_t>(PLACEID::DEVELOPER),
 		TEXT("ProtoTag_Component_IslandMaskTexture"),
 		TEXT("Com_MaskTexture"),
 		reinterpret_cast<CComponent**>(&m_pTextureCom[static_cast<uint32_t>(TEXTURE_TYPE::MASK)]),
@@ -92,7 +92,7 @@ HRESULT CTerrain::Ready_Component()
 		return E_FAIL;
 
 	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::CITYHALL),
+		static_cast<uint32_t>(PLACEID::DEVELOPER),
 		TEXT("ProtoTag_Component_TerrainBuffer"),
 		TEXT("Com_TerrainBuffer"),
 		reinterpret_cast<CComponent**>(&m_pTerrainBufferCom),

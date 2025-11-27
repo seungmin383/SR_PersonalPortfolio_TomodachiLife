@@ -1,5 +1,6 @@
 #include "MiiMouth.h"
 #include "GameInstance.h"
+#include "MiiManager.h"
 
 CMiiMouth::CMiiMouth(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPartObject(pDevice, pContext)
@@ -21,7 +22,6 @@ HRESULT CMiiMouth::Initialize_Clone(void* pArg)
 	MIIMOUTH_DESC* pDesc = static_cast<MIIMOUTH_DESC*>(pArg);
 	m_pParentState = pDesc->pParentState;
 	m_pSocketMatrix = pDesc->pSocketMatrix;
-	m_iTextureIndex = pDesc->iTextureIndex;
 
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -36,10 +36,7 @@ HRESULT CMiiMouth::Initialize_Clone(void* pArg)
 
 int32_t CMiiMouth::Update_Priority(_float fDT)
 {
-	if (m_pGameInstance->Get_DIKeyState(DIK_0))
-	{
-		m_iTextureIndex += 1;
-	}
+	m_iTextureIndex = CMiiManager::GetInstance()->Get_MouthInfo().iIndex;
 
 	return 0;
 }

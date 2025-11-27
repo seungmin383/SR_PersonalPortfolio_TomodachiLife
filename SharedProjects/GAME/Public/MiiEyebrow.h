@@ -19,7 +19,6 @@ public:
 		const XMFLOAT4X4* pSocketMatrix;
 
 		XMFLOAT4 vEyebrowColor = {};
-		uint32_t iTextureIndex = {};
 		_bool isRight;
 
 	}MIIEYEBROW_DESC;

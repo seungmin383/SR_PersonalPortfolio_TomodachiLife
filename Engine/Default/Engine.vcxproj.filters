@@ -175,6 +175,18 @@
     <Filter Include="01.Utility\07.Effect\00.Shade">
       <UniqueIdentifier>{214b651a-0a34-4a8d-83e4-2ed78b734b41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\06.Collider">
+      <UniqueIdentifier>{7da829cb-0c58-46ae-984f-13c286946cb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\06.Collider\DebugDraw">
+      <UniqueIdentifier>{623dea61-4a91-406c-842e-d67d47822757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\06.Collider\Bounding">
+      <UniqueIdentifier>{57bba86c-1162-4574-a556-0ef495d71622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\06.Collider\Bounding\00.AABB">
+      <UniqueIdentifier>{22568471-45ee-44f7-8bf6-6393fd396938}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -329,6 +341,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\UIGroup.cpp">
       <Filter>01.Utility\03.Object\03.UI\00.Manager\UIGroup</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DebugDraw.cpp">
+      <Filter>01.Utility\03.Object\02.Component\06.Collider\DebugDraw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collider.cpp">
+      <Filter>01.Utility\03.Object\02.Component\06.Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bounding.cpp">
+      <Filter>01.Utility\03.Object\02.Component\06.Collider\Bounding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bounding_AABB.cpp">
+      <Filter>01.Utility\03.Object\02.Component\06.Collider\Bounding\00.AABB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -538,6 +562,18 @@
     </ClInclude>
     <ClInclude Include="..\Public\UIGroup.h">
       <Filter>01.Utility\03.Object\03.UI\00.Manager\UIGroup</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DebugDraw.h">
+      <Filter>01.Utility\03.Object\02.Component\06.Collider\DebugDraw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collider.h">
+      <Filter>01.Utility\03.Object\02.Component\06.Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Bounding.h">
+      <Filter>01.Utility\03.Object\02.Component\06.Collider\Bounding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Bounding_AABB.h">
+      <Filter>01.Utility\03.Object\02.Component\06.Collider\Bounding\00.AABB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

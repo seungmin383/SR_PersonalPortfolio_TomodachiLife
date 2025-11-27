@@ -136,6 +136,14 @@ HRESULT CMii::Ready_Components()
 
 HRESULT CMii::Ready_PartObjects()
 {
+	m_MiiInfo.HeadInfo.iIndex = 0;
+	m_MiiInfo.HairInfo.iIndex = 0;
+	m_MiiInfo.EyebrowInfo.iIndex = 79;
+	m_MiiInfo.EyesInfo.iIndex = 0;
+	m_MiiInfo.NoseInfo.iIndex = 60;
+	m_MiiInfo.MouthInfo.iIndex = 101;
+
+
 	CMiiManager::GetInstance()->Ready_EditMii(m_MiiInfo);
 
 	/* Part_Body */
@@ -217,7 +225,6 @@ HRESULT CMii::Ready_PartObjects()
 		MiiEyesDesc.fCZ = 0.22f;
 		MiiEyesDesc.isRight = TRUE;
 		MiiEyesDesc.fBlinkTime = 5.f;
-		MiiEyesDesc.iTextureIndex = 1;
 		MiiEyesDesc.fBlinkDuration = 0.3f;
 		MiiEyesDesc.fSpeedPerSecond = 10.f;
 		MiiEyesDesc.pParentState = &m_iState;
@@ -251,7 +258,6 @@ HRESULT CMii::Ready_PartObjects()
 		MiiEyebrowDesc.fCY = 0.22f;
 		MiiEyebrowDesc.fCZ = 0.22f;
 		MiiEyebrowDesc.isRight = TRUE;
-		MiiEyebrowDesc.iTextureIndex = 78;
 		MiiEyebrowDesc.vEyebrowColor = XMFLOAT4{ 0.24f, 0.16f, 0.12f, 1.0f };
 		MiiEyebrowDesc.fSpeedPerSecond = 10.f;
 		MiiEyebrowDesc.pParentState = &m_iState;
@@ -278,12 +284,11 @@ HRESULT CMii::Ready_PartObjects()
 
 		CMiiNose::MIINOSE_DESC MiiNoseDesc = {};
 		MiiNoseDesc.fX = 0.1f;
-		MiiNoseDesc.fY = 0.01f;
+		MiiNoseDesc.fY = 0.0f;
 		MiiNoseDesc.fZ = -0.23f;
 		MiiNoseDesc.fCX = 0.27f;
 		MiiNoseDesc.fCY = 0.27f;
 		MiiNoseDesc.fCZ = 0.27f;
-		MiiNoseDesc.iTextureIndex = 60;
 		MiiNoseDesc.fSpeedPerSecond = 10.f;
 		MiiNoseDesc.pParentState = &m_iState;
 		MiiNoseDesc.pSocketMatrix = BodySockeMatrix;
@@ -308,7 +313,6 @@ HRESULT CMii::Ready_PartObjects()
 		MiiMouthDesc.fCX = 0.35f;
 		MiiMouthDesc.fCY = 0.35f;
 		MiiMouthDesc.fCZ = 0.27f;
-		MiiMouthDesc.iTextureIndex = 101;
 		MiiMouthDesc.fSpeedPerSecond = 10.f;
 		MiiMouthDesc.pParentState = &m_iState;
 		MiiMouthDesc.pSocketMatrix = BodySockeMatrix;
@@ -316,7 +320,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiMouthDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		MiiMouthDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiNose"), TEXT("Part_Mouth"), &MiiMouthDesc)))
+		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiMouth"), TEXT("Part_Mouth"), &MiiMouthDesc)))
 			return E_FAIL;
 	}
 	return S_OK;

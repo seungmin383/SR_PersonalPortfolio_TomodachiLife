@@ -1,5 +1,6 @@
 #include "MiiEyes.h"
 #include "GameInstance.h"
+#include "MiiManager.h"
 
 CMiiEyes::CMiiEyes(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPartObject(pDevice, pContext)
@@ -21,7 +22,6 @@ HRESULT CMiiEyes::Initialize_Clone(void* pArg)
 	MIIEYES_DESC* pDesc = static_cast<MIIEYES_DESC*>(pArg);
 	m_pParentState = pDesc->pParentState;
 	m_pSocketMatrix = pDesc->pSocketMatrix;
-	m_iTextureIndex = pDesc->iTextureIndex;
 	m_fBlinkTime = pDesc->fBlinkTime;
 	m_fBlinkDuration = pDesc->fBlinkDuration;
 	m_isRight = pDesc->isRight;
@@ -50,47 +50,7 @@ int32_t CMiiEyes::Update_Priority(_float fDT)
 		m_fBlinkDurationTimer += fDT;
 	}
 
-	if (m_pGameInstance->Get_DIKeyState(DIK_0))
-	{
-		m_iTextureIndex += 1;
-	}
-	
-	if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
-	{
-		if (m_pGameInstance->Get_DIKeyState(DIK_Z))
-		{
-			if (!m_isRight)
-				m_pTransformCom->Ratate(XMConvertToRadians(m_fAngelX += 90.f), 0.f, 0.f);
-		}
-		else if (m_pGameInstance->Get_DIKeyState(DIK_X))
-		{
-			if (!m_isRight)
-				m_pTransformCom->Ratate(0.f, XMConvertToRadians(m_fAngelY += 90.f),0.f);
-		}
-		else if (m_pGameInstance->Get_DIKeyState(DIK_C))
-		{
-			if (!m_isRight)
-				m_pTransformCom->Ratate(0.f, 0.f, XMConvertToRadians(m_fAngelZ += 90.f));
-		}
-	}
-	else
-	{
-		if (m_pGameInstance->Get_DIKeyState(DIK_Z))
-		{
-			if (!m_isRight)
-				m_pTransformCom->Ratate(XMConvertToRadians(m_fAngelX -=90.f), 0.f, 0.f);
-		}
-		else if (m_pGameInstance->Get_DIKeyState(DIK_X))
-		{
-			if (!m_isRight)
-				m_pTransformCom->Ratate(0.f, XMConvertToRadians(m_fAngelY -=90.f), 0.f);
-		}
-		else if (m_pGameInstance->Get_DIKeyState(DIK_C))
-		{
-			if (!m_isRight)
-				m_pTransformCom->Ratate(0.f, 0.f, XMConvertToRadians(m_fAngelZ -=90.f));
-		}
-	}
+	m_iTextureIndex = CMiiManager::GetInstance()->Get_EyesInfo().iIndex;
 
 	return 0;
 }

@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "Model.h"
 #include "SEModel.h"
+#include "Collider.h"
 
 NS_BEGIN(Engine)
 class CPrototype final : public CBase

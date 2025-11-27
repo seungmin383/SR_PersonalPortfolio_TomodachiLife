@@ -1,5 +1,6 @@
 #include "TestMii.h"
 #include "GameInstance.h"
+#include "Bounding_AABB.h"
 
 CTestMii::CTestMii(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CActor(pDevice, pContext)
@@ -166,6 +167,11 @@ HRESULT CTestMii::Render()
 
 	}
 
+
+#ifdef _DEBUG
+	m_pCollider->Render();
+#endif // _DEBUG
+
 	return S_OK;
 }
 
@@ -216,6 +222,17 @@ HRESULT CTestMii::Ready_Component()
 
 #endif // ANIM_TEST
 
+	CBounding_AABB::AABB_DESC AABBDesc = {};
+	AABBDesc.vCenter = XMFLOAT3{ 0.f, 0.f, 0.f };
+	AABBDesc.vExtents = XMFLOAT3{ 1.f, 1.f, 1.f };
+
+	if (FAILED(Add_Component(
+		static_cast<uint32_t>(PLACEID::DEVELOPER),
+		TEXT("ProtoTag_Component_AABBCollider"),
+		TEXT("Com_Collider"),
+		reinterpret_cast<CComponent**>(&m_pCollider),
+		&AABBDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -283,5 +300,7 @@ void CTestMii::Free()
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pSeModel);
+	Safe_Release(m_pCollider);
+
 	CActor::Free();
 }
