@@ -1,10 +1,10 @@
-float4 g_MatColor = float4(0.96f, 0.78f, 0.63f, 1.0f); 
+float4 g_MatColor = float4(1.0f, 0.874f, 0.72f, 1.0f);
+float4 g_EyebrowColor;
 
 matrix g_WorldMatrix;
 matrix g_ViewMatrix;
 matrix g_ProjMatrix;
 vector g_vCamPosition;
-
 
 vector g_vLightDir = vector(1.f, -1.f, 1.f, 0.f);
 vector g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
@@ -15,6 +15,7 @@ vector g_vMtrlAmbient = vector(0.7f, 0.7f, 0.7f, 1.f);
 vector g_vMtrlSpecular = vector(1.0f, 1.0f, 1.0f, 1.f);
 
 texture2D g_DiffuseTexture;
+
 
 sampler DefaultSampler = sampler_state
 {
@@ -62,10 +63,6 @@ VS_OUT VS_HAIR(VS_IN In)
     VS_OUT Out;
     
     float4 vPosition = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
-    
-    float3 normal = normalize(mul(In.vNormal, (float3x3) g_WorldMatrix));
-    
-    vPosition.xyz += normal * 0.005f; // 0.001~0.01 사이 조절
     
     vPosition = mul(vPosition, g_ViewMatrix);
     vPosition = mul(vPosition, g_ProjMatrix);
@@ -124,21 +121,20 @@ PS_OUT PS_MAIN_NOMAT(PS_IN In)
 {
     PS_OUT Out;
     vector vMtrlDiffuse = g_MatColor;
-    
-    float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
+
     float fAlpha = vMtrlDiffuse.a;
     
     float fShade = max(dot(normalize(g_vLightDir) * -1.f, In.vNormal), 0.f);
     
     float4 vLook = In.vWorldPosition - g_vCamPosition;
     float4 vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
-    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 1000);
+    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 10);
     
-    float3 vFinalColor =
-    (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
+    float4 vFinalColor =
+    (g_vLightDiffuse * vMtrlDiffuse) * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient)) + (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
     
     
-    Out.vColor = float4(vFinalColor, fAlpha);
+    Out.vColor = vFinalColor;
     return Out;
 }
 
@@ -158,6 +154,7 @@ PS_OUT PS_MIIEDITORBG(PS_IN In)
     Out.vColor = vFinalColor;
     return Out;
 }
+
 
 technique11 DefaultTechnique
 {
@@ -182,6 +179,7 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MIIEDITORBG();
     }
+
 
 }
 

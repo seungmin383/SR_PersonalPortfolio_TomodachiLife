@@ -94,6 +94,7 @@ void CCommonButton::Update_Late(_float fDT)
 
 HRESULT CCommonButton::Render()
 {
+	__super::Render();
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 

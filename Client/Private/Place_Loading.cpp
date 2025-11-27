@@ -2,8 +2,6 @@
 #include "Loader.h"
 #include "GameInstance.h"
 
-#include "Place_Main.h"
-#include "Place_Setting.h"
 #include "Place_Island.h"
 #include "Place_Apart.h"
 #include "Place_CityHall.h"

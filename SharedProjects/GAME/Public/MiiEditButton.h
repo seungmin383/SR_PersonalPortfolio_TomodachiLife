@@ -19,7 +19,6 @@ public:
 		IOnClick* pStrategy = { nullptr };
 
 		uint32_t iTextureIndex = {};
-		uint32_t iModelIndex = {};
 	}MIIEDITBUTTON_DESC;
 
 private:

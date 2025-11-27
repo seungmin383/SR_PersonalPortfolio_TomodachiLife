@@ -51,6 +51,7 @@ void CContainerObject::Update_Late(_float fDT)
 
 HRESULT CContainerObject::Render()
 {
+	__super::Render();
 	return S_OK;
 }
 

@@ -79,6 +79,7 @@ void CUI::Update_Late(_float fDT)
 
 HRESULT CUI::Render()
 {
+	__super::Render();
 	return S_OK;
 }
 

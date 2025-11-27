@@ -28,42 +28,13 @@ HRESULT CMiiHair::Initialize_Clone(void* pArg)
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
-	m_vHairColor = { 0.f, 0.f, 0.f, 1.f };
+	m_vHairColor = { 1.f, 0.f, 0.f, 1.f };
 	return S_OK;
 }
 
 int32_t CMiiHair::Update_Priority(_float fDT)
 {
-	if(m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
-	{
-		if (m_pGameInstance->Get_DIKeyState(DIK_Z))
-		{
-			m_pTransformCom->Go_Straight(fDT * 2.f);
-		}
-		else if (m_pGameInstance->Get_DIKeyState(DIK_X))
-		{
-			m_pTransformCom->Go_Left(fDT * 2.f);
-		}
-		else if (m_pGameInstance->Get_DIKeyState(DIK_C))
-		{
-			m_pTransformCom->Go_Up(fDT * 2.f);
-		}
-	}
-	else
-	{
-		if (m_pGameInstance->Get_DIKeyState(DIK_Z))
-		{
-			m_pTransformCom->Go_Straight(-fDT * 2.f);
-		}
-		else if (m_pGameInstance->Get_DIKeyState(DIK_X))
-		{
-			m_pTransformCom->Go_Left(-fDT * 2.f);
-		}
-		else if (m_pGameInstance->Get_DIKeyState(DIK_C))
-		{
-			m_pTransformCom->Go_Up(-fDT * 2.f);
-		}
-	}
+	
 
 	return 0;
 }
@@ -85,16 +56,16 @@ HRESULT CMiiHair::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	uint32_t NumMesh = m_pSeModel->Get_NumMesh();
+	uint32_t NumMesh = m_pSeModel[m_iCurModelIndex]->Get_NumMesh();
 	for (uint32_t i = 0; i < NumMesh; ++i)
 	{
-		if (FAILED(m_pSeModel->Bind_Material(m_pShader, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
+		if (FAILED(m_pSeModel[m_iCurModelIndex]->Bind_Material(m_pShader, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
 			return E_FAIL;
 
 		if (FAILED(m_pShader->Begin(2)))
 			return E_FAIL;
 
-		m_pSeModel->Render_SeModel(i);
+		m_pSeModel[m_iCurModelIndex]->Render_SeModel(i);
 	}
 	return S_OK;
 }
@@ -106,20 +77,32 @@ HRESULT CMiiHair::Ready_Component()
 		return E_FAIL;
 
 	/* Model */
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_seHair1"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
-		return E_FAIL;
 
+	for (uint32_t i = 1; i < 11; ++i)
+	{
+		_wstring Name = L"Com_ModelCom";
+		_wstring Prototag = L"ProtoTag_Component_seHair";
+		Name += to_wstring(i);
+		Prototag += to_wstring(i);
+
+		if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), Prototag, Name, reinterpret_cast<CComponent**>(&m_pSeModel[i - 1]), nullptr)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 
 HRESULT CMiiHair::Bind_ShaderResources()
 {
-	HRESULT hr = {};
-	m_pShader->Bind_RawValue("g_MatColor", &m_vHairColor, sizeof(XMFLOAT4));
-	m_pShader->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix);
-	hr = m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ViewMatrix", TEXT("World_Camera"), D3DTS::VIEW);
-	hr = m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ);
-	hr = m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShader, "g_vCamPosition", TEXT("World_Camera"));
+	if (FAILED(m_pShader->Bind_RawValue("g_MatColor", &m_vHairColor, sizeof(XMFLOAT4))))
+		return E_FAIL;
+	if(FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ViewMatrix", TEXT("World_Camera"), D3DTS::VIEW)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShader, "g_vCamPosition", TEXT("World_Camera"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -150,7 +133,11 @@ CObject* CMiiHair::Clone(void* pArg)
 
 void CMiiHair::Free()
 {
-	Safe_Release(m_pSeModel);
+	for (uint32_t i = 0; i < 10; ++i)
+	{
+		Safe_Release(m_pSeModel[i]);
+	}
+
 	Safe_Release(m_pShader);
 	CPartObject::Free();
 }

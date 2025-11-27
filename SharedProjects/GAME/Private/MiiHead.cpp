@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 
 #include "MiiEditButton.h"
+#include "MiiManager.h"
 
 CMiiHead::CMiiHead(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPartObject(pDevice, pContext)
@@ -23,6 +24,7 @@ HRESULT CMiiHead::Initialize_Clone(void* pArg)
 	MIIHEAD_DESC* pDesc = static_cast<MIIHEAD_DESC*>(pArg);
 	m_pParentState = pDesc->pParentState;
 	m_pSocketMatrix = pDesc->pSocketMatrix;
+	m_pHeadinfo = pDesc->pHeadInfo;
 
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -38,14 +40,16 @@ HRESULT CMiiHead::Initialize_Clone(void* pArg)
 
 int32_t CMiiHead::Update_Priority(_float fDT)
 {
-	CMiiEditButton* pButton = static_cast<CMiiEditButton*>(
-		m_pGameInstance->ButtonManager_Get_CurButton());
+	//CMiiEditButton* pButton = static_cast<CMiiEditButton*>(
+	//	m_pGameInstance->ButtonManager_Get_CurButton());
 
-	if (nullptr == pButton)
-		return 0;
+	//if (nullptr == pButton)
+	//	return 0;
 
-	m_iCurModelIndex = pButton->Get_iModelIndex();
+	//m_iCurModelIndex = pButton->Get_iModelIndex();
 
+	uint32_t i = CMiiManager::GetInstance()->Get_HeadInfo().iIndex;
+	m_iCurModelIndex = CMiiManager::GetInstance()->Get_HeadInfo().iIndex;
 	return 0;
 }
 

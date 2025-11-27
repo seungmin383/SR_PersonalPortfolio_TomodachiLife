@@ -4,6 +4,7 @@
 #include "Engine_Define.h"
 
 #include "Game_Struct.h"
+#include "SEMiiInformation.h"
 
 extern HWND g_hWnd;
 extern HINSTANCE g_hInst;

@@ -28,6 +28,7 @@ public:
 	HRESULT Ready_ModelCom();
 	HRESULT Ready_HeadModelCom();
 	HRESULT Ready_HairModelCom();
+	HRESULT Ready_FacePartsTexture();
 
 	HRESULT Ready_ModelActor();
 

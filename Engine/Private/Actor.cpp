@@ -78,6 +78,7 @@ void CActor::Update_Late(_float fDT)
 
 HRESULT CActor::Render()
 {
+	__super::Render();
 	return S_OK;
 }
 

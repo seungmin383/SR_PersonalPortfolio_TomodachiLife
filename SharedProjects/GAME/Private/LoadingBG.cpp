@@ -54,6 +54,7 @@ void CLoadingBG::Update_Late(_float fDT)
 
 HRESULT CLoadingBG::Render()
 {
+	__super::Render();
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 

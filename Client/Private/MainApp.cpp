@@ -11,6 +11,10 @@
 #include "MiiBody.h"
 #include "MiiHead.h"
 #include "MiiHair.h"
+#include "MiiEyes.h"
+#include "MiiEyebrow.h"
+#include "MiiNose.h"
+#include "MiiMouth.h"
 
 // UI
 #include "LoadingBG.h"
@@ -151,6 +155,8 @@ HRESULT CMainApp::Ready_Static()
 			return E_FAIL;
 		if (FAILED(Ready_HeadModelCom()))
 			return E_FAIL;
+		if (FAILED(Ready_FacePartsTexture()))
+			return E_FAIL;
 
 		// ProtoTag_Component_CommonButtonTexture
 		{
@@ -273,6 +279,7 @@ HRESULT CMainApp::Ready_Static()
 				tmp)))
 				return E_FAIL;
 		}
+
 		Ready_ModelActor();
 	}
 
@@ -430,6 +437,18 @@ HRESULT CMainApp::Ready_HairModelCom()
 	return S_OK;
 }
 
+HRESULT CMainApp::Ready_FacePartsTexture()
+{
+	CObject* tmp = { nullptr };
+
+	// ProtoTag_Component_FacePartsTexture
+	tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/MiiParts/%d.png"), 129);
+	if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_FacePartsTexture"), tmp)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CMainApp::Ready_ModelActor()
 {
 	CObject* tmp = { nullptr };
@@ -452,6 +471,34 @@ HRESULT CMainApp::Ready_ModelActor()
 	{
 		tmp = CMiiHair::Create(m_pDevice, m_pContext);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiHair"), tmp)))
+			return E_FAIL;
+	}
+
+	// ProtoTag_Actor_MiiEyes
+	{
+		tmp = CMiiEyes::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiEyes"), tmp)))
+			return E_FAIL;
+	}	
+	
+	// ProtoTag_Actor_MiiEyebrow
+	{
+		tmp = CMiiEyebrow::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiEyebrow"), tmp)))
+			return E_FAIL;
+	}
+
+	// ProtoTag_Actor_MiiNose
+	{
+		tmp = CMiiNose::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiNose"), tmp)))
+			return E_FAIL;
+	}
+
+	// ProtoTag_Actor_MiiMouth
+	{
+		tmp = CMiiMouth::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiMouth"), tmp)))
 			return E_FAIL;
 	}
 

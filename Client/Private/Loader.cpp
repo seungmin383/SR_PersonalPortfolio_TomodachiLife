@@ -17,6 +17,7 @@
 #include "Weapon.h"
 #include "WorldCamera.h"
 #include "MiiEditButton.h"
+#include "PageButton.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -456,6 +457,14 @@ HRESULT CLoader::Loading_CityHall()
 				return E_FAIL;
 		}
 
+		/* 페이지 변경 버튼 */
+		// ProtoTag_Component_PageButtonTexture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/PageButton/%d.dds"), 16);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_PageButtonTexture"), tmp)))
+				return E_FAIL;
+		}
+
 		/* 배경 모델 */
 		// ProtoTag_Componenet_MiiEditorBG
 		{
@@ -513,6 +522,14 @@ HRESULT CLoader::Loading_CityHall()
 		{
 			tmp = CMiiEditButton::Create(m_pDevice, m_pContext);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_MiiEditButton"), tmp)))
+				return E_FAIL;
+		}
+		
+		/* 페이지 버튼 */
+		// ProtoTag_UI_PageButton
+		{
+			tmp = CPageButton::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_PageButton"), tmp)))
 				return E_FAIL;
 		}
 	}

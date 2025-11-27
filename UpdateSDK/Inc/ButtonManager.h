@@ -22,6 +22,7 @@ public:
 
 	void Set_CurButton(CButton* pButton);
 	CButton* Get_CurButton();
+
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 	ID3D11Device* m_pDevice = { nullptr };
@@ -29,9 +30,8 @@ private:
 
 	map<_wstring, vector<CButton*>>* m_Buttons;
 	CButton* m_pActivatedButton = { nullptr };
-
-
 	uint32_t m_iNumPlace = {};
+
 
 public:
 	static CButtonManager* Create(

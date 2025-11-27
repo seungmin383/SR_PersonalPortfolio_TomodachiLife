@@ -52,6 +52,7 @@ void CButton::Update_Late(_float fDT)
 
 HRESULT CButton::Render()
 {
+	__super::Render();
 	return S_OK;
 }
 

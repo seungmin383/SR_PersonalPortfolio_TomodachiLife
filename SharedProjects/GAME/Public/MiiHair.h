@@ -42,13 +42,15 @@ public:
 	const XMFLOAT4X4* Get_SocketMatrix(const _char* pBoneName);
 
 private:
-	CSEModel* m_pSeModel = { nullptr };
+	CSEModel* m_pSeModel[10] = {nullptr};
 	CShaderCom* m_pShader = { nullptr };
 
 private:
 	const uint32_t* m_pParentState = { nullptr };
 	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
 	XMFLOAT4 m_vHairColor = {};
+
+	uint32_t m_iCurModelIndex = {};
 
 public:
 	static CMiiHair* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

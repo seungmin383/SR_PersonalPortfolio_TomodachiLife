@@ -46,6 +46,9 @@ void CObject::Update_Late(_float fDT)
 
 HRESULT CObject::Render()
 {
+	ID3D11ShaderResourceView* NullSRV[16] = {};
+	m_pContext->PSSetShaderResources(0, 16, NullSRV);
+
 	return S_OK;
 }
 

@@ -46,6 +46,12 @@ void CUICamera::Set_Matrices()
 	D3D11_VIEWPORT CurViewport = {};
 	uint32_t iNumViewport = { 1 };
 
+	HRESULT hr = m_pDevice->GetDeviceRemovedReason();
+	if (FAILED(hr))
+	{
+		MessageBoxA(0, "DEVICE REMOVED BEFORE CLEAR!", 0, 0);
+	}
+
 	m_pContext->RSGetViewports(&iNumViewport, &CurViewport);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixInverse(nullptr, m_pTransformCom->Get_WorldMatrix()));

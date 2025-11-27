@@ -46,6 +46,8 @@ private:
 	uint32_t m_iState = {};
 	uint32_t m_iClothState = {};
 
+	MIIINFO_DESC m_MiiInfo = {};
+
 public:
 	static CMii* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg)override;

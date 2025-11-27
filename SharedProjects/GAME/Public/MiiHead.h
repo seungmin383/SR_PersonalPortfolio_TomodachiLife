@@ -17,6 +17,8 @@ public:
 		const uint32_t* pParentState;
 		const XMFLOAT4X4* pSocketMatrix;
 
+		MIIHEADINFO_DESC* pHeadInfo = { nullptr };
+
 	}MIIHEAD_DESC;
 
 private:
@@ -52,6 +54,8 @@ private:
 	const uint32_t* m_pParentState = { nullptr };
 	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
 	XMFLOAT4 m_vSkinColor = {};
+
+	MIIHEADINFO_DESC* m_pHeadinfo = { nullptr };
 
 public:
 	static CMiiHead* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

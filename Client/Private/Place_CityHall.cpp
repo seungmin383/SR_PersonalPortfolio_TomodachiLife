@@ -11,11 +11,18 @@
 #include "BackGround.h"
 #include "MiiEditButton.h"
 #include "ChangePlace_Strategy.h"
+#include "MiiManager.h"
+#include "Transmit_Strategy.h"
+#include "PageButton.h"
 
 #define HEAD_BASE_POS_X 300.f
 #define HEAD_BASE_POS_Y 120.f
 #define BTNGAPX 98.f
 #define BTNGAPY 85.f
+
+#define PAGE_BASE_POS_X 72.f
+#define PAGE_BASE_POS_Y 35.f
+#define PAGEBTN_GAP_Y 50.f
 
 CPlace_CityHall::CPlace_CityHall(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -151,7 +158,7 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 			Desc.fSpeedPerSecond = 15.f;
 
 			vector<_wstring> tmpEnable;
-			tmpEnable.push_back(TEXT("LayerTag_UI2"));
+			tmpEnable.push_back(TEXT("LayerTag_FaceShape"));
 
 			vector<_wstring> tmpDisable;
 			tmpDisable.push_back(TEXT("LayerTag_UI1"));
@@ -176,194 +183,367 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 		}
 	}
 
-	// LayerTag_UI2
-	{
-		// Head0
-		{
-			CMiiEditButton::MIIEDITBUTTON_DESC Desc = {};
-			Desc.fX = HEAD_BASE_POS_X;
-			Desc.fY = HEAD_BASE_POS_Y;
-			Desc.fCX = 84.f;
-			Desc.fCY = 72.f;
-			Desc.fSpeedPerSecond = 30.f;
-			Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
-			Desc.iTextureIndex = 0;
-			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
-			Desc.iModelIndex = 0;
+	//// LayerTag_FaceShape
+	//{
+	//	// Head0
+	//	{
+	//		CMiiEditButton::MIIEDITBUTTON_DESC Desc = {};
+	//		Desc.fX = HEAD_BASE_POS_X;
+	//		Desc.fY = HEAD_BASE_POS_Y;
+	//		Desc.fCX = 84.f;
+	//		Desc.fCY = 72.f;
+	//		Desc.fSpeedPerSecond = 30.f;
+	//		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+	//		Desc.iTextureIndex = 0;
+	//		Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 0);
 
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+	//		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
 
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("LayerTag_UI2"), tmp)))
-			{
-				Safe_Release(tmp);
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("LayerTag_FaceShape"), tmp)))
+	//		{
+	//			Safe_Release(tmp);
+	//			return E_FAIL;
+	//		}
 
-			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
-				static_cast<CButton*>(tmp))))
-			{
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//			static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//			static_cast<CButton*>(tmp))))
+	//		{
+	//			return E_FAIL;
+	//		}
 
-			Desc.fX = HEAD_BASE_POS_X + BTNGAPX;
-			Desc.fY = HEAD_BASE_POS_Y;
-			Desc.iTextureIndex = 2;
-			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
-			Desc.iModelIndex = 1;
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+	//		Desc.fX = HEAD_BASE_POS_X + BTNGAPX;
+	//		Desc.fY = HEAD_BASE_POS_Y;
+	//		Desc.iTextureIndex = 2;
+	//		Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 7);
+	//		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
 
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("LayerTag_UI2"), tmp)))
-			{
-				Safe_Release(tmp);
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("LayerTag_FaceShape"), tmp)))
+	//		{
+	//			Safe_Release(tmp);
+	//			return E_FAIL;
+	//		}
 
-			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
-				static_cast<CButton*>(tmp))))
-			{
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//			static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//			static_cast<CButton*>(tmp))))
+	//		{
+	//			return E_FAIL;
+	//		}
 
 
-			Desc.fX = HEAD_BASE_POS_X;
-			Desc.fY = HEAD_BASE_POS_Y + BTNGAPY;
-			Desc.iTextureIndex = 4;
-			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
-			Desc.iModelIndex = 2;
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+	//		Desc.fX = HEAD_BASE_POS_X;
+	//		Desc.fY = HEAD_BASE_POS_Y + BTNGAPY;
+	//		Desc.iTextureIndex = 4;
+	//		Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 6);
+	//		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
 
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("LayerTag_UI2"), tmp)))
-			{
-				Safe_Release(tmp);
-				return E_FAIL;
-			}
-			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
-				static_cast<CButton*>(tmp))))
-			{
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("LayerTag_FaceShape"), tmp)))
+	//		{
+	//			Safe_Release(tmp);
+	//			return E_FAIL;
+	//		}
+	//		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//			static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//			static_cast<CButton*>(tmp))))
+	//		{
+	//			return E_FAIL;
+	//		}
 
-			Desc.fX = HEAD_BASE_POS_X + BTNGAPX;
-			Desc.fY = HEAD_BASE_POS_Y + BTNGAPY;
-			Desc.iTextureIndex = 6;
-			Desc.iModelIndex = 3;
-			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+	//		Desc.fX = HEAD_BASE_POS_X + BTNGAPX;
+	//		Desc.fY = HEAD_BASE_POS_Y + BTNGAPY;
+	//		Desc.iTextureIndex = 6;
+	//		Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 5);
+	//		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
 
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("LayerTag_UI2"), tmp)))
-			{
-				Safe_Release(tmp);
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("LayerTag_FaceShape"), tmp)))
+	//		{
+	//			Safe_Release(tmp);
+	//			return E_FAIL;
+	//		}
 
-			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
-				static_cast<CButton*>(tmp))))
-			{
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//			static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//			static_cast<CButton*>(tmp))))
+	//		{
+	//			return E_FAIL;
+	//		}
 
-			Desc.fX = HEAD_BASE_POS_X ;
-			Desc.fY = HEAD_BASE_POS_Y + BTNGAPY*2.f;
-			Desc.iTextureIndex = 8;
-			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
-			Desc.iModelIndex = 4;
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+	//		Desc.fX = HEAD_BASE_POS_X;
+	//		Desc.fY = HEAD_BASE_POS_Y + BTNGAPY * 2.f;
+	//		Desc.iTextureIndex = 8;
+	//		Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 4);
+	//		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
 
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("LayerTag_UI2"), tmp)))
-			{
-				Safe_Release(tmp);
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("LayerTag_FaceShape"), tmp)))
+	//		{
+	//			Safe_Release(tmp);
+	//			return E_FAIL;
+	//		}
 
-			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
-				static_cast<CButton*>(tmp))))
-			{
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//			static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//			static_cast<CButton*>(tmp))))
+	//		{
+	//			return E_FAIL;
+	//		}
 
-			Desc.fX = HEAD_BASE_POS_X + BTNGAPX;
-			Desc.fY = HEAD_BASE_POS_Y + +BTNGAPY*2.f;
-			Desc.iTextureIndex = 10;
-			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
-			Desc.iModelIndex = 5;
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+	//		Desc.fX = HEAD_BASE_POS_X + BTNGAPX;
+	//		Desc.fY = HEAD_BASE_POS_Y + +BTNGAPY * 2.f;
+	//		Desc.iTextureIndex = 10;
+	//		Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 3);
+	//		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
 
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("LayerTag_UI2"), tmp)))
-			{
-				Safe_Release(tmp);
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("LayerTag_FaceShape"), tmp)))
+	//		{
+	//			Safe_Release(tmp);
+	//			return E_FAIL;
+	//		}
 
-			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
-				static_cast<CButton*>(tmp))))
-			{
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//			static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//			static_cast<CButton*>(tmp))))
+	//		{
+	//			return E_FAIL;
+	//		}
 
-			Desc.fX = HEAD_BASE_POS_X ;
-			Desc.fY = HEAD_BASE_POS_Y + BTNGAPY * 3.f;
-			Desc.iTextureIndex = 12;
-			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
-			Desc.iModelIndex = 6;
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+	//		Desc.fX = HEAD_BASE_POS_X;
+	//		Desc.fY = HEAD_BASE_POS_Y + BTNGAPY * 3.f;
+	//		Desc.iTextureIndex = 12;
+	//		Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 2);
+	//		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
 
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("LayerTag_UI2"), tmp)))
-			{
-				Safe_Release(tmp);
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("LayerTag_FaceShape"), tmp)))
+	//		{
+	//			Safe_Release(tmp);
+	//			return E_FAIL;
+	//		}
 
-			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
-				static_cast<CButton*>(tmp))))
-			{
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//			static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//			static_cast<CButton*>(tmp))))
+	//		{
+	//			return E_FAIL;
+	//		}
 
-			Desc.fX = HEAD_BASE_POS_X + BTNGAPX;
-			Desc.fY = HEAD_BASE_POS_Y + BTNGAPY * 3.f;
-			Desc.iTextureIndex = 14;
-			Desc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
-			Desc.iModelIndex = 7;
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+	//		Desc.fX = HEAD_BASE_POS_X + BTNGAPX;
+	//		Desc.fY = HEAD_BASE_POS_Y + BTNGAPY * 3.f;
+	//		Desc.iTextureIndex = 14;
+	//		Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 1);
+	//		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
 
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("LayerTag_UI2"), tmp)))
-			{
-				Safe_Release(tmp);
-				return E_FAIL;
-			}
+	//		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//			TEXT("LayerTag_FaceShape"), tmp)))
+	//		{
+	//			Safe_Release(tmp);
+	//			return E_FAIL;
+	//		}
 
-			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-				static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"),
-				static_cast<CButton*>(tmp))))
-			{
-				return E_FAIL;
-			}
-		}
-	}
-	m_pGameInstance->ObjectManager_Disable_Layer(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_UI2"));
+	//		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//			static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//			static_cast<CButton*>(tmp))))
+	//		{
+	//			return E_FAIL;
+	//		}
+	//	}
+	//}
+
+	//// LayerTag_Page
+	//{
+	//	CPageButton::PAGEBUTTON_DESC Desc = {};
+	//	Desc.fX = PAGE_BASE_POS_X;
+	//	Desc.fY = PAGE_BASE_POS_Y;
+	//	Desc.fCX = 100.f;
+	//	Desc.fCY = 80.f;
+	//	Desc.fSpeedPerSecond = 30.f;
+	//	Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+	//	Desc.iTextureIndex = 0;
+	//	vector<_wstring> DisableLayers;
+	//	vector<_wstring> EnableLayers;
+
+	//	Desc.pStrategy = CChangeUI_Strategy::Create(m_pDevice, m_pContext,(PLACEID::CITYHALL), DisableLayers, EnableLayers);
+
+	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("ProtoTag_UI_PageButton"), &Desc);
+
+	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("LayerTag_FaceShape"), tmp)))
+	//	{
+	//		Safe_Release(tmp);
+	//		return E_FAIL;
+	//	}
+
+	//	if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//		static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//		static_cast<CButton*>(tmp))))
+	//	{
+	//		return E_FAIL;
+	//	}
+
+	//	Desc.fY = PAGE_BASE_POS_Y + PAGEBTN_GAP_Y;
+	//	Desc.iTextureIndex = 2;
+	//	Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 0);
+
+	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("ProtoTag_UI_PageButton"), &Desc);
+
+	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("LayerTag_FaceShape"), tmp)))
+	//	{
+	//		Safe_Release(tmp);
+	//		return E_FAIL;
+	//	}
+
+	//	if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//		static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//		static_cast<CButton*>(tmp))))
+	//	{
+	//		return E_FAIL;
+	//	}
+
+	//	Desc.fY = PAGE_BASE_POS_Y + PAGEBTN_GAP_Y * 2;
+	//	Desc.iTextureIndex = 4;
+	//	Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 0);
+
+	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("ProtoTag_UI_PageButton"), &Desc);
+
+	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("LayerTag_FaceShape"), tmp)))
+	//	{
+	//		Safe_Release(tmp);
+	//		return E_FAIL;
+	//	}
+
+	//	if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//		static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//		static_cast<CButton*>(tmp))))
+	//	{
+	//		return E_FAIL;
+	//	}
+
+	//	Desc.fY = PAGE_BASE_POS_Y + PAGEBTN_GAP_Y * 3;
+	//	Desc.iTextureIndex = 6;
+	//	Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 0);
+
+	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("ProtoTag_UI_PageButton"), &Desc);
+
+	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("LayerTag_FaceShape"), tmp)))
+	//	{
+	//		Safe_Release(tmp);
+	//		return E_FAIL;
+	//	}
+
+	//	if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//		static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//		static_cast<CButton*>(tmp))))
+	//	{
+	//		return E_FAIL;
+	//	}
+
+	//	Desc.fY = PAGE_BASE_POS_Y + PAGEBTN_GAP_Y * 4;
+	//	Desc.iTextureIndex = 8;
+	//	Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 0);
+
+	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("ProtoTag_UI_PageButton"), &Desc);
+
+	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("LayerTag_FaceShape"), tmp)))
+	//	{
+	//		Safe_Release(tmp);
+	//		return E_FAIL;
+	//	}
+
+	//	if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//		static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//		static_cast<CButton*>(tmp))))
+	//	{
+	//		return E_FAIL;
+	//	}
+
+	//	Desc.fY = PAGE_BASE_POS_Y + PAGEBTN_GAP_Y * 5;
+	//	Desc.iTextureIndex = 10;
+	//	Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 0);
+
+	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("ProtoTag_UI_PageButton"), &Desc);
+
+	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("LayerTag_FaceShape"), tmp)))
+	//	{
+	//		Safe_Release(tmp);
+	//		return E_FAIL;
+	//	}
+
+	//	if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//		static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//		static_cast<CButton*>(tmp))))
+	//	{
+	//		return E_FAIL;
+	//	}
+
+	//	Desc.fY = PAGE_BASE_POS_Y + PAGEBTN_GAP_Y * 6;
+	//	Desc.iTextureIndex = 12;
+	//	Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 0);
+
+	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("ProtoTag_UI_PageButton"), &Desc);
+
+	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("LayerTag_FaceShape"), tmp)))
+	//	{
+	//		Safe_Release(tmp);
+	//		return E_FAIL;
+	//	}
+
+	//	if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//		static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//		static_cast<CButton*>(tmp))))
+	//	{
+	//		return E_FAIL;
+	//	}
+
+	//	Desc.fY = PAGE_BASE_POS_Y + PAGEBTN_GAP_Y * 7;
+	//	Desc.iTextureIndex = 14;
+	//	Desc.pStrategy = CTransmit_Strategy::Create(m_pDevice, m_pContext, CTransmit_Strategy::PARTS::HEAD, 0);
+
+	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("ProtoTag_UI_PageButton"), &Desc);
+
+	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+	//		TEXT("LayerTag_FaceShape"), tmp)))
+	//	{
+	//		Safe_Release(tmp);
+	//		return E_FAIL;
+	//	}
+
+	//	if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+	//		static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"),
+	//		static_cast<CButton*>(tmp))))
+	//	{
+	//		return E_FAIL;
+	//	}
+	//}
+
+	//m_pGameInstance->ObjectManager_Disable_Layer(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"));
 	return S_OK;
 }
 

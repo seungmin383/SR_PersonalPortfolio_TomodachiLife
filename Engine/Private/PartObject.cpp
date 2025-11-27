@@ -47,6 +47,7 @@ void CPartObject::Update_Late(_float fDT)
 
 HRESULT CPartObject::Render()
 {
+	__super::Render();
 	return S_OK;
 }
 

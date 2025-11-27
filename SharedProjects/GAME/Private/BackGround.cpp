@@ -54,6 +54,7 @@ void CBackGround::Update_Late(_float fDT)
 
 HRESULT CBackGround::Render()
 {
+	__super::Render();
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 

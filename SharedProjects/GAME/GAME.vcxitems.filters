@@ -46,12 +46,6 @@
     <Filter Include="00.Place">
       <UniqueIdentifier>{0e240cb9-2ef1-473d-96a5-fc786b030a5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.Place\00.Main">
-      <UniqueIdentifier>{9bf7e86f-1655-4008-a5ee-be415e756569}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00.Place\01.Setting">
-      <UniqueIdentifier>{f3582ffc-0e05-466e-9283-a6f2dd9a95ef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.Manager\MiiManager">
       <UniqueIdentifier>{9e28ff50-4901-491d-8668-2293e6804782}</UniqueIdentifier>
     </Filter>
@@ -130,6 +124,24 @@
     <Filter Include="03.UI\01.Button\01.PlaceMoveButton">
       <UniqueIdentifier>{c72994d6-5917-42e1-9ea0-57652cd652cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Actor\03.Mii\Eyes">
+      <UniqueIdentifier>{f56aba29-1d42-486a-ba33-974ca90f0034}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\03.Mii\Eyebrow">
+      <UniqueIdentifier>{30c9af9d-b860-4ec3-9a12-d576a73242c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\03.Mii\Mouth">
+      <UniqueIdentifier>{9465194e-04a8-4fb2-bda9-979492183fe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\00.OnclickStrategy\03.TransmitIndex_Strategy">
+      <UniqueIdentifier>{c1aded8c-12f5-47a2-91f2-880fe5844696}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\04.PageButton">
+      <UniqueIdentifier>{b9abd03c-6123-41ad-bb71-901869682a09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Place\01.Setting">
+      <UniqueIdentifier>{6b4966eb-9308-49f2-ac63-22a8f2517258}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -151,12 +163,6 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h">
       <Filter>03.UI\00.Food</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Main.h">
-      <Filter>00.Place\00.Main</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Place_Setting.h">
-      <Filter>00.Place\01.Setting</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h">
       <Filter>02.Actor\99.Camera\00.UI</Filter>
@@ -245,16 +251,31 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEditButton.h">
       <Filter>03.UI\01.Button\03.MiiEditButton</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEyes.h">
+      <Filter>02.Actor\03.Mii\Eyes</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEyebrow.h">
+      <Filter>02.Actor\03.Mii\Eyebrow</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiNose.h">
+      <Filter>02.Actor\03.Mii\Nose</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiMouth.h">
+      <Filter>02.Actor\03.Mii\Mouth</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Transmit_Strategy.h">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\03.TransmitIndex_Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiInformation.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PUblic\PageButton.h">
+      <Filter>03.UI\01.Button\04.PageButton</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
       <Filter>03.UI\00.Food</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Main.cpp">
-      <Filter>00.Place\00.Main</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Place_Setting.cpp">
-      <Filter>00.Place\01.Setting</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp">
       <Filter>03.UI\01.Button\01.PlaceMoveButton</Filter>
@@ -336,6 +357,24 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEditButton.cpp">
       <Filter>03.UI\01.Button\03.MiiEditButton</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEyes.cpp">
+      <Filter>02.Actor\03.Mii\Eyes</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEyebrow.cpp">
+      <Filter>02.Actor\03.Mii\Eyebrow</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiNose.cpp">
+      <Filter>02.Actor\03.Mii\Nose</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiMouth.cpp">
+      <Filter>02.Actor\03.Mii\Mouth</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Transmit_Strategy.cpp">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\03.TransmitIndex_Strategy</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\PageButton.cpp">
+      <Filter>03.UI\01.Button\04.PageButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

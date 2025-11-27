@@ -3,6 +3,8 @@ matrix g_WorldMatrix; // 월드 매트릭스
 matrix g_ViewMatrix; // 뷰 매트릭스
 matrix g_ProjMatrix; // 투영 매트릭스
 
+float4 g_EyebrowColor;
+
 Texture2D g_Texture : register(t0);
 Texture2D g_OutlineTexture : register(t1);
 
@@ -129,6 +131,22 @@ PS_OUT PS_MAIN2(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_MIIEYEBROW(PS_IN In)
+{
+    PS_OUT Out;
+
+    float4 tex = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+
+    float3 finalColor = g_EyebrowColor.rgb; // 갈색 같은 최종 색
+    float finalAlpha = tex.a * g_EyebrowColor.a; // 눈썹 텍스쳐의 알파 그라데이션
+
+    if(finalAlpha < 0.1f)
+        discard;
+    
+    Out.vColor = float4(finalColor, finalAlpha);
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
     pass PlaceMoveButton
@@ -153,5 +171,11 @@ technique11 DefaultTechnique
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();
+    }
+
+    pass MiiEyebrowPass
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_MIIEYEBROW();
     }
 }

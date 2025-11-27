@@ -86,6 +86,8 @@ void CPlaceMoveButton::Update_Late(_float fDT)
 
 HRESULT CPlaceMoveButton::Render()
 {
+	__super::Render();
+
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 

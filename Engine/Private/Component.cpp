@@ -38,6 +38,7 @@ void CComponent::Update_Late(_float fDT)
 
 HRESULT CComponent::Render()
 {
+	CObject::Render();
 	return S_OK;
 }
 
