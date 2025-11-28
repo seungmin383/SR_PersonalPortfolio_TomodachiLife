@@ -19,6 +19,7 @@
 #include "MiiEditButton.h"
 #include "PageButton.h"
 #include "Collider.h"
+#include "IconTexture.h"
 
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -430,7 +431,7 @@ HRESULT CLoader::Loading_CityHall()
 		/* 일반 버튼 텍스쳐 */
 		// ProtoTag_Component_CMButtonTexture
 		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Sprite_CityHall_Icon/CMButton%d.png"), 2);
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/CommonButtonTexture/%d.dds"), 6);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_CMButtonTexture"), tmp)))
 				return E_FAIL;
 		}
@@ -438,7 +439,7 @@ HRESULT CLoader::Loading_CityHall()
 		/* 아이콘 텍스쳐 */
 		// ProtoTag_Component_IconTexture
 		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Sprite_CityHall_Icon/IconTexture%d.png"), 6);
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/IconTexture/%d.dds"), 6);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_IconTexture"), tmp)))
 				return E_FAIL;
 		}
@@ -462,7 +463,7 @@ HRESULT CLoader::Loading_CityHall()
 		/* 페이지 변경 버튼 */
 		// ProtoTag_Component_PageButtonTexture
 		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/PageButton/%d.dds"), 36);
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/PageButton/%d.dds"), 32);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_PageButtonTexture"), tmp)))
 				return E_FAIL;
 		}
@@ -500,6 +501,14 @@ HRESULT CLoader::Loading_CityHall()
 		{
 			tmp = CCommonButton::Create(m_pDevice, m_pContext);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_CMButton"), tmp)))
+				return E_FAIL;
+		}
+		
+		/* 아이콘 */
+		// ProtoTag_UI_Icon
+		{
+			tmp = CIconTexture::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_Icon"), tmp)))
 				return E_FAIL;
 		}
 

@@ -30,6 +30,8 @@ HRESULT CUI::Initialize_Clone(void* pArg)
 
 	m_fX = pUIDesc->fX;
 	m_fY = pUIDesc->fY;
+	m_fZ = pUIDesc->fZ;
+
 	m_fCX = pUIDesc->fCX;
 	m_fCY = pUIDesc->fCY;
 
@@ -46,7 +48,7 @@ HRESULT CUI::Initialize_Clone(void* pArg)
 		XMVectorSet(
 			m_fX - ViewportDescs.Width * 0.5f,
 			-m_fY + ViewportDescs.Height * 0.5f,
-			0.5f,
+			m_fZ,
 			1.f));
 
 	m_Components.emplace(TEXT("Com_Transform"), m_pTransformCom);

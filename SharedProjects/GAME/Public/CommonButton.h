@@ -9,8 +9,9 @@ class CRectBufferCom;
 NS_END
 
 NS_BEGIN(Game)
-
+class CIconTexture;
 class IOnClick;
+
 class CCommonButton final : public CButton
 {
 public:
@@ -22,9 +23,8 @@ public:
 		IOnClick* pStrategy = {nullptr};
 
 		_wstring strTextureTag = {};
-		_wstring strIconTextureTag = {};
 
-		uint32_t iIconTextureIndex = {};
+		uint32_t iTextureIndex = {};
 
 	}COMMONBUTTON_DESC;
 
@@ -52,19 +52,16 @@ private:
 private:
 	CShaderCom* m_pShader = { nullptr };
 	CTextureCom* m_pTexture = { nullptr };
-	CTextureCom* m_pIconTexture = { nullptr };
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
 	IOnClick* m_pClickStrategy = { nullptr };
 
 private:
 	PLACEID m_eTexturePlaceID = {PLACEID::END};
-	PLACEID m_eIconTexturePlaceID = {PLACEID::END};
 
 	_wstring m_strTextureTag = {};
-	_wstring m_strIconTextureTag = {};
 
-	uint32_t m_iIconTextureIndex = {};
+	uint32_t m_iTextureIndex = {};
 
 public:
 	static CCommonButton* Create(

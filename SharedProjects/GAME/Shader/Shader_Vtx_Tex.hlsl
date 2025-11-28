@@ -127,6 +127,9 @@ PS_OUT PS_MAIN2(PS_IN In)
     float3 finalRgb = lerp(col.rgb, iconCol.rgb, iconAlpha);
     float finalA = max(col.a, iconAlpha); // 필요에 따라 col.a로 해도 됨
 
+    if(finalA < 0.1f)
+        discard;
+    
     Out.vColor = float4(finalRgb, finalA);
     return Out;
 }
@@ -144,6 +147,33 @@ PS_OUT PS_MIIEYEBROW(PS_IN In)
         discard;
     
     Out.vColor = float4(finalColor, finalAlpha);
+    return Out;
+}
+
+PS_OUT SELECTEDCMBUTTON(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float4 col = g_Texture.Sample(DefaultSampler, In.vTexcoord); // 버튼 배경
+    float4 iconCol = g_IconTexture.Sample(DefaultSampler, In.vTexcoord); // 아이콘
+    
+    // 아이콘 알파 (아이콘 영역: 1, 아닌 곳: 0)
+    float iconAlpha = saturate(iconCol.a);
+    float bgMask = 1.0f - iconAlpha; // 아이콘 없는 곳: 1
+
+    // 곱해줄 파란색 계열 (0, 222, 165)
+    float3 blueMul = float3(0.0f, 222.0f / 255.0f, 165.0f / 255.0f);
+
+    float3 bgColor = lerp(col.rgb, col.rgb * blueMul, bgMask);
+    
+    float3 finalRgb = lerp(bgColor, iconCol.rgb, iconAlpha);
+
+    float finalA = max(col.a, iconAlpha);
+
+    if (finalA < 0.1f)
+        discard;
+
+    Out.vColor = float4(finalRgb, finalA);
     return Out;
 }
 
@@ -177,5 +207,11 @@ technique11 DefaultTechnique
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MIIEYEBROW();
+    }
+
+    pass SelectedCMButton
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 SELECTEDCMBUTTON();
     }
 }

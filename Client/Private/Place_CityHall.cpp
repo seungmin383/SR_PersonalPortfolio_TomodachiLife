@@ -14,6 +14,12 @@
 #include "MiiManager.h"
 #include "Transmit_Strategy.h"
 #include "PageButton.h"
+#include "IconTexture.h"
+
+#define UI1_BASE_POS_X 320.f
+#define UI1_BASE_POS_Y 100.f
+#define UI1BTN_GAP_X  160.f
+#define UI1BTN_GAP_Y  160.f
 
 #define HEAD_BASE_POS_X 300.f
 #define HEAD_BASE_POS_Y 120.f
@@ -31,6 +37,29 @@
 #define PAGE_BASE_POS_X2 300.f
 #define PAGE_BASE_POS_Y2 455.f
 #define PAGEBTN_GAP_X2 180.f
+
+
+
+/*
+    TEXT("LayerTag_Actor"),
+    TEXT("LayerTag_UIBG"),
+    TEXT("LayerTag_UI1"),
+    TEXT("LayerTag_FaceShape"),
+    TEXT("LayerTag_FaceSkin"),
+    TEXT("LayerTag_Hair"),
+    TEXT("LayerTag_Eyebrow"),
+    TEXT("LayerTag_Eyebrow1"),
+    TEXT("LayerTag_Eyes"),
+    TEXT("LayerTag_Eyes1"),
+    TEXT("LayerTag_Eyes2"),
+    TEXT("LayerTag_Eyes3"),
+    TEXT("LayerTag_Nose"),
+    TEXT("LayerTag_Mouth"),
+    TEXT("LayerTag_Mouth1"),
+    TEXT("LayerTag_Page"),
+*/
+
+
 
 CPlace_CityHall::CPlace_CityHall(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -81,6 +110,11 @@ HRESULT CPlace_CityHall::Ready_Actor_Layer()
 		Desc.fCZ = 0.05f;
 		Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		Desc.fSpeedPerSecond = 10.f;
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Actor_EditorBG"), &Desc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_Actor"), tmp)))
+			return E_FAIL;
+
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_NONBLEND;
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Actor_EditorBG"), &Desc);
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_Actor"), tmp)))
 			return E_FAIL;
@@ -158,38 +192,110 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 	{
 		/* mii 추가하는 버튼 */
 		{
-			CCommonButton::COMMONBUTTON_DESC Desc = {};
-			Desc.fX = 210.f;
-			Desc.fY = 340.f;
-			Desc.fCX = 95.f;
-			Desc.fCY = 81.4f;
-			Desc.fSpeedPerSecond = 15.f;
 
-			vector<_wstring> tmpEnable;
-			tmpEnable.push_back(TEXT("LayerTag_FaceShape"));
+			uint32_t iSlotNum = {};
 
-			vector<_wstring> tmpDisable;
-			tmpDisable.push_back(TEXT("LayerTag_UI1"));
-
-			Desc.pStrategy = CChangeUI_Strategy::Create(m_pDevice, m_pContext, PLACEID::CITYHALL, tmpDisable, tmpEnable);
-			Desc.eTexturePlaceID = PLACEID::CITYHALL;
-			Desc.eIconTexturePlaceID = PLACEID::CITYHALL;
-			Desc.strTextureTag = TEXT("ProtoTag_Component_CMButtonTexture");
-			Desc.strIconTextureTag = TEXT("ProtoTag_Component_IconTexture");
-			Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
-			Desc.iIconTextureIndex = 0;
-
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("ProtoTag_UI_CMButton"), &Desc);
-
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
-				TEXT("LayerTag_UI1"), tmp)))
+			for (uint32_t i = 0; i < 6; ++i)
 			{
-				Safe_Release(tmp);
-				return E_FAIL;
+				uint32_t row = iSlotNum % 3; // 0 1 2 0
+				uint32_t col = iSlotNum / 3; // 0 0 1 1
+
+				CCommonButton::COMMONBUTTON_DESC Desc = {};
+				Desc.fX = UI1_BASE_POS_X + UI1BTN_GAP_X * row;
+				Desc.fY = UI1_BASE_POS_Y + UI1BTN_GAP_Y * col;
+				Desc.fCX = 150.f;
+				Desc.fCY = 150.f;
+				Desc.fSpeedPerSecond = 15.f;
+
+				vector<_wstring> tmpEnable;
+				tmpEnable.push_back(TEXT("LayerTag_FaceShape"));
+				tmpEnable.push_back(TEXT("LayerTag_Page"));
+				tmpEnable.push_back(TEXT("LayerTag_UIBG"));
+
+				vector<_wstring> tmpDisable;
+				tmpDisable.push_back(TEXT("LayerTag_UI1"));
+
+				Desc.pStrategy = CChangeUI_Strategy::Create(m_pDevice, m_pContext, PLACEID::CITYHALL, tmpDisable, tmpEnable);
+				Desc.eTexturePlaceID = PLACEID::CITYHALL;
+				Desc.eIconTexturePlaceID = PLACEID::CITYHALL;
+				Desc.strTextureTag = TEXT("ProtoTag_Component_CMButtonTexture");
+				Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+				Desc.iTextureIndex = 0.f;
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+					TEXT("ProtoTag_UI_CMButton"), &Desc);
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+					TEXT("LayerTag_UI1"), tmp)))
+				{
+					Safe_Release(tmp);
+					return E_FAIL;
+				}
+
+				++iSlotNum;
+
+
+				CIconTexture::ICONTEXTURE_DESC IconDesc = {};
+				IconDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+				IconDesc.fX = Desc.fX;
+				IconDesc.fY = Desc.fY - 40.f;
+				IconDesc.fZ = 0.4f;
+
+				IconDesc.fCX = 120.f;
+				IconDesc.fCY = 53.f;
+				IconDesc.iTextureIndex = i;
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+					TEXT("ProtoTag_UI_Icon"), &IconDesc);
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+					TEXT("LayerTag_UI1"), tmp)))
+				{
+					Safe_Release(tmp);
+					return E_FAIL;
+				}
 			}
+
+		}
+
+		/* 저장 버튼 */
+		{
+			CCommonButton::COMMONBUTTON_DESC Desc = {};
+				Desc.fX = 850.f;
+				Desc.fY = 455.f;
+
+				Desc.fCX = 141.f;
+				Desc.fCY = 45.f;
+				Desc.fSpeedPerSecond = 15.f;
+
+				vector<_wstring> tmpEnable;
+				tmpEnable.push_back(TEXT("LayerTag_FaceShape"));
+				tmpEnable.push_back(TEXT("LayerTag_Page"));
+				tmpEnable.push_back(TEXT("LayerTag_UIBG"));
+
+				vector<_wstring> tmpDisable;
+				tmpDisable.push_back(TEXT("LayerTag_UI1"));
+
+				Desc.pStrategy = CChangeUI_Strategy::Create(m_pDevice, m_pContext, PLACEID::CITYHALL, tmpDisable, tmpEnable);
+				Desc.eTexturePlaceID = PLACEID::CITYHALL;
+				Desc.eIconTexturePlaceID = PLACEID::CITYHALL;
+				Desc.strTextureTag = TEXT("ProtoTag_Component_CMButtonTexture");
+				Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+				Desc.iTextureIndex = 4;
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+					TEXT("ProtoTag_UI_CMButton"), &Desc);
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+					TEXT("LayerTag_Page"), tmp)))
+				{
+					Safe_Release(tmp);
+					return E_FAIL;
+				}
 		}
 	}
+#pragma region FACEEDITBUTTONS
+
 
 	// LayerTag_FaceShape
 	{
@@ -1429,11 +1535,17 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 		}
 	}
 
+#pragma endregion
 
+
+	//
 	const uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::CITYHALL);
 	const _tchar* szDisableLayers[] =
 	{
 		// TEXT("LayerTag_FaceSkin"),
+		TEXT("LayerTag_UIBG"),
+		TEXT("LayerTag_Page"),
+		TEXT("LayerTag_FaceShape"),
 		TEXT("LayerTag_Hair"),
 		TEXT("LayerTag_Eyebrow"),
 		TEXT("LayerTag_Eyebrow1"),
