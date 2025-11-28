@@ -42,6 +42,7 @@ HRESULT CMiiEyebrow::Initialize_Clone(void* pArg)
 int32_t CMiiEyebrow::Update_Priority(_float fDT)
 {
 	m_iTextureIndex = CMiiManager::GetInstance()->Get_EyebrowInfo().iIndex;
+	CMiiManager::GetInstance()->Get_EyebrowInfo().vEyebrowColor = m_vEyebrowColor;
 	return 0;
 }
 

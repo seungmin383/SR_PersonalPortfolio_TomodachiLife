@@ -21,7 +21,6 @@
 #include "Collider.h"
 #include "IconTexture.h"
 
-
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
 	m_pDevice(pDevice), m_pContext(pContext)

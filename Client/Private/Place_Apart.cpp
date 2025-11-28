@@ -7,6 +7,8 @@
 #include "TestMii.h"
 #include "Player.h"
 
+#include "SEMii.h"
+
 CPlace_Apart::CPlace_Apart(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
 {
@@ -92,6 +94,35 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 				static_cast<uint32_t>(PLACEID::APART),
 				TEXT("ProtoTag_Actor_Player"),
 				&tMiiDesc);
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+				static_cast<uint32_t>(PLACEID::APART),
+				TEXT("LayerTag_Actor"),
+				tmp)))
+			{
+				Safe_Release(tmp);
+				return E_FAIL;
+			}
+		}
+
+		// ProtoTag_Actor_seMii
+		{
+			CSEMii::MII_DESC Desc = {};
+			Desc.fX = 0.f;
+			Desc.fY = 0.f;
+			Desc.fZ = 0.f;
+			Desc.fCX = 1.f;
+			Desc.fCY = 1.f;
+			Desc.fCZ = 1.f;
+			Desc.fSpeedPerSecond = 10.f;
+			Desc.fRotationPerSecond = XMConvertToRadians(20.f);
+			Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+			Desc.strSaveDataPath = ("../../SharedProjects/GAME/GameData/AA.json");
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(
+				static_cast<uint32_t>(PLACEID::STATIC),
+				TEXT("ProtoTag_Actor_seMii"),
+				&Desc);
 
 			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
 				static_cast<uint32_t>(PLACEID::APART),

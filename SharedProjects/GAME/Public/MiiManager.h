@@ -14,6 +14,8 @@ private:
 
 public:
 	void Ready_EditMii(const MIIINFO_DESC& CurMiiDesc);
+	HRESULT Save_MiiData(const _string& strFilePath);
+	HRESULT Load_MiiData(__out MIIINFO_DESC& Out, const _string& strFilePath);
 
 	MIIHEADINFO_DESC&		Get_HeadInfo() { return m_CurMiiDesc.HeadInfo; }
 	MIIHAIRINFO_DESC&		Get_HairInfo(){ return m_CurMiiDesc.HairInfo; }
@@ -25,6 +27,7 @@ public:
 
 private:
 	MIIINFO_DESC m_CurMiiDesc ;
+	_bool m_isSave = { FALSE };
 
 public:
 	virtual void Free()override;

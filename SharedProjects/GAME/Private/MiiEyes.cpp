@@ -26,6 +26,7 @@ HRESULT CMiiEyes::Initialize_Clone(void* pArg)
 	m_fBlinkDuration = pDesc->fBlinkDuration;
 	m_isRight = pDesc->isRight;
 
+	CMiiManager::GetInstance()->Get_EyesInfo().fBlinkTime = m_fBlinkTime;
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
 		return E_FAIL;
 

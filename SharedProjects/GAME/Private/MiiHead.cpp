@@ -32,7 +32,7 @@ HRESULT CMiiHead::Initialize_Clone(void* pArg)
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
-	m_vSkinColor = { 0.96f, 0.78f, 0.63f, 1.0f };
+	m_vSkinColor = XMFLOAT4(1.0f, 0.82f, 0.71f, 1.0f);
 
 
 	return S_OK;
@@ -40,47 +40,14 @@ HRESULT CMiiHead::Initialize_Clone(void* pArg)
 
 int32_t CMiiHead::Update_Priority(_float fDT)
 {
-	//CMiiEditButton* pButton = static_cast<CMiiEditButton*>(
-	//	m_pGameInstance->ButtonManager_Get_CurButton());
-
-	//if (nullptr == pButton)
-	//	return 0;
-
-	//m_iCurModelIndex = pButton->Get_iModelIndex();
-
 	uint32_t i = CMiiManager::GetInstance()->Get_HeadInfo().iIndex;
 	m_iCurModelIndex = CMiiManager::GetInstance()->Get_HeadInfo().iIndex;
+	CMiiManager::GetInstance()->Get_HeadInfo().vSkinColor = m_vSkinColor;
 	return 0;
 }
 
 int32_t CMiiHead::Update(_float fDT)
 {
-	if (m_pGameInstance->Get_DIKeyState(DIK_1))
-	{
-		m_iCurModelIndex = 0;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_2))
-	{
-		m_iCurModelIndex = 1;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_3))
-	{
-		m_iCurModelIndex = 2;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_4))
-	{
-		m_iCurModelIndex = 3;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_5))
-	{
-		m_iCurModelIndex = 4;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_6))
-	{
-		m_iCurModelIndex = 5;
-	}
-
-
 	return 0;
 }
 
@@ -97,6 +64,7 @@ HRESULT CMiiHead::Render()
 		return E_FAIL;
 
 	uint32_t NumMesh = m_pSeModel[m_iCurModelIndex]->Get_NumMesh();
+
 	for (uint32_t i = 0; i < NumMesh; ++i)
 	{
 		if (FAILED(m_pSeModel[m_iCurModelIndex]->Bind_Material(m_pShader, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
@@ -135,13 +103,16 @@ HRESULT CMiiHead::Ready_Component()
  
 HRESULT CMiiHead::Bind_ShaderResources()
 {
-	HRESULT hr = {};
-
-	m_pShader->Bind_RawValue("g_MatColor", &m_vSkinColor, sizeof(XMFLOAT4));
-	m_pShader->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix);
-	hr = m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ViewMatrix", TEXT("World_Camera"), D3DTS::VIEW);
-	hr = m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ);
-	hr = m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShader, "g_vCamPosition", TEXT("World_Camera"));
+	if (FAILED(m_pShader->Bind_RawValue("g_MatColor", &m_vSkinColor, sizeof(XMFLOAT4))))
+		return E_FAIL;
+	if(FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ViewMatrix", TEXT("World_Camera"), D3DTS::VIEW)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShader, "g_vCamPosition", TEXT("World_Camera"))))
+		return E_FAIL;
 
 	return S_OK;
 }

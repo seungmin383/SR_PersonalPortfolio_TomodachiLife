@@ -50,7 +50,7 @@ HRESULT CUI::Initialize_Clone(void* pArg)
 			-m_fY + ViewportDescs.Height * 0.5f,
 			m_fZ,
 			1.f));
-
+	
 	m_Components.emplace(TEXT("Com_Transform"), m_pTransformCom);
 	Safe_AddRef(m_pTransformCom);
 

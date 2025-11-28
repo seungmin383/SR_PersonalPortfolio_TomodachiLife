@@ -4,78 +4,101 @@
 struct MIIHEADINFO_DESC
 {
 	uint32_t iIndex;
-	XMFLOAT3 vPos;
-	XMFLOAT3 vSize;
 	XMFLOAT4 vSkinColor;
 
-	void WriteFile(ofstream& Out)
+	
+	nlohmann::json ToJson()const
 	{
-		Out.write(reinterpret_cast<const char*>(&iIndex), sizeof(uint32_t));
-		Out.write(reinterpret_cast<const char*>(&vPos), sizeof(XMFLOAT3));
-		Out.write(reinterpret_cast<const char*>(&vSize), sizeof(XMFLOAT3));
-		Out.write(reinterpret_cast<const char*>(&vSkinColor), sizeof(XMFLOAT4));
+		nlohmann::json Out;
+
+		Out["Index"] = iIndex;
+		Out["SkinColor"] = {vSkinColor.x, vSkinColor.y, vSkinColor.z, vSkinColor.w};
+		return Out;
 	}
 
-	void ReadFile(ifstream& In)
+	void FromJson(const nlohmann::json& In)
 	{
-		In.read(reinterpret_cast<char*>(&iIndex), sizeof(uint32_t));
-		In.read(reinterpret_cast<char*>(&vPos), sizeof(XMFLOAT3));
-		In.read(reinterpret_cast<char*>(&vSize), sizeof(XMFLOAT3));
-		In.read(reinterpret_cast<char*>(&vSkinColor), sizeof(XMFLOAT4));
+		iIndex = In.at("Index").get<uint32_t>();
+		auto j = In.at("SkinColor");
+		vSkinColor = XMFLOAT4(
+			j[0].get<float>(), 
+			j[1].get<float>(), 
+			j[2].get<float>(),
+			j[3].get<float>());
 	}
 };
 
 struct MIIHAIRINFO_DESC
 {
 	uint32_t iIndex;
-	XMFLOAT3 vPos;
-	XMFLOAT3 vSize;
 	XMFLOAT4 vHairColor;
 
-	void WriteFile(ofstream& Out)
+	nlohmann::json ToJson()const
 	{
-		Out.write(reinterpret_cast<const char*>(&iIndex), sizeof(uint32_t));
-		Out.write(reinterpret_cast<const char*>(&vPos), sizeof(XMFLOAT3));
-		Out.write(reinterpret_cast<const char*>(&vSize), sizeof(XMFLOAT3));
-		Out.write(reinterpret_cast<const char*>(&vHairColor), sizeof(XMFLOAT4));
+		nlohmann::json Out;
+
+		Out["Index"] = iIndex;
+		Out["HairColor"] = { vHairColor.x, vHairColor.y, vHairColor.z, vHairColor.w };
+		return Out;
 	}
 
-	void ReadFile(ifstream& In)
+	void FromJson(const nlohmann::json& In)
 	{
-		In.read(reinterpret_cast<char*>(&iIndex), sizeof(uint32_t));
-		In.read(reinterpret_cast<char*>(&vPos), sizeof(XMFLOAT3));
-		In.read(reinterpret_cast<char*>(&vSize), sizeof(XMFLOAT3));
-		In.read(reinterpret_cast<char*>(&vHairColor), sizeof(XMFLOAT4));
+		iIndex = In.at("Index").get<uint32_t>();
+		auto j = In.at("HairColor");
+		vHairColor = XMFLOAT4(
+			j[0].get<float>(),
+			j[1].get<float>(),
+			j[2].get<float>(),
+			j[3].get<float>());
 	}
 };
 
 struct MIIEYEBROWINFO_DESC
 {
 	uint32_t iIndex;
+	XMFLOAT4 vEyebrowColor;
 
-	void WriteFile(ofstream& Out)
+	nlohmann::json ToJson()const
 	{
-		Out.write(reinterpret_cast<const char*>(&iIndex), sizeof(uint32_t));
+		nlohmann::json Out;
+
+		Out["Index"] = iIndex;
+		Out["EyebrowColor"] = { vEyebrowColor.x,vEyebrowColor.y, vEyebrowColor.z,vEyebrowColor.w };
+
+		return Out;
 	}
 
-	void ReadFile(ifstream& In)
+	void FromJson(const nlohmann::json& In)
 	{
-		In.read(reinterpret_cast<char*>(&iIndex), sizeof(uint32_t));
+		iIndex = In.at("Index").get<uint32_t>();		
+		auto j = In.at("EyebrowColor");
+		vEyebrowColor = XMFLOAT4(
+			j[0].get<float>(),
+			j[1].get<float>(),
+			j[2].get<float>(),
+			j[3].get<float>());
 	}
 };
 
 struct MIIEYESINFO_DESC
 {
 	uint32_t iIndex;
+	_float fBlinkTime;
 
-	void WriteFile(ofstream& Out)
+	nlohmann::json ToJson()const
 	{
-		Out.write(reinterpret_cast<const char*>(&iIndex), sizeof(uint32_t));
+		nlohmann::json Out;
+
+		Out["Index"] = iIndex;
+		Out["BlinkTime"] = fBlinkTime;
+		return Out;
 	}
 
-	void ReadFile(ifstream& In)
+	void FromJson(const nlohmann::json& In)
 	{
-		In.read(reinterpret_cast<char*>(&iIndex), sizeof(uint32_t));
+		iIndex = In.at("Index").get<uint32_t>();
+		fBlinkTime = In.at("BlinkTime").get<_float>();
 	}
 };
 
@@ -83,14 +106,17 @@ struct MIINOSEINFO_DESC
 {
 	uint32_t iIndex;
 
-	void WriteFile(ofstream& Out)
+	nlohmann::json ToJson()const
 	{
-		Out.write(reinterpret_cast<const char*>(&iIndex), sizeof(uint32_t));
+		nlohmann::json Out;
+
+		Out["Index"] = iIndex;
+		return Out;
 	}
 
-	void ReadFile(ifstream& In)
+	void FromJson(const nlohmann::json& In)
 	{
-		In.read(reinterpret_cast<char*>(&iIndex), sizeof(uint32_t));
+		iIndex = In.at("Index").get<uint32_t>();
 	}
 };
 
@@ -98,14 +124,17 @@ struct MIIMOUTHINFO_DESC
 {
 	uint32_t iIndex;
 
-	void WriteFile(ofstream& Out)
+	nlohmann::json ToJson()const
 	{
-		Out.write(reinterpret_cast<const char*>(&iIndex), sizeof(uint32_t));
+		nlohmann::json Out;
+
+		Out["Index"] = iIndex;
+		return Out;
 	}
 
-	void ReadFile(ifstream& In)
+	void FromJson(const nlohmann::json& In)
 	{
-		In.read(reinterpret_cast<char*>(&iIndex), sizeof(uint32_t));
+		iIndex = In.at("Index").get<uint32_t>();
 	}
 };
 typedef struct tagMiiInfo
@@ -117,25 +146,29 @@ typedef struct tagMiiInfo
 	MIINOSEINFO_DESC	NoseInfo{};
 	MIIMOUTHINFO_DESC	MouthInfo{};
 
-	void WriteFile(ofstream& Out)
+	nlohmann::json ToJson()const
 	{
-		HeadInfo.WriteFile(Out);
-		HairInfo.WriteFile(Out);
-		EyebrowInfo.WriteFile(Out);
-		EyesInfo.WriteFile(Out);
-		NoseInfo.WriteFile(Out);
-		MouthInfo.WriteFile(Out);
+		nlohmann::json Out;
+
+		Out["HeadInfo"]		= HeadInfo.ToJson();
+		Out["HairInfo"]		= HairInfo.ToJson();
+		Out["EyebrowInfo"]	= EyebrowInfo.ToJson();
+		Out["EyesInfo"]		= EyesInfo.ToJson();
+		Out["NoseInfo"]		= NoseInfo.ToJson();
+		Out["MouthInfo"]	= MouthInfo.ToJson();
+		return Out;
 	}
 
-	void ReadFile(ifstream& In)
+	void FromJson(const nlohmann::json& In)
 	{
-		HeadInfo.ReadFile(In);
-		HairInfo.ReadFile(In);
-		EyebrowInfo.ReadFile(In);
-		EyesInfo.ReadFile(In);
-		NoseInfo.ReadFile(In);
-		MouthInfo.ReadFile(In);
+		HeadInfo.FromJson(In.at("HeadInfo"));
+		HairInfo.FromJson(In.at("HairInfo"));
+		EyebrowInfo.FromJson(In.at("EyebrowInfo"));
+		EyesInfo.FromJson(In.at("EyesInfo"));
+		NoseInfo.FromJson(In.at("NoseInfo"));
+		MouthInfo.FromJson(In.at("MouthInfo"));
 	}
+
 
 }MIIINFO_DESC;
 

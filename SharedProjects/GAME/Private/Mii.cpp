@@ -50,6 +50,7 @@ int32_t CMii::Update_Priority(_float fDT)
 
 int32_t CMii::Update(_float fDT)
 {
+
 	return CContainerObject::Update(fDT);
 }
 
@@ -69,6 +70,8 @@ void CMii::Key_Control(float fDT)
 
 	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
 	{
+		CMiiManager::GetInstance()->Save_MiiData("../../SharedProjects/GAME/GameData/AA.json");
+
 		m_iState &= ~STATE::IDLE;
 		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
 		{

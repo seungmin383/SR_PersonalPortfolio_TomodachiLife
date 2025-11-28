@@ -13,6 +13,7 @@ HRESULT CSaveChangePlace_Strategy::Initialize()
 
 void CSaveChangePlace_Strategy::OnClick()
 {
+	ofstream Out(TEXT(""));
 }
 
 CSaveChangePlace_Strategy* CSaveChangePlace_Strategy::Create(
