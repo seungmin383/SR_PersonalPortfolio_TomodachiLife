@@ -462,7 +462,7 @@ HRESULT CLoader::Loading_CityHall()
 		/* 페이지 변경 버튼 */
 		// ProtoTag_Component_PageButtonTexture
 		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/PageButton/%d.dds"), 16);
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/PageButton/%d.dds"), 36);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_PageButtonTexture"), tmp)))
 				return E_FAIL;
 		}
@@ -653,6 +653,14 @@ HRESULT CLoader::Loading_Developer()
 		{
 			tmp = CCollider::Create(m_pDevice, m_pContext, COLLIDER::AABB);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_AABBCollider"), tmp)))
+				return E_FAIL;
+
+			tmp = CCollider::Create(m_pDevice, m_pContext, COLLIDER::OBB);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_OBBCollider"), tmp)))
+				return E_FAIL;
+
+			tmp = CCollider::Create(m_pDevice, m_pContext, COLLIDER::SPHERE);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_SPHERECollider"), tmp)))
 				return E_FAIL;
 		}
 	}

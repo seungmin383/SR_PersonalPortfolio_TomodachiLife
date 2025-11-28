@@ -1,5 +1,9 @@
 #include "Collider.h"
+
 #include "Bounding_AABB.h"
+#include "Bounding_OBB.h"
+#include "Bounding_SPHERE.h"
+
 #include "GameInstance.h"
 
 CCollider::CCollider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -47,11 +51,13 @@ HRESULT CCollider::Initialize_Clone(void* pArg)
 	switch (m_eType)
 	{
 	case Engine::COLLIDER::SPHERE:
+		m_pBounding = CBounding_Sphere::Create(m_pDevice, m_pContext, pArg);
 		break;
 	case Engine::COLLIDER::AABB:
 		m_pBounding = CBounding_AABB::Create(m_pDevice, m_pContext, pArg);
 		break;
 	case Engine::COLLIDER::OBB:
+		m_pBounding = CBounding_OBB::Create(m_pDevice, m_pContext, pArg);
 		break;
 	case Engine::COLLIDER::END:
 		break;
@@ -63,6 +69,11 @@ HRESULT CCollider::Initialize_Clone(void* pArg)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CCollider::Update_Collider(FXMMATRIX WorldMatrix)
+{
+	m_pBounding->Update(WorldMatrix);
 }
 
 #ifdef _DEBUG
@@ -78,9 +89,10 @@ HRESULT CCollider::Render()
 
 	m_pBatch->Begin();
 
-	m_pBounding->Render(m_pBatch);
+	m_pBounding->Render(m_pBatch, m_isHit);
 
 	m_pBatch->End();
+
 	return S_OK;
 }
 

@@ -1,6 +1,8 @@
 #include "TestMii.h"
 #include "GameInstance.h"
 #include "Bounding_AABB.h"
+#include "Bounding_OBB.h"
+#include "Bounding_SPHERE.h"
 
 CTestMii::CTestMii(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CActor(pDevice, pContext)
@@ -52,22 +54,22 @@ int32_t CTestMii::Update_Priority(_float fDT)
 	}
 
 
-	//if (m_pGameInstance->Get_DIKeyState(DIK_UP))
-	//{
-	//	m_pTransformCom->Go_Straight(fDT);
-	//}
-	//if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
-	//{
-	//	m_pTransformCom->Go_Backward(fDT);
-	//}
-	//if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
-	//{
-	//	m_pTransformCom->TurnY(fDT);
-	//}
-	//if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
-	//{
-	//	m_pTransformCom->TurnY(-fDT);
-	//}
+	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
+	{
+		m_pTransformCom->Go_Straight(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
+	{
+		m_pTransformCom->Go_Backward(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
+	{
+		m_pTransformCom->TurnY(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
+	{
+		m_pTransformCom->TurnY(-fDT);
+	}
 
 	/* Change Animation 을 하고 PlayAnimation 권장 */
 	if (m_pGameInstance->Get_DIKeyState(DIK_1))
@@ -96,6 +98,8 @@ int32_t CTestMii::Update_Priority(_float fDT)
 
 int32_t CTestMii::Update(_float fDT)
 {
+	m_pCollider->Update_Collider(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
+
 #ifdef ANIM_TEST
 	 m_pSeModel->Play_Animation(fDT);
 #else
@@ -116,6 +120,8 @@ HRESULT CTestMii::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
+
+
 #ifdef ANIM_TEST
 	uint32_t iNumMesh = m_pSeModel->Get_NumMesh();
 
@@ -123,7 +129,6 @@ HRESULT CTestMii::Render()
 	uint32_t iNumMesh = m_pModelCom->Get_NumMesh();
 
 #endif // ANIM_TEST
-
 
 	for (uint32_t i = 0; i < iNumMesh; i++)
 	{
@@ -166,7 +171,6 @@ HRESULT CTestMii::Render()
 #endif // ANIM_TEST
 
 	}
-
 
 #ifdef _DEBUG
 	m_pCollider->Render();
@@ -222,16 +226,26 @@ HRESULT CTestMii::Ready_Component()
 
 #endif // ANIM_TEST
 
-	CBounding_AABB::AABB_DESC AABBDesc = {};
-	AABBDesc.vCenter = XMFLOAT3{ 0.f, 0.f, 0.f };
-	AABBDesc.vExtents = XMFLOAT3{ 1.f, 1.f, 1.f };
+	// CBounding_AABB::AABB_DESC BoundDesc = {};
+	// BoundDesc.vCenter = XMFLOAT3{ 0.f, 0.f, 0.f };
+	// BoundDesc.vExtents = XMFLOAT3{ 1.f, 1.f, 1.f };
+
+
+	//CBounding_OBB::OBB_DESC BoundDesc = {};
+	//BoundDesc.vCenter = XMFLOAT3{ 0.f, 0.f, 0.f };
+	//BoundDesc.vExtents = XMFLOAT3{ 1.f, 1.f, 1.f };
+	//BoundDesc.vAngle = XMFLOAT3{ 0.f, 45.f, 0.f };
+
+	CBounding_Sphere::SPHERE_DESC BoundDesc = {};
+	BoundDesc.fRadius = 1.f;
+	BoundDesc.vCenter = XMFLOAT3{ 0.f, 0.f, 0.f };
 
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACEID::DEVELOPER),
-		TEXT("ProtoTag_Component_AABBCollider"),
+		TEXT("ProtoTag_Component_SPHERECollider"),
 		TEXT("Com_Collider"),
 		reinterpret_cast<CComponent**>(&m_pCollider),
-		&AABBDesc)))
+		&BoundDesc)))
 		return E_FAIL;
 
 	return S_OK;

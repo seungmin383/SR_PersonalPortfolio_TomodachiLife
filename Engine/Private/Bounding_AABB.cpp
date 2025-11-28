@@ -15,11 +15,30 @@ HRESULT CBounding_AABB::Initialize(void* pArg)
 	return S_OK;
 }
 
+void CBounding_AABB::Update(FXMMATRIX WorldMatrix)
+{
+	_matrix     TransformMatrix = WorldMatrix;
+
+	TransformMatrix.r[0] = XMVectorSet(1.f, 0.f, 0.f, 0.f) * XMVector3Length(WorldMatrix.r[0]);
+	TransformMatrix.r[1] = XMVectorSet(0.f, 1.f, 0.f, 0.f) * XMVector3Length(WorldMatrix.r[1]);
+	TransformMatrix.r[2] = XMVectorSet(0.f, 0.f, 1.f, 0.f) * XMVector3Length(WorldMatrix.r[2]);
+
+	m_pOriginDesc->Transform(*m_pDesc, WorldMatrix);
+}
+
 #ifdef _DEBUG
 
-HRESULT CBounding_AABB::Render(PrimitiveBatch<VertexPositionColor>* pBatch)
+HRESULT CBounding_AABB::Render(PrimitiveBatch<VertexPositionColor>* pBatch, _bool isColl)
 {
-	DX::Draw(pBatch, *m_pDesc);
+	XMVECTOR ColliderColor = {};
+
+	if (isColl)
+		ColliderColor = Colors::PaleVioletRed;
+	else
+		ColliderColor = Colors::DarkGreen;
+
+	DX::Draw(pBatch, *m_pDesc, ColliderColor);
+
 	return S_OK;
 }
 
@@ -42,6 +61,6 @@ void CBounding_AABB::Free()
 	Safe_Delete(m_pOriginDesc);
 	Safe_Delete(m_pDesc);
 
-	CBase::Free();
+	CBounding::Free();
 }
 

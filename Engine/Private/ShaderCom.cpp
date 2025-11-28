@@ -134,6 +134,7 @@ HRESULT CShaderCom::Begin(uint32_t iPassIndex)
 		return E_FAIL;
 	}
 
+	m_pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_pContext->IASetInputLayout(m_vecInputLayouts[iPassIndex]);
 
 	m_pEffect->GetTechniqueByIndex(0)->GetPassByIndex(iPassIndex)->Apply(0, m_pContext);

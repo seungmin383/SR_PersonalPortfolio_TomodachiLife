@@ -51,6 +51,30 @@ int32_t CPageButton::Update(_float fDT)
 	if (m_isClicked)
 		On_Click();
 
+	XMFLOAT4 tmp = {};
+	XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
+
+	if (m_iTextureIndex == 24)
+		cout << "X : " << tmp.x + 480.f << " Y : " << 240.f - tmp.y << " Z : " << tmp.z << endl;
+
+	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
+	{
+		m_pTransformCom->Go_Up(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
+	{
+		m_pTransformCom->Go_Down(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
+	{
+		m_pTransformCom->Go_Right(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
+	{
+		m_pTransformCom->Go_Left(fDT);
+	}
+
+
 	return UPDATE_CLEAR;
 }
 

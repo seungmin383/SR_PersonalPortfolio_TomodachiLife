@@ -28,6 +28,10 @@
 #define PAGE_BASE_POS_Y 35.f
 #define PAGEBTN_GAP_Y 50.f
 
+#define PAGE_BASE_POS_X2 300.f
+#define PAGE_BASE_POS_Y2 455.f
+#define PAGEBTN_GAP_X2 180.f
+
 CPlace_CityHall::CPlace_CityHall(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
 {
@@ -1257,8 +1261,194 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 		}
 	}
 
-	m_pGameInstance->ObjectManager_Disable_Layer(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_FaceShape"));
-	return S_OK;
+
+
+
+
+	/* 아래 선택창 */
+	{
+		/* 얼굴 편집 버튼 */
+		CPageButton::PAGEBUTTON_DESC Desc = {};
+		Desc.fX = 135.f;
+		Desc.fY = PAGE_BASE_POS_Y2;
+		Desc.fCX = 93.f;
+		Desc.fCY = 45.f;
+		Desc.fSpeedPerSecond = 30.f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.iTextureIndex = 24;
+		vector<_wstring> DisableLayers;
+		//DisableLayers.push_back(TEXT("LayerTag_FaceSkin"));
+		DisableLayers.push_back(TEXT("LayerTag_Hair"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyebrow"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyebrow1"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes1"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes2"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes3"));
+		DisableLayers.push_back(TEXT("LayerTag_Nose"));
+		DisableLayers.push_back(TEXT("LayerTag_Mouth"));
+		DisableLayers.push_back(TEXT("LayerTag_Mouth1"));
+
+		vector<_wstring> EnableLayers;
+		EnableLayers.push_back(TEXT("LayerTag_FaceShape"));
+
+		Desc.pStrategy = CChangeUI_Strategy::Create(m_pDevice, m_pContext, (PLACEID::CITYHALL), DisableLayers, EnableLayers);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+			TEXT("ProtoTag_UI_PageButton"), &Desc);
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+			TEXT("LayerTag_Page"), tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_Page"),
+			static_cast<CButton*>(tmp))))
+		{
+			return E_FAIL;
+		}
+
+		/* 프로필 편집 버튼 */
+		Desc.fX = PAGE_BASE_POS_X2;
+		Desc.fY = PAGE_BASE_POS_Y2;
+		Desc.iTextureIndex = 26;
+		DisableLayers.clear();
+		//DisableLayers.push_back(TEXT("LayerTag_FaceSkin"));
+		DisableLayers.push_back(TEXT("LayerTag_Hair"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyebrow"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyebrow1"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes1"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes2"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes3"));
+		DisableLayers.push_back(TEXT("LayerTag_Nose"));
+		DisableLayers.push_back(TEXT("LayerTag_Mouth"));
+		DisableLayers.push_back(TEXT("LayerTag_Mouth1"));
+		DisableLayers.push_back(TEXT("LayerTag_FaceShape"));
+
+		EnableLayers.clear();
+
+		Desc.pStrategy = CChangeUI_Strategy::Create(m_pDevice, m_pContext, (PLACEID::CITYHALL), DisableLayers, EnableLayers);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+			TEXT("ProtoTag_UI_PageButton"), &Desc);
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+			TEXT("LayerTag_Page"), tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_Page"),
+			static_cast<CButton*>(tmp))))
+		{
+			return E_FAIL;
+		}
+
+		/* 목소리 편집 버튼 */
+		Desc.fX = PAGE_BASE_POS_X2 + PAGEBTN_GAP_X2 ;
+		Desc.fY = PAGE_BASE_POS_Y2;
+		Desc.iTextureIndex = 28;
+		DisableLayers.clear();
+		//DisableLayers.push_back(TEXT("LayerTag_FaceSkin"));
+		DisableLayers.push_back(TEXT("LayerTag_Hair"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyebrow"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyebrow1"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes1"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes2"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes3"));
+		DisableLayers.push_back(TEXT("LayerTag_Nose"));
+		DisableLayers.push_back(TEXT("LayerTag_Mouth"));
+		DisableLayers.push_back(TEXT("LayerTag_Mouth1"));
+		DisableLayers.push_back(TEXT("LayerTag_FaceShape"));
+
+		EnableLayers.clear();
+
+		Desc.pStrategy = CChangeUI_Strategy::Create(m_pDevice, m_pContext, (PLACEID::CITYHALL), DisableLayers, EnableLayers);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+			TEXT("ProtoTag_UI_PageButton"), &Desc);
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+			TEXT("LayerTag_Page"), tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_Page"),
+			static_cast<CButton*>(tmp))))
+		{
+			return E_FAIL;
+		}
+
+		/* 성격 편집 버튼 */
+		Desc.fX = PAGE_BASE_POS_X2 + PAGEBTN_GAP_X2 * 2;
+		Desc.fY = PAGE_BASE_POS_Y2;
+		Desc.iTextureIndex = 30;
+		DisableLayers.clear();
+		//DisableLayers.push_back(TEXT("LayerTag_FaceSkin"));
+		DisableLayers.push_back(TEXT("LayerTag_Hair"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyebrow"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyebrow1"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes1"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes2"));
+		DisableLayers.push_back(TEXT("LayerTag_Eyes3"));
+		DisableLayers.push_back(TEXT("LayerTag_Nose"));
+		DisableLayers.push_back(TEXT("LayerTag_Mouth"));
+		DisableLayers.push_back(TEXT("LayerTag_Mouth1"));
+		DisableLayers.push_back(TEXT("LayerTag_FaceShape"));
+
+		EnableLayers.clear();
+
+		Desc.pStrategy = CChangeUI_Strategy::Create(m_pDevice, m_pContext, (PLACEID::CITYHALL), DisableLayers, EnableLayers);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL),
+			TEXT("ProtoTag_UI_PageButton"), &Desc);
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL),
+			TEXT("LayerTag_Page"), tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+			static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_Page"),
+			static_cast<CButton*>(tmp))))
+		{
+			return E_FAIL;
+		}
+	}
+
+
+	const uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::CITYHALL);
+	const _tchar* szDisableLayers[] =
+	{
+		// TEXT("LayerTag_FaceSkin"),
+		TEXT("LayerTag_Hair"),
+		TEXT("LayerTag_Eyebrow"),
+		TEXT("LayerTag_Eyebrow1"),
+		TEXT("LayerTag_Eyes"),
+		TEXT("LayerTag_Eyes1"),
+		TEXT("LayerTag_Eyes2"),
+		TEXT("LayerTag_Eyes3"),
+		TEXT("LayerTag_Nose"),
+		TEXT("LayerTag_Mouth"),
+		TEXT("LayerTag_Mouth1"),
+		// 필요하면 여기다 다른 레이어도 추가
+	};
+
+	for (const _tchar* szTag : szDisableLayers)
+		m_pGameInstance->ObjectManager_Disable_Layer(iPlaceID, szTag); return S_OK;
 }
 
 HRESULT CPlace_CityHall::Ready_Environment_Layer()

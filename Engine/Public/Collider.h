@@ -16,6 +16,8 @@ public:
 	virtual HRESULT Initialize_Origin(COLLIDER eType);
 	virtual HRESULT Initialize_Clone(void* pArg)override;
 
+	void Update_Collider(FXMMATRIX WorldMatrix);
+
 #ifdef _DEBUG
 	HRESULT Render()override;
 #endif // _DEBUG
@@ -23,6 +25,7 @@ public:
 private:
 	COLLIDER m_eType = { COLLIDER::END };
 	CBounding* m_pBounding = { nullptr };
+	_bool m_isHit = { FALSE };
 
 #ifdef _DEBUG
 private:

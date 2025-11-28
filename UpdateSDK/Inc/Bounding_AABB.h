@@ -16,8 +16,10 @@ private:
 
 public:
 	HRESULT Initialize(void* pArg);
+	virtual void Update(FXMMATRIX WorldMatrix)override;
+
 #ifdef _DEBUG
-	HRESULT Render(PrimitiveBatch<VertexPositionColor>* pBatch) override;
+	HRESULT Render(PrimitiveBatch<VertexPositionColor>* pBatch, _bool isColl) override;
 #endif // _DEBUG
 
 private:

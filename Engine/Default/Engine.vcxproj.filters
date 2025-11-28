@@ -187,6 +187,12 @@
     <Filter Include="01.Utility\03.Object\02.Component\06.Collider\Bounding\00.AABB">
       <UniqueIdentifier>{22568471-45ee-44f7-8bf6-6393fd396938}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\06.Collider\Bounding\01.OBB">
+      <UniqueIdentifier>{0df4a047-4055-487b-99ae-8c2a1ef22a37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\06.Collider\Bounding\02.SPHERE">
+      <UniqueIdentifier>{2920f602-4926-408c-87a4-72576ab547c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -353,6 +359,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Bounding_AABB.cpp">
       <Filter>01.Utility\03.Object\02.Component\06.Collider\Bounding\00.AABB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bounding_OBB.cpp">
+      <Filter>01.Utility\03.Object\02.Component\06.Collider\Bounding\01.OBB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Bounding_SPHERE.cpp">
+      <Filter>01.Utility\03.Object\02.Component\06.Collider\Bounding\02.SPHERE</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -574,6 +586,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Bounding_AABB.h">
       <Filter>01.Utility\03.Object\02.Component\06.Collider\Bounding\00.AABB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Bounding_OBB.h">
+      <Filter>01.Utility\03.Object\02.Component\06.Collider\Bounding\01.OBB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Bounding_SPHERE.h">
+      <Filter>01.Utility\03.Object\02.Component\06.Collider\Bounding\02.SPHERE</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

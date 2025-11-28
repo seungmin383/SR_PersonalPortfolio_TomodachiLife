@@ -18,7 +18,6 @@
 #include <DirectXTK/SpriteBatch.h>
 #include <DirectXTK/SpriteFont.h>
 
-
 // 나중에 절때 뺼 것
 #include <assimp/scene.h>
 #include <assimp/Importer.hpp>

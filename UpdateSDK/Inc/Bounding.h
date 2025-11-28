@@ -15,9 +15,12 @@ protected:
 	CBounding(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CBounding() = default;
 
+public:
+	virtual void Update(FXMMATRIX WorldMatrix) PURE;
+
 #ifdef _DEBUG
 public:
-	virtual HRESULT Render(PrimitiveBatch<VertexPositionColor>* pBatch) PURE;
+	virtual HRESULT Render(PrimitiveBatch<VertexPositionColor>* pBatch, _bool isColl) PURE;
 #endif // _DEBUG
 
 protected:
