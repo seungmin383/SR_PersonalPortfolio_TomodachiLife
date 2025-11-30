@@ -19,6 +19,32 @@ namespace Game
 #define WINCX 960		
 #define WINCY 960
 
+	/* Texture2D */
+	/* g_Texture */
+#define VTS_DEFAULT 0
+
+	/* Texture2D */
+	/* g_UpperTexture, g_Texture */
+#define VTS_MIX_TEXTURE 1
+
+	/* float */
+	/* g_Brightness */
+#define VTS_BRIGHTEN 2
+	
+	/* Texture2D, float4 */
+	/* g_Texture, g_FixColor */
+#define VTS_COLOR 3
+
+	/* Texture2D, float4 */
+	/* g_Texture, g_FixColor */
+#define VTS_MIX_COLOR 4
+
+#define VTS_PLACEMOVEBUTTON 5
+
+	/* float */
+	/* g_Pow */
+#define VTS_TEXCOORD 6
+
 	enum class PLACEID {
 		STATIC,
 		ISLAND,

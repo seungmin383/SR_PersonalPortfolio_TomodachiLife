@@ -46,6 +46,8 @@ private:
 
 private:
 #pragma region LOADING_FUCTION
+	HRESULT Loading_Loading();
+
 	HRESULT Loading_Island();
 	HRESULT Loading_Apart();
 	HRESULT Loading_CityHall();
@@ -53,6 +55,8 @@ private:
 	HRESULT Loading_Developer();
 
 #pragma endregion
+
+private:
 
 public:
 	static CLoader* Create(

@@ -23,6 +23,7 @@ HRESULT CPageButton::Initialize_Clone(void* pArg)
 	PAGEBUTTON_DESC* pDesc = static_cast<PAGEBUTTON_DESC*>(pArg);
 	m_pClickStrategy = pDesc->pStrategy;
 	m_iTextureIndex = pDesc->iTextureIndex;
+	m_strDeactivateLayerTag = pDesc->strDeactivateLayerTag;
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -51,28 +52,28 @@ int32_t CPageButton::Update(_float fDT)
 	if (m_isClicked)
 		On_Click();
 
-	XMFLOAT4 tmp = {};
-	XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
+	//XMFLOAT4 tmp = {};
+	//XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
 
-	if (m_iTextureIndex == 24)
-		cout << "X : " << tmp.x + 480.f << " Y : " << 240.f - tmp.y << " Z : " << tmp.z << endl;
+	//if (m_iTextureIndex == 24)
+	//	cout << "X : " << tmp.x + 480.f << " Y : " << 240.f - tmp.y << " Z : " << tmp.z << endl;
 
-	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
-	{
-		m_pTransformCom->Go_Up(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
-	{
-		m_pTransformCom->Go_Down(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
-	{
-		m_pTransformCom->Go_Right(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
-	{
-		m_pTransformCom->Go_Left(fDT);
-	}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_UP))
+	//{
+	//	m_pTransformCom->Go_Up(fDT);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
+	//{
+	//	m_pTransformCom->Go_Down(fDT);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
+	//{
+	//	m_pTransformCom->Go_Right(fDT);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
+	//{
+	//	m_pTransformCom->Go_Left(fDT);
+	//}
 
 
 	return UPDATE_CLEAR;
@@ -93,7 +94,7 @@ HRESULT CPageButton::Render()
 	if (FAILED(m_pRectBuffer->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Begin(3)))
+	if (FAILED(m_pShader->Begin(VTS_DEFAULT)))
 		return E_FAIL;
 
 	if (FAILED(m_pRectBuffer->Begin_Draw()))
@@ -160,7 +161,7 @@ int32_t CPageButton::On_Click()
 	/* 이 버튼이 선택이 안되어 있었는데 클릭 되었다면 -> 아웃라인 생성 및 타겟 포인트로 확대 */
 	if (!m_isSelected)
 	{
-		m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_Page"));
+		m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::CITYHALL), m_strDeactivateLayerTag);
 		m_isSelected = TRUE;
 		m_pClickStrategy->OnClick();
 	}

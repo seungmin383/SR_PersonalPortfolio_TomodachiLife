@@ -61,7 +61,7 @@ HRESULT CBackGround::Render()
 	if (FAILED(m_pRectBufferCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(1)))
+	if (FAILED(m_pShaderCom->Begin(VTS_BRIGHTEN)))
 		return E_FAIL;
 
 	if (FAILED(m_pRectBufferCom->Begin_Draw()))
@@ -102,30 +102,20 @@ HRESULT CBackGround::Ready_Component()
 
 HRESULT CBackGround::Bind_ShaderResources()
 {
-	HRESULT hr = {};
+	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ViewMatrix", TEXT("UI_Camera"), D3DTS::VIEW)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ)))
+		return E_FAIL;
+	if(FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom,"g_Texture",0)))
+		return E_FAIL;
 
-	hr = m_pTransformCom->Bind_ShaderResource(
-		m_pShaderCom, 
-		"g_WorldMatrix");
+	_float fBright = 1.2f;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Brightness", &fBright, sizeof(_float))))
+		return E_FAIL;
 
-	m_pGameInstance->CameraManager_Bind_Matrix(
-		m_pShaderCom,
-		"g_ViewMatrix",
-		TEXT("UI_Camera"),
-		D3DTS::VIEW);
-
-	m_pGameInstance->CameraManager_Bind_Matrix(
-		m_pShaderCom,
-		"g_ProjMatrix",
-		TEXT("UI_Camera"),
-		D3DTS::PROJ);
-
-	m_pTextureCom->Bind_ShaderResource(
-		m_pShaderCom,
-		"g_Texture",
-		0);
-
-	return hr;
+	return S_OK;
 }
 
 CBackGround* CBackGround::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -7,6 +7,8 @@
 #include "Place_CityHall.h"
 #include "Place_Developer.h"
 
+#include "BackGround.h"
+
 CPlace_Loading::CPlace_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
 {
@@ -18,6 +20,11 @@ HRESULT CPlace_Loading::Initialize(
 	m_eNextPlaceID = NextPlaceID;
 	m_pLoader = CLoader::Create(m_pDevice, m_pContext, m_eNextPlaceID);
 
+	if (FAILED(Ready_UI_Layer()))
+		return E_FAIL;	
+	if (FAILED(Ready_Camera_Layer()))
+		return E_FAIL;
+
 	if (nullptr == m_pLoader)
 		return E_FAIL;
 
@@ -26,13 +33,18 @@ HRESULT CPlace_Loading::Initialize(
 
 int32_t CPlace_Loading::Update(_float fDT)
 {
-	if (m_pLoader->isFinished())
+	m_fTimer += fDT;
+
+	if (m_pLoader->isFinished() && m_fTimer > 1.f)
 	{
 		CPlace* pPlace = { nullptr };
-
+		m_fTimer = 0.f;
 		switch (m_eNextPlaceID)
 		{
 		case PLACEID::STATIC:
+			break;
+
+		case PLACEID::LOADING:
 			break;
 
 		case PLACEID::ISLAND:
@@ -80,6 +92,54 @@ HRESULT CPlace_Loading::Render_Priority()
 
 HRESULT CPlace_Loading::Render_Late()
 {
+	return S_OK;
+}
+
+
+HRESULT CPlace_Loading::Ready_UI_Layer()
+{
+	CObject* tmp = { nullptr };
+
+	{
+		CBackGround::BACKGROUND_DESC Desc = {};
+		Desc.fX = 480.f;
+		Desc.fY = 240.f;
+		Desc.fCX = 960.f;
+		Desc.fCY = 480.f;
+		Desc.fSpeedPerSecond = 0.f;
+		Desc.fRotationPerSecond = XMConvertToRadians(0.f);
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		Desc.eTexturePlaceID = PLACEID::STATIC;
+		Desc.strTextureTag = TEXT("ProtoTag_Component_LoadingTexture");
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC),TEXT("ProtoTag_UI_LoadingBG"),&Desc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::LOADING),
+			TEXT("LayerTag_UI"),tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}
+
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_LoadingBG"), &Desc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::LOADING),
+			TEXT("LayerTag_UI"), tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}
+	}
+
+	return S_OK;
+}
+
+HRESULT CPlace_Loading::Ready_Camera_Layer()
+{
+	m_pGameInstance->CameraManager_Reset_State(TEXT("World_Camera"));
+	m_pGameInstance->CameraManager_Set_Position(TEXT("World_Camera"), XMVECTOR{ 2.f, 5.f, -30.f, 1.f });
+	m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 2.f, 0.f, 0.f, 1.f }, XMConvertToRadians(45.f), 1.f);
+
 	return S_OK;
 }
 

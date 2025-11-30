@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Place_Loading.h"
 #include "IOnClick.h"
+#include "MiiManager.h"
 
 CCommonButton::CCommonButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CButton(pDevice, pContext)
@@ -55,6 +56,10 @@ int32_t CCommonButton::Update(_float fDT)
 	if(m_isClicked)
 		On_Click();
 
+
+	if (CMiiManager::GetInstance()->Get_EditFin())
+		return PLACE_CHANGE;
+
 	return UPDATE_CLEAR;
 }
 
@@ -74,12 +79,12 @@ HRESULT CCommonButton::Render()
 
 	if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isPressingLBT())
 	{
-		if (FAILED(m_pShader->Begin(5)))
+		if (FAILED(m_pShader->Begin(VTS_MIX_COLOR)))
 			return E_FAIL;
 	}
 	else
 	{
-		if (FAILED(m_pShader->Begin(2)))
+		if (FAILED(m_pShader->Begin(VTS_DEFAULT)))
 			return E_FAIL;
 	}
 
@@ -133,15 +138,20 @@ HRESULT CCommonButton::Bind_ShaderResources()
 
 	if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isPressingLBT())
 	{
-		m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex + 1);
+		if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex + 1)))
+			return E_FAIL;
+		if (FAILED(m_pShader->Bind_RawValue("g_FixColor", &Colors::Turquoise, sizeof(Colors::Turquoise))))
+			return E_FAIL;
 	}
 	else if (m_isClicked)
 	{
-		m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex + 1);
+		if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex + 1)))
+			return E_FAIL;
 	}
 	else
 	{
-		m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex);
+		if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex)))
+			return E_FAIL;
 	}
 
 	return S_OK;;

@@ -67,7 +67,7 @@ HRESULT CMiiEyebrow::Render()
 	if (FAILED(m_pRectBuffer->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Begin(4)))
+	if (FAILED(m_pShader->Begin(VTS_COLOR)))
 		return E_FAIL;
 
 	if (FAILED(m_pRectBuffer->Begin_Draw()))
@@ -95,7 +95,6 @@ HRESULT CMiiEyebrow::Ready_Component()
 
 HRESULT CMiiEyebrow::Bind_ShaderResources()
 {
-	HRESULT hr = {};
 	if (FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ViewMatrix", TEXT("World_Camera"), D3DTS::VIEW)))
@@ -106,7 +105,7 @@ HRESULT CMiiEyebrow::Bind_ShaderResources()
 	if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex)))
 		return E_FAIL;
 
-	m_pShader->Bind_RawValue("g_EyebrowColor", &m_vEyebrowColor, sizeof(XMFLOAT4));
+	m_pShader->Bind_RawValue("g_FixColor", &m_vEyebrowColor, sizeof(XMFLOAT4));
 
 	return S_OK;
 }

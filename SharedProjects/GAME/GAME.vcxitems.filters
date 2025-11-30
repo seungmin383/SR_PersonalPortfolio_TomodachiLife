@@ -148,6 +148,15 @@
     <Filter Include="03.UI\01.Button\00.OnclickStrategy\03.TransmitIndex">
       <UniqueIdentifier>{c1aded8c-12f5-47a2-91f2-880fe5844696}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\01.Button\05.TextButton">
+      <UniqueIdentifier>{64e8a977-0053-4cb3-a7a9-e49571df55e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.TextBox">
+      <UniqueIdentifier>{54058fda-9166-4c6c-81bb-b848a5d2d7d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Manager\ApartManager">
+      <UniqueIdentifier>{e4c35c7d-2bcd-4221-84c8-fe011522b201}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -305,6 +314,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiNose.h">
       <Filter>02.Actor\03.Mii\Nose</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\TextButton.h">
+      <Filter>03.UI\01.Button\05.TextButton</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ApartManager.h">
+      <Filter>00.Manager\ApartManager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ApartInformation.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -435,6 +453,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMiiNose.cpp">
       <Filter>02.Actor\03.Mii\Nose</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\TextButton.cpp">
+      <Filter>03.UI\01.Button\05.TextButton</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ApartManager.cpp">
+      <Filter>00.Manager\ApartManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

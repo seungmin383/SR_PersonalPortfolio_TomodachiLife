@@ -21,6 +21,12 @@ HRESULT CObjectManager::Initialize(uint32_t FinalPlace)
 
 int32_t CObjectManager::Update_Priority(_float fDT)
 {
+	if (m_isBreak)
+	{
+		m_isBreak = FALSE;
+		return PLACE_CHANGE;
+	}
+
 	for (uint32_t i = 0; i < m_iMaxIndex; i++)
 	{
 		for (auto& pair : m_Layers[i])
@@ -40,6 +46,12 @@ int32_t CObjectManager::Update_Priority(_float fDT)
 
 int32_t CObjectManager::Update(_float fDT)
 {
+	if (m_isBreak)
+	{
+		m_isBreak = FALSE;
+		return PLACE_CHANGE;
+	}
+
 	for (uint32_t i = 0; i < m_iMaxIndex; i++)
 	{
 		for (auto& pair : m_Layers[i])
@@ -59,6 +71,12 @@ int32_t CObjectManager::Update(_float fDT)
 
 void CObjectManager::Update_Late(_float fDT)
 {
+	if (m_isBreak)
+	{
+		m_isBreak = FALSE;
+		return;
+	}
+
 	for (uint32_t i = 0; i < m_iMaxIndex; i++)
 	{
 		for (auto& pair : m_Layers[i])

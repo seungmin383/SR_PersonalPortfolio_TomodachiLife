@@ -49,6 +49,8 @@ public:
 
 	HRESULT Clear_Resources(uint32_t PlaceID);
 	_float Random(_float fMin, _float fMax);
+	void Get_String(wchar_t ch);
+
 public:
 	#pragma region TIMER_MANAGER
 	
@@ -85,6 +87,8 @@ public:
 	HRESULT ObjectManager_Enable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag);
 	HRESULT ObjectManager_Disable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag);
 
+	void ObjectManger_Set_Break(_bool is);
+	_bool ObjectManager_Get_Break();
 #pragma endregion
 
 	#pragma region RENDER_MANAGER
@@ -216,6 +220,11 @@ public:
 
 	void ButtonManager_Set_CurButton(CButton* pButton);
 	CButton* ButtonManager_Get_CurButton();
+
+	void ButtonManager_Set_OnText(_bool is);
+
+	_wstring ButtonManager_Get_Text();
+
 #pragma endregion
 
 #pragma region ANIMATIONMANAGER

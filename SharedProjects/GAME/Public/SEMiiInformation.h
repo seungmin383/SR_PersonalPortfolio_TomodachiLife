@@ -1,6 +1,30 @@
 #pragma once
 #include "Game_Defines.h"
 
+struct MIIPROFILE_DESC
+{
+	_string strFirstName;
+	_string strLastName;
+	_string strNickName;
+
+	nlohmann::json ToJson()const
+	{
+		nlohmann::json Out;
+
+		Out["FirstName"] = strFirstName;
+		Out["LastName"] = strLastName;
+		Out["NickName"] = strNickName;
+		return Out;
+	}
+
+	void FromJson(const nlohmann::json& In)
+	{
+		strFirstName = In.at("FirstName").get<_string>();
+		strLastName = In.at("LastName").get<_string>();
+		strNickName = In.at("NickName").get<_string>();
+	}
+};
+
 struct MIIHEADINFO_DESC
 {
 	uint32_t iIndex;
@@ -139,6 +163,7 @@ struct MIIMOUTHINFO_DESC
 };
 typedef struct tagMiiInfo
 {
+	MIIPROFILE_DESC		MiiProfile{};
 	MIIHEADINFO_DESC	HeadInfo {};
 	MIIHAIRINFO_DESC	HairInfo {};
 	MIIEYEBROWINFO_DESC EyebrowInfo{};
@@ -150,6 +175,7 @@ typedef struct tagMiiInfo
 	{
 		nlohmann::json Out;
 
+		Out["MiiProfile"]	= MiiProfile.ToJson();
 		Out["HeadInfo"]		= HeadInfo.ToJson();
 		Out["HairInfo"]		= HairInfo.ToJson();
 		Out["EyebrowInfo"]	= EyebrowInfo.ToJson();
@@ -161,6 +187,7 @@ typedef struct tagMiiInfo
 
 	void FromJson(const nlohmann::json& In)
 	{
+		MiiProfile.FromJson(In.at("MiiProfile"));
 		HeadInfo.FromJson(In.at("HeadInfo"));
 		HairInfo.FromJson(In.at("HairInfo"));
 		EyebrowInfo.FromJson(In.at("EyebrowInfo"));

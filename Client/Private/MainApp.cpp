@@ -2,7 +2,9 @@
 #include "GameInstance.h"
 #include "Place_Loading.h"
 
+
 #include "MiiManager.h"
+#include "ApartManager.h"
 
 // Actor
 #include "WorldCamera.h"
@@ -105,6 +107,8 @@ void CMainApp::Render()
 HRESULT CMainApp::Ready_Static()
 {
 	CObject* tmp = { nullptr };
+	if (FAILED(Ready_Manager()))
+		return E_FAIL;
 
 	 // Component
 	 {
@@ -175,6 +179,14 @@ HRESULT CMainApp::Ready_Static()
 				return E_FAIL;
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_CommonButtonTexture"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 로딩 텍스쳐 */
+		// ProtoTag_Component_LoadingTexture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/UIBackGorund/Loading.dds"), 1);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_LoadingTexture"), tmp)))
 				return E_FAIL;
 		}
 	 }
@@ -302,9 +314,18 @@ HRESULT CMainApp::Ready_Static()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_LoadingBG"), tmp)))
 				return E_FAIL;
 		}
+
 	}
 
 	
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Manager()
+{
+	if (FAILED(CApartManager::GetInstance()->Load_ApartData()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -459,6 +480,8 @@ HRESULT CMainApp::Ready_FacePartsTexture()
 	return S_OK;
 }
 
+
+
 HRESULT CMainApp::Ready_ModelActor()
 {
 	CObject* tmp = { nullptr };
@@ -578,6 +601,7 @@ void CMainApp::Free()
 	FreeConsole();
 
 	CMiiManager::DestroyInstance();
+	CApartManager::DestroyInstance();
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);

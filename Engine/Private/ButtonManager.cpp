@@ -73,6 +73,55 @@ CButton* CButtonManager::Get_CurButton()
 	return m_pActivatedButton;
 }
 
+void CButtonManager::Append_Char(wchar_t ch)
+{
+	// 엔터
+	if (ch == L'\r')
+	{
+		m_isCommitted = TRUE;
+		m_isOnText = FALSE;
+		m_strText.clear();
+		return;
+	}
+
+	// 백스페이스
+	if (ch == L'\b')
+	{
+		if (!m_strBuffer.empty())
+			m_strBuffer.pop_back();
+		return;
+	}
+
+	// 일반 문자
+	if (ch >= 32)
+	{
+		m_strBuffer.push_back(ch);    // 뒤에 글자 추가
+	}
+}
+
+_wstring CButtonManager::Get_Text()
+{
+	if (m_isCommitted)
+	{
+		m_strText = m_strBuffer;
+		m_isCommitted = FALSE;
+		m_strBuffer.clear();
+
+		_wstring Line{};
+
+		_wstring A{ L"이름은 " };
+		_wstring B{ L" 입니다 " };
+
+		Line += A;
+		Line += m_strText;
+		Line += B;
+
+		MSG_BOXW(Line.c_str());
+	}
+
+	return m_strText;
+}
+
 CButtonManager* CButtonManager::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, uint32_t iNumPlace)
 {
 	CButtonManager* pInstance = new CButtonManager(pDevice, pContext);

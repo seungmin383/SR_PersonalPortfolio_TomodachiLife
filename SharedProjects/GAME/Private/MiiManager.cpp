@@ -6,26 +6,27 @@ CMiiManager::CMiiManager()
 {
 }
 
-void CMiiManager::Ready_EditMii(const MIIINFO_DESC& CurMiiDesc)
+void CMiiManager::Begin_Edit(MIIINFO_DESC& CurMiiDesc)
 {
-	
-	m_CurMiiDesc = CurMiiDesc;
+	m_EditDesc = CurMiiDesc;
 }
 
-HRESULT CMiiManager::Save_MiiData(const _string& strFilePath)
+HRESULT CMiiManager::Save_MiiData(const _wstring& strFilePath)
 {
 	ofstream Out(strFilePath);
 	if (!Out.is_open())
 		return E_FAIL;
 
-	nlohmann::json j = m_CurMiiDesc.ToJson();
+	nlohmann::json j = m_EditDesc.ToJson();
 	Out << j.dump(4);
 
 	MSG_BOX("Success Save : MiiData");
+
+
 	return S_OK;
 }
 
-HRESULT CMiiManager::Load_MiiData(__out MIIINFO_DESC& Out, const _string& strFilePath)
+HRESULT CMiiManager::Load_MiiData(__out MIIINFO_DESC& Out, const _wstring& strFilePath)
 {
 	ifstream In(strFilePath);
 	if (!In.is_open())

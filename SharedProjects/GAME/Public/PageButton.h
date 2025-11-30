@@ -19,6 +19,9 @@ public:
 		IOnClick* pStrategy = { nullptr };
 
 		uint32_t iTextureIndex = {};
+
+		_wstring strDeactivateLayerTag = {};
+
 	}PAGEBUTTON_DESC;
 
 private:
@@ -54,8 +57,8 @@ private:
 
 private:
 	uint32_t m_iTextureIndex = {};
-
 	uint32_t m_iModelIndex = {};
+	_wstring m_strDeactivateLayerTag = {};
 
 public:
 	static CPageButton* Create(

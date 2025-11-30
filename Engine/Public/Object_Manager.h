@@ -31,6 +31,10 @@ public:
 	HRESULT Enable_Layer (uint32_t iPlaceID, const _wstring& strLayerTag);
 	HRESULT Disable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag);
 
+public:
+	void Set_Break(_bool is) { m_isBreak = is; }
+	_bool Get_Break() { return m_isBreak;}
+
 private:
 	map<const _wstring, CLayer*>* m_Layers = { nullptr };
 	vector<unordered_set<_wstring>> m_DisableLayers;
@@ -39,6 +43,8 @@ private:
 	uint32_t m_iMaxIndex = {};
 
 	CGameInstance* m_pGameInstace = { nullptr };
+
+	_bool m_isBreak = { FALSE };
 
 public:
 	static CObjectManager* Create(uint32_t FinalPlace);

@@ -44,6 +44,18 @@ int32_t CMii::Update_Priority(_float fDT)
 {
 	XMFLOAT4X4* tmp = m_pTransformCom->Get_WorldMatrixPtr();
 
+	if (CMiiManager::GetInstance()->Get_EditFin())
+	{
+		CMiiManager::GetInstance()->Set_EditFin(FALSE);
+		return PLACE_CHANGE;
+	}
+
+	m_MiiInfo.MiiProfile.strFirstName = CMiiManager::GetInstance()->Get_Profile().strFirstName;
+	m_MiiInfo.MiiProfile.strLastName = CMiiManager::GetInstance()->Get_Profile().strLastName;
+	m_MiiInfo.MiiProfile.strNickName = CMiiManager::GetInstance()->Get_Profile().strNickName;
+
+
+
 	Key_Control(fDT);
 	return CContainerObject::Update_Priority(fDT);
 }
@@ -70,8 +82,6 @@ void CMii::Key_Control(float fDT)
 
 	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
 	{
-		CMiiManager::GetInstance()->Save_MiiData("../../SharedProjects/GAME/GameData/AA.json");
-
 		m_iState &= ~STATE::IDLE;
 		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
 		{
@@ -147,7 +157,7 @@ HRESULT CMii::Ready_PartObjects()
 	m_MiiInfo.MouthInfo.iIndex = 101;
 
 
-	CMiiManager::GetInstance()->Ready_EditMii(m_MiiInfo);
+	CMiiManager::GetInstance()->Begin_Edit(m_MiiInfo);
 
 	/* Part_Body */
 	{

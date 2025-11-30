@@ -140,9 +140,7 @@ HRESULT CSEMii::Ready_Components()
 
 HRESULT CSEMii::Ready_PartObjects()
 {
-	ifstream In(m_strSaveDataPath);
 	CMiiManager::GetInstance()->Load_MiiData(m_MiiInfo, m_strSaveDataPath);
-
 
 	/* Part_Body */
 	{

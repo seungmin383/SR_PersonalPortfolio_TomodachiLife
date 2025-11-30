@@ -13,6 +13,7 @@ HRESULT CLayer::Add_Object(CObject* pObject)
 
 int32_t CLayer::Update_Priority(_float fDT)
 {
+
 	for (auto& Object : m_ObjectList)
 	{
 		int32_t iFlag = Object->Update_Priority(fDT);

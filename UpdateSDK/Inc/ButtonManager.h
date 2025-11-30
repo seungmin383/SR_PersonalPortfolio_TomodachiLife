@@ -23,6 +23,14 @@ public:
 	void Set_CurButton(CButton* pButton);
 	CButton* Get_CurButton();
 
+	void Append_Char(wchar_t ch);
+	_wstring Get_Text();
+
+public:
+	const _bool Get_OnText()const { return m_isOnText; }
+	void Set_OnText(_bool is) { m_isOnText = is; }
+
+
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 	ID3D11Device* m_pDevice = { nullptr };
@@ -31,6 +39,12 @@ private:
 	map<_wstring, vector<CButton*>>* m_Buttons;
 	CButton* m_pActivatedButton = { nullptr };
 	uint32_t m_iNumPlace = {};
+
+	_bool m_isOnText = { FALSE };
+
+	_wstring m_strBuffer;
+	_wstring m_strText = {};
+	_bool m_isCommitted = { FALSE };
 
 
 public:

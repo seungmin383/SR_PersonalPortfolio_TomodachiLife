@@ -20,6 +20,7 @@
 #include "PageButton.h"
 #include "Collider.h"
 #include "IconTexture.h"
+#include "TextButton.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -66,6 +67,10 @@ HRESULT CLoader::Loading()
 
 	switch (m_eNextPlaceID)
 	{
+	case PLACEID::LOADING:
+		hr = Loading_Loading();
+		break;
+
 	case PLACEID::ISLAND:
 		hr = Loading_Island();
 		break;
@@ -101,6 +106,43 @@ HRESULT CLoader::Loading()
 
 	return S_OK;
 }
+
+HRESULT CLoader::Loading_Loading()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iLoading = static_cast<uint32_t>(PLACEID::LOADING);
+
+	// Component
+	{
+		/* 로딩 텍스쳐 */
+		// ProtoTag_Component_LoadingTexture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/UIBackGround/Loading.dds"), 1);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iLoading, TEXT("ProtoTag_Component_LoadingTexture"), tmp)))
+				return E_FAIL;
+		}
+	}
+
+	// Actor
+	{
+	}
+
+	// UI
+	{
+		/* 아래 UI 배경*/
+		// ProtoTag_UI_BackGround
+		{
+			tmp = CBackGround::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iLoading, TEXT("ProtoTag_UI_LoadingBackGround"), tmp)))
+				return E_FAIL;
+		}
+	}
+
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+	m_isFinished = true;
+	return S_OK;
+}
+
 HRESULT CLoader::Loading_Island()
 {
 	CObject* tmp = { nullptr };
@@ -467,6 +509,14 @@ HRESULT CLoader::Loading_CityHall()
 				return E_FAIL;
 		}
 
+		/* 텍스트 박스 */
+		// ProtoTag_Component_TextBoxTexture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/TextBox/%d.dds"), 1);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_TextBoxTexture"), tmp)))
+				return E_FAIL;
+		}
+
 		/* 배경 모델 */
 		// ProtoTag_Componenet_MiiEditorBG
 		{
@@ -480,6 +530,7 @@ HRESULT CLoader::Loading_CityHall()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Componenet_seMiiEditorBG"), tmp)))
 				return E_FAIL;
 		}
+
 	}
 
 	// Actor
@@ -540,6 +591,14 @@ HRESULT CLoader::Loading_CityHall()
 		{
 			tmp = CPageButton::Create(m_pDevice, m_pContext);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_PageButton"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 텍스트 버튼 */
+		// ProtoTag_UI_TextButton
+		{
+			tmp = CTextButton::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_TextButton"), tmp)))
 				return E_FAIL;
 		}
 	}

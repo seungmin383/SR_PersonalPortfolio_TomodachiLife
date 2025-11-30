@@ -94,7 +94,7 @@ HRESULT CPlaceMoveButton::Render()
 	if (FAILED(m_pRectBufferCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(0)))
+	if (FAILED(m_pShaderCom->Begin(VTS_PLACEMOVEBUTTON)))
 		return E_FAIL;
 
 
@@ -170,7 +170,7 @@ HRESULT CPlaceMoveButton::Bind_ShaderResources()
 	// ¼±ÅÃ µÆ´ÂÁö ¾ÈµÆ´ÂÁö
 	m_pOutlineTextureCom->Bind_ShaderResource(
 		m_pShaderCom,
-		"g_OutlineTexture",
+		"g_UpperTexture",
 		m_iOutlineTextureNum);
 
 	return hr;

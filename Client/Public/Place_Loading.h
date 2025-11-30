@@ -24,12 +24,14 @@ public:
 	virtual HRESULT Render_Priority() override;
 	virtual HRESULT Render_Late() override;
 
-private:
-	HRESULT Ready_UILayer();
 
+	HRESULT Ready_UI_Layer();
+	HRESULT Ready_Camera_Layer();
 private:
 	CLoader*				m_pLoader = { nullptr };
 	PLACEID		m_eNextPlaceID = { PLACEID::END };
+
+	_float m_fTimer = {};
 
 public:
 	static CPlace_Loading* Create(

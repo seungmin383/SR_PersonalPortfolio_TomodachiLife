@@ -28,7 +28,11 @@ int32_t CContainerObject::Update_Priority(_float fDT)
 	CActor::Update_Priority(fDT);
 
 	for (auto& pair : m_PartObjects)
-		pair.second->Update_Priority(fDT);
+	{
+		int32_t iFlag = pair.second->Update_Priority(fDT);
+		if (iFlag == PLACE_CHANGE)
+			return iFlag;
+	}
 
 	return UPDATE_CLEAR;
 }
@@ -37,7 +41,11 @@ int32_t CContainerObject::Update(_float fDT)
 {
 	CActor::Update(fDT);
 	for (auto& pair : m_PartObjects)
-		pair.second->Update(fDT);
+	{
+		int32_t iFlag = pair.second->Update(fDT);
+		if (iFlag == PLACE_CHANGE)
+			return iFlag;
+	}
 	return UPDATE_CLEAR;
 }
 

@@ -14,6 +14,7 @@
 #include "IUnlock.h"
 #include "LoadingBG.h"
 
+
 /* y += 1.f */
 #define FOODSTORE_POS XMFLOAT4{- 7.47224f,-0.561126f, -10.7086f, 1.f}
 #define FOODSTORE_TARGETPOS XMFLOAT4{- 7.47224f,0.561126f, -10.7086f, 1.f}
@@ -1033,9 +1034,9 @@ HRESULT CPlace_Island::Ready_Environment_Layer()
 
 HRESULT CPlace_Island::Ready_Camera_Layer()
 {
-
-
-
+	m_pGameInstance->CameraManager_Reset_State(TEXT("World_Camera"));
+	m_pGameInstance->CameraManager_Set_Position(TEXT("World_Camera"), XMVECTOR{ 2.f, 5.f, -30.f, 1.f });
+	m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 2.f, 0.f, 0.f, 1.f }, XMConvertToRadians(45.f), 1.f);
 
 	return S_OK;
 }

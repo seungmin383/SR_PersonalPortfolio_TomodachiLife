@@ -264,6 +264,14 @@ _float CGameInstance::Random(_float fMin, _float fMax)
 	return (fMax - fMin) * fRandNormal + fMin;
 }
 
+void CGameInstance::Get_String(wchar_t ch)
+{
+	if (!m_pButtonManager->Get_OnText())
+		return;
+
+	m_pButtonManager->Append_Char(ch);
+}
+
 #pragma region TIMER_MANAGER
 
 inline _float CGameInstance::TimerManager_Get_DeltaTime(const _tchar* pTimerTag)
@@ -340,6 +348,16 @@ HRESULT CGameInstance::ObjectManager_Enable_Layer(uint32_t iPlaceID, const _wstr
 HRESULT CGameInstance::ObjectManager_Disable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag)
 {
 	return m_pObjectManager->Disable_Layer(iPlaceID, strLayerTag);
+}
+
+void CGameInstance::ObjectManger_Set_Break(_bool is)
+{
+	m_pObjectManager->Set_Break(is);
+}
+
+_bool CGameInstance::ObjectManager_Get_Break()
+{
+	return m_pObjectManager->Get_Break();
 }
 
 #pragma endregion
@@ -572,6 +590,16 @@ void CGameInstance::ButtonManager_Set_CurButton(CButton* pButton)
 CButton* CGameInstance::ButtonManager_Get_CurButton()
 {
 	return m_pButtonManager->Get_CurButton();
+}
+
+void CGameInstance::ButtonManager_Set_OnText(_bool is)
+{
+	m_pButtonManager->Set_OnText(is);
+}
+
+_wstring CGameInstance::ButtonManager_Get_Text()
+{
+	return m_pButtonManager->Get_Text();
 }
 
 #pragma endregion

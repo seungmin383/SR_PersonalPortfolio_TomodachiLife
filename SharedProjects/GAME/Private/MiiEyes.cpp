@@ -77,7 +77,7 @@ HRESULT CMiiEyes::Render()
 	if (FAILED(m_pRectBuffer->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Begin(3)))
+	if (FAILED(m_pShader->Begin(VTS_DEFAULT)))
 		return E_FAIL;
 
 	if (FAILED(m_pRectBuffer->Begin_Draw()))

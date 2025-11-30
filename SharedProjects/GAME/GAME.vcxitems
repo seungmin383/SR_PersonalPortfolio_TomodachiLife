@@ -22,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Apart.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ApartManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BackGround.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Body.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangePlace_Strategy.cpp" />
@@ -60,6 +61,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TempModel.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Terrain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TestMii.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\TextButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Transmit_Strategy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\UICamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Weapon.cpp" />
@@ -67,6 +69,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Apart.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ApartInformation.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ApartManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BackGround.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Body.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangePlace_Strategy.h" />
@@ -108,6 +112,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TempModel.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Terrain.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TestMii.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\TextButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Transmit_Strategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Weapon.h" />

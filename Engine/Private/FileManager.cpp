@@ -106,8 +106,7 @@ void CFileManager::RoundFloatsInJson(nlohmann::json& j, int n)
 	dfs(j);
 }
 
-CFileManager* CFileManager::Create(
-	const _char* ConfigFilePath)
+CFileManager* CFileManager::Create(const _char* ConfigFilePath)
 {
 	CFileManager* pInstance = new CFileManager;
 	

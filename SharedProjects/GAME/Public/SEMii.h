@@ -17,7 +17,7 @@ public:
 public:
 	typedef struct tagMiiDesc : public CContainerObject::CONTAINEROBJECT_DESC
 	{
-		_string strSaveDataPath;
+		_wstring strSaveDataPath;
 	}MII_DESC;
 
 private:
@@ -48,7 +48,7 @@ private:
 
 	MIIINFO_DESC m_MiiInfo = {};
 
-	_string m_strSaveDataPath = {};
+	_wstring m_strSaveDataPath = {};
 
 
 public:

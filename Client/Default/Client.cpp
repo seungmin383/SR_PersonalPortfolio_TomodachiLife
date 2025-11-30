@@ -18,6 +18,7 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 
 USING(Client)
+CGameInstance* g_GameInstance = { nullptr };
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -51,6 +52,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
 
     Safe_AddRef(pGameInstance);
+
+    g_GameInstance = pGameInstance;
 
     //Timer Setting
     if(FAILED(pGameInstance->TimerManager_Ready_Timer(TEXT("Timer_Default"))))
@@ -95,6 +98,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             fTimeAcc = 0.f;
         }
     }
+
 
     if (0 != Safe_Release(pMainApp))    //삭제가 안됐다면
         return FALSE;
@@ -153,6 +157,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+
     switch (message)
     {
     case WM_COMMAND:
@@ -172,14 +177,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
-    case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
+    case WM_CHAR:
+    {
+        wchar_t ch = static_cast<wchar_t>(wParam);
 
-            EndPaint(hWnd, &ps);
-        }
-        break;
+        if (nullptr != g_GameInstance)
+            g_GameInstance->Get_String(ch);
+        
+        return 0;
+    }
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

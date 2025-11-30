@@ -62,7 +62,7 @@ HRESULT CLoadingBG::Render()
 	if (FAILED(m_pRectBufferCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(0)))
+	if (FAILED(m_pShaderCom->Begin(VTS_TEXCOORD)))
 		return E_FAIL;
 
 	if (FAILED(m_pRectBufferCom->Begin_Draw()))
@@ -90,21 +90,22 @@ HRESULT CLoadingBG::Ready_Component()
 
 HRESULT CLoadingBG::Bind_ShaderResources()
 {
-	HRESULT hr = {};
+	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ViewMatrix", TEXT("UI_Camera"), D3DTS::VIEW)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ)))
+		return E_FAIL;
+	if(FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0)))
+		return E_FAIL;
 
-	hr = m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix");
-
-	m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ViewMatrix", TEXT("UI_Camera"), D3DTS::VIEW);
-
-	m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ);
-
-	m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0);
+	_float fPow = 10.f;
+	if(FAILED(m_pShaderCom->Bind_RawValue("g_Pow", &fPow, sizeof(_float))))
+		return E_FAIL;
 
 	m_fFadeForce = m_pGameInstance->UIManager_Get_FadeForce();
-	m_pShaderCom->Bind_RawValue("g_Fade", &m_fFadeForce, sizeof(_float));
 
-
-	return hr;
+	return S_OK;
 }
 
 CLoadingBG* CLoadingBG::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

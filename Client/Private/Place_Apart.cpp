@@ -8,6 +8,7 @@
 #include "Player.h"
 
 #include "SEMii.h"
+#include "ApartManager.h"
 
 CPlace_Apart::CPlace_Apart(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -107,30 +108,40 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 		// ProtoTag_Actor_seMii
 		{
-			CSEMii::MII_DESC Desc = {};
-			Desc.fX = 0.f;
-			Desc.fY = 0.f;
-			Desc.fZ = 0.f;
-			Desc.fCX = 1.f;
-			Desc.fCY = 1.f;
-			Desc.fCZ = 1.f;
-			Desc.fSpeedPerSecond = 10.f;
-			Desc.fRotationPerSecond = XMConvertToRadians(20.f);
-			Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
-			Desc.strSaveDataPath = ("../../SharedProjects/GAME/GameData/AA.json");
-
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(
-				static_cast<uint32_t>(PLACEID::STATIC),
-				TEXT("ProtoTag_Actor_seMii"),
-				&Desc);
-
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-				static_cast<uint32_t>(PLACEID::APART),
-				TEXT("LayerTag_Actor"),
-				tmp)))
+			uint32_t iNumMii = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames.size();
+			for (uint32_t i = 0; i < iNumMii; ++i)
 			{
-				Safe_Release(tmp);
-				return E_FAIL;
+				CSEMii::MII_DESC Desc = {};
+				Desc.fX = m_pGameInstance->Random(0.f, 10.f);
+				Desc.fY = 0.f;
+				Desc.fZ = m_pGameInstance->Random(0.f, 10.f);
+				Desc.fCX = 1.f;
+				Desc.fCY = 1.f;
+				Desc.fCZ = 1.f;
+				Desc.fSpeedPerSecond = 10.f;
+				Desc.fRotationPerSecond = XMConvertToRadians(20.f);
+				Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+				_wstring nickname = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames[i];
+				_wstring FilePath = L"../../SharedProjects/GAME/GameData/MiiData/";
+				FilePath += nickname;
+				FilePath += L".json";
+
+				Desc.strSaveDataPath = FilePath;
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(
+					static_cast<uint32_t>(PLACEID::STATIC),
+					TEXT("ProtoTag_Actor_seMii"),
+					&Desc);
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+					static_cast<uint32_t>(PLACEID::STATIC),
+					TEXT("LayerTag_Actor"),
+					tmp)))
+				{
+					Safe_Release(tmp);
+					return E_FAIL;
+				}
+
 			}
 		}
 	}
