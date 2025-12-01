@@ -16,7 +16,7 @@
 #include "Timer_Manager.h"
 #include "UI.h"
 #include "UIManager.h"
-
+#include "CollisionManager.h"
 
 
 #define CONFIG_FILE_PATH "../../SharedProjects/GAME/GameData/config.json"
@@ -170,12 +170,19 @@ HRESULT CGameInstance::Initialize(
 		}
 	}
 
+	// CollisionManager
+	{
+		m_pCollisionManager = CCollisionManager::Create(Engine_desc.PlaceCount);
+		if (nullptr == m_pCollisionManager){
+			MSG_BOX("ErrCode : CollisionManager Create Failed");
+			return E_FAIL;
+		}
+	}
 	return S_OK;
 }
 
 int32_t CGameInstance::Update_Priority(_float fDT)
 {
-
 	m_pInput_Device->Update();
 	m_pMouseManager->Update(fDT);
 	m_pObjectManager->Update_Priority(fDT);
@@ -188,9 +195,11 @@ int32_t CGameInstance::Update(_float fDT)
 {
 	//게임 씬 매니저 업데이트			//주로 디버그용
 	m_pPlaceManager->Update(fDT);
+
 	//게임 오브젝트 매니저 업데이트		//진짜 업데이트
-	
 	m_pObjectManager->Update(fDT);
+	m_pCollisionManager->Update(fDT);
+	
 	m_pCameraManager->Update(fDT);
 	m_pUIManager->UIGroup_Update(fDT);
 	return 	0;
@@ -350,15 +359,6 @@ HRESULT CGameInstance::ObjectManager_Disable_Layer(uint32_t iPlaceID, const _wst
 	return m_pObjectManager->Disable_Layer(iPlaceID, strLayerTag);
 }
 
-void CGameInstance::ObjectManger_Set_Break(_bool is)
-{
-	m_pObjectManager->Set_Break(is);
-}
-
-_bool CGameInstance::ObjectManager_Get_Break()
-{
-	return m_pObjectManager->Get_Break();
-}
 
 #pragma endregion
 
@@ -637,6 +637,14 @@ _float CGameInstance::UIManager_Get_FadeForce()
 
 #pragma endregion
 
+#pragma region COLLISIONMANAGER
+
+HRESULT CGameInstance::CollsionManager_Add_Collider(uint32_t iPlaceID, COLLISION eCollisionType, CCollider* pCollider)
+{
+	return m_pCollisionManager->Add_Collider(iPlaceID, eCollisionType, pCollider);
+}
+#pragma endregion
+
 
 
 
@@ -660,6 +668,7 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pMouseManager);
 	Safe_Release(m_pUIManager);
 	Safe_Release(m_pFileManager);
+	Safe_Release(m_pCollisionManager);
 
 	CGameInstance::GetInstance()->DestroyInstance();
 }

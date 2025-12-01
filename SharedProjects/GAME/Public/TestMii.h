@@ -52,6 +52,7 @@ private:
 
 
 	MII_INFO m_eInfo = {};
+	_bool m_isTmp = { FALSE };
 
 public:
 	static CTestMii* Create(

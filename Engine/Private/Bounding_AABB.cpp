@@ -1,4 +1,7 @@
 #include "Bounding_AABB.h"
+#include "Bounding_OBB.h"
+#include "Bounding_SPHERE.h"
+
 #include "DebugDraw.h"
 
 CBounding_AABB::CBounding_AABB(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -26,6 +29,23 @@ void CBounding_AABB::Update(FXMMATRIX WorldMatrix)
 	m_pOriginDesc->Transform(*m_pDesc, WorldMatrix);
 }
 
+_bool CBounding_AABB::Intersect(COLLIDER eTargetType, CBounding* pTarget)
+{
+	switch (eTargetType)
+	{
+	case Engine::COLLIDER::SPHERE:
+		return m_pDesc->Intersects(*static_cast<CBounding_Sphere*>(pTarget)->Get_Desc());
+	case Engine::COLLIDER::AABB:
+		return m_pDesc->Intersects(*static_cast<CBounding_AABB*>(pTarget)->Get_Desc());
+	case Engine::COLLIDER::OBB:
+		return m_pDesc->Intersects(*static_cast<CBounding_OBB*>(pTarget)->Get_Desc());
+
+	case Engine::COLLIDER::END:
+	default:
+		return FALSE;
+	}
+}
+
 #ifdef _DEBUG
 
 HRESULT CBounding_AABB::Render(PrimitiveBatch<VertexPositionColor>* pBatch, _bool isColl)
@@ -44,7 +64,7 @@ HRESULT CBounding_AABB::Render(PrimitiveBatch<VertexPositionColor>* pBatch, _boo
 
 #endif // _DEBUG
 
-CBounding_AABB* CBounding_AABB::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, void* pArg)
+CBounding_AABB* CBounding_AABB::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, BOUNDING_DESC* pArg)
 {
 	CBounding_AABB* pInstance = new CBounding_AABB(pDevice, pContext);
 	if (FAILED(pInstance->Initialize(pArg)))
@@ -63,4 +83,5 @@ void CBounding_AABB::Free()
 
 	CBounding::Free();
 }
+
 

@@ -23,6 +23,7 @@ class CRenderManager;
 class CTimerManager;
 class CUI;
 class CUIManager;
+class CCollisionManager;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -87,8 +88,6 @@ public:
 	HRESULT ObjectManager_Enable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag);
 	HRESULT ObjectManager_Disable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag);
 
-	void ObjectManger_Set_Break(_bool is);
-	_bool ObjectManager_Get_Break();
 #pragma endregion
 
 	#pragma region RENDER_MANAGER
@@ -240,6 +239,10 @@ public:
 	_float  UIManager_Get_FadeForce();
 #pragma endregion
 
+#pragma region COLLISIONMANAGER
+	HRESULT CollsionManager_Add_Collider(uint32_t iPlaceID, COLLISION eCollisionType, CCollider* pCollider);
+
+#pragma endregion
 
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
@@ -257,6 +260,7 @@ private:
 	CButtonManager*		m_pButtonManager = { nullptr };
 	CAnimationManager*	m_pAnimationManager = { nullptr };
 	CUIManager*			m_pUIManager = { nullptr };
+	CCollisionManager*	m_pCollisionManager = { nullptr };
 
 public:
 	void Clear_Engine();

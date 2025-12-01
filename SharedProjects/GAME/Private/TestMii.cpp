@@ -53,7 +53,15 @@ int32_t CTestMii::Update_Priority(_float fDT)
 			j);*/
 	}
 
+	static bool istmp = FALSE;
 
+	if (!istmp)
+	{
+		istmp = TRUE;
+		m_isTmp = TRUE;
+	}
+	if (false)
+	{
 	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
 	{
 		m_pTransformCom->Go_Straight(fDT);
@@ -69,6 +77,8 @@ int32_t CTestMii::Update_Priority(_float fDT)
 	if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
 	{
 		m_pTransformCom->TurnY(-fDT);
+	}
+
 	}
 
 	///* Change Animation 을 하고 PlayAnimation 권장 */
@@ -98,7 +108,7 @@ int32_t CTestMii::Update_Priority(_float fDT)
 
 int32_t CTestMii::Update(_float fDT)
 {
-	m_pCollider->Update_Collider(XMLoadFloat4x4(m_pTransformCom->Get_WorldMatrixPtr()));
+	m_pCollider->Update_Collider();
 
 #ifdef ANIM_TEST
 	 m_pSeModel->Play_Animation(fDT);
@@ -240,12 +250,17 @@ HRESULT CTestMii::Ready_Component()
 	BoundDesc.fRadius = 1.f;
 	BoundDesc.vCenter = XMFLOAT3{ 0.f, 0.f, 0.f };
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::DEVELOPER),
-		TEXT("ProtoTag_Component_SPHERECollider"),
-		TEXT("Com_Collider"),
-		reinterpret_cast<CComponent**>(&m_pCollider),
-		&BoundDesc)))
+	CCollider::COLLIDER_DESC ColliderDesc = {};
+	ColliderDesc.pBoundDesc = &BoundDesc;
+	ColliderDesc.iColliderLayer = COL_OBJECTS;
+	ColliderDesc.iCollisionMask = COL_TRIGGER;
+	ColliderDesc.pOwnerWorldMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::DEVELOPER), TEXT("ProtoTag_Component_SPHERECollider"), TEXT("Com_Collider"),
+		reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->CollsionManager_Add_Collider(static_cast<uint32_t>(PLACEID::DEVELOPER), COLLISION::OBJECT, m_pCollider)))
 		return E_FAIL;
 
 	return S_OK;
@@ -253,60 +268,45 @@ HRESULT CTestMii::Ready_Component()
 
 HRESULT CTestMii::Bind_ShaderResources()
 {
-	HRESULT hr = {};
-
-	hr = m_pTransformCom->Bind_ShaderResource(
-		m_pShaderCom,
-		"g_WorldMatrix");
-
-	m_pGameInstance->CameraManager_Bind_Matrix(
-		m_pShaderCom,
-		"g_ViewMatrix",
-		TEXT("World_Camera"),
-		D3DTS::VIEW);
-
-	m_pGameInstance->CameraManager_Bind_Matrix(
-		m_pShaderCom,
-		"g_ProjMatrix",
-		TEXT("World_Camera"),
-		D3DTS::PROJ);
-
-	m_pGameInstance->CameraManager_Bind_Camera_Pos(
-		m_pShaderCom,
-		"g_vCamPosition",
-		TEXT("World_Camera"));
-
-	return hr;
+	if(FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom,"g_WorldMatrix")))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom,"g_ViewMatrix",TEXT("World_Camera"),D3DTS::VIEW)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom,"g_ProjMatrix",TEXT("World_Camera"),D3DTS::PROJ)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShaderCom,"g_vCamPosition",TEXT("World_Camera"))))
+		return E_FAIL;
+	return S_OK;
 }
 
 CTestMii* CTestMii::Create(
 	ID3D11Device* pDevice,
 	ID3D11DeviceContext* pContext)
 {
-	CTestMii* tmp = new CTestMii(pDevice, pContext);
+	CTestMii* pInstance = new CTestMii(pDevice, pContext);
 
-	if (FAILED(tmp->Initialize_Origin()))
+	if (FAILED(pInstance->Initialize_Origin()))
 	{
 		MSG_BOX("ErrCode : Mii Create Failed");
-		Safe_Release(tmp);
+		Safe_Release(pInstance);
 		return nullptr;
 	}
 
-	return tmp;
+	return pInstance;
 }
 
 CObject* CTestMii::Clone(void* pArg)
 {
-	CTestMii* tmp = new CTestMii(*this);
+	CTestMii* pInstance = new CTestMii(*this);
 
-	if (FAILED(tmp->Initialize_Clone(pArg)))
+	if (FAILED(pInstance->Initialize_Clone(pArg)))
 	{
 		MSG_BOX("ErrCode : Mii Clone Failed");
-		Safe_Release(tmp);
+		Safe_Release(pInstance);
 		return nullptr;
 	}
 
-	return tmp;
+	return pInstance;
 }
 
 void CTestMii::Free()

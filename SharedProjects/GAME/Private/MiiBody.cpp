@@ -1,5 +1,6 @@
 #include "MiiBody.h"
 #include "GameInstance.h"
+#include "Bounding_SPHERE.h"
 
 #include "Mii.h"
 
@@ -40,6 +41,8 @@ int32_t CMiiBody::Update_Priority(_float fDT)
 
 int32_t CMiiBody::Update(_float fDT)
 {
+	m_pCollider->Update_Collider();
+
 	if (static_cast<int32_t>(STATE::IDLE) & *m_pParentState)
 		m_pSeModel->Change_Animation("CM_Wait00", 0.2f, TRUE);
 	if (static_cast<int32_t>(STATE::WALK) & *m_pParentState)
@@ -59,6 +62,11 @@ int32_t CMiiBody::Update(_float fDT)
 
 void CMiiBody::Update_Late(_float fDT)
 {
+	if (m_pCollider->Get_isTriggerEnter())
+		MSG_BOX("OnTriggerEnter");
+	if (m_pCollider->Get_isTriggerExit())
+		MSG_BOX("OnTriggerExit");
+
 	m_pSeModel->Play_Animation(fDT);
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
 	CPartObject::Update_Late(fDT);
@@ -84,6 +92,10 @@ HRESULT CMiiBody::Render()
 		if (FAILED(m_pSeModel->Render_SeModel(i)))
 			return E_FAIL;
 	}
+#ifdef _DEBUG
+
+	m_pCollider->Render();
+#endif // _DEBUG
 
 	return S_OK;
 }
@@ -96,6 +108,23 @@ HRESULT CMiiBody::Ready_Component()
 
 	/* Model */
 	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_seChineseDress"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
+		return E_FAIL;
+
+	CBounding_Sphere::SPHERE_DESC BoundDesc = {};
+	BoundDesc.fRadius = 1.f;
+	BoundDesc.vCenter = XMFLOAT3{ 0.f, 0.f, 0.f };
+
+	CCollider::COLLIDER_DESC ColliderDesc = {};
+	ColliderDesc.pBoundDesc = &BoundDesc;
+	ColliderDesc.iColliderLayer = COL_TRIGGER;
+	ColliderDesc.iCollisionMask = COL_OBJECTS;
+	ColliderDesc.pOwnerWorldMatrix = &m_CombinedWorldMatrix;
+
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::DEVELOPER), TEXT("ProtoTag_Component_SPHERECollider"), TEXT("Com_Collider"),
+		reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->CollsionManager_Add_Collider(static_cast<uint32_t>(PLACEID::DEVELOPER), COLLISION::TRIGGER, m_pCollider)))
 		return E_FAIL;
 
 	return S_OK;

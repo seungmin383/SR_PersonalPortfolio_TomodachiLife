@@ -5,6 +5,7 @@
 NS_BEGIN(Engine)
 class CSEModel;
 class CShaderCom;
+class CCollider;
 
 NS_END
 
@@ -45,6 +46,7 @@ public:
 private:
 	CSEModel* m_pSeModel = { nullptr };
 	CShaderCom* m_pShader = { nullptr };
+	CCollider* m_pCollider = { nullptr };
 
 private:
 	const uint32_t* m_pParentState = { nullptr };

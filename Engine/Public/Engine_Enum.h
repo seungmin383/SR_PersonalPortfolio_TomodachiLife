@@ -15,6 +15,8 @@ namespace Engine
 
 	enum class COLLIDER {SPHERE, AABB, OBB, END};
 
+	enum class COLLISION{ TRIGGER, OBJECT, END};
+
 	enum class RENDER_GROUP : int32_t {
 		TOP_PRIORITY,
 		TOP_NONBLEND,

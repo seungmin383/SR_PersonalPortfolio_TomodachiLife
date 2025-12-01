@@ -71,6 +71,11 @@ namespace Game
 		RUN = 1 << 2,
 		Greet = 1 << 3
 	};
+	enum COLLIDER_TYPES
+	{
+		COL_TRIGGER = 1 << 0,
+		COL_OBJECTS = 1 << 1
+	};
 }
 using namespace std;
 using namespace Game;

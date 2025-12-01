@@ -48,16 +48,21 @@ HRESULT CCollider::Initialize_Origin(COLLIDER eType)
 
 HRESULT CCollider::Initialize_Clone(void* pArg)
 {
+	COLLIDER_DESC* pDesc = static_cast<COLLIDER_DESC*>(pArg);
+	m_iColliderLayer = pDesc->iColliderLayer;
+	m_iCollisionMask = pDesc->iCollisionMask;
+	m_pOwnerWorldMatrix = pDesc->pOwnerWorldMatrix;
+
 	switch (m_eType)
 	{
 	case Engine::COLLIDER::SPHERE:
-		m_pBounding = CBounding_Sphere::Create(m_pDevice, m_pContext, pArg);
+		m_pBounding = CBounding_Sphere::Create(m_pDevice, m_pContext, pDesc->pBoundDesc);
 		break;
 	case Engine::COLLIDER::AABB:
-		m_pBounding = CBounding_AABB::Create(m_pDevice, m_pContext, pArg);
+		m_pBounding = CBounding_AABB::Create(m_pDevice, m_pContext, pDesc->pBoundDesc);
 		break;
 	case Engine::COLLIDER::OBB:
-		m_pBounding = CBounding_OBB::Create(m_pDevice, m_pContext, pArg);
+		m_pBounding = CBounding_OBB::Create(m_pDevice, m_pContext, pDesc->pBoundDesc);
 		break;
 	case Engine::COLLIDER::END:
 		break;
@@ -71,10 +76,41 @@ HRESULT CCollider::Initialize_Clone(void* pArg)
 	return S_OK;
 }
 
-void CCollider::Update_Collider(FXMMATRIX WorldMatrix)
+void CCollider::Update_Collider()
 {
-	m_pBounding->Update(WorldMatrix);
+	m_pBounding->Update(XMLoadFloat4x4(m_pOwnerWorldMatrix));
+	
+	m_isTriggerEnter = FALSE;
+	m_isTriggerExit = FALSE;
+	m_isTriggerStay = FALSE;
+
+	if (m_isHit)
+	{
+		if (!m_isEnter)
+		{
+			m_isEnter = TRUE;
+			m_isTriggerEnter = TRUE;
+		}
+		else
+		{
+			m_isTriggerStay = TRUE;
+		}
+	}
+	else
+	{
+		if (m_isEnter)
+		{
+			m_isEnter = FALSE;
+			m_isTriggerExit = TRUE;
+		}
+	}
 }
+
+_bool CCollider::Intersect(CCollider* pTargetCollider)
+{
+	return  m_pBounding->Intersect(pTargetCollider->m_eType, pTargetCollider->m_pBounding);
+}
+
 
 #ifdef _DEBUG
 
@@ -88,7 +124,8 @@ HRESULT CCollider::Render()
 	m_pContext->IASetInputLayout(m_pInputLayout);
 
 	m_pBatch->Begin();
-
+	if (m_isHit)
+		int a = 0;
 	m_pBounding->Render(m_pBatch, m_isHit);
 
 	m_pBatch->End();

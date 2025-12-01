@@ -17,6 +17,7 @@ protected:
 
 public:
 	virtual void Update(FXMMATRIX WorldMatrix) PURE;
+	virtual _bool Intersect(COLLIDER eTargetType, CBounding* pTarget) PURE;
 
 #ifdef _DEBUG
 public:

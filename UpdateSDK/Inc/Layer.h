@@ -23,8 +23,6 @@ public:
 private:
 	list<CObject*> m_ObjectList;
 
-	_bool m_isBreak = { FALSE };
-
 public:
 	static CLayer* Create();
 	virtual void Free() override;	
