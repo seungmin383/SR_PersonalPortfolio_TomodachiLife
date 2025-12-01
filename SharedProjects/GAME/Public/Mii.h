@@ -7,14 +7,6 @@ NS_BEGIN(Game)
 class CMii final : public CContainerObject
 {
 public:
-	enum STATE
-	{
-		IDLE = 1 << 0,
-		WALK = 1 << 1,
-		RUN = 1 << 2
-	};
-
-public:
 	typedef struct tagMiiDesc : public CContainerObject::CONTAINEROBJECT_DESC
 	{
 

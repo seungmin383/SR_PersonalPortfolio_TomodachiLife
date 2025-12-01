@@ -71,27 +71,27 @@ int32_t CTestMii::Update_Priority(_float fDT)
 		m_pTransformCom->TurnY(-fDT);
 	}
 
-	/* Change Animation 을 하고 PlayAnimation 권장 */
-	if (m_pGameInstance->Get_DIKeyState(DIK_1))
-	{
-		m_pSeModel->Change_Animation("CM_Call", 0.2f, TRUE);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_2))
-	{
-		m_pSeModel->Change_Animation("CM_JumpDelight", 0.2f, TRUE);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_3))
-	{
-		m_pSeModel->Change_Animation("CM_Walk01", 0.2f, TRUE);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_4))
-	{
-		m_pSeModel->Change_Animation("CM_Wait03", 0.2f, TRUE);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_5))
-	{
-		m_pSeModel->Change_Animation("CM_Run00", 0.2f, TRUE);
-	}
+	///* Change Animation 을 하고 PlayAnimation 권장 */
+	//if (m_pGameInstance->Get_DIKeyState(DIK_1))
+	//{
+	//	m_pSeModel->Change_Animation("CM_Call", 0.2f, TRUE);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_2))
+	//{
+	//	m_pSeModel->Change_Animation("CM_JumpDelight", 0.2f, TRUE);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_3))
+	//{
+	//	m_pSeModel->Change_Animation("CM_Walk01", 0.2f, TRUE);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_4))
+	//{
+	//	m_pSeModel->Change_Animation("CM_Wait03", 0.2f, TRUE);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_5))
+	//{
+	//	m_pSeModel->Change_Animation("CM_Run00", 0.2f, TRUE);
+	//}
 
 	return 0;
 }

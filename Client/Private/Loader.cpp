@@ -701,7 +701,7 @@ HRESULT CLoader::Loading_Developer()
 			InitMatrix = XMMatrixIdentity();
 
 			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_BasicManBody_Model", ANIM_TYPE::ANIM,
-				"../../../../../../Resource/dev/05_Anim_fbx/CM_Run00.fbx", InitMatrix, "ChineseDress");
+				"../../../../../../Resource/dev/05_Anim_fbx/CM_Greet00.fbx", InitMatrix, "ChineseDress");
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_BasicManBody_Model"), tmp)))
 				return E_FAIL;
 		}

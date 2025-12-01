@@ -40,12 +40,14 @@ int32_t CMiiBody::Update_Priority(_float fDT)
 
 int32_t CMiiBody::Update(_float fDT)
 {
-	if (CMii::STATE::IDLE & *m_pParentState)
+	if (static_cast<int32_t>(STATE::IDLE) & *m_pParentState)
 		m_pSeModel->Change_Animation("CM_Wait00", 0.2f, TRUE);
-	if (CMii::STATE::WALK & *m_pParentState)
+	if (static_cast<int32_t>(STATE::WALK) & *m_pParentState)
 		m_pSeModel->Change_Animation("CM_Walk01", 0.2f, TRUE);
-	if (CMii::STATE::RUN & *m_pParentState)
+	if (static_cast<int32_t>(STATE::RUN )& *m_pParentState)
 		m_pSeModel->Change_Animation("CM_Run00", 0.2f, TRUE);
+	if (static_cast<int32_t>(STATE::Greet )& *m_pParentState)
+		m_pSeModel->Change_Animation("CM_Greet00", 0.2f, TRUE);
 
 	if (m_pGameInstance->Get_DIKeyState(DIK_B))
 	{

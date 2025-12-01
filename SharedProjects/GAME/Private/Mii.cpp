@@ -78,65 +78,65 @@ HRESULT CMii::Render()
 
 void CMii::Key_Control(float fDT)
 {
-	m_iState = IDLE;
+	m_iState = static_cast<int32_t>(STATE::IDLE);
 
 	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
 	{
-		m_iState &= ~STATE::IDLE;
+		m_iState &= ~static_cast<int32_t>(STATE::IDLE);
 		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
 		{
 			m_pTransformCom->Go_Straight(fDT * 2.f);
-			m_iState |= STATE::RUN;
+			m_iState |= static_cast<int32_t>(STATE::RUN);
 		}
 		else
 		{
 			m_pTransformCom->Go_Straight(fDT);
-			m_iState |= STATE::WALK;
+			m_iState |= static_cast<int32_t>( STATE::WALK);
 		}
 	}
 
 	if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
 	{
-		m_iState &= ~STATE::IDLE;
+		m_iState &= ~static_cast<int32_t>(STATE::IDLE);
 		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
 		{
 			m_pTransformCom->Go_Backward(fDT * 2.f);
-			m_iState |= STATE::RUN;
+			m_iState |= static_cast<int32_t>(STATE::RUN);
 		}
 		else
 		{
 			m_pTransformCom->Go_Backward(fDT);
-			m_iState |= STATE::WALK;
+			m_iState |= static_cast<int32_t>(STATE::WALK);
 		}
 	}
 
 	if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
 	{
-		m_iState &= ~STATE::IDLE;
+		m_iState &= ~static_cast<int32_t>(STATE::IDLE);
 		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
 		{
 			m_pTransformCom->TurnY(-fDT * 2.f);
-			m_iState |= STATE::RUN;
+			m_iState |= static_cast<int32_t>(STATE::RUN);
 		}
 		else
 		{
 			m_pTransformCom->TurnY(-fDT);
-			m_iState |= STATE::WALK;
+			m_iState |= static_cast<int32_t>(STATE::WALK);
 		}
 	}	
 	
 	if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
 	{
-		m_iState &= ~STATE::IDLE;
+		m_iState &= ~static_cast<int32_t>(STATE::IDLE);
 		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
 		{
 			m_pTransformCom->TurnY(fDT * 2.f);
-			m_iState |= STATE::RUN;
+			m_iState |= static_cast<int32_t>(STATE::RUN);
 		}
 		else
 		{
 			m_pTransformCom->TurnY(fDT);
-			m_iState |= STATE::WALK;
+			m_iState |= static_cast<int32_t>(STATE::WALK);
 		}
 	}
 }

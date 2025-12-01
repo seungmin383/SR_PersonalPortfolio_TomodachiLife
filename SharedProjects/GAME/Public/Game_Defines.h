@@ -63,6 +63,14 @@ namespace Game
 		MASK,
 		END
 	};
+
+	enum class STATE
+	{
+		IDLE = 1 << 0,
+		WALK = 1 << 1,
+		RUN = 1 << 2,
+		Greet = 1 << 3
+	};
 }
 using namespace std;
 using namespace Game;

@@ -18,6 +18,8 @@ public:
 
 	void Update_Collider(FXMMATRIX WorldMatrix);
 
+	_bool Intersect(CCollider* pTargetCollider);
+
 #ifdef _DEBUG
 	HRESULT Render()override;
 #endif // _DEBUG
