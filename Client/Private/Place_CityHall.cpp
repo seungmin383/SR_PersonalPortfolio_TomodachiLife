@@ -169,6 +169,7 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 			CBackGround::BACKGROUND_DESC tBackGroundDesc = {};
 			tBackGroundDesc.fX = 480.f;
 			tBackGroundDesc.fY = 240.f;
+			tBackGroundDesc.fZ = 1.f;
 			tBackGroundDesc.fCX = 960.f;
 			tBackGroundDesc.fCY = 480.f;
 			tBackGroundDesc.fSpeedPerSecond = 0.f;

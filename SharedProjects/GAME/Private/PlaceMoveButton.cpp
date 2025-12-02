@@ -97,7 +97,6 @@ HRESULT CPlaceMoveButton::Render()
 	if (FAILED(m_pShaderCom->Begin(VTS_PLACEMOVEBUTTON)))
 		return E_FAIL;
 
-
 	if (FAILED(m_pRectBufferCom->Begin_Draw()))
 		return E_FAIL;
 
@@ -186,8 +185,6 @@ int32_t CPlaceMoveButton::On_Click()
 		m_iOutlineTextureNum = m_iStoreOutlineTextureNum;
 		m_isSelected = TRUE;
 	}
-
-	/* 이 버튼이 선택되어 있었는데 클릭되었다면 -> 씬 전환*/
 	else
 	{
 		m_pClickStrategy->OnClick();
@@ -199,7 +196,6 @@ int32_t CPlaceMoveButton::On_Click()
 void CPlaceMoveButton::Camera_Control(_float fDT)
 {
 	_float fRatio = fDT / m_fLerpTime;
-
 	m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMLoadFloat4(&m_vTargetPos), m_fTargetFov, fRatio);
 }
 

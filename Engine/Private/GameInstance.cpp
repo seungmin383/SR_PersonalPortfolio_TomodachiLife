@@ -262,7 +262,8 @@ HRESULT CGameInstance::Clear_Resources(uint32_t PlaceID)
 		return E_FAIL;
 	if (FAILED(m_pPrototype->Clear_Prototype(PlaceID)))
 		return E_FAIL;
-
+	if (FAILED(m_pCollisionManager->Clear_Collides(PlaceID)))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -320,21 +321,6 @@ inline HRESULT CGameInstance::GraphicDevice_Present()
 void CGameInstance::GraphicDevice_Bind_Viewport(VIEWPORT_TYPE ViewportType)
 {
 	m_pGraphicDevice->Bind_Viewport(ViewportType);
-}
-
-void CGameInstance::GraphicDevice_Bind_RenderState(RENDER_STATE eRenderState)
-{
-	m_pGraphicDevice->Bind_RenderState(eRenderState);
-}
-
-void CGameInstance::GraphicDevice_AlphaBlend_On()
-{
-	m_pGraphicDevice->AlphaBlend_On();
-}
-
-void CGameInstance::GraphicDevice_AlphaBlend_Off()
-{
-	m_pGraphicDevice->AlphaBlend_Off();
 }
 
 #pragma endregion

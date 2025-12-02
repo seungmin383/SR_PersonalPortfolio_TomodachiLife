@@ -1,3 +1,5 @@
+#include "Shader_Defines.hlsli"
+
 matrix g_WorldMatrix;
 matrix g_ViewMatrix;
 matrix g_ProjMatrix;
@@ -8,7 +10,7 @@ vector g_vLightDiffuse = vector(1.f, 1.f, 1.f, 1.f);
 vector g_vLightAmbient = vector(1.f, 1.f, 1.f, 1.f);
 vector g_vLightSpecular = vector(0.f, 0.f, 0.f, 0.f);
 
-vector g_vMtrlAmbient = vector(0.7f, 0.7f, 0.7f, 1.f);
+vector g_vMtrlAmbient = vector(0.8f, 0.8f, 0.8f, 1.f);
 vector g_vMtrlSpecular = vector(1.0f, 1.0f, 1.0f, 1.f);
 
 texture2D g_DiffuseTexture;
@@ -101,7 +103,7 @@ PS_OUT PS_MAIN(PS_IN In)
     float3 vFinalColor = 
     (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
     
-    Out.vColor = float4(vFinalColor, fAlpha);
+    Out.vColor = float4(vFinalColor += 0.1f , fAlpha);
     
     return Out;
 }
@@ -111,6 +113,9 @@ technique11 DefaultTechnique
 {
     pass Model
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();
     }

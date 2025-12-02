@@ -72,10 +72,7 @@ public:
 	HRESULT GraphicDevice_Present();
 
 	void GraphicDevice_Bind_Viewport(VIEWPORT_TYPE ViewportType);
-	void GraphicDevice_Bind_RenderState(RENDER_STATE eRenderState);
 
-	void GraphicDevice_AlphaBlend_On();
-	void GraphicDevice_AlphaBlend_Off();
 #pragma endregion
 
 	#pragma region OBJECT_MANAGER

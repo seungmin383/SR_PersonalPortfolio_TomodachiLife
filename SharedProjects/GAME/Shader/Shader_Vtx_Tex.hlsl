@@ -1,3 +1,5 @@
+#include "Shader_Defines.hlsli"
+
 matrix g_WorldMatrix;
 matrix g_ViewMatrix; 
 matrix g_ProjMatrix; 
@@ -190,45 +192,64 @@ technique11 DefaultTechnique
 {
     pass Default
     {
+        SetRasterizerState(RS_NoneCull);
+        SetDepthStencilState(DSS_Default, 0);
+
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 
     pass MixTexture
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MIX_TEXTURE();
     }
 
     pass Brighten
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_ADJUST_BRIGHTNESS();
     }
 
     pass Color
     {
+        SetRasterizerState(RS_NoneCull);
+        SetDepthStencilState(DSS_Default, 0);
+
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_COLOR();
     }
 
     pass MixColor
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MIX_COLOR();
     }
 
     pass PlaceMoveButton
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_FOR_PLACEMOVEBUTTON();
     }
 
     pass Texcoord
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_TEXCOORD();
     }
-
-
 }

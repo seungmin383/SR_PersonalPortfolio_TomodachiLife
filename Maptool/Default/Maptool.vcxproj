@@ -25,6 +25,7 @@
     <ClInclude Include="..\Public\MainApp.h" />
     <ClInclude Include="..\Public\Maptool_Defines.h" />
     <ClInclude Include="..\Public\ModelConverter.h" />
+    <ClInclude Include="..\Public\Place_CutScene.h" />
     <ClInclude Include="..\Public\ProjectWindow.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Maptool.h" />
@@ -41,6 +42,7 @@
     <ClCompile Include="..\Private\ImgWin.cpp" />
     <ClCompile Include="..\Private\MainApp.cpp" />
     <ClCompile Include="..\Private\ModelConverter.cpp" />
+    <ClCompile Include="..\Private\Place_CutScene.cpp" />
     <ClCompile Include="..\Private\ProjectWindow.cpp" />
     <ClCompile Include="Maptool.cpp" />
   </ItemGroup>

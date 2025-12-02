@@ -45,6 +45,24 @@ namespace Game
 	/* g_Pow */
 #define VTS_TEXCOORD 6
 
+
+
+	/* texture2D */
+	/* g_DiffuseTexture */
+#define VMS_DEFAULT 0
+
+	/* float4 */
+	/* g_BaseColor */
+#define VMS_COLOR 1
+
+	/* float4 */
+	/* g_BaseColor */
+#define VMS_NONE_COLOR 2
+
+	/* texture2D, float */
+	/* g_DiffuseTexture, g_Brightness */
+#define VMS_BRIGHTNESS 3
+
 	enum class PLACEID {
 		STATIC,
 		ISLAND,

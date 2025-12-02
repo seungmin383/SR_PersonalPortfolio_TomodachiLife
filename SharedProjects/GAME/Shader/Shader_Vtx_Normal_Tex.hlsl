@@ -1,3 +1,5 @@
+#include "Shader_Defines.hlsli"
+
 //float4 == vector
 matrix g_WorldMatrix; // 월드 매트릭스
 matrix g_ViewMatrix; // 뷰 매트릭스
@@ -116,6 +118,9 @@ technique11 DefaultTechnique
 {
     pass Default
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();
     }

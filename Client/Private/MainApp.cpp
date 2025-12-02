@@ -21,12 +21,15 @@
 #include "MiiMouth.h"
 
 #include "SEMii.h"
+#include "SEMiiBody.h"
 #include "SEMiiHead.h"
 #include "SEMiiHair.h"
 #include "SEMiiEyes.h"
 #include "SEMiiEyebrow.h"
 #include "SEMiiNose.h"
 #include "SEMiiMouth.h"
+
+#include "Collider.h"
 
 // UI
 #include "LoadingBG.h"
@@ -38,6 +41,23 @@ CMainApp::CMainApp()
 	:m_pGameInstance(CGameInstance::GetInstance())
 {
 	Safe_AddRef(m_pGameInstance);
+
+
+	ID3D11RasterizerState;
+	ID3D11BlendState;
+	ID3D11DepthStencilState;
+
+	D3D11_RASTERIZER_DESC;
+	D3D11_BLEND_DESC;
+	D3D11_DEPTH_STENCIL_DESC;
+
+	//m_pDevice->CreateRasterizerState();
+	//m_pDevice->CreateBlendState();
+	//m_pDevice->CreateDepthStencilState();
+
+	//m_pContext->RSSetState();
+	//m_pContext->OMSetBlendState();
+	//m_pContext->OMSetDepthStencilState();
 }
 
 HRESULT CMainApp::Initialize()
@@ -122,17 +142,9 @@ HRESULT CMainApp::Ready_Static()
 
 		// ProtoTag_Component_VtxMeshShader
 		{
-			tmp = CShaderCom::Create(
-				m_pDevice,
-				m_pContext,
-				TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Mesh.hlsl"),
-				Engine::VTX_TEX_MESH::Elements,
-				Engine::VTX_TEX_MESH::iNumElements);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACEID::STATIC),
-				TEXT("ProtoTag_Component_VtxMeshShader"),
-				tmp)))
+			 tmp = CShaderCom::Create(m_pDevice, m_pContext, TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Mesh.hlsl"),
+				 Engine::VTX_TEX_MESH::Elements, Engine::VTX_TEX_MESH::iNumElements);
+			 if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxMeshShader"), tmp)))
 				return E_FAIL;
 		}
 
@@ -187,6 +199,14 @@ HRESULT CMainApp::Ready_Static()
 		{
 			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/UIBackGorund/Loading.dds"), 1);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_LoadingTexture"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 구 콜라이더 */
+		// ProtoTag_Component_SphereCollider
+		{
+			tmp = CCollider::Create(m_pDevice, m_pContext, COLLIDER::SPHERE);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_SphereCollider"), tmp)))
 				return E_FAIL;
 		}
 	 }
@@ -490,6 +510,10 @@ HRESULT CMainApp::Ready_ModelActor()
 	{
 		tmp = CMiiBody::Create(m_pDevice, m_pContext);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiBody"), tmp)))
+			return E_FAIL;
+
+		tmp = CSEMiiBody::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiBody"), tmp)))
 			return E_FAIL;
 	}
 

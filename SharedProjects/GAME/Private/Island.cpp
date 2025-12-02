@@ -18,31 +18,25 @@ HRESULT CIsland::Initialize_Origin()
 
 HRESULT CIsland::Initialize_Clone(void* pArg)
 {
-
 	if (FAILED(CActor::Initialize_Clone(pArg)))
 		return E_FAIL;
-
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
-
 	return S_OK;
 }
 
 int32_t CIsland::Update_Priority(_float fDT)
 {
-	int a = 0;
-	return 0;
+	return UPDATE_CLEAR;
 }
 
 int32_t CIsland::Update(_float fDT)
 {
-	int a = 0;
-	return 0;
+	return UPDATE_CLEAR;
 }
 
 void CIsland::Update_Late(_float fDT)
 {
-	// m_pGameInstance->RenderManager_Add_RenderGroup(RENDER_GROUP::TOP_NONBLEND, this);
 	 CActor::Update_Late(fDT);
 }
 
@@ -50,128 +44,67 @@ HRESULT CIsland::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-
-#ifdef TEST
-	uint32_t iNumMeshes = m_pModel->Get_NumMesh();
-	for (uint32_t i = 0; i < iNumMeshes; i++)
-	{
-		m_pModel->Bind_Material(m_pShaderCom,"g_DiffuseTexture",i,aiTextureType_DIFFUSE);
-		m_pShaderCom->Begin(0);
-		m_pModel->Render(i);
-	}
-#else
-	uint32_t iNumMeshes = m_pseModel->Get_NumMesh();
-	for (uint32_t i = 0; i < iNumMeshes; i++)
+	uint32_t iNumMesh = m_pseModel->Get_NumMesh();
+	for (uint32_t i = 0; i < iNumMesh; i++)
 	{
 		m_pseModel->Bind_Material(m_pShaderCom,"g_DiffuseTexture",i,se_TextureType_DIFFUSE);
-		m_pShaderCom->Begin(0);
+		m_pShaderCom->Begin(VMS_DEFAULT);
 		m_pseModel->Render_SeModel(i);
 	}
-#endif // TEST
-
-	
-
 	return S_OK;
 }
 
-void CIsland::Calc_Object_Place_Point()
-{
-	//m_vObjectPlaceVertices
-}
-
-//ProtoTag_Component_Island_seModel
 HRESULT CIsland::Ready_Component()
 {
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::STATIC),
-		TEXT("ProtoTag_Component_VtxMeshShader"),
-		TEXT("Com_Shader"),
-		reinterpret_cast<CComponent**>(&m_pShaderCom),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxMeshShader"), TEXT("Com_Shader"),
+		reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
-#ifdef TEST
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACE_ID::ISLAND),
-		TEXT("ProtoTag_Component_Island_Model"),
-		TEXT("Com_Model"),
-		reinterpret_cast<CComponent**>(&m_pModel),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_Island_seModel"), TEXT("Com_Model"),
+		reinterpret_cast<CComponent**>(&m_pseModel), nullptr)))
 		return E_FAIL;
-#else
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::STATIC),
-		TEXT("ProtoTag_Component_Island_seModel"),
-		TEXT("Com_Model"),
-		reinterpret_cast<CComponent**>(&m_pseModel),
-		nullptr)))
-		return E_FAIL;
-#endif // TEST
-
-
-
 	return S_OK;
 }
 
 HRESULT CIsland::Bind_ShaderResources()
 {
-	HRESULT hr = {};
-
-	hr = m_pTransformCom->Bind_ShaderResource(
-		m_pShaderCom,
-		"g_WorldMatrix");
-
-	m_pGameInstance->CameraManager_Bind_Matrix(
-		m_pShaderCom,
-		"g_ViewMatrix",
-		TEXT("World_Camera"),
-		D3DTS::VIEW);
-
-	m_pGameInstance->CameraManager_Bind_Matrix(
-		m_pShaderCom,
-		"g_ProjMatrix",
-		TEXT("World_Camera"),
-		D3DTS::PROJ);
-
-	m_pGameInstance->CameraManager_Bind_Camera_Pos(
-		m_pShaderCom,
-		"g_vCamPosition",
-		TEXT("World_Camera"));
-
-	return hr;
+	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom,"g_ViewMatrix",TEXT("World_Camera"),D3DTS::VIEW)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom,"g_ProjMatrix",TEXT("World_Camera"),D3DTS::PROJ)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShaderCom,"g_vCamPosition",TEXT("World_Camera"))))
+		return E_FAIL;
+	return S_OK;
 }
 
 CIsland* CIsland::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CIsland* tmp = new CIsland(pDevice, pContext);
-
-	if (FAILED(tmp->Initialize_Origin()))
+	CIsland* pInstance = new CIsland(pDevice, pContext);
+	if (FAILED(pInstance->Initialize_Origin()))
 	{
-		MSG_BOX("ErrCode : Island Create Failed");
-		Safe_Release(tmp);
+		MSG_BOX("ErrCode : CIsland Create Failed");
+		Safe_Release(pInstance);
 		return nullptr;
 	}
-
-	return tmp;
+	return pInstance;
 }
 
 CObject* CIsland::Clone(void* pArg)
 {
-	CIsland* tmp = new CIsland(*this);
-
-	if (FAILED(tmp->Initialize_Clone(pArg)))
+	CIsland* pInstance = new CIsland(*this);
+	if (FAILED(pInstance->Initialize_Clone(pArg)))
 	{
-		MSG_BOX("ErrCode : Island Clone Failed");
-		Safe_Release(tmp);
+		MSG_BOX("ErrCode : CIsland Clone Failed");
+		Safe_Release(pInstance);
 		return nullptr;
 	}
-
-	return tmp;
+	return pInstance;
 }
 
 void CIsland::Free()
 {
 	Safe_Release(m_pShaderCom);
-	// Safe_Release(m_pModel);
 	Safe_Release(m_pseModel);
 	CActor::Free();
 }

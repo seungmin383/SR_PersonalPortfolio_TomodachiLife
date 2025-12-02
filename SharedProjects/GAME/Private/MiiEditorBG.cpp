@@ -29,14 +29,11 @@ HRESULT CMiiEditorBG::Initialize_Clone(void* pArg)
 
 int32_t CMiiEditorBG::Update_Priority(_float fDT)
 {
-
-	
 	return UPDATE_CLEAR;
 }
 
 int32_t CMiiEditorBG::Update(_float fDT)
 {
-	// m_pSeModel->Play_Animation(fDT);
 	return UPDATE_CLEAR;
 }
 
@@ -51,21 +48,14 @@ HRESULT CMiiEditorBG::Render()
 		return E_FAIL;
 
 	uint32_t NumMesh = m_pSeModel->Get_NumMesh();
-
 	for (uint32_t i = 0; i < NumMesh; i++)
 	{
 		if (FAILED(m_pSeModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
 			return E_FAIL;
-
-		//if (FAILED(m_pSeModel->Bind_Bones(m_pShaderCom, "g_BoneMatrices", i)))
-		//	return E_FAIL;
-
-		if (FAILED(m_pShaderCom->Begin(3)))
+		if (FAILED(m_pShaderCom->Begin(VMS_BRIGHTNESS)))
 			return E_FAIL;
-
 		m_pSeModel->Render_SeModel(i);
 	}
-
 	return S_OK;
 }
 
@@ -86,16 +76,16 @@ HRESULT CMiiEditorBG::Bind_ShaderResources()
 {
 	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
-
 	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ViewMatrix", TEXT("World_Camera"), D3DTS::VIEW)))
 		return E_FAIL;
-
 	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ)))
 		return E_FAIL;
-
 	if (FAILED(m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShaderCom, "g_vCamPosition", TEXT("World_Camera"))))
 		return E_FAIL;
 
+	_float fBright = 0.1f;
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Brightness", &fBright, sizeof(_float))))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -104,7 +94,6 @@ CMiiEditorBG* CMiiEditorBG::Create(
 	ID3D11DeviceContext* pContext)
 {
 	CMiiEditorBG* pInstace = new CMiiEditorBG(pDevice, pContext);
-
 	if (FAILED(pInstace->Initialize_Origin()))
 	{
 		MSG_BOX("ErrCode : CMiiEditorBG Create Failed");
@@ -117,7 +106,6 @@ CMiiEditorBG* CMiiEditorBG::Create(
 CObject* CMiiEditorBG::Clone(void* pArg)
 {
 	CMiiEditorBG* pInstace = new CMiiEditorBG(*this);
-
 	if (FAILED(pInstace->Initialize_Clone(pArg)))
 	{
 		MSG_BOX("ErrCode : CMiiEditorBG Clone Failed");

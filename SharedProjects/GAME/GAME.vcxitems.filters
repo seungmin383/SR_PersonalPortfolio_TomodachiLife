@@ -157,6 +157,9 @@
     <Filter Include="00.Manager\ApartManager">
       <UniqueIdentifier>{e4c35c7d-2bcd-4221-84c8-fe011522b201}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Actor\06.Room">
+      <UniqueIdentifier>{b4e24ad7-e1bf-427c-ae8c-80c292a4dede}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -323,6 +326,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ApartInformation.h">
       <Filter>99.Defines</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Room.h">
+      <Filter>02.Actor\06.Room</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiBody.h">
+      <Filter>02.Actor\03.Mii\Body</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -460,10 +469,19 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ApartManager.cpp">
       <Filter>00.Manager\ApartManager</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Room.cpp">
+      <Filter>02.Actor\06.Room</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMiiBody.cpp">
+      <Filter>02.Actor\03.Mii\Body</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)GameData\config.json">
       <Filter>GameData</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Shader\Shader_Defines.hlsli">
+      <Filter>04.Shader</Filter>
     </None>
   </ItemGroup>
 </Project>

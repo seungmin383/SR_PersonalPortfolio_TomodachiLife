@@ -16,6 +16,7 @@ public:
 	int32_t Update(_float fDT);
 
 	HRESULT Add_Collider(uint32_t iPlaceID, COLLISION eCollisionType, CCollider* pCollider);
+	HRESULT Clear_Collides(uint32_t iPlaceID);
 
 private:
 	uint32_t m_iNumPlace = {};

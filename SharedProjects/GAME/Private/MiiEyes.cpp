@@ -81,7 +81,6 @@ HRESULT CMiiEyes::Render()
 		return E_FAIL;
 
 	if (FAILED(m_pRectBuffer->Begin_Draw()))
-
 		return E_FAIL;
 	return S_OK;
 }

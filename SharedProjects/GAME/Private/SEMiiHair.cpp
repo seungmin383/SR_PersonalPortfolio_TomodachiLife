@@ -62,7 +62,7 @@ HRESULT CSEMiiHair::Render()
 		if (FAILED(m_pSeModel->Bind_Material(m_pShader, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
 			return E_FAIL;
 
-		if (FAILED(m_pShader->Begin(2)))
+		if (FAILED(m_pShader->Begin(VMS_NONE_COLOR)))
 			return E_FAIL;
 
 		m_pSeModel->Render_SeModel(i);
@@ -72,16 +72,11 @@ HRESULT CSEMiiHair::Render()
 
 HRESULT CSEMiiHair::Ready_Component()
 {
-	/* Shader */
 	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxMeshShader"), TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
 		return E_FAIL;
 
-	/* Model */
-	_wstring Name = L"Com_ModelCom";
-	_wstring Prototag = L"ProtoTag_Component_seHair";
-	Prototag += to_wstring(m_iCurModelIndex + 1);
-
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), Prototag, Name, reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
+	_wstring strPrototag = L"ProtoTag_Component_seHair" + to_wstring(m_iCurModelIndex + 1);
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), strPrototag, TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 
 	return S_OK;
@@ -89,8 +84,6 @@ HRESULT CSEMiiHair::Ready_Component()
 
 HRESULT CSEMiiHair::Bind_ShaderResources()
 {
-	if (FAILED(m_pShader->Bind_RawValue("g_MatColor", &m_vHairColor, sizeof(XMFLOAT4))))
-		return E_FAIL;
 	if(FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
 		return E_FAIL;
 	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ViewMatrix", TEXT("World_Camera"), D3DTS::VIEW)))
@@ -98,6 +91,8 @@ HRESULT CSEMiiHair::Bind_ShaderResources()
 	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ)))
 		return E_FAIL;
 	if(FAILED(m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShader, "g_vCamPosition", TEXT("World_Camera"))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_RawValue("g_BaseColor", &m_vHairColor, sizeof(XMFLOAT4))))
 		return E_FAIL;
 
 	return S_OK;
@@ -130,7 +125,6 @@ CObject* CSEMiiHair::Clone(void* pArg)
 void CSEMiiHair::Free()
 {
 	Safe_Release(m_pSeModel);
-	
 	Safe_Release(m_pShader);
 	CPartObject::Free();
 }

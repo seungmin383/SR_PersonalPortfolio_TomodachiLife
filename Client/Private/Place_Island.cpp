@@ -919,18 +919,13 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 tPlaceMoveButtonDesc.fX = 760.f;
 		 tPlaceMoveButtonDesc.fY = 260.f;
 		 tPlaceMoveButtonDesc.pStrategy = CChangePlace_Strategy::Create(m_pDevice, m_pContext, PLACEID::APART);
-
 		 tPlaceMoveButtonDesc.iTextureNum = 18;
 
-		 tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
-			 TEXT("ProtoTag_UI_PlaceMoveButton"),
-			 &tPlaceMoveButtonDesc);
+		 tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND),
+			 TEXT("ProtoTag_UI_PlaceMoveButton"), &tPlaceMoveButtonDesc);
 
 		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			 static_cast<uint32_t>(PLACEID::ISLAND),
-			 TEXT("LayerTag_UI"),
-			 tmp)))
+			 static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI"), tmp)))
 		 {
 			 Safe_Release(tmp);
 			 return E_FAIL;
@@ -949,6 +944,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 CBackGround::BACKGROUND_DESC tBackGroundDesc = {};
 		 tBackGroundDesc.fX = 480.f;
 		 tBackGroundDesc.fY = 240.f;
+		 tBackGroundDesc.fZ = 1.f;
 		 tBackGroundDesc.fCX = 960.f;
 		 tBackGroundDesc.fCY = 480.f;
 		 tBackGroundDesc.fSpeedPerSecond = 0.f;

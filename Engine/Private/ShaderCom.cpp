@@ -73,7 +73,7 @@ HRESULT CShaderCom::Initialize_Origin(
 		// Input Layout 생성
 		ID3D11InputLayout* pInputLayout = { nullptr };
 
-		// Pass ? 생성 -> Technique를 이용해서 받아옴
+		// Pass 생성 -> Technique를 이용해서 받아옴
 		ID3DX11EffectPass* pPass = pTechnique->GetPassByIndex(i);
 
 		// Pass Desc 생성

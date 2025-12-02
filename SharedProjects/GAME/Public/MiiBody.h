@@ -46,7 +46,6 @@ public:
 private:
 	CSEModel* m_pSeModel = { nullptr };
 	CShaderCom* m_pShader = { nullptr };
-	CCollider* m_pCollider = { nullptr };
 
 private:
 	const uint32_t* m_pParentState = { nullptr };

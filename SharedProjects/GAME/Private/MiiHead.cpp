@@ -33,14 +33,11 @@ HRESULT CMiiHead::Initialize_Clone(void* pArg)
 		return E_FAIL;
 
 	m_vSkinColor = XMFLOAT4(1.0f, 0.82f, 0.71f, 1.0f);
-
-
 	return S_OK;
 }
 
 int32_t CMiiHead::Update_Priority(_float fDT)
 {
-	uint32_t i = CMiiManager::GetInstance()->Get_HeadInfo().iIndex;
 	m_iCurModelIndex = CMiiManager::GetInstance()->Get_HeadInfo().iIndex;
 	CMiiManager::GetInstance()->Get_HeadInfo().vSkinColor = m_vSkinColor;
 	return 0;
@@ -64,15 +61,12 @@ HRESULT CMiiHead::Render()
 		return E_FAIL;
 
 	uint32_t NumMesh = m_pSeModel[m_iCurModelIndex]->Get_NumMesh();
-
 	for (uint32_t i = 0; i < NumMesh; ++i)
 	{
 		if (FAILED(m_pSeModel[m_iCurModelIndex]->Bind_Material(m_pShader, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
 			return E_FAIL;
-
-		if (FAILED(m_pShader->Begin(1)))
+		if (FAILED(m_pShader->Begin(VMS_COLOR)))
 			return E_FAIL;
-
 		m_pSeModel[m_iCurModelIndex]->Render_SeModel(i);
 	}
 	return S_OK;
@@ -80,18 +74,13 @@ HRESULT CMiiHead::Render()
 
 HRESULT CMiiHead::Ready_Component()
 {	
-	/* Shader */
 	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxMeshShader"), TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
 		return E_FAIL;
 
-	/* Model */
-
 	for (uint32_t i = 1; i < 9; ++i)
 	{
-		_wstring Name = L"Com_ModelCom";
-		_wstring Prototag = L"ProtoTag_Component_seHead";
-		Name += to_wstring(i);
-		Prototag += to_wstring(i);
+		_wstring Name = L"Com_ModelCom" + to_wstring(i);
+		_wstring Prototag = L"ProtoTag_Component_seHead" + to_wstring(i);
 
 		if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), Prototag, Name, 
 			reinterpret_cast<CComponent**>(&m_pSeModel[i - 1]), nullptr)))
@@ -103,7 +92,7 @@ HRESULT CMiiHead::Ready_Component()
  
 HRESULT CMiiHead::Bind_ShaderResources()
 {
-	if (FAILED(m_pShader->Bind_RawValue("g_MatColor", &m_vSkinColor, sizeof(XMFLOAT4))))
+	if (FAILED(m_pShader->Bind_RawValue("g_BaseColor", &m_vSkinColor, sizeof(XMFLOAT4))))
 		return E_FAIL;
 	if(FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
 		return E_FAIL;

@@ -1,5 +1,4 @@
-float4 g_MatColor = float4(1.0f, 0.874f, 0.72f, 1.0f);
-float4 g_EyebrowColor;
+#include "Shader_Defines.hlsli"
 
 matrix g_WorldMatrix;
 matrix g_ViewMatrix;
@@ -13,6 +12,9 @@ vector g_vLightSpecular = vector(0.f, 0.f, 0.f, 0.f);
 
 vector g_vMtrlAmbient = vector(0.7f, 0.7f, 0.7f, 1.f);
 vector g_vMtrlSpecular = vector(1.0f, 1.0f, 1.0f, 1.f);
+
+float4 g_BaseColor;
+float g_Brightness;
 
 texture2D g_DiffuseTexture;
 
@@ -58,23 +60,6 @@ VS_OUT VS_MAIN(VS_IN In)
     return Out;
 }
 
-VS_OUT VS_HAIR(VS_IN In)
-{
-    VS_OUT Out;
-    
-    float4 vPosition = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
-    
-    vPosition = mul(vPosition, g_ViewMatrix);
-    vPosition = mul(vPosition, g_ProjMatrix);
-    
-    Out.vPosition = vPosition;
-    Out.vNormal = mul(float4(In.vNormal, 0.f), g_WorldMatrix);
-    Out.vTexcoord = In.vTexcoord;
-    Out.vWorldPosition = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
-    
-    return Out;
-}
-
 struct PS_IN
 {
     float4 vPosition        : SV_POSITION;
@@ -92,8 +77,6 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    // 나중에 diffuse에서 a 값 분리
-    
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
     
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
@@ -108,7 +91,6 @@ PS_OUT PS_MAIN(PS_IN In)
     float3 vFinalColor = 
     (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
     
-    
     if(fAlpha < 0.1f)
         discard;
     
@@ -117,12 +99,10 @@ PS_OUT PS_MAIN(PS_IN In)
     return Out;
 }
 
-PS_OUT PS_MAIN_NOMAT(PS_IN In)
+/* Diffuse 없이 색으로만 */
+PS_OUT PS_COLOR(PS_IN In)
 {
     PS_OUT Out;
-    vector vMtrlDiffuse = g_MatColor;
-
-    float fAlpha = vMtrlDiffuse.a;
     
     float fShade = max(dot(normalize(g_vLightDir) * -1.f, In.vNormal), 0.f);
     
@@ -131,53 +111,66 @@ PS_OUT PS_MAIN_NOMAT(PS_IN In)
     float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 10);
     
     float4 vFinalColor =
-    (g_vLightDiffuse * vMtrlDiffuse) * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient)) + (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
+    (g_vLightDiffuse * g_BaseColor) * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient)) + (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
     
     
     Out.vColor = vFinalColor;
     return Out;
 }
 
-PS_OUT PS_MIIEDITORBG(PS_IN In)
+/* 밝기 조절 */
+PS_OUT PS_ADJUST_BRIGHTNESS(PS_IN In)
 {
     PS_OUT Out;
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    float4 vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
 
-    float4 vColor = vMtrlDiffuse;
-    
-    vColor += 0.1f;
+    float3 vColor = vMtrlDiffuse.rgb;
+    vColor += g_Brightness;
     
     if(vMtrlDiffuse.a < 0.1f)
         discard;
-        
-    float4 vFinalColor = float4(vColor.x, vColor.y, vColor.z, vMtrlDiffuse.a);
-    Out.vColor = vFinalColor;
+    
+    Out.vColor = float4(vColor, vMtrlDiffuse.a);
     return Out;
 }
 
 
 technique11 DefaultTechnique
 {
-    pass Model
+    pass Defualt
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();
     }
-    pass NoMaterialModel
+
+    pass Color
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+
         VertexShader = compile vs_5_0 VS_MAIN();
-        PixelShader = compile ps_5_0 PS_MAIN_NOMAT();
+        PixelShader = compile ps_5_0 PS_COLOR();
     }
-    pass NoMaterialModelHair
+
+    pass ccwColor
     {
-        VertexShader = compile vs_5_0 VS_HAIR();
-        PixelShader = compile ps_5_0 PS_MAIN_NOMAT();
+        SetRasterizerState(RS_NoneCull);
+        SetDepthStencilState(DSS_Default, 0);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_COLOR();
     }
     
-    pass MiiEditorBG
+    pass Brightness
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+
         VertexShader = compile vs_5_0 VS_MAIN();
-        PixelShader = compile ps_5_0 PS_MIIEDITORBG();
+        PixelShader = compile ps_5_0 PS_ADJUST_BRIGHTNESS();
     }
 
 

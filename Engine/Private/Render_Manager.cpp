@@ -35,6 +35,7 @@ HRESULT CRenderManager::Render_Top()
 	Render_Top_NonBlend();
 	Render_Top_Blend();
 	Render_Top_UI();
+	Render_Top_UI_Blend();
 	return S_OK;
 }
 HRESULT CRenderManager::Render_Bottom()
@@ -43,6 +44,7 @@ HRESULT CRenderManager::Render_Bottom()
 	Render_Bottom_NonBlend();
 	Render_Bottom_Blend();
 	Render_Bottom_UI();
+	Render_Top_UI_Blend();
 	return S_OK;
 }
 
@@ -84,7 +86,6 @@ HRESULT CRenderManager::Render_Top_NonBlend()
 
 HRESULT CRenderManager::Render_Top_Blend()
 {
-	m_pGameInstance->GraphicDevice_Bind_RenderState(RENDER_STATE::NONE_BACKCULL);
 	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_BLEND)])
 	{
 		if (nullptr == Object)
@@ -98,7 +99,6 @@ HRESULT CRenderManager::Render_Top_Blend()
 		Safe_Release(Object);
 	}
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_BLEND)].clear();
-	m_pGameInstance->GraphicDevice_Bind_RenderState(RENDER_STATE::BACKCULL);
 	return S_OK;
 }
 
@@ -126,7 +126,6 @@ HRESULT CRenderManager::Render_Top_UI()
 
 HRESULT CRenderManager::Render_Top_UI_Blend()
 {
-	m_pGameInstance->GraphicDevice_AlphaBlend_On();
 	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI_BLEND)])
 	{
 		if (nullptr == Object)
@@ -144,7 +143,6 @@ HRESULT CRenderManager::Render_Top_UI_Blend()
 		Safe_Release(Object);
 	}
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI_BLEND)].clear();
-	m_pGameInstance->GraphicDevice_AlphaBlend_Off();
 	return S_OK;
 }
 
@@ -192,7 +190,6 @@ HRESULT CRenderManager::Render_Bottom_NonBlend()
 
 HRESULT CRenderManager::Render_Bottom_Blend()
 {
-	m_pGameInstance->GraphicDevice_Bind_RenderState(RENDER_STATE::NONE_BACKCULL);
 	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_BLEND)])
 	{
 		if (nullptr == Object)
@@ -206,7 +203,6 @@ HRESULT CRenderManager::Render_Bottom_Blend()
 		Safe_Release(Object);
 	}
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_BLEND)].clear();
-	m_pGameInstance->GraphicDevice_Bind_RenderState(RENDER_STATE::BACKCULL);
 	return S_OK;
 }
 
@@ -233,7 +229,6 @@ HRESULT CRenderManager::Render_Bottom_UI()
 
 HRESULT CRenderManager::Render_Bottom_UI_Blend()
 {
-	m_pGameInstance->GraphicDevice_AlphaBlend_On();
 	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI_BLEND)])
 	{
 		if (nullptr == Object)
@@ -250,7 +245,6 @@ HRESULT CRenderManager::Render_Bottom_UI_Blend()
 		Safe_Release(Object);
 	}
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI_BLEND)].clear();
-	m_pGameInstance->GraphicDevice_AlphaBlend_Off();
 	return S_OK;
 }
 

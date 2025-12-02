@@ -27,22 +27,18 @@ HRESULT CMiiBody::Initialize_Clone(void* pArg)
 
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
 		return E_FAIL;
-
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
-
 	return S_OK;
 }
 
 int32_t CMiiBody::Update_Priority(_float fDT)
 {
-	return 0;
+	return UPDATE_CLEAR;
 }
 
 int32_t CMiiBody::Update(_float fDT)
 {
-	m_pCollider->Update_Collider();
-
 	if (static_cast<int32_t>(STATE::IDLE) & *m_pParentState)
 		m_pSeModel->Change_Animation("CM_Wait00", 0.2f, TRUE);
 	if (static_cast<int32_t>(STATE::WALK) & *m_pParentState)
@@ -57,16 +53,11 @@ int32_t CMiiBody::Update(_float fDT)
 		if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_BabyJumper"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 			return E_FAIL;
 	}
-	return 0;
+	return UPDATE_CLEAR;
 }
 
 void CMiiBody::Update_Late(_float fDT)
 {
-	if (m_pCollider->Get_isTriggerEnter())
-		MSG_BOX("OnTriggerEnter");
-	if (m_pCollider->Get_isTriggerExit())
-		MSG_BOX("OnTriggerExit");
-
 	m_pSeModel->Play_Animation(fDT);
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
 	CPartObject::Update_Late(fDT);
@@ -82,21 +73,13 @@ HRESULT CMiiBody::Render()
 	{
 		if (FAILED(m_pSeModel->Bind_Material(m_pShader, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
 			return E_FAIL;
-
 		if (FAILED(m_pSeModel->Bind_Bones(m_pShader, "g_BoneMatrices", i)))
 			return E_FAIL;
-
 		if (FAILED(m_pShader->Begin(0)))
 			return E_FAIL;
-
 		if (FAILED(m_pSeModel->Render_SeModel(i)))
 			return E_FAIL;
 	}
-#ifdef _DEBUG
-
-	m_pCollider->Render();
-#endif // _DEBUG
-
 	return S_OK;
 }
 
@@ -110,36 +93,20 @@ HRESULT CMiiBody::Ready_Component()
 	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_seChineseDress"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 
-	CBounding_Sphere::SPHERE_DESC BoundDesc = {};
-	BoundDesc.fRadius = 1.f;
-	BoundDesc.vCenter = XMFLOAT3{ 0.f, 0.f, 0.f };
-
-	CCollider::COLLIDER_DESC ColliderDesc = {};
-	ColliderDesc.pBoundDesc = &BoundDesc;
-	ColliderDesc.iColliderLayer = COL_TRIGGER;
-	ColliderDesc.iCollisionMask = COL_OBJECTS;
-	ColliderDesc.pOwnerWorldMatrix = &m_CombinedWorldMatrix;
-
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::DEVELOPER), TEXT("ProtoTag_Component_SPHERECollider"), TEXT("Com_Collider"),
-		reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->CollsionManager_Add_Collider(static_cast<uint32_t>(PLACEID::DEVELOPER), COLLISION::TRIGGER, m_pCollider)))
-		return E_FAIL;
-
 	return S_OK;
 }
 
 HRESULT CMiiBody::Bind_ShaderResources()
 {
-	HRESULT hr = {};
-
-	m_pShader->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix);
-	hr = m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ViewMatrix", TEXT("World_Camera"), D3DTS::VIEW);
-	hr = m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ);
-	hr = m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShader, "g_vCamPosition", TEXT("World_Camera"));
-
-	return hr;
+	if (FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ViewMatrix", TEXT("World_Camera"), D3DTS::VIEW)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShader, "g_vCamPosition", TEXT("World_Camera"))))
+		return E_FAIL;
+	return S_OK;
 }
 
 const XMFLOAT4X4* CMiiBody::Get_SocketMatrix(const _char* pBoneName)

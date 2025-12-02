@@ -31,6 +31,9 @@
     <Filter Include="02.Components\00.AssimpToBin">
       <UniqueIdentifier>{90f4716e-fe57-4f5e-9b92-fe70a8745179}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.Place">
+      <UniqueIdentifier>{f9a2ac7f-12ae-4d2d-9f0d-d8489204ebf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h">
@@ -66,6 +69,9 @@
     <ClInclude Include="..\Public\ModelConverter.h">
       <Filter>02.Components\00.AssimpToBin</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Place_CutScene.h">
+      <Filter>03.Place</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico">
@@ -96,6 +102,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ModelConverter.cpp">
       <Filter>02.Components\00.AssimpToBin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_CutScene.cpp">
+      <Filter>03.Place</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -76,6 +76,20 @@ HRESULT CCollisionManager::Add_Collider(uint32_t iPlaceID, COLLISION eCollisionT
 	return S_OK;
 }
 
+HRESULT CCollisionManager::Clear_Collides(uint32_t iPlaceID)
+{
+	for (auto& pCollider : m_Triggers[iPlaceID])
+		Safe_Release(pCollider);
+	m_Triggers[iPlaceID].clear();
+
+
+	for (auto& pCollider : m_Objects[iPlaceID])
+		Safe_Release(pCollider);
+	m_Objects[iPlaceID].clear();
+
+	return S_OK;
+}
+
 CCollisionManager* CCollisionManager::Create(uint32_t iNumPlace)
 {
 	CCollisionManager* pInstance = new CCollisionManager();

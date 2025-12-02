@@ -35,7 +35,6 @@ public:
 
 	virtual HRESULT Render()override;
 
-	void Calc_Object_Place_Point();
 
 private:
 	HRESULT Ready_Component();

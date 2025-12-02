@@ -21,6 +21,7 @@
 #include "Collider.h"
 #include "IconTexture.h"
 #include "TextButton.h"
+#include "Room.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -411,6 +412,16 @@ HRESULT CLoader::Loading_Apart()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_GirlHair1_Model"), tmp)))
 				return E_FAIL;
 		}
+
+		// ProtoTag_Component_Room
+		{
+			XMMATRIX InitMatrix = XMMatrixIdentity();
+
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Room", ANIM_TYPE::ANIM,
+				"../../Resource/Model_Room/room0.fbx", InitMatrix, "room0");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_Room"), tmp)))
+				return E_FAIL;
+		}
 	}
 
 	// Actor
@@ -418,30 +429,22 @@ HRESULT CLoader::Loading_Apart()
 		// ProtoTag_Actor_Mii
 		{
 			tmp = CTestMii::Create(m_pDevice,m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				iAPART,
-				TEXT("ProtoTag_Actor_Mii"),
-				tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Actor_Mii"), tmp)))
 				return E_FAIL;
 		}
 
 		// ProtoTag_Actor_Player_Body
 		{
 			tmp = CBody::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				iAPART, 
-				TEXT("ProtoTag_Actor_Player_Body"), 
-				tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Actor_Player_Body"), tmp)))
 				return E_FAIL;
 		}
 
+		/* ¹«±â */
 		// ProtoTag_Actor_Player_Weapon
 		{
 			tmp = CWeapon::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				iAPART,
-				TEXT("ProtoTag_Actor_Player_Weapon"),
-				tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Actor_Player_Weapon"), tmp)))
 				return E_FAIL;
 		}
 
@@ -449,10 +452,15 @@ HRESULT CLoader::Loading_Apart()
 		// ProtoTag_Actor_Player
 		{
 			tmp = CPlayer::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				iAPART, 
-				TEXT("ProtoTag_Actor_Player"), 
-				tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Actor_Player"), tmp)))
+				return E_FAIL;
+		}
+
+		/* ÁÖ¹Î ¹æ */
+		// ProtoTag_Actor_Room
+		{
+			tmp = CRoom::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Actor_Room"), tmp)))
 				return E_FAIL;
 		}
 	}
