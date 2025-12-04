@@ -30,8 +30,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\CommonButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ConvertJson.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\IClick_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IconTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IOnClick.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\IRender_Strgy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ISelectedClick_Strgy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ISelect_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IUnlock.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LoadingBG.cpp" />
@@ -51,6 +55,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Room.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SaveChangePlace_Strategy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMii.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMiiBody.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMiiEyebrow.cpp" />
@@ -82,8 +87,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Defines.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Struct.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\IClick_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IconTexture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IOnClick.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\IRender_Strgy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ISelectedClick_Strgy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ISelect_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IUnlock.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LoadingBG.h" />
@@ -103,6 +112,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Room.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SaveChangePlace_Strategy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMii.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiBody.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiEyebrow.h" />

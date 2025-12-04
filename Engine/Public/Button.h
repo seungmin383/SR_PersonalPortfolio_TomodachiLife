@@ -45,7 +45,10 @@ protected:
 	_int m_iButtonIndex = 0;
 
 public:
-	virtual int32_t On_Click()PURE;
+	virtual int32_t On_Click();
+	virtual int32_t On_Select();
+	virtual int32_t On_SelectedClick();
+
 	virtual void Free()override;
 };
 

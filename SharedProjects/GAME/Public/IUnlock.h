@@ -36,6 +36,7 @@ public:
 
 public:
 	static CClothStore_UnlockStrategy* Create() { return new CClothStore_UnlockStrategy; }
+
 	virtual void Free()override { IUnlock::Free(); }
 };
 
