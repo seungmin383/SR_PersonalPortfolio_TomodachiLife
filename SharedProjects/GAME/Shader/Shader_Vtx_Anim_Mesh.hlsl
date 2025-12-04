@@ -108,6 +108,36 @@ PS_OUT PS_MAIN(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_SHADOW(PS_IN In)
+{
+    PS_OUT Out;
+    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    
+    float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
+    float fAlpha = vMtrlDiffuse.a;
+ 
+    Out.vColor = vMtrlDiffuse;
+    Out.vColor = float4(vNoneAlphaDiffuse * 2.f, fAlpha);
+    
+    return Out;
+}
+
+/* 그림자 역 */
+PS_OUT PS_LIGHT(PS_IN In)
+{
+    PS_OUT Out;
+    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    
+    float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
+    float fAlpha = vMtrlDiffuse.a;
+ 
+    Out.vColor = vMtrlDiffuse;
+    Out.vColor = float4(1.f - (vNoneAlphaDiffuse * 2.f), fAlpha);
+    
+    return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -120,5 +150,36 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();
     }
+
+    pass AlphaBlend
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_MAIN();
+    }
+
+    pass Shadow
+    {
+        SetRasterizerState(RS_NoneCull);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_SHADOW();
+    }
+
+    pass Light
+    {
+        SetRasterizerState(RS_NoneCull);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_LIGHT();
+    }
+
 }
 

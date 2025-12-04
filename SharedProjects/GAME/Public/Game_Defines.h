@@ -63,6 +63,14 @@ namespace Game
 	/* g_DiffuseTexture, g_Brightness */
 #define VMS_BRIGHTNESS 3
 
+
+
+
+#define VAMS_DEFAULT 0
+#define VAMS_ALPHABLEND 1
+#define VAMS_SHADOW 2
+#define VAMS_LIGHT 3
+
 	enum class PLACEID {
 		STATIC,
 		ISLAND,

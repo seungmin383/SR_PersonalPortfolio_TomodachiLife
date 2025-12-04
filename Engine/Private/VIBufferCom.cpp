@@ -59,13 +59,6 @@ HRESULT CVIBufferCom::Bind_Resource()
 		0
 	};
 
-	// void ID3D11DeviceContext::IASetVertexBuffers(
-	// 	UINT StartSlot,							//정점 버퍼들을 붙이기 시작할 입력 슬롯의 인덱스 번호 / 총 32개가 있다.
-	// 	UINT NumBuffers,						//입력 슬롯들에 바인딩하고자 하는 버퍼들의 개수
-	// 	ID3D11Buffer* const* ppVertexBuffers,	//내가 바인딩할 버퍼들을 담은 배열의 첫 원소를 가리키는 포인터
-	// 	const UINT* pStrides,					//stride : 해당 정점 버퍼의 한 원소의 바이트 단위 크기, 이러한 stride들을 담은 배열의 첫 원소를 가리키는 포인터
-	// 	const UINT* pOffsets);					//보통 0을 사용한다 / 각 버퍼의 첫 정점이 시작되는 위치를 바이트 단위로 나타낸다. 이러한 offset들을 담은 배열의 첫 원소를 가리키는 포인터
-
 	m_pContext->IASetVertexBuffers(
 		0, 
 		m_iNumVertexBuffers, 

@@ -65,6 +65,9 @@ public:
 public:
 	const uint32_t Get_NumMesh()const { return m_iNumMesh; }
 	const XMFLOAT4X4* Get_BoneCombinedTransformMatrixPtr(const _char* pBoneName)const;
+	const _string& Get_MeshName(uint32_t index)const ;
+	vector<uint32_t> Get_AlphaMeshIndices() { return m_AlphaMeshIndices; }
+	vector<uint32_t> Get_LightMeshIndices() { return m_LightMeshIndices; }
 
 private:
 	_string					m_strSaveFilePath = {};
@@ -77,6 +80,8 @@ private:
 	uint32_t m_iNumMesh = {};
 	vector<SE_MESH> m_seMeshes;
 	vector<SE_ANIM_MESH> m_seAnimMeshes;
+	vector<uint32_t> m_AlphaMeshIndices;
+	vector<uint32_t> m_LightMeshIndices;
 
 	uint32_t m_iNumMaterial = {};
 	vector<SE_MATERIAL> m_seMaterials;

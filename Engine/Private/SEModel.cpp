@@ -30,6 +30,8 @@ CSEModel::CSEModel(const CSEModel& rhs)
 	, m_pMaterials{ rhs.m_pMaterials }
 	// , m_pAnimPlayer(rhs.m_pAnimPlayer)
 	, m_InitMatrix{rhs.m_InitMatrix }
+	,m_AlphaMeshIndices{rhs.m_AlphaMeshIndices }
+	, m_LightMeshIndices{rhs.m_LightMeshIndices }
 {
 	for (auto& pBone : rhs.m_pBones)
 		m_pBones.push_back(pBone->Clone());
@@ -243,6 +245,10 @@ HRESULT CSEModel::Ready_seMesh()
 				m_seMeshes[i], m_pBones);
 			if (nullptr == pMesh)
 				return E_FAIL;
+
+			if (pMesh->Get_isAlpha())
+				m_AlphaMeshIndices.push_back(i);
+
 			m_pMeshes.push_back(pMesh);
 		}
 	}
@@ -256,7 +262,13 @@ HRESULT CSEModel::Ready_seMesh()
 				m_pDevice, m_pContext,
 				m_seAnimMeshes[i], m_pBones);
 			if (nullptr == pMesh)
-				return E_FAIL;
+				return E_FAIL;	
+
+			if (pMesh->Get_isAlpha())
+				m_AlphaMeshIndices.push_back(i);
+			if (pMesh->Get_isLight())
+				m_LightMeshIndices.push_back(i);
+
 			m_pMeshes.push_back(pMesh);
 		}
 	}
@@ -332,6 +344,12 @@ const XMFLOAT4X4* CSEModel::Get_BoneCombinedTransformMatrixPtr(const _char* pBon
 	MSG_BOX("ErrCode : No Bone");
 	return nullptr;
 }
+
+const _string& CSEModel::Get_MeshName(uint32_t index) const
+{
+	return m_pMeshes[index]->Get_MeshName();
+}
+
 
 CSEModel* CSEModel::Create(
 	ID3D11Device* pDevice, 

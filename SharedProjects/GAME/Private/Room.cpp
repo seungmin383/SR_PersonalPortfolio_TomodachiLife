@@ -66,17 +66,64 @@ HRESULT CRoom::Render()
 	}
 #else
 	uint32_t NumMesh = m_pSeModel->Get_NumMesh();
+	vector<uint32_t> AlphaMeshes = m_pSeModel->Get_AlphaMeshIndices();
+	vector<uint32_t>LightMeshes = m_pSeModel->Get_LightMeshIndices();
 	for (uint32_t i = 0; i < NumMesh; ++i)
 	{
+		_bool isAlpha = { FALSE };
+		_bool isLight = { FALSE };
+
+		for (uint32_t index : AlphaMeshes)
+		{
+			if (i == index)
+				isAlpha = TRUE;
+		}
+
+		for (uint32_t index : LightMeshes)
+		{
+			if (i == index)
+				isLight = TRUE;
+		}
+
+		if (isAlpha || isLight)
+		{
+			continue;
+		}
+
 		if (FAILED(m_pSeModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
 			return E_FAIL;
 		if (FAILED(m_pSeModel->Bind_Bones(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;
-		if (FAILED(m_pShaderCom->Begin(0)))
+		if (FAILED(m_pShaderCom->Begin(VAMS_DEFAULT)))
 			return E_FAIL;
 		if (FAILED(m_pSeModel->Render_SeModel(i)))
 			return E_FAIL;
 	}
+
+	for (uint32_t index : AlphaMeshes)
+	{
+		if (FAILED(m_pSeModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", index, se_TextureType_DIFFUSE, 0)))
+			return E_FAIL;
+		if (FAILED(m_pSeModel->Bind_Bones(m_pShaderCom, "g_BoneMatrices", index)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Begin(VAMS_SHADOW)))
+			return E_FAIL;
+		if (FAILED(m_pSeModel->Render_SeModel(index)))
+			return E_FAIL;
+	}
+
+	for (uint32_t index : LightMeshes)
+	{
+		if (FAILED(m_pSeModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", index, se_TextureType_DIFFUSE, 0)))
+			return E_FAIL;
+		if (FAILED(m_pSeModel->Bind_Bones(m_pShaderCom, "g_BoneMatrices", index)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Begin(VAMS_LIGHT)))
+			return E_FAIL;
+		if (FAILED(m_pSeModel->Render_SeModel(index)))
+			return E_FAIL;
+	}
+
 #endif
 	return S_OK;
 }

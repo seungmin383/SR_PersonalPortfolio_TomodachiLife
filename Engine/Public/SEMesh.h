@@ -24,6 +24,9 @@ public:
 
 public:
 	const uint32_t Get_MaterialIndex()const { return m_iMaterialIndex; }
+	const _string& Get_MeshName()const { return m_strName; }
+	const _bool Get_isAlpha() { return m_isAlpha; }
+	const _bool Get_isLight() { return m_isLight; }
 
 private:
 	string m_strName = {};
@@ -36,6 +39,8 @@ private:
 	vector<XMFLOAT4X4>	m_OffsetMatrices;
 	XMFLOAT4X4 m_BoneMatrices[g_iMaxNumBones] = {};
 
+	_bool m_isAlpha = { FALSE };
+	_bool m_isLight = { FALSE };
 public:
 	static CSEMesh* Create_Mesh(
 		ID3D11Device* pDevice, ID3D11DeviceContext* pContext,

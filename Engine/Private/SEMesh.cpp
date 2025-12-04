@@ -9,7 +9,13 @@ CSEMesh::CSEMesh(ID3D11Device* pDevice, ID3D11DeviceContext* pContext )
 
 HRESULT CSEMesh::Initialize_Mesh(SE_MESH& seMesh, vector<CSEBone*>& pBones)
 {
-	 m_strName = seMesh.strName;
+	 m_strName = seMesh.strName;	
+	 if (m_strName.find("Alpha") != std::string::npos)
+		 m_isAlpha = TRUE;
+
+	 if (m_strName.find("Light") != std::string::npos)
+		 m_isLight = TRUE;
+
 	 m_iMaterialIndex = seMesh.iMaterialIndex;
 	 m_BoneIndices = seMesh.BoneIndices;
 	 m_Vertices = seMesh.Vertices;
@@ -76,6 +82,12 @@ HRESULT CSEMesh::Initialize_Mesh(SE_MESH& seMesh, vector<CSEBone*>& pBones)
 HRESULT CSEMesh::Initialize_AnimMesh(SE_ANIM_MESH& seAnimMesh, vector<CSEBone*>& pBones)
 {
 	m_strName = seAnimMesh.strName;
+	if (m_strName.find("Alpha") != std::string::npos)
+		m_isAlpha = TRUE;
+
+	if (m_strName.find("Light") != std::string::npos)
+		m_isLight = TRUE;
+
 	m_iMaterialIndex = seAnimMesh.iMaterialIndex;
 	m_BoneIndices = seAnimMesh.BoneIndices;
 	m_AnimVertices = seAnimMesh.Vertices;
