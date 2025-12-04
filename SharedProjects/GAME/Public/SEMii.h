@@ -2,6 +2,10 @@
 #include "Game_Defines.h"
 #include "ContainerObject.h"
 
+NS_BEGIN(Engine)
+class CBrain;
+NS_END
+
 NS_BEGIN(Game)
 
 class CSEMii final : public CContainerObject
@@ -33,6 +37,9 @@ private:
 	HRESULT Ready_Components();
 	HRESULT Ready_PartObjects();
 	HRESULT Bind_ShaderResources();
+
+private:
+	CBrain* m_pBrain = { nullptr };
 
 private:
 	uint32_t m_iState = {};

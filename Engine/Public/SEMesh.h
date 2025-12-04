@@ -41,6 +41,7 @@ private:
 
 	_bool m_isAlpha = { FALSE };
 	_bool m_isLight = { FALSE };
+
 public:
 	static CSEMesh* Create_Mesh(
 		ID3D11Device* pDevice, ID3D11DeviceContext* pContext,

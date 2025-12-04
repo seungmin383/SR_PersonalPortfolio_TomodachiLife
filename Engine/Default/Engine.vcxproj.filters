@@ -211,6 +211,9 @@
     <Filter Include="01.Utility\08.CutScene\TimeLine\TimeLine_Anim">
       <UniqueIdentifier>{ace632fd-9c16-46d2-9632-07c9530a4859}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\07.Brain">
+      <UniqueIdentifier>{0fa88b04-5138-4f51-b7da-d5ce82e97027}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -395,6 +398,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\TimeLine_Trans.cpp">
       <Filter>01.Utility\08.CutScene\TimeLine\TimeLine_Trans</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Brain.cpp">
+      <Filter>01.Utility\03.Object\02.Component\07.Brain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -637,6 +643,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\TimeLine_Trans.h">
       <Filter>01.Utility\08.CutScene\TimeLine\TimeLine_Trans</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Brain.h">
+      <Filter>01.Utility\03.Object\02.Component\07.Brain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

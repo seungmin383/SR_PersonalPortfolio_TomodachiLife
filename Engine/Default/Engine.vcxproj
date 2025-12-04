@@ -29,6 +29,7 @@
     <ClInclude Include="..\Public\Bounding_AABB.h" />
     <ClInclude Include="..\Public\Bounding_OBB.h" />
     <ClInclude Include="..\Public\Bounding_SPHERE.h" />
+    <ClInclude Include="..\Public\Brain.h" />
     <ClInclude Include="..\Public\Button.h" />
     <ClInclude Include="..\Public\ButtonManager.h" />
     <ClInclude Include="..\Public\Camera.h" />
@@ -111,6 +112,7 @@
     <ClCompile Include="..\Private\Bounding_AABB.cpp" />
     <ClCompile Include="..\Private\Bounding_OBB.cpp" />
     <ClCompile Include="..\Private\Bounding_SPHERE.cpp" />
+    <ClCompile Include="..\Private\Brain.cpp" />
     <ClCompile Include="..\Private\Button.cpp" />
     <ClCompile Include="..\Private\ButtonManager.cpp" />
     <ClCompile Include="..\Private\Camera.cpp" />

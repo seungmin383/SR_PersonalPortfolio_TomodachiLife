@@ -212,6 +212,14 @@ HRESULT CMainApp::Ready_Static()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_SphereCollider"), tmp)))
 				return E_FAIL;
 		}
+
+		/* ³ú */
+		// ProtoTag_Component_Brain
+		{
+			tmp = CBrain::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_Brain"), tmp)))
+				return E_FAIL;
+		}
 	 }
 
 	// Actor

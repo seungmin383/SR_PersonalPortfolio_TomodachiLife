@@ -139,6 +139,10 @@ void CSEMii::Key_Control(float fDT)
 
 HRESULT CSEMii::Ready_Components()
 {
+	uint32_t iPlace = static_cast<uint32_t>(PLACEID::STATIC);
+
+	if (FAILED(Add_Component(iPlace, TEXT("ProtoTag_Component_Brain"), TEXT("Com_Brain"), reinterpret_cast<CComponent**>(&m_pBrain), nullptr)))
+		return E_FAIL;
 
 	return S_OK;
 }
