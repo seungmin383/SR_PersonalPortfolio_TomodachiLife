@@ -17,7 +17,8 @@
 #include "UI.h"
 #include "UIManager.h"
 #include "CollisionManager.h"
-
+#include "CutSceneManager.h"
+#include "CutScene.h"
 
 #define CONFIG_FILE_PATH "../../SharedProjects/GAME/GameData/config.json"
 
@@ -175,6 +176,16 @@ HRESULT CGameInstance::Initialize(
 		m_pCollisionManager = CCollisionManager::Create(Engine_desc.PlaceCount);
 		if (nullptr == m_pCollisionManager){
 			MSG_BOX("ErrCode : CollisionManager Create Failed");
+			return E_FAIL;
+		}
+	}
+
+	// CutSceneManager
+	{
+		m_pCutSceneManager = CCutSceneManager::Create();
+		if (nullptr == m_pCutSceneManager)
+		{
+			MSG_BOX("ErrCode : CCutSceneManager Create Failed");
 			return E_FAIL;
 		}
 	}
@@ -631,8 +642,18 @@ HRESULT CGameInstance::CollsionManager_Add_Collider(uint32_t iPlaceID, COLLISION
 }
 #pragma endregion
 
+#pragma region CUTSCENEMANAGER
 
+HRESULT CGameInstance::CutSceneManager_Play_CutScene(const _string& strCutSceneTag, _float fDT)
+{
+	return m_pCutSceneManager->Play_CutScene(strCutSceneTag, fDT);
+}
+HRESULT CGameInstance::CutSceneManager_Add_CutScene(const _string& strCutSceneTag, CCutScene* pCutScene)
+{
+	return m_pCutSceneManager->Add_CutScene(strCutSceneTag, pCutScene);
+}
 
+#pragma endregion
 
 
 
@@ -655,6 +676,7 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pUIManager);
 	Safe_Release(m_pFileManager);
 	Safe_Release(m_pCollisionManager);
+	Safe_Release(m_pCutSceneManager);
 
 	CGameInstance::GetInstance()->DestroyInstance();
 }

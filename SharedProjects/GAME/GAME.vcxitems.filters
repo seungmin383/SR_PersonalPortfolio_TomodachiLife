@@ -160,6 +160,9 @@
     <Filter Include="02.Actor\06.Room">
       <UniqueIdentifier>{b4e24ad7-e1bf-427c-ae8c-80c292a4dede}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Actor\02.Apart\00.Window">
+      <UniqueIdentifier>{e4a5dc7a-8e4f-4a9a-8e4d-0c42e49a90a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">

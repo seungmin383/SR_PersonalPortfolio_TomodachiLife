@@ -59,6 +59,9 @@ public:
 	//ÃßÀû
 	void Chase(FXMVECTOR vTarget, _float fDT, _float fLeastDist = 0.1f);
 
+	void Set_Target(const XMFLOAT4& vTarget);
+	void Go_Auto(_float fDT);
+
 public:
 	HRESULT Bind_ShaderResource(
 		CShaderCom* pShader,
@@ -76,6 +79,9 @@ private:
 	_float		m_fSpeedPerSecond = {};
 	_float		m_fRotationPerSecond = {};
 	XMFLOAT4X4	m_WorldMatrix = {};
+
+	XMFLOAT4 m_vTarget = {};
+	_bool m_isArrive = { FALSE };
 
 public:
 	static CTransformCom* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

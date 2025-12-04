@@ -24,7 +24,8 @@ class CTimerManager;
 class CUI;
 class CUIManager;
 class CCollisionManager;
-
+class CCutSceneManager;
+class CCutScene;
 class ENGINE_DLL CGameInstance final : public CBase
 {
 	DECLARE_SINGLETON(CGameInstance)
@@ -241,6 +242,13 @@ public:
 
 #pragma endregion
 
+#pragma region CUTSCENEMANAGER
+
+	HRESULT CutSceneManager_Play_CutScene(const _string& strCutSceneTag, _float fDT);
+	HRESULT CutSceneManager_Add_CutScene(const _string& strCutSceneTag, CCutScene* pCutScene);
+
+#pragma endregion
+
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
 	CInput_Device*      m_pInput_Device = { nullptr };
@@ -258,6 +266,7 @@ private:
 	CAnimationManager*	m_pAnimationManager = { nullptr };
 	CUIManager*			m_pUIManager = { nullptr };
 	CCollisionManager*	m_pCollisionManager = { nullptr };
+	CCutSceneManager*	m_pCutSceneManager = { nullptr };
 
 public:
 	void Clear_Engine();

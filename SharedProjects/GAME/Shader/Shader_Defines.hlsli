@@ -20,7 +20,15 @@ RasterizerState RS_NoneCull
 
 BlendState BS_Default
 {
+    BlendEnable[0] = false;
+};
 
+BlendState BS_AlphaBlend
+{
+    BlendEnable[0] = true;
+    SrcBlend = SRC_COLOR;
+    DestBlend = INV_SRC_ALPHA;
+    BlendOp = ADD;
 };
 
 DepthStencilState DSS_Default

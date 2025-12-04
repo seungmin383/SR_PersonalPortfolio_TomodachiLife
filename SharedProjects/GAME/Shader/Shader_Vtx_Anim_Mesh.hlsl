@@ -103,7 +103,7 @@ PS_OUT PS_MAIN(PS_IN In)
     float3 vFinalColor = 
     (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
     
-    Out.vColor = float4(vFinalColor += 0.1f , fAlpha);
+    Out.vColor = float4(vFinalColor += 0.1f, fAlpha);
     
     return Out;
 }
@@ -115,6 +115,7 @@ technique11 DefaultTechnique
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();

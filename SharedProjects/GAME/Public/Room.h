@@ -2,7 +2,7 @@
 #include "Game_Defines.h"
 #include "Actor.h"
 
-#define LOADING_MODEL 0
+// #define LOADING_MODEL 0
 
 NS_BEGIN(Engine)
 
@@ -15,6 +15,7 @@ class CCollider;
 NS_END
 
 NS_BEGIN(Game)
+class CSEMii;
 
 class CRoom final : public CActor
 {
@@ -43,10 +44,16 @@ private:
 	HRESULT Ready_Component();
 	HRESULT Bind_ShaderResources();
 
+public:
+	void Set_Owner(CSEMii* pMii) { m_pOwner = pMii; }
+	CSEMii* Get_Owner() { return m_pOwner; }
+
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CModel* m_pModelCom = { nullptr };
 	CSEModel* m_pSeModel = { nullptr };
+
+	CSEMii* m_pOwner = { nullptr };
 
 public:
 	static CRoom* Create(

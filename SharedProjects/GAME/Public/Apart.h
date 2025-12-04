@@ -11,6 +11,7 @@ class CSEModel;
 NS_END
 
 NS_BEGIN(Game)
+class CRoom;
 
 class CApart final : public CActor
 {
@@ -46,6 +47,8 @@ private:
 	CSEModel* m_seModel = { nullptr };
 
 	vector<_float2> m_vObjectPlaceVertices;
+
+	vector<CRoom*> m_Rooms;
 
 public:
 	static CApart* Create(

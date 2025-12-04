@@ -38,6 +38,16 @@ namespace Engine
 
 	}KEYFRAME;
 
+	typedef struct tagCutFrame
+	{
+		XMFLOAT4 vPosition;
+		XMFLOAT3 vLook;
+		_wstring strAnimationTag;
+
+		float fTrackPosition;
+
+	}CUTFRAME;
+
 	typedef struct tagChannelPos
 	{
 		uint32_t iBoneIndex;

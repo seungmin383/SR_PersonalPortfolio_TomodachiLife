@@ -16,6 +16,8 @@ namespace Engine
 	enum class COLLIDER {SPHERE, AABB, OBB, END};
 
 	enum class COLLISION{ TRIGGER, OBJECT, END};
+	enum class TIMELINE_TYPE {TRANS, ANIM, CAMERA, END};
+
 
 	enum class RENDER_GROUP : int32_t {
 		TOP_PRIORITY,

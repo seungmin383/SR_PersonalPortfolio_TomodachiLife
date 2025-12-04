@@ -11,6 +11,11 @@
 #include "ApartManager.h"
 #include "Room.h"
 
+#include "CutScene.h"
+#include "TimeLine_Trans.h"
+#include "CommonButton.h"
+#include "SaveChangePlace_Strategy.h"
+
 CPlace_Apart::CPlace_Apart(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
 {
@@ -107,6 +112,24 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 			}
 		}
 
+		// ProtoTag_Actor_Room
+		{
+			CRoom::ROOM_DESC Desc = {};
+			Desc.fCX = 0.05f;
+			Desc.fCY = 0.05f;
+			Desc.fCZ = 0.05f;
+			Desc.fSpeedPerSecond = 10.f;
+			Desc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f , 1.f };
+			Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Actor_Room"), &Desc);
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::APART), TEXT("LayerTag_Actor"), tmp)))
+			{
+				Safe_Release(tmp);
+				return E_FAIL;
+			}
+		}
+
 		// ProtoTag_Actor_seMii
 		{
 			uint32_t iNumMii = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames.size();
@@ -146,23 +169,60 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 			}
 		}
 
-		// ProtoTag_Actor_Room
+		/* ≈∏¿”∂Û¿Œ */
 		{
-			CRoom::ROOM_DESC Desc = {};
-			Desc.fCX = 0.05f;
-			Desc.fCY = 0.05f;
-			Desc.fCZ = 0.05f;
-			Desc.fSpeedPerSecond = 10.f;
-			Desc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f , 1.f };
-			Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+			//CTimeLine_Trans::TIMELINE_TRANS_DESC Desc = {};
+			//Desc.pOwner = static_cast<CSEMii*>(tmp);
 
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Actor_Room"), &Desc);
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::APART), TEXT("LayerTag_Actor"), tmp)))
+			//CTimeLine_Trans* pTrans = CTimeLine_Trans::Create(&Desc);
+
+			//CUTFRAME CutFrame = {};
+			//CutFrame.vPosition = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
+			//CutFrame.fTrackPosition = 0.f;
+			//pTrans->Add_CuTFrame(CutFrame);
+
+			//CutFrame.vPosition = XMFLOAT4{ 100.f, 100.f, 100.f, 1.f };
+			//CutFrame.fTrackPosition = 5.f;
+			//pTrans->Add_CuTFrame(CutFrame);
+
+		/* ƒ∆æ¿ */
+			// CCutScene::
+		}
+
+		/* ¿˙¿Â πˆ∆∞ */
+		{
+			CCommonButton::COMMONBUTTON_DESC Desc = {};
+			Desc.fX = 850.f;
+			Desc.fY = 455.f;
+
+			Desc.fCX = 141.f;
+			Desc.fCY = 45.f;
+			Desc.fSpeedPerSecond = 15.f;
+
+			Desc.pStrategy = CSaveChangePlace_Strategy::Create(m_pDevice, m_pContext);
+
+			Desc.eTexturePlaceID = PLACEID::APART;
+			Desc.eIconTexturePlaceID = PLACEID::APART;
+			Desc.strTextureTag = TEXT("ProtoTag_Component_CMButtonTexture");
+			Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+			Desc.iTextureIndex = 4;
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::APART),
+				TEXT("ProtoTag_UI_CMButton"), &Desc);
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::APART),
+				TEXT("LayerTag_Category"), tmp)))
 			{
 				Safe_Release(tmp);
 				return E_FAIL;
 			}
 
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
+				static_cast<uint32_t>(PLACEID::APART), TEXT("LayerTag_Category"),
+				static_cast<CButton*>(tmp))))
+			{
+				return E_FAIL;
+			}
 
 		}
 	}

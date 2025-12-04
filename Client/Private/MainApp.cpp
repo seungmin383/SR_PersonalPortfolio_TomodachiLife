@@ -48,7 +48,10 @@ CMainApp::CMainApp()
 	ID3D11DepthStencilState;
 
 	D3D11_RASTERIZER_DESC;
+
 	D3D11_BLEND_DESC;
+	D3D11_RENDER_TARGET_BLEND_DESC;
+
 	D3D11_DEPTH_STENCIL_DESC;
 
 	//m_pDevice->CreateRasterizerState();
@@ -62,11 +65,11 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	  AllocConsole();                           // 콘솔 창 생성
-	  FILE* fp;								  
-	  freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
-	  freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
-	  freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
+	  //AllocConsole();                           // 콘솔 창 생성
+	  //FILE* fp;								  
+	  //freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
+	  //freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
+	  //freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
 
 	ENGINE_DESC EngineDesc = {};
 	EngineDesc.hWnd = g_hWnd;
@@ -374,7 +377,7 @@ HRESULT CMainApp::Ready_ModelCom()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_BabyJumper"), tmp)))
 			return E_FAIL;
 
-		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "BabyJumper", InitMatrix);
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "BabyJumper", InitMatrix, "CM_Wait00");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_seBabyJumper"), tmp)))
 			return E_FAIL;
 	}
@@ -389,7 +392,7 @@ HRESULT CMainApp::Ready_ModelCom()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_ChineseDress"), tmp)))
 			return E_FAIL;
 
-		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix);
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix, "CM_Wait00");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_seChineseDress"), tmp)))
 			return E_FAIL;
 	}
@@ -404,7 +407,7 @@ HRESULT CMainApp::Ready_ModelCom()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_CamouflageJacket"), tmp)))
 			return E_FAIL;
 
-		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "CamouflageJacket", InitMatrix);
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "CamouflageJacket", InitMatrix, "CM_Wait00");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_seCamouflageJacket"), tmp)))
 			return E_FAIL;
 	}

@@ -421,6 +421,19 @@ HRESULT CLoader::Loading_Apart()
 				"../../Resource/Model_Room/room0.fbx", InitMatrix, "room0");
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_Room"), tmp)))
 				return E_FAIL;
+
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM,
+				"room0", InitMatrix, "Action");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_seRoom"), tmp)))
+				return E_FAIL;
+		}		
+
+		/* 일반 버튼 텍스쳐 */
+		// ProtoTag_Component_CMButtonTexture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/CommonButtonTexture/%d.dds"), 6);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_CMButtonTexture"), tmp)))
+				return E_FAIL;
 		}
 	}
 
@@ -464,7 +477,14 @@ HRESULT CLoader::Loading_Apart()
 				return E_FAIL;
 		}
 	}
-	
+
+	/* 일반 버튼 */
+	// ProtoTag_UI_CMButton
+	{
+		tmp = CCommonButton::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_UI_CMButton"), tmp)))
+			return E_FAIL;
+	}
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
 	m_isFinished = true;
 	return S_OK;
@@ -718,7 +738,7 @@ HRESULT CLoader::Loading_Developer()
 		{
 			XMMATRIX InitMatrix;
 			InitMatrix = XMMatrixIdentity();
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix);
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix, "CM_Wait00");
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_BasicManBody_SEModel"), tmp)))
 				return E_FAIL;
 		}

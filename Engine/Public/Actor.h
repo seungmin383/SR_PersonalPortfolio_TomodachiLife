@@ -39,6 +39,9 @@ public:
 
 	virtual HRESULT Render()override;
 
+public:
+	CTransformCom* Get_TransformCom(){ return m_pTransformCom; }
+
 protected:
 	map	<const _wstring, CComponent*> m_Components;
 	CTransformCom* m_pTransformCom = { nullptr };

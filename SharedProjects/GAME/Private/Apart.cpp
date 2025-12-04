@@ -1,5 +1,6 @@
 #include "Apart.h"
 #include "GameInstance.h"
+#include "Room.h"
 
 CApart::CApart(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CActor(pDevice, pContext)
@@ -25,6 +26,8 @@ HRESULT CApart::Initialize_Clone(void* pArg)
 		return E_FAIL;
 	
 	m_pTransformCom->Set_State(TRANSFORM_STATE::POS, XMVECTOR{ 0.f, 0.3f, 0.1, 1.f });
+	m_Rooms.resize(24);
+
 	return S_OK;
 }
 

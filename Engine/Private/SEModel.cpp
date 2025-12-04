@@ -39,16 +39,19 @@ CSEModel::CSEModel(const CSEModel& rhs)
 
 	for (auto& pMat : m_pMaterials)
 		Safe_AddRef(pMat);
-
-	CAnimationPlayer::ANIMATIONPLAYER_DESC AnimationPlayerDesc = {};
-	AnimationPlayerDesc.m_pBones = &m_pBones;
-	m_pAnimPlayer = static_cast<CAnimationPlayer*>(rhs.m_pAnimPlayer->Clone(&AnimationPlayerDesc));
+	if (m_eAnimType == ANIM_TYPE::ANIM)
+	{
+		CAnimationPlayer::ANIMATIONPLAYER_DESC AnimationPlayerDesc = {};
+		AnimationPlayerDesc.m_pBones = &m_pBones;
+		m_pAnimPlayer = static_cast<CAnimationPlayer*>(rhs.m_pAnimPlayer->Clone(&AnimationPlayerDesc));
+	}
 }
 
 HRESULT CSEModel::Initialize_SeModel(
 	ANIM_TYPE eAnimType,
 	const _char* SaveDataName,
-	FXMMATRIX InitMatrix)
+	FXMMATRIX InitMatrix,
+	const _string& strInitAnimTag)
 {
 	m_strSaveDataName = SaveDataName;
 	m_eAnimType = eAnimType;
@@ -86,9 +89,10 @@ HRESULT CSEModel::Initialize_SeModel(
 	if(FAILED(Ready_seMaterial()))
 		return E_FAIL;
 
-	m_pAnimPlayer = CAnimationPlayer::Create(
-		m_pDevice, m_pContext, "CM_Wait00", &m_pBones);
-
+	if (m_eAnimType == ANIM_TYPE::ANIM)
+	{
+		m_pAnimPlayer = CAnimationPlayer::Create(m_pDevice, m_pContext, strInitAnimTag , &m_pBones);
+	}
 	return S_OK;
 }
 
@@ -334,11 +338,12 @@ CSEModel* CSEModel::Create(
 	ID3D11DeviceContext* pContext, 
 	ANIM_TYPE eAnimType,
 	const _char* SaveDataName,
-	FXMMATRIX InitTransformMatrix)
+	FXMMATRIX InitTransformMatrix,
+	const _string& strInitAnimTag)
 {
 	CSEModel* pInstance = new CSEModel(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_SeModel(eAnimType, SaveDataName, InitTransformMatrix)))
+	if (FAILED(pInstance->Initialize_SeModel(eAnimType, SaveDataName, InitTransformMatrix, strInitAnimTag)))
 	{
 		MSG_BOX("ErrCode : SeModel Create Failed");
 		Safe_Release(pInstance);

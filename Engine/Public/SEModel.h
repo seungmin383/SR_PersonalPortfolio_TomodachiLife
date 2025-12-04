@@ -30,7 +30,8 @@ public:
 	HRESULT Initialize_SeModel(
 		ANIM_TYPE eAnimType,
 		const _char* SaveDataName,
-		FXMMATRIX InitMatrix);
+		FXMMATRIX InitMatrix,
+		const _string& strInitAnimTag );
 
 	HRESULT Initialize_Clone(void* pArg);
 	HRESULT Render_SeModel(uint32_t iMeshIndex);
@@ -93,7 +94,9 @@ public:
 		ID3D11DeviceContext* pContext,
 		ANIM_TYPE eAnimType,
 		const _char* SaveDataName,
-		FXMMATRIX InitTransformMatrix);
+		FXMMATRIX InitTransformMatrix,
+		const _string& strInitAnimTag = "");
+
 	CObject* Clone(void* pArg) override;
 	virtual void Free()override;
 };

@@ -316,6 +316,30 @@ void CTransformCom::Chase(FXMVECTOR vTarget, _float fDT, _float fLeastDist)
 	Set_State(TRANSFORM_STATE::POS, vPosition);
 }
 
+void CTransformCom::Set_Target(const XMFLOAT4& vTarget)
+{
+	m_isArrive = FALSE;
+	m_vTarget = vTarget;
+}
+
+void CTransformCom::Go_Auto(_float fDT)
+{
+	if (m_isArrive)
+		return;
+
+	XMVECTOR     vPosition = Get_State(TRANSFORM_STATE::POS);
+	XMVECTOR     vMoveDir = XMLoadFloat4(&m_vTarget) - vPosition;
+
+	if (0.1f >= XMVectorGetX(XMVector3Length(vMoveDir)))
+	{
+		m_isArrive = TRUE;
+		return;
+	}
+
+	vPosition += XMVector3Normalize(vMoveDir) * m_fSpeedPerSecond * fDT;
+	Set_State(TRANSFORM_STATE::POS, vPosition);
+}
+
 HRESULT CTransformCom::Bind_ShaderResource(CShaderCom* pShader, const _char* WorldMatrixTag)
 {
 	return pShader->Bind_Matrix(WorldMatrixTag, &m_WorldMatrix);
