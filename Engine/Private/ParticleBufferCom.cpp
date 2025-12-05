@@ -32,6 +32,25 @@ void CParticleBufferCom::Update_Late(_float fDT)
 
 HRESULT CParticleBufferCom::Bind_Resource()
 {
+	ID3D11Buffer* pVertexBuffers[] = {
+		m_VBuffer,
+		m_pVBInst
+	};
+
+	_uint		 iVertexStrides[] = {
+		m_iVertexStride,
+		m_iInstVertexStride,
+	};
+
+	_uint		 iOffsets[] = {
+		0,
+		0
+	};
+
+	m_pContext->IASetVertexBuffers(0, m_iNumVertexBuffers, pVertexBuffers, iVertexStrides, iOffsets);
+	m_pContext->IASetIndexBuffer(m_IBuffer, m_iIndexStride == 2 ? DXGI_FORMAT_R16_UINT : DXGI_FORMAT_R32_UINT, 0);
+	m_pContext->IASetPrimitiveTopology(m_ePrimitiveType);
+	
 	return S_OK;
 }
 
@@ -42,6 +61,7 @@ HRESULT CParticleBufferCom::Render()
 
 HRESULT CParticleBufferCom::Begin_Draw()
 {
+	m_pContext->DrawIndexedInstanced(m_iIndexCountPerInst, m_iNumInst, 0, 0, 0);
 	return S_OK;
 }
 

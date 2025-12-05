@@ -139,19 +139,15 @@ namespace Engine
 		};
 	}VTX_TEX_ANIM_MESH;
 
-	typedef struct tagColor
+	typedef struct tagVertexInstance
 	{
-		XMFLOAT4 White		= { 1.f, 1.f, 1.f, 1.f };
-		XMFLOAT4 Black		= { 0.f, 0.f, 0.f, 1.f };
-		XMFLOAT4 Red		= { 1.f, 0.f, 0.f, 1.f };
-		XMFLOAT4 Green		= { 0.f, 1.f, 0.f, 1.f };
-		XMFLOAT4 Blue		= { 0.f, 0.f, 1.f, 1.f };
-		XMFLOAT4 Yellow		= { 1.f, 1.f, 0.f, 1.f };
-		XMFLOAT4 Cyan		= { 0.f, 1.f, 1.f, 1.f };
-		XMFLOAT4 Magenta	= { 1.f, 0.f, 1.f, 1.f };
+		XMFLOAT4 vRight;
+		XMFLOAT4 vUp;
+		XMFLOAT4 vLook;
+		XMFLOAT4 vTranslation;
+		XMFLOAT2 vLifeTime;
 
-	}COLOR_DESC;
-
+	}VTX_PARTICLE;
 }
 
 
