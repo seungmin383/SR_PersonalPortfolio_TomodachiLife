@@ -57,7 +57,6 @@ HRESULT CButton::Render()
 
 void CButton::Compare_Position(const POINT& vMousePos)
 {
-	// 초기화 후 다시 계산
 	{
 		m_isClicked = FALSE;
 		m_isOverlappedMouse = FALSE;

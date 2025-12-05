@@ -169,12 +169,6 @@
     <Filter Include="03.UI\04.SEButton\00.ClickStrategy">
       <UniqueIdentifier>{ebacbbd0-1634-4146-929a-b191a92919fe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\04.SEButton\01.SelectStrategy">
-      <UniqueIdentifier>{b8c53ff9-af02-462a-9321-f35d130d7149}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\04.SEButton\02.SelectedClickStrategy">
-      <UniqueIdentifier>{33757b88-def5-4505-a140-8a8a961c5ed2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\04.SEButton\03.RenderStrategy">
       <UniqueIdentifier>{1c0c29ce-831e-496d-ac2d-73ef29ac613c}</UniqueIdentifier>
     </Filter>
@@ -359,14 +353,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IClick_Strgy.h">
       <Filter>03.UI\04.SEButton\00.ClickStrategy</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ISelect_Strgy.h">
-      <Filter>03.UI\04.SEButton\01.SelectStrategy</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IRender_Strgy.h">
       <Filter>03.UI\04.SEButton\03.RenderStrategy</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ISelectedClick_Strgy.h">
-      <Filter>03.UI\04.SEButton\02.SelectedClickStrategy</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\CameraZoomIn_Strgy.h">
       <Filter>03.UI\04.SEButton\00.ClickStrategy\00.CameraZoomIn</Filter>
@@ -520,14 +508,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IClick_Strgy.cpp">
       <Filter>03.UI\04.SEButton\00.ClickStrategy</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ISelect_Strgy.cpp">
-      <Filter>03.UI\04.SEButton\01.SelectStrategy</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IRender_Strgy.cpp">
       <Filter>03.UI\04.SEButton\03.RenderStrategy</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ISelectedClick_Strgy.cpp">
-      <Filter>03.UI\04.SEButton\02.SelectedClickStrategy</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\CameraZoomIn_Strgy.cpp">
       <Filter>03.UI\04.SEButton\00.ClickStrategy\00.CameraZoomIn</Filter>

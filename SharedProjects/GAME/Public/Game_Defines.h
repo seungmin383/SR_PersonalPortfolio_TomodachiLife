@@ -97,6 +97,7 @@ namespace Game
 		RUN = 1 << 2,
 		Greet = 1 << 3
 	};
+
 	enum COLLIDER_TYPES
 	{
 		COL_TRIGGER = 1 << 0,

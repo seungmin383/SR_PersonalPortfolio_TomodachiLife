@@ -10,7 +10,7 @@ NS_BEGIN(Game)
 
 class IClick_Strgy abstract : public CBase
 {
-private:
+protected:
 	IClick_Strgy(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~IClick_Strgy() = default;
 

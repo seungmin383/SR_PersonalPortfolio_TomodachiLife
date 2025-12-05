@@ -1,7 +1,5 @@
 #include "SEButton.h"
 #include "IClick_Strgy.h"
-#include "ISelect_Strgy.h"
-#include "ISelectedClick_Strgy.h"
 #include "IRender_Strgy.h"
 #include "Engine_FlagHelper.h"
 #include "GameInstance.h"
@@ -20,14 +18,26 @@ HRESULT CSEButton::Initialize_Clone(void* pArg)
 {
 	SEBUTTON_DESC* pDesc	= static_cast<SEBUTTON_DESC*>(pArg);
 
-	m_pClick_Strgy			= pDesc->pClick_Strgy;
-	m_pSelect_Strgy			= pDesc->pSelect_Strgy;
-	m_pSelectedClick_Strgy	= pDesc->pSelectedClick_Strgy;
+	if (nullptr != pDesc->pClick_Strgy)
+	{
+		m_pClick_Strgy[CLICKED] = pDesc->pClick_Strgy;
+		m_HasClickedEvent = TRUE;
+	}
+
+	if (nullptr != pDesc->pSelect_Strgy)
+	{
+		m_pClick_Strgy[SELECTED] = pDesc->pSelect_Strgy;
+		m_HasSelectedEvent = TRUE;
+	}
+
+	if (nullptr != pDesc->pSelectedClick_Strgy)
+	{
+		m_pClick_Strgy[SELECTEDCLICK] = pDesc->pSelectedClick_Strgy;
+		m_HasSelectedClickEvent = TRUE;
+	}
+
 	m_pRender_Strgy			= pDesc->pRender_Strgy;
-	 
-	m_hasSelectedEvent		= pDesc->ButtonStateDesc.hasSelectedEvent;
-	m_eClickEventState		= pDesc->ButtonStateDesc.eClickEventState;
-	m_eSelectEventState		= pDesc->ButtonStateDesc.eSelectEventState;
+	m_eClickEventState		= pDesc->eClickState;
 
 	return S_OK;
 }
@@ -79,88 +89,56 @@ HRESULT CSEButton::Render()
 	return m_pRender_Strgy->Render();
 }
 
+
+HRESULT CSEButton::Ready_Component()
+{
+	return S_OK;
+}
+
+HRESULT CSEButton::Bind_ShaderResources()
+{
+	return S_OK;
+}
+
 void CSEButton::Calc_ButtonState()
 {
-	if (!m_hasSelectedEvent)
+	switch (m_eClickEventState)
 	{
-		m_isSelected = FALSE;
-
-		if (m_eClickEventState == CLICK_EVENT_STATE_PRESS)
-		{
-			if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isPressStartLBT())
-			{
-				m_isClicked = TRUE;
-			}
-		}
-		else if (m_eClickEventState == CLICK_EVENT_STATE_PRESSED)
-		{
-			if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isClickLBT())
-			{
-				m_isClicked = TRUE;
-			}
-		}
-	}
-	else if (m_hasSelectedEvent)
-	{
-		if (!m_isSelected)
-		{
-			if (m_eClickEventState == CLICK_EVENT_STATE_PRESS)
-			{
-				if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isPressStartLBT())
-				{
-					m_isClicked = TRUE;
-				}
-			}
-			else if (m_eClickEventState == CLICK_EVENT_STATE_PRESSED)
-			{
-				if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isClickLBT())
-				{
-					m_isClicked = TRUE;
-				}
-			}
-		}
-		else if (m_isSelected)
-		{
-			if (m_eSelectEventState == CLICK_EVENT_STATE_PRESS)
-			{
-				if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isPressStartLBT())
-				{
-					m_isClicked = TRUE;
-				}
-			}
-			else if (m_eSelectEventState == CLICK_EVENT_STATE_PRESSED)
-			{
-				if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isClickLBT())
-				{
-					m_isClicked = TRUE;
-				}
-			}
-		}
+	case Game::CSEButton::CLICK_EVENT_STATE_PRESS:
+		if (m_pGameInstance->MouseManager_Get_isPressStartLBT())
+			m_isClicked = TRUE;
+		break;
+	case Game::CSEButton::CLICK_EVENT_STATE_PRESSED:			
+		if (m_pGameInstance->MouseManager_Get_isClickLBT())
+			m_isClicked = TRUE;
+		break;
+	default:
+		break;
 	}
 }
 
 int32_t CSEButton::On_Click()
 {
-	if (nullptr == m_pClick_Strgy)
+	if (!m_HasClickedEvent)
 		return UPDATE_CLEAR;
 
-	return m_pClick_Strgy->OnClicked();
+	return m_pClick_Strgy[CLICKED]->OnClicked();
 }
 
 int32_t CSEButton::On_Select()
 {
-	if (nullptr == m_pSelect_Strgy)
+	if (!m_HasSelectedEvent)
 		return UPDATE_CLEAR;
 
-	return m_pSelect_Strgy->OnSelected();
+	return m_pClick_Strgy[SELECTED]->OnClicked();
 }
 
 int32_t CSEButton::On_SelectedClick()
 {
-	if (nullptr == m_pSelectedClick_Strgy)
+	if (!m_HasSelectedClickEvent)
 		return UPDATE_CLEAR;
 
-	return m_pSelectedClick_Strgy->OnSelectedClick();
+	return m_pClick_Strgy[SELECTEDCLICK]->OnClicked();
 }
 
 CSEButton* CSEButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -195,8 +173,10 @@ inline void CSEButton::Free()
 	Safe_Release(m_pTexture);
 	Safe_Release(m_pRectBuffer);
 
-	Safe_Release(m_pClick_Strgy);
-	Safe_Release(m_pSelect_Strgy);
-	Safe_Release(m_pSelectedClick_Strgy);
+	for (uint32_t i = 0; i < CLICKSTRGY_TYPE::END; ++i)
+	{
+		Safe_Release(m_pClick_Strgy[i]);
+	}
+
 	Safe_Release(m_pRender_Strgy);
 }

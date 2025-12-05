@@ -27,13 +27,14 @@ HRESULT CUI::Initialize_Clone(void* pArg)
 	m_pTransformCom->Initialize_Clone(pArg);
 
 	UI_DESC* pUIDesc = static_cast<UI_DESC*>(pArg);
+	UI_DESC* pDesc = static_cast<UI_DESC*>(pArg);
 
-	m_fX = pUIDesc->fX;
-	m_fY = pUIDesc->fY;
-	m_fZ = pUIDesc->fZ;
+	m_fX = pUIDesc->vPos.x;
+	m_fY = pUIDesc->vPos.y;
+	m_fZ = pUIDesc->vPos.z;
 
-	m_fCX = pUIDesc->fCX;
-	m_fCY = pUIDesc->fCY;
+	m_fCX = pUIDesc->vSize.x;
+	m_fCY = pUIDesc->vSize.y;
 
 	m_eRenderGroup = pUIDesc->eRenderGroup;
 

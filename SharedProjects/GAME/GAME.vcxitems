@@ -35,8 +35,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IconTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IOnClick.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IRender_Strgy.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ISelectedClick_Strgy.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ISelect_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IUnlock.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LoadingBG.cpp" />
@@ -93,8 +91,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IconTexture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IOnClick.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IRender_Strgy.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ISelectedClick_Strgy.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ISelect_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IUnlock.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LoadingBG.h" />

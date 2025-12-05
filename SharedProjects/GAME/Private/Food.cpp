@@ -31,11 +31,8 @@ HRESULT CFood::Initialize_Clone(void* pArg)
 
 	m_pContext->RSGetViewports(&iNum, Viewport_Desc);
 
-	tDesc.fX = 0.f;
-	tDesc.fY = 0.f;
-
-	tDesc.fCX = 100.f;
-	tDesc.fCY = 100.f;
+	tDesc.vPos = XMFLOAT3{ 0.f, 0.f, 0.5f };
+	tDesc.vSize = XMFLOAT2{ 100.f, 100.f };
 
 	tDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 	tDesc.fSpeedPerSecond = 1.f;

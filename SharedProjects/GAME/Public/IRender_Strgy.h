@@ -11,7 +11,7 @@ NS_BEGIN(Game)
 
 class IRender_Strgy abstract : public CBase
 {
-private:
+protected:
 	IRender_Strgy(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~IRender_Strgy() = default;
 
