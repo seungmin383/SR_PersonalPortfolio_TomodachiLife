@@ -178,6 +178,9 @@
     <Filter Include="03.UI\04.SEButton\03.RenderStrategy">
       <UniqueIdentifier>{1c0c29ce-831e-496d-ac2d-73ef29ac613c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\04.SEButton\00.ClickStrategy\00.CameraZoomIn">
+      <UniqueIdentifier>{b02b2119-c46b-44ac-9e1b-b54b62c454d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -365,6 +368,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ISelectedClick_Strgy.h">
       <Filter>03.UI\04.SEButton\02.SelectedClickStrategy</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\CameraZoomIn_Strgy.h">
+      <Filter>03.UI\04.SEButton\00.ClickStrategy\00.CameraZoomIn</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -522,6 +528,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ISelectedClick_Strgy.cpp">
       <Filter>03.UI\04.SEButton\02.SelectedClickStrategy</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\CameraZoomIn_Strgy.cpp">
+      <Filter>03.UI\04.SEButton\00.ClickStrategy\00.CameraZoomIn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

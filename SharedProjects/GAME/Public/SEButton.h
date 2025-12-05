@@ -68,6 +68,7 @@ private:
 	int32_t On_Click() override;
 	int32_t On_Select()override;
 	int32_t On_SelectedClick()override;
+
 private:
 	CShaderCom*				m_pShader = { nullptr };
 	CTextureCom*			m_pTexture = { nullptr };

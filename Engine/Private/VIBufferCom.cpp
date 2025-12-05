@@ -1,4 +1,5 @@
 #include "VIBufferCom.h"
+#include "ParticleBufferCom.h"
 
 CVIBufferCom::CVIBufferCom(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CComponent(pDevice, pContext)
@@ -86,6 +87,8 @@ HRESULT CVIBufferCom::Begin_Draw()
 	m_pContext->DrawIndexed(m_iNumIndices, 0, 0);
 	return S_OK;	
 }
+
+
 
 void CVIBufferCom::Free()
 {

@@ -2,6 +2,11 @@
 #include "Game_Defines.h"
 #include "Base.h"
 
+
+NS_BEGIN(Engine)
+class CGameInstance;
+NS_END
+
 NS_BEGIN(Game)
 
 class IRender_Strgy abstract : public CBase
@@ -11,6 +16,7 @@ private:
 	virtual ~IRender_Strgy() = default;
 
 protected:
+	CGameInstance* m_pGameInstance = { nullptr };
 	ID3D11Device* m_pDevice;
 	ID3D11DeviceContext* m_pContext;
 

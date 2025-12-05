@@ -21,7 +21,7 @@ public:
 	virtual HRESULT Bind_Resource();
 	virtual HRESULT Render()override;
 
-	HRESULT Begin_Draw();
+	virtual HRESULT Begin_Draw();
 
 protected:
 	ID3D11Buffer* m_VBuffer = { nullptr };

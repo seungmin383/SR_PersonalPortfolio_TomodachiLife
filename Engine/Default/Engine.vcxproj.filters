@@ -214,6 +214,15 @@
     <Filter Include="01.Utility\03.Object\02.Component\07.Brain">
       <UniqueIdentifier>{0fa88b04-5138-4f51-b7da-d5ce82e97027}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer">
+      <UniqueIdentifier>{a63f1c86-0526-4b4e-a9e6-25a834d22a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer\00.Rect">
+      <UniqueIdentifier>{32259a58-01c4-47fa-98dd-06e3e1b679b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer\01.Point">
+      <UniqueIdentifier>{0e0fcf15-7db9-48db-badd-9fd607090e48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -401,6 +410,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Brain.cpp">
       <Filter>01.Utility\03.Object\02.Component\07.Brain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ParticleBufferCom.cpp">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ParticleBufferCom_Rect.cpp">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer\00.Rect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -646,6 +661,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Brain.h">
       <Filter>01.Utility\03.Object\02.Component\07.Brain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ParticleBufferCom.h">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ParticleBufferCom_Rect.h">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer\00.Rect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

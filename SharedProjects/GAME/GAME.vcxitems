@@ -25,6 +25,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ApartManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BackGround.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Body.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\CameraZoomIn_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangePlace_Strategy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangeUI_Strategy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\CommonButton.cpp" />
@@ -80,6 +81,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ApartManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BackGround.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Body.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\CameraZoomIn_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangePlace_Strategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangeUI_Strategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\CommonButton.h" />
