@@ -14,6 +14,10 @@
 #include "IUnlock.h"
 #include "LoadingBG.h"
 
+#include "PlaceMarker_Button.h"
+#include "ChangePlace_Strgy.h"
+#include "CameraZoomIn_Strgy.h"
+
 
 /* y += 1.f */
 #define FOODSTORE_POS XMFLOAT4{- 7.47224f,-0.561126f, -10.7086f, 1.f}
@@ -233,10 +237,50 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 
 	CPlaceMoveButton::PLACEMOVEBUTTON_DESC tPlaceMoveButtonDesc = {};
 
+	CPlaceMarker_Button::PLACEMARKER_DESC tPlaceMarkerDesc = {};
+	tPlaceMarkerDesc.fX = 100.f;
+	tPlaceMarkerDesc.fY = 100.f;
+	tPlaceMarkerDesc.fZ = 0.5f;
+	tPlaceMarkerDesc.fCX = 200.f;
+	tPlaceMarkerDesc.fCY = 100.f;
+
+	CCameraZoomIn_Strgy::CAMERAZOOMIN_DESC tStrgyDesc = {};
+	tStrgyDesc.ePlaceID = PLACEID::ISLAND;
+	tStrgyDesc.strLayerTag = TEXT("LayerTag_UI_PlaceMarker");
+	tStrgyDesc.fFov = XMConvertToRadians(10.f);
+	tStrgyDesc.vTargetPos = FOODSTORE_TARGETPOS;
+	tStrgyDesc.fRatio = 0.06f;
+	tPlaceMarkerDesc.pSelect_Strgy = CCameraZoomIn_Strgy::Create(m_pDevice, m_pContext, &tStrgyDesc);
+		
+	tPlaceMarkerDesc.pClick_Strgy = nullptr;
+	tPlaceMarkerDesc.pSelectedClick_Strgy = nullptr;
+	tPlaceMarkerDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+	tPlaceMarkerDesc.iTextureIndex = 0;
+	tPlaceMarkerDesc.iOutlineTextureIndex = 0;
+
+	tmp = m_pGameInstance->Proto_Get_Object_Clone(
+		static_cast<uint32_t>(PLACEID::ISLAND),
+		TEXT("ProtoTag_UI_PlaceMarker_Button"),
+		&tPlaceMarkerDesc);
+
+	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+		static_cast<uint32_t>(PLACEID::ISLAND),
+		TEXT("LayerTag_UI_PlaceMarker"),
+		tmp)))
+	{
+		Safe_Release(tmp);
+		return E_FAIL;
+	}
+
+	if (FAILED(m_pGameInstance->ButtonManager_Add_Button(static_cast<uint32_t>(PLACEID::ISLAND),
+		TEXT("LayerTag_UI_PlaceMarker"), static_cast<CButton*>(tmp))))
+		return E_FAIL;
+
 	// Go Apart
 	 {
 	 	tPlaceMoveButtonDesc.fX = 385.f;
 	 	tPlaceMoveButtonDesc.fY = 135.f;
+		tPlaceMoveButtonDesc.fZ = 0.4f;
 	 	tPlaceMoveButtonDesc.fCX = 130.f;
 	 	tPlaceMoveButtonDesc.fCY = 120.f;
 	 	tPlaceMoveButtonDesc.fSpeedPerSecond = 0.f;

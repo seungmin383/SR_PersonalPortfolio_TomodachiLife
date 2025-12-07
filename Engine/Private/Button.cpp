@@ -47,6 +47,7 @@ int32_t CButton::Update(_float fDT)
 
 void CButton::Update_Late(_float fDT)
 {
+	CUI::Update_Late(fDT);
 }
 
 HRESULT CButton::Render()

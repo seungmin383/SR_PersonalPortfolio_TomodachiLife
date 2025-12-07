@@ -1,6 +1,7 @@
 #include "ButtonManager.h"
 #include "Button.h"
 #include "GameInstance.h"
+#include "Layer.h"
 
 CButtonManager::CButtonManager(
 	ID3D11Device* pDevice,

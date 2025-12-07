@@ -149,6 +149,17 @@ HRESULT CObjectManager::Disable_Layer(uint32_t iPlaceID, const _wstring& strLaye
 	return S_OK;
 }
 
+CLayer* CObjectManager::Find_Layer(uint32_t iPlaceID, const _wstring& strLayerTag)
+{
+	auto iter = m_Layers[iPlaceID].find(strLayerTag);
+	if (iter == m_Layers[iPlaceID].end())
+	{
+		MSG_BOX("ErrCode : No Layers");
+		return nullptr;
+	}
+	return iter->second;
+}
+
 CObjectManager* CObjectManager::Create(uint32_t FinalPlace)
 {
 	CObjectManager* pObjectManager = new CObjectManager;

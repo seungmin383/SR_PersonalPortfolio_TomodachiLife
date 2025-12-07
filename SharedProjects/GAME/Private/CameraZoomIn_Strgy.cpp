@@ -6,11 +6,6 @@ CCameraZoomIn_Strgy::CCameraZoomIn_Strgy(ID3D11Device* pDevice, ID3D11DeviceCont
 {
 }
 
-CCameraZoomIn_Strgy::CCameraZoomIn_Strgy(const CCameraZoomIn_Strgy& rhs)
-	:IClick_Strgy(rhs)
-{
-}
-
 HRESULT CCameraZoomIn_Strgy::Initialize(void* pArg)
 {
 	CAMERAZOOMIN_DESC* pDesc = static_cast<CAMERAZOOMIN_DESC*>(pArg);
@@ -25,7 +20,7 @@ HRESULT CCameraZoomIn_Strgy::Initialize(void* pArg)
 
 int32_t CCameraZoomIn_Strgy::OnClicked()
 {
-	m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(m_ePlaceID), m_strLayerTag);
+	//m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(m_ePlaceID), m_strLayerTag);
 	m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMLoadFloat4(&m_vTargetPos), m_fFov, m_fRatio);
 	return UPDATE_CLEAR;
 }

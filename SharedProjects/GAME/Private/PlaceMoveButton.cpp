@@ -63,7 +63,6 @@ int32_t CPlaceMoveButton::Update(_float fDT)
 {
 	if (m_isClicked)
 	{
-
 		return On_Click();
 	}
 
@@ -75,7 +74,6 @@ int32_t CPlaceMoveButton::Update(_float fDT)
 	{
 		Camera_Control(fDT);
 	}
-
 	return UPDATE_CLEAR;
 }
 
@@ -105,36 +103,20 @@ HRESULT CPlaceMoveButton::Render()
 
 HRESULT CPlaceMoveButton::Ready_Component()
 {
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::STATIC),
-		TEXT("ProtoTag_Component_VtxTexShader"),
-		TEXT("Com_Shader"),
-		reinterpret_cast<CComponent**>(&m_pShaderCom),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxTexShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::STATIC),
-		TEXT("ProtoTag_Component_RectBuffer"),
-		TEXT("Com_RectBuffer"),
-		reinterpret_cast<CComponent**>(&m_pRectBufferCom),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_RectBuffer"),
+		TEXT("Com_RectBuffer"), reinterpret_cast<CComponent**>(&m_pRectBufferCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::ISLAND),
-		TEXT("ProtoTag_Component_PlaceMoveButton_Texture"),
-		TEXT("Com_Texture"),
-		reinterpret_cast<CComponent**>(&m_pTextureCom),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_PlaceMarker_Button_Texture"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::ISLAND),
-		TEXT("ProtoTag_Component_OutLine_Texture"),
-		TEXT("Com_OutLineTexture"),
-		reinterpret_cast<CComponent**>(&m_pOutlineTextureCom),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_PlaceMarker_Button_OutLine_Texture"),
+		TEXT("Com_OutLineTexture"), reinterpret_cast<CComponent**>(&m_pOutlineTextureCom), nullptr)))
 		return E_FAIL;
 
 	return S_OK;
@@ -142,37 +124,18 @@ HRESULT CPlaceMoveButton::Ready_Component()
 
 HRESULT CPlaceMoveButton::Bind_ShaderResources()
 {
-	HRESULT hr = {};
+	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ViewMatrix", TEXT("UI_Camera"), D3DTS::VIEW)))
+		return E_FAIL;
+	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ)))
+		return E_FAIL;
+	if(FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureNum)))
+		return E_FAIL;
+	if(FAILED(m_pOutlineTextureCom->Bind_ShaderResource(m_pShaderCom, "g_UpperTexture", m_iOutlineTextureNum)))
+		return E_FAIL;
 
-	hr = m_pTransformCom->Bind_ShaderResource(
-		m_pShaderCom,
-		"g_WorldMatrix");
-
-	m_pGameInstance->CameraManager_Bind_Matrix(
-		m_pShaderCom,
-		"g_ViewMatrix",
-		TEXT("UI_Camera"),
-		D3DTS::VIEW);
-
-	m_pGameInstance->CameraManager_Bind_Matrix(
-		m_pShaderCom,
-		"g_ProjMatrix",
-		TEXT("UI_Camera"),
-		D3DTS::PROJ);
-
-	// 버튼 텍스쳐
-	m_pTextureCom->Bind_ShaderResource(
-		m_pShaderCom,
-		"g_Texture",
-		m_iTextureNum);
-
-	// 선택 됐는지 안됐는지
-	m_pOutlineTextureCom->Bind_ShaderResource(
-		m_pShaderCom,
-		"g_UpperTexture",
-		m_iOutlineTextureNum);
-
-	return hr;
+	return S_OK;
 }
 
 int32_t CPlaceMoveButton::On_Click()

@@ -31,6 +31,9 @@ public:
 	HRESULT Enable_Layer (uint32_t iPlaceID, const _wstring& strLayerTag);
 	HRESULT Disable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag);
 
+	CLayer* Find_Layer(
+		uint32_t iPlaceID,
+		const _wstring& strLayerTag);
 private:
 	map<const _wstring, CLayer*>* m_Layers = { nullptr };
 	vector<unordered_set<_wstring>> m_DisableLayers;

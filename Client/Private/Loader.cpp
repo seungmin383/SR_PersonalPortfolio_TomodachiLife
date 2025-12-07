@@ -23,6 +23,8 @@
 #include "TextButton.h"
 #include "Room.h"
 
+#include "PlaceMarker_Button.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
 	m_pDevice(pDevice), m_pContext(pContext)
@@ -303,9 +305,9 @@ HRESULT CLoader::Loading_Island()
 		/* 건물 버튼 텍스쳐 */
 		// ProtoTag_Component_PlaceMoveButton_Texture
 		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/PlaceMoveButton/PlaceMoveButtonTexture%d.dds"), 46);
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/PlaceMarker_Button/%d.dds"), 46);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
-				TEXT("ProtoTag_Component_PlaceMoveButton_Texture"), tmp)))
+				TEXT("ProtoTag_Component_PlaceMarker_Button_Texture"), tmp)))
 				return E_FAIL;
 		}
 		/* 건물 버튼 아웃라인 텍스쳐*/
@@ -313,7 +315,7 @@ HRESULT CLoader::Loading_Island()
 		{
 			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/OutLine/OutLine%d.dds"), 6);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
-				TEXT("ProtoTag_Component_OutLine_Texture"), tmp)))
+				TEXT("ProtoTag_Component_PlaceMarker_Button_OutLine_Texture"), tmp)))
 				return E_FAIL;
 		}
 		/* 아래 UI 배경 */
@@ -370,6 +372,15 @@ HRESULT CLoader::Loading_Island()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
 				TEXT("ProtoTag_UI_PlaceMoveButton"), tmp)))
 				return E_FAIL;
+		}
+
+		/* 플레이스 마커 버튼 */
+		{
+			tmp = CPlaceMarker_Button::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_UI_PlaceMarker_Button"), tmp)))
+				return E_FAIL;
+
 		}
 		/* 아래 UI 배경*/
 		// ProtoTag_UI_BackGround

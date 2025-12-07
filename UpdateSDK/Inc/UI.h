@@ -13,9 +13,12 @@ class ENGINE_DLL CUI abstract : public CObject
 public:
 	typedef struct tagUIDesc : public OBJECT_DESC
 	{
-		XMFLOAT3 vPos;
+		_float fX;
+		_float fY;
+		_float fZ;
 
-		XMFLOAT2 vSize;
+		_float fCX;
+		_float fCY;
 
 		RENDER_GROUP eRenderGroup;
 

@@ -27,6 +27,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Body.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\CameraZoomIn_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangePlace_Strategy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangePlace_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangeUI_Strategy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\CommonButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ConvertJson.cpp" />
@@ -50,6 +51,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiMouth.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiNose.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PageButton.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMarker_Button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Room.cpp" />
@@ -81,6 +83,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Body.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\CameraZoomIn_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangePlace_Strategy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangePlace_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangeUI_Strategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\CommonButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ConvertJson.h" />
@@ -106,6 +109,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiMouth.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiNose.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PUblic\PageButton.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlaceMarker_Button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlaceMoveButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Room.h" />

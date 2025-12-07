@@ -356,6 +356,11 @@ HRESULT CGameInstance::ObjectManager_Disable_Layer(uint32_t iPlaceID, const _wst
 	return m_pObjectManager->Disable_Layer(iPlaceID, strLayerTag);
 }
 
+CLayer* CGameInstance::ObjectManager_Find_Layer(uint32_t iPlaceID, const _wstring& strLayerTag)
+{
+	return m_pObjectManager->Find_Layer(iPlaceID, strLayerTag);
+}
+
 
 #pragma endregion
 

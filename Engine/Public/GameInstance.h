@@ -85,6 +85,7 @@ public:
 
 	HRESULT ObjectManager_Enable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag);
 	HRESULT ObjectManager_Disable_Layer(uint32_t iPlaceID, const _wstring& strLayerTag);
+	class CLayer* ObjectManager_Find_Layer(uint32_t iPlaceID, const _wstring& strLayerTag);
 
 #pragma endregion
 

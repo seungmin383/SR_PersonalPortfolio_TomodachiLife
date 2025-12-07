@@ -75,8 +75,8 @@ int32_t CPlace_Loading::Update(_float fDT)
 		if (nullptr == pPlace)
 			return 1;
 
-		if (SUCCEEDED(m_pGameInstance->PlaceManager_Change_Place(static_cast<uint32_t>(m_eNextPlaceID), pPlace)))
-			return 1;
+		m_pGameInstance->PlaceManager_Change_Place(static_cast<uint32_t>(m_eNextPlaceID), pPlace);
+		return 1 ;
 
 		MSG_BOX("ErrCode : 왜 여기까지 왔지? ");
 	}
