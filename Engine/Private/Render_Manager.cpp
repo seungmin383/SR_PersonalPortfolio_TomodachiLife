@@ -44,7 +44,7 @@ HRESULT CRenderManager::Render_Bottom()
 	Render_Bottom_NonBlend();
 	Render_Bottom_Blend();
 	Render_Bottom_UI();
-	Render_Top_UI_Blend();
+	Render_Bottom_UI_Blend();
 	return S_OK;
 }
 
@@ -126,7 +126,7 @@ HRESULT CRenderManager::Render_Top_UI()
 
 HRESULT CRenderManager::Render_Top_UI_Blend()
 {
-	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI_BLEND)])
+	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_UI_BLEND)])
 	{
 		if (nullptr == Object)
 			break;
@@ -142,7 +142,7 @@ HRESULT CRenderManager::Render_Top_UI_Blend()
 
 		Safe_Release(Object);
 	}
-	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::BOTTOM_UI_BLEND)].clear();
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_UI_BLEND)].clear();
 	return S_OK;
 }
 

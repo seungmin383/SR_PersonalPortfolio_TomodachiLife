@@ -47,7 +47,6 @@ private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CSEModel* m_pSeModel = { nullptr };
 	CSEModel* m_pSeConstructionModel = { nullptr };
-	CTextureCom* m_pNameTextureCom = { nullptr };
 
 	IUnlock* m_pUnlockStrategy = { nullptr };
 

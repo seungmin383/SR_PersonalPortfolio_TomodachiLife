@@ -29,6 +29,7 @@ public:
 
 		_float fLerpTime = {};
 		_float fTargetFov = {};
+		uint32_t iMatchBuildingIndex = {};
 
 	}PLACEMOVEBUTTON_DESC;
 
@@ -58,7 +59,6 @@ private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CTextureCom* m_pTextureCom = { nullptr };
 	CTextureCom* m_pOutlineTextureCom = { nullptr };
-	CTextureCom* m_pBuildingNameTextureCom = { nullptr };
 
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
@@ -72,6 +72,9 @@ private:
 	uint8_t m_iStoreOutlineTextureNum = {};
 
 	_bool m_isUnlock = { FALSE };
+
+	uint32_t m_iMatchBuildingIndex = {};
+
 
 	XMFLOAT4 m_vTargetPos = {};
 	_float m_fLerpTime = {};

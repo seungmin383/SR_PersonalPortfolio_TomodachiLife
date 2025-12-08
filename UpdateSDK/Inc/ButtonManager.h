@@ -30,6 +30,8 @@ public:
 	const _bool Get_OnText()const { return m_isOnText; }
 	void Set_OnText(_bool is) { m_isOnText = is; }
 
+	void Set_BuildingNameTextureIndex(uint32_t i) { m_iBuildingNameTextureIndex = i; }
+	uint32_t Get_BuildingNameTextureIndex() { return m_iBuildingNameTextureIndex; }
 
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
@@ -45,6 +47,9 @@ private:
 	_wstring m_strBuffer;
 	_wstring m_strText = {};
 	_bool m_isCommitted = { FALSE };
+
+	/* 건물 이름 텍스쳐 인덱스 */
+	uint32_t m_iBuildingNameTextureIndex = {};
 
 
 public:

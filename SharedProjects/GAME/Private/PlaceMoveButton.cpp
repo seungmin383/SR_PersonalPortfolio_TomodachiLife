@@ -36,6 +36,8 @@ HRESULT CPlaceMoveButton::Initialize_Clone(void* pArg)
 	m_fLerpTime = tPlaceMoveButtonDesc->fLerpTime;
 	m_fTargetFov = tPlaceMoveButtonDesc->fTargetFov;
 
+	m_iMatchBuildingIndex = tPlaceMoveButtonDesc->iMatchBuildingIndex;
+
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -60,6 +62,7 @@ int32_t CPlaceMoveButton::Update_Priority(_float fDT)
 
 int32_t CPlaceMoveButton::Update(_float fDT)
 {
+	m_isUnlock = m_pGameInstance->ActorManager_Get_IsBuildingUnlock();
 	return On_Click();
 }
 
@@ -103,10 +106,6 @@ HRESULT CPlaceMoveButton::Ready_Component()
 
 	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_PlaceMarker_Button_OutLine_Texture"),
 		TEXT("Com_OutLineTexture"), reinterpret_cast<CComponent**>(&m_pOutlineTextureCom), nullptr)))
-		return E_FAIL;
-
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_BuildingName_Texture"),
-		TEXT("Com_BuildingNameTexture"), reinterpret_cast<CComponent**>(&m_pBuildingNameTextureCom), nullptr)))
 		return E_FAIL;
 
 	return S_OK;
@@ -153,6 +152,8 @@ int32_t CPlaceMoveButton::On_Click()
 	if (m_isSelected)
 	{
 		m_pSelected_Strgy->OnClick();
+
+		m_pGameInstance->ButtonManager_Set_BuildingNameTextureIndex(m_iMatchBuildingIndex);
 
 		if (m_isClicked)
 		{

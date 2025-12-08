@@ -166,6 +166,15 @@
     <Filter Include="03.UI\01.Button\00.OnclickStrategy\06.Deactive">
       <UniqueIdentifier>{408343c9-b454-44d5-bb70-8908069a6e7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\03.Texture">
+      <UniqueIdentifier>{80bea43c-53e7-4677-9a86-1481b708d8aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.Texture\00.BuildingName">
+      <UniqueIdentifier>{d0dff128-2839-40bc-9eb6-217d53f39e16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\06.WindowButton">
+      <UniqueIdentifier>{02b92b90-5188-4d32-a9e1-f0e2f002f5f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -344,6 +353,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Deactive_Strgy.h">
       <Filter>03.UI\01.Button\00.OnclickStrategy\06.Deactive</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\BuildingName_Texture.h">
+      <Filter>03.UI\03.Texture\00.BuildingName</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -492,6 +504,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Deactive_Strgy.cpp">
       <Filter>03.UI\01.Button\00.OnclickStrategy\06.Deactive</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\BuildingName_Texture.cpp">
+      <Filter>03.UI\03.Texture\00.BuildingName</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

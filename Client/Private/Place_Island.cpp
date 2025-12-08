@@ -16,6 +16,8 @@
 
 #include "IUnlock.h"
 #include "LoadingBG.h"
+#include "BuildingName_Texture.h"
+
 
 /***********************
  * ISLAND PLACE POS / TARGET POS
@@ -35,7 +37,7 @@
 
 /* 뉴스 스테이션 */
 #define NEWSSTATION_POS      XMFLOAT4{23.f, 0.1f, 20.9f, 1.f}
-#define NEWSSTATION_TARGETPOS XMFLOAT4{23.f, 1.1f, 20.9f, 1.f}
+#define NEWSSTATION_TARGETPOS XMFLOAT4{23.f, 5.1f, 20.9f, 1.f}
 
 /* 옷가게 (Wear Store) */
 #define WEARSTORE_POS        XMFLOAT4{-6.96466f, 2.51501f, 4.36426f, 1.f}
@@ -362,6 +364,7 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 
 	constexpr uint32_t iNumPlace = sizeof(vPlacePosArr) / sizeof(XMFLOAT4);
 
+	/* 건물들 */
 	for (uint32_t i = 0; i < iNumPlace; ++i)
 	{
 		tTmpModelDesc.vPos = vPlacePosArr[i];
@@ -370,7 +373,6 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 		tTmpModelDesc.fCZ = 1.f;
 		tTmpModelDesc.iBuildingIndex = BuildingIndexArr[i];
 		tTmpModelDesc.fSpeedPerSecond = 3.f;
-		tTmpModelDesc.eCurPlaceID = PLACEID::ISLAND;
 		tTmpModelDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		tTmpModelDesc.fRotationPerSecond = XMConvertToRadians(0.f);
 		tTmpModelDesc.pUnlockStrategy = CFoodStore_UnlockStrategy::Create();
@@ -441,7 +443,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		XMFLOAT3{675.f, 250.f, 0.4f},
 
 		// 15. Go news
-		XMFLOAT3{740.f, 100.f, 0.4f},
+		XMFLOAT3{740.f, 90.f, 0.4f},
 
 		// 16. Go export
 		XMFLOAT3{740.f, 370.f, 0.4f},
@@ -477,14 +479,14 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		{ 8, 0},  // 6. Go Music
 		{ 2, 0},  // 7. Go House
 		{38, 2},  // 8. Go CityHall
-		{10, 0},  // 9. Go Rank      (Outline 0으로 리셋)
+		{10, 0},  // 9. Go Rank  
 		{20, 0},  // 10. Go Tent
 		{40, 0},  // 11. Go Wedding
 		{12, 0},  // 12. Go Love
 		{22, 0},  // 13. Go Port
 		{14, 0},  // 14. Go Photo
 		{42, 3},  // 15. Go News
-		{24, 0},  // 16. Go Export   (사용자님 말씀대로 Outline = 0)
+		{24, 0},  // 16. Go Export 
 		{32, 1},  // 17. Go Fountain
 		{34, 1},  // 18. Go Sea
 		{26, 1},  // 19. Go JeonMangDae
@@ -566,6 +568,31 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		CAFE_TARGETPOS,
 	};
 
+	const uint32_t BuildingIndexArr[] = {
+		1,// 0. Go Apart
+		2,// 1. Go Wear
+		3,// 2. Go Antique
+		4, // 3. Go Cap
+		5,   // 4. Go Food
+		7,   // 5. Go Luxury
+		8,   // 6. Go Music
+		10,   // 7. Go House
+		11,   // 8. Go CityHall
+		12,   // 9. Go Rank      (Outline 0으로 리셋)
+		13,   // 10. Go Tent
+		15,   // 11. Go Wedding
+		16,   // 12. Go Love
+		17,   // 13. Go Port
+		19,   // 14. Go Photo
+		20,   // 15. Go News
+		23,   // 16. Go Export   (사용자님 말씀대로 Outline = 0)
+		6,   // 17. Go Fountain
+		9,   // 18. Go Sea
+		14,   // 19. Go JeonMangDae
+		18,   // 20. Go Park
+		21,   // 21. Go Play
+		22   // 22. Go Cafe
+	};
 	CPlaceMoveButton::PLACEMOVEBUTTON_DESC tPlaceMoveButtonDesc = {};
 	constexpr uint32_t iNumPlace = sizeof(vPosArr) / sizeof(vPosArr[0]);
 	_bool isApart = { FALSE };
@@ -607,7 +634,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		tPlaceMoveButtonDesc.pSelected_Strgy = CCameraZoom_Strgy::Create(m_pDevice, m_pContext, &tCameraZoomStrgyDesc);
 
 		tPlaceMoveButtonDesc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::APART, TEXT("LayerTag_UI_PlaceMoveButton"));
-
+		tPlaceMoveButtonDesc.iMatchBuildingIndex = BuildingIndexArr[i];
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_UI_PlaceMoveButton"), &tPlaceMoveButtonDesc);
 		if (nullptr == tmp)
 			return E_FAIL;
@@ -618,6 +645,29 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI_PlaceMoveButton"), static_cast<CButton*>(tmp))))
 			return E_FAIL;
 	}
+
+	// ProtoTag_UI_BuildingName_Texture
+	{
+		CBuildingName_Texture::BUILDINGNAME_DESC tBuildingNameDesc = {};
+		tBuildingNameDesc.eRenderGroup = RENDER_GROUP::TOP_UI_BLEND;
+		tBuildingNameDesc.fX = 480.f;
+		tBuildingNameDesc.fY = 60.f;
+		tBuildingNameDesc.fZ = 0.5f;
+		tBuildingNameDesc.fCX = 400.f;
+		tBuildingNameDesc.fCY = 100.f;
+		tBuildingNameDesc.fSpeedPerSecond = 10.f;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_UI_BuildingNameTexture"), &tBuildingNameDesc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI_BuildingName_Texture"), tmp)))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI_BuildingName_Texture"), static_cast<CButton*>(tmp))))
+			return E_FAIL;
+	}
+
 
 	 // ProtoTag_UI_BackGround
 	 {

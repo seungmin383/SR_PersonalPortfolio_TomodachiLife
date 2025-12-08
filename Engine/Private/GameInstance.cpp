@@ -19,6 +19,7 @@
 #include "CollisionManager.h"
 #include "CutSceneManager.h"
 #include "CutScene.h"
+#include "ActorManager.h"
 
 #define CONFIG_FILE_PATH "../../SharedProjects/GAME/GameData/config.json"
 
@@ -186,6 +187,16 @@ HRESULT CGameInstance::Initialize(
 		if (nullptr == m_pCutSceneManager)
 		{
 			MSG_BOX("ErrCode : CCutSceneManager Create Failed");
+			return E_FAIL;
+		}
+	}
+
+	// ActorManager
+	{
+		m_pActorManager = CActorManager::Create();
+		if(nullptr == m_pActorManager)
+		{
+			MSG_BOX("ErrCode : ActorManager Create Failed");
 			return E_FAIL;
 		}
 	}
@@ -599,6 +610,16 @@ void CGameInstance::ButtonManager_Set_OnText(_bool is)
 	m_pButtonManager->Set_OnText(is);
 }
 
+void CGameInstance::ButtonManager_Set_BuildingNameTextureIndex(uint32_t i)
+{
+	m_pButtonManager->Set_BuildingNameTextureIndex(i);
+}
+
+uint32_t CGameInstance::ButtonManager_Get_BuildingNameTextureIndex()
+{
+	return m_pButtonManager->Get_BuildingNameTextureIndex();
+}
+
 _wstring CGameInstance::ButtonManager_Get_Text()
 {
 	return m_pButtonManager->Get_Text();
@@ -657,9 +678,22 @@ HRESULT CGameInstance::CutSceneManager_Add_CutScene(const _string& strCutSceneTa
 {
 	return m_pCutSceneManager->Add_CutScene(strCutSceneTag, pCutScene);
 }
-
 #pragma endregion
 
+#pragma region ACTORMANAGER
+
+void CGameInstance::ActorManager_Set_IsBuildingUnlock(_bool isUnlock)
+{
+	m_pActorManager->Set_IsBuildingUnlock(isUnlock);
+}
+
+_bool CGameInstance::ActorManager_Get_IsBuildingUnlock() const
+{
+	return m_pActorManager->Get_IsBuildingUnlock();
+}
+
+
+#pragma endregion
 
 
 
@@ -672,6 +706,7 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pButtonManager);
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pPlaceManager);
+	Safe_Release(m_pActorManager);
 	Safe_Release(m_pRenderManager);
 	Safe_Release(m_pObjectManager);
 	Safe_Release(m_pAnimationManager);

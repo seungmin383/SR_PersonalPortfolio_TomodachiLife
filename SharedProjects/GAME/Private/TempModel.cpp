@@ -36,6 +36,7 @@ int32_t CTempModel::Update_Priority(_float fDT)
 {
 	if ( !m_isUnlock && m_pUnlockStrategy->isUnlock())
 	{
+		m_pGameInstance->ActorManager_Set_IsBuildingUnlock(TRUE);
 		m_isUnlock = TRUE;
 	}
 
@@ -125,10 +126,6 @@ HRESULT CTempModel::Ready_Component()
 
 	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding0"), TEXT("Com_SeConstructionModel"),
 		reinterpret_cast<CComponent**>(&m_pSeConstructionModel), nullptr)))
-		return E_FAIL;
-
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_BuildingName_Texture"), TEXT("Com_BuildingNameTexture"),
-		reinterpret_cast<CComponent**>(&m_pNameTextureCom), nullptr)))
 		return E_FAIL;
 
 	return S_OK;

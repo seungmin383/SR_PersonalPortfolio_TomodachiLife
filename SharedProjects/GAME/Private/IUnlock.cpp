@@ -22,8 +22,8 @@ _bool CClothStore_UnlockStrategy::isUnlock()
 /* 음식점 해금 조건 */
 _bool CFoodStore_UnlockStrategy::isUnlock()
 {
-    //if (m_pGameInstance->Get_DIKeyState(DIK_Z))
-    //    return TRUE;
+    if (m_pGameInstance->Get_DIKeyState(DIK_Z))
+        return TRUE;
 
     return FALSE;
 }

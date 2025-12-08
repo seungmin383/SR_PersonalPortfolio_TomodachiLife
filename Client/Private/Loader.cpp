@@ -22,6 +22,8 @@
 #include "IconTexture.h"
 #include "TextButton.h"
 #include "Room.h"
+#include "BuildingName_Texture.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
 	m_pDevice(pDevice), m_pContext(pContext)
@@ -253,12 +255,12 @@ HRESULT CLoader::Loading_Island()
 		/* 건물 이름 텍스쳐*/
 		// ProtoTag_Component_OutLine_Texture
 		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/BuildingName_Texture/%d.dds"), 23);
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/BuildingName_Texture/%d.png"), 23);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
 				TEXT("ProtoTag_Component_BuildingName_Texture"), tmp)))
 				return E_FAIL;
 		}
-
+		
 
 		/* 아래 UI 배경 */
 		// ProtoTag_Component_BackGround_Texture
@@ -322,6 +324,15 @@ HRESULT CLoader::Loading_Island()
 			tmp = CBackGround::Create(m_pDevice, m_pContext);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
 				TEXT("ProtoTag_UI_BackGround"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 빌딩 이름 텍스쳐 UI */
+		// ProtoTag_UI_BuildingNameTexture
+		{
+			tmp = CBuildingName_Texture::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_UI_BuildingNameTexture"), tmp)))
 				return E_FAIL;
 		}
 	}

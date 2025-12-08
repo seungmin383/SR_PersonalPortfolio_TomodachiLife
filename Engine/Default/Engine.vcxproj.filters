@@ -223,11 +223,8 @@
     <Filter Include="01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer\01.Point">
       <UniqueIdentifier>{0e0fcf15-7db9-48db-badd-9fd607090e48}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\03.Object\03.UI\02.Texture">
-      <UniqueIdentifier>{3e80d4bd-4205-4ad9-a9be-bb4e9d779841}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\03.Object\03.UI\02.Texture\00.BuildingName">
-      <UniqueIdentifier>{3a8201a1-c1f4-4ca7-9bf3-a761e4ed5cbc}</UniqueIdentifier>
+    <Filter Include="01.Utility\03.Object\01.Actor\Manager">
+      <UniqueIdentifier>{363e37e1-3c21-428c-be84-2aec5e17c9c2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -422,6 +419,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ParticleBufferCom_Rect.cpp">
       <Filter>01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer\00.Rect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ActorManager.cpp">
+      <Filter>01.Utility\03.Object\01.Actor\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -673,6 +673,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\ParticleBufferCom_Rect.h">
       <Filter>01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer\00.Rect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ActorManager.h">
+      <Filter>01.Utility\03.Object\01.Actor\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Actor.h" />
+    <ClInclude Include="..\Public\ActorManager.h" />
     <ClInclude Include="..\Public\Animation.h" />
     <ClInclude Include="..\Public\AnimationManager.h" />
     <ClInclude Include="..\Public\AnimationPlayer.h" />
@@ -105,6 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Actor.cpp" />
+    <ClCompile Include="..\Private\ActorManager.cpp" />
     <ClCompile Include="..\Private\Animation.cpp" />
     <ClCompile Include="..\Private\AnimationManager.cpp" />
     <ClCompile Include="..\Private\AnimationPlayer.cpp" />

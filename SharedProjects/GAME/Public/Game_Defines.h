@@ -45,6 +45,7 @@ namespace Game
 	/* g_Pow */
 #define VTS_TEXCOORD 6
 
+#define VTS_DEFAULT_BLENDING 7
 
 
 	/* texture2D */

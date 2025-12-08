@@ -26,6 +26,8 @@ class CUIManager;
 class CCollisionManager;
 class CCutSceneManager;
 class CCutScene;
+class CActorManager;
+
 class ENGINE_DLL CGameInstance final : public CBase
 {
 	DECLARE_SINGLETON(CGameInstance)
@@ -221,6 +223,9 @@ public:
 
 	void ButtonManager_Set_OnText(_bool is);
 
+	void ButtonManager_Set_BuildingNameTextureIndex(uint32_t i);
+	uint32_t ButtonManager_Get_BuildingNameTextureIndex();
+
 	_wstring ButtonManager_Get_Text();
 
 #pragma endregion
@@ -250,6 +255,12 @@ public:
 
 #pragma endregion
 
+
+#pragma region ACTORMANGER
+	void ActorManager_Set_IsBuildingUnlock(_bool isUnlock);
+	_bool ActorManager_Get_IsBuildingUnlock() const;
+#pragma endregion
+
 private:
 	CTimerManager*		m_pTimerManager = { nullptr };
 	CInput_Device*      m_pInput_Device = { nullptr };
@@ -268,6 +279,7 @@ private:
 	CUIManager*			m_pUIManager = { nullptr };
 	CCollisionManager*	m_pCollisionManager = { nullptr };
 	CCutSceneManager*	m_pCutSceneManager = { nullptr };
+	CActorManager*		m_pActorManager = { nullptr };
 
 public:
 	void Clear_Engine();
