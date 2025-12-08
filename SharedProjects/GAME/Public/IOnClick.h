@@ -26,4 +26,18 @@ public:
 	virtual void Free()override;
 };
 
+class CNull_Strgy final : public IOnClick
+{
+private:
+	CNull_Strgy(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	virtual ~CNull_Strgy() = default;
+
+public:
+	virtual void OnClick() override;
+
+public:
+	static CNull_Strgy* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	virtual void Free()override;
+};
+
 NS_END

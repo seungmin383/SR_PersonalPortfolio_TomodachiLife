@@ -58,9 +58,7 @@ HRESULT CPlace_Developer::Ready_Actor_Layer()
 		for (uint32_t i = 0; i < 20; ++i)
 		{
 			CTestMii::TEST_MII_DESC tMiiDesc = {};
-			tMiiDesc.fX = m_pGameInstance->Random(0.f, 20.f);
-			tMiiDesc.fY = 0.f;
-			tMiiDesc.fZ = m_pGameInstance->Random(0.f, 20.f);
+			tMiiDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
 			tMiiDesc.fCX = 1.f;
 			tMiiDesc.fCY = 1.f;
 			tMiiDesc.fCZ = 1.f;
@@ -87,9 +85,7 @@ HRESULT CPlace_Developer::Ready_Actor_Layer()
 	//ProtoTag_Actor_Terrain
 	{
 		CTerrain::ACTOR_DESC tTerrainDesc = {};
-		tTerrainDesc.fX = 0.f;
-		tTerrainDesc.fY = 0.f;
-		tTerrainDesc.fZ = 0.f;
+		tTerrainDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
 		tTerrainDesc.fCX = 1.f;
 		tTerrainDesc.fCY = 1.f;
 		tTerrainDesc.fCZ = 1.f;
@@ -115,9 +111,8 @@ HRESULT CPlace_Developer::Ready_Actor_Layer()
 	// ProtoTag_Actor_Mii
 	{
 		CMii::MII_DESC MiiDesc = {};
-		MiiDesc.fX = 0.f;
-		MiiDesc.fY = 0.f;
-		MiiDesc.fZ = 0.f;
+		MiiDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
+
 		MiiDesc.fCX = 1.f;
 		MiiDesc.fCY = 1.f;
 		MiiDesc.fCZ = 1.f;

@@ -154,9 +154,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* Part_Body */
 	{
 		CSEMiiBody::SEMIIBODY_DESC MiiBodyDesc = {};
-		MiiBodyDesc.fX = 0.f;
-		MiiBodyDesc.fY = 0.f;
-		MiiBodyDesc.fZ = 0.f;
+		MiiBodyDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
 		MiiBodyDesc.fCX = 1.f;
 		MiiBodyDesc.fCY = 1.f;
 		MiiBodyDesc.fCZ = 1.f;
@@ -175,9 +173,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("head");
 
 		CSEMiiHead::SEMIIHEAD_DESC seHeadDesc = {};
-		seHeadDesc.fX = -0.15f;
-		seHeadDesc.fY = 0.f;
-		seHeadDesc.fZ = 0.f;
+		seHeadDesc.vPos = XMFLOAT4{ -0.15f, 0.f, 0.f, 1.f };
 		seHeadDesc.fCX = 0.09f;
 		seHeadDesc.fCY = 0.09f;
 		seHeadDesc.fCZ = 0.09f;
@@ -198,9 +194,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("head");
 
 		CSEMiiHair::SEMIIHAIR_DESC seHairDesc = {};
-		seHairDesc.fX = -0.15f;
-		seHairDesc.fY = 0.f;
-		seHairDesc.fZ = 0.f;
+		seHairDesc.vPos = XMFLOAT4{ -0.15f, 0.f, 0.f, 1.f };
 		seHairDesc.fCX = 0.1f;
 		seHairDesc.fCY = 0.1f;
 		seHairDesc.fCZ = 0.1f;
@@ -223,9 +217,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("head");
 
 		CSEMiiEyes::SEMIIEYES_DESC seEyesDesc = {};
-		seEyesDesc.fX = 0.18f;
-		seEyesDesc.fY = -0.12f;
-		seEyesDesc.fZ = -0.23f;
+		seEyesDesc.vPos = XMFLOAT4{ 0.18f, -0.12f, -0.23f, 1.f };
 		seEyesDesc.fCX = 0.22f;
 		seEyesDesc.fCY = 0.22f;
 		seEyesDesc.fCZ = 0.22f;
@@ -243,7 +235,8 @@ HRESULT CSEMii::Ready_PartObjects()
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiEyes"), TEXT("Part_Eyes"), &seEyesDesc)))
 			return E_FAIL;
 
-		seEyesDesc.fY = 0.12f;
+		// Left Eyes: y만 변경
+		seEyesDesc.vPos.y = 0.12f;
 		seEyesDesc.isRight = FALSE;
 
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiEyes"), TEXT("Part_LeftEyes"), &seEyesDesc)))
@@ -258,9 +251,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("head");
 
 		CSEMiiEyebrow::SEMIIEYEBROW_DESC seEyebrowDesc = {};
-		seEyebrowDesc.fX = 0.25f;
-		seEyebrowDesc.fY = -0.1f;
-		seEyebrowDesc.fZ = -0.23f;
+		seEyebrowDesc.vPos = XMFLOAT4{ 0.25f, -0.1f, -0.23f, 1.f };
 		seEyebrowDesc.fCX = 0.27f;
 		seEyebrowDesc.fCY = 0.22f;
 		seEyebrowDesc.fCZ = 0.22f;
@@ -276,7 +267,8 @@ HRESULT CSEMii::Ready_PartObjects()
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiEyebrow"), TEXT("Part_RightEyebrow"), &seEyebrowDesc)))
 			return E_FAIL;
 
-		seEyebrowDesc.fY = 0.1f;
+		// Left Eyebrow: y만 변경
+		seEyebrowDesc.vPos.y = 0.1f;
 		seEyebrowDesc.isRight = FALSE;
 
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiEyebrow"), TEXT("Part_LeftEyebrow"), &seEyebrowDesc)))
@@ -290,9 +282,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("head");
 
 		CSEMiiNose::SEMIINOSE_DESC seNoseDesc = {};
-		seNoseDesc.fX = 0.1f;
-		seNoseDesc.fY = 0.0f;
-		seNoseDesc.fZ = -0.23f;
+		seNoseDesc.vPos = XMFLOAT4{ 0.1f, 0.f, -0.23f, 1.f };
 		seNoseDesc.fCX = 0.27f;
 		seNoseDesc.fCY = 0.27f;
 		seNoseDesc.fCZ = 0.27f;
@@ -315,9 +305,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("head");
 
 		CSEMiiMouth::SEMIIMOUTH_DESC seMouthDesc = {};
-		seMouthDesc.fX = 0.f;
-		seMouthDesc.fY = 0.0f;
-		seMouthDesc.fZ = -0.23f;
+		seMouthDesc.vPos = XMFLOAT4{ 0.f, 0.f, -0.23f, 1.f };
 		seMouthDesc.fCX = 0.35f;
 		seMouthDesc.fCY = 0.35f;
 		seMouthDesc.fCZ = 0.27f;
@@ -332,7 +320,9 @@ HRESULT CSEMii::Ready_PartObjects()
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiMouth"), TEXT("Part_Mouth"), &seMouthDesc)))
 			return E_FAIL;
 	}
+
 	return S_OK;
+
 }
 
 HRESULT CSEMii::Bind_ShaderResources()
@@ -366,5 +356,6 @@ CObject* CSEMii::Clone(void* pArg)
 
 void CSEMii::Free()
 {
+	Safe_Release(m_pBrain);
 	CContainerObject::Free();
 }

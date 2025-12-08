@@ -6,6 +6,7 @@ NS_BEGIN(Engine)
 
 class CShaderCom;
 class CSEModel;
+class CTextureCom;
 
 NS_END
 
@@ -19,8 +20,6 @@ public:
 	typedef struct tagTempModelDesc : public ACTOR_DESC
 	{
 		IUnlock* pUnlockStrategy = { nullptr };
-
-		PLACEID eCurPlaceID; 
 		uint32_t iBuildingIndex;
 
 	}TEMPMODEL_DESC;
@@ -48,14 +47,16 @@ private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CSEModel* m_pSeModel = { nullptr };
 	CSEModel* m_pSeConstructionModel = { nullptr };
+	CTextureCom* m_pNameTextureCom = { nullptr };
 
 	IUnlock* m_pUnlockStrategy = { nullptr };
 
 	_wstring m_strModelProtoTag = {};
 	int32_t m_iBuildingIndex = {};
-	PLACEID m_ePlaceID = { PLACEID::END };
 
 	_bool m_isUnlock = { FALSE };
+
+	_bool m_isFocus = { FALSE };
 
 public:
 	static CTempModel* Create(

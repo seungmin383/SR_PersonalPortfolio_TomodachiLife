@@ -21,7 +21,6 @@ HRESULT CTempModel::Initialize_Clone(void* pArg)
 {
 	TEMPMODEL_DESC* pDesc = static_cast<TEMPMODEL_DESC*>(pArg);
 	m_pUnlockStrategy	= pDesc->pUnlockStrategy;
-	m_ePlaceID			= pDesc->eCurPlaceID;
 	m_iBuildingIndex	= pDesc->iBuildingIndex;
 	m_strModelProtoTag	= _wstring(L"ProtoTag_Component_seBuilding") + to_wstring( m_iBuildingIndex);
 
@@ -45,12 +44,12 @@ int32_t CTempModel::Update_Priority(_float fDT)
 
 int32_t CTempModel::Update(_float fDT)
 {
-	XMFLOAT4 tmp = {};
+	/*XMFLOAT4 tmp = {};
 	XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
 
-	if (m_iBuildingIndex == 10)
+	if (m_iBuildingIndex == 20)
 	{
-		// cout << "X : " << tmp.x << " Y : " << tmp.y << " Z : " << tmp.z << endl;
+		cout << "X : " << tmp.x << " Y : " << tmp.y << " Z : " << tmp.z << endl;
 		if (m_pGameInstance->Get_DIKeyState(DIK_UP))
 		{
 			m_pTransformCom->Go_Straight(fDT);
@@ -75,7 +74,7 @@ int32_t CTempModel::Update(_float fDT)
 		{
 			m_pTransformCom->Go_Down(fDT);
 		}
-	}
+	}*/
 	return UPDATE_CLEAR;
 }
 
@@ -109,12 +108,14 @@ HRESULT CTempModel::Render()
 			m_pSeConstructionModel->Render_SeModel(i);
 		}
 	}
+
+
 	return S_OK;
 }
 
 HRESULT CTempModel::Ready_Component()
 {
-	if (FAILED(Add_Component(static_cast<uint32_t>(m_ePlaceID), m_strModelProtoTag, TEXT("Com_SeModel"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), m_strModelProtoTag, TEXT("Com_SeModel"),
 		reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 
@@ -122,9 +123,14 @@ HRESULT CTempModel::Ready_Component()
 		reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(static_cast<uint32_t>(m_ePlaceID), TEXT("ProtoTag_Component_seBuilding0"), TEXT("Com_SeConstructionModel"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding0"), TEXT("Com_SeConstructionModel"),
 		reinterpret_cast<CComponent**>(&m_pSeConstructionModel), nullptr)))
 		return E_FAIL;
+
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_BuildingName_Texture"), TEXT("Com_BuildingNameTexture"),
+		reinterpret_cast<CComponent**>(&m_pNameTextureCom), nullptr)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

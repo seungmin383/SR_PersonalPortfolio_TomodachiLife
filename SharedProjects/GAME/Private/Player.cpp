@@ -95,9 +95,7 @@ HRESULT CPlayer::Ready_PartObjects()
     tBodyDesc.fCX = 1.f;
     tBodyDesc.fCY = 1.f;
     tBodyDesc.fCZ = 1.f;
-    tBodyDesc.fX = 0.f;
-    tBodyDesc.fY = 0.f;
-    tBodyDesc.fZ = -0.f;
+    tBodyDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
 
     Add_PartObject(
         static_cast<uint32_t>(PLACEID::APART),
@@ -119,9 +117,7 @@ HRESULT CPlayer::Ready_PartObjects()
     WeaponDesc.fCX = 1.f;
     WeaponDesc.fCY = 1.f;
     WeaponDesc.fCZ = 1.f;
-    WeaponDesc.fX = 0.f;
-    WeaponDesc.fY = 0.f;
-    WeaponDesc.fZ = -0.f;
+    WeaponDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
 
     if (FAILED(__super::Add_PartObject(
         static_cast<uint32_t>(PLACEID::APART), 

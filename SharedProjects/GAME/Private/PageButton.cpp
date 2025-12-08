@@ -21,7 +21,7 @@ HRESULT CPageButton::Initialize_Origin()
 HRESULT CPageButton::Initialize_Clone(void* pArg)
 {
 	PAGEBUTTON_DESC* pDesc = static_cast<PAGEBUTTON_DESC*>(pArg);
-	m_pClickStrategy = pDesc->pStrategy;
+	m_pClicked_Strgy = pDesc->pStrategy;
 	m_iTextureIndex = pDesc->iTextureIndex;
 	m_strDeactivateLayerTag = pDesc->strDeactivateLayerTag;
 
@@ -163,7 +163,7 @@ int32_t CPageButton::On_Click()
 	{
 		m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::CITYHALL), m_strDeactivateLayerTag);
 		m_isSelected = TRUE;
-		m_pClickStrategy->OnClick();
+		m_pClicked_Strgy->OnClick();
 	}
 
 	/* 이 버튼이 선택되어 있었는데 클릭되었다면 -> 씬 전환*/
@@ -205,7 +205,7 @@ CObject* CPageButton::Clone(void* pArg)
 
 void CPageButton::Free()
 {
-	Safe_Release(m_pClickStrategy);
+	Safe_Release(m_pClicked_Strgy);
 
 	Safe_Release(m_pShader);
 	Safe_Release(m_pTexture);

@@ -11,10 +11,6 @@ class ENGINE_DLL CActor abstract : public CObject
 public:
 	typedef struct tagActorDesc : public OBJECT_DESC
 	{
-		_float fX = {};
-		_float fY = {};
-		_float fZ = {};
-
 		XMFLOAT4 vPos = {};
 
 		_float fCX = {};

@@ -21,7 +21,7 @@ HRESULT CMiiEditButton::Initialize_Origin()
 HRESULT CMiiEditButton::Initialize_Clone(void* pArg)
 {
 	MIIEDITBUTTON_DESC* pDesc = static_cast<MIIEDITBUTTON_DESC*>(pArg);
-	m_pClickStrategy = pDesc->pStrategy;
+	m_pClicked_Strgy = pDesc->pStrategy;
 	m_iTextureIndex = pDesc->iTextureIndex;
 	m_strLayerTag = pDesc->strLayerTag;
 
@@ -138,7 +138,7 @@ int32_t CMiiEditButton::On_Click()
 	{
 		m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::CITYHALL), m_strLayerTag);
 		m_isSelected = TRUE;
-		m_pClickStrategy->OnClick();
+		m_pClicked_Strgy->OnClick();
 	}
 
 	/* 이 버튼이 선택되어 있었는데 클릭되었다면 -> 씬 전환*/
@@ -180,7 +180,7 @@ CObject* CMiiEditButton::Clone(void* pArg)
 
 void CMiiEditButton::Free()
 {
-	Safe_Release(m_pClickStrategy);
+	Safe_Release(m_pClicked_Strgy);
 
 	Safe_Release(m_pShader);
 	Safe_Release(m_pTexture);

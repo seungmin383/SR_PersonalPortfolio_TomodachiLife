@@ -12,35 +12,29 @@ HRESULT CPlaceManager::Change_Place(
 	uint32_t PlaceID, 
 	CPlace* pPlace)
 {
-	if (nullptr != m_pPlace)
-		m_pGameInstance->Clear_Resources(m_iPlaceID);
-
-	Safe_Release(m_pPlace);
-
-	m_iPlaceID = PlaceID;
-	m_pPlace = pPlace;
+	m_isChangePlace = TRUE;
+	m_iNextPlaceID = PlaceID;
+	m_pNextPlace = pPlace;
 	return S_OK;
 }
 
 void CPlaceManager::Go_Place()
 {
 	if (nullptr != m_pPlace)
-	{
 		m_pGameInstance->Clear_Resources(m_iPlaceID);
-	}
+
+	Safe_Release(m_pPlace);
 
 	m_iPlaceID = m_iNextPlaceID;
 	m_pPlace = m_pNextPlace;
-	m_pNextPlace = nullptr;
+	m_isChangePlace = FALSE;
 }
 
 int32_t CPlaceManager::Update(_float fDT)
 {
 	if (m_isChangePlace)
-	{
 		Go_Place();
-		m_isChangePlace = FALSE;
-	}
+
 	return m_pPlace->Update(fDT);
 }
 
@@ -63,7 +57,6 @@ void CPlaceManager::Free()
 {
 	Safe_Release(m_pGameInstance);
 	Safe_Release(m_pPlace);
-	Safe_Release(m_pNextPlace);
 
 	CBase::Free();
 }

@@ -22,9 +22,6 @@
 #include "IconTexture.h"
 #include "TextButton.h"
 #include "Room.h"
-
-#include "PlaceMarker_Button.h"
-
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
 	m_pDevice(pDevice), m_pContext(pContext)
@@ -212,96 +209,29 @@ HRESULT CLoader::Loading_Island()
 				tmp)))
 				return E_FAIL;
 		}
-		/* 공사중 표지판 */
-		// ProtoTag_Component_Building0
+
+		/* 빌딩들 */
+		for (uint32_t i = 0; i < 24; ++i)
 		{
 			XMMATRIX initMatrix = XMMatrixIdentity();
 			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
 
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building0", ANIM_TYPE::NONEANIM,
-				"../../Resource/00Model/Actor - Building/Building0/Building.fbx", initMatrix, "Building0");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Building0"),tmp)))
+			string ProtoTag = "ProtoTag_Component_Building" + to_string(i);
+			_wstring ProtoTagw = L"ProtoTag_Component_Building" + to_wstring(i);
+			_wstring seProtoTag = L"ProtoTag_Component_seBuilding" + to_wstring(i);
+			string FilePath = "../../Resource/00Model/Actor - Building/Building" + to_string(i) + "/Building.fbx";
+			string SaveName = "Building" + to_string(i);
+
+			tmp = CModel::Create(m_pDevice, m_pContext, ProtoTag, ANIM_TYPE::NONEANIM,
+				FilePath.c_str(), initMatrix, SaveName.c_str());
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), ProtoTagw, tmp)))
 				return E_FAIL;
 
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building0", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype( static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding0"), tmp)))
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, SaveName.c_str(), initMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), seProtoTag, tmp)))
 				return E_FAIL;
 		}
-		/* 아파트 */
-		// ProtoTag_Component_Building1
-		{
-			XMMATRIX initMatrix = XMMatrixIdentity();
-			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
-
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building1", ANIM_TYPE::NONEANIM,
-				"../../Resource/00Model/Actor - Building/Building1/Building.fbx", initMatrix, "Building1");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),TEXT("ProtoTag_Component_Building1"),tmp)))
-				return E_FAIL;
-
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building1", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding1"), tmp)))
-				return E_FAIL;
-		}
-		/* 음식가게 */
-		// ProtoTag_Component_Building1
-		{
-			XMMATRIX initMatrix = XMMatrixIdentity();
-			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
-
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building4", ANIM_TYPE::NONEANIM,
-				"../../Resource/00Model/Actor - Building/Building4/Building.fbx", initMatrix, "Building4");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Building4"), tmp)))
-				return E_FAIL;
-
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building4", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding4"), tmp)))
-				return E_FAIL;
-		}
-		/* 주민센터 */
-		// ProtoTag_Component_Building10
-		{
-			XMMATRIX initMatrix = XMMatrixIdentity();
-			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
-
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building10", ANIM_TYPE::NONEANIM,
-				"../../Resource/00Model/Actor - Building/Building10/Building.fbx", initMatrix, "Building10");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Building10"), tmp)))
-				return E_FAIL;
-
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building10", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding10"), tmp)))
-				return E_FAIL;
-		}
-		/* 뉴스 센터 */
-		// ProtoTag_Component_Building19
-		{
-			XMMATRIX initMatrix = XMMatrixIdentity();
-			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building19", ANIM_TYPE::NONEANIM,
-				"../../Resource/00Model/Actor - Building/Building19/Building.fbx", initMatrix, "Building19");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Building19"), tmp)))
-				return E_FAIL;
-
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building19", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding19"), tmp)))
-				return E_FAIL;
-		}
-		/* 카페 */
-		// ProtoTag_Component_Building21
-		{
-			XMMATRIX initMatrix = XMMatrixIdentity();
-			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building21", ANIM_TYPE::NONEANIM,
-				"../../Resource/00Model/Actor - Building/Building21/Building.fbx", initMatrix, "Building21");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Building21"), tmp)))
-				return E_FAIL;
-
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building21", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding21"), tmp)))
-				return E_FAIL;
-		}
+		
 		/* 건물 버튼 텍스쳐 */
 		// ProtoTag_Component_PlaceMoveButton_Texture
 		{
@@ -310,14 +240,26 @@ HRESULT CLoader::Loading_Island()
 				TEXT("ProtoTag_Component_PlaceMarker_Button_Texture"), tmp)))
 				return E_FAIL;
 		}
+
 		/* 건물 버튼 아웃라인 텍스쳐*/
 		// ProtoTag_Component_OutLine_Texture
 		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/OutLine/OutLine%d.dds"), 6);
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/PlaceMarker_Button/Outline/%d.dds"), 6);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
 				TEXT("ProtoTag_Component_PlaceMarker_Button_OutLine_Texture"), tmp)))
 				return E_FAIL;
 		}
+
+		/* 건물 이름 텍스쳐*/
+		// ProtoTag_Component_OutLine_Texture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/BuildingName_Texture/%d.dds"), 23);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_Component_BuildingName_Texture"), tmp)))
+				return E_FAIL;
+		}
+
+
 		/* 아래 UI 배경 */
 		// ProtoTag_Component_BackGround_Texture
 		{
@@ -374,14 +316,6 @@ HRESULT CLoader::Loading_Island()
 				return E_FAIL;
 		}
 
-		/* 플레이스 마커 버튼 */
-		{
-			tmp = CPlaceMarker_Button::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
-				TEXT("ProtoTag_UI_PlaceMarker_Button"), tmp)))
-				return E_FAIL;
-
-		}
 		/* 아래 UI 배경*/
 		// ProtoTag_UI_BackGround
 		{

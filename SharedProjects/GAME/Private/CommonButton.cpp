@@ -24,7 +24,7 @@ HRESULT CCommonButton::Initialize_Clone(void* pArg)
 	COMMONBUTTON_DESC* tCommonButtonDesc = static_cast<COMMONBUTTON_DESC*>(pArg);
 	m_eTexturePlaceID = tCommonButtonDesc->eTexturePlaceID;
 
-	m_pClickStrategy = tCommonButtonDesc->pStrategy;
+	m_pClicked_Strgy = tCommonButtonDesc->pStrategy;
 	
 	m_strTextureTag = tCommonButtonDesc->strTextureTag;
 	m_iTextureIndex = tCommonButtonDesc->iTextureIndex;
@@ -159,7 +159,7 @@ HRESULT CCommonButton::Bind_ShaderResources()
 
 int32_t CCommonButton::On_Click()
 {
-	m_pClickStrategy->OnClick();
+	m_pClicked_Strgy->OnClick();
 	m_isClicked = FALSE;
 
 	return UPDATE_CLEAR;
@@ -195,7 +195,7 @@ CObject* CCommonButton::Clone(void* pArg)
 
 void CCommonButton::Free()
 {
-	Safe_Release(m_pClickStrategy);
+	Safe_Release(m_pClicked_Strgy);
 
 	Safe_Release(m_pShader);
 	Safe_Release(m_pTexture);

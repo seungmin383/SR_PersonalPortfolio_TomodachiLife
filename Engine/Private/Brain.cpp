@@ -93,5 +93,6 @@ CObject* CBrain::Clone(void* pArg)
 
 void CBrain::Free()
 {
+	CComponent::Free();
 }
 

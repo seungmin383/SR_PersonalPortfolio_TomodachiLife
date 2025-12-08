@@ -24,13 +24,13 @@ HRESULT CPlaceMoveButton::Initialize_Clone(void* pArg)
 {
 	PLACEMOVEBUTTON_DESC* tPlaceMoveButtonDesc = static_cast<PLACEMOVEBUTTON_DESC*>(pArg);
 	
-	m_pClickStrategy = tPlaceMoveButtonDesc->pStrategy;
+	m_pClicked_Strgy = tPlaceMoveButtonDesc->pClicked_Strgy;
+	m_pSelected_Strgy = tPlaceMoveButtonDesc->pSelected_Strgy;
+	m_pSelectedClick_Strgy = tPlaceMoveButtonDesc->pSelectedClick_Strgy;
 
 	m_eCurPlaceID = tPlaceMoveButtonDesc->eCurPlaceID;
-	m_iTextureNum = tPlaceMoveButtonDesc->iTextureNum;
-	m_iOutlineTextureNum = tPlaceMoveButtonDesc->iOutlineTextureNum;
-
-	m_iStoreOutlineTextureNum = m_iOutlineTextureNum;
+	m_iTextureIndex = tPlaceMoveButtonDesc->iTextureIndex;
+	m_iOutlineTextureIndex = tPlaceMoveButtonDesc->iOutlineTextureIndex;
 
 	m_vTargetPos = tPlaceMoveButtonDesc->vTargetPos;
 	m_fLerpTime = tPlaceMoveButtonDesc->fLerpTime;
@@ -50,7 +50,6 @@ int32_t CPlaceMoveButton::Update_Priority(_float fDT)
 {
 	CButton::Update_Priority(fDT);	// 마우스랑 확인
 
-	// 커서랑 버튼이 겹쳐있고, 좌클릭이 눌렀다 때졌을 때
 	if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isClickLBT())
 	{
 		m_isClicked = TRUE;
@@ -61,20 +60,7 @@ int32_t CPlaceMoveButton::Update_Priority(_float fDT)
 
 int32_t CPlaceMoveButton::Update(_float fDT)
 {
-	if (m_isClicked)
-	{
-		return On_Click();
-	}
-
-	if(!m_isSelected)
-	{
-		m_iOutlineTextureNum = 5;
-	}
-	else if(m_isSelected)
-	{
-		Camera_Control(fDT);
-	}
-	return UPDATE_CLEAR;
+	return On_Click();
 }
 
 void CPlaceMoveButton::Update_Late(_float fDT)
@@ -119,6 +105,10 @@ HRESULT CPlaceMoveButton::Ready_Component()
 		TEXT("Com_OutLineTexture"), reinterpret_cast<CComponent**>(&m_pOutlineTextureCom), nullptr)))
 		return E_FAIL;
 
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_BuildingName_Texture"),
+		TEXT("Com_BuildingNameTexture"), reinterpret_cast<CComponent**>(&m_pBuildingNameTextureCom), nullptr)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -126,33 +116,58 @@ HRESULT CPlaceMoveButton::Bind_ShaderResources()
 {
 	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
+
 	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ViewMatrix", TEXT("UI_Camera"), D3DTS::VIEW)))
 		return E_FAIL;
 	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ)))
 		return E_FAIL;
-	if(FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureNum)))
-		return E_FAIL;
-	if(FAILED(m_pOutlineTextureCom->Bind_ShaderResource(m_pShaderCom, "g_UpperTexture", m_iOutlineTextureNum)))
-		return E_FAIL;
+
+	/* 잠겨있다면 */
+	if (!m_isUnlock)
+	{
+		if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureIndex)))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureIndex + 1)))
+			return E_FAIL;
+
+		if (m_isSelected)
+		{
+			if (FAILED(m_pOutlineTextureCom->Bind_ShaderResource(m_pShaderCom, "g_UpperTexture", m_iOutlineTextureIndex)))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pOutlineTextureCom->Bind_ShaderResource(m_pShaderCom, "g_UpperTexture", 5)))
+				return E_FAIL;
+		}
+	}
 
 	return S_OK;
 }
 
 int32_t CPlaceMoveButton::On_Click()
 {
-	/* 이 버튼이 선택이 안되어 있었는데 클릭 되었다면 -> 아웃라인 생성 및 타겟 포인트로 확대 */
-	if (!m_isSelected)
+	if (m_isSelected)
 	{
-		m_fLerpTimer = 0.f;
-		m_pGameInstance->ButtonManager_All_Deactivate( static_cast<uint32_t>(m_eCurPlaceID), TEXT("LayerTag_UI"));
-		m_iOutlineTextureNum = m_iStoreOutlineTextureNum;
-		m_isSelected = TRUE;
+		m_pSelected_Strgy->OnClick();
+
+		if (m_isClicked)
+		{
+			m_pSelectedClick_Strgy->OnClick();
+		}
 	}
 	else
 	{
-		m_pClickStrategy->OnClick();
-		return PLACE_CHANGE;
+		if (m_isClicked)
+		{
+			m_pClicked_Strgy->OnClick();
+			m_isSelected = TRUE;
+		}
 	}
+
 	return UPDATE_CLEAR;
 }
 
@@ -192,7 +207,9 @@ CObject* CPlaceMoveButton::Clone(void* pArg)
 
 void CPlaceMoveButton::Free()
 {
-	Safe_Release(m_pClickStrategy);
+	Safe_Release(m_pClicked_Strgy);
+	Safe_Release(m_pSelected_Strgy);
+	Safe_Release(m_pSelectedClick_Strgy);
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTextureCom);

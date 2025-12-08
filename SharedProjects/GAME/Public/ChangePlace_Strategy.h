@@ -3,23 +3,23 @@
 
 NS_BEGIN(Game)
 
-class CChangePlace_Strategy final : public IOnClick
+class CChangePlace_Strgy final : public IOnClick
 {
 private:
-	CChangePlace_Strategy(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	virtual ~CChangePlace_Strategy() = default;
+	CChangePlace_Strgy(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	virtual ~CChangePlace_Strgy() = default;
 
 public:
-	HRESULT Initialize(PLACEID eNextPlaceID);
+	HRESULT Initialize(PLACEID eNextPlaceID, const _wstring& strLayerTag);
 
 public:
 	void OnClick() override;
 
 private:
 	PLACEID m_eNextPlaceID = {};
-
+	_wstring m_strLayerTag = {};
 public:
-	static CChangePlace_Strategy* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,PLACEID eNextPlaceID);
+	static CChangePlace_Strgy* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,PLACEID eNextPlaceID, const _wstring& strLayerTag);
 	virtual void Free()override;
 };
 

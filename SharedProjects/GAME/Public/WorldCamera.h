@@ -30,7 +30,7 @@ public:
 
 private:
 	_float m_fSensor = {};
-
+	
 
 public:
 	static CWorldCamera* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

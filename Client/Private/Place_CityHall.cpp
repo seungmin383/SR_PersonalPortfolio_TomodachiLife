@@ -129,9 +129,7 @@ HRESULT CPlace_CityHall::Ready_Actor_Layer()
 		// ProtoTag_Actor_Mii
 		{
 			CMii::MII_DESC MiiDesc = {};
-			MiiDesc.fX = 0.f;
-			MiiDesc.fY = 0.f;
-			MiiDesc.fZ = 0.f;
+			MiiDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
 			MiiDesc.fCX = 1.f;
 			MiiDesc.fCY = 1.f;
 			MiiDesc.fCZ = 1.f;
@@ -313,6 +311,7 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 			CMiiEditButton::MIIEDITBUTTON_DESC Desc = {};
 			Desc.fX = HEAD_BASE_POS_X;
 			Desc.fY = HEAD_BASE_POS_Y;
+			Desc.fZ = 0.4f;
 			Desc.fCX = 84.f;
 			Desc.fCY = 72.f;
 			Desc.fSpeedPerSecond = 30.f;

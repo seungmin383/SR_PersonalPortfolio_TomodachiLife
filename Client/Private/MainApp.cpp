@@ -65,11 +65,11 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	  //AllocConsole();                           // 콘솔 창 생성
-	  //FILE* fp;								  
-	  //freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
-	  //freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
-	  //freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
+	  AllocConsole();                           // 콘솔 창 생성
+	  FILE* fp;								  
+	  freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
+	  freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
+	  freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
 
 	ENGINE_DESC EngineDesc = {};
 	EngineDesc.hWnd = g_hWnd;
@@ -249,9 +249,7 @@ HRESULT CMainApp::Ready_Static()
 			tWorldCameraDesc.fCX = 1.f;
 			tWorldCameraDesc.fCY = 1.f;
 			tWorldCameraDesc.fCZ = 1.f;
-			tWorldCameraDesc.fX = 0.f;
-			tWorldCameraDesc.fY = 0.f;
-			tWorldCameraDesc.fZ = 0.f;
+			tWorldCameraDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(
 				static_cast<uint32_t>(PLACEID::STATIC),
@@ -294,9 +292,7 @@ HRESULT CMainApp::Ready_Static()
 			tUICameraDesc.fCX = 1.f;
 			tUICameraDesc.fCY = 1.f;
 			tUICameraDesc.fCZ = 1.f;
-			tUICameraDesc.fX = 0.f;
-			tUICameraDesc.fY = 0.f;
-			tUICameraDesc.fZ = 0.f;
+			tUICameraDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(
 				static_cast<uint32_t>(PLACEID::STATIC),

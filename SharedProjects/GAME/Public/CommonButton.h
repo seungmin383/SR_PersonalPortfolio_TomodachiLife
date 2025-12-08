@@ -54,7 +54,7 @@ private:
 	CTextureCom* m_pTexture = { nullptr };
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
-	IOnClick* m_pClickStrategy = { nullptr };
+	IOnClick* m_pClicked_Strgy = { nullptr };
 
 private:
 	PLACEID m_eTexturePlaceID = {PLACEID::END};

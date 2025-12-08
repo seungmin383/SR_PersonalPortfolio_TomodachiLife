@@ -87,9 +87,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		// ProtoTag_Actor_Player
 		{
 			CPlayer::ACTOR_DESC tMiiDesc = {};
-			tMiiDesc.fX = 0.f;
-			tMiiDesc.fY = 0.f;
-			tMiiDesc.fZ = 0.f;
+			tMiiDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
 			tMiiDesc.fCX = 1.f;
 			tMiiDesc.fCY = 1.f;
 			tMiiDesc.fCZ = 1.f;
@@ -136,9 +134,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 			for (uint32_t i = 0; i < iNumMii; ++i)
 			{
 				CSEMii::MII_DESC Desc = {};
-				Desc.fX = m_pGameInstance->Random(0.f, 10.f);
-				Desc.fY = 0.f;
-				Desc.fZ = m_pGameInstance->Random(0.f, 10.f);
+				Desc.vPos = XMFLOAT4{ m_pGameInstance->Random(0.f, 10.f) ,0.f, m_pGameInstance->Random(0.f, 10.f) , 1.f };
 				Desc.fCX = 1.f;
 				Desc.fCY = 1.f;
 				Desc.fCZ = 1.f;

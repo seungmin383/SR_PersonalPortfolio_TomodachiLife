@@ -16,15 +16,17 @@ class CPlaceMoveButton final : public CButton
 public:
 	typedef struct tagPlaceMoveButtonDesc : public BUTTON_DESC
 	{
-		IOnClick* pStrategy = { nullptr };
+		IOnClick* pClicked_Strgy = { nullptr };
+		IOnClick* pSelected_Strgy = { nullptr };
+		IOnClick* pSelectedClick_Strgy = { nullptr };
 
 		PLACEID eCurPlaceID = {};
 
-		uint8_t iTextureNum = {};
-		uint8_t iUnlockTextureNum = {};
-		uint8_t iOutlineTextureNum = {};
+		uint8_t iTextureIndex = {};
+		uint8_t iOutlineTextureIndex = {};
 
 		XMFLOAT4 vTargetPos = {};
+
 		_float fLerpTime = {};
 		_float fTargetFov = {};
 
@@ -56,13 +58,17 @@ private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CTextureCom* m_pTextureCom = { nullptr };
 	CTextureCom* m_pOutlineTextureCom = { nullptr };
+	CTextureCom* m_pBuildingNameTextureCom = { nullptr };
+
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
-	IOnClick* m_pClickStrategy = { nullptr };
+	IOnClick* m_pClicked_Strgy = { nullptr };
+	IOnClick* m_pSelected_Strgy = { nullptr };
+	IOnClick* m_pSelectedClick_Strgy = { nullptr };
 
 	PLACEID m_eCurPlaceID = { PLACEID::END };
-	uint8_t	m_iTextureNum = {};
-	uint8_t	m_iOutlineTextureNum = {};
+	uint8_t	m_iTextureIndex = {};
+	uint8_t	m_iOutlineTextureIndex = {};
 	uint8_t m_iStoreOutlineTextureNum = {};
 
 	_bool m_isUnlock = { FALSE };

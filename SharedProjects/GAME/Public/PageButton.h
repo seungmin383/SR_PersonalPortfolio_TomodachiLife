@@ -53,7 +53,7 @@ private:
 	CTextureCom* m_pIconTexture = { nullptr };
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
-	IOnClick* m_pClickStrategy = { nullptr };
+	IOnClick* m_pClicked_Strgy = { nullptr };
 
 private:
 	uint32_t m_iTextureIndex = {};

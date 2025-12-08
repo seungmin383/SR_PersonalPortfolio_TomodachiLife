@@ -8,12 +8,12 @@ class ENGINE_DLL CBrain final : public CComponent
 public:
 	enum THINK
 	{
-		ZONEOUT		= 0			,
-		WORRY		= 1 << 0	,
-		FRIENDSHIP	= 1 << 1	,
-		BORED		= 1 << 2	,
-		LOVE		= 1 << 3	,
-		SADNESS		= 1 << 4	,
+		ZONEOUT		= 0		,
+		WORRY		= 1 << 0,
+		FRIENDSHIP	= 1 << 1,
+		BORED		= 1 << 2,
+		LOVE		= 1 << 3,
+		SADNESS		= 1 << 4,
 		END
 	};
 

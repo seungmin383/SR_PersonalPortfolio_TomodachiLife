@@ -161,10 +161,8 @@ HRESULT CMii::Ready_PartObjects()
 
 	/* Part_Body */
 	{
-		CMiiBody::MIIBODY_DESC MiiBodyDesc = {};	
-		MiiBodyDesc.fX = 0.f;
-		MiiBodyDesc.fY = 0.f;
-		MiiBodyDesc.fZ = 0.f;
+		CMiiBody::MIIBODY_DESC MiiBodyDesc = {};
+		MiiBodyDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
 		MiiBodyDesc.fCX = 1.f;
 		MiiBodyDesc.fCY = 1.f;
 		MiiBodyDesc.fCZ = 1.f;
@@ -183,9 +181,7 @@ HRESULT CMii::Ready_PartObjects()
 		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CMiiBody*>(PartBody))->Get_SocketMatrix("head");
 
 		CMiiHead::MIIHEAD_DESC MiiHeadDesc = {};
-		MiiHeadDesc.fX = -0.15f;
-		MiiHeadDesc.fY = 0.f;
-		MiiHeadDesc.fZ = 0.f;
+		MiiHeadDesc.vPos = XMFLOAT4{ -0.15f, 0.f, 0.f, 1.f };
 		MiiHeadDesc.fCX = 0.09f;
 		MiiHeadDesc.fCY = 0.09f;
 		MiiHeadDesc.fCZ = 0.09f;
@@ -206,9 +202,7 @@ HRESULT CMii::Ready_PartObjects()
 		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CMiiBody*>(PartBody))->Get_SocketMatrix("head");
 
 		CMiiHead::MIIHEAD_DESC MiiHeadDesc = {};
-		MiiHeadDesc.fX = -0.15f;
-		MiiHeadDesc.fY = 0.f;
-		MiiHeadDesc.fZ = 0.f;
+		MiiHeadDesc.vPos = XMFLOAT4{ -0.15f, 0.f, 0.f, 1.f };
 		MiiHeadDesc.fCX = 0.1f;
 		MiiHeadDesc.fCY = 0.1f;
 		MiiHeadDesc.fCZ = 0.1f;
@@ -230,9 +224,7 @@ HRESULT CMii::Ready_PartObjects()
 		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CMiiBody*>(PartBody))->Get_SocketMatrix("head");
 
 		CMiiEyes::MIIEYES_DESC MiiEyesDesc = {};
-		MiiEyesDesc.fX = 0.18f;
-		MiiEyesDesc.fY = -0.12f;
-		MiiEyesDesc.fZ = -0.23f;
+		MiiEyesDesc.vPos = XMFLOAT4{ 0.18f, -0.12f, -0.23f, 1.f };
 		MiiEyesDesc.fCX = 0.22f;
 		MiiEyesDesc.fCY = 0.22f;
 		MiiEyesDesc.fCZ = 0.22f;
@@ -249,7 +241,8 @@ HRESULT CMii::Ready_PartObjects()
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiEyes"), TEXT("Part_Eyes"), &MiiEyesDesc)))
 			return E_FAIL;
 
-		MiiEyesDesc.fY = 0.12f;
+		// Left Eyes: y만 변경
+		MiiEyesDesc.vPos.y = 0.12f;
 		MiiEyesDesc.isRight = FALSE;
 
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiEyes"), TEXT("Part_LeftEyes"), &MiiEyesDesc)))
@@ -264,9 +257,7 @@ HRESULT CMii::Ready_PartObjects()
 		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CMiiBody*>(PartBody))->Get_SocketMatrix("head");
 
 		CMiiEyebrow::MIIEYEBROW_DESC MiiEyebrowDesc = {};
-		MiiEyebrowDesc.fX = 0.25f;
-		MiiEyebrowDesc.fY = -0.1f;
-		MiiEyebrowDesc.fZ = -0.23f;
+		MiiEyebrowDesc.vPos = XMFLOAT4{ 0.25f, -0.1f, -0.23f, 1.f };
 		MiiEyebrowDesc.fCX = 0.27f;
 		MiiEyebrowDesc.fCY = 0.22f;
 		MiiEyebrowDesc.fCZ = 0.22f;
@@ -282,7 +273,8 @@ HRESULT CMii::Ready_PartObjects()
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiEyebrow"), TEXT("Part_RightEyebrow"), &MiiEyebrowDesc)))
 			return E_FAIL;
 
-		MiiEyebrowDesc.fY = 0.1f;
+		// Left Eyebrow: y만 변경
+		MiiEyebrowDesc.vPos.y = 0.1f;
 		MiiEyebrowDesc.isRight = FALSE;
 
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiEyebrow"), TEXT("Part_LeftEyebrow"), &MiiEyebrowDesc)))
@@ -296,9 +288,7 @@ HRESULT CMii::Ready_PartObjects()
 		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CMiiBody*>(PartBody))->Get_SocketMatrix("head");
 
 		CMiiNose::MIINOSE_DESC MiiNoseDesc = {};
-		MiiNoseDesc.fX = 0.1f;
-		MiiNoseDesc.fY = 0.0f;
-		MiiNoseDesc.fZ = -0.23f;
+		MiiNoseDesc.vPos = XMFLOAT4{ 0.1f, 0.f, -0.23f, 1.f };
 		MiiNoseDesc.fCX = 0.27f;
 		MiiNoseDesc.fCY = 0.27f;
 		MiiNoseDesc.fCZ = 0.27f;
@@ -320,9 +310,7 @@ HRESULT CMii::Ready_PartObjects()
 		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CMiiBody*>(PartBody))->Get_SocketMatrix("head");
 
 		CMiiMouth::MIIMOUTH_DESC MiiMouthDesc = {};
-		MiiMouthDesc.fX = 0.f;
-		MiiMouthDesc.fY = 0.0f;
-		MiiMouthDesc.fZ = -0.23f;
+		MiiMouthDesc.vPos = XMFLOAT4{ 0.f, 0.f, -0.23f, 1.f };
 		MiiMouthDesc.fCX = 0.35f;
 		MiiMouthDesc.fCY = 0.35f;
 		MiiMouthDesc.fCZ = 0.27f;
@@ -336,6 +324,7 @@ HRESULT CMii::Ready_PartObjects()
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiMouth"), TEXT("Part_Mouth"), &MiiMouthDesc)))
 			return E_FAIL;
 	}
+
 	return S_OK;
 }
 

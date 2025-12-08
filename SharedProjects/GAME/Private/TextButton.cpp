@@ -23,7 +23,7 @@ HRESULT CTextButton::Initialize_Clone(void* pArg)
 {
 	TEXTBUTTON_DESC* pDesc = static_cast<TEXTBUTTON_DESC*>(pArg);
 
-	m_pClickStrategy = pDesc->pStrategy;
+	m_pClicked_Strgy = pDesc->pStrategy;
 	m_eTextType = pDesc->eTextType;
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
@@ -215,7 +215,7 @@ CObject* CTextButton::Clone(void* pArg)
 
 void CTextButton::Free()
 {
-	Safe_Release(m_pClickStrategy);
+	Safe_Release(m_pClicked_Strgy);
 
 	Safe_Release(m_pShader);
 	Safe_Release(m_pTexture);

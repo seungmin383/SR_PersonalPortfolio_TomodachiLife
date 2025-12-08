@@ -30,8 +30,6 @@ void CSaveChangePlace_Strategy::OnClick()
 	m_pGameInstance->PlaceManager_Change_Place(
 		static_cast<uint32_t>(PLACEID::LOADING),
 		CPlace_Loading::Create(m_pDevice, m_pContext,PLACEID::ISLAND));
-
-	CMiiManager::GetInstance()->Set_EditFin(TRUE);
 }
 
 CSaveChangePlace_Strategy* CSaveChangePlace_Strategy::Create(

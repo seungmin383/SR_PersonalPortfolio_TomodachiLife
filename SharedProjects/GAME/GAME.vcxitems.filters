@@ -151,9 +151,6 @@
     <Filter Include="03.UI\01.Button\05.TextButton">
       <UniqueIdentifier>{64e8a977-0053-4cb3-a7a9-e49571df55e6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\03.TextBox">
-      <UniqueIdentifier>{54058fda-9166-4c6c-81bb-b848a5d2d7d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00.Manager\ApartManager">
       <UniqueIdentifier>{e4c35c7d-2bcd-4221-84c8-fe011522b201}</UniqueIdentifier>
     </Filter>
@@ -163,26 +160,11 @@
     <Filter Include="02.Actor\02.Apart\00.Window">
       <UniqueIdentifier>{e4a5dc7a-8e4f-4a9a-8e4d-0c42e49a90a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\04.SEButton">
-      <UniqueIdentifier>{76147764-20a0-44f9-a3a9-6a3fca22f30e}</UniqueIdentifier>
+    <Filter Include="03.UI\01.Button\00.OnclickStrategy\05.CameraZoomIn">
+      <UniqueIdentifier>{dd7109a9-9325-4871-9537-8c6ea8c86bb1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\04.SEButton\00.ClickStrategy">
-      <UniqueIdentifier>{ebacbbd0-1634-4146-929a-b191a92919fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\04.SEButton\03.RenderStrategy">
-      <UniqueIdentifier>{1c0c29ce-831e-496d-ac2d-73ef29ac613c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\04.SEButton\00.ClickStrategy\00.CameraZoomIn">
-      <UniqueIdentifier>{b02b2119-c46b-44ac-9e1b-b54b62c454d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\04.SEButton\Buttons">
-      <UniqueIdentifier>{c4b9782a-31a8-435d-9b08-ac886e48d1a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\04.SEButton\Buttons\00.PlaceMarker_Button">
-      <UniqueIdentifier>{ad640e5c-d3cd-47f6-8ff2-fcb2533efe01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\04.SEButton\00.ClickStrategy\01.ChangePlace">
-      <UniqueIdentifier>{41411c7e-ebba-4003-879a-ec43bb68988e}</UniqueIdentifier>
+    <Filter Include="03.UI\01.Button\00.OnclickStrategy\06.Deactive">
+      <UniqueIdentifier>{408343c9-b454-44d5-bb70-8908069a6e7e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -356,23 +338,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiBody.h">
       <Filter>02.Actor\03.Mii\Body</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEButton.h">
-      <Filter>03.UI\04.SEButton</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\CameraZoom_Strgy.h">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\05.CameraZoomIn</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\IClick_Strgy.h">
-      <Filter>03.UI\04.SEButton\00.ClickStrategy</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\IRender_Strgy.h">
-      <Filter>03.UI\04.SEButton\03.RenderStrategy</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\CameraZoomIn_Strgy.h">
-      <Filter>03.UI\04.SEButton\00.ClickStrategy\00.CameraZoomIn</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlaceMarker_Button.h">
-      <Filter>03.UI\04.SEButton\Buttons\00.PlaceMarker_Button</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangePlace_Strgy.h">
-      <Filter>03.UI\04.SEButton\00.ClickStrategy\01.ChangePlace</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Deactive_Strgy.h">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\06.Deactive</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -517,23 +487,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMiiBody.cpp">
       <Filter>02.Actor\03.Mii\Body</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEButton.cpp">
-      <Filter>03.UI\04.SEButton</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\CameraZoom_Strgy.cpp">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\05.CameraZoomIn</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\IClick_Strgy.cpp">
-      <Filter>03.UI\04.SEButton\00.ClickStrategy</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\IRender_Strgy.cpp">
-      <Filter>03.UI\04.SEButton\03.RenderStrategy</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\CameraZoomIn_Strgy.cpp">
-      <Filter>03.UI\04.SEButton\00.ClickStrategy\00.CameraZoomIn</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMarker_Button.cpp">
-      <Filter>03.UI\04.SEButton\Buttons\00.PlaceMarker_Button</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangePlace_Strgy.cpp">
-      <Filter>03.UI\04.SEButton\00.ClickStrategy\01.ChangePlace</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Deactive_Strgy.cpp">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\06.Deactive</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
