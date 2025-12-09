@@ -16,11 +16,11 @@ class CPageButton final : public CButton
 public:
 	typedef struct tagPageButtonDesc : public BUTTON_DESC
 	{
-		IOnClick* pStrategy = { nullptr };
-
+		IOnClick* pClicked_Strgy = { nullptr };
+		IOnClick* pSelected_Strgy = { nullptr };
+		IOnClick* pSelectedClick_Strgy = { nullptr };
+		
 		uint32_t iTextureIndex = {};
-
-		_wstring strDeactivateLayerTag = {};
 
 	}PAGEBUTTON_DESC;
 
@@ -45,26 +45,21 @@ private:
 
 	int32_t On_Click() override;
 
-public:
-	const uint32_t Get_iModelIndex()const { return m_iModelIndex; }
+
 private:
 	CShaderCom* m_pShader = { nullptr };
 	CTextureCom* m_pTexture = { nullptr };
-	CTextureCom* m_pIconTexture = { nullptr };
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
 	IOnClick* m_pClicked_Strgy = { nullptr };
+	IOnClick* m_pSelected_Strgy = { nullptr };
+	IOnClick* m_pSelectedClick_Strgy = { nullptr };
 
 private:
 	uint32_t m_iTextureIndex = {};
-	uint32_t m_iModelIndex = {};
-	_wstring m_strDeactivateLayerTag = {};
 
 public:
-	static CPageButton* Create(
-		ID3D11Device* pDevice,
-		ID3D11DeviceContext* pContext);
-
+	static CPageButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg) override;
 	virtual void Free()override;
 };

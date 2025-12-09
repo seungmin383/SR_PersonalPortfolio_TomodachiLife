@@ -659,7 +659,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		tCameraZoomStrgyDesc.fLerpTime = 0.1f;
 		tPlaceMoveButtonDesc.pSelected_Strgy = CCameraZoom_Strgy::Create(m_pDevice, m_pContext, &tCameraZoomStrgyDesc);
 
-		tPlaceMoveButtonDesc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, NextPlaceIDArr[i], TEXT("LayerTag_UI_PlaceMoveButton"));
+		tPlaceMoveButtonDesc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, NextPlaceIDArr[i]);
 		tPlaceMoveButtonDesc.iMatchBuildingIndex = BuildingIndexArr[i];
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_UI_PlaceMoveButton"), &tPlaceMoveButtonDesc);
 		if (nullptr == tmp)

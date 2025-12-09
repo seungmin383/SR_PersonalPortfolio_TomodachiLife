@@ -29,6 +29,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\CameraZoom_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangePlace_Strategy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangeUI_Strategy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\CityhallMenu_Button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\CommonButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ConvertJson.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Deactive_Strgy.cpp" />
@@ -42,6 +43,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiBody.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEditButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEditorBG.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEdit_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEyebrow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEyes.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiHair.cpp" />
@@ -72,6 +74,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Weapon.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Window_Button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\WorldCamera.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Public\ControlEnable_Strgy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Apart.h" />
@@ -83,7 +86,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\CameraZoom_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangePlace_Strategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangeUI_Strategy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\CityhallMenu_Button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\CommonButton.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ControlEnable_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ConvertJson.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Deactive_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h" />
@@ -98,6 +103,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiBody.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEditButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEditorBG.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEdit_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEyebrow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEyes.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiHair.h" />

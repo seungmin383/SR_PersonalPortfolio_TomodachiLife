@@ -6,7 +6,10 @@ struct MIIPROFILE_DESC
 	_string strFirstName;
 	_string strLastName;
 	_string strNickName;
+	_bool isMan;
 
+	uint32_t iRoomIndex;
+	
 	nlohmann::json ToJson()const
 	{
 		nlohmann::json Out;
@@ -14,6 +17,8 @@ struct MIIPROFILE_DESC
 		Out["FirstName"] = strFirstName;
 		Out["LastName"] = strLastName;
 		Out["NickName"] = strNickName;
+		Out["isMan"] = isMan;
+		Out["RoomIndex"] = iRoomIndex;
 		return Out;
 	}
 
@@ -22,6 +27,7 @@ struct MIIPROFILE_DESC
 		strFirstName = In.at("FirstName").get<_string>();
 		strLastName = In.at("LastName").get<_string>();
 		strNickName = In.at("NickName").get<_string>();
+		iRoomIndex = In.at("RoomIndex").get<uint32_t>();
 	}
 };
 

@@ -21,9 +21,11 @@ HRESULT CPageButton::Initialize_Origin()
 HRESULT CPageButton::Initialize_Clone(void* pArg)
 {
 	PAGEBUTTON_DESC* pDesc = static_cast<PAGEBUTTON_DESC*>(pArg);
-	m_pClicked_Strgy = pDesc->pStrategy;
+	m_pClicked_Strgy = pDesc->pClicked_Strgy;
+	m_pSelected_Strgy = pDesc->pSelected_Strgy;
+	m_pSelectedClick_Strgy = pDesc->pSelectedClick_Strgy;
+
 	m_iTextureIndex = pDesc->iTextureIndex;
-	m_strDeactivateLayerTag = pDesc->strDeactivateLayerTag;
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -49,34 +51,7 @@ int32_t CPageButton::Update_Priority(_float fDT)
 
 int32_t CPageButton::Update(_float fDT)
 {
-	if (m_isClicked)
-		On_Click();
-
-	//XMFLOAT4 tmp = {};
-	//XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
-
-	//if (m_iTextureIndex == 24)
-	//	cout << "X : " << tmp.x + 480.f << " Y : " << 240.f - tmp.y << " Z : " << tmp.z << endl;
-
-	//if (m_pGameInstance->Get_DIKeyState(DIK_UP))
-	//{
-	//	m_pTransformCom->Go_Up(fDT);
-	//}
-	//if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
-	//{
-	//	m_pTransformCom->Go_Down(fDT);
-	//}
-	//if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
-	//{
-	//	m_pTransformCom->Go_Right(fDT);
-	//}
-	//if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
-	//{
-	//	m_pTransformCom->Go_Left(fDT);
-	//}
-
-
-	return UPDATE_CLEAR;
+	return On_Click();
 }
 
 void CPageButton::Update_Late(_float fDT)
@@ -105,28 +80,16 @@ HRESULT CPageButton::Render()
 
 HRESULT CPageButton::Ready_Component()
 {
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::STATIC),
-		TEXT("ProtoTag_Component_VtxTexShader"),
-		TEXT("Com_Shader"),
-		reinterpret_cast<CComponent**>(&m_pShader),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxTexShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::STATIC),
-		TEXT("ProtoTag_Component_RectBuffer"),
-		TEXT("Com_RectBuffer"),
-		reinterpret_cast<CComponent**>(&m_pRectBuffer),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_RectBuffer"),
+		TEXT("Com_RectBuffer"), reinterpret_cast<CComponent**>(&m_pRectBuffer), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::CITYHALL),
-		TEXT("ProtoTag_Component_PageButtonTexture"),
-		TEXT("Com_Texture"),
-		reinterpret_cast<CComponent**>(&m_pTexture),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::MII_EDITOR), TEXT("ProtoTag_Component_PageButton_Texture"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTexture), nullptr)))
 		return E_FAIL;
 
 	return S_OK;
@@ -148,7 +111,7 @@ HRESULT CPageButton::Bind_ShaderResources()
 	{
 		m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex + 1);
 	}
-	else if (!m_isSelected)
+	else
 	{
 		m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex);
 	}
@@ -158,18 +121,22 @@ HRESULT CPageButton::Bind_ShaderResources()
 
 int32_t CPageButton::On_Click()
 {
-	/* 이 버튼이 선택이 안되어 있었는데 클릭 되었다면 -> 아웃라인 생성 및 타겟 포인트로 확대 */
-	if (!m_isSelected)
+	if (m_isSelected)
 	{
-		m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::CITYHALL), m_strDeactivateLayerTag);
-		m_isSelected = TRUE;
-		m_pClicked_Strgy->OnClick();
-	}
+		m_pSelected_Strgy->OnClick();
 
-	/* 이 버튼이 선택되어 있었는데 클릭되었다면 -> 씬 전환*/
+		if (m_isClicked)
+		{
+			m_pSelectedClick_Strgy->OnClick();
+		}
+	}
 	else
 	{
-		return PLACE_CHANGE;
+		if (m_isClicked)
+		{
+			m_pClicked_Strgy->OnClick();
+			m_isSelected = TRUE;
+		}
 	}
 
 	return UPDATE_CLEAR;
@@ -206,10 +173,11 @@ CObject* CPageButton::Clone(void* pArg)
 void CPageButton::Free()
 {
 	Safe_Release(m_pClicked_Strgy);
+	Safe_Release(m_pSelected_Strgy);
+	Safe_Release(m_pSelectedClick_Strgy);
 
 	Safe_Release(m_pShader);
 	Safe_Release(m_pTexture);
-	Safe_Release(m_pIconTexture);
 	Safe_Release(m_pRectBuffer);
 	CButton::Free();
 }

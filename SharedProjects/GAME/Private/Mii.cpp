@@ -53,7 +53,7 @@ int32_t CMii::Update_Priority(_float fDT)
 	m_MiiInfo.MiiProfile.strFirstName = CMiiManager::GetInstance()->Get_Profile().strFirstName;
 	m_MiiInfo.MiiProfile.strLastName = CMiiManager::GetInstance()->Get_Profile().strLastName;
 	m_MiiInfo.MiiProfile.strNickName = CMiiManager::GetInstance()->Get_Profile().strNickName;
-
+	m_MiiInfo.MiiProfile.isMan = CMiiManager::GetInstance()->Get_Profile().isMan;
 
 
 	Key_Control(fDT);

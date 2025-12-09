@@ -23,6 +23,7 @@
 #include "TextButton.h"
 #include "Room.h"
 #include "BuildingName_Texture.h"
+#include "CityhallMenu_Button.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -487,44 +488,24 @@ HRESULT CLoader::Loading_CityHall()
 	// Component
 	{
 		/* 일반 버튼 텍스쳐 */
-		// ProtoTag_Component_CMButtonTexture
+		// ProtoTag_Component_CityhallMenu_Button_Texture
 		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/CommonButtonTexture/%d.dds"), 6);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_CMButtonTexture"), tmp)))
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/CityhallMenu_Button/%d.dds"), 2);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_CityhallMenu_Button_Texture"), tmp)))
 				return E_FAIL;
 		}
 
 		/* 아이콘 텍스쳐 */
 		// ProtoTag_Component_IconTexture
 		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/IconTexture/%d.dds"), 6);
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/CityhallMenu_Button/Icon/%d.dds"), 8);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_IconTexture"), tmp)))
 				return E_FAIL;
 		}
 
-		/* UI 배경 텍스쳐 */
-		// ProtoTag_Component_UIBGTexture
-		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/UIBG.png"), 1);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_UIBGTexture"), tmp)))
-				return E_FAIL;
-		}
 
-		/* mii 편집 버튼 */
-		// ProtoTag_Component_EditButtonTexture
-		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/EditButton/%d.dds"), 262);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_EditButtonTexture"), tmp)))
-				return E_FAIL;
-		}
 
-		/* 페이지 변경 버튼 */
-		// ProtoTag_Component_PageButtonTexture
-		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/PageButton/%d.dds"), 32);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_PageButtonTexture"), tmp)))
-				return E_FAIL;
-		}
+
 
 		/* 텍스트 박스 */
 		// ProtoTag_Component_TextBoxTexture
@@ -552,22 +533,15 @@ HRESULT CLoader::Loading_CityHall()
 
 	// Actor
 	{
-		/* 플레이어 */
-		// ProtoTag_Actor_Player
-		{
-			tmp = CPlayer::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL,TEXT("ProtoTag_Actor_Player"),tmp)))
-				return E_FAIL;
-		}
 	}
 
 	// UI
 	{
-		/* 일반 버튼 */
+		/* 마을회관 메뉴 버튼 */
 		// ProtoTag_UI_CMButton
 		{
-			tmp = CCommonButton::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_CMButton"), tmp)))
+			tmp = CCityhallMenu_Button::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_CityhallMenu_Button"), tmp)))
 				return E_FAIL;
 		}
 		
@@ -584,30 +558,6 @@ HRESULT CLoader::Loading_CityHall()
 		{
 			tmp = CMiiEditorBG::Create(m_pDevice, m_pContext);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Actor_EditorBG"), tmp)))
-				return E_FAIL;
-		}
-
-		/* 아래 UI 배경*/
-		// ProtoTag_UI_BackGround
-		{
-			tmp = CBackGround::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_BackGround"), tmp)))
-				return E_FAIL;
-		}
-
-		/* mii 편집 버튼 */
-		// ProtoTag_UI_MiiEditButton
-		{
-			tmp = CMiiEditButton::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_MiiEditButton"), tmp)))
-				return E_FAIL;
-		}
-		
-		/* 페이지 버튼 */
-		// ProtoTag_UI_PageButton
-		{
-			tmp = CPageButton::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_PageButton"), tmp)))
 				return E_FAIL;
 		}
 
@@ -628,48 +578,70 @@ HRESULT CLoader::Loading_CityHall()
 HRESULT CLoader::Loading_MiiEditor()
 {
 	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
 
 	// Component
 	{
-		/* Mii 에디터 배경 모델 */
-		// ProtoTag_Component_EditorBG
+		/* UI 배경 텍스쳐 */
+		// ProtoTag_Component_UI_BackGround_Texture
 		{
-			XMMATRIX initMatrix = XMMatrixIdentity();
-			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
-
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_EditorBG", ANIM_TYPE::ANIM,
-				"../../Resource/00Model/BackGround - MiiEditor/EditorBG.fbx", initMatrix, "EditorBG");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Component_EditorBG"), tmp)))
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/MiiEditor/UIBG.png"), 1);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_UI_BackGround_Texture"), tmp)))
 				return E_FAIL;
+		}
 
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "EditorBG", initMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Component_seEditorBG"), tmp)))
+		/* mii 편집 버튼 텍스쳐 */
+		// ProtoTag_Component_EditButton_Texture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/MiiEdit_Button/%d.dds"), 262);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_EditButton_Texture"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 페이지 변경 버튼 텍스쳐 */
+		// ProtoTag_Component_PageButton_Texture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Page_Button/%d.dds"), 32);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_PageButton_Texture"), tmp)))
 				return E_FAIL;
 		}
 	}
 
 	// Actor
 	{	
-		// ProtoTag_Actor_EditorBG
-		{
-			tmp = CMiiEditorBG::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Actor_EditorBG"), tmp)))
-				return E_FAIL;
-		}
+		
 	}
 
 	// UI
 	{
-		// ProtoTag_UI_PlaceMoveButton
+		/* 아래 UI 배경*/
+		// ProtoTag_UI_BackGround
 		{
-			tmp = CPlaceMoveButton::Create(m_pDevice, m_pContext);
+			tmp = CBackGround::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_BackGround"), tmp)))
+				return E_FAIL;
+		}
 
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_UI_PlaceMoveButton"), tmp)))
+
+		/* mii 편집 버튼 */
+		// ProtoTag_UI_MiiEditButton
+		{
+			tmp = CMiiEditButton::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_MiiEditButton"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 페이지 버튼 */
+		// ProtoTag_UI_PageButton
+		{
+			tmp = CPageButton::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_PageButton"), tmp)))
 				return E_FAIL;
 		}
 	}
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+	m_isFinished = true;
 	return S_OK;
 }
 

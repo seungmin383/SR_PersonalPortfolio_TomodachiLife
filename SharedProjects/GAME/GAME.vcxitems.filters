@@ -175,6 +175,18 @@
     <Filter Include="03.UI\01.Button\06.WindowButton">
       <UniqueIdentifier>{02b92b90-5188-4d32-a9e1-f0e2f002f5f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\01.Button\00.OnclickStrategy\07.MiiEdit">
+      <UniqueIdentifier>{178a1a5a-2367-4ca6-a98a-9ac63b96f3c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\07.CityHallMenu">
+      <UniqueIdentifier>{a4011027-f8cf-4f3b-a7fe-d66d0377f45f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\00.OnclickStrategy\08.EnableControl">
+      <UniqueIdentifier>{158fb7ef-c257-479d-99a0-c234014a9326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\08.Option">
+      <UniqueIdentifier>{cf5f0eb8-f153-4e80-8399-e60b8c89bc34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -299,9 +311,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Transmit_Strategy.h">
       <Filter>03.UI\01.Button\00.OnclickStrategy\03.TransmitIndex</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiInformation.h">
-      <Filter>99.Defines</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PUblic\PageButton.h">
       <Filter>03.UI\01.Button\04.PageButton</Filter>
     </ClInclude>
@@ -358,6 +367,18 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Window_Button.h">
       <Filter>03.UI\01.Button\06.WindowButton</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEdit_Strgy.h">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\07.MiiEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiInformation.h">
+      <Filter>99.Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\CityhallMenu_Button.h">
+      <Filter>03.UI\01.Button\07.CityHallMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ControlEnable_Strgy.h">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\08.EnableControl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -513,6 +534,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Window_Button.cpp">
       <Filter>03.UI\01.Button\06.WindowButton</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEdit_Strgy.cpp">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\07.MiiEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\CityhallMenu_Button.cpp">
+      <Filter>03.UI\01.Button\07.CityHallMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Public\ControlEnable_Strgy.cpp">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\08.EnableControl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

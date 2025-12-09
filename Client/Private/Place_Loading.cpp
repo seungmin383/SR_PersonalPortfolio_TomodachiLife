@@ -6,6 +6,7 @@
 #include "Place_Apart.h"
 #include "Place_CityHall.h"
 #include "Place_Developer.h"
+#include "Place_MiiEditor.h"
 
 #include "BackGround.h"
 
@@ -60,6 +61,7 @@ int32_t CPlace_Loading::Update(_float fDT)
 			break;
 
 		case PLACEID::MII_EDITOR:
+			pPlace = CPlace_MiiEditor::Create(m_pDevice, m_pContext);
 			break;
 
 		case PLACEID::DEVELOPER:

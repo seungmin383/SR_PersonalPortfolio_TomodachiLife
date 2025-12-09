@@ -10,16 +10,16 @@ private:
 	virtual ~CChangePlace_Strgy() = default;
 
 public:
-	HRESULT Initialize(PLACEID eNextPlaceID, const _wstring& strLayerTag);
+	HRESULT Initialize(PLACEID eNextPlaceID );
 
 public:
 	void OnClick() override;
 
 private:
 	PLACEID m_eNextPlaceID = {};
-	_wstring m_strLayerTag = {};
+
 public:
-	static CChangePlace_Strgy* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,PLACEID eNextPlaceID, const _wstring& strLayerTag);
+	static CChangePlace_Strgy* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,PLACEID eNextPlaceID);
 	virtual void Free()override;
 };
 

@@ -21,9 +21,11 @@ HRESULT CMiiEditButton::Initialize_Origin()
 HRESULT CMiiEditButton::Initialize_Clone(void* pArg)
 {
 	MIIEDITBUTTON_DESC* pDesc = static_cast<MIIEDITBUTTON_DESC*>(pArg);
-	m_pClicked_Strgy = pDesc->pStrategy;
+	m_pClicked_Strgy = pDesc->pClicked_Strgy;
+	m_pSelected_Strgy = pDesc->pSelected_Strgy;
+	m_pSelectedClick_Strgy = pDesc->pSelectedClick_Strgy;
+
 	m_iTextureIndex = pDesc->iTextureIndex;
-	m_strLayerTag = pDesc->strLayerTag;
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -49,10 +51,7 @@ int32_t CMiiEditButton::Update_Priority(_float fDT)
 
 int32_t CMiiEditButton::Update(_float fDT)
 {
-	if (m_isClicked)
-		On_Click();
-
-	return UPDATE_CLEAR;
+	return On_Click();
 }
 
 void CMiiEditButton::Update_Late(_float fDT)
@@ -63,6 +62,7 @@ void CMiiEditButton::Update_Late(_float fDT)
 HRESULT CMiiEditButton::Render()
 {
 	__super::Render();
+
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
@@ -80,28 +80,16 @@ HRESULT CMiiEditButton::Render()
 
 HRESULT CMiiEditButton::Ready_Component()
 {
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::STATIC),
-		TEXT("ProtoTag_Component_VtxTexShader"),
-		TEXT("Com_Shader"),
-		reinterpret_cast<CComponent**>(&m_pShader),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxTexShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::STATIC),
-		TEXT("ProtoTag_Component_RectBuffer"),
-		TEXT("Com_RectBuffer"),
-		reinterpret_cast<CComponent**>(&m_pRectBuffer),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_RectBuffer"),
+		TEXT("Com_RectBuffer"), reinterpret_cast<CComponent**>(&m_pRectBuffer), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::CITYHALL),
-		TEXT("ProtoTag_Component_EditButtonTexture"),
-		TEXT("Com_Texture"),
-		reinterpret_cast<CComponent**>(&m_pTexture),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::MII_EDITOR), TEXT("ProtoTag_Component_EditButton_Texture"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTexture), nullptr)))
 		return E_FAIL;
 
 	return S_OK;
@@ -118,7 +106,6 @@ HRESULT CMiiEditButton::Bind_ShaderResources()
 	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ)))
 		return E_FAIL;
 
-
 	if (m_isSelected)
 	{
 		m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex + 1);
@@ -133,21 +120,25 @@ HRESULT CMiiEditButton::Bind_ShaderResources()
 
 int32_t CMiiEditButton::On_Click()
 {
-	/* 이 버튼이 선택이 안되어 있었는데 클릭 되었다면 -> 아웃라인 생성 및 타겟 포인트로 확대 */
-	if (!m_isSelected)
+	if (m_isSelected)
 	{
-		m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::CITYHALL), m_strLayerTag);
-		m_isSelected = TRUE;
-		m_pClicked_Strgy->OnClick();
-	}
+		m_pSelected_Strgy->OnClick();
 
-	/* 이 버튼이 선택되어 있었는데 클릭되었다면 -> 씬 전환*/
+		if (m_isClicked)
+		{
+			m_pSelectedClick_Strgy->OnClick();
+		}
+	}
 	else
 	{
-		return UPDATE_CLEAR;
+		if (m_isClicked)
+		{
+			m_pClicked_Strgy->OnClick();
+			m_isSelected = TRUE;
+		}
 	}
 
-	return UPDATE_CLEAR;
+	return 0;
 }
 
 CMiiEditButton* CMiiEditButton::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -181,6 +172,8 @@ CObject* CMiiEditButton::Clone(void* pArg)
 void CMiiEditButton::Free()
 {
 	Safe_Release(m_pClicked_Strgy);
+	Safe_Release(m_pSelected_Strgy);
+	Safe_Release(m_pSelectedClick_Strgy);
 
 	Safe_Release(m_pShader);
 	Safe_Release(m_pTexture);

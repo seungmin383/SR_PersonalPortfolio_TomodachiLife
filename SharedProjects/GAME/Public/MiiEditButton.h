@@ -16,11 +16,11 @@ class CMiiEditButton final : public CButton
 public:
 	typedef struct tagMiiEditButton : public BUTTON_DESC
 	{
-		IOnClick* pStrategy = { nullptr };
+		IOnClick* pClicked_Strgy = { nullptr };
+		IOnClick* pSelected_Strgy = { nullptr };
+		IOnClick* pSelectedClick_Strgy = { nullptr };
 
 		uint32_t iTextureIndex = {};
-
-		_wstring strLayerTag = {};
 
 	}MIIEDITBUTTON_DESC;
 
@@ -47,6 +47,7 @@ private:
 
 public:
 	const uint32_t Get_iModelIndex()const { return m_iModelIndex; }
+
 private:
 	CShaderCom* m_pShader = { nullptr };
 	CTextureCom* m_pTexture = { nullptr };
@@ -54,9 +55,10 @@ private:
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
 	IOnClick* m_pClicked_Strgy = { nullptr };
+	IOnClick* m_pSelected_Strgy = { nullptr };
+	IOnClick* m_pSelectedClick_Strgy = { nullptr };
 
 private:
-	_wstring m_strLayerTag = {};
 
 	uint32_t m_iTextureIndex = {};
 	uint32_t m_iModelIndex = {};

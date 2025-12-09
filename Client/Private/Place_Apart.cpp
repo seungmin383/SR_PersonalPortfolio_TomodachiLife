@@ -65,32 +65,6 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 {
 	CObject* tmp = { nullptr };
 
-	// ProtoTag_Actor_Player
-	{
-		CPlayer::ACTOR_DESC tMiiDesc = {};
-		tMiiDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
-		tMiiDesc.fCX = 1.f;
-		tMiiDesc.fCY = 1.f;
-		tMiiDesc.fCZ = 1.f;
-		tMiiDesc.fSpeedPerSecond = 10.f;
-		tMiiDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-		tMiiDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
-
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			static_cast<uint32_t>(PLACEID::APART),
-			TEXT("ProtoTag_Actor_Player"),
-			&tMiiDesc);
-
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			static_cast<uint32_t>(PLACEID::APART),
-			TEXT("LayerTag_Actor"),
-			tmp)))
-		{
-			Safe_Release(tmp);
-			return E_FAIL;
-		}
-	}
-
 	// ProtoTag_Actor_Room
 	{
 		CRoom::ROOM_DESC Desc = {};
@@ -116,9 +90,9 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		{
 			CSEMii::MII_DESC Desc = {};
 			Desc.vPos = XMFLOAT4{ m_pGameInstance->Random(0.f, 10.f) ,0.f, m_pGameInstance->Random(0.f, 10.f) , 1.f };
-			Desc.fCX = 1.f;
-			Desc.fCY = 1.f;
-			Desc.fCZ = 1.f;
+			Desc.fCX = 1.5f;
+			Desc.fCY = 1.5f;
+			Desc.fCZ = 1.5f;
 			Desc.fSpeedPerSecond = 10.f;
 			Desc.fRotationPerSecond = XMConvertToRadians(20.f);
 			Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
@@ -150,7 +124,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 	{
 		CApart::APART_DESC tDesc = {};
 		tDesc.eRenderGroup = RENDER_GROUP::BOTTOM_NONBLEND;
-		tDesc.vPos = XMFLOAT4{ 2.f,   3.68115f,  -26.1228f, 1.f };
+		tDesc.vPos = XMFLOAT4{ 0.f,   5.7f,  -6.2f, 1.f };
 		tDesc.fCX = 1.f;
 		tDesc.fCY = 1.f;
 		tDesc.fCZ = 1.f;
@@ -266,6 +240,9 @@ HRESULT CPlace_Apart::Ready_Environment_Layer()
 
 HRESULT CPlace_Apart::Ready_Camera_Layer()
 {
+	m_pGameInstance->CameraManager_Reset_State(TEXT("World_Camera"));
+	m_pGameInstance->CameraManager_Set_Position(TEXT("World_Camera"), XMVECTOR{ 0.f, 7.f, -10.f, 1.f });
+	// m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 2.f, 0.f, 0.f, 1.f }, XMConvertToRadians(45.f), 1.f);
 	return S_OK;
 }
 

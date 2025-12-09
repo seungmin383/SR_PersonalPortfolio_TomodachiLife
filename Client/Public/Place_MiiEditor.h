@@ -21,6 +21,12 @@ public:
 
 	HRESULT Ready_Actor_Layer();
 	HRESULT Ready_UI_Layer();
+	HRESULT Layer_UI_BackGround();
+	HRESULT Layer_UI_MiiEdit_Button();
+	HRESULT Layer_UI_Page_Button();
+	HRESULT Layer_UI_Category_Button();
+	HRESULT Layer_UI_Save_Button();
+	
 	HRESULT Ready_Environment_Layer();
 	HRESULT Ready_Camera_Layer();
 

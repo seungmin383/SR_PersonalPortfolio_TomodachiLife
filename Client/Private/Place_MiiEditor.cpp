@@ -4,6 +4,31 @@
 #include "WorldCamera.h"
 #include "UICamera.h"
 #include "MiiEditorBG.h"
+#include "BackGround.h"
+#include "MiiEditButton.h"
+
+#include "Mii.h"
+#include "MiiEdit_Strgy.h"
+#include "PageButton.h"
+#include "ControlEnable_Strgy.h"
+
+
+#define HEAD_BASE_POS_X 300.f
+#define HEAD_BASE_POS_Y 120.f
+
+#define HAIR_BASE_POS_X 351.f
+#define HAIR_BASE_POS_Y 120.f
+
+#define BTNGAPX 98.f
+#define BTNGAPY 85.f
+
+#define PAGE_BASE_POS_X 74.5f
+#define PAGE_BASE_POS_Y 35.f
+#define PAGEBTN_GAP_Y 52.f
+
+#define CATEGORY_BASE_POS_X 300.f
+#define CATEGORY_BASE_POS_Y 455.f
+#define CATEGORYBTN_GAP_X 180.f
 
 CPlace_MiiEditor::CPlace_MiiEditor(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -26,7 +51,6 @@ HRESULT CPlace_MiiEditor::Initialize()
 
 int32_t CPlace_MiiEditor::Update(_float fDT)
 {
-
 	return 0;
 }
 
@@ -46,30 +70,471 @@ HRESULT CPlace_MiiEditor::Ready_Actor_Layer()
 {
 	CObject* tmp = { nullptr };
 
-	/* Mii 에디터 배경 모델 */
-	// ProtoTag_Component_EditorBG
+	// ProtoTag_Actor_Mii
 	{
-		CMiiEditorBG::MIIEDITORBG_DESC tMiiEditorDesc = {};
-		tMiiEditorDesc.fCX = 1.f;
-		tMiiEditorDesc.fCY = 1.f;
-		tMiiEditorDesc.fCZ = 1.f;
-		tMiiEditorDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
-		tMiiEditorDesc.vPos = XMFLOAT4{ 0.f, 0.f, -10.f, 1.f };
+		CMii::MII_DESC MiiDesc = {};
+		MiiDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
+		MiiDesc.fCX = 1.f;
+		MiiDesc.fCY = 1.f;
+		MiiDesc.fCZ = 1.f;
+		MiiDesc.fSpeedPerSecond = 0.f;
+		MiiDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		MiiDesc.fRotationPerSecond = XMConvertToRadians(90.f);
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Component_EditorBG"), &tMiiEditorDesc);
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_Actor"), tmp)))
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(
+			static_cast<uint32_t>(PLACEID::STATIC),
+			TEXT("ProtoTag_Actor_Mii"),
+			&MiiDesc);
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+			static_cast<uint32_t>(PLACEID::MII_EDITOR),
+			TEXT("LayerTag_Actor"),
+			tmp)))
 		{
 			Safe_Release(tmp);
 			return E_FAIL;
 		}
 	}
-	
 	return S_OK;
 }
 
 HRESULT CPlace_MiiEditor::Ready_UI_Layer()
 {
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
+
+	if (FAILED(Layer_UI_BackGround()))
+		return E_FAIL;
+
+	if (FAILED(Layer_UI_MiiEdit_Button()))
+		return E_FAIL;
+
+	if (FAILED(Layer_UI_Page_Button()))
+		return E_FAIL;
+
+	if (FAILED(Layer_UI_Category_Button()))
+		return E_FAIL;
+
+	vector<_wstring> DisableLayers{
+		TEXT("LayerTag_UI_Hair"),
+		TEXT("LayerTag_UI_Eyebrow"),
+		TEXT("LayerTag_UI_Eyes"),
+		TEXT("LayerTag_UI_Nose"),
+		TEXT("LayerTag_UI_Mouth")
+	};
+	for (auto& str : DisableLayers)
+		m_pGameInstance->ObjectManager_Disable_Layer(iPlaceID, str);
+
+	return S_OK;
+}
+
+HRESULT CPlace_MiiEditor::Layer_UI_BackGround()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t> (PLACEID::MII_EDITOR);
+
+	// ProtoTag_UI_BackGround
+	{
+		CBackGround::BACKGROUND_DESC Desc = {};
+		Desc.fX = 480.f;
+		Desc.fY = 240.f;
+		Desc.fZ = 1.f;
+		Desc.fCX = 960.f;
+		Desc.fCY = 480.f;
+		Desc.fSpeedPerSecond = 0.f;
+		Desc.fRotationPerSecond = XMConvertToRadians(0.f);
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		Desc.eTexturePlaceID = PLACEID::MII_EDITOR;
+		Desc.strTextureTag = TEXT("ProtoTag_Component_UI_BackGround_Texture");
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_BackGround"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID,	TEXT("LayerTag_UI_BackGround"), tmp)))
+			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CPlace_MiiEditor::Layer_UI_MiiEdit_Button()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t> (PLACEID::MII_EDITOR);
+
+	// LayerTag_UI_FaceShape
+	{
+		CMiiEditButton::MIIEDITBUTTON_DESC Desc = {};
+
+		Desc.fZ = 0.4f;
+		Desc.fCX = 84.f;
+		Desc.fCY = 72.f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		uint32_t iIndexArr[] = {
+			0,7,6,5,4,3,2,1
+		};
+
+		uint32_t iIndex = { 0 };
+
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 2; ++j)
+			{
+				Desc.fX = HEAD_BASE_POS_X + (BTNGAPX * j);
+				Desc.fY = HEAD_BASE_POS_Y + (BTNGAPY * i);
+				Desc.pClicked_Strgy = CMiiEdit_Strgy::Create(m_pDevice, m_pContext, TEXT("LayerTag_UI_FaceShape"), CMiiEdit_Strgy::PARTS::HEAD, iIndexArr[iIndex]);
+				Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.iTextureIndex = 2 * iIndex;
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+				if (tmp == nullptr)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_FaceShape"), tmp)))
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_FaceShape"), static_cast<CButton*>(tmp))))
+					return E_FAIL;
+				++iIndex;
+			}
+		}
+	}
+	// LayerTag_UI_Hair
+	{
+		CMiiEditButton::MIIEDITBUTTON_DESC Desc = {};
+		Desc.fZ = 0.4f;
+
+		Desc.fCX = 84.f;
+		Desc.fCY = 72.f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		uint32_t iIndexArr[] = {
+			1,3,5,7,9,0,2,6,8,4
+		};
+		uint32_t iIndex = { 0 };
+
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 3; ++j)
+			{
+				if (iIndex > 9)
+					continue;
+				Desc.fX = HAIR_BASE_POS_X + (BTNGAPX * j);
+				Desc.fY = HAIR_BASE_POS_Y + (BTNGAPY * i);
+				Desc.pClicked_Strgy = CMiiEdit_Strgy::Create(m_pDevice, m_pContext, TEXT("LayerTag_UI_Hair"), CMiiEdit_Strgy::PARTS::HAIR, iIndexArr[iIndex]);
+				Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.iTextureIndex = 40 + (2 * iIndex);
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+				if (tmp == nullptr)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Hair"), tmp)))
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Hair"), static_cast<CButton*>(tmp))))
+					return E_FAIL;
+
+				++iIndex;
+			}
+		}
+	}
+	// LayerTag_UI_Eyebrow
+	{
+		CMiiEditButton::MIIEDITBUTTON_DESC Desc = {};
+		Desc.fZ = 0.4f;
+		Desc.fCX = 84.f;
+		Desc.fCY = 72.f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		uint32_t iIndex = { 0 };
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 3; ++j)
+			{
+				Desc.fX = HAIR_BASE_POS_X + (BTNGAPX * j);
+				Desc.fY = HAIR_BASE_POS_Y + (BTNGAPY * i);
+				Desc.pClicked_Strgy = CMiiEdit_Strgy::Create(m_pDevice, m_pContext, TEXT("LayerTag_UI_Eyebrow"), CMiiEdit_Strgy::PARTS::EYEBROW, 78 + iIndex);
+				Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.iTextureIndex = 60 + (2 * iIndex);
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Eyebrow"), tmp)))
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Eyebrow"), static_cast<CButton*>(tmp))))
+					return E_FAIL;
+
+				++iIndex;
+			}
+		}
+	}
+	// LayerTag_UI_Eyes
+	{
+		CMiiEditButton::MIIEDITBUTTON_DESC Desc = {};
+		Desc.fZ = 0.4f;
+		Desc.fCX = 84.f;
+		Desc.fCY = 72.f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		uint32_t iIndex = { 0 };
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 3; ++j)
+			{
+				Desc.fX = HAIR_BASE_POS_X + (BTNGAPX * j);
+				Desc.fY = HAIR_BASE_POS_Y + (BTNGAPY * i);
+				Desc.pClicked_Strgy = CMiiEdit_Strgy::Create(m_pDevice, m_pContext, TEXT("LayerTag_UI_Eyes"), CMiiEdit_Strgy::PARTS::EYES, iIndex);
+				Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.iTextureIndex = 108 + (2 * iIndex);
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Eyes"), tmp)))
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Eyes"), static_cast<CButton*>(tmp))))
+					return E_FAIL;
+
+				++iIndex;
+			}
+		}
+	}
+	// LayerTag_Nose
+	{
+		CMiiEditButton::MIIEDITBUTTON_DESC Desc = {};
+		Desc.fZ = 0.4f;
+		Desc.fCX = 84.f;
+		Desc.fCY = 72.f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		uint32_t iIndex = { 0 };
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 3; ++j)
+			{
+				Desc.fX = HAIR_BASE_POS_X + (BTNGAPX * j);
+				Desc.fY = HAIR_BASE_POS_Y + (BTNGAPY * i);
+				Desc.pClicked_Strgy = CMiiEdit_Strgy::Create(m_pDevice, m_pContext, TEXT("LayerTag_UI_Nose"), CMiiEdit_Strgy::PARTS::EYES, 60 + iIndex);
+				Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.iTextureIndex = 204 + (2 * iIndex);
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Nose"), tmp)))
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Nose"), static_cast<CButton*>(tmp))))
+					return E_FAIL;
+
+				++iIndex;
+			}
+		}
+	}
+	// LayerTag_UI_Mouth
+	{
+		CMiiEditButton::MIIEDITBUTTON_DESC Desc = {};
+		Desc.fZ = 0.4f;
+		Desc.fCX = 84.f;
+		Desc.fCY = 72.f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		uint32_t iIndex = { 0 };
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			for (uint32_t j = 0; j < 3; ++j)
+			{
+				Desc.fX = HAIR_BASE_POS_X + (BTNGAPX * j);
+				Desc.fY = HAIR_BASE_POS_Y + (BTNGAPY * i);
+				Desc.pClicked_Strgy = CMiiEdit_Strgy::Create(m_pDevice, m_pContext, TEXT("LayerTag_UI_Mouth"), CMiiEdit_Strgy::PARTS::MOUTH, 101 + iIndex);
+				Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.iTextureIndex = 228 + (2 * iIndex);
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_MiiEditButton"), &Desc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Mouth"), tmp)))
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Mouth"), static_cast<CButton*>(tmp))))
+					return E_FAIL;
+
+				++iIndex;
+			}
+		}
+	}
+
+	return S_OK;
+}
+
+HRESULT CPlace_MiiEditor::Layer_UI_Page_Button()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t> (PLACEID::MII_EDITOR);
+
+	// LayerTag_UI_Page_Button
+	/* 머리 버튼 */
+
+	CPageButton::PAGEBUTTON_DESC Desc = {};
+	Desc.fX = PAGE_BASE_POS_X;
+	Desc.fZ = 0.5f;
+	Desc.fCX = 95.f;
+	Desc.fCY = 50.f;
+	Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+	vector<_wstring> LayerTagArr{
+		TEXT("LayerTag_UI_FaceShape"),
+		TEXT("LayerTag_UI_Hair"),
+		TEXT("LayerTag_UI_Eyebrow"),
+		TEXT("LayerTag_UI_Eyes"),
+		TEXT("LayerTag_UI_Nose"),
+		TEXT("LayerTag_UI_Mouth")
+	};
+
+	for (uint32_t i = 0; i < 8; ++i)
+	{
+		Desc.fY = PAGE_BASE_POS_Y + (PAGEBTN_GAP_Y * i);
+		Desc.iTextureIndex = 2 * i;
+
+		if (6 == i || 7 == i)
+		{
+			Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		}
+		else
+		{
+			CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
+
+			strgyDesc.ePlaceID = PLACEID::MII_EDITOR;
+			strgyDesc.EnableLayers = vector<_wstring>{ LayerTagArr[i] };
+			strgyDesc.strLayerTag = TEXT("LayerTag_UI_Page_Button");
+			vector<_wstring> DisableLayers;
+			for (uint32_t j = 0; j < LayerTagArr.size(); ++j)
+			{
+				if(j != i)
+					DisableLayers.push_back(LayerTagArr[j]);
+			}
+			strgyDesc.DisableLayers = DisableLayers;
+
+			Desc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
+		}
+
+		Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_PageButton"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Page_Button"), tmp)))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Page_Button"), static_cast<CButton*>(tmp))))
+			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CPlace_MiiEditor::Layer_UI_Category_Button()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
+
+	CPageButton::PAGEBUTTON_DESC Desc = {};
+	Desc.fY = CATEGORY_BASE_POS_Y;
+	Desc.fZ = 0.5f;
+	Desc.fCX = 93.f;
+	Desc.fCY = 45.f;
+	Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+	vector<_wstring> LayerTagArr{
+		TEXT("LayerTag_UI_Page_Button"),
+		TEXT("LayerTag_UI_FaceShape"),
+		TEXT("LayerTag_UI_Hair"),
+		TEXT("LayerTag_UI_Eyebrow"),
+		TEXT("LayerTag_UI_Eyes"),
+		TEXT("LayerTag_UI_Nose"),
+		TEXT("LayerTag_UI_Mouth")
+	};
+
+	vector<uint32_t> EnableLayerIndex[] = {
+		vector<uint32_t>{0, 1},
+		vector<uint32_t>{},
+		vector<uint32_t>{},
+		vector<uint32_t>{}
+	};
+
+	vector<uint32_t> DisableLayerIndex[] = {
+			vector<uint32_t>{2,3,4,5,6},
+			vector<uint32_t>{0,1,2,3,4,5,6},
+			vector<uint32_t>{0,1,2,3,4,5,6},
+			vector<uint32_t>{0,1,2,3,4,5,6}
+	};
+
+
+	for (uint32_t i = 0; i < 4; ++i)
+	{
+		if (i == 0)
+			Desc.fX = 135.f;
+		else
+			Desc.fX = CATEGORY_BASE_POS_X + (CATEGORYBTN_GAP_X * (i - 1));
+
+		Desc.iTextureIndex = 24 + 2 * i;
+
+		CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
+		strgyDesc.ePlaceID = PLACEID::MII_EDITOR;
+
+		vector<_wstring> EnableLayers;
+		for (uint32_t Idx : EnableLayerIndex[i])
+			EnableLayers.push_back(LayerTagArr[Idx]);
+
+		vector<_wstring> DisableLayers;
+		for (uint32_t Idx : DisableLayerIndex[i])
+			DisableLayers.push_back(LayerTagArr[Idx]);
+
+		strgyDesc.EnableLayers = EnableLayers;
+		strgyDesc.DisableLayers = DisableLayers;
+		strgyDesc.strLayerTag = TEXT("LayerTag_UI_Category_Button");
+		Desc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
+
+		Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_PageButton"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Category_Button"), tmp)))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Category_Button"), static_cast<CButton*>(tmp))))
+			return E_FAIL;
+	}
 	
+	return S_OK;
+}
+
+HRESULT CPlace_MiiEditor::Layer_UI_Save_Button()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
+
 	return S_OK;
 }
 
