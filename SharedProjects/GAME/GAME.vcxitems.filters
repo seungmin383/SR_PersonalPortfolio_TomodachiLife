@@ -356,6 +356,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BuildingName_Texture.h">
       <Filter>03.UI\03.Texture\00.BuildingName</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Window_Button.h">
+      <Filter>03.UI\01.Button\06.WindowButton</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -507,6 +510,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BuildingName_Texture.cpp">
       <Filter>03.UI\03.Texture\00.BuildingName</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Window_Button.cpp">
+      <Filter>03.UI\01.Button\06.WindowButton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

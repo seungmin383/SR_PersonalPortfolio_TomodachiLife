@@ -71,7 +71,7 @@ namespace Game
 #define VAMS_ALPHABLEND 1
 #define VAMS_SHADOW 2
 #define VAMS_LIGHT 3
-
+#define VAMS_BRIGHTNESS 4
 	enum class PLACEID {
 		STATIC,
 		ISLAND,

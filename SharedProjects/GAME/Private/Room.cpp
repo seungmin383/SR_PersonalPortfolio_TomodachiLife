@@ -68,10 +68,13 @@ HRESULT CRoom::Render()
 	uint32_t NumMesh = m_pSeModel->Get_NumMesh();
 	vector<uint32_t> AlphaMeshes = m_pSeModel->Get_AlphaMeshIndices();
 	vector<uint32_t>LightMeshes = m_pSeModel->Get_LightMeshIndices();
+	vector<uint32_t> ShadowMeshes = m_pSeModel->Get_ShadowMeshIndices();
+
 	for (uint32_t i = 0; i < NumMesh; ++i)
 	{
 		_bool isAlpha = { FALSE };
 		_bool isLight = { FALSE };
+		_bool isShadow = { FALSE };
 
 		for (uint32_t index : AlphaMeshes)
 		{
@@ -85,7 +88,13 @@ HRESULT CRoom::Render()
 				isLight = TRUE;
 		}
 
-		if (isAlpha || isLight)
+		for (uint32_t index : ShadowMeshes)
+		{
+			if (i == index)
+				isShadow = TRUE;
+		}
+
+		if (isAlpha || isLight || isShadow)
 		{
 			continue;
 		}
@@ -94,7 +103,7 @@ HRESULT CRoom::Render()
 			return E_FAIL;
 		if (FAILED(m_pSeModel->Bind_Bones(m_pShaderCom, "g_BoneMatrices", i)))
 			return E_FAIL;
-		if (FAILED(m_pShaderCom->Begin(VAMS_DEFAULT)))
+		if (FAILED(m_pShaderCom->Begin(VAMS_BRIGHTNESS)))
 			return E_FAIL;
 		if (FAILED(m_pSeModel->Render_SeModel(i)))
 			return E_FAIL;
@@ -135,12 +144,12 @@ HRESULT CRoom::Ready_Component()
 		return E_FAIL;
 
 #ifdef LOADING_MODEL
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Component_Room"), TEXT("Com_ModelCom"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Component_Room2"), TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pModelCom), nullptr)))
 		return E_FAIL;
 
 #else
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Component_seRoom"), TEXT("Com_ModelCom"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Component_seRoom0"), TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 #endif

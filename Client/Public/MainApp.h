@@ -25,6 +25,8 @@ public:
 
 	HRESULT Ready_Static();
 
+	HRESULT Ready_StaticTexture();
+
 	HRESULT Ready_Manager();
 	HRESULT Ready_ModelCom();
 	HRESULT Ready_HeadModelCom();
@@ -33,6 +35,8 @@ public:
 
 
 	HRESULT Ready_ModelActor();
+
+	HRESULT Ready_StaticUI();
 
 private://디바이스 관리
 	ID3D11Device*			m_pDevice = { nullptr };

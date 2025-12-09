@@ -24,6 +24,9 @@ HRESULT CTempModel::Initialize_Clone(void* pArg)
 	m_iBuildingIndex	= pDesc->iBuildingIndex;
 	m_strModelProtoTag	= _wstring(L"ProtoTag_Component_seBuilding") + to_wstring( m_iBuildingIndex);
 
+	m_ePlaceID = pDesc->ePlaceID;
+	m_isUnlock = pDesc->isUnlock;
+
 	if (FAILED(CActor::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -116,7 +119,7 @@ HRESULT CTempModel::Render()
 
 HRESULT CTempModel::Ready_Component()
 {
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), m_strModelProtoTag, TEXT("Com_SeModel"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(m_ePlaceID), m_strModelProtoTag, TEXT("Com_SeModel"),
 		reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 
@@ -124,7 +127,7 @@ HRESULT CTempModel::Ready_Component()
 		reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_seBuilding0"), TEXT("Com_SeConstructionModel"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(m_ePlaceID), TEXT("ProtoTag_Component_seBuilding0"), TEXT("Com_SeConstructionModel"),
 		reinterpret_cast<CComponent**>(&m_pSeConstructionModel), nullptr)))
 		return E_FAIL;
 

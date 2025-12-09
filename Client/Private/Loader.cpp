@@ -369,20 +369,45 @@ HRESULT CLoader::Loading_Apart()
 				return E_FAIL;
 		}
 
+		/* 방 모델 */
 		// ProtoTag_Component_Room
 		{
-			XMMATRIX InitMatrix = XMMatrixIdentity();
+			for (uint32_t i = 0; i < 3; ++i)
+			{
+				XMMATRIX InitMatrix = XMMatrixIdentity();
 
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Room", ANIM_TYPE::ANIM,
-				"../../Resource/Model_Room/room0.fbx", InitMatrix, "room0");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_Room"), tmp)))
-				return E_FAIL;
+				_string strProtoTag = "ProtoTag_Component_Room" + to_string(i);
+				_wstring wstrProtoTag = L"ProtoTag_Component_Room" + to_wstring(i);
+				_wstring wstrSeProtoTag = L"ProtoTag_Component_seRoom" + to_wstring(i);
+				_string strFilePath = "../../Resource/Actor/room" + to_string(i) + "/room.fbx";
+				_string strSaveName = "room" + to_string(i);
 
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM,
-				"room0", InitMatrix, "Action");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_seRoom"), tmp)))
-				return E_FAIL;
+				tmp = CModel::Create(m_pDevice, m_pContext, strProtoTag, ANIM_TYPE::ANIM, strFilePath.c_str(), InitMatrix, strSaveName.c_str());
+				if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, wstrProtoTag, tmp)))
+					return E_FAIL;
+
+				tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM,
+					strSaveName.c_str(), InitMatrix, "Action");
+				if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, wstrSeProtoTag, tmp)))
+					return E_FAIL;
+			}
 		}		
+
+		// ProtoTag_Component_seBuilding1
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
+
+
+			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building1" , ANIM_TYPE::NONEANIM,
+				"../../Resource/00Model/Actor - Building/Building1/Building.fbx", initMatrix, "Building1");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Component_Building1") , tmp)))
+				return E_FAIL;
+
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building1", initMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Component_seBuilding1"), tmp)))
+				return E_FAIL;
+		}
 
 		/* 일반 버튼 텍스쳐 */
 		// ProtoTag_Component_CMButtonTexture
@@ -430,6 +455,14 @@ HRESULT CLoader::Loading_Apart()
 		{
 			tmp = CRoom::Create(m_pDevice, m_pContext);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Actor_Room"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 아파트 */
+		// ProtoTag_Actor_Apart
+		{
+			tmp = CApart::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Actor_Apart"), tmp)))
 				return E_FAIL;
 		}
 	}

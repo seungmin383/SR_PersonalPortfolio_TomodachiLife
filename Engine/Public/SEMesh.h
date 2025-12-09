@@ -27,7 +27,7 @@ public:
 	const _string& Get_MeshName()const { return m_strName; }
 	const _bool Get_isAlpha() { return m_isAlpha; }
 	const _bool Get_isLight() { return m_isLight; }
-
+	const _bool Get_isShadow() { return m_isShadow; }
 private:
 	string m_strName = {};
 	uint32_t m_iMaterialIndex = {};
@@ -41,6 +41,7 @@ private:
 
 	_bool m_isAlpha = { FALSE };
 	_bool m_isLight = { FALSE };
+	_bool m_isShadow = { FALSE };
 
 public:
 	static CSEMesh* Create_Mesh(

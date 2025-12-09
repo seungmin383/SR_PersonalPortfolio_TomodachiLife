@@ -5,20 +5,20 @@
 NS_BEGIN(Engine)
 
 class CShaderCom;
-class CModel;
 class CSEModel;
+class CTextureCom;
 
 NS_END
 
 NS_BEGIN(Game)
-class CRoom;
+
+class IUnlock;
 
 class CApart final : public CActor
 {
 public:
 	typedef struct tagApartDesc : public ACTOR_DESC
 	{
-
 	}APART_DESC;
 
 protected:
@@ -36,19 +36,13 @@ public:
 
 	virtual HRESULT Render()override;
 
-
 private:
 	HRESULT Ready_Component();
 	HRESULT Bind_ShaderResources();
 
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
-	CModel* m_pModel = { nullptr };
-	CSEModel* m_seModel = { nullptr };
-
-	vector<_float2> m_vObjectPlaceVertices;
-
-	vector<CRoom*> m_Rooms;
+	CSEModel* m_pSeModel = { nullptr };
 
 public:
 	static CApart* Create(

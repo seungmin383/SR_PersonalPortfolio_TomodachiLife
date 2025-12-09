@@ -22,8 +22,8 @@ texture2D g_DiffuseTexture;
 sampler DefaultSampler = sampler_state
 {
     Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = WRAP;
-    AddressV = WRAP;
+    AddressU = mirror;
+    AddressV = mirror;
 };
 
 struct VS_IN

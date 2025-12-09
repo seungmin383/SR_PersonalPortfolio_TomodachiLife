@@ -22,6 +22,9 @@ public:
 		IUnlock* pUnlockStrategy = { nullptr };
 		uint32_t iBuildingIndex;
 
+		PLACEID ePlaceID = {PLACEID::ISLAND};
+		_bool isUnlock = {FALSE};
+
 	}TEMPMODEL_DESC;
 
 protected:
@@ -54,9 +57,9 @@ private:
 	int32_t m_iBuildingIndex = {};
 
 	_bool m_isUnlock = { FALSE };
-
 	_bool m_isFocus = { FALSE };
 
+	PLACEID m_ePlaceID = {PLACEID::ISLAND};
 public:
 	static CTempModel* Create(
 		ID3D11Device* pDevice,

@@ -68,6 +68,7 @@ public:
 	const _string& Get_MeshName(uint32_t index)const ;
 	vector<uint32_t> Get_AlphaMeshIndices() { return m_AlphaMeshIndices; }
 	vector<uint32_t> Get_LightMeshIndices() { return m_LightMeshIndices; }
+	vector<uint32_t> Get_ShadowMeshIndices() { return m_ShadowMeshIndices; }
 
 private:
 	_string					m_strSaveFilePath = {};
@@ -82,6 +83,7 @@ private:
 	vector<SE_ANIM_MESH> m_seAnimMeshes;
 	vector<uint32_t> m_AlphaMeshIndices;
 	vector<uint32_t> m_LightMeshIndices;
+	vector<uint32_t> m_ShadowMeshIndices;
 
 	uint32_t m_iNumMaterial = {};
 	vector<SE_MATERIAL> m_seMaterials;

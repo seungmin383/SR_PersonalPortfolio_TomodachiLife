@@ -1,6 +1,6 @@
 #include "Apart.h"
 #include "GameInstance.h"
-#include "Room.h"
+#include "IUnlock.h"
 
 CApart::CApart(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CActor(pDevice, pContext)
@@ -24,21 +24,45 @@ HRESULT CApart::Initialize_Clone(void* pArg)
 
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
-	
-	m_pTransformCom->Set_State(TRANSFORM_STATE::POS, XMVECTOR{ 0.f, 0.3f, 0.1, 1.f });
-	m_Rooms.resize(24);
-
 	return S_OK;
 }
 
 int32_t CApart::Update_Priority(_float fDT)
 {
-	return 0;
+	return UPDATE_CLEAR;
 }
 
 int32_t CApart::Update(_float fDT)
-{
-	return 0;
+{	
+	//XMFLOAT4 tmp = {};
+	//XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
+
+	//	cout << "X : " << tmp.x << " Y : " << tmp.y << " Z : " << tmp.z << endl;
+	//	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
+	//	{
+	//		m_pTransformCom->Go_Straight(fDT);
+	//	}
+	//	else if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
+	//	{
+	//		m_pTransformCom->Go_Backward(fDT);
+	//	}
+	//	else if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
+	//	{
+	//		m_pTransformCom->Go_Right(fDT);
+	//	}
+	//	else if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
+	//	{
+	//		m_pTransformCom->Go_Left(fDT);
+	//	}
+	//	else if (m_pGameInstance->Get_DIKeyState(DIK_U))
+	//	{
+	//		m_pTransformCom->Go_Up(fDT);
+	//	}
+	//	else if (m_pGameInstance->Get_DIKeyState(DIK_J))
+	//	{
+	//		m_pTransformCom->Go_Down(fDT);
+	//	}
+	return UPDATE_CLEAR;
 }
 
 void CApart::Update_Late(_float fDT)
@@ -50,26 +74,29 @@ HRESULT CApart::Render()
 {
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
-
-	uint32_t iNumMesh = m_pModel->Get_NumMesh();
-	for (uint32_t i = 0; i < iNumMesh; i++)
+	
+	uint32_t NumMesh = m_pSeModel->Get_NumMesh();
+		
+	for (uint32_t i = 0; i < NumMesh; i++)
 	{
-		m_pModel->Bind_Material(m_pShaderCom,"g_DiffuseTexture",i,aiTextureType_DIFFUSE);
+		m_pSeModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, se_TextureType_DIFFUSE);
 		m_pShaderCom->Begin(VMS_DEFAULT);
-		m_pModel->Render(i);
+		m_pSeModel->Render_SeModel(i);
 	}
+
 	return S_OK;
 }
 
 HRESULT CApart::Ready_Component()
 {
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Component_seBuilding1"), TEXT("Com_SeModel"),
+		reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
+		return E_FAIL;
+
 	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxMeshShader"), TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Building1"), TEXT("Com_Model"),
-		reinterpret_cast<CComponent**>(&m_pModel), nullptr)))
-		return E_FAIL;
 	return S_OK;
 }
 
@@ -105,7 +132,7 @@ CObject* CApart::Clone(void* pArg)
 	{
 		MSG_BOX("ErrCode : CApart Clone Failed");
 		Safe_Release(pInstance);
-		return nullptr;
+		return nullptr;;
 	}
 	return pInstance;
 }
@@ -113,6 +140,7 @@ CObject* CApart::Clone(void* pArg)
 void CApart::Free()
 {
 	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pModel);
+	Safe_Release(m_pSeModel);
+
 	CActor::Free();
 }

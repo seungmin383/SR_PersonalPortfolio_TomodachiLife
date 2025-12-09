@@ -268,7 +268,8 @@ HRESULT CSEModel::Ready_seMesh()
 				m_AlphaMeshIndices.push_back(i);
 			if (pMesh->Get_isLight())
 				m_LightMeshIndices.push_back(i);
-
+			if (pMesh->Get_isLight())
+				m_ShadowMeshIndices.push_back(i);
 			m_pMeshes.push_back(pMesh);
 		}
 	}

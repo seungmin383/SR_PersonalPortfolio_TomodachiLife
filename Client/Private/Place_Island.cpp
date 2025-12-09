@@ -569,29 +569,55 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	};
 
 	const uint32_t BuildingIndexArr[] = {
-		1,// 0. Go Apart
-		2,// 1. Go Wear
-		3,// 2. Go Antique
-		4, // 3. Go Cap
+		1,	// 0. Go Apart
+		2,	// 1. Go Wear
+		3,	// 2. Go Antique
+		4,	// 3. Go Cap
 		5,   // 4. Go Food
 		7,   // 5. Go Luxury
 		8,   // 6. Go Music
 		10,   // 7. Go House
 		11,   // 8. Go CityHall
-		12,   // 9. Go Rank      (Outline 0으로 리셋)
+		12,   // 9. Go Rank   
 		13,   // 10. Go Tent
 		15,   // 11. Go Wedding
 		16,   // 12. Go Love
 		17,   // 13. Go Port
 		19,   // 14. Go Photo
 		20,   // 15. Go News
-		23,   // 16. Go Export   (사용자님 말씀대로 Outline = 0)
+		23,   // 16. Go Export 
 		6,   // 17. Go Fountain
 		9,   // 18. Go Sea
 		14,   // 19. Go JeonMangDae
 		18,   // 20. Go Park
 		21,   // 21. Go Play
 		22   // 22. Go Cafe
+	};
+
+	PLACEID NextPlaceIDArr[] = {
+	PLACEID::APART,	// 0. Go Apart
+	PLACEID::APART,// 1. Go Wear
+	PLACEID::APART,// 2. Go Antique
+	PLACEID::APART,// 3. Go Cap
+	PLACEID::APART, // 4. Go Food
+	PLACEID::APART, // 5. Go Luxury
+	PLACEID::APART, // 6. Go Music
+	PLACEID::APART,  // 7. Go House
+	PLACEID::CITYHALL,  // 8. Go CityHall
+	PLACEID::APART,// 9. Go Rank   
+	PLACEID::APART,// 10. Go Tent
+	PLACEID::APART,// 11. Go Wedding
+	PLACEID::APART,// 12. Go Love
+	PLACEID::APART,// 13. Go Port
+	PLACEID::APART,// 14. Go Photo
+	PLACEID::APART,// 15. Go News
+	PLACEID::APART,// 16. Go Export 
+	PLACEID::APART,// 17. Go Fountain
+	PLACEID::APART,// 18. Go Sea
+	PLACEID::APART,// 19. Go JeonMangDae
+	PLACEID::APART,// 20. Go Park
+	PLACEID::APART,// 21. Go Play
+	PLACEID::APART	 // 22. Go Cafe
 	};
 	CPlaceMoveButton::PLACEMOVEBUTTON_DESC tPlaceMoveButtonDesc = {};
 	constexpr uint32_t iNumPlace = sizeof(vPosArr) / sizeof(vPosArr[0]);
@@ -633,7 +659,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		tCameraZoomStrgyDesc.fLerpTime = 0.1f;
 		tPlaceMoveButtonDesc.pSelected_Strgy = CCameraZoom_Strgy::Create(m_pDevice, m_pContext, &tCameraZoomStrgyDesc);
 
-		tPlaceMoveButtonDesc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::APART, TEXT("LayerTag_UI_PlaceMoveButton"));
+		tPlaceMoveButtonDesc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, NextPlaceIDArr[i], TEXT("LayerTag_UI_PlaceMoveButton"));
 		tPlaceMoveButtonDesc.iMatchBuildingIndex = BuildingIndexArr[i];
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_UI_PlaceMoveButton"), &tPlaceMoveButtonDesc);
 		if (nullptr == tmp)

@@ -70,6 +70,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Transmit_Strategy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\UICamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Weapon.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Window_Button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\WorldCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +127,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Transmit_Strategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Weapon.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Window_Button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\WorldCamera.h" />
   </ItemGroup>
   <ItemGroup>

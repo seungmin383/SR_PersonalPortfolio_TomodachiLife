@@ -33,6 +33,7 @@
 
 // UI
 #include "LoadingBG.h"
+#include "Window_Button.h"
 
 
 USING(Client)
@@ -135,6 +136,7 @@ HRESULT CMainApp::Ready_Static()
 
 	 // Component
 	 {
+		/* 버텍스 텍스 */
 		// ProtoTag_Component_VtxTexShader
 		 {
 			 tmp = CShaderCom::Create(m_pDevice,m_pContext,TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Tex.hlsl"),
@@ -142,7 +144,7 @@ HRESULT CMainApp::Ready_Static()
 			 if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxTexShader"), tmp)))
 				 return E_FAIL;
 		 }
-
+		 /* 버텍스 메쉬 */
 		// ProtoTag_Component_VtxMeshShader
 		{
 			 tmp = CShaderCom::Create(m_pDevice, m_pContext, TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Mesh.hlsl"),
@@ -151,30 +153,19 @@ HRESULT CMainApp::Ready_Static()
 				return E_FAIL;
 		}
 
+		/* 버텍스 애님메쉬 */
 		// ProtoTag_Component_VtxAnimMeshShader
 		{
-			tmp = CShaderCom::Create(
-				m_pDevice,
-				m_pContext,
-				TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Anim_Mesh.hlsl"),
-				Engine::VTX_TEX_ANIM_MESH::Elements,
-				Engine::VTX_TEX_ANIM_MESH::iNumElements);
-
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-				static_cast<uint32_t>(PLACEID::STATIC),
-				TEXT("ProtoTag_Component_VtxAnimMeshShader"),
-				tmp)))
+			tmp = CShaderCom::Create(m_pDevice, m_pContext, TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Anim_Mesh.hlsl"),
+				Engine::VTX_TEX_ANIM_MESH::Elements, Engine::VTX_TEX_ANIM_MESH::iNumElements);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxAnimMeshShader"), tmp)))
 				return E_FAIL;
 		}
 
 	 	// ProtoTag_Component_RectBuffer
 	 	{
 	 		tmp = CRectBufferCom::Create(m_pDevice, m_pContext);
-	 
-	 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-	 			static_cast<uint32_t>(PLACEID::STATIC),
-	 			TEXT("ProtoTag_Component_RectBuffer"),
-	 			tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_RectBuffer"), tmp)))
 	 			return E_FAIL;
 	 	}
 
@@ -185,6 +176,9 @@ HRESULT CMainApp::Ready_Static()
 		if (FAILED(Ready_HeadModelCom()))
 			return E_FAIL;
 		if (FAILED(Ready_FacePartsTexture()))
+			return E_FAIL;
+
+		if (FAILED(Ready_StaticTexture()))
 			return E_FAIL;
 
 		// ProtoTag_Component_CommonButtonTexture
@@ -342,9 +336,28 @@ HRESULT CMainApp::Ready_Static()
 				return E_FAIL;
 		}
 
+		if (FAILED(Ready_StaticUI()))
+			return E_FAIL;
 	}
 
 	
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_StaticTexture()
+{
+	CObject* tmp = { nullptr };
+
+	/* 창문 텍스쳐 */
+	// ProtoTag_Component_WindowButton_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Window_Button/%d.png"), 7);
+		if (nullptr == tmp)
+			return E_FAIL;
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_WindowButton_Texture"), tmp)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -599,6 +612,21 @@ HRESULT CMainApp::Ready_ModelActor()
 		tmp = CSEMii::Create(m_pDevice, m_pContext);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMii"), tmp)))
 			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_StaticUI()
+{
+	CObject* tmp = { nullptr };
+
+	// ProtoTag_UI_WindowButton
+	{
+		tmp = CWindow_Button::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_WindowButton"), tmp)))
+			return E_FAIL;
+
 	}
 
 	return S_OK;
