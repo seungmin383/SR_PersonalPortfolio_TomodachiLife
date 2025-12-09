@@ -31,9 +31,11 @@
         ]
     },
     "MiiProfile": {
-        "FirstName": "",
+        "FirstName": "fdsafsa",
         "LastName": "",
-        "NickName": ""
+        "NickName": "",
+        "RoomIndex": 0,
+        "isMan": false
     },
     "MouthInfo": {
         "Index": 101

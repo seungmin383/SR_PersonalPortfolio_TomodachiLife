@@ -22,18 +22,19 @@ HRESULT CWindow_Button::Initialize_Origin()
 
 HRESULT CWindow_Button::Initialize_Clone(void* pArg)
 {
-	WINDOWBUTTON_DESC* tWindowButtonDesc = static_cast<WINDOWBUTTON_DESC*>(pArg);
+	WINDOWBUTTON_DESC* pDesc = static_cast<WINDOWBUTTON_DESC*>(pArg);
 
-	m_pClicked_Strgy = tWindowButtonDesc->pClicked_Strgy;
-	m_pSelected_Strgy = tWindowButtonDesc->pSelected_Strgy;
-	m_pSelectedClick_Strgy = tWindowButtonDesc->pSelectedClick_Strgy;
+	m_pClicked_Strgy = pDesc->pClicked_Strgy;
+	m_pSelected_Strgy = pDesc->pSelected_Strgy;
+	m_pSelectedClick_Strgy = pDesc->pSelectedClick_Strgy;
 
-	m_iOutlineTextureIndex = tWindowButtonDesc->iOutlineTextureIndex;
+	m_iOutlineTextureIndex = pDesc->iOutlineTextureIndex;
 
-	m_vTargetPos = tWindowButtonDesc->vTargetPos;
-	m_fLerpTime = tWindowButtonDesc->fLerpTime;
-	m_fTargetFov = tWindowButtonDesc->fTargetFov;
+	m_vTargetPos = pDesc->vTargetPos;
+	m_fLerpTime = pDesc->fLerpTime;
+	m_fTargetFov = pDesc->fTargetFov;
 
+	m_isLived = pDesc->isLive;
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;

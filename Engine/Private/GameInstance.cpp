@@ -620,6 +620,16 @@ uint32_t CGameInstance::ButtonManager_Get_BuildingNameTextureIndex()
 	return m_pButtonManager->Get_BuildingNameTextureIndex();
 }
 
+void CGameInstance::ButtonManager_Set_HasSelectedPlaceMoveButton(_bool isSelected)
+{
+	m_pButtonManager->Set_HasSelectedPlaceMoveButton(isSelected);
+}
+
+_bool CGameInstance::ButtonManager_Get_HasSelectedPlaceMoveButton()
+{
+	return m_pButtonManager->Get_HasSelectedPlaceMoveButton();
+}
+
 _wstring CGameInstance::ButtonManager_Get_Text()
 {
 	return m_pButtonManager->Get_Text();

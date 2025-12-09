@@ -51,6 +51,7 @@ HRESULT CPlaceMoveButton::Initialize_Clone(void* pArg)
 int32_t CPlaceMoveButton::Update_Priority(_float fDT)
 {
 	CButton::Update_Priority(fDT);	// 마우스랑 확인
+	m_pGameInstance->ButtonManager_Set_HasSelectedPlaceMoveButton(FALSE);
 
 	if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isClickLBT())
 	{
@@ -151,9 +152,11 @@ int32_t CPlaceMoveButton::On_Click()
 {
 	if (m_isSelected)
 	{
+
 		m_pSelected_Strgy->OnClick();
 
 		m_pGameInstance->ButtonManager_Set_BuildingNameTextureIndex(m_iMatchBuildingIndex);
+		m_pGameInstance->ButtonManager_Set_HasSelectedPlaceMoveButton(TRUE);
 
 		if (m_isClicked)
 		{

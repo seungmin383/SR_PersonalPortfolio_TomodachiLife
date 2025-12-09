@@ -34,7 +34,7 @@
 // UI
 #include "LoadingBG.h"
 #include "Window_Button.h"
-
+#include "Option_Button.h"
 
 USING(Client)
 
@@ -136,6 +136,9 @@ HRESULT CMainApp::Ready_Static()
 
 	 // Component
 	 {
+		if (FAILED(Ready_Static_Texture()))
+			return E_FAIL;
+
 		/* 버텍스 텍스 */
 		// ProtoTag_Component_VtxTexShader
 		 {
@@ -176,9 +179,6 @@ HRESULT CMainApp::Ready_Static()
 		if (FAILED(Ready_HeadModelCom()))
 			return E_FAIL;
 		if (FAILED(Ready_FacePartsTexture()))
-			return E_FAIL;
-
-		if (FAILED(Ready_StaticTexture()))
 			return E_FAIL;
 
 		// ProtoTag_Component_CommonButtonTexture
@@ -345,22 +345,6 @@ HRESULT CMainApp::Ready_Static()
 	return S_OK;
 }
 
-HRESULT CMainApp::Ready_StaticTexture()
-{
-	CObject* tmp = { nullptr };
-
-	/* 창문 텍스쳐 */
-	// ProtoTag_Component_WindowButton_Texture
-	{
-		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Window_Button/%d.png"), 7);
-		if (nullptr == tmp)
-			return E_FAIL;
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_WindowButton_Texture"), tmp)))
-			return E_FAIL;
-	}
-
-	return S_OK;
-}
 
 HRESULT CMainApp::Ready_Manager()
 {
@@ -617,6 +601,31 @@ HRESULT CMainApp::Ready_ModelActor()
 	return S_OK;
 }
 
+HRESULT CMainApp::Ready_Static_Texture()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::STATIC);
+
+	/* 창문 텍스쳐 */
+	// ProtoTag_Component_WindowButton_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Window_Button/%d.png"), 7);
+		if (nullptr == tmp)
+			return E_FAIL;
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_WindowButton_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 옵션 버튼 텍스쳐 */
+	// ProtoTag_Component_Option_Button_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Option_Button/%d.png"), 1);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Option_Button_Texture"), tmp)))
+			return E_FAIL;
+
+	}
+}
+
 HRESULT CMainApp::Ready_StaticUI()
 {
 	CObject* tmp = { nullptr };
@@ -627,6 +636,13 @@ HRESULT CMainApp::Ready_StaticUI()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_WindowButton"), tmp)))
 			return E_FAIL;
 
+	}
+
+	// ProtoTag_UI_Option_Button
+	{
+		tmp = COption_Button::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Option_Button"), tmp)))
+			return E_FAIL;
 	}
 
 	return S_OK;

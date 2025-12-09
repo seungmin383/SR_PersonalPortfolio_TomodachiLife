@@ -1,6 +1,5 @@
 #include "TextButton.h"
 #include "GameInstance.h"
-#include "Place_Loading.h"
 #include "IOnClick.h"
 #include "MiiManager.h"
 
@@ -23,7 +22,10 @@ HRESULT CTextButton::Initialize_Clone(void* pArg)
 {
 	TEXTBUTTON_DESC* pDesc = static_cast<TEXTBUTTON_DESC*>(pArg);
 
-	m_pClicked_Strgy = pDesc->pStrategy;
+	m_pClicked_Strgy = pDesc->pClicked_Strgy;
+	m_pSelected_Strgy = pDesc->pSelected_Strgy;
+	m_pSelectedClick_Strgy = pDesc->pSelectedClick_Strgy;
+
 	m_eTextType = pDesc->eTextType;
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
@@ -44,64 +46,32 @@ int32_t CTextButton::Update_Priority(_float fDT)
 	{
 		m_isClicked = TRUE;
 	}
-	XMFLOAT4 tmp = {};
-	XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
 
-	// if (m_iTextureIndex == 24)
-		cout << "X : " << tmp.x + 480.f << " Y : " << 240.f - tmp.y << " Z : " << tmp.z << endl;
-
-	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
-	{
-		m_pTransformCom->Go_Up(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
-	{
-		m_pTransformCom->Go_Down(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
-	{
-		m_pTransformCom->Go_Right(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
-	{
-		m_pTransformCom->Go_Left(fDT);
-	}
 	return UPDATE_CLEAR;
 }
 
 int32_t CTextButton::Update(_float fDT)
 {
-	if (m_isClicked)
-		On_Click();
-
-	return UPDATE_CLEAR;
+	return On_Click();
 }
 
 void CTextButton::Update_Late(_float fDT)
 {
-	if (m_isSelected)
+	m_strText = m_pGameInstance->ButtonManager_Get_Text();
+
+	switch (m_eTextType)
 	{
-		m_strText = m_pGameInstance->ButtonManager_Get_Text();
-		wcout << m_strText.c_str() << endl;
-		switch (m_eTextType)
-		{
-		case Game::CTextButton::FIRSTNAME:
-			CMiiManager::GetInstance()->Get_Profile().strFirstName = WstrToStr(m_strText);
-			break;
-
-		case Game::CTextButton::LASTNAME:
-			CMiiManager::GetInstance()->Get_Profile().strLastName = WstrToStr(m_strText);
-			break;
-
-		case Game::CTextButton::NICKNAME:
-			CMiiManager::GetInstance()->Get_Profile().strNickName = WstrToStr(m_strText);
-			break;
-
-		case Game::CTextButton::END:
-			break;
-		default:
-			break;
-		}
+	case Game::CTextButton::FIRSTNAME:
+		CMiiManager::GetInstance()->Get_Profile().strFirstName = WstrToStr( m_strText);
+		break;
+	case Game::CTextButton::LASTNAME:
+		CMiiManager::GetInstance()->Get_Profile().strLastName = WstrToStr( m_strText);
+		break;
+	case Game::CTextButton::NICKNAME:
+		CMiiManager::GetInstance()->Get_Profile().strNickName = WstrToStr( m_strText);
+		break;
+	default:
+		break;
 	}
 
 	CUI::Update_Late(fDT);
@@ -128,31 +98,17 @@ HRESULT CTextButton::Render()
 
 HRESULT CTextButton::Ready_Component()
 {
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::STATIC),
-		TEXT("ProtoTag_Component_VtxTexShader"),
-		TEXT("Com_Shader"),
-		reinterpret_cast<CComponent**>(&m_pShader),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxTexShader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::STATIC),
-		TEXT("ProtoTag_Component_RectBuffer"),
-		TEXT("Com_RectBuffer"),
-		reinterpret_cast<CComponent**>(&m_pRectBuffer),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_RectBuffer"),
+		TEXT("Com_RectBuffer"), reinterpret_cast<CComponent**>(&m_pRectBuffer), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::CITYHALL),
-		TEXT("ProtoTag_Component_TextBoxTexture"),
-		TEXT("Com_Texture"),
-		reinterpret_cast<CComponent**>(&m_pTexture),
-		nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::MII_EDITOR), TEXT("ProtoTag_Component_TextButton_Texture"),
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTexture), nullptr)))
 		return E_FAIL;
-
-
 
 	return S_OK;
 }
@@ -176,13 +132,25 @@ HRESULT CTextButton::Bind_ShaderResources()
 
 int32_t CTextButton::On_Click()
 {
-	MSG_BOXW(L"이름을 입력하세요");
-	m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_TextButton"));
-	m_isSelected = TRUE;
+	if (m_isSelected)
+	{
+		m_pSelected_Strgy->OnClick();
 
-	m_pGameInstance->ButtonManager_Set_OnText(TRUE);
-	m_isClicked = FALSE;
-	
+		if (m_isClicked)
+		{
+			m_pSelectedClick_Strgy->OnClick();
+		}
+	}
+	else
+	{
+		if (m_isClicked)
+		{
+			MSG_BOX("이름을 입력하세요 ");
+			m_pGameInstance->ButtonManager_Set_OnText(TRUE);
+			m_pClicked_Strgy->OnClick();
+			m_isSelected = TRUE;
+		}
+	}
 	return UPDATE_CLEAR;
 }
 
@@ -216,6 +184,8 @@ CObject* CTextButton::Clone(void* pArg)
 void CTextButton::Free()
 {
 	Safe_Release(m_pClicked_Strgy);
+	Safe_Release(m_pSelected_Strgy);
+	Safe_Release(m_pSelectedClick_Strgy);
 
 	Safe_Release(m_pShader);
 	Safe_Release(m_pTexture);

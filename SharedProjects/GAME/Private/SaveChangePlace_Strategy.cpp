@@ -27,8 +27,7 @@ void CSaveChangePlace_Strategy::OnClick()
 	CMiiManager::GetInstance()->Save_MiiData(filePath);
 	CApartManager::GetInstance()->Save_ApartData();
 
-	m_pGameInstance->PlaceManager_Change_Place(
-		static_cast<uint32_t>(PLACEID::LOADING),
+	m_pGameInstance->PlaceManager_Change_Place(	static_cast<uint32_t>(PLACEID::LOADING),
 		CPlace_Loading::Create(m_pDevice, m_pContext,PLACEID::ISLAND));
 }
 

@@ -33,6 +33,9 @@ public:
 	void Set_BuildingNameTextureIndex(uint32_t i) { m_iBuildingNameTextureIndex = i; }
 	uint32_t Get_BuildingNameTextureIndex() { return m_iBuildingNameTextureIndex; }
 
+	void Set_HasSelectedPlaceMoveButton(_bool isSelected) { m_hasSelectedPlaceMoveButton = isSelected; }
+	_bool Get_HasSelectedPlaceMoveButton() const { return m_hasSelectedPlaceMoveButton; }
+
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 	ID3D11Device* m_pDevice = { nullptr };
@@ -50,7 +53,8 @@ private:
 
 	/* 건물 이름 텍스쳐 인덱스 */
 	uint32_t m_iBuildingNameTextureIndex = {};
-
+	/* 선택된 장소 이동 버튼이 있는지 */
+	_bool m_hasSelectedPlaceMoveButton = {};
 
 public:
 	static CButtonManager* Create(

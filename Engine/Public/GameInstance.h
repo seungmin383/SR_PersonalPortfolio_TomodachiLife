@@ -225,6 +225,8 @@ public:
 
 	void ButtonManager_Set_BuildingNameTextureIndex(uint32_t i);
 	uint32_t ButtonManager_Get_BuildingNameTextureIndex();
+	void ButtonManager_Set_HasSelectedPlaceMoveButton(_bool isSelected);
+	_bool ButtonManager_Get_HasSelectedPlaceMoveButton();
 
 	_wstring ButtonManager_Get_Text();
 

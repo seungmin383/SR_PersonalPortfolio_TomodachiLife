@@ -24,6 +24,9 @@ public:
 	HRESULT Ready_Environment_Layer();
 	HRESULT Ready_Camera_Layer();
 
+private:
+	uint32_t m_iNumMii = {};
+
 public:
 	static CPlace_Apart* Create(
 		ID3D11Device* pDevice,

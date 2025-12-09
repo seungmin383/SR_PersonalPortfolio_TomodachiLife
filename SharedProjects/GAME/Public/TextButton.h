@@ -15,20 +15,18 @@ class IOnClick;
 class CTextButton final : public CButton
 {
 public:
-	enum TEXTTYPE
-	{
+	enum TEXTTYPE {
 		FIRSTNAME,
 		LASTNAME,
-		NICKNAME,
-		END
+		NICKNAME
 	};
-
-public:
 	typedef struct tagTextButtonDesc : public BUTTON_DESC
 	{
-		IOnClick* pStrategy = { nullptr };
+		IOnClick* pClicked_Strgy = { nullptr };
+		IOnClick* pSelected_Strgy = { nullptr };
+		IOnClick* pSelectedClick_Strgy = { nullptr };
 
-		TEXTTYPE eTextType = { TEXTTYPE::END };
+		TEXTTYPE eTextType = {};
 
 	}TEXTBUTTON_DESC;
 
@@ -58,9 +56,10 @@ private:
 	CTextureCom* m_pTexture = { nullptr };
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
-	IOnClick* m_pClicked_Strgy = { nullptr };
+	IOnClick* m_pClicked_Strgy			= { nullptr };
+	IOnClick* m_pSelected_Strgy			= { nullptr };
+	IOnClick* m_pSelectedClick_Strgy	= { nullptr };
 
-private:
 	_wstring m_strText = {};
 	TEXTTYPE m_eTextType = {};
 

@@ -64,6 +64,7 @@ HRESULT CPlace_Apart::Render_Late()
 HRESULT CPlace_Apart::Ready_Actor_Layer()
 {
 	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::APART);
 
 	// ProtoTag_Actor_Room
 	{
@@ -85,38 +86,28 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 	// ProtoTag_Actor_seMii
 	{
-		uint32_t iNumMii = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames.size();
-		for (uint32_t i = 0; i < iNumMii; ++i)
+		m_iNumMii = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames.size();
+		for (uint32_t i = 0; i < m_iNumMii; ++i)
 		{
 			CSEMii::MII_DESC Desc = {};
-			Desc.vPos = XMFLOAT4{ m_pGameInstance->Random(0.f, 10.f) ,0.f, m_pGameInstance->Random(0.f, 10.f) , 1.f };
+			Desc.vPos = XMFLOAT4{0.f, 0.f, 0.f, 1.f };
 			Desc.fCX = 1.5f;
 			Desc.fCY = 1.5f;
 			Desc.fCZ = 1.5f;
 			Desc.fSpeedPerSecond = 10.f;
 			Desc.fRotationPerSecond = XMConvertToRadians(20.f);
 			Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
-			_wstring nickname = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames[i];
-			_wstring FilePath = L"../../SharedProjects/GAME/GameData/MiiData/";
-			FilePath += nickname;
-			FilePath += L".json";
 
+			_wstring nickname = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames[i];
+			_wstring FilePath = L"../../SharedProjects/GAME/GameData/MiiData/" + nickname + L".json";
 			Desc.strSaveDataPath = FilePath;
 
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(
-				static_cast<uint32_t>(PLACEID::STATIC),
-				TEXT("ProtoTag_Actor_seMii"),
-				&Desc);
-
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-				static_cast<uint32_t>(PLACEID::STATIC),
-				TEXT("LayerTag_Actor"),
-				tmp)))
-			{
-				Safe_Release(tmp);
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMii"), &Desc);
+			if (nullptr == tmp)
 				return E_FAIL;
-			}
 
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::STATIC), TEXT("LayerTag_Actor"), tmp)))
+				return E_FAIL;
 		}
 	}
 
@@ -203,16 +194,18 @@ HRESULT CPlace_Apart::Ready_UI_Layer()
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::APART);
 
-	CWindow_Button::WINDOWBUTTON_DESC tDesc = {};
-	tDesc.fCX = 96.f;
-	tDesc.fCY = 96.f;
-	tDesc.fZ = 0.5f;
-
 	// ProtoTag_UI_WindowButton
 	{
-		for (uint32_t i = 0; i < 3; ++i)
+		CWindow_Button::WINDOWBUTTON_DESC tDesc = {};
+		tDesc.fCX = 96.f;
+		tDesc.fCY = 96.f;
+		tDesc.fZ = 0.5f;
+
+		uint32_t iIndex = { 0 };
+
+		for (int32_t i = 2; i >= 0; --i)
 		{
-			for (uint32_t j = 0; j < 8; ++j)
+			for (int32_t j = 0; j < 8; ++j)
 			{
 				tDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 				tDesc.fX = 137.f + (98.f * j);
@@ -221,12 +214,18 @@ HRESULT CPlace_Apart::Ready_UI_Layer()
 				tDesc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 				tDesc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 
+				if (m_iNumMii > iIndex)
+					tDesc.isLive = TRUE;
+				else
+					tDesc.isLive = FALSE;
+
 				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_WindowButton"), &tDesc);
 				if (nullptr == tmp)
 					return E_FAIL;
 
 				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_WindowButton"), tmp)))
 					return E_FAIL;
+				++iIndex;
 			}
 		}
 	}

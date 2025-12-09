@@ -256,7 +256,7 @@ HRESULT CLoader::Loading_Island()
 		/* 건물 이름 텍스쳐*/
 		// ProtoTag_Component_OutLine_Texture
 		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/BuildingName_Texture/%d.png"), 23);
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/BuildingName_Texture/%d.png"), 25);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
 				TEXT("ProtoTag_Component_BuildingName_Texture"), tmp)))
 				return E_FAIL;
@@ -507,13 +507,7 @@ HRESULT CLoader::Loading_CityHall()
 
 
 
-		/* 텍스트 박스 */
-		// ProtoTag_Component_TextBoxTexture
-		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/TextBox/%d.dds"), 1);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_TextBoxTexture"), tmp)))
-				return E_FAIL;
-		}
+
 
 		/* 배경 모델 */
 		// ProtoTag_Componenet_MiiEditorBG
@@ -561,13 +555,7 @@ HRESULT CLoader::Loading_CityHall()
 				return E_FAIL;
 		}
 
-		/* 텍스트 버튼 */
-		// ProtoTag_UI_TextButton
-		{
-			tmp = CTextButton::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_TextButton"), tmp)))
-				return E_FAIL;
-		}
+
 	}
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
@@ -605,6 +593,14 @@ HRESULT CLoader::Loading_MiiEditor()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_PageButton_Texture"), tmp)))
 				return E_FAIL;
 		}
+
+		/* 텍스트 버튼 텍스쳐 */
+		// ProtoTag_Component_TextButton_Texture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Text_Button/%d.dds"), 1);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_TextButton_Texture"), tmp)))
+				return E_FAIL;
+		}
 	}
 
 	// Actor
@@ -636,6 +632,13 @@ HRESULT CLoader::Loading_MiiEditor()
 		{
 			tmp = CPageButton::Create(m_pDevice, m_pContext);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_PageButton"), tmp)))
+				return E_FAIL;
+		}
+		/* 텍스트 버튼 */
+		// ProtoTag_UI_TextButton
+		{
+			tmp = CTextButton::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_TextButton"), tmp)))
 				return E_FAIL;
 		}
 	}

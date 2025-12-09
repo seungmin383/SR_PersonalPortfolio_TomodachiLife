@@ -6,11 +6,11 @@
             0.11999999731779099,
             1.0
         ],
-        "Index": 81
+        "Index": 79
     },
     "EyesInfo": {
         "BlinkTime": 5.0,
-        "Index": 4
+        "Index": 0
     },
     "HairInfo": {
         "HairColor": [
@@ -19,10 +19,10 @@
             0.0,
             1.0
         ],
-        "Index": 9
+        "Index": 0
     },
     "HeadInfo": {
-        "Index": 3,
+        "Index": 0,
         "SkinColor": [
             1.0,
             0.8199999928474426,
@@ -31,14 +31,16 @@
         ]
     },
     "MiiProfile": {
-        "FirstName": "",
-        "LastName": "",
-        "NickName": "fdsjk"
+        "FirstName": "fdjsafjdksa",
+        "LastName": "fdjsafjdksa",
+        "NickName": "fdjsafjdksa",
+        "RoomIndex": 0,
+        "isMan": false
     },
     "MouthInfo": {
         "Index": 101
     },
     "NoseInfo": {
-        "Index": 66
+        "Index": 60
     }
 }

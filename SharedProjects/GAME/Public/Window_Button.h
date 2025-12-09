@@ -23,10 +23,10 @@ public:
 		uint8_t iOutlineTextureIndex = {};
 
 		XMFLOAT4 vTargetPos = {};
-
 		_float fLerpTime = {};
 		_float fTargetFov = {};
 
+		_bool isLive = {};
 	}WINDOWBUTTON_DESC;
 
 private:

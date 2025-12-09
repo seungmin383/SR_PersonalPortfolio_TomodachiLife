@@ -11,7 +11,11 @@
 #include "MiiEdit_Strgy.h"
 #include "PageButton.h"
 #include "ControlEnable_Strgy.h"
-
+#include "Option_Button.h"
+#include "SaveMiiData_Strgy.h"
+#include "ChangePlace_Strategy.h"
+#include "TextButton.h"
+#include "Deactive_Strgy.h"
 
 #define HEAD_BASE_POS_X 300.f
 #define HEAD_BASE_POS_Y 120.f
@@ -29,6 +33,9 @@
 #define CATEGORY_BASE_POS_X 300.f
 #define CATEGORY_BASE_POS_Y 455.f
 #define CATEGORYBTN_GAP_X 180.f
+
+#define TEXT_BASE_POS_X 300.f
+#define TEXT_BASE_POS_Y 100.f
 
 CPlace_MiiEditor::CPlace_MiiEditor(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -114,12 +121,19 @@ HRESULT CPlace_MiiEditor::Ready_UI_Layer()
 	if (FAILED(Layer_UI_Category_Button()))
 		return E_FAIL;
 
+	if (FAILED(Layer_UI_Save_Button()))
+		return E_FAIL;
+
+	if (FAILED(Layer_UI_Text_Button()))
+		return E_FAIL;
+
 	vector<_wstring> DisableLayers{
 		TEXT("LayerTag_UI_Hair"),
 		TEXT("LayerTag_UI_Eyebrow"),
 		TEXT("LayerTag_UI_Eyes"),
 		TEXT("LayerTag_UI_Nose"),
-		TEXT("LayerTag_UI_Mouth")
+		TEXT("LayerTag_UI_Mouth"),
+		TEXT("LayerTag_UI_Text_Button")
 	};
 	for (auto& str : DisableLayers)
 		m_pGameInstance->ObjectManager_Disable_Layer(iPlaceID, str);
@@ -326,7 +340,7 @@ HRESULT CPlace_MiiEditor::Layer_UI_MiiEdit_Button()
 			{
 				Desc.fX = HAIR_BASE_POS_X + (BTNGAPX * j);
 				Desc.fY = HAIR_BASE_POS_Y + (BTNGAPY * i);
-				Desc.pClicked_Strgy = CMiiEdit_Strgy::Create(m_pDevice, m_pContext, TEXT("LayerTag_UI_Nose"), CMiiEdit_Strgy::PARTS::EYES, 60 + iIndex);
+				Desc.pClicked_Strgy = CMiiEdit_Strgy::Create(m_pDevice, m_pContext, TEXT("LayerTag_UI_Nose"), CMiiEdit_Strgy::PARTS::NOSE, 60 + iIndex);
 				Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 				Desc.iTextureIndex = 204 + (2 * iIndex);
@@ -470,21 +484,22 @@ HRESULT CPlace_MiiEditor::Layer_UI_Category_Button()
 		TEXT("LayerTag_UI_Eyebrow"),
 		TEXT("LayerTag_UI_Eyes"),
 		TEXT("LayerTag_UI_Nose"),
-		TEXT("LayerTag_UI_Mouth")
+		TEXT("LayerTag_UI_Mouth"),
+		TEXT("LayerTag_UI_Text_Button")
 	};
 
 	vector<uint32_t> EnableLayerIndex[] = {
 		vector<uint32_t>{0, 1},
-		vector<uint32_t>{},
+		vector<uint32_t>{7},
 		vector<uint32_t>{},
 		vector<uint32_t>{}
 	};
 
 	vector<uint32_t> DisableLayerIndex[] = {
-			vector<uint32_t>{2,3,4,5,6},
+			vector<uint32_t>{2,3,4,5,6,7},
 			vector<uint32_t>{0,1,2,3,4,5,6},
-			vector<uint32_t>{0,1,2,3,4,5,6},
-			vector<uint32_t>{0,1,2,3,4,5,6}
+			vector<uint32_t>{0,1,2,3,4,5,6,7},
+			vector<uint32_t>{0,1,2,3,4,5,6,7}
 	};
 
 
@@ -535,6 +550,81 @@ HRESULT CPlace_MiiEditor::Layer_UI_Save_Button()
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
 
+	//LayerTag_UI_Save_Button
+	{
+		COption_Button::OPTIONBUTTON_DESC Desc = {};
+		Desc.fX = 850.f;
+		Desc.fY = 455.f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 141.f;
+		Desc.fCY = 45.f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		Desc.pClicked_Strgy = CSaveMiiData_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Option_Button"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Save_Button"), tmp)))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Save_Button"), static_cast<CButton*>(tmp))))
+			return E_FAIL;
+	}
+	return S_OK;
+}
+
+HRESULT CPlace_MiiEditor::Layer_UI_Text_Button()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
+	// LayerTag_UI_Text_Button
+	{
+		CTextButton::TEXTBUTTON_DESC Desc = {};
+		Desc.fZ = 0.5f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		XMFLOAT4 PosSizeArr[] = {
+			XMFLOAT4{TEXT_BASE_POS_X,			TEXT_BASE_POS_Y,			200.f,	50.f},	/* 성 */
+			XMFLOAT4{TEXT_BASE_POS_X + 300.f,	TEXT_BASE_POS_Y,			200.f,	50.f},	/* 이름 */
+			XMFLOAT4{TEXT_BASE_POS_X,			TEXT_BASE_POS_Y + 80.f,		200.f,	50.f},	/* 닉네임 */
+			XMFLOAT4{TEXT_BASE_POS_X + 250.f,	TEXT_BASE_POS_Y + 80.f,		80.f,	50.f},	/* 성별 */
+			XMFLOAT4{TEXT_BASE_POS_X + 350.f,	TEXT_BASE_POS_Y + 80.f,		66.f,	50.f},	/* 혈액형 */
+			XMFLOAT4{TEXT_BASE_POS_X,			TEXT_BASE_POS_Y + 160.f,	66.f,	50.f},	/* 색 */
+			XMFLOAT4{TEXT_BASE_POS_X + 100.f,	TEXT_BASE_POS_Y + 160.f,	80.f,	50.f},	/* 년 */
+			XMFLOAT4{TEXT_BASE_POS_X + 180.f,	TEXT_BASE_POS_Y + 160.f,	80.f,	50.f},	/* 일 */
+			XMFLOAT4{TEXT_BASE_POS_X + 250.f,	TEXT_BASE_POS_Y + 160.f,	100.f,	50.f},	/* 어른 */
+			XMFLOAT4{TEXT_BASE_POS_X,			TEXT_BASE_POS_Y + 240.f,	200.f,	50.f},	/* 관계 */
+			XMFLOAT4{TEXT_BASE_POS_X + 300.f,	TEXT_BASE_POS_Y + 240.f,	200.f,	50.f}	/* 작성자 */
+		};
+		
+		for (uint32_t i = 0; i < 11; ++i)
+		{
+			Desc.fX = PosSizeArr[i].x;
+			Desc.fY = PosSizeArr[i].y;
+			Desc.fCX = PosSizeArr[i].z;
+			Desc.fCY = PosSizeArr[i].w;
+
+			Desc.pClicked_Strgy = CDeactive_Strgy::Create(m_pDevice, m_pContext, PLACEID::MII_EDITOR, TEXT("LayerTag_UI_Text_Button"));
+			Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+			Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+			Desc.eTextType = static_cast<CTextButton::TEXTTYPE>(i);
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID,	TEXT("ProtoTag_UI_TextButton"), &Desc);
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID,	TEXT("LayerTag_UI_Text_Button"), tmp)))
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Text_Button"), static_cast<CButton*>(tmp))))
+				return E_FAIL;
+		}
+
+	}
 	return S_OK;
 }
 

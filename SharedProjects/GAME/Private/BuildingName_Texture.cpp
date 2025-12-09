@@ -42,40 +42,15 @@ int32_t CBuildingName_Texture::Update(_float fDT)
 {
 	m_iCurTextureIndex = m_pGameInstance->ButtonManager_Get_BuildingNameTextureIndex();
 
-	XMFLOAT4 vPos = {};
-	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
-
-	cout << "X : " << vPos.x << " Y : " << vPos.y << " Z : " << vPos.z << endl;
-	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
-	{
-		m_pTransformCom->Go_Straight(fDT);
-	}
-	else if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
-	{
-		m_pTransformCom->Go_Backward(fDT);
-	}
-	else if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
-	{
-		m_pTransformCom->Go_Right(fDT);
-	}
-	else if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
-	{
-		m_pTransformCom->Go_Left(fDT);
-	}
-	else if (m_pGameInstance->Get_DIKeyState(DIK_U))
-	{
-		m_pTransformCom->Go_Up(fDT);
-	}
-	else if (m_pGameInstance->Get_DIKeyState(DIK_J))
-	{
-		m_pTransformCom->Go_Down(fDT);
-	}
 
 	return 0;
 }
 
 void CBuildingName_Texture::Update_Late(_float fDT)
 {
+	if (!m_pGameInstance->ButtonManager_Get_HasSelectedPlaceMoveButton())
+		m_iCurTextureIndex = 24;
+
 	CUI::Update_Late(fDT);
 }
 
