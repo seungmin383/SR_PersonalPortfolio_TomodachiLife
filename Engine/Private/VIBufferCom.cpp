@@ -90,6 +90,7 @@ HRESULT CVIBufferCom::Begin_Draw()
 
 
 
+
 void CVIBufferCom::Free()
 {
 	Safe_Release(m_VBuffer);

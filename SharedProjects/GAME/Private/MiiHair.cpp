@@ -73,7 +73,7 @@ HRESULT CMiiHair::Render()
 
 HRESULT CMiiHair::Ready_Component()
 {
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxMeshShader"), TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxMesh_Shader"), TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
 		return E_FAIL;
 
 	for (uint32_t i = 1; i < 11; ++i)

@@ -6,6 +6,12 @@ CMiiManager::CMiiManager()
 {
 }
 
+HRESULT CMiiManager::Initialize()
+{
+
+	return S_OK;
+}
+
 void CMiiManager::Begin_Edit(MIIINFO_DESC& CurMiiDesc)
 {
 	m_EditDesc = CurMiiDesc;

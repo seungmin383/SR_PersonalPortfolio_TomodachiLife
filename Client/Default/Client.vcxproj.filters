@@ -40,6 +40,9 @@
     <ClInclude Include="..\Public\Place_Developer.h">
       <Filter>01.Place\98.Place_Developer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Place_Room.h">
+      <Filter>01.Place\04.Place_Room</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -83,6 +86,9 @@
     <Filter Include="01.Place\98.Place_Developer">
       <UniqueIdentifier>{0050ec29-051c-4501-8cd7-cd761253aa3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Place\04.Place_Room">
+      <UniqueIdentifier>{e42dc7c9-3147-4329-8459-d7cc128c168a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -111,6 +117,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Place_Developer.cpp">
       <Filter>01.Place\98.Place_Developer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_Room.cpp">
+      <Filter>01.Place\04.Place_Room</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

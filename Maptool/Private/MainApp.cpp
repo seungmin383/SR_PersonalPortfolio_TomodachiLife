@@ -105,7 +105,7 @@ HRESULT CMainApp::Ready_Static()
 
 	// Component
 	{
-		// ProtoTag_Component_VtxTexShader
+		// ProtoTag_Component_VtxTex_Shader
 		{
 			tmp = CShaderCom::Create(
 				m_pDevice,
@@ -116,20 +116,20 @@ HRESULT CMainApp::Ready_Static()
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACEID::STATIC),
-				TEXT("ProtoTag_Component_VtxTexShader"),
+				TEXT("ProtoTag_Component_VtxTex_Shader"),
 				tmp)))
 				return E_FAIL;
 		}
 
-		// ProtoTag_Component_VtxMeshShader
+		// ProtoTag_Component_VtxMesh_Shader
 		{
 			tmp = CShaderCom::Create(m_pDevice,	m_pContext,	TEXT("../../SharedProjects/GAME/Shader/Shader_Vtx_Mesh.hlsl"),
 				Engine::VTX_TEX_MESH::Elements,	Engine::VTX_TEX_MESH::iNumElements);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxMeshShader"), tmp)))
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxMesh_Shader"), tmp)))
 				return E_FAIL;
 		}
 
-		// ProtoTag_Component_VtxAnimMeshShader
+		// ProtoTag_Component_VtxAnimMesh_Shader
 		{
 			tmp = CShaderCom::Create(
 				m_pDevice,
@@ -140,7 +140,7 @@ HRESULT CMainApp::Ready_Static()
 
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(
 				static_cast<uint32_t>(PLACEID::STATIC),
-				TEXT("ProtoTag_Component_VtxAnimMeshShader"),
+				TEXT("ProtoTag_Component_VtxAnimMesh_Shader"),
 				tmp)))
 				return E_FAIL;
 		}

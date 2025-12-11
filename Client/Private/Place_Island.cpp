@@ -611,7 +611,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	PLACEID::APART,// 13. Go Port
 	PLACEID::APART,// 14. Go Photo
 	PLACEID::APART,// 15. Go News
-	PLACEID::APART,// 16. Go Export 
+	PLACEID::DEVELOPER,// 16. Go Export 
 	PLACEID::APART,// 17. Go Fountain
 	PLACEID::APART,// 18. Go Sea
 	PLACEID::APART,// 19. Go JeonMangDae

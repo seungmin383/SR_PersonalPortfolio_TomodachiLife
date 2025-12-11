@@ -9,6 +9,8 @@
 #include "Terrain.h"
 #include "Player.h"
 #include "Mii.h"
+#include "Snow.h"
+#include "Explosion.h"
 
 #include "PlaceMoveButton.h"
 
@@ -135,6 +137,39 @@ HRESULT CPlace_Developer::Ready_Actor_Layer()
 		}
 	}
 
+	/* ´« */
+	// ProtoTag_Actor_Snow
+	{
+		CSnow::SNOW_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+		Desc.fCX = 1.f;
+		Desc.fCY = 1.f;
+		Desc.fCZ = 1.f;
+		Desc.vPos = XMFLOAT4{ 10.f, 15.f, 10.f, 1.f };
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iDevelop,TEXT("ProtoTag_Actor_Snow"),&Desc);
+		if (nullptr == tmp)
+			return E_FAIL;	
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iDevelop,	TEXT("LayerTag_Actor"),	tmp)))
+			return E_FAIL;
+	}
+
+	/* Æø¹ß */
+	// ProtoTag_Actor_Explosion
+	{
+		CExplosion::EXPLOSION_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+		Desc.fCX = 1.f;
+		Desc.fCY = 1.f;
+		Desc.fCZ = 1.f;
+		Desc.vPos = XMFLOAT4{ 0.f, 5.f, 0.f, 1.f };
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iDevelop,TEXT("ProtoTag_Actor_Explosion"),&Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iDevelop, TEXT("LayerTag_Actor"), tmp)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

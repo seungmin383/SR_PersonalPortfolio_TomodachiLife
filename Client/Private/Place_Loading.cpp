@@ -7,6 +7,7 @@
 #include "Place_CityHall.h"
 #include "Place_Developer.h"
 #include "Place_MiiEditor.h"
+#include "Place_Room.h"
 
 #include "BackGround.h"
 
@@ -64,6 +65,10 @@ int32_t CPlace_Loading::Update(_float fDT)
 			pPlace = CPlace_MiiEditor::Create(m_pDevice, m_pContext);
 			break;
 
+		case PLACEID::ROOM:
+			pPlace = CPlace_Room::Create(m_pDevice, m_pContext);
+			break;
+
 		case PLACEID::DEVELOPER:
 			pPlace = CPlace_Developer::Create(m_pDevice, m_pContext);
 			break;
@@ -106,6 +111,7 @@ HRESULT CPlace_Loading::Ready_UI_Layer()
 		CBackGround::BACKGROUND_DESC Desc = {};
 		Desc.fX = 480.f;
 		Desc.fY = 240.f;
+		Desc.fZ = 0.5f;
 		Desc.fCX = 960.f;
 		Desc.fCY = 480.f;
 		Desc.fSpeedPerSecond = 0.f;
@@ -145,21 +151,18 @@ HRESULT CPlace_Loading::Ready_Camera_Layer()
 	return S_OK;
 }
 
-CPlace_Loading* CPlace_Loading::Create(
-	ID3D11Device* pDevice, 
-	ID3D11DeviceContext* pContext, 
-	PLACEID NextPlaceID)
+CPlace_Loading* CPlace_Loading::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, PLACEID NextPlaceID)
 {
-	CPlace_Loading* pPlaceLoading = new CPlace_Loading(pDevice, pContext);
+	CPlace_Loading* pInstance = new CPlace_Loading(pDevice, pContext);
 
-	if (FAILED(pPlaceLoading->Initialize(NextPlaceID)))
+	if (FAILED(pInstance->Initialize(NextPlaceID)))
 	{
-		MSG_BOX("ErrCode : Loading Place Create Failed");
-		Safe_Release(pPlaceLoading);
+		MSG_BOX("ErrCode : CPlace_Loading Create Failed");
+		Safe_Release(pInstance);
 		return nullptr;
 	}
 
-	return pPlaceLoading;
+	return pInstance;
 }
 
 void CPlace_Loading::Free()

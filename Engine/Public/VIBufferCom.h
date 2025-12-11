@@ -23,6 +23,7 @@ public:
 
 	virtual HRESULT Begin_Draw();
 
+
 protected:
 	ID3D11Buffer* m_VBuffer = { nullptr };
 	ID3D11Buffer* m_IBuffer = { nullptr };

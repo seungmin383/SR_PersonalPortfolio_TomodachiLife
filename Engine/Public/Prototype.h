@@ -5,6 +5,8 @@
 #include "ShaderCom.h"
 #include "RectBufferCom.h"
 #include "TerrainBufferCom.h"
+#include "ParticleBufferCom_Rect.h"
+#include "ParticleBufferCom_Point.h"
 #include "TextureCom.h"
 #include "Camera.h"
 #include "Model.h"

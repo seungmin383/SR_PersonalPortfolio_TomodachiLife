@@ -26,15 +26,19 @@ public:
 	HRESULT Ready_Static();
 
 	HRESULT Ready_Manager();
-	HRESULT Ready_ModelCom();
-	HRESULT Ready_HeadModelCom();
-	HRESULT Ready_HairModelCom();
-	HRESULT Ready_FacePartsTexture();
 
-
-	HRESULT Ready_ModelActor();
-
+	HRESULT Ready_Static_Shader();
 	HRESULT Ready_Static_Texture();
+	HRESULT Ready_Static_Buffer();
+	HRESULT Ready_Static_Model();
+	HRESULT Ready_Static_Component();
+
+
+	/* for.Actor*/
+	HRESULT Ready_Static_Camera();
+	HRESULT Ready_Mii();
+
+	/* for.UI*/
 	HRESULT Ready_StaticUI();
 
 private://디바이스 관리

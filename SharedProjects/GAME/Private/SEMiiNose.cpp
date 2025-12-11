@@ -73,13 +73,13 @@ HRESULT CSEMiiNose::Ready_Component()
 {
 	uint32_t iPlace = static_cast<uint32_t>(PLACEID::STATIC);
 
-	if (FAILED(Add_Component(iPlace, TEXT("ProtoTag_Component_VtxTexShader"), TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
+	if (FAILED(Add_Component(iPlace, TEXT("ProtoTag_Component_VtxTex_Shader"), TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
 		return E_FAIL;
 
 	if (FAILED(Add_Component(iPlace, TEXT("ProtoTag_Component_RectBuffer"), TEXT("Com_RectBuffer"), reinterpret_cast<CComponent**>(&m_pRectBuffer), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(iPlace, TEXT("ProtoTag_Component_FacePartsTexture"), TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTexture), nullptr)))
+	if (FAILED(Add_Component(iPlace, TEXT("ProtoTag_Component_FaceParts_Texture"), TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTexture), nullptr)))
 		return E_FAIL;
 
 	return S_OK;

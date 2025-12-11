@@ -78,6 +78,7 @@ namespace Game
 		APART,
 		CITYHALL,
 		MII_EDITOR,
+		ROOM,
 
 		DEVELOPER,
 		LOADING,

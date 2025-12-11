@@ -82,7 +82,7 @@ HRESULT CBody::Ready_Component()
 {
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACEID::STATIC),
-		TEXT("ProtoTag_Component_VtxAnimMeshShader"),
+		TEXT("ProtoTag_Component_VtxAnimMesh_Shader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
 		nullptr)))

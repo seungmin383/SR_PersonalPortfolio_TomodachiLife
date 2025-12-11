@@ -139,7 +139,7 @@ HRESULT CRoom::Render()
 
 HRESULT CRoom::Ready_Component()
 {
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxAnimMeshShader"), TEXT("Com_Shader"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxAnimMesh_Shader"), TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
 
@@ -149,7 +149,7 @@ HRESULT CRoom::Ready_Component()
 		return E_FAIL;
 
 #else
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Component_seRoom0"), TEXT("Com_ModelCom"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_seRoom0"), TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 #endif

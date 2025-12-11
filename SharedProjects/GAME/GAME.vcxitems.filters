@@ -196,6 +196,15 @@
     <Filter Include="03.UI\01.Button\09.Back">
       <UniqueIdentifier>{6ba2eea5-af85-4efd-bd8e-9b35cf0b830b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Actor\98.ParticleTest">
+      <UniqueIdentifier>{31db5824-2a83-4f7e-b57e-873a8a06cfd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\98.ParticleTest\00.Snow">
+      <UniqueIdentifier>{55ed4603-ad89-4e00-907a-6eb1aec43248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\98.ParticleTest\01.Explosion">
+      <UniqueIdentifier>{4e99ffad-dcbf-42d4-8ac3-0d674b3ffac9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -211,6 +220,12 @@
       <Filter>04.Shader</Filter>
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Anim_Mesh.hlsl">
+      <Filter>04.Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Tex_Particle.hlsl">
+      <Filter>04.Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Pos_Particle.hlsl">
       <Filter>04.Shader</Filter>
     </FxCompile>
   </ItemGroup>
@@ -401,6 +416,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Back_Button.h">
       <Filter>03.UI\01.Button\09.Back</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Snow.h">
+      <Filter>02.Actor\98.ParticleTest\00.Snow</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Explosion.h">
+      <Filter>02.Actor\98.ParticleTest\01.Explosion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -576,6 +597,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Back_Button.cpp">
       <Filter>03.UI\01.Button\09.Back</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Snow.cpp">
+      <Filter>02.Actor\98.ParticleTest\00.Snow</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Explosion.cpp">
+      <Filter>02.Actor\98.ParticleTest\01.Explosion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

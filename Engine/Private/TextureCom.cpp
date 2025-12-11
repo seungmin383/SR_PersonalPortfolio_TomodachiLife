@@ -113,11 +113,7 @@ HRESULT CTextureCom::Bind_ShaderResources(CShaderCom* pShader, const _char* pCon
 		m_iNumTextures);
 }
 
-CTextureCom* CTextureCom::Create(
-	ID3D11Device* pDevice, 
-	ID3D11DeviceContext* pContext,
-	const _tchar* pTextureFilePath, 
-	uint32_t iNumTextures)
+CTextureCom* CTextureCom::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pTextureFilePath, uint32_t iNumTextures)
 {
 	CTextureCom* pTexture = new CTextureCom(pDevice, pContext);
 	

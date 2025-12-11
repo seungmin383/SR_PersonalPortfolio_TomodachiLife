@@ -3,7 +3,7 @@
 
 NS_BEGIN(Engine)
 
-class CParticleBufferCom abstract : public CVIBufferCom
+class ENGINE_DLL CParticleBufferCom abstract : public CVIBufferCom
 {
 public:
 	typedef struct tagParticleBufferDesc
@@ -13,10 +13,17 @@ public:
 		XMFLOAT3 vCenter = {};
 		XMFLOAT3 vRange = {};
 
+		XMFLOAT3 vPivot = {};
+		XMFLOAT2 vSpeed = {};
+		XMFLOAT2 vLifeTime = {};
+		
+		_bool isLoop = {};
+
 	}PARTICLE_DESC;
 
 protected:
 	CParticleBufferCom(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CParticleBufferCom(const CParticleBufferCom& rhs);
 	virtual ~CParticleBufferCom() = default;
 
 public:
@@ -32,15 +39,23 @@ public:
 
 	virtual HRESULT Begin_Draw()override;
 
+public:
+	void Drop(_float fDT);
+	void Spread(_float fDT);
+
 protected:
 	ID3D11Buffer* m_pVBInst = { nullptr };
 	D3D11_BUFFER_DESC m_InstBufferDesc = {};
 
 protected:
-	VTX_PARTICLE* m_pInstVertices = { nullptr };
+	VTX_PARTICLE_INST* m_pInstVertices = { nullptr };
 	uint32_t m_iIndexCountPerInst = {};
 	uint32_t m_iNumInst = {};
 	uint32_t m_iInstVertexStride = {};
+
+	_float* m_pSpeed = { nullptr };
+	_bool m_isLoop = { FALSE };
+	XMFLOAT3 m_vPivot = {};
 
 public:
 	virtual void Free()override;

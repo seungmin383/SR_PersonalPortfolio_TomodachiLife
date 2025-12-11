@@ -17,7 +17,9 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Anim_Mesh.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Normal_Tex.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Pos_Particle.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Tex.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Tex_Particle.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Test.hlsl" />
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +36,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\CommonButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ConvertJson.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Deactive_Strgy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Explosion.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IconTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IOnClick.cpp" />
@@ -69,6 +72,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMiiMouth.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMiiNose.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SkyAndSea.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Snow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TempModel.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Terrain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TestMii.cpp" />
@@ -96,6 +100,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ControlEnable_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ConvertJson.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Deactive_Strgy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Explosion.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Defines.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Struct.h" />
@@ -134,6 +139,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiMouth.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiNose.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SkyAndSea.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Snow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TempModel.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Terrain.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TestMii.h" />

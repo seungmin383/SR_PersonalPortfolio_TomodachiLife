@@ -65,6 +65,7 @@
     <ClInclude Include="..\Public\Object.h" />
     <ClInclude Include="..\Public\Object_Manager.h" />
     <ClInclude Include="..\Public\ParticleBufferCom.h" />
+    <ClInclude Include="..\Public\ParticleBufferCom_Point.h" />
     <ClInclude Include="..\Public\ParticleBufferCom_Rect.h" />
     <ClInclude Include="..\Public\PartObject.h" />
     <ClInclude Include="..\Public\PipeLine.h" />
@@ -144,6 +145,7 @@
     <ClCompile Include="..\Private\Object.cpp" />
     <ClCompile Include="..\Private\Object_Manager.cpp" />
     <ClCompile Include="..\Private\ParticleBufferCom.cpp" />
+    <ClCompile Include="..\Private\ParticleBufferCom_Point.cpp" />
     <ClCompile Include="..\Private\ParticleBufferCom_Rect.cpp" />
     <ClCompile Include="..\Private\PartObject.cpp" />
     <ClCompile Include="..\Private\PipeLine.cpp" />

@@ -3,7 +3,7 @@
 
 NS_BEGIN(Engine)
 
-class CParticleBufferCom_Rect final : public CParticleBufferCom
+class ENGINE_DLL CParticleBufferCom_Rect final : public CParticleBufferCom
 {
 public:
 	typedef struct tagParticleBufferRectDesc : public CParticleBufferCom::PARTICLE_DESC
@@ -13,6 +13,7 @@ public:
 
 private:
 	CParticleBufferCom_Rect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CParticleBufferCom_Rect(const CParticleBufferCom_Rect& rhs);
 	virtual ~CParticleBufferCom_Rect() = default;
 
 public:

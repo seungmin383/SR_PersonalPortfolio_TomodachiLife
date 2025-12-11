@@ -179,7 +179,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seHeadDesc.fCZ = 0.09f;
 		seHeadDesc.fRotationPerSecond = XMConvertToRadians(90.f);
 		seHeadDesc.fSpeedPerSecond = 10.f;
-		seHeadDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+		seHeadDesc.eRenderGroup = m_eRenderGroup;
 		seHeadDesc.pSocketMatrix = BodySockeMatrix;
 		seHeadDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seHeadDesc.pHeadInfo = &m_MiiInfo.HeadInfo;
@@ -200,7 +200,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seHairDesc.fCZ = 0.1f;
 		seHairDesc.fRotationPerSecond = XMConvertToRadians(90.f);
 		seHairDesc.fSpeedPerSecond = 3.f;
-		seHairDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		seHairDesc.eRenderGroup = m_eRenderGroup;
 		seHairDesc.pSocketMatrix = BodySockeMatrix;
 		seHairDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seHairDesc.pHairInfo = &m_MiiInfo.HairInfo;
@@ -227,7 +227,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seEyesDesc.fSpeedPerSecond = 10.f;
 		seEyesDesc.pParentState = &m_iState;
 		seEyesDesc.pSocketMatrix = BodySockeMatrix;
-		seEyesDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		seEyesDesc.eRenderGroup = m_eRenderGroup;
 		seEyesDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		seEyesDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seEyesDesc.pEyesInfo = &m_MiiInfo.EyesInfo;
@@ -259,7 +259,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seEyebrowDesc.fSpeedPerSecond = 10.f;
 		seEyebrowDesc.pParentState = &m_iState;
 		seEyebrowDesc.pSocketMatrix = BodySockeMatrix;
-		seEyebrowDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		seEyebrowDesc.eRenderGroup = m_eRenderGroup;
 		seEyebrowDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		seEyebrowDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seEyebrowDesc.pEyebrowInfo = &m_MiiInfo.EyebrowInfo;
@@ -289,7 +289,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seNoseDesc.fSpeedPerSecond = 10.f;
 		seNoseDesc.pParentState = &m_iState;
 		seNoseDesc.pSocketMatrix = BodySockeMatrix;
-		seNoseDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		seNoseDesc.eRenderGroup = m_eRenderGroup;
 		seNoseDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		seNoseDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seNoseDesc.pNoseInfo = &m_MiiInfo.NoseInfo;
@@ -312,7 +312,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seMouthDesc.fSpeedPerSecond = 10.f;
 		seMouthDesc.pParentState = &m_iState;
 		seMouthDesc.pSocketMatrix = BodySockeMatrix;
-		seMouthDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		seMouthDesc.eRenderGroup = m_eRenderGroup;
 		seMouthDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		seMouthDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seMouthDesc.pMouthInfo = &m_MiiInfo.MouthInfo;

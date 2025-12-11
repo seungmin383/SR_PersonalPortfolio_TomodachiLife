@@ -20,6 +20,7 @@
 
 #include "Window_Button.h"
 #include "TempModel.h"
+#include "ChangePlace_Strategy.h"
 
 #define WINDOW_BASE_POS_X 100.f
 #define WINDOW_BASE_POS_Y 200.f
@@ -86,7 +87,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 	// ProtoTag_Actor_seMii
 	{
-		m_iNumMii = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames.size();
+		m_iNumMii = static_cast<uint32_t>(CApartManager::GetInstance()->Get_ApartInfo().strMiiNames.size());
 		for (uint32_t i = 0; i < m_iNumMii; ++i)
 		{
 			CSEMii::MII_DESC Desc = {};
@@ -106,7 +107,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 			if (nullptr == tmp)
 				return E_FAIL;
 
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::STATIC), TEXT("LayerTag_Actor"), tmp)))
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::APART), TEXT("LayerTag_Actor"), tmp)))
 				return E_FAIL;
 		}
 	}
@@ -121,7 +122,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		tDesc.fCZ = 1.f;
 		tDesc.fSpeedPerSecond = 10.f;
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::APART),TEXT("ProtoTag_Actor_Apart"),	&tDesc);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Actor_Apart"), &tDesc);
 
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::APART), TEXT("LayerTag_Actor"), tmp)))
 		{
@@ -130,37 +131,54 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		}
 	}
 
-	/* ≈∏¿”∂Û¿Œ */
+	// ProtoTag_UI_WindowButton
 	{
-		//CTimeLine_Trans::TIMELINE_TRANS_DESC Desc = {};
-		//Desc.pOwner = static_cast<CSEMii*>(tmp);
+		CWindow_Button::WINDOWBUTTON_DESC tDesc = {};
+		tDesc.fCX = 96.f;
+		tDesc.fCY = 96.f;
+		tDesc.fZ = 0.5f;
 
-		//CTimeLine_Trans* pTrans = CTimeLine_Trans::Create(&Desc);
+		uint32_t iIndex = { 0 };
 
-		//CUTFRAME CutFrame = {};
-		//CutFrame.vPosition = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
-		//CutFrame.fTrackPosition = 0.f;
-		//pTrans->Add_CuTFrame(CutFrame);
+		for (int32_t i = 2; i >= 0; --i)
+		{
+			for (int32_t j = 0; j < 8; ++j)
+			{
+				tDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+				tDesc.fX = 137.f + (98.f * j);
+				tDesc.fY = 60.f + (100.f * i);
+				tDesc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				tDesc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				tDesc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ROOM);
 
-		//CutFrame.vPosition = XMFLOAT4{ 100.f, 100.f, 100.f, 1.f };
-		//CutFrame.fTrackPosition = 5.f;
-		//pTrans->Add_CuTFrame(CutFrame);
+				if (m_iNumMii > iIndex)
+					tDesc.isLive = TRUE;
+				else
+					tDesc.isLive = FALSE;
 
-	/* ƒ∆æ¿ */
-		// CCutScene::
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_WindowButton"), &tDesc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_WindowButton"), tmp)))
+					return E_FAIL;
+				++iIndex;
+			}
+		}
 	}
+
 
 	/* ¿˙¿Â πˆ∆∞ */
 	{
 		CCommonButton::COMMONBUTTON_DESC Desc = {};
 		Desc.fX = 850.f;
 		Desc.fY = 455.f;
-
+		Desc.fZ = 0.5f;
 		Desc.fCX = 141.f;
 		Desc.fCY = 45.f;
 		Desc.fSpeedPerSecond = 15.f;
 
-		Desc.pStrategy = CSaveChangePlace_Strategy::Create(m_pDevice, m_pContext);
+		Desc.pStrategy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
 
 		Desc.eTexturePlaceID = PLACEID::APART;
 		Desc.eIconTexturePlaceID = PLACEID::APART;
@@ -194,41 +212,6 @@ HRESULT CPlace_Apart::Ready_UI_Layer()
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::APART);
 
-	// ProtoTag_UI_WindowButton
-	{
-		CWindow_Button::WINDOWBUTTON_DESC tDesc = {};
-		tDesc.fCX = 96.f;
-		tDesc.fCY = 96.f;
-		tDesc.fZ = 0.5f;
-
-		uint32_t iIndex = { 0 };
-
-		for (int32_t i = 2; i >= 0; --i)
-		{
-			for (int32_t j = 0; j < 8; ++j)
-			{
-				tDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
-				tDesc.fX = 137.f + (98.f * j);
-				tDesc.fY = 60.f + (100.f * i);
-				tDesc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
-				tDesc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
-				tDesc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
-
-				if (m_iNumMii > iIndex)
-					tDesc.isLive = TRUE;
-				else
-					tDesc.isLive = FALSE;
-
-				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_WindowButton"), &tDesc);
-				if (nullptr == tmp)
-					return E_FAIL;
-
-				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_WindowButton"), tmp)))
-					return E_FAIL;
-				++iIndex;
-			}
-		}
-	}
 	return S_OK;
 }
 
@@ -244,7 +227,6 @@ HRESULT CPlace_Apart::Ready_Camera_Layer()
 	// m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 2.f, 0.f, 0.f, 1.f }, XMConvertToRadians(45.f), 1.f);
 	return S_OK;
 }
-
 
 CPlace_Apart* CPlace_Apart::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

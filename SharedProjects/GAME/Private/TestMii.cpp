@@ -21,7 +21,7 @@ HRESULT CTestMii::Initialize_Origin()
 
 HRESULT CTestMii::Initialize_Clone(void* pArg)
 {
-	m_eInfo.arrEyebrowState[0] = 1;
+	/*m_eInfo.arrEyebrowState[0] = 1;
 	m_eInfo.fFat = 1.f;
 
 	nlohmann::json j = {};
@@ -30,7 +30,7 @@ HRESULT CTestMii::Initialize_Clone(void* pArg)
 		"../../SharedProjects/GAME/GameData/Mii_Data.json",
 		j);
 
-	m_eInfo = j.get<MII_INFO>();
+	m_eInfo = j.get<MII_INFO>();*/
 
 	if (FAILED(CActor::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -193,7 +193,7 @@ HRESULT CTestMii::Ready_Component()
 {
 	if (FAILED(Add_Component(
 		static_cast<uint32_t>(PLACEID::STATIC),
-		TEXT("ProtoTag_Component_VtxAnimMeshShader"),
+		TEXT("ProtoTag_Component_VtxAnimMesh_Shader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),
 		nullptr)))

@@ -24,6 +24,8 @@
 #include "Room.h"
 #include "BuildingName_Texture.h"
 #include "CityhallMenu_Button.h"
+#include "Snow.h"
+#include "Explosion.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -88,6 +90,10 @@ HRESULT CLoader::Loading()
 
 	case PLACEID::MII_EDITOR:
 		hr = Loading_MiiEditor();
+		break;
+
+	case PLACEID::ROOM:
+		hr = Loading_Room();
 		break;
 
 	case PLACEID::DEVELOPER:
@@ -504,11 +510,6 @@ HRESULT CLoader::Loading_CityHall()
 		}
 
 
-
-
-
-
-
 		/* ¹è°æ ¸ðµ¨ */
 		// ProtoTag_Componenet_MiiEditorBG
 		{
@@ -648,6 +649,26 @@ HRESULT CLoader::Loading_MiiEditor()
 	return S_OK;
 }
 
+
+HRESULT CLoader::Loading_Room()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
+
+	/* ÁÖ¹Î ¹æ */
+	// ProtoTag_Actor_Room
+	{
+		tmp = CRoom::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Room"), tmp)))
+			return E_FAIL;
+	}
+
+	lstrcpy(m_szFPS, TEXT("·ÎµùÀÌ ¿Ï·áµÇ¾ú½¿´Ï´Ù."));
+	m_isFinished = true;
+	return S_OK;
+}
+
+
 HRESULT CLoader::Loading_Developer()
 {
 	CObject* tmp = { nullptr };
@@ -722,6 +743,15 @@ HRESULT CLoader::Loading_Developer()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_SPHERECollider"), tmp)))
 				return E_FAIL;
 		}
+
+		/* ´« ÅØ½ºÃÄ */
+		// ProtoTag_Component_Snow_Texture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/Snow.png"), 1);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Snow_Texture"), tmp)))
+				return E_FAIL;
+		}
+
 	}
 
 	// Actor
@@ -738,6 +768,22 @@ HRESULT CLoader::Loading_Developer()
 		{
 			tmp = CTerrain::Create(m_pDevice, m_pContext);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Terrain"), tmp)))
+				return E_FAIL;
+		}
+
+		/* ´« */
+		// ProtoTag_Actor_Snow
+		{
+			tmp = CSnow::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Snow"), tmp)))
+				return E_FAIL;
+		}
+
+		/* Æø¹ß */
+		// ProtoTag_Actor_Snow
+		{
+			tmp = CExplosion::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Explosion"), tmp)))
 				return E_FAIL;
 		}
 	}

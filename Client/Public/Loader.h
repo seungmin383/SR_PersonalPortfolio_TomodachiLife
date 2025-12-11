@@ -52,6 +52,7 @@ private:
 	HRESULT Loading_Apart();
 	HRESULT Loading_CityHall();
 	HRESULT Loading_MiiEditor();
+	HRESULT Loading_Room();
 	HRESULT Loading_Developer();
 
 #pragma endregion

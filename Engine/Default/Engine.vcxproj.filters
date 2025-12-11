@@ -423,6 +423,9 @@
     <ClCompile Include="..\Private\ActorManager.cpp">
       <Filter>01.Utility\03.Object\01.Actor\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\ParticleBufferCom_Point.cpp">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer\01.Point</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h">
@@ -676,6 +679,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\ActorManager.h">
       <Filter>01.Utility\03.Object\01.Actor\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ParticleBufferCom_Point.h">
+      <Filter>01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer\01.Point</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

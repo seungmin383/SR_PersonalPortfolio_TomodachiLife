@@ -6,10 +6,15 @@ CParticleBufferCom_Rect::CParticleBufferCom_Rect(ID3D11Device* pDevice, ID3D11De
 {
 }
 
+CParticleBufferCom_Rect::CParticleBufferCom_Rect(const CParticleBufferCom_Rect& rhs)
+	:CParticleBufferCom(rhs)
+{
+}
+
 HRESULT CParticleBufferCom_Rect::Initialize_Origin(const PARTICLE_DESC* pParticleDesc)
 {
 	/* 버텍스 버퍼 갯수 */
-	m_iNumVertexBuffers = 1;
+	m_iNumVertexBuffers = 2;
 
 	/* 정점 갯수 */
 	m_iNumVertices = 4;		
@@ -27,9 +32,9 @@ HRESULT CParticleBufferCom_Rect::Initialize_Origin(const PARTICLE_DESC* pParticl
 	m_ePrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 	const PARTICLE_RECT_DESC* pDesc = static_cast<const PARTICLE_RECT_DESC*>(pParticleDesc);
-	m_iInstVertexStride = sizeof(VTX_PARTICLE);
+	m_iInstVertexStride = sizeof(VTX_PARTICLE_INST);
 	m_iNumInst = pDesc->iNumInst;
-	m_iIndexCountPerInst = m_iNumInst;
+	m_iIndexCountPerInst = m_iNumIndices;
 	
 	/* 버텍스 버퍼 */
 	{
@@ -109,26 +114,34 @@ HRESULT CParticleBufferCom_Rect::Initialize_Origin(const PARTICLE_DESC* pParticl
 	{
 		m_InstBufferDesc.Usage					= D3D11_USAGE_DYNAMIC;
 		m_InstBufferDesc.MiscFlags				= 0;
-		m_InstBufferDesc.ByteWidth				= m_iIndexCountPerInst * m_iNumIndices;
+		m_InstBufferDesc.ByteWidth				= m_iInstVertexStride * m_iNumInst;
 		m_InstBufferDesc.BindFlags				= D3D11_BIND_VERTEX_BUFFER;
 		m_InstBufferDesc.CPUAccessFlags			= D3D11_CPU_ACCESS_WRITE;
 		m_InstBufferDesc.StructureByteStride	= m_iInstVertexStride;
 
-		m_pInstVertices = new VTX_PARTICLE[m_iNumInst];
-		ZeroMemory(m_pInstVertices, sizeof(VTX_PARTICLE)* m_iNumInst);
+		m_pInstVertices = new VTX_PARTICLE_INST[m_iNumInst];
+		ZeroMemory(m_pInstVertices, sizeof(VTX_PARTICLE_INST)* m_iNumInst);
 		
+		m_pSpeed = new _float[m_iNumInst];
+		ZeroMemory(m_pSpeed, sizeof(_float) * m_iNumInst);
+
+		m_isLoop = pDesc->isLoop;
 		for (uint32_t i = 0; i < m_iNumInst; ++i)
 		{
 			_float  fScale = m_pGameInstance->Random(pParticleDesc->vSize.x, pParticleDesc->vSize.y);
 
-			XMStoreFloat4(&m_pInstVertices[i].vRight, XMLoadFloat4(&m_pInstVertices[i].vRight) * fScale);
-			XMStoreFloat4(&m_pInstVertices[i].vUp, XMLoadFloat4(&m_pInstVertices[i].vUp) * fScale);
-			XMStoreFloat4(&m_pInstVertices[i].vLook, XMLoadFloat4(&m_pInstVertices[i].vLook) * fScale);
+			m_pSpeed[i] = m_pGameInstance->Random(pDesc->vSpeed.x, pDesc->vSpeed.y);
+			
+			m_pInstVertices[i].vRight = XMFLOAT4(fScale, 0.f, 0.f, 0.f);
+			m_pInstVertices[i].vUp = XMFLOAT4(0.f, fScale, 0.f, 0.f);
+			m_pInstVertices[i].vLook = XMFLOAT4(0.f, 0.f, fScale, 0.f);
 			m_pInstVertices[i].vTranslation = XMFLOAT4(
 				m_pGameInstance->Random(pParticleDesc->vCenter.x - pParticleDesc->vRange.x * 0.5f, pParticleDesc->vCenter.x + pParticleDesc->vRange.x * 0.5f),
 				m_pGameInstance->Random(pParticleDesc->vCenter.y - pParticleDesc->vRange.y * 0.5f, pParticleDesc->vCenter.y + pParticleDesc->vRange.y * 0.5f),
 				m_pGameInstance->Random(pParticleDesc->vCenter.z - pParticleDesc->vRange.z * 0.5f, pParticleDesc->vCenter.z + pParticleDesc->vRange.z * 0.5f),
 				1.f);
+
+			m_pInstVertices[i].vLifeTime =XMFLOAT2(0.f, m_pGameInstance->Random(pDesc->vLifeTime.x, pDesc->vLifeTime.y));
 		}
 	}
 	return S_OK;
