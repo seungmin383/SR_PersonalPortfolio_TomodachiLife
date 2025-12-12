@@ -44,18 +44,6 @@ int32_t CMii::Update_Priority(_float fDT)
 {
 	XMFLOAT4X4* tmp = m_pTransformCom->Get_WorldMatrixPtr();
 
-	if (CMiiManager::GetInstance()->Get_EditFin())
-	{
-		CMiiManager::GetInstance()->Set_EditFin(FALSE);
-		return PLACE_CHANGE;
-	}
-
-	m_MiiInfo.MiiProfile.strFirstName = CMiiManager::GetInstance()->Get_Profile().strFirstName;
-	m_MiiInfo.MiiProfile.strLastName = CMiiManager::GetInstance()->Get_Profile().strLastName;
-	m_MiiInfo.MiiProfile.strNickName = CMiiManager::GetInstance()->Get_Profile().strNickName;
-	m_MiiInfo.MiiProfile.isMan = CMiiManager::GetInstance()->Get_Profile().isMan;
-
-
 	Key_Control(fDT);
 	return CContainerObject::Update_Priority(fDT);
 }
@@ -80,65 +68,28 @@ void CMii::Key_Control(float fDT)
 {
 	m_iState = static_cast<int32_t>(STATE::IDLE);
 
-	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
+		XMFLOAT4 look = {}; 
+	XMStoreFloat4(&look,  m_pTransformCom->Get_State(TRANSFORM_STATE::LOOK));
+
+	// cout << "X : " << look.x << " Y : " << look.y << " Z : " << look.z << endl;
+
+	if (m_pGameInstance->Get_DIKeyState(DIK_W) & 0x80)
 	{
-		m_iState &= ~static_cast<int32_t>(STATE::IDLE);
-		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
-		{
-			m_pTransformCom->Go_Straight(fDT * 2.f);
-			m_iState |= static_cast<int32_t>(STATE::RUN);
-		}
-		else
-		{
-			m_pTransformCom->Go_Straight(fDT);
-			m_iState |= static_cast<int32_t>( STATE::WALK);
-		}
+		m_pTransformCom->Go_Straight(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_A) & 0x80)
+	{
+		m_pTransformCom->Go_Left(fDT);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_S) & 0x80)
+	{
+		m_pTransformCom->Go_Backward(fDT*10.f);
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_D) & 0x80)
+	{
+		m_pTransformCom->Go_Right(fDT);
 	}
 
-	if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
-	{
-		m_iState &= ~static_cast<int32_t>(STATE::IDLE);
-		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
-		{
-			m_pTransformCom->Go_Backward(fDT * 2.f);
-			m_iState |= static_cast<int32_t>(STATE::RUN);
-		}
-		else
-		{
-			m_pTransformCom->Go_Backward(fDT);
-			m_iState |= static_cast<int32_t>(STATE::WALK);
-		}
-	}
-
-	if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
-	{
-		m_iState &= ~static_cast<int32_t>(STATE::IDLE);
-		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
-		{
-			m_pTransformCom->TurnY(-fDT * 2.f);
-			m_iState |= static_cast<int32_t>(STATE::RUN);
-		}
-		else
-		{
-			m_pTransformCom->TurnY(-fDT);
-			m_iState |= static_cast<int32_t>(STATE::WALK);
-		}
-	}	
-	
-	if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
-	{
-		m_iState &= ~static_cast<int32_t>(STATE::IDLE);
-		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
-		{
-			m_pTransformCom->TurnY(fDT * 2.f);
-			m_iState |= static_cast<int32_t>(STATE::RUN);
-		}
-		else
-		{
-			m_pTransformCom->TurnY(fDT);
-			m_iState |= static_cast<int32_t>(STATE::WALK);
-		}
-	}
 }
 
 HRESULT CMii::Ready_Components()
@@ -149,15 +100,7 @@ HRESULT CMii::Ready_Components()
 
 HRESULT CMii::Ready_PartObjects()
 {
-	m_MiiInfo.HeadInfo.iIndex = 0;
-	m_MiiInfo.HairInfo.iIndex = 0;
-	m_MiiInfo.EyebrowInfo.iIndex = 79;
-	m_MiiInfo.EyesInfo.iIndex = 0;
-	m_MiiInfo.NoseInfo.iIndex = 60;
-	m_MiiInfo.MouthInfo.iIndex = 101;
-
-
-	CMiiManager::GetInstance()->Begin_Edit(m_MiiInfo);
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::STATIC);
 
 	/* Part_Body */
 	{
@@ -171,7 +114,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiBodyDesc.pParentClothState = &m_iClothState;
 		MiiBodyDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiBody"), TEXT("Part_Body"), &MiiBodyDesc)))
+		if (FAILED(Add_PartObject(iPlaceID, TEXT("ProtoTag_Actor_MiiBody"), TEXT("Part_Body"), &MiiBodyDesc)))
 			return E_FAIL;
 	}
 
@@ -192,7 +135,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiHeadDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		MiiHeadDesc.pHeadInfo = &m_MiiInfo.HeadInfo;
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiHead"), TEXT("Part_Head"), &MiiHeadDesc)))
+		if (FAILED(Add_PartObject(iPlaceID, TEXT("ProtoTag_Actor_MiiHead"), TEXT("Part_Head"), &MiiHeadDesc)))
 			return E_FAIL;
 	}
 
@@ -212,7 +155,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiHeadDesc.pSocketMatrix = BodySockeMatrix;
 		MiiHeadDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiHair"), TEXT("Part_Hair"), &MiiHeadDesc)))
+		if (FAILED(Add_PartObject(iPlaceID, TEXT("ProtoTag_Actor_MiiHair"), TEXT("Part_Hair"), &MiiHeadDesc)))
 			return E_FAIL;
 	}
 
@@ -238,14 +181,14 @@ HRESULT CMii::Ready_PartObjects()
 		MiiEyesDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		MiiEyesDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiEyes"), TEXT("Part_Eyes"), &MiiEyesDesc)))
+		if (FAILED(Add_PartObject(iPlaceID, TEXT("ProtoTag_Actor_MiiEyes"), TEXT("Part_Eyes"), &MiiEyesDesc)))
 			return E_FAIL;
 
 		// Left Eyes: y만 변경
 		MiiEyesDesc.vPos.y = 0.12f;
 		MiiEyesDesc.isRight = FALSE;
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiEyes"), TEXT("Part_LeftEyes"), &MiiEyesDesc)))
+		if (FAILED(Add_PartObject(iPlaceID, TEXT("ProtoTag_Actor_MiiEyes"), TEXT("Part_LeftEyes"), &MiiEyesDesc)))
 			return E_FAIL;
 	}
 
@@ -270,14 +213,14 @@ HRESULT CMii::Ready_PartObjects()
 		MiiEyebrowDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		MiiEyebrowDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiEyebrow"), TEXT("Part_RightEyebrow"), &MiiEyebrowDesc)))
+		if (FAILED(Add_PartObject(iPlaceID, TEXT("ProtoTag_Actor_MiiEyebrow"), TEXT("Part_RightEyebrow"), &MiiEyebrowDesc)))
 			return E_FAIL;
 
 		// Left Eyebrow: y만 변경
 		MiiEyebrowDesc.vPos.y = 0.1f;
 		MiiEyebrowDesc.isRight = FALSE;
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiEyebrow"), TEXT("Part_LeftEyebrow"), &MiiEyebrowDesc)))
+		if (FAILED(Add_PartObject(iPlaceID, TEXT("ProtoTag_Actor_MiiEyebrow"), TEXT("Part_LeftEyebrow"), &MiiEyebrowDesc)))
 			return E_FAIL;
 	}
 
@@ -299,7 +242,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiNoseDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		MiiNoseDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiNose"), TEXT("Part_Nose"), &MiiNoseDesc)))
+		if (FAILED(Add_PartObject(iPlaceID, TEXT("ProtoTag_Actor_MiiNose"), TEXT("Part_Nose"), &MiiNoseDesc)))
 			return E_FAIL;
 	}
 
@@ -321,7 +264,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiMouthDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		MiiMouthDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
-		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_MiiMouth"), TEXT("Part_Mouth"), &MiiMouthDesc)))
+		if (FAILED(Add_PartObject(iPlaceID, TEXT("ProtoTag_Actor_MiiMouth"), TEXT("Part_Mouth"), &MiiMouthDesc)))
 			return E_FAIL;
 	}
 

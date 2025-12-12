@@ -80,7 +80,7 @@ HRESULT CPlace_MiiEditor::Ready_Actor_Layer()
 	// ProtoTag_Actor_Mii
 	{
 		CMii::MII_DESC MiiDesc = {};
-		MiiDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
+		MiiDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0, 1.f };
 		MiiDesc.fCX = 1.f;
 		MiiDesc.fCY = 1.f;
 		MiiDesc.fCZ = 1.f;
@@ -88,19 +88,14 @@ HRESULT CPlace_MiiEditor::Ready_Actor_Layer()
 		MiiDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
 		MiiDesc.fRotationPerSecond = XMConvertToRadians(90.f);
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			static_cast<uint32_t>(PLACEID::STATIC),
-			TEXT("ProtoTag_Actor_Mii"),
-			&MiiDesc);
-
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			static_cast<uint32_t>(PLACEID::MII_EDITOR),
-			TEXT("LayerTag_Actor"),
-			tmp)))
-		{
-			Safe_Release(tmp);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC),
+			TEXT("ProtoTag_Actor_Mii"),	&MiiDesc);
+		if (nullptr == tmp)
 			return E_FAIL;
-		}
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::MII_EDITOR),
+			TEXT("LayerTag_Actor"),	tmp)))
+			return E_FAIL;
 	}
 	return S_OK;
 }
@@ -127,6 +122,11 @@ HRESULT CPlace_MiiEditor::Ready_UI_Layer()
 	if (FAILED(Layer_UI_Text_Button()))
 		return E_FAIL;
 
+	vector<_wstring> EnableLayers{
+		TEXT("LayerTag_UI_FaceShape"),
+		TEXT("LayerTag_UI_Page_Button")
+	};
+
 	vector<_wstring> DisableLayers{
 		TEXT("LayerTag_UI_Hair"),
 		TEXT("LayerTag_UI_Eyebrow"),
@@ -135,6 +135,9 @@ HRESULT CPlace_MiiEditor::Ready_UI_Layer()
 		TEXT("LayerTag_UI_Mouth"),
 		TEXT("LayerTag_UI_Text_Button")
 	};
+
+	for (auto& str : EnableLayers)
+		m_pGameInstance->ObjectManager_Enable_Layer(iPlaceID, str);
 	for (auto& str : DisableLayers)
 		m_pGameInstance->ObjectManager_Disable_Layer(iPlaceID, str);
 
@@ -560,6 +563,7 @@ HRESULT CPlace_MiiEditor::Layer_UI_Save_Button()
 		Desc.fCY = 45.f;
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 
+		/* 이거 삭제하고 End_Edit이나 BeginEdit에서 컨트롤 하게 해야겠다 */
 		Desc.pClicked_Strgy = CSaveMiiData_Strgy::Create(m_pDevice, m_pContext);
 		Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
 		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
@@ -636,6 +640,8 @@ HRESULT CPlace_MiiEditor::Ready_Environment_Layer()
 HRESULT CPlace_MiiEditor::Ready_Camera_Layer()
 {
 	m_pGameInstance->CameraManager_Reset_State(TEXT("World_Camera"));
+	m_pGameInstance->CameraManager_Set_Position(TEXT("World_Camera"), XMVECTOR{ 0.f, 4.f, -10.f, 1.f });
+	m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 0.f, 4.f, 0.f, 1.f }, XMConvertToRadians(20.f), 1.f);
 	return S_OK;
 }
 

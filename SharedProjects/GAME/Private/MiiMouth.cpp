@@ -36,7 +36,7 @@ HRESULT CMiiMouth::Initialize_Clone(void* pArg)
 
 int32_t CMiiMouth::Update_Priority(_float fDT)
 {
-	m_iTextureIndex = CMiiManager::GetInstance()->Get_MouthInfo().iIndex;
+	m_iTextureIndex = CMiiManager::GetInstance()->Get_Edit_MouthInfo().iIndex;
 
 	return 0;
 }

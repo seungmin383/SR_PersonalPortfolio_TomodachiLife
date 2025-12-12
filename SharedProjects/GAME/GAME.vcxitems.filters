@@ -142,9 +142,6 @@
     <Filter Include="03.UI\01.Button\02.CommonButton\IconTexture">
       <UniqueIdentifier>{bfb4f0c5-6aa9-44c0-b183-19009cc4d064}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\01.Button\00.OnclickStrategy\04.SaveAndChangePlace">
-      <UniqueIdentifier>{22c79629-fa91-4d90-b201-8b63cd413537}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\01.Button\00.OnclickStrategy\03.TransmitIndex">
       <UniqueIdentifier>{c1aded8c-12f5-47a2-91f2-880fe5844696}</UniqueIdentifier>
     </Filter>
@@ -204,6 +201,9 @@
     </Filter>
     <Filter Include="02.Actor\98.ParticleTest\01.Explosion">
       <UniqueIdentifier>{4e99ffad-dcbf-42d4-8ac3-0d674b3ffac9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\00.OnclickStrategy\11.SetGender">
+      <UniqueIdentifier>{4842731a-4e1d-4826-b78c-039ec15676b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -332,17 +332,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiMouth.h">
       <Filter>02.Actor\03.Mii\Mouth</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Transmit_Strategy.h">
-      <Filter>03.UI\01.Button\00.OnclickStrategy\03.TransmitIndex</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PUblic\PageButton.h">
       <Filter>03.UI\01.Button\04.PageButton</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IconTexture.h">
       <Filter>03.UI\01.Button\02.CommonButton\IconTexture</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SaveChangePlace_Strategy.h">
-      <Filter>03.UI\01.Button\00.OnclickStrategy\04.SaveAndChangePlace</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMii.h">
       <Filter>02.Actor\03.Mii</Filter>
@@ -421,6 +415,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Explosion.h">
       <Filter>02.Actor\98.ParticleTest\01.Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\BeginMiiEdit.h">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\11.SetGender</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -520,17 +517,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiMouth.cpp">
       <Filter>02.Actor\03.Mii\Mouth</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Transmit_Strategy.cpp">
-      <Filter>03.UI\01.Button\00.OnclickStrategy\03.TransmitIndex</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PageButton.cpp">
       <Filter>03.UI\01.Button\04.PageButton</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IconTexture.cpp">
       <Filter>03.UI\01.Button\02.CommonButton\IconTexture</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SaveChangePlace_Strategy.cpp">
-      <Filter>03.UI\01.Button\00.OnclickStrategy\04.SaveAndChangePlace</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMii.cpp">
       <Filter>02.Actor\03.Mii</Filter>
@@ -603,6 +594,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Explosion.cpp">
       <Filter>02.Actor\98.ParticleTest\01.Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\BeginMiiEdit.cpp">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\11.SetGender</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

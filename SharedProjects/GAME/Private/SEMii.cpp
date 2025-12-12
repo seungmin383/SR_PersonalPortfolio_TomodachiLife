@@ -29,7 +29,7 @@ HRESULT CSEMii::Initialize_Origin()
 HRESULT CSEMii::Initialize_Clone(void* pArg)
 {
 	MII_DESC* pDesc = static_cast<MII_DESC*>(pArg);
-	m_strSaveDataPath = pDesc->strSaveDataPath;
+	m_strNickName = pDesc->strNickName;
 
 	if (FAILED(CContainerObject::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -149,7 +149,7 @@ HRESULT CSEMii::Ready_Components()
 
 HRESULT CSEMii::Ready_PartObjects()
 {
-	CMiiManager::GetInstance()->Load_MiiData(m_MiiInfo, m_strSaveDataPath);
+	CMiiManager::GetInstance()->Load_MiiData(m_MiiInfo, m_strNickName);
 
 	/* Part_Body */
 	{

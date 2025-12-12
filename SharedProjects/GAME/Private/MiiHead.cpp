@@ -38,8 +38,8 @@ HRESULT CMiiHead::Initialize_Clone(void* pArg)
 
 int32_t CMiiHead::Update_Priority(_float fDT)
 {
-	m_iCurModelIndex = CMiiManager::GetInstance()->Get_HeadInfo().iIndex;
-	CMiiManager::GetInstance()->Get_HeadInfo().vSkinColor = m_vSkinColor;
+	m_iCurModelIndex = CMiiManager::GetInstance()->Get_Edit_HeadInfo().iIndex;
+	CMiiManager::GetInstance()->Get_Edit_HeadInfo().vSkinColor = m_vSkinColor;
 	return 0;
 }
 

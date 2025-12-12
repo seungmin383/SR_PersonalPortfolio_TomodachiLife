@@ -16,13 +16,13 @@ HRESULT CSaveMiiData_Strgy::Initialize()
 
 void CSaveMiiData_Strgy::OnClick()
 {
-	_wstring strNickName = StrToWstr(CMiiManager::GetInstance()->Get_Profile().strNickName);
+	_wstring strNickName = StrToWstr(CMiiManager::GetInstance()->Get_Edit_Profile().strNickName);
 	_wstring strFilePath = L"../../SharedProjects/GAME/GameData/MiiData/" + strNickName + L".json";
 	
 	/* 주민 이름 저장 */
 	CApartManager::GetInstance()->Get_ApartInfo().strMiiNames.push_back(strNickName);
 
-	CMiiManager::GetInstance()->Save_MiiData(strFilePath);
+	CMiiManager::GetInstance()->End_Edit();
 	CApartManager::GetInstance()->Save_ApartData();
 }
 

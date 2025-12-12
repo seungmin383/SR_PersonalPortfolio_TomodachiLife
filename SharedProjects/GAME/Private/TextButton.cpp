@@ -62,13 +62,13 @@ void CTextButton::Update_Late(_float fDT)
 	switch (m_eTextType)
 	{
 	case Game::CTextButton::FIRSTNAME:
-		CMiiManager::GetInstance()->Get_Profile().strFirstName = WstrToStr( m_strText);
+		CMiiManager::GetInstance()->Get_Edit_Profile().strFirstName = WstrToStr( m_strText);
 		break;
 	case Game::CTextButton::LASTNAME:
-		CMiiManager::GetInstance()->Get_Profile().strLastName = WstrToStr( m_strText);
+		CMiiManager::GetInstance()->Get_Edit_Profile().strLastName = WstrToStr( m_strText);
 		break;
 	case Game::CTextButton::NICKNAME:
-		CMiiManager::GetInstance()->Get_Profile().strNickName = WstrToStr( m_strText);
+		CMiiManager::GetInstance()->Get_Edit_Profile().strNickName = WstrToStr( m_strText);
 		break;
 	default:
 		break;

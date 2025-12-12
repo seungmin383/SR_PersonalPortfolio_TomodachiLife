@@ -499,6 +499,9 @@ HRESULT CMainApp::Ready_Manager()
 	if (FAILED(CApartManager::GetInstance()->Load_ApartData()))
 		return E_FAIL;
 
+	if (FAILED(CMiiManager::GetInstance()->Initialize()))
+		return E_FAIL;	
+
 	return S_OK;
 }
 

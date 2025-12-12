@@ -6,11 +6,11 @@
             0.11999999731779099,
             1.0
         ],
-        "Index": 79
+        "Index": 83
     },
     "EyesInfo": {
         "BlinkTime": 5.0,
-        "Index": 0
+        "Index": 11
     },
     "HairInfo": {
         "HairColor": [
@@ -19,10 +19,10 @@
             0.0,
             1.0
         ],
-        "Index": 0
+        "Index": 9
     },
     "HeadInfo": {
-        "Index": 0,
+        "Index": 6,
         "SkinColor": [
             1.0,
             0.8199999928474426,
@@ -41,6 +41,6 @@
         "Index": 101
     },
     "NoseInfo": {
-        "Index": 60
+        "Index": 66
     }
 }

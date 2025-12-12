@@ -55,11 +55,6 @@ int32_t CCommonButton::Update(_float fDT)
 {
 	if(m_isClicked)
 		On_Click();
-
-
-	if (CMiiManager::GetInstance()->Get_EditFin())
-		return PLACE_CHANGE;
-
 	return UPDATE_CLEAR;
 }
 

@@ -16,11 +16,13 @@
 #include "CutScene.h"
 #include "TimeLine_Trans.h"
 #include "CommonButton.h"
-#include "SaveChangePlace_Strategy.h"
 
 #include "Window_Button.h"
 #include "TempModel.h"
 #include "ChangePlace_Strategy.h"
+#include "ControlEnable_Strgy.h"
+
+#include "MiiManager.h"	
 
 #define WINDOW_BASE_POS_X 100.f
 #define WINDOW_BASE_POS_Y 200.f
@@ -100,14 +102,16 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 			Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 
 			_wstring nickname = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames[i];
-			_wstring FilePath = L"../../SharedProjects/GAME/GameData/MiiData/" + nickname + L".json";
-			Desc.strSaveDataPath = FilePath;
+			Desc.strNickName = nickname;
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMii"), &Desc);
 			if (nullptr == tmp)
 				return E_FAIL;
 
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::APART), TEXT("LayerTag_Actor"), tmp)))
+			CMiiManager::GetInstance()->Get_MiiInfo(i).MiiProfile.strNickName;
+
+			_wstring strLayerTag = L"LayerTag_Actor_" + nickname;
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::APART), strLayerTag, tmp)))
 				return E_FAIL;
 		}
 	}
@@ -131,6 +135,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		}
 	}
 
+	
 	// ProtoTag_UI_WindowButton
 	{
 		CWindow_Button::WINDOWBUTTON_DESC tDesc = {};
@@ -140,6 +145,9 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 		uint32_t iIndex = { 0 };
 
+		/* 주민들의 이름 */
+		vector<_wstring > Layers = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames;
+			
 		for (int32_t i = 2; i >= 0; --i)
 		{
 			for (int32_t j = 0; j < 8; ++j)
@@ -147,7 +155,36 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 				tDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 				tDesc.fX = 137.f + (98.f * j);
 				tDesc.fY = 60.f + (100.f * i);
-				tDesc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+				CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
+				strgyDesc.ePlaceID = PLACEID::APART;
+
+				vector<_wstring> EnableLayer;
+				vector<_wstring> DisableLayer;
+				_wstring strLayerTag = {};
+
+				uint32_t iLayerIndex = { 0 };
+
+				for (auto& str : Layers)
+				{
+					strLayerTag = L"LayerTag_Actor_" + str;
+
+					if (iLayerIndex == iIndex)
+					{
+						tDesc.strMiiNickName = str;
+						EnableLayer.push_back(strLayerTag);
+					}
+					else
+						DisableLayer.push_back(strLayerTag);
+
+					++iLayerIndex;
+				}
+
+				strgyDesc.EnableLayers = EnableLayer;
+				strgyDesc.DisableLayers = DisableLayer;
+				strgyDesc.strLayerTag = strLayerTag;
+
+				tDesc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
 				tDesc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 				tDesc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ROOM);
 
@@ -162,6 +199,10 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_WindowButton"), tmp)))
 					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, strLayerTag, dynamic_cast<CButton*>(tmp))))
+					return E_FAIL;
+
 				++iIndex;
 			}
 		}

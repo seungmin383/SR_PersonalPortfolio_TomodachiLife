@@ -1,9 +1,8 @@
 #include "Window_Button.h"
 #include "GameInstance.h"
-#include "Place_Loading.h"
 #include "IOnClick.h"
 #include "WorldCamera.h"
-
+#include "MiiManager.h"
 
 CWindow_Button::CWindow_Button(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CButton(pDevice, pContext)
@@ -29,10 +28,7 @@ HRESULT CWindow_Button::Initialize_Clone(void* pArg)
 	m_pSelectedClick_Strgy = pDesc->pSelectedClick_Strgy;
 
 	m_iOutlineTextureIndex = pDesc->iOutlineTextureIndex;
-
-	m_vTargetPos = pDesc->vTargetPos;
-	m_fLerpTime = pDesc->fLerpTime;
-	m_fTargetFov = pDesc->fTargetFov;
+	m_strMiiNickName = pDesc->strMiiNickName;
 
 	m_isLived = pDesc->isLive;
 
@@ -43,6 +39,13 @@ HRESULT CWindow_Button::Initialize_Clone(void* pArg)
 		return E_FAIL;
 
 	m_iTextureIndex = 1;
+
+	static bool is = false;
+	if (!is)
+	{
+		m_isClicked = TRUE;
+		is = TRUE;
+	}
 
 	return S_OK;
 }
@@ -129,6 +132,7 @@ HRESULT CWindow_Button::Bind_ShaderResources()
 
 		if (m_isSelected)
 		{
+
 		}
 		else
 		{
@@ -146,6 +150,7 @@ int32_t CWindow_Button::On_Click()
 
 		if (m_isClicked)
 		{
+			CMiiManager::GetInstance()->Set_CurMiiNickName(m_strMiiNickName);
 			m_pSelectedClick_Strgy->OnClick();
 		}
 	}

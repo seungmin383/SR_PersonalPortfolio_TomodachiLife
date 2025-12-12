@@ -16,11 +16,10 @@
 #include "CutScene.h"
 #include "TimeLine_Trans.h"
 #include "CommonButton.h"
-#include "SaveChangePlace_Strategy.h"
 
 #include "Window_Button.h"
 #include "TempModel.h"
-
+#include "MiiManager.h"
 
 CPlace_Room::CPlace_Room(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -91,10 +90,7 @@ HRESULT CPlace_Room::Ready_Actor_Layer()
 		Desc.fSpeedPerSecond = 10.f;
 		Desc.fRotationPerSecond = XMConvertToRadians(20.f);
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_NONBLEND;
-
-		_wstring nickname = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames[0];
-		_wstring FilePath = L"../../SharedProjects/GAME/GameData/MiiData/" + nickname + L".json";
-		Desc.strSaveDataPath = FilePath;
+		Desc.strNickName = CMiiManager::GetInstance()->Get_CurMiiNickName();
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMii"), &Desc);
 		if (nullptr == tmp)

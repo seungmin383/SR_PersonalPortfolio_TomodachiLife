@@ -13,7 +13,7 @@ class CSEMii final : public CContainerObject
 public:
 	typedef struct tagMiiDesc : public CContainerObject::CONTAINEROBJECT_DESC
 	{
-		_wstring strSaveDataPath;
+		_wstring strNickName;
 	}MII_DESC;
 
 private:
@@ -47,7 +47,7 @@ private:
 
 	MIIINFO_DESC m_MiiInfo = {};
 
-	_wstring m_strSaveDataPath = {};
+	_wstring m_strNickName = {};
 
 
 public:

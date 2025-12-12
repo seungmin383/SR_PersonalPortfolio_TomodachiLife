@@ -61,7 +61,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Room.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SaveChangePlace_Strategy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SaveMiiData_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMii.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMiiBody.cpp" />
@@ -71,13 +70,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMiiHead.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMiiMouth.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SEMiiNose.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\BeginMiiEdit.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SkyAndSea.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Snow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TempModel.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Terrain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TestMii.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TextButton.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Transmit_Strategy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\UICamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Weapon.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Window_Button.cpp" />
@@ -127,7 +126,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlaceMoveButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Room.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SaveChangePlace_Strategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SaveMiiData_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMii.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiBody.h" />
@@ -138,13 +136,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiInformation.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiMouth.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SEMiiNose.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\BeginMiiEdit.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SkyAndSea.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Snow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TempModel.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Terrain.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TestMii.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TextButton.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Transmit_Strategy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Weapon.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Window_Button.h" />

@@ -22,11 +22,9 @@ public:
 
 		uint8_t iOutlineTextureIndex = {};
 
-		XMFLOAT4 vTargetPos = {};
-		_float fLerpTime = {};
-		_float fTargetFov = {};
-
 		_bool isLive = {};
+		_wstring strMiiNickName = {};
+
 	}WINDOWBUTTON_DESC;
 
 private:
@@ -65,10 +63,9 @@ private:
 
 	_bool m_isLived = { FALSE };
 
-	XMFLOAT4 m_vTargetPos = {};
-	_float m_fLerpTime = {};
-	_float m_fTargetFov = {};
-	_float m_fLerpTimer = {};
+	_wstring m_strMiiNickName = {};
+
+	uint32_t m_iWindowIndex = {};
 
 public:
 	static CWindow_Button* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

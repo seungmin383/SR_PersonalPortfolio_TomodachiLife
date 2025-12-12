@@ -1,6 +1,5 @@
 #include "MiiEdit_Strgy.h"	
 #include "GameInstance.h"
-#include "Place_Loading.h"
 #include "MiiManager.h"
 
 CMiiEdit_Strgy::CMiiEdit_Strgy(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -23,22 +22,22 @@ void CMiiEdit_Strgy::OnClick()
 	switch (m_ePart)
 	{
 	case Game::CMiiEdit_Strgy::HEAD:
-		CMiiManager::GetInstance()->Get_HeadInfo().iIndex = m_iIndex;
+		CMiiManager::GetInstance()->Get_Edit_HeadInfo().iIndex = m_iIndex;
 		break;
 	case Game::CMiiEdit_Strgy::HAIR:
-		CMiiManager::GetInstance()->Get_HairInfo().iIndex = m_iIndex;
+		CMiiManager::GetInstance()->Get_Edit_HairInfo().iIndex = m_iIndex;
 		break;
 	case Game::CMiiEdit_Strgy::EYEBROW:
-		CMiiManager::GetInstance()->Get_EyebrowInfo().iIndex = m_iIndex;
+		CMiiManager::GetInstance()->Get_Edit_EyebrowInfo().iIndex = m_iIndex;
 		break;
 	case Game::CMiiEdit_Strgy::EYES:
-		CMiiManager::GetInstance()->Get_EyesInfo().iIndex = m_iIndex;
+		CMiiManager::GetInstance()->Get_Edit_EyesInfo().iIndex = m_iIndex;
 		break;
 	case Game::CMiiEdit_Strgy::NOSE:
-		CMiiManager::GetInstance()->Get_NoseInfo().iIndex = m_iIndex;
+		CMiiManager::GetInstance()->Get_Edit_NoseInfo().iIndex = m_iIndex;
 		break;
 	case Game::CMiiEdit_Strgy::MOUTH:
-		CMiiManager::GetInstance()->Get_MouthInfo().iIndex = m_iIndex;
+		CMiiManager::GetInstance()->Get_Edit_MouthInfo().iIndex = m_iIndex;
 		break;
 
 	case Game::CMiiEdit_Strgy::END:

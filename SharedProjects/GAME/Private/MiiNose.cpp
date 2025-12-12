@@ -36,8 +36,7 @@ HRESULT CMiiNose::Initialize_Clone(void* pArg)
 
 int32_t CMiiNose::Update_Priority(_float fDT)
 {
-
-	m_iTextureIndex = CMiiManager::GetInstance()->Get_NoseInfo().iIndex;
+	m_iTextureIndex = CMiiManager::GetInstance()->Get_Edit_NoseInfo().iIndex;
 
 	return 0;
 }

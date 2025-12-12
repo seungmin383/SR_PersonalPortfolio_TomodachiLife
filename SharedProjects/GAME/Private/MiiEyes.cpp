@@ -26,7 +26,7 @@ HRESULT CMiiEyes::Initialize_Clone(void* pArg)
 	m_fBlinkDuration = pDesc->fBlinkDuration;
 	m_isRight = pDesc->isRight;
 
-	CMiiManager::GetInstance()->Get_EyesInfo().fBlinkTime = m_fBlinkTime;
+	CMiiManager::GetInstance()->Get_Edit_EyesInfo().fBlinkTime = m_fBlinkTime;
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -51,7 +51,7 @@ int32_t CMiiEyes::Update_Priority(_float fDT)
 		m_fBlinkDurationTimer += fDT;
 	}
 
-	m_iTextureIndex = CMiiManager::GetInstance()->Get_EyesInfo().iIndex;
+	m_iTextureIndex = CMiiManager::GetInstance()->Get_Edit_EyesInfo().iIndex;
 
 	return 0;
 }

@@ -34,9 +34,8 @@ HRESULT CMiiHair::Initialize_Clone(void* pArg)
 
 int32_t CMiiHair::Update_Priority(_float fDT)
 {
-	uint32_t i = CMiiManager::GetInstance()->Get_HairInfo().iIndex;
-	m_iCurModelIndex = CMiiManager::GetInstance()->Get_HairInfo().iIndex;
-	CMiiManager::GetInstance()->Get_HairInfo().vHairColor = m_vHairColor;
+	m_iCurModelIndex = CMiiManager::GetInstance()->Get_Edit_HairInfo().iIndex;
+	CMiiManager::GetInstance()->Get_Edit_HairInfo().vHairColor = m_vHairColor;
 	return UPDATE_CLEAR;
 }
 
