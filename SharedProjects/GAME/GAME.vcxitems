@@ -27,6 +27,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ApartManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BackGround.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Back_Button.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\BlueBackGround.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Body.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BuildingName_Texture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\CameraZoom_Strgy.cpp" />
@@ -42,7 +43,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IOnClick.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IUnlock.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\LoadingBG.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\YellowBackGround.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Mii.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiBody.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiEditButton.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ApartManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BackGround.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Back_Button.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PUblic\BlueBackGround.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Body.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BuildingName_Texture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\CameraZoom_Strgy.h" />
@@ -107,7 +109,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IOnClick.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IUnlock.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\LoadingBG.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\YellowBackGround.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Mii.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiBody.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiEditButton.h" />

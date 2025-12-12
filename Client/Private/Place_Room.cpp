@@ -21,6 +21,9 @@
 #include "TempModel.h"
 #include "MiiManager.h"
 
+#include"Back_Button.h"
+#include "ChangePlace_Strategy.h"
+
 CPlace_Room::CPlace_Room(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
 {
@@ -96,7 +99,7 @@ HRESULT CPlace_Room::Ready_Actor_Layer()
 		if (nullptr == tmp)
 			return E_FAIL;
 
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::STATIC), TEXT("LayerTag_Actor"), tmp)))
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_Actor"), tmp)))
 			return E_FAIL;
 	}
 
@@ -106,7 +109,29 @@ HRESULT CPlace_Room::Ready_Actor_Layer()
 HRESULT CPlace_Room::Ready_UI_Layer()
 {
 	CObject* tmp = { nullptr };
-	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::APART);
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
+
+	/* 뒤로가기 버튼 */
+	// ProtoTag_UI_Back_Button
+	{
+		CBack_Button::BACKBUTTON_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.fCX = 100.f;
+		Desc.fCY = 68.f;
+		Desc.fX = 50.f;
+		Desc.fY = 446.f;
+		Desc.fZ = 0.5f;
+		Desc.pClicked_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::APART);
+		Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+	
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Back_Button"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI"), tmp)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

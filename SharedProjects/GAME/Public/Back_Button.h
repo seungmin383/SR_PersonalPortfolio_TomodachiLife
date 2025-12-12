@@ -15,13 +15,13 @@ class IOnClick;
 class CBack_Button final : public CButton
 {
 public:
-	typedef struct tagOptionButtonDesc : public BUTTON_DESC
+	typedef struct tagBackButtonDesc : public BUTTON_DESC
 	{
 		IOnClick* pClicked_Strgy = { nullptr };
 		IOnClick* pSelected_Strgy = { nullptr };
 		IOnClick* pSelectedClick_Strgy = { nullptr };
 
-	}OPTIONBUTTON_DESC;
+	}BACKBUTTON_DESC;
 
 private:
 	CBack_Button(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

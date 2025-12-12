@@ -10,6 +10,7 @@
 #include "Place_Room.h"
 
 #include "BackGround.h"
+#include "YellowBackGround.h"
 
 CPlace_Loading::CPlace_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -108,7 +109,9 @@ HRESULT CPlace_Loading::Ready_UI_Layer()
 	CObject* tmp = { nullptr };
 
 	{
-		CBackGround::BACKGROUND_DESC Desc = {};
+		uint32_t iStaticID = static_cast<uint32_t>(PLACEID::STATIC);
+
+		CYellowBackGround::YELLOWBACKGROUND_DESC Desc = {};
 		Desc.fX = 480.f;
 		Desc.fY = 240.f;
 		Desc.fZ = 0.5f;
@@ -118,10 +121,7 @@ HRESULT CPlace_Loading::Ready_UI_Layer()
 		Desc.fRotationPerSecond = XMConvertToRadians(0.f);
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 
-		Desc.eTexturePlaceID = PLACEID::STATIC;
-		Desc.strTextureTag = TEXT("ProtoTag_Component_LoadingTexture");
-
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC),TEXT("ProtoTag_UI_LoadingBG"),&Desc);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iStaticID,TEXT("ProtoTag_UI_BlueBackGround"),&Desc);
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::LOADING),
 			TEXT("LayerTag_UI"),tmp)))
 		{
@@ -130,14 +130,14 @@ HRESULT CPlace_Loading::Ready_UI_Layer()
 		}
 
 		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_LoadingBG"), &Desc);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iStaticID, TEXT("ProtoTag_UI_YellowBackGround"), &Desc);
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::LOADING),
 			TEXT("LayerTag_UI"), tmp)))
 		{
 			Safe_Release(tmp);
 			return E_FAIL;
 		}
-	}
+	} 
 
 	return S_OK;
 }

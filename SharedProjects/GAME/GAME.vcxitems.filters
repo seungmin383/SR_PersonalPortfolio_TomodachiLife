@@ -205,6 +205,12 @@
     <Filter Include="03.UI\01.Button\00.OnclickStrategy\11.SetGender">
       <UniqueIdentifier>{4842731a-4e1d-4826-b78c-039ec15676b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\01.Button\10.InventoryLilst">
+      <UniqueIdentifier>{29929ae1-6728-4434-82dd-0402ef5d7c28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.BackGround\BlueBackGround">
+      <UniqueIdentifier>{34a63ba5-01d6-4420-bdb8-5ed20120aba2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -308,7 +314,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BackGround.h">
       <Filter>03.UI\02.BackGround\IslandBackGround</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\LoadingBG.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\YellowBackGround.h">
       <Filter>03.UI\02.BackGround\LoadingBG</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangePlace_Strategy.h">
@@ -419,6 +425,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BeginMiiEdit.h">
       <Filter>03.UI\01.Button\00.OnclickStrategy\11.SetGender</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PUblic\BlueBackGround.h">
+      <Filter>03.UI\02.BackGround\BlueBackGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -493,7 +502,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BackGround.cpp">
       <Filter>03.UI\02.BackGround\IslandBackGround</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\LoadingBG.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\YellowBackGround.cpp">
       <Filter>03.UI\02.BackGround\LoadingBG</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangePlace_Strategy.cpp">
@@ -597,6 +606,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BeginMiiEdit.cpp">
       <Filter>03.UI\01.Button\00.OnclickStrategy\11.SetGender</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\BlueBackGround.cpp">
+      <Filter>03.UI\02.BackGround\BlueBackGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

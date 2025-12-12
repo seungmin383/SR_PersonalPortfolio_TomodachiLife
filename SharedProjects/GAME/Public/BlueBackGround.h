@@ -12,18 +12,18 @@ NS_END
 
 NS_BEGIN(Game)
 
-class CLoadingBG final : public CUI
+class CBlueBackGround final : public CUI
 {
 public:
-	typedef struct tagLoadingBGDesc : public UI_DESC
+	typedef struct tagBlueBackGroundDesc : public UI_DESC
 	{
 
-	}LOADINGBG_DESC;
+	}BLUEBACKGORUND_DESC;
 
 protected:
-	CLoadingBG(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CLoadingBG(const CLoadingBG& rhs);
-	virtual ~CLoadingBG() = default;
+	CBlueBackGround(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CBlueBackGround(const CBlueBackGround& rhs);
+	virtual ~CBlueBackGround() = default;
 
 public:
 	virtual HRESULT Initialize_Origin()override;
@@ -44,10 +44,8 @@ private:
 	CTextureCom* m_pTextureCom = { nullptr };
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
-	_float m_fFadeForce = {};
-
 public:
-	static CLoadingBG* Create(
+	static CBlueBackGround* Create(
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext);
 

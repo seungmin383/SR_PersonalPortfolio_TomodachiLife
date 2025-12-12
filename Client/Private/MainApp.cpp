@@ -32,9 +32,11 @@
 #include "Collider.h"
 
 // UI
-#include "LoadingBG.h"
+#include"YellowBackGround.h"
 #include "Window_Button.h"
 #include "Option_Button.h"
+#include "Back_Button.h"
+#include "BlueBackGround.h"
 
 USING(Client)
 
@@ -655,11 +657,19 @@ HRESULT CMainApp::Ready_Static_Texture()
 			return E_FAIL;
 	}
 
-	/* 로딩 텍스쳐 */
-	// ProtoTag_Component_Loading_Texture
+	/* 땡땡이 배경 텍스쳐 */
+	// ProtoTag_Component_BackGround_Texture
 	{
-		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Loading_Texture/%d.dds"), 1);
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Loading_Texture"), tmp)))
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/BackGround_Texture/%d.dds"), 2);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_ColorDot_BackGround_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 뒤로가기 버튼 텍스쳐 */
+	// ProtoTag_Component_Back_Button_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Back_Button/%d.dds"), 1);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Back_Button_Texture"), tmp)))
 			return E_FAIL;
 	}
 
@@ -688,10 +698,27 @@ HRESULT CMainApp::Ready_StaticUI()
 			return E_FAIL;
 	}
 
-	// ProtoTag_UI_LoadingBG
+	/* 뒤로가기 버튼 */
+	// ProtoTag_UI_Back_Button
 	{
-		tmp = CLoadingBG::Create(m_pDevice, m_pContext);
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_LoadingBG"), tmp)))
+		tmp = CBack_Button::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_Back_Button"), tmp)))
+			return E_FAIL;
+	}
+	
+	/* 노랑 배경 */
+	// ProtoTag_UI_YellowBackGround
+	{
+		tmp = CYellowBackGround::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_YellowBackGround"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 파란 배경 */
+	// ProtoTag_UI_BlueBackGround
+	{
+		tmp = CBlueBackGround::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_BlueBackGround"), tmp)))
 			return E_FAIL;
 	}
 	return S_OK;

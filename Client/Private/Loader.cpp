@@ -121,32 +121,6 @@ HRESULT CLoader::Loading_Loading()
 	CObject* tmp = { nullptr };
 	uint32_t iLoading = static_cast<uint32_t>(PLACEID::LOADING);
 
-	// Component
-	{
-		/* 로딩 텍스쳐 */
-		// ProtoTag_Component_LoadingTexture
-		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Textures/UIBackGround/Loading.dds"), 1);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iLoading, TEXT("ProtoTag_Component_LoadingTexture"), tmp)))
-				return E_FAIL;
-		}
-	}
-
-	// Actor
-	{
-	}
-
-	// UI
-	{
-		/* 아래 UI 배경*/
-		// ProtoTag_UI_BackGround
-		{
-			tmp = CBackGround::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iLoading, TEXT("ProtoTag_UI_LoadingBackGround"), tmp)))
-				return E_FAIL;
-		}
-	}
-
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
 	m_isFinished = true;
 	return S_OK;
@@ -654,6 +628,8 @@ HRESULT CLoader::Loading_Room()
 {
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
+
+	/* Actor */
 
 	/* 주민 방 */
 	// ProtoTag_Actor_Room

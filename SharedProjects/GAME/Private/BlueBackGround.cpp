@@ -1,12 +1,12 @@
-#include "LoadingBG.h"
+#include "BlueBackGround.h"
 #include "GameInstance.h"
 
-CLoadingBG::CLoadingBG(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBlueBackGround::CBlueBackGround(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
 {
 }
 
-CLoadingBG::CLoadingBG(const CLoadingBG& rhs)
+CBlueBackGround::CBlueBackGround(const CBlueBackGround& rhs)
 	:CUI(rhs),
 	m_pShaderCom(rhs.m_pShaderCom),
 	m_pTextureCom(rhs.m_pTextureCom),
@@ -17,12 +17,12 @@ CLoadingBG::CLoadingBG(const CLoadingBG& rhs)
 	Safe_AddRef(m_pRectBufferCom);
 }
 
-HRESULT CLoadingBG::Initialize_Origin()
+HRESULT CBlueBackGround::Initialize_Origin()
 {
 	return S_OK;
 }
 
-HRESULT CLoadingBG::Initialize_Clone(void* pArg)
+HRESULT CBlueBackGround::Initialize_Clone(void* pArg)
 {
 	if (FAILED(CUI::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -33,26 +33,22 @@ HRESULT CLoadingBG::Initialize_Clone(void* pArg)
 	return S_OK;
 }
 
-int32_t CLoadingBG::Update_Priority(_float fDT)
-{
-	if (m_pGameInstance->Get_DIKeyState(DIK_0))
-	{
-		m_fFadeForce += fDT;
-	}
-	return 0;
-}
-
-int32_t CLoadingBG::Update(_float fDT)
+int32_t CBlueBackGround::Update_Priority(_float fDT)
 {
 	return 0;
 }
 
-void CLoadingBG::Update_Late(_float fDT)
+int32_t CBlueBackGround::Update(_float fDT)
+{
+	return 0;
+}
+
+void CBlueBackGround::Update_Late(_float fDT)
 {
 	CUI::Update_Late(fDT);
 }
 
-HRESULT CLoadingBG::Render()
+HRESULT CBlueBackGround::Render()
 {
 	__super::Render();
 	if (FAILED(Bind_ShaderResources()))
@@ -71,50 +67,48 @@ HRESULT CLoadingBG::Render()
 	return S_OK;
 }
 
-HRESULT CLoadingBG::Ready_Component()
+HRESULT CBlueBackGround::Ready_Component()
 {
 	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxTex_Shader"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_Loading_Texture"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_ColorDot_BackGround_Texture"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC),TEXT("ProtoTag_Component_RectBuffer"),
-		TEXT("Com_RectBuffer"),reinterpret_cast<CComponent**>(&m_pRectBufferCom),nullptr)))
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_RectBuffer"),
+		TEXT("Com_RectBuffer"), reinterpret_cast<CComponent**>(&m_pRectBufferCom), nullptr)))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-HRESULT CLoadingBG::Bind_ShaderResources()
+HRESULT CBlueBackGround::Bind_ShaderResources()
 {
 	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
-	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ViewMatrix", TEXT("UI_Camera"), D3DTS::VIEW)))
+	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ViewMatrix", TEXT("UI_Camera"), D3DTS::VIEW)))
 		return E_FAIL;
-	if(FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ)))
+	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ)))
 		return E_FAIL;
-	if(FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0)))
+	if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 1)))
 		return E_FAIL;
 
 	_float fPow = 10.f;
-	if(FAILED(m_pShaderCom->Bind_RawValue("g_Pow", &fPow, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Bind_RawValue("g_Pow", &fPow, sizeof(_float))))
 		return E_FAIL;
-
-	m_fFadeForce = m_pGameInstance->UIManager_Get_FadeForce();
 
 	return S_OK;
 }
 
-CLoadingBG* CLoadingBG::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CBlueBackGround* CBlueBackGround::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CLoadingBG* pInstance = new CLoadingBG(pDevice, pContext);
+	CBlueBackGround* pInstance = new CBlueBackGround(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Origin()))
 	{
-		MSG_BOX("ErrCode : CLoadingBG Create Failed");
+		MSG_BOX("ErrCode : CBlueBackGround Create Failed");
 		Safe_Release(pInstance);
 		return nullptr;
 	}
@@ -122,13 +116,13 @@ CLoadingBG* CLoadingBG::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 	return pInstance;
 }
 
-CObject* CLoadingBG::Clone(void* pArg)
+CObject* CBlueBackGround::Clone(void* pArg)
 {
-	CLoadingBG* pInstance = new CLoadingBG(*this);
+	CBlueBackGround* pInstance = new CBlueBackGround(*this);
 
 	if (FAILED(pInstance->Initialize_Clone(pArg)))
 	{
-		MSG_BOX("ErrCode : CLoadingBG Clone Failed");
+		MSG_BOX("ErrCode : CBlueBackGround Clone Failed");
 		Safe_Release(pInstance);
 		return nullptr;
 	}
@@ -136,7 +130,7 @@ CObject* CLoadingBG::Clone(void* pArg)
 	return pInstance;
 }
 
-void CLoadingBG::Free()
+void CBlueBackGround::Free()
 {
 	CUI::Free();
 

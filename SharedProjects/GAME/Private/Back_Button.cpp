@@ -22,7 +22,7 @@ HRESULT CBack_Button::Initialize_Origin()
 
 HRESULT CBack_Button::Initialize_Clone(void* pArg)
 {
-	OPTIONBUTTON_DESC* pDesc = static_cast<OPTIONBUTTON_DESC*>(pArg);
+	BACKBUTTON_DESC* pDesc = static_cast<BACKBUTTON_DESC*>(pArg);
 
 	m_pClicked_Strgy = pDesc->pClicked_Strgy;
 	m_pSelected_Strgy = pDesc->pSelected_Strgy;
@@ -97,7 +97,7 @@ HRESULT CBack_Button::Ready_Component()
 		TEXT("Com_RectBuffer"), reinterpret_cast<CComponent**>(&m_pRectBufferCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_Option_Button_Texture"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_Back_Button_Texture"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom), nullptr)))
 		return E_FAIL;
 
