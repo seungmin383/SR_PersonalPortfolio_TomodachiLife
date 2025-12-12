@@ -27,10 +27,15 @@ public:
 
 public:
 	void Play_Animation(_float fDT);
+	_bool Play_Macro(const _wstring& strMacroTag, _float fDT);
+
 	void Change_Animation(
 		const _string& strAnimaTag, 
 		_float fBlendDuration,
 		_bool isLoop);
+
+	HRESULT Add_Animation_Macro(const _wstring& strMacroTag,
+		vector<_string>AnimTags);
 
 private:
 	void Update_TransformationMatrix(_float fDT);
@@ -47,7 +52,7 @@ private:
 	_float m_fPreTrackPosition = {};
 
 	/* 현재 애니메이션을 반복할건지 */
-	_bool m_isLoop = { TRUE };
+	_bool m_isLoop = { FALSE };
 
 	/* 애니메이션이 바뀌었는지? */
 	_bool m_isChangedAnimation = { FALSE };
@@ -57,6 +62,11 @@ private:
 
 	_float m_fBlendDuration = { 0.f };
 	_float m_fBlendTime = { 0.f };
+
+	map<_wstring, vector<_string>> m_AnimationMacro;
+	_bool m_isAnimFin = { FALSE };
+	
+	uint32_t m_iCurMacroIndex = {};
 
 public:
 	static CAnimationPlayer* Create(

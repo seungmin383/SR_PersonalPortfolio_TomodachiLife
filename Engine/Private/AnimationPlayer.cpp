@@ -25,8 +25,7 @@ HRESULT CAnimationPlayer::Initialize(
 {
 	m_pBones = pBones;
 	m_strCurAnimTag = strInitAnimTag;
-	m_pCurAnimation = 
-		m_pGameInstance->AnimationManager_Get_Animation(strInitAnimTag);
+	m_pCurAnimation = m_pGameInstance->AnimationManager_Get_Animation(strInitAnimTag);
 
 	if (nullptr == m_pCurAnimation)
 		return E_FAIL;
@@ -57,17 +56,48 @@ void CAnimationPlayer::Play_Animation(_float fDT)
 	}
 }
 
-void CAnimationPlayer::Change_Animation(
-	const _string& strAnimaTag,
-	_float fBlendDuration,
-	_bool isLoop)
+/* Play_Animation이 돌고 있을 때를 가정함 */
+_bool CAnimationPlayer::Play_Macro(const _wstring& strMacroTag, _float fDT)
+{
+	auto iter = m_AnimationMacro.find(strMacroTag);
+
+	if (m_AnimationMacro.end() == iter)
+	{
+		MSG_BOX("ErrCode : No Macro");
+		return TRUE;
+	}
+
+	if (m_iCurMacroIndex == 0 && m_pCurAnimation == nullptr)
+		m_pCurAnimation = m_pGameInstance->AnimationManager_Get_Animation(iter->second[0]);
+
+
+	/* 애니메이션이 끝났으면 */
+	if (m_isAnimFin)
+	{
+		m_iCurMacroIndex++;
+
+		if (m_iCurMacroIndex >= iter->second.size())
+		{
+			m_isAnimFin = FALSE;
+			m_iCurMacroIndex = 0;
+			return TRUE;
+		}
+
+		const _string& strAnimTag = iter->second[m_iCurMacroIndex];
+		Change_Animation(strAnimTag, 0.2f, FALSE);
+		m_isAnimFin = FALSE;
+	}
+
+	return FALSE;
+}
+
+void CAnimationPlayer::Change_Animation(const _string& strAnimaTag, _float fBlendDuration, _bool isLoop)
 {
 	if (m_strCurAnimTag == strAnimaTag)
 		return;
 	
 	if (m_pPreAnimation != nullptr)
 		Safe_Release(m_pPreAnimation);
-
 
 	m_fBlendDuration = fBlendDuration;
 	m_strCurAnimTag = strAnimaTag;
@@ -82,13 +112,27 @@ void CAnimationPlayer::Change_Animation(
 	m_isLoop = isLoop;
 }
 
+HRESULT CAnimationPlayer::Add_Animation_Macro(const _wstring& strMacroTag, vector<_string> AnimTags)
+{
+	auto iter = m_AnimationMacro.find(strMacroTag);
+	if (m_AnimationMacro.end() != iter)
+		return E_FAIL;
+
+	m_AnimationMacro.emplace(strMacroTag, AnimTags);
+
+	return S_OK;
+}
+
 void CAnimationPlayer::Update_TransformationMatrix(_float fDT)
 {
+	m_isAnimFin = m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, m_isLoop);
 
-	m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, m_isChangedAnimation, m_isLoop);
+	if (m_isAnimFin == TRUE)
+		int a = 0;
+
 	if (nullptr != m_pPreAnimation)
 	{
-		m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, m_isChangedAnimation, m_isLoop);
+		m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, m_isLoop);
 	}
 
 	uint32_t NumChannel = m_pCurAnimation->Get_NumChannel();
@@ -113,8 +157,8 @@ void CAnimationPlayer::Update_TransformationMatrix(_float fDT)
 void CAnimationPlayer::Blend_Animation(_float fDT)
 {
 	_bool isFalse = FALSE;
-	m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, isFalse, m_isLoop);
-	m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, isFalse, m_isLoop);
+	m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, m_isLoop);
+	m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, m_isLoop);
 
 	uint32_t NumChannel = m_pCurAnimation->Get_NumChannel();
 	const vector<CHANNEL_POS>& CurChannelPos = m_pCurAnimation->Get_ChannelPos();
@@ -129,8 +173,8 @@ void CAnimationPlayer::Blend_Animation(_float fDT)
 	if (m_fBlendDuration < m_fBlendTime)
 	{
 		m_fBlendTime = 0.f;
-		m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, m_isChangedAnimation, m_isLoop);
-		m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, m_isChangedAnimation, m_isLoop);
+		m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, m_isLoop);
+		m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, m_isLoop);
 
 		m_isChangedAnimation = FALSE;
 		return;
@@ -145,7 +189,6 @@ void CAnimationPlayer::Blend_Animation(_float fDT)
 		const CHANNEL_POS& pre = PreChannelPos[i];
 		const CHANNEL_POS& cur = CurChannelPos[i];
 
-		// 3-1) S / R / T 로드
 		XMVECTOR vPreScale = XMLoadFloat3(&pre.vCurScale);
 		XMVECTOR vCurScale = XMLoadFloat3(&cur.vCurScale);
 
@@ -155,22 +198,13 @@ void CAnimationPlayer::Blend_Animation(_float fDT)
 		XMVECTOR vPreTranslation = XMVectorSetW(XMLoadFloat3(&pre.vCurTranslation), 1.f);
 		XMVECTOR vCurTranslation = XMVectorSetW(XMLoadFloat3(&cur.vCurTranslation), 1.f);
 
-		// 3-2) LERP / SLERP
 		XMVECTOR vScale = XMVectorLerp(vPreScale, vCurScale, fRatio);
 		XMVECTOR vRotation = XMQuaternionSlerp(vPreRotation, vCurRotation, fRatio);
 		XMVECTOR vTranslation = XMVectorLerp(vPreTranslation, vCurTranslation, fRatio);
 
-		// 3-3) 최종 본 행렬 생성
 		XMFLOAT4X4 TransformationMatrix = {};
-		XMStoreFloat4x4(
-			&TransformationMatrix,
-			XMMatrixAffineTransformation(
-				vScale,
-				XMVectorSet(0.f, 0.f, 0.f, 1.f), // 회전 중심(원점)
-				vRotation,
-				vTranslation));
+		XMStoreFloat4x4(&TransformationMatrix, XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, vTranslation));
 
-		// 3-4) 본 인덱스에 적용
 		uint32_t iBoneIndex = static_cast<uint32_t>(cur.iBoneIndex); // 또는 pre.iBoneIndex
 		if (iBoneIndex < (*m_pBones).size() && (*m_pBones)[iBoneIndex])
 		{

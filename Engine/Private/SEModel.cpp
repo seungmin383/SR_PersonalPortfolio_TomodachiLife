@@ -334,6 +334,17 @@ void CSEModel::Play_Animation(_float fDT)
 	}
 }
 
+HRESULT CSEModel::Add_Animation_Macro(const _wstring& strMacroTag, vector<_string>AnimTags)
+{
+	return m_pAnimPlayer->Add_Animation_Macro(strMacroTag, AnimTags);
+}
+
+_bool CSEModel::Play_Macro(const _wstring& strMacroTag, _float fDT)
+{
+	return m_pAnimPlayer->Play_Macro(strMacroTag, fDT);
+}
+
+
 const XMFLOAT4X4* CSEModel::Get_BoneCombinedTransformMatrixPtr(const _char* pBoneName) const
 {
 	for (auto& pBone : m_pBones)

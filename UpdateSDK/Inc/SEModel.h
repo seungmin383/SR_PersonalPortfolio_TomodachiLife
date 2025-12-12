@@ -62,6 +62,9 @@ public:
 		const _string strAnimTag, _float fBlendDuration, _bool isLoop);
 	void Play_Animation(_float fDT);
 
+	HRESULT Add_Animation_Macro(const _wstring& strMacroTag,vector<_string>AnimTags);
+	_bool Play_Macro(const _wstring& strMacroTag, _float fDT);
+
 public:
 	const uint32_t Get_NumMesh()const { return m_iNumMesh; }
 	const XMFLOAT4X4* Get_BoneCombinedTransformMatrixPtr(const _char* pBoneName)const;

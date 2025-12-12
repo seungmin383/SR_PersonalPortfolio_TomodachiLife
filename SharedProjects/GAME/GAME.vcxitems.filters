@@ -211,6 +211,27 @@
     <Filter Include="03.UI\02.BackGround\BlueBackGround">
       <UniqueIdentifier>{34a63ba5-01d6-4420-bdb8-5ed20120aba2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\04.Inventory">
+      <UniqueIdentifier>{2327dde8-1da4-488e-8a59-01326f78ebd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\04.Inventory\00.LevelUp">
+      <UniqueIdentifier>{2bf2e0ad-8bf6-4182-91a0-62923accca1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Item">
+      <UniqueIdentifier>{f1c9a51c-b9d2-4690-b4f5-e7fe0e36f17e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Item\LevelUpItem">
+      <UniqueIdentifier>{7353b972-6377-4935-a840-bf313fc8c9ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Item\FoodItem">
+      <UniqueIdentifier>{58f56817-f113-47b9-95ef-d8935a0882e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Item\ClothItem">
+      <UniqueIdentifier>{c064dac7-f1a7-4bae-9a7b-3019bc783a0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Item\HouseItem">
+      <UniqueIdentifier>{38528d77-7aef-469f-b7af-42c8a6707566}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -428,6 +449,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PUblic\BlueBackGround.h">
       <Filter>03.UI\02.BackGround\BlueBackGround</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Inventory.h">
+      <Filter>03.UI\04.Inventory\00.LevelUp</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Item.h">
+      <Filter>03.UI\05.Item\LevelUpItem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -609,6 +636,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BlueBackGround.cpp">
       <Filter>03.UI\02.BackGround\BlueBackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Inventory.cpp">
+      <Filter>03.UI\04.Inventory\00.LevelUp</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Item.cpp">
+      <Filter>03.UI\05.Item\LevelUpItem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

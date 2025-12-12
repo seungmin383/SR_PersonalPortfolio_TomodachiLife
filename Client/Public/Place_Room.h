@@ -23,6 +23,9 @@ public:
 	HRESULT Ready_Environment_Layer();
 	HRESULT Ready_Camera_Layer();
 
+	HRESULT Layer_UI_LevelUp_Inventory();
+	HRESULT Layer_Actor_LevelUp_Item();
+
 public:
 	static CPlace_Room* Create(
 		ID3D11Device* pDevice,

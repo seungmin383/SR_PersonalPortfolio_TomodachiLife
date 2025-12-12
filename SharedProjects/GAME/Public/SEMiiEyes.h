@@ -69,6 +69,7 @@ private:
 	_float m_fAngelX = { 0.f };
 	_float m_fAngelY = { 0.f };
 	_float m_fAngelZ = { 0.f };
+
 public:
 	static CSEMiiEyes* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg)override;

@@ -14,8 +14,8 @@ private:
 
 public:
 	HRESULT Initialize(SE_ANIMATION& seAnim);
-	void Update_TransformationMatrix(
-		_float& fCurTrackPosition, _float fDT, _bool isChangeAnim, _bool isLoop);
+	_bool Update_TransformationMatrix(
+		_float& fCurTrackPosition, _float fDT, _bool isLoop);
 
 	const uint32_t Get_NumChannel() const{ return m_iNumChannel; }
 	const vector<CHANNEL_POS>& Get_ChannelPos()const  { return m_ChannelPos; }

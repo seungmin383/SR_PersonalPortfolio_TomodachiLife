@@ -31,6 +31,12 @@ HRESULT CSEMiiBody::Initialize_Clone(void* pArg)
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
+	vector<_string> AnimMacroTags = {
+		"Recieve_Item",
+		"Hoist_Item",
+		"PutIn_Item",
+	};
+	m_pSeModel->Add_Animation_Macro(TEXT("AnimMacro_1"), AnimMacroTags);
 	return S_OK;
 }
 
@@ -43,14 +49,14 @@ int32_t CSEMiiBody::Update(_float fDT)
 {
 	m_pCollider->Update_Collider();
 
-	if (static_cast<int32_t>(STATE::IDLE) & *m_pParentState)
-		m_pSeModel->Change_Animation("CM_Wait00", 0.2f, TRUE);
+	/*if (static_cast<int32_t>(STATE::IDLE) & *m_pParentState)
+		m_pSeModel->Change_Animation("PutIn_Item", 0.2f, TRUE);
 	if (static_cast<int32_t>(STATE::WALK) & *m_pParentState)
 		m_pSeModel->Change_Animation("CM_Walk01", 0.2f, TRUE);
 	if (static_cast<int32_t>(STATE::RUN )& *m_pParentState)
 		m_pSeModel->Change_Animation("CM_Run00", 0.2f, TRUE);
 	if (static_cast<int32_t>(STATE::Greet )& *m_pParentState)
-		m_pSeModel->Change_Animation("CM_Greet00", 0.2f, TRUE);
+		m_pSeModel->Change_Animation("CM_Greet00", 0.2f, TRUE);*/
 
 	if (m_pGameInstance->Get_DIKeyState(DIK_B))
 	{
@@ -68,6 +74,8 @@ void CSEMiiBody::Update_Late(_float fDT)
 		MSG_BOX("OnTriggerExit");
 
 	m_pSeModel->Play_Animation(fDT);
+	m_pSeModel->Play_Macro(TEXT("AnimMacro_1"), fDT);
+
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
 	CPartObject::Update_Late(fDT);
 }

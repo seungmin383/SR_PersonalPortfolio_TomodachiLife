@@ -68,7 +68,8 @@ int32_t CTempModel::Update(_float fDT)
 		}
 		else if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
 		{
-			m_pTransformCom->Go_Left(fDT);
+			m_pTransformCom->
+			(fDT);
 		}
 		else if (m_pGameInstance->Get_DIKeyState(DIK_U))
 		{

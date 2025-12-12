@@ -10,6 +10,8 @@
 #include "GameInstance.h"
 #include "MiiManager.h"
 
+#include "LevelUp_Item.h"
+
 CSEMii::CSEMii(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CContainerObject(pDevice, pContext)
 {
@@ -206,6 +208,26 @@ HRESULT CSEMii::Ready_PartObjects()
 		seHairDesc.pHairInfo = &m_MiiInfo.HairInfo;
 
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiHair"), TEXT("Part_Hair"), &seHairDesc)))
+			return E_FAIL;
+	}
+
+	/* 플레이어가 들 레벨업 아이템 */
+	// ProtoTag_Actor_LevelUp_Item
+	{
+		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
+		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("R_handItem");
+
+		CLevelUp_Item::LEVELUPITEM_DESC Desc = {};
+		Desc.vPos = XMFLOAT4{ 0.f, 0.1f, 0.5f, 1.f };
+		Desc.fCX = 0.3f;
+		Desc.fCY = 0.3f;
+		Desc.fCZ = 0.3f;
+		Desc.fSpeedPerSecond = 10.f;
+		Desc.eRenderGroup = m_eRenderGroup;
+		Desc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+		Desc.pSocketMatrix = BodySockeMatrix;
+
+		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_LevelUp_Item"), TEXT("Part_RItem"), &Desc)))
 			return E_FAIL;
 	}
 

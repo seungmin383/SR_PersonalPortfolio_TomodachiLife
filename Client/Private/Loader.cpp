@@ -26,6 +26,8 @@
 #include "CityhallMenu_Button.h"
 #include "Snow.h"
 #include "Explosion.h"
+#include "LevelUp_Inventory.h"
+#include "LevelUp_Item.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -628,6 +630,17 @@ HRESULT CLoader::Loading_Room()
 {
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
+	/* Component */
+	
+	/* 레벨업 선물 인벤토리 텍스쳐 */
+	// ProtoTag_Component_LevelUp_Inventory_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/LevelUP_Inventory_texture/%d.dds"), 1);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_LevelUp_Inventory_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+
 
 	/* Actor */
 
@@ -636,6 +649,19 @@ HRESULT CLoader::Loading_Room()
 	{
 		tmp = CRoom::Create(m_pDevice, m_pContext);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Room"), tmp)))
+			return E_FAIL;
+	}
+
+
+
+
+	/* UI */
+	
+	/* 레벨업 선물 인벤토리 */
+	// ProtoTag_UI_LevelUp_Inventory
+	{
+		tmp = CLevelUp_Inventory::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_LevelUp_Inventory"), tmp)))
 			return E_FAIL;
 	}
 

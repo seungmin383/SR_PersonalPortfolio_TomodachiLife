@@ -39,11 +39,7 @@ HRESULT CSEAnimation::Initialize(SE_ANIMATION& seAnim)
 	 return S_OK;
 }
 
-void CSEAnimation::Update_TransformationMatrix(
-	_float& fCurTrackPosition,
-	_float fDT,
-	_bool isChangeAnim,
-	_bool isLoop)
+_bool CSEAnimation::Update_TransformationMatrix(_float& fCurTrackPosition, _float fDT, _bool isLoop)
 {
 	fCurTrackPosition += m_fTickPerSec * fDT;
 
@@ -51,7 +47,7 @@ void CSEAnimation::Update_TransformationMatrix(
 	{
 		if (false == isLoop)
 		{
-			return;
+			return TRUE;
 		}
 
 		fCurTrackPosition = 0.f;
@@ -64,7 +60,7 @@ void CSEAnimation::Update_TransformationMatrix(
 	{
 		m_Channels[i]->Update_TransformationMatrix(fCurTrackPosition, m_ChannelPos[i]);
 	}
-	return;
+	return FALSE;
 }
 
 CSEAnimation* CSEAnimation::Create(SE_ANIMATION& seAnim)

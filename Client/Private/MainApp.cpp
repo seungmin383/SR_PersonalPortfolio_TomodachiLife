@@ -28,6 +28,7 @@
 #include "SEMiiEyebrow.h"
 #include "SEMiiNose.h"
 #include "SEMiiMouth.h"
+#include "LevelUp_Item.h"
 
 #include "Collider.h"
 
@@ -291,7 +292,7 @@ HRESULT CMainApp::Ready_Static_Model()
 		XMMATRIX InitMatrix = XMMatrixIdentity();
 		InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
 
-		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_AnimationTester", ANIM_TYPE::ANIM, "../../../../../../Resource/dev/05_Anim_fbx/CM_Wait00.fbx", InitMatrix, "AnimTester");
+		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_AnimationTester", ANIM_TYPE::ANIM, "../../../../../../Resource/dev/05_Anim_fbx/PutIn_Item.fbx", InitMatrix, "AnimTester");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_AnimationTester"), tmp)))
 			return E_FAIL;
 	}
@@ -589,6 +590,14 @@ HRESULT CMainApp::Ready_Mii()
 			return E_FAIL;
 	}
 
+	/* 레벨업 선물 아이템 */
+	// ProtoTag_UI_LevelUp_Item
+	{
+		tmp = CLevelUp_Item::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_LevelUp_Item"), tmp)))
+			return E_FAIL;
+	}
+
 	// ProtoTag_Actor_Mii
 	{
 		tmp = CMii::Create(m_pDevice, m_pContext);
@@ -670,6 +679,14 @@ HRESULT CMainApp::Ready_Static_Texture()
 	{
 		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Back_Button/%d.dds"), 1);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Back_Button_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 레벨업 선물 텍스쳐 */
+	// ProtoTag_Component_LevelUp_Item_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/LevelUP_Item_texture/%d.dds"), 28);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_LevelUp_Item_Texture"), tmp)))
 			return E_FAIL;
 	}
 

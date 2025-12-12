@@ -43,6 +43,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IOnClick.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IUnlock.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Inventory.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Item.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\YellowBackGround.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Mii.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiBody.cpp" />
@@ -109,6 +111,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IOnClick.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IUnlock.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Inventory.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Item.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\YellowBackGround.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Mii.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiBody.h" />
