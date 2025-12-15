@@ -105,6 +105,14 @@ namespace Game
 		COL_TRIGGER = 1 << 0,
 		COL_OBJECTS = 1 << 1
 	};
+
+	enum class ITEM_TYPE
+	{
+		FOOD,
+		CLOTH,
+		HOUSE,
+		END
+	};
 }
 using namespace std;
 using namespace Game;

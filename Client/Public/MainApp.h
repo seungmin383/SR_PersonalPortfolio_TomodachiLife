@@ -33,13 +33,15 @@ public:
 	HRESULT Ready_Static_Model();
 	HRESULT Ready_Static_Component();
 
-
 	/* for.Actor*/
 	HRESULT Ready_Static_Camera();
 	HRESULT Ready_Mii();
 
 	/* for.UI*/
 	HRESULT Ready_StaticUI();
+
+
+	HRESULT Ready_Static_Item();
 
 private://디바이스 관리
 	ID3D11Device*			m_pDevice = { nullptr };

@@ -24,7 +24,16 @@ public:
 	HRESULT Ready_Camera_Layer();
 
 	HRESULT Layer_UI_LevelUp_Inventory();
+
 	HRESULT Layer_Actor_LevelUp_Item();
+
+	HRESULT Layer_UI_FoodItem();
+
+	HRESULT Layer_UI_Category_Button();
+
+	HRESULT Layer_UI_SubCategory_Button();
+
+	HRESULT Layer_UI_PlayerInven_Button();
 
 public:
 	static CPlace_Room* Create(

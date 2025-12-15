@@ -12,6 +12,7 @@
 #include "SkyAndSea.h"
 #include "TempModel.h"
 #include "Terrain.h"
+#include "PlayerInven_Button.h"
 #include "TestMii.h"
 #include "UICamera.h"
 #include "Weapon.h"
@@ -641,7 +642,6 @@ HRESULT CLoader::Loading_Room()
 	}
 
 
-
 	/* Actor */
 
 	/* 주민 방 */
@@ -652,9 +652,6 @@ HRESULT CLoader::Loading_Room()
 			return E_FAIL;
 	}
 
-
-
-
 	/* UI */
 	
 	/* 레벨업 선물 인벤토리 */
@@ -664,6 +661,7 @@ HRESULT CLoader::Loading_Room()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_LevelUp_Inventory"), tmp)))
 			return E_FAIL;
 	}
+
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
 	m_isFinished = true;

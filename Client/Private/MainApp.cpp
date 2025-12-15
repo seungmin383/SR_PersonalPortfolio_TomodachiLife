@@ -5,6 +5,7 @@
 
 #include "MiiManager.h"
 #include "ApartManager.h"
+#include "ItemManager.h"
 
 // Actor
 #include "WorldCamera.h"
@@ -38,6 +39,9 @@
 #include "Option_Button.h"
 #include "Back_Button.h"
 #include "BlueBackGround.h"
+#include "FoodItem_Texture.h"
+#include "PlayerInven_Button.h"
+#include "Category_Button.h"
 
 USING(Client)
 
@@ -161,6 +165,10 @@ HRESULT CMainApp::Ready_Static()
 
 	/* 유아이 */
 	if (FAILED(Ready_StaticUI()))
+		return E_FAIL;
+
+	/* 아이템 */
+	if (FAILED(Ready_Static_Item()))
 		return E_FAIL;
 
 	return S_OK;
@@ -292,7 +300,7 @@ HRESULT CMainApp::Ready_Static_Model()
 		XMMATRIX InitMatrix = XMMatrixIdentity();
 		InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
 
-		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_AnimationTester", ANIM_TYPE::ANIM, "../../../../../../Resource/dev/05_Anim_fbx/PutIn_Item.fbx", InitMatrix, "AnimTester");
+		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_AnimationTester", ANIM_TYPE::ANIM, "../../../../../../Resource/dev/05_Anim_fbx/Hoist_Item.fbx", InitMatrix, "AnimTester");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_AnimationTester"), tmp)))
 			return E_FAIL;
 	}
@@ -505,6 +513,7 @@ HRESULT CMainApp::Ready_Manager()
 	if (FAILED(CMiiManager::GetInstance()->Initialize()))
 		return E_FAIL;	
 
+
 	return S_OK;
 }
 
@@ -690,6 +699,24 @@ HRESULT CMainApp::Ready_Static_Texture()
 			return E_FAIL;
 	}
 
+	/* 플레이어 인벤토리 텍스쳐 */
+	// ProtoTag_Component_PlayerInventory_Button_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/PlayerInventory_Button/%d.dds"), 2);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_PlayerInventory_Button_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+
+	/* 카테고리 버튼 텍스쳐 */
+	// ProtoTag_Component_Category_Button_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Category_Button/%d.dds"), 2);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Category_Button_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+
 	return S_OK;
 }
 
@@ -738,6 +765,52 @@ HRESULT CMainApp::Ready_StaticUI()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_BlueBackGround"), tmp)))
 			return E_FAIL;
 	}
+
+	/* 플레이어 인벤토리 버튼 */
+	// ProtoTag_UI_PlayerInven_Button
+	{
+		tmp = CPlayerInven_Button::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_PlayerInven_Button"), tmp)))
+			return E_FAIL;
+	}
+
+
+	/* 카테고리 버튼 */
+	// ProtoTag_UI_Category_Button
+	{
+		tmp = CCategory_Button::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_Category_Button"), tmp)))
+			return E_FAIL;
+	}
+
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Static_Item()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::STATIC);
+
+	/* 음식 아이템 텍스쳐 */
+	// ProtoTag_Component_FoodItem_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/FoodItem_Texture/%d.dds"), 29);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_FoodItem_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 음식 아이템*/
+	// ProtoTag_UI_FoodItem
+	{
+		tmp = CFoodItem_Texture::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_FoodItem"), tmp)))
+			return E_FAIL;
+	}
+
+	if (FAILED(CItemManager::GetInstance()->Initialize()))
+		return E_FAIL;
+
 	return S_OK;
 }
 

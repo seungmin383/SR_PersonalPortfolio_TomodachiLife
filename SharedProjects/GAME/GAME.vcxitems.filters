@@ -142,9 +142,6 @@
     <Filter Include="03.UI\01.Button\02.CommonButton\IconTexture">
       <UniqueIdentifier>{bfb4f0c5-6aa9-44c0-b183-19009cc4d064}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\01.Button\00.OnclickStrategy\03.TransmitIndex">
-      <UniqueIdentifier>{c1aded8c-12f5-47a2-91f2-880fe5844696}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\01.Button\05.TextButton">
       <UniqueIdentifier>{64e8a977-0053-4cb3-a7a9-e49571df55e6}</UniqueIdentifier>
     </Filter>
@@ -205,32 +202,50 @@
     <Filter Include="03.UI\01.Button\00.OnclickStrategy\11.SetGender">
       <UniqueIdentifier>{4842731a-4e1d-4826-b78c-039ec15676b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\01.Button\10.InventoryLilst">
-      <UniqueIdentifier>{29929ae1-6728-4434-82dd-0402ef5d7c28}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\02.BackGround\BlueBackGround">
       <UniqueIdentifier>{34a63ba5-01d6-4420-bdb8-5ed20120aba2}</UniqueIdentifier>
     </Filter>
     <Filter Include="03.UI\04.Inventory">
       <UniqueIdentifier>{2327dde8-1da4-488e-8a59-01326f78ebd7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\04.Inventory\00.LevelUp">
+    <Filter Include="03.UI\03.Texture\01.FavoriteFood">
+      <UniqueIdentifier>{e2c93f17-a3e6-4d16-b2b5-32cccd8fb21c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.Texture\02.LevelUp">
       <UniqueIdentifier>{2bf2e0ad-8bf6-4182-91a0-62923accca1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\05.Item">
-      <UniqueIdentifier>{f1c9a51c-b9d2-4690-b4f5-e7fe0e36f17e}</UniqueIdentifier>
+    <Filter Include="03.UI\01.Button\10.PlayerInventory">
+      <UniqueIdentifier>{0f023abc-e9f4-4c10-b8de-3e1942d0ffed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\05.Item\LevelUpItem">
+    <Filter Include="02.Actor\07.Item">
+      <UniqueIdentifier>{57fd34e1-bbc4-491d-964b-b350cfe70599}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\07.Item\LevelUpItem">
       <UniqueIdentifier>{7353b972-6377-4935-a840-bf313fc8c9ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\05.Item\FoodItem">
+    <Filter Include="03.UI\05.ItemIcon">
+      <UniqueIdentifier>{f1c9a51c-b9d2-4690-b4f5-e7fe0e36f17e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.ItemIcon\FoodItem">
       <UniqueIdentifier>{58f56817-f113-47b9-95ef-d8935a0882e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\05.Item\ClothItem">
+    <Filter Include="03.UI\05.ItemIcon\ClothItem">
       <UniqueIdentifier>{c064dac7-f1a7-4bae-9a7b-3019bc783a0f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\05.Item\HouseItem">
+    <Filter Include="03.UI\05.ItemIcon\HouseItem">
       <UniqueIdentifier>{38528d77-7aef-469f-b7af-42c8a6707566}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.ItemIcon\LevelUpItem">
+      <UniqueIdentifier>{01dce172-3930-4c4d-9214-277e0b5991eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.ItemIcon\00.Manager">
+      <UniqueIdentifier>{a38f000f-e550-4fea-bb5d-9406f4b0cb8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Manager\ItemManager">
+      <UniqueIdentifier>{a0bee0a3-8b36-46ce-9a0a-7d4bd17cd2e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\11.Category">
+      <UniqueIdentifier>{3e2a2383-8c2d-44e5-9f77-ebeed9f71745}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -450,10 +465,25 @@
       <Filter>03.UI\02.BackGround\BlueBackGround</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Inventory.h">
-      <Filter>03.UI\04.Inventory\00.LevelUp</Filter>
+      <Filter>03.UI\03.Texture\02.LevelUp</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Item.h">
-      <Filter>03.UI\05.Item\LevelUpItem</Filter>
+      <Filter>02.Actor\07.Item\LevelUpItem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\FavoriteFood_Texture.h">
+      <Filter>03.UI\03.Texture\01.FavoriteFood</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlayerInven_Button.h">
+      <Filter>03.UI\01.Button\10.PlayerInventory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\FoodItem_Texture.h">
+      <Filter>03.UI\05.ItemIcon\FoodItem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ItemManager.h">
+      <Filter>00.Manager\ItemManager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Category_Button.h">
+      <Filter>03.UI\01.Button\11.Category</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -638,10 +668,25 @@
       <Filter>03.UI\02.BackGround\BlueBackGround</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Inventory.cpp">
-      <Filter>03.UI\04.Inventory\00.LevelUp</Filter>
+      <Filter>03.UI\03.Texture\02.LevelUp</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Item.cpp">
-      <Filter>03.UI\05.Item\LevelUpItem</Filter>
+      <Filter>02.Actor\07.Item\LevelUpItem</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\FavoriteFood_Texture.cpp">
+      <Filter>03.UI\03.Texture\01.FavoriteFood</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlayerInven_Button.cpp">
+      <Filter>03.UI\01.Button\10.PlayerInventory</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\FoodItem_Texture.cpp">
+      <Filter>03.UI\05.ItemIcon\FoodItem</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ItemManager.cpp">
+      <Filter>00.Manager\ItemManager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Category_Button.cpp">
+      <Filter>03.UI\01.Button\11.Category</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
