@@ -18,6 +18,8 @@
 #include "FavoriteFood_Texture.h"
 #include "Weapon.h"
 #include "WorldCamera.h"
+#include "LevelBar.h"
+#include "Gauge.h"
 #include "MiiEditButton.h"
 #include "PageButton.h"
 #include "Collider.h"
@@ -637,7 +639,7 @@ HRESULT CLoader::Loading_Room()
 	/* 레벨업 선물 인벤토리 텍스쳐 */
 	// ProtoTag_Component_LevelUp_Inventory_Texture
 	{
-		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/LevelUP_Inventory_texture/%d.dds"), 1);
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/LevelUP_Inventory_Texture/%d.dds"), 1);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_LevelUp_Inventory_Texture"), tmp)))
 			return E_FAIL;
 	}
@@ -647,6 +649,22 @@ HRESULT CLoader::Loading_Room()
 	{
 		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/FavoriteFood_Textrue/%d.dds"), 3);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_FavoriteFood_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 레벨업 바 */
+	// ProtoTag_Component_LevelUpBar_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/LevelUpBar_Texture/%d.dds"), 1);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_LevelUpBar_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 레벨업 게이지 */
+	// ProtoTag_Component_LevelGauge_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/LevelUpBar_Texture/Gauge/%d.dds"), 1);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_LevelGauge_Texture"), tmp)))
 			return E_FAIL;
 	}
 
@@ -677,6 +695,24 @@ HRESULT CLoader::Loading_Room()
 	{
 		tmp = CFavoriteFood_Texture::Create(m_pDevice, m_pContext);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_FavoriteFood"), tmp)))
+			return E_FAIL;
+	}
+
+
+	/* 레벨업 바 */
+	// ProtoTag_UI_LevelBar
+	{
+		tmp = CLevelBar::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_LevelBar"), tmp)))
+			return E_FAIL;
+	}
+
+
+	/* 레벨업 게이지 */
+	// ProtoTag_UI_LevelGauge
+	{
+		tmp = CGauge::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_LevelGauge"), tmp)))
 			return E_FAIL;
 	}
 

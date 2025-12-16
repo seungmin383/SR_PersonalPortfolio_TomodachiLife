@@ -24,6 +24,7 @@ public:
 
 		_bool isLive = {};
 		_wstring strMiiNickName = {};
+		uint32_t iMiiIndex = {};
 
 	}WINDOWBUTTON_DESC;
 
@@ -64,6 +65,7 @@ private:
 	_bool m_isLived = { FALSE };
 
 	_wstring m_strMiiNickName = {};
+	uint32_t m_iMiiIndex = {};
 
 	uint32_t m_iWindowIndex = {};
 

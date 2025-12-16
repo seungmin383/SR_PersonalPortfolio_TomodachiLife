@@ -47,6 +47,7 @@ namespace Game
 
 #define VTS_DEFAULT_BLENDING 7
 
+#define VTS_GAUGE 8
 
 	/* texture2D */
 	/* g_DiffuseTexture */

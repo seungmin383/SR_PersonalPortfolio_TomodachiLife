@@ -187,6 +187,9 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 				tDesc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
 				tDesc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 				tDesc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ROOM);
+				
+				/* 인덱스로 보관 */
+				tDesc.iMiiIndex = iIndex;
 
 				if (m_iNumMii > iIndex)
 					tDesc.isLive = TRUE;

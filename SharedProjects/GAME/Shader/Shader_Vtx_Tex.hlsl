@@ -11,6 +11,7 @@ Texture2D g_IconTexture     : register(t2);
 float4 g_FixColor;
 float g_Brightness;
 float g_Pow;
+float g_TexCoord;
 
 struct VS_IN
 {
@@ -189,6 +190,19 @@ PS_OUT PS_TEXCOORD(PS_IN In)
 }
 
 
+/* °ÔÀÌÁö */
+PS_OUT PS_GAUGE(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float4 TextureColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    
+    if (In.vTexcoord.x > g_TexCoord)
+        discard;
+    
+    Out.vColor = TextureColor;
+    return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -279,4 +293,16 @@ technique11 DefaultTechnique
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN();
     }
+
+    pass Gauge
+    {
+        SetRasterizerState(RS_NoneCull);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_GAUGE();
+    }
+
 }

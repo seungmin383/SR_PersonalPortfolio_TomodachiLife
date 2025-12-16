@@ -29,6 +29,7 @@ HRESULT CWindow_Button::Initialize_Clone(void* pArg)
 
 	m_iOutlineTextureIndex = pDesc->iOutlineTextureIndex;
 	m_strMiiNickName = pDesc->strMiiNickName;
+	m_iMiiIndex = pDesc->iMiiIndex;
 
 	m_isLived = pDesc->isLive;
 
@@ -151,6 +152,7 @@ int32_t CWindow_Button::On_Click()
 		if (m_isClicked)
 		{
 			CMiiManager::GetInstance()->Set_CurMiiNickName(m_strMiiNickName);
+			CMiiManager::GetInstance()->Set_CurMiiIndex(m_iMiiIndex);
 			m_pSelectedClick_Strgy->OnClick();
 		}
 	}

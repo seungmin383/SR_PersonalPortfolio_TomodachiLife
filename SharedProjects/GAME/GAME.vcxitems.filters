@@ -494,6 +494,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\All_Deactive_Strgy.h">
       <Filter>03.UI\01.Button\00.OnclickStrategy\06.Deactive</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelBar.h">
+      <Filter>03.UI\03.Texture\03.LevelBar</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Gauge.h">
+      <Filter>03.UI\03.Texture\03.LevelBar\Gauge</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -699,6 +705,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\All_Deactive_Strgy.cpp">
       <Filter>03.UI\01.Button\00.OnclickStrategy\06.Deactive</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelBar.cpp">
+      <Filter>03.UI\03.Texture\03.LevelBar</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Gauge.cpp">
+      <Filter>03.UI\03.Texture\03.LevelBar\Gauge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -37,6 +37,8 @@ public:
 
 	HRESULT	Layer_UI_Favorite_Food_Texture();
 
+	HRESULT Layer_UI_LevelBar();
+
 public:
 	static CPlace_Room* Create(
 		ID3D11Device* pDevice,

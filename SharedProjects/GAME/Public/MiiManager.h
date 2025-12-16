@@ -37,10 +37,15 @@ public:
 	const _wstring& Get_CurMiiNickName() const { return m_strCurMiiNickName; }
 	void Set_CurMiiNickName(const _wstring& strNickName) { m_strCurMiiNickName = strNickName; }
 
+	void Set_CurMiiIndex(uint32_t i) { m_icurMiiIndex = i; }
+
+	const MIIINFO_DESC& Get_CurMiiInfo() const { return m_Mii_Informations[m_icurMiiIndex]; }
+
 private:
 	vector<MIIINFO_DESC > m_Mii_Informations;
 
 	_wstring m_strCurMiiNickName = {};
+	uint32_t m_icurMiiIndex = {};
 
 	MIIINFO_DESC m_EditDesc ;
 

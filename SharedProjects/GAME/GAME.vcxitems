@@ -43,11 +43,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\FavoriteFood_Texture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\FoodItem_Texture.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Gauge.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IconTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IOnClick.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ItemManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IUnlock.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelBar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Inventory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Item.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlayerInven_Button.cpp" />
@@ -117,11 +119,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\FoodItem_Texture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Defines.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Struct.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Gauge.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IconTexture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IOnClick.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ItemManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IUnlock.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelBar.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Inventory.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Item.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlayerInven_Button.h" />

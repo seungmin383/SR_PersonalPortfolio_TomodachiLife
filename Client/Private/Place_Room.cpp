@@ -21,12 +21,14 @@
 #include "Place_Room.h"          
 #include "MiiManager.h"        
 #include "TempModel.h"           
+#include "LevelBar.h"
 #include "CutScene.h"            
 #include "UICamera.h"            
-#include "TestMii.h"             
+#include "TestMii.h" 
 #include "Player.h"              
 #include "Apart.h"               
 #include "SEMii.h"               
+#include "Gauge.h"
 #include "Room.h"                
 
 #define LEVELUP_INVENTORY_BASE_X 600.f
@@ -336,6 +338,9 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		return E_FAIL;
 
 	if (FAILED(Layer_UI_Favorite_Food_Texture()))
+		return E_FAIL;
+
+	if (FAILED(Layer_UI_LevelBar()))
 		return E_FAIL;
 
 	{
@@ -930,6 +935,49 @@ HRESULT CPlace_Room::Layer_UI_Favorite_Food_Texture()
 				return E_FAIL;
 
 		}
+	}
+
+	return S_OK;
+}
+
+HRESULT CPlace_Room::Layer_UI_LevelBar()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
+	// ProtoTag_UI_LevelBar
+	{
+		CLevelBar::LEVELUPBAR_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+		Desc.fX		= 700.f;
+		Desc.fY		= 50.f;
+		Desc.fZ		= 0.5f;
+		Desc.fCX	= 320.f;
+		Desc.fCY	= 40.f;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_LevelBar"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_TOP"), tmp)))
+			return E_FAIL;
+	}
+
+	// ProtoTag_UI_LevelGauge 
+	{
+		CGauge::GAUGE_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+		Desc.fX		= 700.f;
+		Desc.fY		= 50.f;
+		Desc.fZ		= 0.5f;
+		Desc.fCX	= 310.f;
+		Desc.fCY	= 32.f;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_LevelGauge"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_TOP"), tmp)))
+			return E_FAIL;
 	}
 
 	return S_OK;
