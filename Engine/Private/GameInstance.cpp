@@ -590,9 +590,14 @@ HRESULT CGameInstance::ButtonManager_Add_Button(uint32_t iPlaceID, const _wstrin
 	return m_pButtonManager->Add_Button(iPlaceID, strLayerTag, pButton);
 }
 
-HRESULT CGameInstance::ButtonManager_All_Deactivate(uint32_t iPlaceID, const _wstring& strLayerTag)
+HRESULT CGameInstance::ButtonManager_Layer_Deactivate(uint32_t iPlaceID, const _wstring& strLayerTag)
 {
-	return m_pButtonManager->All_Deactivate(iPlaceID, strLayerTag);
+	return m_pButtonManager->Layer_Deactivate(iPlaceID, strLayerTag);
+}
+
+HRESULT CGameInstance::ButtonManager_All_Deactivate(uint32_t iPlaceID)
+{
+	return m_pButtonManager->All_Deactive(iPlaceID);
 }
 
 void CGameInstance::ButtonManager_Set_CurButton(CButton* pButton)

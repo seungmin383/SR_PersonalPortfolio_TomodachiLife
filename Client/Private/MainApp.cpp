@@ -42,6 +42,7 @@
 #include "FoodItem_Texture.h"
 #include "PlayerInven_Button.h"
 #include "Category_Button.h"
+#include "IconTexture.h"
 
 USING(Client)
 
@@ -73,11 +74,11 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	  AllocConsole();                           // 콘솔 창 생성
-	  FILE* fp;								  
-	  freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
-	  freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
-	  freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
+	// AllocConsole();                           // 콘솔 창 생성
+	// FILE* fp;								  
+	// freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
+	// freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
+	// freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
 
 	ENGINE_DESC EngineDesc = {};
 	EngineDesc.hWnd = g_hWnd;
@@ -513,7 +514,8 @@ HRESULT CMainApp::Ready_Manager()
 	if (FAILED(CMiiManager::GetInstance()->Initialize()))
 		return E_FAIL;	
 
-
+	if (FAILED(CItemManager::GetInstance()->Initialize()))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -717,6 +719,15 @@ HRESULT CMainApp::Ready_Static_Texture()
 	}
 
 
+	/* 아이콘 텍스쳐 */
+	// ProtoTag_Component_IconTexture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Icon_Texture/%d.png"), 22);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_IconTexture"), tmp)))
+			return E_FAIL;
+	}
+
+
 	return S_OK;
 }
 
@@ -783,6 +794,13 @@ HRESULT CMainApp::Ready_StaticUI()
 			return E_FAIL;
 	}
 
+	/* 아이콘 */
+	// ProtoTag_UI_Icon
+	{
+		tmp = CIconTexture::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_Icon"), tmp)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -808,8 +826,6 @@ HRESULT CMainApp::Ready_Static_Item()
 			return E_FAIL;
 	}
 
-	if (FAILED(CItemManager::GetInstance()->Initialize()))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -843,6 +859,7 @@ void CMainApp::Free()
 
 	CMiiManager::DestroyInstance();
 	CApartManager::DestroyInstance();
+	CItemManager::DestroyInstance();
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);

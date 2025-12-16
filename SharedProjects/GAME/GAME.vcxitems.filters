@@ -247,6 +247,12 @@
     <Filter Include="03.UI\01.Button\11.Category">
       <UniqueIdentifier>{3e2a2383-8c2d-44e5-9f77-ebeed9f71745}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\03.Texture\03.LevelBar">
+      <UniqueIdentifier>{e31caf32-2729-4362-9ab5-74c35ac52125}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.Texture\03.LevelBar\Gauge">
+      <UniqueIdentifier>{68ca741e-0d35-4cad-aa74-f2453915dac0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -485,6 +491,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Category_Button.h">
       <Filter>03.UI\01.Button\11.Category</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\All_Deactive_Strgy.h">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\06.Deactive</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -687,6 +696,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Category_Button.cpp">
       <Filter>03.UI\01.Button\11.Category</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\All_Deactive_Strgy.cpp">
+      <Filter>03.UI\01.Button\00.OnclickStrategy\06.Deactive</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

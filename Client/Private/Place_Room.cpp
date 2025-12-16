@@ -1,9 +1,12 @@
 #include "ChangePlace_Strategy.h"
+#include "FavoriteFood_Texture.h"
 #include "ControlEnable_Strgy.h"
+#include "All_Deactive_Strgy.h"
 #include "PlayerInven_Button.h"
 #include "LevelUp_Inventory.h"
+#include "FoodItem_Texture.h"
 #include "Category_Button.h"
-#include "TimeLine_Trans.h"      
+#include "TimeLine_Trans.h"  
 #include "BlueBackGround.h"    
 #include "Deactive_Strgy.h"
 #include "Window_Button.h"       
@@ -14,6 +17,7 @@
 #include "LevelUp_Item.h"
 #include "WorldCamera.h" 
 #include "Back_Button.h"         
+#include "IconTexture.h"
 #include "Place_Room.h"          
 #include "MiiManager.h"        
 #include "TempModel.h"           
@@ -118,8 +122,8 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
 
-	/* 뒷배경 */
-	// ProtoTag_UI_BlueBackGround
+	/* 위쪽 뒷배경 */
+	// LayerTag_UI_BackGround
 	{
 		CBlueBackGround::BLUEBACKGORUND_DESC Desc = {};
 		Desc.fX = 480.f;
@@ -135,12 +139,33 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		if (nullptr == tmp)
 			return E_FAIL;
 
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID,TEXT("LayerTag_UI"), tmp)))
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID,TEXT("LayerTag_UI_BackGround"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 인벤토리 뒷 배경 */
+	// LayerTag_UI_PlayerInven_BackGround
+	{
+		CBlueBackGround::BLUEBACKGORUND_DESC Desc = {};
+		Desc.fX = 480.f;
+		Desc.fY = 240.f;
+		Desc.fZ = 0.6f;
+		Desc.fCX = 960.f;
+		Desc.fCY = 480.f;
+		Desc.fSpeedPerSecond = 0.f;
+		Desc.fRotationPerSecond = XMConvertToRadians(0.f);
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_BlueBackGround"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_PlayerInven_BackGround"), tmp)))
 			return E_FAIL;
 	}
 
 	/* 뒤로가기 버튼 */
-	// ProtoTag_UI_Back_Button
+	// LayerTag_UI_Back_Button
 	{
 		CBack_Button::BACKBUTTON_DESC Desc = {};
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
@@ -157,9 +182,143 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		if (nullptr == tmp)
 			return E_FAIL;
 
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI"), tmp)))
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Back_Button"), tmp)))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Back_Button"), static_cast<CButton*>(tmp))))
 			return E_FAIL;
 	}
+
+	/* 인벤 들어가는 버튼 */
+	// LayerTag_UI_Enter_Inventory_Button
+	{
+		CCategory_Button::CATEGORYBUTTON_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.fCX = 97.f;
+		Desc.fCY = 42.f;
+		Desc.fX = 60.f;
+		Desc.fY = 30.f;
+		Desc.fZ = 0.5f;
+
+		CIconTexture::ICONTEXTURE_DESC IconDesc = {};
+		IconDesc.eRenderGroup = Desc.eRenderGroup;
+		IconDesc.fZ = 0.4f;
+
+		CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
+		strgyDesc.ePlaceID = PLACEID::ROOM;
+
+		strgyDesc.strLayerTag = TEXT("LayerTag_UI_Enter_Inventory_Button");
+		strgyDesc.EnableLayers = vector<_wstring>{ 
+			TEXT("LayerTag_UI_PlayerInven_BackGround"),
+			TEXT("LayerTag_UI_Category_Button"), 
+			TEXT("LayerTag_UI_Sub_Category_Button_Food"), 
+			TEXT("LayerTag_UI_PlayerInven_Food_Main"), 
+			TEXT("LayerTag_UI_Out_Inven_Button"), 
+		};
+
+		strgyDesc.DisableLayers = vector<_wstring>{
+			TEXT("LayerTag_UI_Back_Button"),
+			TEXT("LayerTag_UI_Enter_Inventory_Button") ,
+			TEXT("LayerTag_UI_LevelUp_Inventory") 
+		};
+
+		Desc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
+		Desc.pSelected_Strgy = CAll_Deactive_Strgy::Create(m_pDevice, m_pContext, PLACEID::ROOM);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Category_Button"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Enter_Inventory_Button"), tmp)))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Enter_Inventory_Button"), static_cast<CButton*>(tmp))))
+			return E_FAIL;
+
+		/* 아이콘 텍스쳐 */
+		IconDesc.fX = Desc.fX;
+		IconDesc.fY = Desc.fY;
+		IconDesc.iTextureIndex = 21;
+		IconDesc.fCX = 35.f;
+		IconDesc.fCY = 35.f;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Icon"), &IconDesc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Enter_Inventory_Button"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 인벤에서 나가기 버튼 */
+	// LayerTag_UI_Out_Inven_Button
+	{
+		CBack_Button::BACKBUTTON_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.fCX = 100.f;
+		Desc.fCY = 68.f;
+		Desc.fX = 50.f;
+		Desc.fY = 446.f;
+		Desc.fZ = 0.5f;
+
+		CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
+		strgyDesc.ePlaceID = PLACEID::ROOM;
+
+		strgyDesc.strLayerTag = TEXT("LayerTag_UI_Out_Inven_Button");
+
+		strgyDesc.EnableLayers = vector<_wstring>{
+			TEXT("LayerTag_UI_Back_Button"),
+			TEXT("LayerTag_UI_Enter_Inventory_Button") ,
+			TEXT("LayerTag_UI_LevelUp_Inventory")
+		};
+
+		strgyDesc.DisableLayers = vector<_wstring>{
+			TEXT("LayerTag_UI_PlayerInven_BackGround"),
+			// 카테고리 버튼
+			TEXT("LayerTag_UI_Category_Button"),
+
+			// 서브 카테고리 버튼
+			TEXT("LayerTag_UI_Sub_Category_Button_Food"),
+			TEXT("LayerTag_UI_Sub_Category_Button_Cloth"),
+
+			// 음식 인벤 레이어들
+			TEXT("LayerTag_UI_PlayerInven_Food_Main"),
+			TEXT("LayerTag_UI_PlayerInven_Food_Side"),
+			TEXT("LayerTag_UI_PlayerInven_Food_Dessert"),
+			TEXT("LayerTag_UI_PlayerInven_Food_Drink"),
+
+			// 옷 인벤 레이어들
+			TEXT("LayerTag_UI_PlayerInven_Cloth_Man"),
+			TEXT("LayerTag_UI_PlayerInven_Cloth_Woman"),
+			TEXT("LayerTag_UI_PlayerInven_Cloth_Unisex"),
+			TEXT("LayerTag_UI_PlayerInven_Cloth_Uniform"),
+			TEXT("LayerTag_UI_PlayerInven_Cloth_Event"),
+
+			// 집/아이템
+			TEXT("LayerTag_UI_PlayerInven_House"),
+			TEXT("LayerTag_UI_PlayerInven_Item"),
+			TEXT("LayerTag_UI_Out_Inven_Button"),
+		};
+
+
+		Desc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
+		Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Back_Button"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Out_Inven_Button"), tmp)))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Out_Inven_Button"), static_cast<CButton*>(tmp))))
+			return E_FAIL;
+	}
+
+	/* 아이템 텍스쳐 */
+
 
 	if (FAILED(Layer_UI_LevelUp_Inventory()))
 		return E_FAIL;
@@ -173,6 +332,49 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 	if (FAILED(Layer_UI_SubCategory_Button()))
 		return E_FAIL;
 
+	if (FAILED(Layer_UI_FoodItem()))
+		return E_FAIL;
+
+	if (FAILED(Layer_UI_Favorite_Food_Texture()))
+		return E_FAIL;
+
+	{
+		_wstring DisableLayers[] =
+		{
+			// 배경/공통
+			TEXT("LayerTag_UI_PlayerInven_BackGround"),
+
+			// 카테고리 버튼
+			TEXT("LayerTag_UI_Category_Button"),
+
+			// 서브 카테고리 버튼
+			TEXT("LayerTag_UI_Sub_Category_Button_Food"),
+			TEXT("LayerTag_UI_Sub_Category_Button_Cloth"),
+
+			// 음식 인벤 레이어들
+			TEXT("LayerTag_UI_PlayerInven_Food_Main"),
+			TEXT("LayerTag_UI_PlayerInven_Food_Side"),
+			TEXT("LayerTag_UI_PlayerInven_Food_Dessert"),
+			TEXT("LayerTag_UI_PlayerInven_Food_Drink"),
+
+			// 옷 인벤 레이어들
+			TEXT("LayerTag_UI_PlayerInven_Cloth_Man"),
+			TEXT("LayerTag_UI_PlayerInven_Cloth_Woman"),
+			TEXT("LayerTag_UI_PlayerInven_Cloth_Unisex"),
+			TEXT("LayerTag_UI_PlayerInven_Cloth_Uniform"),
+			TEXT("LayerTag_UI_PlayerInven_Cloth_Event"),
+
+			// 집/아이템
+			TEXT("LayerTag_UI_PlayerInven_House"),
+			TEXT("LayerTag_UI_PlayerInven_Item"),
+		};
+
+
+		for (_wstring str : DisableLayers)
+		{
+			m_pGameInstance->ObjectManager_Disable_Layer(iPlaceID, str);
+		}
+	}
 	return S_OK;
 }
 
@@ -244,12 +446,21 @@ HRESULT CPlace_Room::Layer_UI_FoodItem()
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
 
-	{
-		for (uint32_t i = 0; i < 25; ++i)
-		{
+	CFoodItem_Texture::FOODITEMTEXTURE_DESC Desc = {};
+	Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+	Desc.fCX = 128.f;
+	Desc.fCY = 128.f;
+	Desc.fX = 480.f;
+	Desc.fY = 240.f;
+	Desc.fZ = 0.5f;
 
-		}
-	}
+	tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_FoodItem"), &Desc);
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_FoodItem"), tmp)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -265,6 +476,10 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 	Desc.fY = 40.f;
 	Desc.fZ = 0.5f;
 
+	CIconTexture::ICONTEXTURE_DESC IconDesc = {};
+	IconDesc.eRenderGroup = Desc.eRenderGroup;
+	IconDesc.fZ = 0.4f;
+
 	CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
 	strgyDesc.ePlaceID = PLACEID::ROOM;
 	strgyDesc.strLayerTag = TEXT("LayerTag_UI_Category_Button");
@@ -276,8 +491,7 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 		vector<_wstring>{TEXT("LayerTag_UI_PlayerInven_Item")},
 	};
 
-	vector<_wstring> DisableLayerArr[] =
-	{
+	vector<_wstring> DisableLayerArr[] = {
 		// [0] FOOD 버튼 클릭 시: "Food_Main"만 켜고 나머지는 전부 끄기
 		vector<_wstring>{
 			TEXT("LayerTag_UI_Sub_Category_Button_Cloth"),
@@ -357,6 +571,13 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 			},
 	};
 
+	XMFLOAT2 IconSizeArr[] = {
+		XMFLOAT2{40.f, 46.f},
+		XMFLOAT2{48.f, 42.f},
+		XMFLOAT2{68.f, 44.f},
+		XMFLOAT2{75.f, 44.f},
+	};
+
 	for (uint32_t i = 0; i < 4; ++i)
 	{
 		Desc.fX = 200.f + (125.f * i);
@@ -375,6 +596,21 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 
 		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Category_Button"), static_cast<CButton*>(tmp))))
 			return E_FAIL;
+
+
+		/* 아이콘 텍스쳐 */
+		IconDesc.fX = Desc.fX;
+		IconDesc.fY = Desc.fY;
+		IconDesc.iTextureIndex = 8 + i;
+		IconDesc.fCX = IconSizeArr[i].x;
+		IconDesc.fCY = IconSizeArr[i].y;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Icon"), &IconDesc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Category_Button"), tmp)))
+			return E_FAIL;
 	}
 
 	return S_OK;
@@ -392,6 +628,10 @@ HRESULT CPlace_Room::Layer_UI_SubCategory_Button()
 	Desc.fY = 100.f;
 	Desc.fZ = 0.5f;
 
+	CIconTexture::ICONTEXTURE_DESC IconDesc = {};
+	IconDesc.eRenderGroup = Desc.eRenderGroup;
+	IconDesc.fZ = 0.4f;
+
 	CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
 	strgyDesc.ePlaceID = PLACEID::ROOM;
 
@@ -401,6 +641,13 @@ HRESULT CPlace_Room::Layer_UI_SubCategory_Button()
 		TEXT("LayerTag_UI_PlayerInven_Food_Side"),
 		TEXT("LayerTag_UI_PlayerInven_Food_Dessert"),
 		TEXT("LayerTag_UI_PlayerInven_Food_Drink"),
+	};
+
+	XMFLOAT2 FoodIconSizeArr[] = {
+		XMFLOAT2{60.f, 22.f},
+		XMFLOAT2{60.f, 22.f},
+		XMFLOAT2{38.f, 20.f},
+		XMFLOAT2{27.f, 22.f},
 	};
 
 	for (uint32_t i = 0; i < 4; ++i)
@@ -432,6 +679,20 @@ HRESULT CPlace_Room::Layer_UI_SubCategory_Button()
 
 		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Sub_Category_Button_Food"), static_cast<CButton*>(tmp))))
 			return E_FAIL;
+
+		/* 아이콘 텍스쳐 */
+		IconDesc.fX = Desc.fX;
+		IconDesc.fY = Desc.fY;
+		IconDesc.iTextureIndex = 12 + i;
+		IconDesc.fCX = FoodIconSizeArr[i].x;
+		IconDesc.fCY = FoodIconSizeArr[i].y;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Icon"), &IconDesc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Sub_Category_Button_Food"), tmp)))
+			return E_FAIL;
 	}
 
 	/* 옷 */
@@ -441,6 +702,14 @@ HRESULT CPlace_Room::Layer_UI_SubCategory_Button()
 		TEXT("LayerTag_UI_PlayerInven_Cloth_Unisex"),
 		TEXT("LayerTag_UI_PlayerInven_Cloth_Uniform"),
 		TEXT("LayerTag_UI_PlayerInven_Cloth_Event"),
+	};
+
+	XMFLOAT2 ClothIconSizeArr[] = {
+		XMFLOAT2{18.f, 30.f},
+		XMFLOAT2{18.f, 30.f},
+		XMFLOAT2{32.f, 30.f},
+		XMFLOAT2{18.f, 30.f},
+		XMFLOAT2{32.f, 30.f},
 	};
 
 	for (uint32_t i = 0; i < 5; ++i)
@@ -470,6 +739,20 @@ HRESULT CPlace_Room::Layer_UI_SubCategory_Button()
 			return E_FAIL;
 
 		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Sub_Category_Button_Cloth"), static_cast<CButton*>(tmp))))
+			return E_FAIL;
+
+		/* 아이콘 텍스쳐 */
+		IconDesc.fX = Desc.fX;
+		IconDesc.fY = Desc.fY;
+		IconDesc.iTextureIndex = 16 + i;
+		IconDesc.fCX = ClothIconSizeArr[i].x;
+		IconDesc.fCY = ClothIconSizeArr[i].y;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Icon"), &IconDesc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Sub_Category_Button_Cloth"), tmp)))
 			return E_FAIL;
 	}
 
@@ -585,6 +868,67 @@ HRESULT CPlace_Room::Layer_UI_PlayerInven_Button()
 
 			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_PlayerInven_Item"), static_cast<CButton*>(tmp))))
 				return E_FAIL;
+		}
+	}
+
+	return S_OK;
+}
+
+HRESULT CPlace_Room::Layer_UI_Favorite_Food_Texture()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
+	
+	{
+		CFavoriteFood_Texture::FAVORITEFOODTEXTURE_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+		Desc.fX = 277.5f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 450.f;
+		Desc.fCY = 25.f;
+
+		_float yPosArr[] = {
+				90.f, 200.f, 350.f
+		};
+		for (uint32_t i = 0; i < 3; ++i)
+		{
+			Desc.fY = yPosArr[i];
+			Desc.iTextureIndex = i;
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_FavoriteFood"), &Desc);
+			if (nullptr == tmp)
+				return E_FAIL;
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Top"), tmp)))
+				return E_FAIL;
+		}
+	}
+
+	{
+		CPlayerInven_Button::PLAYERINVENBUTTON_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+		Desc.fX = 285.f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 430.f;
+		Desc.fCY = 35.f;
+
+		_float yPosArr[] = {
+			125.f, 165.f, 235.f, 275.f, 315.f, 385.f, 425.f
+		};
+
+		for (uint32_t i = 0; i < 7; ++i)
+		{
+			Desc.fY = yPosArr[i];
+			Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+			Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+			Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_PlayerInven_Button"), &Desc);
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_TOP"), tmp)))
+				return E_FAIL;
+
 		}
 	}
 

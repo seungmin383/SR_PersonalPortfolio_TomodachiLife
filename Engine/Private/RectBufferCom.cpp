@@ -138,5 +138,6 @@ CObject* CRectBufferCom::Clone(void* pArg)
 
 void CRectBufferCom::Free()
 {
+	DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	CVIBufferCom::Free();
 }

@@ -166,7 +166,7 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 
 				IconDesc.iTextureIndex = iIndex;
 
-				tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_Icon"), &IconDesc);
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Icon"), &IconDesc);
 				if (nullptr == tmp)
 					return E_FAIL;
 

@@ -17,7 +17,7 @@ HRESULT CMiiEdit_Strgy::Initialize(_wstring strLayerTag, PARTS ePart, uint32_t i
 
 void CMiiEdit_Strgy::OnClick()
 {
-	m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::MII_EDITOR), m_strLayerTag);
+	m_pGameInstance->ButtonManager_Layer_Deactivate(static_cast<uint32_t>(PLACEID::MII_EDITOR), m_strLayerTag);
 
 	switch (m_ePart)
 	{

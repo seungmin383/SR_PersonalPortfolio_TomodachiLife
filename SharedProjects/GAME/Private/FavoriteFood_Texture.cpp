@@ -24,6 +24,9 @@ HRESULT CFavoriteFood_Texture::Initialize_Origin()
 
 HRESULT CFavoriteFood_Texture::Initialize_Clone(void* pArg)
 {
+	FAVORITEFOODTEXTURE_DESC* pDesc = static_cast<FAVORITEFOODTEXTURE_DESC*>(pArg);
+	m_iTextureIndex = pDesc->iTextureIndex;
+
 	if (FAILED(CUI::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -40,17 +43,11 @@ int32_t CFavoriteFood_Texture::Update_Priority(_float fDT)
 
 int32_t CFavoriteFood_Texture::Update(_float fDT)
 {
-	m_iCurTextureIndex = m_pGameInstance->ButtonManager_Get_BuildingNameTextureIndex();
-
-
 	return 0;
 }
 
 void CFavoriteFood_Texture::Update_Late(_float fDT)
 {
-	if (!m_pGameInstance->ButtonManager_Get_HasSelectedPlaceMoveButton())
-		m_iCurTextureIndex = 24;
-
 	CUI::Update_Late(fDT);
 }
 
@@ -65,7 +62,7 @@ HRESULT CFavoriteFood_Texture::Render()
 	if (FAILED(m_pRectBufferCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(VTS_DEFAULT_BLENDING)))
+	if (FAILED(m_pShaderCom->Begin(VTS_DEFAULT)))
 		return E_FAIL;
 
 	if (FAILED(m_pRectBufferCom->Begin_Draw()))
@@ -80,7 +77,7 @@ HRESULT CFavoriteFood_Texture::Ready_Component()
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_BuildingName_Texture"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::ROOM), TEXT("ProtoTag_Component_FavoriteFood_Texture"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom), nullptr)))
 		return E_FAIL;
 
@@ -99,7 +96,7 @@ HRESULT CFavoriteFood_Texture::Bind_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ)))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iCurTextureIndex)))
+	if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureIndex)))
 		return E_FAIL;
 
 	return S_OK;

@@ -47,7 +47,8 @@ HRESULT CButtonManager::Add_Button(uint32_t iPlaceID, const _wstring& strLayerta
 	return S_OK;
 }
 
-HRESULT CButtonManager::All_Deactivate(uint32_t iPlaceID, const _wstring& strLayertag)
+/* 들어온 레이어 태그에 있는 모든 버튼을 비활성화 */
+HRESULT CButtonManager::Layer_Deactivate(uint32_t iPlaceID, const _wstring& strLayertag)
 {
 	auto iter = m_Buttons[iPlaceID].find(strLayertag);
 	if (iter == m_Buttons[iPlaceID].end())
@@ -63,6 +64,22 @@ HRESULT CButtonManager::All_Deactivate(uint32_t iPlaceID, const _wstring& strLay
 
 	return S_OK;
 }
+
+/* 현재 모든 활성화된 버튼을 비활성화 */
+HRESULT CButtonManager::All_Deactive(uint32_t iPlaceID)
+{
+	for (auto& pair : m_Buttons[iPlaceID])
+	{
+		for (auto pButton : pair.second)
+		{
+			pButton->Set_isClicked(FALSE);
+			pButton->Set_isSelected(FALSE);
+		}
+	}
+
+	return S_OK;
+}
+
 
 void CButtonManager::Set_CurButton(CButton* pButton)
 {

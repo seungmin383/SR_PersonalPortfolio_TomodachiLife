@@ -15,6 +15,7 @@
 #include "PlayerInven_Button.h"
 #include "TestMii.h"
 #include "UICamera.h"
+#include "FavoriteFood_Texture.h"
 #include "Weapon.h"
 #include "WorldCamera.h"
 #include "MiiEditButton.h"
@@ -641,6 +642,15 @@ HRESULT CLoader::Loading_Room()
 			return E_FAIL;
 	}
 
+	/* 좋아하는 음식 텍스쳐 텍스쳐 */
+	// ProtoTag_Component_FavoriteFood_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/FavoriteFood_Textrue/%d.dds"), 3);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_FavoriteFood_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+
 
 	/* Actor */
 
@@ -661,6 +671,15 @@ HRESULT CLoader::Loading_Room()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_LevelUp_Inventory"), tmp)))
 			return E_FAIL;
 	}
+
+	/* 좋아하는 음식 텍스쳐 */
+	// ProtoTag_UI_FavoriteFood
+	{
+		tmp = CFavoriteFood_Texture::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_FavoriteFood"), tmp)))
+			return E_FAIL;
+	}
+
 
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));

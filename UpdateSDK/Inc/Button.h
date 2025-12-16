@@ -33,6 +33,7 @@ public:
 	void Set_isSelected(_bool is) { m_isSelected = is; }
 	void Set_ButtonIndex(_int i) { m_iButtonIndex = i; }
 	int32_t Get_ButtonIndex() { return m_iButtonIndex; }
+	void Set_isClicked(_bool is) { m_isClicked = is; }
 
 protected:
 	_bool m_isOverlappedMouse = { FALSE };

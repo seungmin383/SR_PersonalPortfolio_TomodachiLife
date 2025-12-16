@@ -31,7 +31,6 @@ public:
 public:
 	typedef struct tagFoodItemTextureIndex : public UI_DESC
 	{
-		uint32_t iTextureIndex = {};
 		_wstring strItemName = {};
 		uint32_t iPrice = {};
 		uint32_t iQuantity = {};
@@ -67,11 +66,15 @@ private:
 	CTextureCom* m_pItemIcon_TextureCom = { nullptr };
 
 private:
-	uint32_t m_iTextureIndex	= {};
+	uint32_t m_iTextureIndex	= {1};
 	_wstring m_strName			= {};
 	uint32_t m_iPrice			= {};
 	uint32_t m_iQuantity		= {};
 	int32_t m_iFlavor			= {};
+
+	_bool m_isUp = { FALSE };
+	_bool m_isDown = { FALSE };
+	_float m_fTimer = {};
 
 public:
 	static CFoodItem_Texture* Create(

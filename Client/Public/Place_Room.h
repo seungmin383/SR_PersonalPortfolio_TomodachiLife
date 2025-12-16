@@ -35,6 +35,8 @@ public:
 
 	HRESULT Layer_UI_PlayerInven_Button();
 
+	HRESULT	Layer_UI_Favorite_Food_Texture();
+
 public:
 	static CPlace_Room* Create(
 		ID3D11Device* pDevice,

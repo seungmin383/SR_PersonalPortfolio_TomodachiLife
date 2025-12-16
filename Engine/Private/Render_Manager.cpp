@@ -57,7 +57,7 @@ HRESULT CRenderManager::Render_Top_Priority()
 
 		if (FAILED(Object->Render()))
 		{
-			MSG_BOX("ErrCode :Top Priority Object Render Failed");
+			MSG_BOX("ErrCode : Top Priority Object Render Failed");
 			return E_FAIL;
 		}
 		Safe_Release(Object);
@@ -75,7 +75,7 @@ HRESULT CRenderManager::Render_Top_NonBlend()
 
 		if (FAILED(Object->Render()))
 		{
-			MSG_BOX("ErrCode :Top Non Blend Object Render Failed");
+			MSG_BOX("ErrCode : Top Non Blend Object Render Failed");
 			return E_FAIL;
 		}
 		Safe_Release(Object);
@@ -93,7 +93,7 @@ HRESULT CRenderManager::Render_Top_Blend()
 
 		if (FAILED(Object->Render()))
 		{
-			MSG_BOX("ErrCode :Top Blend Object Render Failed");
+			MSG_BOX("ErrCode : Top Blend Object Render Failed");
 			return E_FAIL;
 		}
 		Safe_Release(Object);
@@ -113,7 +113,7 @@ HRESULT CRenderManager::Render_Top_UI()
 		{
 			if (FAILED(Object->Render()))
 			{
-				MSG_BOX("ErrCode :Top UI Object Render Failed");
+				MSG_BOX("ErrCode : Top UI Object Render Failed");
 				return E_FAIL;
 			}
 		}
@@ -135,7 +135,7 @@ HRESULT CRenderManager::Render_Top_UI_Blend()
 		{
 			if (FAILED(Object->Render()))
 			{
-				MSG_BOX("ErrCode :Top UI Blend Object Render Failed");
+				MSG_BOX("ErrCode : Top UI Blend Object Render Failed");
 				return E_FAIL;
 			}
 		}
@@ -160,7 +160,7 @@ HRESULT CRenderManager::Render_Bottom_Priority()
 
 		if (FAILED(Object->Render()))
 		{
-			MSG_BOX("ErrCode :Bottom Priority Object Render Failed");
+			MSG_BOX("ErrCode : Bottom Priority Object Render Failed");
 			return E_FAIL;
 		}
 		Safe_Release(Object);
@@ -178,7 +178,7 @@ HRESULT CRenderManager::Render_Bottom_NonBlend()
 
 		if (FAILED(Object->Render()))
 		{
-			MSG_BOX("ErrCode :Bottom Non Blend Object Render Failed");
+			MSG_BOX("ErrCode : Bottom Non Blend Object Render Failed");
 			return E_FAIL;
 		}
 
@@ -197,7 +197,7 @@ HRESULT CRenderManager::Render_Bottom_Blend()
 
 		if (FAILED(Object->Render()))
 		{
-			MSG_BOX("ErrCode :Bottom Blend Object Render Failed");
+			MSG_BOX("ErrCode : Bottom Blend Object Render Failed");
 			return E_FAIL;
 		}
 		Safe_Release(Object);
@@ -217,7 +217,7 @@ HRESULT CRenderManager::Render_Bottom_UI()
 		{
 			if (FAILED(Object->Render()))
 			{
-				MSG_BOX("ErrCode :Bottom UI Object Render Failed");
+				MSG_BOX("ErrCode : Bottom UI Object Render Failed");
 				return E_FAIL;
 			}
 		}
@@ -238,7 +238,7 @@ HRESULT CRenderManager::Render_Bottom_UI_Blend()
 		{
 			if (FAILED(Object->Render()))
 			{
-				MSG_BOX("ErrCode :Bottom UI Blend Object Render Failed");
+				MSG_BOX("ErrCode : Bottom UI Blend Object Render Failed");
 				return E_FAIL;
 			}
 		}

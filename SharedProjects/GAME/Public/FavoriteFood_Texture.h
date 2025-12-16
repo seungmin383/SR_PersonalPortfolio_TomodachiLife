@@ -15,10 +15,11 @@ NS_BEGIN(Game)
 class CFavoriteFood_Texture final : public CUI
 {
 public:
-	typedef struct tagBuildingNameDesc : public UI_DESC
+	typedef struct tagFavoriteFoodTextureDesc : public UI_DESC
 	{
+		uint32_t iTextureIndex = {};
 
-	}BUILDINGNAME_DESC;
+	}FAVORITEFOODTEXTURE_DESC;
 
 protected:
 	CFavoriteFood_Texture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -39,15 +40,12 @@ private:
 	HRESULT Ready_Component();
 	HRESULT Bind_ShaderResources();
 
-public:
-	void Set_CurTextureIndex(uint32_t i) { m_iCurTextureIndex = i; }
-
 private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CTextureCom* m_pTextureCom = { nullptr };
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
-	uint32_t m_iCurTextureIndex = { 0 };
+	uint32_t m_iTextureIndex = {  };
 
 public:
 	static CFavoriteFood_Texture* Create(

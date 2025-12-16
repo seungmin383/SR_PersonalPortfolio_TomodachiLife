@@ -18,7 +18,8 @@ public:
 	HRESULT Add_Button(uint32_t iPlaceID,const _wstring& strLayertag,  CButton* pButton);
 
 
-	HRESULT All_Deactivate(uint32_t iPlaceID, const _wstring& strLayertag);
+	HRESULT Layer_Deactivate(uint32_t iPlaceID, const _wstring& strLayertag);
+	HRESULT All_Deactive(uint32_t iPlaceID);
 
 	void Set_CurButton(CButton* pButton);
 	CButton* Get_CurButton();

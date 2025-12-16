@@ -35,6 +35,8 @@ private:
 private:
 	vector<CFoodItem_Texture*> m_pFoodItems;
 
+	vector<ITEM_FOOD_INFO> m_FoodInformations;
+
 	uint32_t m_iCurSelectedFoodItemIndex = {};
 
 public:

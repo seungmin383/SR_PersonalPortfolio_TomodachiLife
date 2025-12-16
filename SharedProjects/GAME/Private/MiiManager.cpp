@@ -87,7 +87,7 @@ HRESULT CMiiManager::End_Edit()
 	MSG_BOX("Success Save : MiiData");
 
 	m_Mii_Informations.push_back(m_EditDesc);
-	m_isEdit = FALSE;
+	m_isEdit = FALSE; 
 	return S_OK;
 }
 

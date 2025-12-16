@@ -42,7 +42,7 @@ VS_OUT VS_MAIN(VS_IN In)
 
 sampler DefaultSampler = sampler_state
 {
-    Filter = MIN_MAG_MIP_LINEAR;
+    Filter = MIN_MAG_MIP_POINT;
     AddressU = wrap;
     AddressV = wrap;
 };
@@ -66,7 +66,7 @@ PS_OUT PS_MAIN(PS_IN In)
     
     float4 TextureColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
 
-    if (TextureColor.a < 0.1f)
+    if (TextureColor.a < 0.3f)
         discard;
   
     Out.vColor = TextureColor;

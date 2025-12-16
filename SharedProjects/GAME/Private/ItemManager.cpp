@@ -38,23 +38,13 @@ void CItemManager::Show_Item(ITEM_TYPE eItemType, uint32_t iIndex)
 	}
 }
 
-/* ProtoTag_UI_FoodItem */
 HRESULT CItemManager::Ready_Items()
 {
 	CObject* tmp = { nullptr };
-	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::STATIC);
 
 	// Food Item
 	{
-		CFoodItem_Texture::FOODITEMTEXTURE_DESC Desc = {};
-		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
-		Desc.fCX	= 128.f;
-		Desc.fCY	= 128.f;
-		Desc.fX		= 480.f;
-		Desc.fY		= 240.f;
-		Desc.fZ		= 0.5f;
-
-		_wstring FoodNameArr[] = {
+		_wstring FoodNameArr[]		= {
 			TEXT(""),
 			TEXT("컵라면"),
 			TEXT("숱불구이"),
@@ -89,7 +79,7 @@ HRESULT CItemManager::Ready_Items()
 			TEXT("아이스커피"),
 		};
 
-		uint32_t FoodPriceArr[] = {
+		uint32_t FoodPriceArr[]		= {
 			0,
 			1200,   // 컵라면
 			5800,   // 숯불구이
@@ -124,7 +114,7 @@ HRESULT CItemManager::Ready_Items()
 			1800,   // 아이스커피
 		};
 
-		uint32_t FoodQuantityArr[] = {
+		uint32_t FoodQuantityArr[]	= {
 			0,   // (None)
 
 			35,  // 컵라면
@@ -160,7 +150,7 @@ HRESULT CItemManager::Ready_Items()
 			15,  // 아이스커피
 		};
 
-		int32_t FoodFlavorArr[] = {
+		int32_t FoodFlavorArr[]		= {
 			0, // (None)
 			TOFLAG2(SALTY, UMAMI),        // 컵라면
 			TOFLAG2(UMAMI, SALTY),        // 숯불구이
@@ -195,22 +185,15 @@ HRESULT CItemManager::Ready_Items()
 			TOFLAG2(BITTER, REFRESHING),  // 아이스커피
 		};
 
-		
 		for (uint32_t i = 0; i < 29; i++)
 		{
-			Desc.iTextureIndex	= i;					/* 아이템 텍스쳐 */
-			Desc.strItemName	= FoodNameArr[i];		/* 아이템 이름 */
-			Desc.iPrice			= FoodPriceArr[i];		/* 가격 */
-			Desc.iQuantity		= FoodQuantityArr[i];	/* 포만도 */
-			Desc.iFoodFlavor	= FoodFlavorArr[i];		/* 맛 */
+			ITEM_FOOD_INFO Desc = {};
+			Desc.strName	= FoodNameArr[i];		/*	 아이템 이름	*/
+			Desc.iPrice		= FoodPriceArr[i];		/*		가격		*/
+			Desc.iSatiety	= FoodQuantityArr[i];	/*	   포만도		*/
+			Desc.iFlavor	= FoodFlavorArr[i];		/*		 맛			*/
 
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID,	TEXT("ProtoTag_UI_FoodItem"), &Desc);
-			if (nullptr == tmp)
-				return E_FAIL;
-
-			m_pFoodItems.push_back(static_cast<CFoodItem_Texture*>(tmp));
-	
-			m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_Static_UI_FoodItem"), tmp);
+			m_FoodInformations.push_back(Desc);
 		}
 	}
 

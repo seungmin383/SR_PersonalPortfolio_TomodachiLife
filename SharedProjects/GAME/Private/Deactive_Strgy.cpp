@@ -17,7 +17,7 @@ HRESULT CDeactive_Strgy::Initialize(PLACEID ePlaceID, const _wstring& strLayerTa
 
 void CDeactive_Strgy::OnClick()
 {
-	m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(m_ePlaceID), m_strLayerTag);
+	m_pGameInstance->ButtonManager_Layer_Deactivate(static_cast<uint32_t>(m_ePlaceID), m_strLayerTag);
 }
 
 CDeactive_Strgy* CDeactive_Strgy::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, PLACEID ePlaceID, const _wstring& strLayerTag)

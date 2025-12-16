@@ -216,7 +216,8 @@ public:
 #pragma region BUTTONMANAGER
 	HRESULT ButtonManager_Add_Button(uint32_t iPlaceID, const _wstring& strLayerTag, CButton* pButton);
 
-	HRESULT ButtonManager_All_Deactivate(uint32_t iPlaceID, const _wstring& strLayerTag);
+	HRESULT ButtonManager_Layer_Deactivate(uint32_t iPlaceID, const _wstring& strLayerTag);
+	HRESULT ButtonManager_All_Deactivate(uint32_t iPlaceID);
 
 	void ButtonManager_Set_CurButton(CButton* pButton);
 	CButton* ButtonManager_Get_CurButton();

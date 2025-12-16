@@ -17,7 +17,7 @@ HRESULT CMiiProfileEdit_Strgy::Initialize(_wstring strLayerTag, TEXTTYPE eType)
 
 void CMiiProfileEdit_Strgy::OnClick()
 {
-	m_pGameInstance->ButtonManager_All_Deactivate(static_cast<uint32_t>(PLACEID::MII_EDITOR), m_strLayerTag);
+	m_pGameInstance->ButtonManager_Layer_Deactivate(static_cast<uint32_t>(PLACEID::MII_EDITOR), m_strLayerTag);
 
 	m_pGameInstance->ButtonManager_Get_Text();
 }
