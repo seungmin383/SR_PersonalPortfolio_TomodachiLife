@@ -43,6 +43,8 @@ public:
 
 	HRESULT Ready_Static_Item();
 
+	HRESULT Ready_Fonts();
+
 private://디바이스 관리
 	ID3D11Device*			m_pDevice = { nullptr };
 	ID3D11DeviceContext*	m_pContext = { nullptr };

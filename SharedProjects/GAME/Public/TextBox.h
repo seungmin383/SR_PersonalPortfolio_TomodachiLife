@@ -17,6 +17,10 @@ class CTextBox final : public CUI
 public:
 	typedef struct tagTextBoxDesc : public UI_DESC
 	{
+		_wstring strFontTag		= {};
+		uint32_t iTextureIndex	= {};
+		const _tchar* strText	= {};
+		XMVECTORF32 vTextColor	= {};
 	}TEXTBOX_DESC;
 
 protected:
@@ -42,6 +46,12 @@ private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CTextureCom* m_pTextureCom = { nullptr };
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
+
+private:
+	_wstring m_strFontTag = {};
+	const _tchar* m_strText = {};
+	uint32_t m_iTextureIndex = {};
+	XMFLOAT4 m_vColor = {};
 
 public:
 	static CTextBox* Create(

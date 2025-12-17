@@ -226,6 +226,18 @@
     <Filter Include="01.Utility\03.Object\01.Actor\Manager">
       <UniqueIdentifier>{363e37e1-3c21-428c-be84-2aec5e17c9c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\09.RenderTarget">
+      <UniqueIdentifier>{58debdae-ef9e-490d-a35a-860c34ff72a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\09.RenderTarget\Manager">
+      <UniqueIdentifier>{cbc9b65b-20a3-441e-bace-06911ab9f58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\10.Font">
+      <UniqueIdentifier>{78a16bfd-79aa-4fb5-a808-2ae9c4a9a5e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\10.Font\Manager">
+      <UniqueIdentifier>{84197162-216d-4b1b-b130-554141d46165}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -425,6 +437,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\ParticleBufferCom_Point.cpp">
       <Filter>01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer\01.Point</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Font.cpp">
+      <Filter>01.Utility\10.Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FontManager.cpp">
+      <Filter>01.Utility\10.Font\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -682,6 +700,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\ParticleBufferCom_Point.h">
       <Filter>01.Utility\03.Object\02.Component\00.Buffer\02.ParticleBuffer\01.Point</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Font.h">
+      <Filter>01.Utility\10.Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FontManager.h">
+      <Filter>01.Utility\10.Font\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

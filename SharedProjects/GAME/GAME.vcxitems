@@ -40,7 +40,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ConvertJson.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Deactive_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Explosion.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\FavoriteFood_Texture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\FoodItem_Texture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Gauge.cpp" />
@@ -118,7 +117,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ConvertJson.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Deactive_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Explosion.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\FavoriteFood_Texture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\FoodItem_Texture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Defines.h" />

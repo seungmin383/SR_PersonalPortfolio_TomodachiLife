@@ -12,6 +12,7 @@
 #include "Object_Manager.h"
 #include "PipeLine.h"
 #include "Place_Manager.h"
+#include "FontManager.h"
 #include "Render_Manager.h"
 #include "Timer_Manager.h"
 #include "UI.h"
@@ -200,6 +201,17 @@ HRESULT CGameInstance::Initialize(
 			return E_FAIL;
 		}
 	}
+
+	// FontManager
+	{
+		m_pFontManager = CFontManager::Create(*ppDevice, *ppContext);
+		if (nullptr == m_pActorManager)
+		{
+			MSG_BOX("ErrCode : FontManager Create Failed");
+			return E_FAIL;
+		}
+	}
+
 	return S_OK;
 }
 
@@ -707,9 +719,21 @@ _bool CGameInstance::ActorManager_Get_IsBuildingUnlock() const
 	return m_pActorManager->Get_IsBuildingUnlock();
 }
 
+HRESULT CGameInstance::FontManager_Add_Font(const _wstring& strFontTag, const _tchar* pFontFilePath)
+{
+	return m_pFontManager->Add_Font(strFontTag, pFontFilePath);
+}
+
+HRESULT CGameInstance::FontManager_Draw_Text(const _wstring& strFontTag, const _tchar* pText, const _float2& vPos, FXMVECTOR vColor)
+{
+	return m_pFontManager->Draw_Text(strFontTag, pText, vPos, vColor);
+}
 
 #pragma endregion
 
+#pragma region FONTMANAGER
+
+#pragma endregion
 
 
 
@@ -728,6 +752,7 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pPrototype);
 	Safe_Release(m_pGraphicDevice);
 	Safe_Release(m_pMouseManager);
+	Safe_Release(m_pFontManager);
 	Safe_Release(m_pUIManager);
 	Safe_Release(m_pFileManager);
 	Safe_Release(m_pCollisionManager);

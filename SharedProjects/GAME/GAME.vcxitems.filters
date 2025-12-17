@@ -199,9 +199,6 @@
     <Filter Include="02.Actor\98.ParticleTest\01.Explosion">
       <UniqueIdentifier>{4e99ffad-dcbf-42d4-8ac3-0d674b3ffac9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\01.Button\00.OnclickStrategy\11.SetGender">
-      <UniqueIdentifier>{4842731a-4e1d-4826-b78c-039ec15676b6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\02.BackGround\BlueBackGround">
       <UniqueIdentifier>{34a63ba5-01d6-4420-bdb8-5ed20120aba2}</UniqueIdentifier>
     </Filter>
@@ -264,6 +261,9 @@
     </Filter>
     <Filter Include="03.UI\03.Texture\06.TextBox">
       <UniqueIdentifier>{2462d296-0abf-4bfe-83f7-ba3f3069cda7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\00.OnclickStrategy\11.BeginMiiEdit">
+      <UniqueIdentifier>{4842731a-4e1d-4826-b78c-039ec15676b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -477,7 +477,7 @@
       <Filter>02.Actor\98.ParticleTest\01.Explosion</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BeginMiiEdit.h">
-      <Filter>03.UI\01.Button\00.OnclickStrategy\11.SetGender</Filter>
+      <Filter>03.UI\01.Button\00.OnclickStrategy\11.BeginMiiEdit</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PUblic\BlueBackGround.h">
       <Filter>03.UI\02.BackGround\BlueBackGround</Filter>
@@ -487,9 +487,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Item.h">
       <Filter>02.Actor\07.Item\LevelUpItem</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\FavoriteFood_Texture.h">
-      <Filter>03.UI\03.Texture\01.FavoriteFood</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlayerInven_Button.h">
       <Filter>03.UI\01.Button\10.PlayerInventory</Filter>
@@ -701,7 +698,7 @@
       <Filter>02.Actor\98.ParticleTest\01.Explosion</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BeginMiiEdit.cpp">
-      <Filter>03.UI\01.Button\00.OnclickStrategy\11.SetGender</Filter>
+      <Filter>03.UI\01.Button\00.OnclickStrategy\11.BeginMiiEdit</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BlueBackGround.cpp">
       <Filter>03.UI\02.BackGround\BlueBackGround</Filter>
@@ -711,9 +708,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Item.cpp">
       <Filter>02.Actor\07.Item\LevelUpItem</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\FavoriteFood_Texture.cpp">
-      <Filter>03.UI\03.Texture\01.FavoriteFood</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlayerInven_Button.cpp">
       <Filter>03.UI\01.Button\10.PlayerInventory</Filter>

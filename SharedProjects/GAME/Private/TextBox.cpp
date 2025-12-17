@@ -25,6 +25,10 @@ HRESULT CTextBox::Initialize_Origin()
 HRESULT CTextBox::Initialize_Clone(void* pArg)
 {
 	TEXTBOX_DESC* pDesc = static_cast<TEXTBOX_DESC*>(pArg);
+	m_strFontTag = pDesc->strFontTag;
+	m_strText = pDesc->strText;
+	m_iTextureIndex = pDesc->iTextureIndex;
+	m_vColor = static_cast<XMFLOAT4>(pDesc->vTextColor);
 
 	if (FAILED(CUI::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -66,6 +70,7 @@ HRESULT CTextBox::Render()
 	if (FAILED(m_pRectBufferCom->Begin_Draw()))
 		return E_FAIL;
 
+	m_pGameInstance->FontManager_Draw_Text(m_strFontTag, m_strText, XMFLOAT2{ m_fX - (m_fCX / 2.f) + 10.f, m_fY - (m_fCY / 2.f) + 5.f}, XMLoadFloat4(&m_vColor));
 	return S_OK;
 }
 
@@ -94,7 +99,7 @@ HRESULT CTextBox::Bind_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ)))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 0)))
+	if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureIndex)))
 		return E_FAIL;
 
 	return S_OK;

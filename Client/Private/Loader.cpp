@@ -16,7 +16,6 @@
 #include "TestMii.h"
 #include "TextBox.h"
 #include "UICamera.h"
-#include "FavoriteFood_Texture.h"
 #include "Weapon.h"
 #include "WorldCamera.h"
 #include "LevelBar.h"
@@ -647,14 +646,6 @@ HRESULT CLoader::Loading_Room()
 			return E_FAIL;
 	}
 
-	/* 좋아하는 음식 텍스쳐 텍스쳐 */
-	// ProtoTag_Component_FavoriteFood_Texture
-	{
-		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/FavoriteFood_Textrue/%d.dds"), 3);
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_FavoriteFood_Texture"), tmp)))
-			return E_FAIL;
-	}
-
 	/* 레벨업 바 텍스쳐 */
 	// ProtoTag_Component_LevelUpBar_Texture
 	{
@@ -692,7 +683,7 @@ HRESULT CLoader::Loading_Room()
 	/* 텍스트 박스 텍스쳐 */
 	// ProtoTag_Component_TextBox_Texture
 	{
-		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/TextBox_Texture/%d.dds"), 1);
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/TextBox_Texture/%d.dds"), 5);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_TextBox_Texture"), tmp)))
 			return E_FAIL;
 	}
@@ -719,15 +710,6 @@ HRESULT CLoader::Loading_Room()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_LevelUp_Inventory"), tmp)))
 			return E_FAIL;
 	}
-
-	/* 좋아하는 음식 텍스쳐 */
-	// ProtoTag_UI_FavoriteFood
-	{
-		tmp = CFavoriteFood_Texture::Create(m_pDevice, m_pContext);
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_FavoriteFood"), tmp)))
-			return E_FAIL;
-	}
-
 
 	/* 레벨업 바 */
 	// ProtoTag_UI_LevelBar

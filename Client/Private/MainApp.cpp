@@ -126,6 +126,7 @@ void CMainApp::Render()
 {
 	m_pGameInstance->Begin_Render();
 
+
 	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::TOP);
 	m_pGameInstance->Render_Top();
 
@@ -170,6 +171,10 @@ HRESULT CMainApp::Ready_Static()
 
 	/* 아이템 */
 	if (FAILED(Ready_Static_Item()))
+		return E_FAIL;
+
+	/* 폰트 */
+	if (FAILED(Ready_Fonts()))
 		return E_FAIL;
 
 	return S_OK;
@@ -826,6 +831,20 @@ HRESULT CMainApp::Ready_Static_Item()
 			return E_FAIL;
 	}
 
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Fonts()
+{
+	if (FAILED(m_pGameInstance->FontManager_Add_Font(TEXT("Basic_Font_18"), TEXT("../../Resource/Fonts/Basic_Font_18.spritefont"))))
+		return E_FAIL;	
+	if (FAILED(m_pGameInstance->FontManager_Add_Font(TEXT("Basic_Font_12"), TEXT("../../Resource/Fonts/Basic_Font_12.spritefont"))))
+		return E_FAIL;	
+	if (FAILED(m_pGameInstance->FontManager_Add_Font(TEXT("Basic_Font_14"), TEXT("../../Resource/Fonts/Basic_Font_14.spritefont"))))
+		return E_FAIL;	
+	if (FAILED(m_pGameInstance->FontManager_Add_Font(TEXT("Basic_Font_16"), TEXT("../../Resource/Fonts/Basic_Font_16.spritefont"))))
+		return E_FAIL;	
 
 	return S_OK;
 }

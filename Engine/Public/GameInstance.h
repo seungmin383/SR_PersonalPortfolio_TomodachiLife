@@ -27,6 +27,7 @@ class CCollisionManager;
 class CCutSceneManager;
 class CCutScene;
 class CActorManager;
+class CFontManager;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -258,31 +259,39 @@ public:
 
 #pragma endregion
 
-
 #pragma region ACTORMANGER
 	void ActorManager_Set_IsBuildingUnlock(_bool isUnlock);
 	_bool ActorManager_Get_IsBuildingUnlock() const;
 #pragma endregion
 
+#pragma region FONTMANAGER
+
+	HRESULT FontManager_Add_Font(const _wstring& strFontTag, const _tchar* pFontFilePath);
+	HRESULT FontManager_Draw_Text(const _wstring& strFontTag, const _tchar* pText, const _float2& vPos, FXMVECTOR vColor);
+
+#pragma endregion
+
+
 private:
-	CTimerManager*		m_pTimerManager = { nullptr };
-	CInput_Device*      m_pInput_Device = { nullptr };
-	CGraphic_Device*	m_pGraphicDevice = { nullptr };	
-	CPlaceManager*		m_pPlaceManager = { nullptr };	
-	CObjectManager*		m_pObjectManager = { nullptr };
-	CRenderManager*		m_pRenderManager = { nullptr };
-	CPrototype*			m_pPrototype	= { nullptr };
-	CPipeLine*			m_pPipeLine = { nullptr };
-	CCameraManager*		m_pCameraManager = { nullptr };
-	CLightManager*		m_pLightManager = { nullptr };
-	CMouseManager*		m_pMouseManager = { nullptr };
-	CFileManager*		m_pFileManager = { nullptr };
-	CButtonManager*		m_pButtonManager = { nullptr };
+	CTimerManager*		m_pTimerManager		= { nullptr };
+	CInput_Device*      m_pInput_Device		= { nullptr };
+	CGraphic_Device*	m_pGraphicDevice	= { nullptr };	
+	CPlaceManager*		m_pPlaceManager		= { nullptr };	
+	CObjectManager*		m_pObjectManager	= { nullptr };
+	CRenderManager*		m_pRenderManager	= { nullptr };
+	CPrototype*			m_pPrototype		= { nullptr };
+	CPipeLine*			m_pPipeLine			= { nullptr };
+	CCameraManager*		m_pCameraManager	= { nullptr };
+	CLightManager*		m_pLightManager		= { nullptr };
+	CMouseManager*		m_pMouseManager		= { nullptr };
+	CFileManager*		m_pFileManager		= { nullptr };
+	CButtonManager*		m_pButtonManager	= { nullptr };
 	CAnimationManager*	m_pAnimationManager = { nullptr };
-	CUIManager*			m_pUIManager = { nullptr };
+	CUIManager*			m_pUIManager		= { nullptr };
 	CCollisionManager*	m_pCollisionManager = { nullptr };
-	CCutSceneManager*	m_pCutSceneManager = { nullptr };
-	CActorManager*		m_pActorManager = { nullptr };
+	CCutSceneManager*	m_pCutSceneManager	= { nullptr };
+	CActorManager*		m_pActorManager		= { nullptr };
+	CFontManager*		m_pFontManager		= { nullptr };
 
 public:
 	void Clear_Engine();

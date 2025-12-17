@@ -1,5 +1,4 @@
 #include "ChangePlace_Strategy.h"
-#include "FavoriteFood_Texture.h"
 #include "ControlEnable_Strgy.h"
 #include "All_Deactive_Strgy.h"
 #include "PlayerInven_Button.h"
@@ -224,7 +223,8 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		strgyDesc.DisableLayers = vector<_wstring>{
 			TEXT("LayerTag_UI_Back_Button"),
 			TEXT("LayerTag_UI_Enter_Inventory_Button") ,
-			TEXT("LayerTag_UI_LevelUp_Inventory") 
+			TEXT("LayerTag_UI_LevelUp_Inventory") ,
+			TEXT("LayerTag_UI_TOP"),
 		};
 
 		Desc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
@@ -275,7 +275,8 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		strgyDesc.EnableLayers = vector<_wstring>{
 			TEXT("LayerTag_UI_Back_Button"),
 			TEXT("LayerTag_UI_Enter_Inventory_Button") ,
-			TEXT("LayerTag_UI_LevelUp_Inventory")
+			TEXT("LayerTag_UI_LevelUp_Inventory"),
+			TEXT("LayerTag_UI_TOP"),
 		};
 
 		strgyDesc.DisableLayers = vector<_wstring>{
@@ -896,36 +897,50 @@ HRESULT CPlace_Room::Layer_UI_Favorite_Food_Texture()
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
 	
 	{
-		CFavoriteFood_Texture::FAVORITEFOODTEXTURE_DESC Desc = {};
+	// 	CFavoriteFood_Texture::FAVORITEFOODTEXTURE_DESC Desc = {};
+
+		CTextBox::TEXTBOX_DESC Desc = {};
 		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
 		Desc.fX = 277.5f;
 		Desc.fZ = 0.5f;
 		Desc.fCX = 450.f;
-		Desc.fCY = 30.f;
+		Desc.fCY = 35.f;
+		Desc.vTextColor = Colors::AntiqueWhite;
+		Desc.strFontTag = TEXT("Basic_Font_16");
 
 		_float yPosArr[] = {
-				90.f, 200.f, 350.f
+			90.f, 200.f, 350.f
+		};
+
+		const _tchar* strTextArr[] = {
+			TEXT("가장 좋아하는 음식 / 좋아하는 음식"),
+			TEXT("그럭저럭 좋아하는 음식"),
+			TEXT("싫어하는 음식 / 가장 싫어하는 음식"),
 		};
 		for (uint32_t i = 0; i < 3; ++i)
 		{
+			Desc.strText = strTextArr[i];
 			Desc.fY = yPosArr[i];
-			Desc.iTextureIndex = i;
-
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_FavoriteFood"), &Desc);
+			Desc.iTextureIndex = 2 + i;
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_TextBox"), &Desc);
 			if (nullptr == tmp)
 				return E_FAIL;
-			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Top"), tmp)))
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_TOP"), tmp)))
 				return E_FAIL;
 		}
 	}
 
 	{
-		CPlayerInven_Button::PLAYERINVENBUTTON_DESC Desc = {};
+		CTextBox::TEXTBOX_DESC Desc = {};
+
 		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
-		Desc.fX = 285.f;
-		Desc.fZ = 0.5f;
-		Desc.fCX = 430.f;
+		Desc.fX = 285.f ;
+		Desc.fZ = 0.5f; 
+		Desc.fCX = 420.f;
 		Desc.fCY = 35.f;
+		Desc.iTextureIndex = 1;
+		Desc.strFontTag = TEXT("Basic_Font_18");
 
 		_float yPosArr[] = {
 			125.f, 165.f, 235.f, 275.f, 315.f, 385.f, 425.f
@@ -934,17 +949,27 @@ HRESULT CPlace_Room::Layer_UI_Favorite_Food_Texture()
 		for (uint32_t i = 0; i < 7; ++i)
 		{
 			Desc.fY = yPosArr[i];
-			Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
-			Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
-			Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+			if (i == 0)
+			{
+				Desc.vTextColor = Colors::Orange;
+			}
+			else if (i == 6)
+			{
+				Desc.vTextColor = Colors::CadetBlue;
+			}
+			else
+			{
+				Desc.vTextColor = Colors::Black;
+			}
 
-			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_PlayerInven_Button"), &Desc);
+			Desc.strText = TEXT("???");
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_TextBox"), &Desc);
 			if (nullptr == tmp)
 				return E_FAIL;
 
 			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_TOP"), tmp)))
 				return E_FAIL;
-
 		}
 	}
 
@@ -1048,6 +1073,9 @@ HRESULT CPlace_Room::Layer_UI_TextBox()
 		CTextBox::TEXTBOX_DESC Desc = {};
 		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
 		Desc.fZ = 0.5f;
+		Desc.iTextureIndex = 0;
+		Desc.strFontTag = TEXT("Basic_Font_14");
+		Desc.vTextColor = Colors::AntiqueWhite;
 	
 		XMFLOAT4 vPosSizeArr[] = {
 			XMFLOAT4{300.f, 40.f, 240.f,  28.f},
@@ -1056,13 +1084,20 @@ HRESULT CPlace_Room::Layer_UI_TextBox()
 			XMFLOAT4{760.f, 280.f, 300.f, 28.f},
 		};
 
+		const _tchar* strTextArr[] = {
+			TEXT("만족도"),
+			TEXT("포만도"),
+			TEXT("연인"),
+			TEXT("절친"),
+		};
+
 		for (uint32_t i = 0; i < 4; ++i)
 		{
 			Desc.fX		= vPosSizeArr[i].x;
 			Desc.fY		= vPosSizeArr[i].y;
 			Desc.fCX	= vPosSizeArr[i].z;
 			Desc.fCY	= vPosSizeArr[i].w;
-
+			Desc.strText = strTextArr[i];
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_TextBox"), &Desc);
 			if (nullptr == tmp)
 				return E_FAIL;

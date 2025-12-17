@@ -217,6 +217,7 @@ HRESULT CTerrainBufferCom::Initialize_Clone(void* pArg)
 	return S_OK;
 }
 
+
 CTerrainBufferCom* CTerrainBufferCom::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext,
@@ -232,6 +233,8 @@ CTerrainBufferCom* CTerrainBufferCom::Create(
 
 	return pInstance;
 }
+
+
 
 CObject* CTerrainBufferCom::Clone(void* pArg)
 {
