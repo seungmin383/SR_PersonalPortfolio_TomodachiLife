@@ -253,6 +253,18 @@
     <Filter Include="03.UI\03.Texture\03.LevelBar\Gauge">
       <UniqueIdentifier>{68ca741e-0d35-4cad-aa74-f2453915dac0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\03.Texture\04.HungryBar">
+      <UniqueIdentifier>{f4ae7386-f3e6-44b9-9875-6fa340d676ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.Texture\04.HungryBar\Gauge">
+      <UniqueIdentifier>{3d4483f2-56b8-4d0b-b793-39adddc0439d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.Texture\05.InfoBox">
+      <UniqueIdentifier>{abb4dc42-2bd9-465b-abd0-07a458b6a362}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.Texture\06.TextBox">
+      <UniqueIdentifier>{2462d296-0abf-4bfe-83f7-ba3f3069cda7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -500,6 +512,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Gauge.h">
       <Filter>03.UI\03.Texture\03.LevelBar\Gauge</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\HungryBar.h">
+      <Filter>03.UI\03.Texture\04.HungryBar</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Hungry_Gauge.h">
+      <Filter>03.UI\03.Texture\04.HungryBar\Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\InfoBox.h">
+      <Filter>03.UI\03.Texture\05.InfoBox</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\TextBox.h">
+      <Filter>03.UI\03.Texture\06.TextBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -711,6 +735,18 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Gauge.cpp">
       <Filter>03.UI\03.Texture\03.LevelBar\Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\HungryBar.cpp">
+      <Filter>03.UI\03.Texture\04.HungryBar</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Hungry_Gauge.cpp">
+      <Filter>03.UI\03.Texture\04.HungryBar\Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\InfoBox.cpp">
+      <Filter>03.UI\03.Texture\05.InfoBox</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\TextBox.cpp">
+      <Filter>03.UI\03.Texture\06.TextBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -191,13 +191,31 @@ PS_OUT PS_TEXCOORD(PS_IN In)
 
 
 /* 게이지 */
-PS_OUT PS_GAUGE(PS_IN In)
+PS_OUT PS_GAUGE_RIGHT(PS_IN In)
 {
     PS_OUT Out;
     
     float4 TextureColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
-    
     if (In.vTexcoord.x > g_TexCoord)
+        discard;
+    
+    if (TextureColor.a < 0.3f)
+        discard;
+    
+    Out.vColor = TextureColor;
+    return Out;
+}
+
+/* 업 게이지 */
+PS_OUT PS_GAUGE_UP(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float4 TextureColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    if (In.vTexcoord.y < 1.f - g_TexCoord)
+        discard;
+    
+    if (TextureColor.a < 0.3f)
         discard;
     
     Out.vColor = TextureColor;
@@ -294,7 +312,7 @@ technique11 DefaultTechnique
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 
-    pass Gauge
+    pass GaugeRight
     {
         SetRasterizerState(RS_NoneCull);
         SetDepthStencilState(DSS_Default, 0);
@@ -302,7 +320,18 @@ technique11 DefaultTechnique
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_GAUGE();
+        PixelShader = compile ps_5_0 PS_GAUGE_RIGHT();
+    }
+
+    pass GaugeUp
+    {
+        SetRasterizerState(RS_NoneCull);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_GAUGE_UP();
     }
 
 }

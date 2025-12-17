@@ -14,6 +14,7 @@
 #include "Terrain.h"
 #include "PlayerInven_Button.h"
 #include "TestMii.h"
+#include "TextBox.h"
 #include "UICamera.h"
 #include "FavoriteFood_Texture.h"
 #include "Weapon.h"
@@ -22,6 +23,8 @@
 #include "Gauge.h"
 #include "MiiEditButton.h"
 #include "PageButton.h"
+#include "HungryBar.h"
+#include "Hungry_Gauge.h"
 #include "Collider.h"
 #include "IconTexture.h"
 #include "TextButton.h"
@@ -652,7 +655,7 @@ HRESULT CLoader::Loading_Room()
 			return E_FAIL;
 	}
 
-	/* 레벨업 바 */
+	/* 레벨업 바 텍스쳐 */
 	// ProtoTag_Component_LevelUpBar_Texture
 	{
 		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/LevelUpBar_Texture/%d.dds"), 1);
@@ -660,13 +663,40 @@ HRESULT CLoader::Loading_Room()
 			return E_FAIL;
 	}
 
-	/* 레벨업 게이지 */
+	/* 레벨업 게이지 텍스쳐 */
 	// ProtoTag_Component_LevelGauge_Texture
 	{
 		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/LevelUpBar_Texture/Gauge/%d.dds"), 1);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_LevelGauge_Texture"), tmp)))
 			return E_FAIL;
 	}
+
+
+	/* 배고픔 바 텍스쳐 */
+	// ProtoTag_Component_HungryBar_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Hungry_Texture/%d.dds"), 1);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_HungryBar_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+
+	/* 배고픔 게이지 텍스쳐 */
+	// ProtoTag_Component_HungryGauge_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Hungry_Texture/Gauge/%d.dds"), 1);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_HungryGauge_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 텍스트 박스 텍스쳐 */
+	// ProtoTag_Component_TextBox_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/TextBox_Texture/%d.dds"), 1);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_TextBox_Texture"), tmp)))
+			return E_FAIL;
+	}
+	
 
 
 
@@ -716,6 +746,29 @@ HRESULT CLoader::Loading_Room()
 			return E_FAIL;
 	}
 
+	/* 배고픔 바 */
+	// ProtoTag_UI_HungryBar
+	{
+		tmp = CHungryBar::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_HungryBar"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 배고픔 게이지 */
+	// ProtoTag_UI_HungryGauge
+	{
+		tmp = CHungry_Gauge::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_HungryGauge"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 텍스트 박스 */
+	// ProtoTag_UI_TextBox
+	{
+		tmp = CTextBox::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_TextBox"), tmp)))
+			return E_FAIL;
+	}
 
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));

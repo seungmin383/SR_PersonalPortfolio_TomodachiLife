@@ -39,6 +39,10 @@ public:
 
 	HRESULT Layer_UI_LevelBar();
 
+	HRESULT	Layer_UI_HungryBar();
+
+	HRESULT Layer_UI_TextBox();
+
 public:
 	static CPlace_Room* Create(
 		ID3D11Device* pDevice,

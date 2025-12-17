@@ -14,6 +14,7 @@
 #include "GameInstance.h"        
 #include "ApartManager.h"  
 #include "CommonButton.h"   
+#include "Hungry_Gauge.h"
 #include "LevelUp_Item.h"
 #include "WorldCamera.h" 
 #include "Back_Button.h"         
@@ -21,10 +22,12 @@
 #include "Place_Room.h"          
 #include "MiiManager.h"        
 #include "TempModel.h"           
+#include "HungryBar.h"
 #include "LevelBar.h"
 #include "CutScene.h"            
 #include "UICamera.h"            
 #include "TestMii.h" 
+#include "TextBox.h"
 #include "Player.h"              
 #include "Apart.h"               
 #include "SEMii.h"               
@@ -342,6 +345,14 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 
 	if (FAILED(Layer_UI_LevelBar()))
 		return E_FAIL;
+
+	if (FAILED(Layer_UI_HungryBar()))
+		return E_FAIL;	
+
+	if (FAILED(Layer_UI_TextBox()))
+		return E_FAIL;
+
+
 
 	{
 		_wstring DisableLayers[] =
@@ -890,7 +901,7 @@ HRESULT CPlace_Room::Layer_UI_Favorite_Food_Texture()
 		Desc.fX = 277.5f;
 		Desc.fZ = 0.5f;
 		Desc.fCX = 450.f;
-		Desc.fCY = 25.f;
+		Desc.fCY = 30.f;
 
 		_float yPosArr[] = {
 				90.f, 200.f, 350.f
@@ -979,6 +990,88 @@ HRESULT CPlace_Room::Layer_UI_LevelBar()
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_TOP"), tmp)))
 			return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+HRESULT CPlace_Room::Layer_UI_HungryBar()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
+
+	/* ProtoTag_UI_HungryBar */
+	{
+		CHungryBar::HUNGRYBAR_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+		Desc.fX = 850.f;
+		Desc.fY = 150.f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 104.f;
+		Desc.fCY = 104.f;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_HungryBar"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_TOP"), tmp)))
+			return E_FAIL;
+	}
+
+	/* ProtoTag_UI_HungryGauge */
+	{
+		CHungryBar::HUNGRYBAR_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+		Desc.fX = 850.f;
+		Desc.fY = 150.f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 104.f;
+		Desc.fCY = 104.f;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_HungryGauge"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_TOP"), tmp)))
+			return E_FAIL;
+
+	}
+
+	return S_OK;
+}
+
+HRESULT CPlace_Room::Layer_UI_TextBox()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
+
+	{
+		CTextBox::TEXTBOX_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+		Desc.fZ = 0.5f;
+	
+		XMFLOAT4 vPosSizeArr[] = {
+			XMFLOAT4{300.f, 40.f, 240.f,  28.f},
+			XMFLOAT4{700.f, 100.f, 270.f, 28.f},
+			XMFLOAT4{760.f, 220.f, 300.f, 28.f},
+			XMFLOAT4{760.f, 280.f, 300.f, 28.f},
+		};
+
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			Desc.fX		= vPosSizeArr[i].x;
+			Desc.fY		= vPosSizeArr[i].y;
+			Desc.fCX	= vPosSizeArr[i].z;
+			Desc.fCY	= vPosSizeArr[i].w;
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_TextBox"), &Desc);
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_TOP"), tmp)))
+				return E_FAIL;
+		}
+	}
+
 
 	return S_OK;
 }

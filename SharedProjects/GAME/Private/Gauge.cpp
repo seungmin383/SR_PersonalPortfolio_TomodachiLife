@@ -86,7 +86,6 @@ void CGauge::Update_Late(_float fDT)
 			m_isStartGaugeUp = FALSE;
 		}
 	}
-	
 
 	CUI::Update_Late(fDT);
 }
@@ -101,7 +100,7 @@ HRESULT CGauge::Render()
 	if (FAILED(m_pRectBufferCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(VTS_GAUGE)))
+	if (FAILED(m_pShaderCom->Begin(VTS_GAUGE_RIGHT)))
 		return E_FAIL;
 
 	if (FAILED(m_pRectBufferCom->Begin_Draw()))
