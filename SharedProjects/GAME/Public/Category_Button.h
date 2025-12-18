@@ -20,6 +20,8 @@ public:
 		IOnClick* pClicked_Strgy = { nullptr };
 		IOnClick* pSelected_Strgy = { nullptr };
 		IOnClick* pSelectedClick_Strgy = { nullptr };
+		_wstring strText = {};
+
 	}CATEGORYBUTTON_DESC;
 
 private:
@@ -51,6 +53,10 @@ private:
 	IOnClick* m_pClicked_Strgy = { nullptr };
 	IOnClick* m_pSelected_Strgy = { nullptr };
 	IOnClick* m_pSelectedClick_Strgy = { nullptr };
+
+private:
+	_wstring m_strText = {};
+	XMFLOAT4 m_vFontSize = {};
 
 public:
 	static CCategory_Button* Create(

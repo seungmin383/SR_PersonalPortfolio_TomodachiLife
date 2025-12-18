@@ -20,6 +20,7 @@
 #include "WorldCamera.h"
 #include "LevelBar.h"
 #include "Gauge.h"
+#include "Store_Food.h"
 #include "MiiEditButton.h"
 #include "PageButton.h"
 #include "HungryBar.h"
@@ -102,6 +103,10 @@ HRESULT CLoader::Loading()
 
 	case PLACEID::ROOM:
 		hr = Loading_Room();
+		break;
+
+	case PLACEID::FOOD_STORE:
+		hr = Loading_FoodStore();
 		break;
 
 	case PLACEID::DEVELOPER:
@@ -754,6 +759,51 @@ HRESULT CLoader::Loading_Room()
 
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
+	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_FoodStore()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::FOOD_STORE);
+
+	/* Component */
+
+	/* 식품점 모델*/
+	// ProtoTag_Component_FoodStore_Model
+	{
+		XMMATRIX InitMatrix = XMMatrixIdentity();
+#ifdef _DEBUG
+		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_FoodStore_Model", 
+			ANIM_TYPE::NONEANIM, "../../Resource/Model_Sell/Food/0.fbx", InitMatrix, "FoodStore");
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_FoodStore_Model"), tmp)))
+			return E_FAIL;
+#endif 
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "FoodStore", InitMatrix);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_FoodStore_seModel"), tmp)))
+			return E_FAIL;
+	}
+
+	/* Actor */
+
+	/* 식품점 */
+	// ProtoTag_Actor_FoodStore
+	{
+		tmp = CStore_Food::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_FoodStore"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 주민 방 */
+	// ProtoTag_Actor_Room
+	{
+		tmp = CRoom::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Room"), tmp)))
+			return E_FAIL;
+	}
+	/* UI */
+
 	m_isFinished = true;
 	return S_OK;
 }

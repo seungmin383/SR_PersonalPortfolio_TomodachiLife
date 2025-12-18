@@ -22,6 +22,9 @@ public:
 		IOnClick* pSelectedClick_Strgy = { nullptr };
 
 		ITEM_TYPE eItemType = {};
+		_wstring strLeftText = {};
+		_wstring strRightText = {};
+
 
 	}PLAYERINVENBUTTON_DESC;
 
@@ -62,6 +65,12 @@ private:
 private:
 	uint32_t m_iItemTextureIndex = {};
 	ITEM_TYPE m_eItemType = { ITEM_TYPE::END };
+
+	_wstring m_strLeftText = {};
+	_wstring m_strRightText = {};
+	 
+	XMFLOAT4 m_vLeftTextSize = {};
+	XMFLOAT4 m_vRightTextSize = {};
 
 public:
 	static CPlayerInven_Button* Create(

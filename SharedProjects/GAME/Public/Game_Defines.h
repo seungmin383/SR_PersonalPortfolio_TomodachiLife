@@ -70,6 +70,9 @@ namespace Game
 	/* texture2D, float */
 	/* g_DiffuseTexture, g_Brightness */
 #define VMS_BRIGHTNESS 3
+#define VMS_SHADOW 4
+#define VMS_LIGHT 5
+#define VMS_BRIGHTNESS2 6
 
 
 
@@ -86,6 +89,7 @@ namespace Game
 		CITYHALL,
 		MII_EDITOR,
 		ROOM,
+		FOOD_STORE,
 
 		DEVELOPER,
 		LOADING,

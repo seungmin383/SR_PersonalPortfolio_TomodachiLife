@@ -16,6 +16,9 @@ HRESULT CSEMesh::Initialize_Mesh(SE_MESH& seMesh, vector<CSEBone*>& pBones)
 	 if (m_strName.find("Light") != std::string::npos)
 		 m_isLight = TRUE;
 
+	 if (m_strName.find("Shadow") != std::string::npos)
+		 m_isShadow = TRUE;
+
 	 m_iMaterialIndex = seMesh.iMaterialIndex;
 	 m_BoneIndices = seMesh.BoneIndices;
 	 m_Vertices = seMesh.Vertices;

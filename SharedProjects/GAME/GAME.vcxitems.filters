@@ -103,9 +103,6 @@
     <Filter Include="04.Shader">
       <UniqueIdentifier>{af548c31-02b7-42cc-86e0-521800aa8df5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\02.BackGround\LoadingBG">
-      <UniqueIdentifier>{668a96fc-19e4-46a6-b3cb-ec459a852f93}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\01.Button\00.OnclickStrategy\00.Interface">
       <UniqueIdentifier>{c95e6265-7401-41a1-9a4c-3eaf8d5209a8}</UniqueIdentifier>
     </Filter>
@@ -265,6 +262,15 @@
     <Filter Include="03.UI\01.Button\00.OnclickStrategy\11.BeginMiiEdit">
       <UniqueIdentifier>{4842731a-4e1d-4826-b78c-039ec15676b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Actor\08.Store">
+      <UniqueIdentifier>{d55fb0e6-65d7-4222-8c85-8d56f0f571f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.BackGround\YellowBackGround">
+      <UniqueIdentifier>{668a96fc-19e4-46a6-b3cb-ec459a852f93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.BackGround\Basic_BackGround">
+      <UniqueIdentifier>{64e3a195-9d43-465d-b402-ac6096a00d3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -369,7 +375,7 @@
       <Filter>03.UI\02.BackGround\IslandBackGround</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\YellowBackGround.h">
-      <Filter>03.UI\02.BackGround\LoadingBG</Filter>
+      <Filter>03.UI\02.BackGround\YellowBackGround</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangePlace_Strategy.h">
       <Filter>03.UI\01.Button\00.OnclickStrategy\01.ChangePlace</Filter>
@@ -521,6 +527,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TextBox.h">
       <Filter>03.UI\03.Texture\06.TextBox</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Store_Food.h">
+      <Filter>02.Actor\08.Store</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\BasicBackGround.h">
+      <Filter>03.UI\02.BackGround\Basic_BackGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -596,7 +608,7 @@
       <Filter>03.UI\02.BackGround\IslandBackGround</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\YellowBackGround.cpp">
-      <Filter>03.UI\02.BackGround\LoadingBG</Filter>
+      <Filter>03.UI\02.BackGround\YellowBackGround</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangePlace_Strategy.cpp">
       <Filter>03.UI\01.Button\00.OnclickStrategy\01.ChangePlace</Filter>
@@ -741,6 +753,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TextBox.cpp">
       <Filter>03.UI\03.Texture\06.TextBox</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Store_Food.cpp">
+      <Filter>02.Actor\08.Store</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\BasicBackGround.cpp">
+      <Filter>03.UI\02.BackGround\Basic_BackGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

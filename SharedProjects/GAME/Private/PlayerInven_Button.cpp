@@ -26,6 +26,12 @@ HRESULT CPlayerInven_Button::Initialize_Clone(void* pArg)
 	m_pSelectedClick_Strgy = pDesc->pSelectedClick_Strgy;
 
 	m_eItemType = pDesc->eItemType;
+	
+	m_strLeftText = pDesc->strLeftText;
+	m_strRightText = pDesc->strRightText;
+
+	m_vLeftTextSize = m_pGameInstance->FontManager_Measure_Text(TEXT("Basic_Font_16"), m_strLeftText);
+	m_vRightTextSize = m_pGameInstance->FontManager_Measure_Text(TEXT("Basic_Font_16"), m_strRightText);
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -74,6 +80,12 @@ HRESULT CPlayerInven_Button::Render()
 
 	if (FAILED(m_pRectBuffer->Begin_Draw()))
 		return E_FAIL;
+
+	m_pGameInstance->FontManager_Draw_Text(TEXT("Basic_Font_16"), m_strLeftText,
+		XMFLOAT2{ m_fX - (m_fCX * 0.5f) + 10.f , m_fY - (m_vLeftTextSize.y * 0.5f) }, Colors::Black);
+
+	m_pGameInstance->FontManager_Draw_Text(TEXT("Basic_Font_16"), m_strRightText,
+		XMFLOAT2{ m_fX + (m_fCX * 0.5f) - (m_vRightTextSize.x) - 10.f, m_fY - (m_vRightTextSize.y * 0.5f)  }, Colors::Black);
 
 	return S_OK;
 }

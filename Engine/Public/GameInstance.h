@@ -266,9 +266,11 @@ public:
 
 #pragma region FONTMANAGER
 
-	HRESULT FontManager_Add_Font(const _wstring& strFontTag, const _tchar* pFontFilePath);
-	HRESULT FontManager_Draw_Text(const _wstring& strFontTag, const _tchar* pText, const _float2& vPos, FXMVECTOR vColor);
-
+	HRESULT FontManager_Add_Font(const _wstring& strFontTag, const _wstring& strFontFilePath);
+	HRESULT FontManager_Draw_Text(const _wstring& strFontTag, const _wstring& strText, const _float2& vPos, FXMVECTOR vColor);
+	const XMFLOAT4& FontManager_Measure_Text(
+		const _wstring& strFontTag,
+		const _wstring& strText);
 #pragma endregion
 
 

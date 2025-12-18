@@ -15,12 +15,12 @@ HRESULT CFontManager::Initialize()
 	return S_OK;
 }
 
-HRESULT CFontManager::Add_Font(const _wstring& strFontTag, const _tchar* pFontFilePath)
+HRESULT CFontManager::Add_Font(const _wstring& strFontTag, const _wstring& strFontFilePath)
 {
     if (nullptr != Find_Font(strFontTag))
         return E_FAIL;
 
-    CFont* pFont = CFont::Create(m_pDevice, m_pContext, pFontFilePath);
+    CFont* pFont = CFont::Create(m_pDevice, m_pContext, strFontFilePath);
     if (nullptr == pFont)
         return E_FAIL;
 
@@ -29,7 +29,7 @@ HRESULT CFontManager::Add_Font(const _wstring& strFontTag, const _tchar* pFontFi
     return S_OK;
 }
 
-HRESULT CFontManager::Draw_Text(const _wstring& strFontTag, const _tchar* pText, const _float2& vPos, FXMVECTOR vColor)
+HRESULT CFontManager::Draw_Text(const _wstring& strFontTag, const _wstring& pText, const _float2& vPos, FXMVECTOR vColor)
 {
     CFont* pFont = Find_Font(strFontTag);
     if (nullptr == pFont)
@@ -44,6 +44,19 @@ HRESULT CFontManager::Draw_Text(const _wstring& strFontTag, const _tchar* pText,
     m_pBatch->End();
 
 	return S_OK;
+}
+
+const XMFLOAT4& CFontManager::Measure_Text(const _wstring& strFontTag, const _wstring& pText)
+{
+    CFont* pFont = Find_Font(strFontTag);
+
+    if (nullptr == pFont)
+    {
+        MSG_BOX("ErrCode : No Font");
+        return XMFLOAT4{};
+    }
+
+    return pFont->Measure_Text(pText);
 }
 
 CFont* CFontManager::Find_Font(const _wstring& strFontTag)

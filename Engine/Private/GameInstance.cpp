@@ -718,18 +718,23 @@ _bool CGameInstance::ActorManager_Get_IsBuildingUnlock() const
 {
 	return m_pActorManager->Get_IsBuildingUnlock();
 }
-
-HRESULT CGameInstance::FontManager_Add_Font(const _wstring& strFontTag, const _tchar* pFontFilePath)
-{
-	return m_pFontManager->Add_Font(strFontTag, pFontFilePath);
-}
-
-HRESULT CGameInstance::FontManager_Draw_Text(const _wstring& strFontTag, const _tchar* pText, const _float2& vPos, FXMVECTOR vColor)
-{
-	return m_pFontManager->Draw_Text(strFontTag, pText, vPos, vColor);
-}
-
 #pragma endregion
+
+HRESULT CGameInstance::FontManager_Add_Font(const _wstring& strFontTag, const _wstring& strFontFilePath)
+{
+	return m_pFontManager->Add_Font(strFontTag, strFontFilePath);
+}
+
+HRESULT CGameInstance::FontManager_Draw_Text(const _wstring& strFontTag, const _wstring& strText, const _float2& vPos, FXMVECTOR vColor)
+{
+	return m_pFontManager->Draw_Text(strFontTag, strText, vPos, vColor);
+}
+
+const XMFLOAT4& CGameInstance::FontManager_Measure_Text(const _wstring& strFontTag, const _wstring& strText)
+{
+	return m_pFontManager->Measure_Text(strFontTag, strText);
+}
+
 
 #pragma region FONTMANAGER
 

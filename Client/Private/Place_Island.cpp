@@ -599,7 +599,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	PLACEID::APART,// 1. Go Wear
 	PLACEID::APART,// 2. Go Antique
 	PLACEID::APART,// 3. Go Cap
-	PLACEID::APART, // 4. Go Food
+	PLACEID::FOOD_STORE, // 4. Go Food
 	PLACEID::APART, // 5. Go Luxury
 	PLACEID::APART, // 6. Go Music
 	PLACEID::APART,  // 7. Go House

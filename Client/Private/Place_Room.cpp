@@ -139,7 +139,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		Desc.fRotationPerSecond = XMConvertToRadians(0.f);
 		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_BlueBackGround"), &Desc);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_BlueBackGround_Dot"), &Desc);
 		if (nullptr == tmp)
 			return E_FAIL;
 
@@ -160,7 +160,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		Desc.fRotationPerSecond = XMConvertToRadians(0.f);
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_BlueBackGround"), &Desc);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_BlueBackGround_Dot"), &Desc);
 		if (nullptr == tmp)
 			return E_FAIL;
 

@@ -8,6 +8,7 @@
 #include "Place_Developer.h"
 #include "Place_MiiEditor.h"
 #include "Place_Room.h"
+#include "Place_FoodStore.h"
 
 #include "BackGround.h"
 #include "YellowBackGround.h"
@@ -70,6 +71,10 @@ int32_t CPlace_Loading::Update(_float fDT)
 			pPlace = CPlace_Room::Create(m_pDevice, m_pContext);
 			break;
 
+		case PLACEID::FOOD_STORE:
+			pPlace = CPlace_FoodStore::Create(m_pDevice, m_pContext);
+			break;
+
 		case PLACEID::DEVELOPER:
 			pPlace = CPlace_Developer::Create(m_pDevice, m_pContext);
 			break;
@@ -121,7 +126,7 @@ HRESULT CPlace_Loading::Ready_UI_Layer()
 		Desc.fRotationPerSecond = XMConvertToRadians(0.f);
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(iStaticID,TEXT("ProtoTag_UI_BlueBackGround"),&Desc);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iStaticID,TEXT("ProtoTag_UI_BlueBackGround_Dot"),&Desc);
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::LOADING),
 			TEXT("LayerTag_UI"),tmp)))
 		{
@@ -130,7 +135,7 @@ HRESULT CPlace_Loading::Ready_UI_Layer()
 		}
 
 		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(iStaticID, TEXT("ProtoTag_UI_YellowBackGround"), &Desc);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iStaticID, TEXT("ProtoTag_UI_YellowBackGround_Dot"), &Desc);
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::LOADING),
 			TEXT("LayerTag_UI"), tmp)))
 		{

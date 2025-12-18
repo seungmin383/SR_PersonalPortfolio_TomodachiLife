@@ -39,6 +39,7 @@
 #include "Option_Button.h"
 #include "Back_Button.h"
 #include "BlueBackGround.h"
+#include "BasicBackGround.h"
 #include "FoodItem_Texture.h"
 #include "PlayerInven_Button.h"
 #include "Category_Button.h"
@@ -415,11 +416,11 @@ HRESULT CMainApp::Ready_Static_Model()
 		{
 			XMMATRIX InitMatrix = XMMatrixIdentity();
 
-			_string strProtoTag = "ProtoTag_Component_Room" + to_string(i);
-			_wstring wstrProtoTag = L"ProtoTag_Component_Room" + to_wstring(i);
+			_string strProtoTag		= "ProtoTag_Component_Room" + to_string(i);
+			_wstring wstrProtoTag	= L"ProtoTag_Component_Room" + to_wstring(i);
 			_wstring wstrSeProtoTag = L"ProtoTag_Component_seRoom" + to_wstring(i);
-			_string strFilePath = "../../Resource/Actor/room" + to_string(i) + "/room.fbx";
-			_string strSaveName = "room" + to_string(i);
+			_string strFilePath		= "../../Resource/Actor/room" + to_string(i) + "/room.fbx";
+			_string strSaveName		= "room" + to_string(i);
 
 #ifdef _DEBUG
 			tmp = CModel::Create(m_pDevice, m_pContext, strProtoTag, ANIM_TYPE::ANIM, strFilePath.c_str(), InitMatrix, strSaveName.c_str());
@@ -685,7 +686,7 @@ HRESULT CMainApp::Ready_Static_Texture()
 	/* ¶¯¶¯ÀÌ ¹è°æ ÅØ½ºÃÄ */
 	// ProtoTag_Component_BackGround_Texture
 	{
-		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/BackGround_Texture/%d.dds"), 2);
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/BackGround_Texture/%d.dds"), 3);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_ColorDot_BackGround_Texture"), tmp)))
 			return E_FAIL;
 	}
@@ -766,19 +767,27 @@ HRESULT CMainApp::Ready_StaticUI()
 			return E_FAIL;
 	}
 	
-	/* ³ë¶û ¹è°æ */
-	// ProtoTag_UI_YellowBackGround
+	/* ³ë¶û ¶¯¶¯ÀÌ ¹è°æ */
+	// ProtoTag_UI_YellowBackGround_Dot
 	{
 		tmp = CYellowBackGround::Create(m_pDevice, m_pContext);
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_YellowBackGround"), tmp)))
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_YellowBackGround_Dot"), tmp)))
 			return E_FAIL;
 	}
 
-	/* ÆÄ¶õ ¹è°æ */
-	// ProtoTag_UI_BlueBackGround
+	/* ÆÄ¶õ ‹¯¶¯ÀÌ ¹è°æ */
+	// ProtoTag_UI_BlueBackGround_Dot
 	{
 		tmp = CBlueBackGround::Create(m_pDevice, m_pContext);
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_BlueBackGround"), tmp)))
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_BlueBackGround_Dot"), tmp)))
+			return E_FAIL;
+	}
+
+	/* ³ë¶õ ÇÃ·¹ÀÎ ¹è°æ */
+	// ProtoTag_UI_BlueBackGround_Dot
+	{
+		tmp = CBasicBackGround::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_YellowBackGround_Plane"), tmp)))
 			return E_FAIL;
 	}
 

@@ -8,23 +8,29 @@ CFont::CFont(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	Safe_AddRef(m_pContext);
 }
 
-HRESULT CFont::Initialize(const _tchar* pFontFilePath)
+HRESULT CFont::Initialize(const _wstring& strFontFilePath)
 {
-	m_pFont = new SpriteFont(m_pDevice, pFontFilePath);
+	m_pFont = new SpriteFont(m_pDevice, strFontFilePath.c_str());
 	return S_OK;
 }
 
-HRESULT CFont::Draw_Text(SpriteBatch* pBatch, const _tchar* pText, const XMFLOAT2& vPos, FXMVECTOR vColor)
+HRESULT CFont::Draw_Text(SpriteBatch* pBatch, const _wstring& strText, const XMFLOAT2& vPos, FXMVECTOR vColor)
 {
-	m_pFont->DrawString(pBatch, pText, vPos, vColor);
+	m_pFont->DrawString(pBatch, strText.c_str(), vPos, vColor);
 	return S_OK;
 }
 
-CFont* CFont::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pFontFilePath)
+const XMFLOAT4& CFont::Measure_Text(const _wstring& strText)
+{
+	XMStoreFloat4(&m_vSize, m_pFont->MeasureString(strText.c_str()));
+	return m_vSize;
+}
+
+CFont* CFont::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _wstring& strFontFilePath)
 {
 	CFont* pInstance = new CFont(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize(pFontFilePath)))
+	if (FAILED(pInstance->Initialize(strFontFilePath)))
 	{
 		MSG_BOX("ErrCode : CFont Create Failed");
 		Safe_Release(pInstance);

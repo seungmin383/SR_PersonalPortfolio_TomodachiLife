@@ -19,7 +19,7 @@ public:
 	{
 		_wstring strFontTag		= {};
 		uint32_t iTextureIndex	= {};
-		const _tchar* strText	= {};
+		_wstring strText	= {};
 		XMVECTORF32 vTextColor	= {};
 	}TEXTBOX_DESC;
 
@@ -49,7 +49,7 @@ private:
 
 private:
 	_wstring m_strFontTag = {};
-	const _tchar* m_strText = {};
+	_wstring m_strText = {};
 	uint32_t m_iTextureIndex = {};
 	XMFLOAT4 m_vColor = {};
 
