@@ -38,7 +38,7 @@ HRESULT CFoodItem_Texture::Initialize_Clone(void* pArg)
 
 int32_t CFoodItem_Texture::Update_Priority(_float fDT)
 {
-	if (m_fTimer > 0.5f)
+	/*if (m_fTimer > 0.5f)
 	{
 		if (m_pGameInstance->Get_DIKeyState(DIK_UP) & 0x8000)
 		{
@@ -50,17 +50,16 @@ int32_t CFoodItem_Texture::Update_Priority(_float fDT)
 			m_isDown = TRUE;
 			m_fTimer = 0.f;
 		}
-	}
+	}*/
 
 	return 0;
 }
 
 int32_t CFoodItem_Texture::Update(_float fDT)
 {
+	m_iTextureIndex = CItemManager::GetInstance()->Get_FoodItemIndex();
 
-	// m_iTextureIndex = CItemManager::GetInstance()->Get_FoodItemIndex();
-
-	m_fTimer += fDT;
+	/*m_fTimer += fDT;
 
 	if (m_isUp && m_iTextureIndex < 28)
 	{
@@ -71,7 +70,8 @@ int32_t CFoodItem_Texture::Update(_float fDT)
 	{
 		m_isDown = FALSE;
 		m_iTextureIndex--;
-	}
+	}*/
+
 	return 0;
 }
 

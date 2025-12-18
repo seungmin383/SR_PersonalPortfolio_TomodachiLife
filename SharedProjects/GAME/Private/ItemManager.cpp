@@ -24,12 +24,12 @@ HRESULT CItemManager::Initialize()
 	return S_OK;
 }
 
-void CItemManager::Show_Item(ITEM_TYPE eItemType, uint32_t iIndex)
+void CItemManager::Set_ItemIndex(ITEM_TYPE eItemType, uint32_t iIndex)
 {
 	switch (eItemType)
 	{
 	case ITEM_TYPE::FOOD:
-		m_iCurSelectedFoodItemIndex = iIndex;
+		m_iCurFoodIndex = iIndex;
 		break;
 	case ITEM_TYPE::END:
 		break;
@@ -193,6 +193,7 @@ HRESULT CItemManager::Ready_Items()
 			Desc.iSatiety	= FoodQuantityArr[i];	/*	   Æ÷¸¸µµ		*/
 			Desc.iFlavor	= FoodFlavorArr[i];		/*		 ¸À			*/
 
+			Desc.iTextureIndex = i;
 			m_FoodInformations.push_back(Desc);
 		}
 	}

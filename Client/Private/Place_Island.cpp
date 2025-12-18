@@ -392,7 +392,7 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 HRESULT CPlace_Island::Ready_UI_Layer()
 {
 	CObject* tmp = { nullptr };
-
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ISLAND);
 
 	/* 위치 배열 */
 	const XMFLOAT3 vPosArr[] =

@@ -31,12 +31,6 @@ public:
 public:
 	typedef struct tagFoodItemTextureIndex : public UI_DESC
 	{
-		_wstring strItemName = {};
-		uint32_t iPrice = {};
-		uint32_t iQuantity = {};
-
-		int32_t iFoodFlavor = {};
-
 	}FOODITEMTEXTURE_DESC;
 
 protected:

@@ -9,6 +9,8 @@ namespace Game
 		uint32_t iSatiety;
 		int32_t iFlavor;
 
+		uint32_t iTextureIndex;
+
 	}ITEM_FOOD_INFO;
 
 }

@@ -56,8 +56,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Inventory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Item.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlayerInven_Button.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetFoodIndex_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Store_Food.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TextBox.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Wallet.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\YellowBackGround.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Mii.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiBody.cpp" />
@@ -137,8 +139,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Inventory.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Item.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlayerInven_Button.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetFoodIndex_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Store_Food.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TextBox.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Wallet.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\YellowBackGround.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Mii.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiBody.h" />

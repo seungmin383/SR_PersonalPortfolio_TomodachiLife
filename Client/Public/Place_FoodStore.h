@@ -25,6 +25,10 @@ public:
 	HRESULT Layer_UI_Bottom_Background();
 	HRESULT Layer_UI_Category_Button();
 	HRESULT Layer_UI_FoodList_Button();
+	HRESULT Layer_UI_BackButton();
+	HRESULT Layer_UI_Option_Button();
+	HRESULT Layer_UI_Wallet();
+	HRESULT Layer_UI_FoodItem();
 
 public:
 	static CPlace_FoodStore* Create(

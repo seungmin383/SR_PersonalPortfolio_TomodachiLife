@@ -145,7 +145,6 @@ int32_t CPlayerInven_Button::On_Click()
 	{
 		if (m_isClicked)
 		{
-			CItemManager::GetInstance()->Show_Item(m_eItemType, m_iItemTextureIndex);
 			
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;

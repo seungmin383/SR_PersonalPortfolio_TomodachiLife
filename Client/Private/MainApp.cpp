@@ -44,6 +44,7 @@
 #include "PlayerInven_Button.h"
 #include "Category_Button.h"
 #include "IconTexture.h"
+#include "Wallet.h"
 
 USING(Client)
 
@@ -75,11 +76,11 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	// AllocConsole();                           // 콘솔 창 생성
-	// FILE* fp;								  
-	// freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
-	// freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
-	// freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
+	 AllocConsole();                           // 콘솔 창 생성
+	 FILE* fp;								  
+	 freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
+	 freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
+	 freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
 
 	ENGINE_DESC EngineDesc = {};
 	EngineDesc.hWnd = g_hWnd;
@@ -109,7 +110,6 @@ HRESULT CMainApp::Initialize()
 
 int32_t CMainApp::Update_Priority(_float _fDT)
 {
-
 	return m_pGameInstance->Update_Priority(_fDT);
 }
 
@@ -125,8 +125,9 @@ void CMainApp::Update_Late(_float _fDT)
 
 void CMainApp::Render()
 {
-	m_pGameInstance->Begin_Render();
+	cout << "현재 텍스쳐 인덱스 : " << CItemManager::GetInstance()->Get_FoodItemIndex() << endl;
 
+	m_pGameInstance->Begin_Render();
 
 	m_pGameInstance->GraphicDevice_Bind_Viewport(VIEWPORT_TYPE::TOP);
 	m_pGameInstance->Render_Top();
@@ -733,6 +734,14 @@ HRESULT CMainApp::Ready_Static_Texture()
 			return E_FAIL;
 	}
 
+	/* 지갑 텍스쳐 */
+	// ProtoTag_Component_PlayerMoney_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Wallet_Texture/%d.dds"), 1);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Wallet_Texture"), tmp)))
+			return E_FAIL;
+	}
+
 
 	return S_OK;
 }
@@ -813,6 +822,15 @@ HRESULT CMainApp::Ready_StaticUI()
 	{
 		tmp = CIconTexture::Create(m_pDevice, m_pContext);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_Icon"), tmp)))
+			return E_FAIL;
+	}
+
+
+	/* 지갑 */
+	// ProtoTag_UI_Wallet
+	{
+		tmp = CWallet::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_Wallet"), tmp)))
 			return E_FAIL;
 	}
 

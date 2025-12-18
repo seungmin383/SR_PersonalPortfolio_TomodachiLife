@@ -21,6 +21,8 @@ public:
 		IOnClick* pSelected_Strgy = { nullptr };
 		IOnClick* pSelectedClick_Strgy = { nullptr };
 
+		_wstring strText = {};
+
 	}OPTIONBUTTON_DESC;
 
 private:
@@ -52,6 +54,10 @@ private:
 	IOnClick* m_pClicked_Strgy = { nullptr };
 	IOnClick* m_pSelected_Strgy = { nullptr };
 	IOnClick* m_pSelectedClick_Strgy = { nullptr };
+
+private:
+	_wstring m_strText = {};
+	XMFLOAT4 m_vFontSize = {};
 
 public:
 	static COption_Button* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

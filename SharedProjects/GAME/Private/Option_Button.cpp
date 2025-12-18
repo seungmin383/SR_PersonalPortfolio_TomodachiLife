@@ -28,6 +28,9 @@ HRESULT COption_Button::Initialize_Clone(void* pArg)
 	m_pSelected_Strgy = pDesc->pSelected_Strgy;
 	m_pSelectedClick_Strgy = pDesc->pSelectedClick_Strgy;
 
+	m_strText = pDesc->strText;
+	m_vFontSize = m_pGameInstance->FontManager_Measure_Text(TEXT("Basic_Font_18"), m_strText);
+
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -84,6 +87,9 @@ HRESULT COption_Button::Render()
 	if (FAILED(m_pRectBufferCom->Begin_Draw()))
 		return E_FAIL;
 
+	m_pGameInstance->FontManager_Draw_Text(TEXT("Basic_Font_18"), m_strText, 
+		XMFLOAT2{ m_fX - (m_vFontSize.x * 0.5f), m_fY - (m_vFontSize.y * 0.5f) }, Colors::Black);
+
 	return S_OK;
 }
 
@@ -122,6 +128,7 @@ HRESULT COption_Button::Bind_ShaderResources()
 	}
 
 	return S_OK;
+
 
 }
 

@@ -16,10 +16,15 @@
 #include "YellowBackGround.h"
 #include "BasicBackGround.h"
 #include "PlayerInven_Button.h"
+#include "Back_Button.h"
+#include "Option_Button.h"
+#include "Wallet.h"
+#include "FoodItem_Texture.h"
 
 /* strgy */
 #include "ChangePlace_Strategy.h"
 #include "Deactive_Strgy.h"
+#include "SetFoodIndex_Strgy.h"
 
 CPlace_FoodStore::CPlace_FoodStore(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -36,6 +41,8 @@ HRESULT CPlace_FoodStore::Initialize()
 		return E_FAIL;
 	if (FAILED(Ready_Camera_Layer()))
 		return E_FAIL;
+
+	CItemManager::GetInstance()->Set_ItemIndex(ITEM_TYPE::FOOD, 0);
 
 	return S_OK;
 }
@@ -93,6 +100,14 @@ HRESULT CPlace_FoodStore::Ready_UI_Layer()
 	if (FAILED(Layer_UI_Bottom_Background()))
 		return E_FAIL;	
 	if (FAILED(Layer_UI_FoodList_Button()))
+		return E_FAIL;	
+	if (FAILED(Layer_UI_BackButton()))
+		return E_FAIL;	
+	if (FAILED(Layer_UI_Option_Button()))
+		return E_FAIL;	
+	if (FAILED(Layer_UI_Wallet()))
+		return E_FAIL;	
+	if (FAILED(Layer_UI_FoodItem()))
 		return E_FAIL;	
 	return S_OK;
 }
@@ -211,6 +226,7 @@ HRESULT CPlace_FoodStore::Layer_UI_FoodList_Button()
 {
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::FOOD_STORE);
+
 	{
 		CPlayerInven_Button::PLAYERINVENBUTTON_DESC Desc = {};
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
@@ -220,12 +236,14 @@ HRESULT CPlace_FoodStore::Layer_UI_FoodList_Button()
 		Desc.fCY = 50.f;
 
 
+		/* 랜덤 인덱스를 받아올 배열 */
 		uint32_t iRandFoodArr[] = {
 			0,0,0,0,0
 		};
 
 		_bool isSame = { FALSE };
 
+		/* 겹치지 않는 5개의 인덱스를 저장 */
 		for (uint32_t i = 0; i < 5;)
 		{
 			isSame = FALSE;
@@ -251,6 +269,7 @@ HRESULT CPlace_FoodStore::Layer_UI_FoodList_Button()
 		vector<_wstring> vecFoodNameArr;
 		vector<uint32_t> vecFoodPriceArr;
 
+		/* 인덱스에 맞는 음식을 꺼내옴 */
 		for (uint32_t i = 0; i < 5; ++i)
 		{
 			uint32_t index = iRandFoodArr[i];
@@ -271,7 +290,7 @@ HRESULT CPlace_FoodStore::Layer_UI_FoodList_Button()
 			Desc.strRightText = to_wstring(vecFoodPriceArr[i]) + L" 원";
 				
 			Desc.pClicked_Strgy = CDeactive_Strgy::Create(m_pDevice, m_pContext, PLACEID::FOOD_STORE, TEXT("LayerTag_UI_ItemList_Button"));
-			Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+			Desc.pSelected_Strgy = CSetFoodIndex_Strgy::Create(m_pDevice, m_pContext, iRandFoodArr[i]);
 			Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_PlayerInven_Button"), &Desc);
@@ -284,6 +303,123 @@ HRESULT CPlace_FoodStore::Layer_UI_FoodList_Button()
 			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_ItemList_Button"), static_cast<CButton*>(tmp))))
 				return E_FAIL;
 		}
+	}
+
+	return S_OK;	
+}
+
+HRESULT CPlace_FoodStore::Layer_UI_BackButton()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::FOOD_STORE);
+
+	/* 뒤로가기 버튼 */
+	// LayerTag_UI_Back_Button
+	{
+		CBack_Button::BACKBUTTON_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.fCX	= 100.f;
+		Desc.fCY	= 68.f;
+		Desc.fX		= 50.f;
+		Desc.fY		= 446.f;
+		Desc.fZ		= 0.5f;
+		Desc.pClicked_Strgy = CSetFoodIndex_Strgy::Create(m_pDevice, m_pContext, 0);
+		Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Back_Button"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Back_Button"), tmp)))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Back_Button"), static_cast<CButton*>(tmp))))
+			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CPlace_FoodStore::Layer_UI_Option_Button()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::FOOD_STORE);
+
+	{
+		COption_Button::OPTIONBUTTON_DESC Desc = {};
+		Desc.fX = 850.f;
+		Desc.fY = 455.f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 220.f;
+		Desc.fCY = 68.f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.strText = TEXT("구입하기");
+		Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Option_Button"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Save_Button"), tmp)))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Save_Button"), static_cast<CButton*>(tmp))))
+			return E_FAIL;
+
+	}
+	return S_OK;
+}
+
+HRESULT CPlace_FoodStore::Layer_UI_Wallet()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::FOOD_STORE);
+
+	// ProtoTag_UI_Wallet
+	{
+		CWallet::WALLET_DESC Desc = {};
+		Desc.fX		= 550.f;
+		Desc.fY		= 450.f;
+		Desc.fZ		= 0.5f;
+		Desc.fCX	= 320.f;
+		Desc.fCY	= 48.f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.strText = TEXT("123456원");
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Wallet"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Wallet"), tmp)))
+			return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CPlace_FoodStore::Layer_UI_FoodItem()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::FOOD_STORE);
+
+	{
+		CFoodItem_Texture::FOODITEMTEXTURE_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+		Desc.fCX = 128.f;
+		Desc.fCY = 128.f;
+		Desc.fX = 600.f;
+		Desc.fY = 240.f;
+		Desc.fZ = 0.5f;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_FoodItem"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Wallet"), tmp)))
+			return E_FAIL;
 	}
 
 	return S_OK;	

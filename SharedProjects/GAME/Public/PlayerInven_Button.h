@@ -49,9 +49,6 @@ private:
 
 	int32_t On_Click() override;
 
-public:
-	const uint32_t Get_iItemIndex()const { return m_iItemTextureIndex; }
-	void Set_iItemIndex(uint32_t i) { m_iItemTextureIndex = i; }
 
 private:
 	CShaderCom* m_pShader = { nullptr };
@@ -63,7 +60,6 @@ private:
 	IOnClick* m_pSelectedClick_Strgy = { nullptr };
 
 private:
-	uint32_t m_iItemTextureIndex = {};
 	ITEM_TYPE m_eItemType = { ITEM_TYPE::END };
 
 	_wstring m_strLeftText = {};
