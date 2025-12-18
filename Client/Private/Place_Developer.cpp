@@ -2,17 +2,19 @@
 
 #include "GameInstance.h"
 #include "Place_Loading.h"
-#include "WorldCamera.h"
 #include "UICamera.h"
+#include "WorldCamera.h"
 
-#include "TestMii.h"
-#include "Terrain.h"
-#include "Player.h"
-#include "Mii.h"
-#include "Snow.h"
 #include "Explosion.h"
+#include "Mii.h"
+#include "Player.h"
+#include "Snow.h"
+#include "Terrain.h"
+#include "TestMii.h"
 
 #include "PlaceMoveButton.h"
+#include "Back_Button.h"
+#include "ChangePlace_Strategy.h"
 
 CPlace_Developer::CPlace_Developer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -175,6 +177,35 @@ HRESULT CPlace_Developer::Ready_Actor_Layer()
 
 HRESULT CPlace_Developer::Ready_UI_Layer()
 {
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::FOOD_STORE);
+
+	/* 뒤로가기 버튼 */
+	// LayerTag_UI_Back_Button
+	{
+		CBack_Button::BACKBUTTON_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.fCX = 100.f;
+		Desc.fCY = 68.f;
+		Desc.fX = 50.f;
+		Desc.fY = 446.f;
+		Desc.fZ = 0.5f;
+		Desc.pClicked_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+		Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Back_Button"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Back_Button"), tmp)))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Back_Button"), static_cast<CButton*>(tmp))))
+			return E_FAIL;
+	}
+
+	return S_OK;
 	return S_OK;
 }
 
