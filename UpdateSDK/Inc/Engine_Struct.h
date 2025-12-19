@@ -19,12 +19,13 @@ namespace Engine
 	{
 		LIGHT_TYPE eType;
 
-		XMFLOAT4 fDiffuse;
-		XMFLOAT4 fAmbient;
-		XMFLOAT4 fSpecular;
+		XMFLOAT4 vDiffuse;
+		XMFLOAT4 vAmbient;
+		XMFLOAT4 vSpecular;
 
 		XMFLOAT4 vDir;
 		XMFLOAT4 vPos;
+
 		_float fRange;
 	}LIGHT_DESC;
 

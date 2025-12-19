@@ -186,6 +186,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)GameData\config.json" />
-    <None Include="$(MSBuildThisFileDirectory)Shader\Shader_Defines.hlsli" />
   </ItemGroup>
 </Project>

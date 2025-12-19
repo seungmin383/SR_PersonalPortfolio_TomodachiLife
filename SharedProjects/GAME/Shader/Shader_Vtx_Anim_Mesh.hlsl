@@ -1,4 +1,4 @@
-#include "Shader_Defines.hlsli"
+#include "Engine_Shader_Defines.hlsli"
 
 matrix g_WorldMatrix;
 matrix g_ViewMatrix;
@@ -17,12 +17,6 @@ texture2D g_DiffuseTexture;
 
 float4x4 g_BoneMatrices[128];
 
-sampler DefaultSampler = sampler_state
-{
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = WRAP;
-    AddressV = WRAP;
-};
 
 struct VS_IN
 {

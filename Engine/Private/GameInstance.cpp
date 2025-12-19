@@ -21,6 +21,7 @@
 #include "CutSceneManager.h"
 #include "CutScene.h"
 #include "ActorManager.h"
+#include "Target_Manager.h"
 
 #define CONFIG_FILE_PATH "../../SharedProjects/GAME/GameData/config.json"
 
@@ -86,6 +87,16 @@ HRESULT CGameInstance::Initialize(
 
 		if (nullptr == m_pPrototype) {
 			MSG_BOX("ErrCode : CPrototype Create Failed");
+			return E_FAIL;
+		}
+	}
+
+	// TargetManager
+	{
+		m_pTargetManager = CTargetManager::Create(*ppDevice, *ppContext);
+		if (nullptr == m_pTargetManager)
+		{
+			MSG_BOX("ErrCode : TargetManager Create Failed");
 			return E_FAIL;
 		}
 	}
@@ -211,6 +222,7 @@ HRESULT CGameInstance::Initialize(
 			return E_FAIL;
 		}
 	}
+
 
 	return S_OK;
 }
@@ -720,6 +732,10 @@ _bool CGameInstance::ActorManager_Get_IsBuildingUnlock() const
 }
 #pragma endregion
 
+
+
+
+#pragma region FONTMANAGER
 HRESULT CGameInstance::FontManager_Add_Font(const _wstring& strFontTag, const _wstring& strFontFilePath)
 {
 	return m_pFontManager->Add_Font(strFontTag, strFontFilePath);
@@ -734,9 +750,44 @@ const XMFLOAT4& CGameInstance::FontManager_Measure_Text(const _wstring& strFontT
 {
 	return m_pFontManager->Measure_Text(strFontTag, strText);
 }
+#pragma endregion
 
+#pragma region TARGETMANAGER
 
-#pragma region FONTMANAGER
+HRESULT CGameInstance::TargetManager_Add_RenderTarget(const _wstring& strTargetTag, uint32_t iWidth, uint32_t iHeight, DXGI_FORMAT ePixelFormat, const XMFLOAT4& vClearColor)
+{
+	return m_pTargetManager->Add_RenderTarget(strTargetTag, XMUINT2{iWidth, iHeight}, ePixelFormat, vClearColor);
+}
+
+HRESULT CGameInstance::TargetManager_Add_MRT(const _wstring& strMRTTag, const _wstring& strTargetTag)
+{
+	return m_pTargetManager->Add_MRT(strMRTTag, strTargetTag);
+}
+
+HRESULT CGameInstance::TargetManager_Begin_MRT(const _wstring& strMRTTag, ID3D11DepthStencilView* pDSV)
+{
+	return m_pTargetManager->Begin_MRT(strMRTTag, pDSV);
+}
+
+HRESULT CGameInstance::TargetManager_End_MRT()
+{
+	return m_pTargetManager->End_MRT();
+}
+
+HRESULT CGameInstance::TargetManager_Bind_ShaderResource(const _wstring& strTargetTag, CShaderCom* pShader, const _char* pConstantName)
+{
+	return m_pTargetManager->Bind_ShaderResource(strTargetTag, pShader, pConstantName);
+}
+
+HRESULT CGameInstance::TargetManager_Ready_Debug(const _wstring& strTargetTag, _float fX, _float fY, _float fCX, _float fCY)
+{
+	return m_pTargetManager->Ready_Debug(strTargetTag, fX, fY, fCX, fCY);
+}
+
+HRESULT CGameInstance::TargetManager_Render(const _wstring& strMRTTag, CShaderCom* pShader, CRectBufferCom* pBuffer)
+{
+	return m_pTargetManager->Render(strMRTTag, pShader, pBuffer);
+}
 
 #pragma endregion
 

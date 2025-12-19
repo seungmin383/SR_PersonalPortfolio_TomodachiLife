@@ -97,7 +97,7 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	// 다 지우고 다음 씬으로 넘어가고 싶다.
-	if (FAILED(m_pGameInstance->PlaceManager_Change_Place(		static_cast<uint32_t>(PLACEID::LOADING),
+	if (FAILED(m_pGameInstance->PlaceManager_Change_Place(static_cast<uint32_t>(PLACEID::LOADING),
 		CPlace_Loading::Create(						
 			m_pDevice,
 			m_pContext,
@@ -125,7 +125,7 @@ void CMainApp::Update_Late(_float _fDT)
 
 void CMainApp::Render()
 {
-	cout << "현재 텍스쳐 인덱스 : " << CItemManager::GetInstance()->Get_FoodItemIndex() << endl;
+	// cout << "현재 텍스쳐 인덱스 : " << CItemManager::GetInstance()->Get_FoodItemIndex() << endl;
 
 	m_pGameInstance->Begin_Render();
 

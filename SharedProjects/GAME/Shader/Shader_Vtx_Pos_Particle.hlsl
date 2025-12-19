@@ -1,4 +1,4 @@
-#include "Shader_Defines.hlsli"
+#include "Engine_Shader_Defines.hlsli"
 
 matrix g_WorldMatrix;
 matrix g_ViewMatrix; 
@@ -6,13 +6,6 @@ matrix g_ProjMatrix;
 float4 g_CamPosition;
 
 Texture2D g_Texture         : register(t0);
-
-sampler DefaultSampler = sampler_state
-{
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = wrap;
-    AddressV = wrap;
-};
 
 struct VS_IN
 {

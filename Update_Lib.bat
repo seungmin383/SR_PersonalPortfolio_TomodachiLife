@@ -9,6 +9,8 @@ xcopy			/y			.\Engine\Bin\Release\Engine.dll				.\Maptool\Bin\Release\
 xcopy			/y			.\Engine\Bin\Debug\Engine.lib				.\UpdateSDK\Lib\Debug\
 xcopy			/y			.\Engine\Bin\Release\Engine.lib				.\UpdateSDK\Lib\Release\
 
+xcopy			/y			.\Engine\Bin\Shader\*.*						.\SharedProjects\GAME\Shader\
+
 xcopy			/y			.\Engine\ThirdPartyLib\Debug\*.lib			.\UpdateSDK\Lib\Debug\
 xcopy			/y			.\Engine\ThirdPartyLib\Release\*.lib		.\UpdateSDK\Lib\Release\
 

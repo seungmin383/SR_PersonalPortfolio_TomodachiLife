@@ -1,4 +1,4 @@
-#include "Shader_Defines.hlsli"
+#include "Engine_Shader_Defines.hlsli"
 
 matrix g_WorldMatrix;
 matrix g_ViewMatrix;
@@ -18,13 +18,6 @@ float g_Brightness;
 
 texture2D g_DiffuseTexture;
 
-
-sampler DefaultSampler = sampler_state
-{
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = mirror;
-    AddressV = mirror;
-};
 
 struct VS_IN
 {

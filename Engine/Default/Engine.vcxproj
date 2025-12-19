@@ -75,7 +75,9 @@
     <ClInclude Include="..\Public\Place_Manager.h" />
     <ClInclude Include="..\Public\Prototype.h" />
     <ClInclude Include="..\Public\RectBufferCom.h" />
+    <ClInclude Include="..\Public\RenderTarget.h" />
     <ClInclude Include="..\Public\Render_Manager.h" />
+    <ClInclude Include="..\Public\Target_Manager.h" />
     <ClInclude Include="..\Public\SEAnimation.h" />
     <ClInclude Include="..\Public\SEAnimation_Data.h" />
     <ClInclude Include="..\Public\SEBone.h" />
@@ -157,6 +159,7 @@
     <ClCompile Include="..\Private\Place_Manager.cpp" />
     <ClCompile Include="..\Private\Prototype.cpp" />
     <ClCompile Include="..\Private\RectBufferCom.cpp" />
+    <ClCompile Include="..\Private\RenderTarget.cpp" />
     <ClCompile Include="..\Private\Render_Manager.cpp" />
     <ClCompile Include="..\Private\SEAnimation.cpp" />
     <ClCompile Include="..\Private\SEBone.cpp" />
@@ -176,10 +179,15 @@
     <ClCompile Include="..\Private\UIGroup.cpp" />
     <ClCompile Include="..\Private\UIManager.cpp" />
     <ClCompile Include="..\Private\VIBufferCom.cpp" />
+    <ClCompile Include="..\Public\Target_Manager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Bin\Shader\Engine_Shader_Defines.hlsli" />
     <None Include="fmod.dll" />
     <None Include="fmodL.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\Shader\Engine_Shader_Deferred.hlsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -275,7 +283,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;ENGINE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Public\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Public\;..\Bin\Shader\</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

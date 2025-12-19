@@ -1,6 +1,7 @@
 #include "TransformCom.h"
 #include "ShaderCom.h"
 
+
 CTransformCom::CTransformCom(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CComponent(pDevice, pContext)
 {
@@ -344,6 +345,7 @@ HRESULT CTransformCom::Bind_ShaderResource(CShaderCom* pShader, const _char* Wor
 {
 	return pShader->Bind_Matrix(WorldMatrixTag, &m_WorldMatrix);
 }
+
 
 CTransformCom* CTransformCom::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext)
 {

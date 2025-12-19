@@ -26,6 +26,52 @@ HRESULT CRenderManager::Add_RenderGroup(
 
 HRESULT CRenderManager::Initialize()
 {
+	uint32_t iNumViewport = {1};
+	D3D11_VIEWPORT Desc = {};
+
+	m_pContext->RSGetViewports(&iNumViewport, &Desc);
+
+	m_fViewportWidth = Desc.Width;
+	m_fViewportHeight = Desc.Height;
+
+	/* Render Targets */
+	{
+		// Target_Diffuse
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Diffuse"), m_fViewportWidth, m_fViewportHeight, DXGI_FORMAT_R8G8B8A8_UNORM, static_cast<XMFLOAT4>(Colors::Black))))
+			return E_FAIL;
+		// Target_Normal
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Normal"), Desc.Width, Desc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, static_cast<XMFLOAT4>(Colors::Black))))
+			return E_FAIL;
+		// Target_Depth
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Depth"), Desc.Width, Desc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, static_cast<XMFLOAT4>(Colors::Black))))
+			return E_FAIL;
+	}
+	
+	/* Object Multi Render Target */
+	{
+		_wstring strMRTTag = TEXT("MRT_GameObject");
+
+		vector<_wstring> strTargetTagArr = {
+			TEXT("Target_Diffuse"),
+			TEXT("Target_Normal"),
+			TEXT("Target_Depth"),
+		};
+
+		for (uint32_t i = 0; i < strTargetTagArr.size(); ++i)
+		{
+			if (FAILED(m_pGameInstance->TargetManager_Add_MRT(strMRTTag, strTargetTagArr[i])))
+				return E_FAIL;
+		}
+	}
+
+	/* Set Matrix */
+	{
+		XMStoreFloat4x4(&m_WorldMatrix, XMMatrixScaling(Desc.Width, Desc.Height, 1.f));
+		XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(Desc.Width, Desc.Height, 0.f, 1.f));
+	}
+	
+
 	return S_OK;
 }
 

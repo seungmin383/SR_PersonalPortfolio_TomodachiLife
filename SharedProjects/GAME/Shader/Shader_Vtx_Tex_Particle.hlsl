@@ -1,4 +1,4 @@
-#include "Shader_Defines.hlsli"
+#include "Engine_Shader_Defines.hlsli"
 
 matrix g_WorldMatrix;
 matrix g_ViewMatrix; 
@@ -49,13 +49,6 @@ VS_OUT VS_MAIN(VS_IN In)
     
     return Out;
 }
-
-sampler DefaultSampler = sampler_state
-{
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = wrap;
-    AddressV = wrap;
-};
 
 struct PS_IN
 {

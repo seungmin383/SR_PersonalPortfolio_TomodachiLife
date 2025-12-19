@@ -786,8 +786,5 @@
     <None Include="$(MSBuildThisFileDirectory)GameData\config.json">
       <Filter>GameData</Filter>
     </None>
-    <None Include="$(MSBuildThisFileDirectory)Shader\Shader_Defines.hlsli">
-      <Filter>04.Shader</Filter>
-    </None>
   </ItemGroup>
 </Project>

@@ -28,6 +28,7 @@ class CCutSceneManager;
 class CCutScene;
 class CActorManager;
 class CFontManager;
+class CTargetManager;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -273,6 +274,20 @@ public:
 		const _wstring& strText);
 #pragma endregion
 
+#pragma region TARGETMANAGER
+	HRESULT TargetManager_Add_RenderTarget(const _wstring& strTargetTag, uint32_t iWidth, uint32_t iHeight, DXGI_FORMAT ePixelFormat, const XMFLOAT4& vClearColor);
+	HRESULT TargetManager_Add_MRT(const _wstring& strMRTTag, const _wstring& strTargetTag);
+	HRESULT TargetManager_Begin_MRT(const _wstring& strMRTTag, ID3D11DepthStencilView* pDSV);
+	HRESULT TargetManager_End_MRT();
+	HRESULT TargetManager_Bind_ShaderResource(const _wstring& strTargetTag, CShaderCom* pShader, const _char* pConstantName);
+
+#ifdef _DEBUG
+	HRESULT TargetManager_Ready_Debug(const _wstring& strTargetTag, _float fX, _float fY, _float fCX, _float fCY);
+	HRESULT TargetManager_Render(const _wstring& strMRTTag, CShaderCom* pShader, CRectBufferCom* pBuffer);
+#endif
+
+#pragma endregion
+
 
 private:
 	CTimerManager*		m_pTimerManager		= { nullptr };
@@ -294,6 +309,7 @@ private:
 	CCutSceneManager*	m_pCutSceneManager	= { nullptr };
 	CActorManager*		m_pActorManager		= { nullptr };
 	CFontManager*		m_pFontManager		= { nullptr };
+	CTargetManager*		m_pTargetManager	= { nullptr };
 
 public:
 	void Clear_Engine();

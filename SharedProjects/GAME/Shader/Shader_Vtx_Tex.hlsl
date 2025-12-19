@@ -1,4 +1,4 @@
-#include "Shader_Defines.hlsli"
+#include "Engine_Shader_Defines.hlsli"
 
 matrix g_WorldMatrix;
 matrix g_ViewMatrix; 
@@ -41,13 +41,6 @@ VS_OUT VS_MAIN(VS_IN In)
     return Out;
 }
 
-sampler DefaultSampler = sampler_state
-{
-    Filter = MIN_MAG_MIP_POINT;
-    AddressU = wrap;
-    AddressV = wrap;
-};
-
 struct PS_IN
 {
     float4 vPosition : SV_POSITION;
@@ -65,7 +58,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 TextureColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    float4 TextureColor = g_Texture.Sample(PointSampler, In.vTexcoord);
 
     if (TextureColor.a < 0.3f)
         discard;
@@ -79,8 +72,8 @@ PS_OUT PS_MIX_TEXTURE(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 UpperTexture         = g_UpperTexture.Sample(DefaultSampler, In.vTexcoord);
-    float4 TextureColor         = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    float4 UpperTexture = g_UpperTexture.Sample(PointSampler, In.vTexcoord);
+    float4 TextureColor = g_Texture.Sample(PointSampler, In.vTexcoord);
 
     float Mask = saturate(UpperTexture.a);
     
@@ -98,7 +91,7 @@ PS_OUT PS_ADJUST_BRIGHTNESS(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 TextureColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    float4 TextureColor = g_Texture.Sample(PointSampler, In.vTexcoord);
     
     TextureColor.rgb = TextureColor.rgb * g_Brightness;
     
@@ -114,7 +107,7 @@ PS_OUT PS_COLOR(PS_IN In)
 {
     PS_OUT Out;
 
-    float4 TextureColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    float4 TextureColor = g_Texture.Sample(PointSampler, In.vTexcoord);
 
     float3 FinalColor = g_FixColor.rgb; 
     float FinalAlpha = TextureColor.a * g_FixColor.a; 
@@ -131,7 +124,7 @@ PS_OUT PS_MIX_COLOR(PS_IN In)
 {
     PS_OUT Out;
 
-    float4 TextureColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    float4 TextureColor = g_Texture.Sample(PointSampler, In.vTexcoord);
 
     float3 FinalColor = TextureColor.rgb * g_FixColor.rgb;
     
@@ -149,8 +142,8 @@ PS_OUT PS_FOR_PLACEMOVEBUTTON(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 UpperTexture = g_UpperTexture.Sample(DefaultSampler, In.vTexcoord);
-    float4 TextureColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    float4 UpperTexture = g_UpperTexture.Sample(PointSampler, In.vTexcoord);
+    float4 TextureColor = g_Texture.Sample(PointSampler, In.vTexcoord);
 
     
     float Mask = saturate(UpperTexture.a);
@@ -174,7 +167,7 @@ PS_OUT PS_TEXCOORD(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 TextureColor = g_Texture.Sample(DefaultSampler, In.vTexcoord * g_Pow);
+    float4 TextureColor = g_Texture.Sample(PointSampler, In.vTexcoord * g_Pow);
 
     if (TextureColor.a < 0.1f)
         discard;
@@ -195,7 +188,7 @@ PS_OUT PS_GAUGE_RIGHT(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 TextureColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    float4 TextureColor = g_Texture.Sample(PointSampler, In.vTexcoord);
     if (In.vTexcoord.x > g_TexCoord)
         discard;
     
@@ -211,7 +204,7 @@ PS_OUT PS_GAUGE_UP(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 TextureColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    float4 TextureColor = g_Texture.Sample(PointSampler, In.vTexcoord);
     if (In.vTexcoord.y < 1.f - g_TexCoord)
         discard;
     

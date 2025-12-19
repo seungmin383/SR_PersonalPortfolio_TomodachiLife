@@ -27,7 +27,6 @@ HRESULT CUI::Initialize_Clone(void* pArg)
 	m_pTransformCom->Initialize_Clone(pArg);
 
 	UI_DESC* pUIDesc = static_cast<UI_DESC*>(pArg);
-	UI_DESC* pDesc = static_cast<UI_DESC*>(pArg);
 
 	m_fX = pUIDesc->fX;
 	m_fY = pUIDesc->fY;
