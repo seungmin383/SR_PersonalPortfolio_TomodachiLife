@@ -37,6 +37,9 @@ public:
 	void Set_HasSelectedPlaceMoveButton(_bool isSelected) { m_hasSelectedPlaceMoveButton = isSelected; }
 	_bool Get_HasSelectedPlaceMoveButton() const { return m_hasSelectedPlaceMoveButton; }
 
+	void Set_HasSelectedCategoryButton(_bool isSelected) { m_hasSelectedCategoryButton = isSelected; }
+	_bool Get_HasSelectedCategoryButton() const { return m_hasSelectedCategoryButton; }
+
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 	ID3D11Device* m_pDevice = { nullptr };
@@ -56,6 +59,9 @@ private:
 	uint32_t m_iBuildingNameTextureIndex = {};
 	/* 선택된 장소 이동 버튼이 있는지 */
 	_bool m_hasSelectedPlaceMoveButton = {};
+
+	/* 선택된 카테고리 버튼이 잇는지 */
+	_bool m_hasSelectedCategoryButton = {};
 
 public:
 	static CButtonManager* Create(

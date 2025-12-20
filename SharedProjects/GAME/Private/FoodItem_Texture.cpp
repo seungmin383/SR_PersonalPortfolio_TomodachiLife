@@ -57,7 +57,7 @@ int32_t CFoodItem_Texture::Update_Priority(_float fDT)
 
 int32_t CFoodItem_Texture::Update(_float fDT)
 {
-	m_iTextureIndex = CItemManager::GetInstance()->Get_FoodItemIndex();
+
 
 	/*m_fTimer += fDT;
 
@@ -77,6 +77,10 @@ int32_t CFoodItem_Texture::Update(_float fDT)
 
 void CFoodItem_Texture::Update_Late(_float fDT)
 {
+	if (m_pGameInstance->ButtonManager_Get_HasSelectedCategoryButton())
+		m_iTextureIndex = CItemManager::GetInstance()->Get_CurFoodItemIndex();
+	else
+		m_iTextureIndex = 0;
 	CUI::Update_Late(fDT);
 }
 

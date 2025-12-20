@@ -230,6 +230,8 @@ public:
 	uint32_t ButtonManager_Get_BuildingNameTextureIndex();
 	void ButtonManager_Set_HasSelectedPlaceMoveButton(_bool isSelected);
 	_bool ButtonManager_Get_HasSelectedPlaceMoveButton();
+	void	ButtonManager_Set_HasSelectedCategoryButton(_bool isSelected);
+	_bool	ButtonManager_Get_HasSelectedCategoryButton() const;
 
 	_wstring ButtonManager_Get_Text();
 

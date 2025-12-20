@@ -4,10 +4,13 @@
 typedef struct tagApartInfoDesc
 {
 	/* 주민 이름 -> 로딩 */
-	vector<_wstring >strMiiNames;
+	vector<_wstring> strMiiNames;
 
 	/* 관리금 */
 	int32_t iMoney;
+
+	/* 음식 인벤토리 */
+	vector<uint32_t> iFoodInventory;
 
 	nlohmann::json ToJson()const
 	{
@@ -20,6 +23,12 @@ typedef struct tagApartInfoDesc
 		}
 
 		Out["Money"] = iMoney;
+
+		Out["FoodInventory"] = nlohmann::json::array();
+		for (uint32_t i : iFoodInventory)
+		{
+			Out["FoodInventory"].push_back(i);
+		}
 
 		return Out;
 	}
@@ -40,7 +49,26 @@ typedef struct tagApartInfoDesc
 		if (In.contains("Money"))
 			iMoney = In.at("Money").get<int32_t>();
 		else
+		{
 			In["Money"] = 5000;
+			iMoney = 5000;
+		}
+
+		if (In.contains("FoodInventory"))
+		{
+			for (const auto j : In.at("FoodInventory"))
+			{
+				uint32_t iIndex = j.get<uint32_t>();
+				iFoodInventory.push_back(iIndex);
+			}
+		}
+		else
+		{
+			for (uint32_t i = 0; i < 29; ++i)
+			{
+				iFoodInventory.push_back(0);
+			}
+		}
 	}
 
 }APARTINFO_DESC;

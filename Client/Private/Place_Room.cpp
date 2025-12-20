@@ -2,6 +2,7 @@
 #include "ControlEnable_Strgy.h"
 #include "All_Deactive_Strgy.h"
 #include "PlayerInven_Button.h"
+#include "SetFoodIndex_Strgy.h"
 #include "LevelUp_Inventory.h"
 #include "FoodItem_Texture.h"
 #include "Category_Button.h"
@@ -18,6 +19,7 @@
 #include "WorldCamera.h" 
 #include "Back_Button.h"         
 #include "IconTexture.h"
+#include "ItemManager.h"
 #include "Place_Room.h"          
 #include "MiiManager.h"        
 #include "TempModel.h"           
@@ -218,6 +220,9 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 			TEXT("LayerTag_UI_Sub_Category_Button_Food"), 
 			TEXT("LayerTag_UI_PlayerInven_Food_Main"), 
 			TEXT("LayerTag_UI_Out_Inven_Button"), 
+			TEXT("LayerTag_UI_FoodItem"), 
+			
+
 		};
 
 		strgyDesc.DisableLayers = vector<_wstring>{
@@ -305,6 +310,9 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 			TEXT("LayerTag_UI_PlayerInven_House"),
 			TEXT("LayerTag_UI_PlayerInven_Item"),
 			TEXT("LayerTag_UI_Out_Inven_Button"),
+
+			/* 음식 텍스쳐 */
+			TEXT("LayerTag_UI_FoodItem"),
 		};
 
 
@@ -798,14 +806,49 @@ HRESULT CPlace_Room::Layer_UI_PlayerInven_Button()
 			TEXT("LayerTag_UI_PlayerInven_Food_Drink"),
 		};
 
+		uint32_t iIndex = {};
+		vector<_wstring> MainFoodArr;
+		vector<_wstring> MainFoodNumArr;
+		vector<uint32_t> MainFoodIdxArr;
+
+		for (uint32_t NumFood : CApartManager::GetInstance()->Get_FoodInventory())
+		{
+			if (NumFood != 0)
+			{
+				MainFoodIdxArr.push_back(iIndex);
+				MainFoodArr.push_back(CItemManager::GetInstance()->Get_FoodInfo(iIndex).strName);
+				MainFoodNumArr.push_back(to_wstring(NumFood));
+			}
+
+			++iIndex;
+		}
+
+		uint32_t iNumMainFood = static_cast<uint32_t>(MainFoodArr.size());
+
+		uint32_t idx = {};
+
 		for (uint32_t i = 0; i < 4; ++i)
 		{
 			for (uint32_t j = 0; j < 5; ++j)
 			{
 				Desc.fY = 150.f + 55.f * j;
 				Desc.pClicked_Strgy = CDeactive_Strgy::Create(m_pDevice, m_pContext, PLACEID::ROOM, LayerTagFoodArr[i]);
-				Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+
+
+				if (idx < iNumMainFood)
+				{
+					Desc.strLeftText = MainFoodArr[idx];
+					Desc.strRightText = MainFoodNumArr[idx];
+					Desc.pSelected_Strgy = CSetFoodIndex_Strgy::Create(m_pDevice, m_pContext, MainFoodIdxArr[idx]);
+				}
+				else
+				{
+					Desc.strLeftText = TEXT("");
+					Desc.strRightText = TEXT("");
+					Desc.pSelected_Strgy = CSetFoodIndex_Strgy::Create(m_pDevice, m_pContext, 0);
+				}
 
 				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_PlayerInven_Button"), &Desc);
 				if (nullptr == tmp)
@@ -816,6 +859,7 @@ HRESULT CPlace_Room::Layer_UI_PlayerInven_Button()
 
 				if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, LayerTagFoodArr[i], static_cast<CButton*>(tmp))))
 					return E_FAIL;
+				idx++;
 			}
 		}
 

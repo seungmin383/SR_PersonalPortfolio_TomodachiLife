@@ -28,11 +28,18 @@ public:
 	/* money */
 	int32_t Get_ApartInfo_Money() { return m_ApartInfo.iMoney; }
 	void Set_ApartInfo_Money(uint32_t iMoney) { m_ApartInfo.iMoney = iMoney; }
-	void Add_ApartInfo_Money(uint32_t iMoney) { m_ApartInfo.iMoney += iMoney; }
-	void Minus_ApartInfo_Money(uint32_t iMoney) { m_ApartInfo.iMoney -= iMoney; }
+	int32_t Add_ApartInfo_Money(uint32_t iMoney) {return m_ApartInfo.iMoney += iMoney; }
+	int32_t Minus_ApartInfo_Money(uint32_t iMoney) {return  m_ApartInfo.iMoney -= iMoney; }
+
+	/* food inven */
+	const vector<uint32_t> Get_FoodInventory() { return m_ApartInfo.iFoodInventory; }
+	void Add_FoodInventory(uint32_t iIndex);
+	void Minus_FoodInventoru(uint32_t iIndex);
+
 private:
 	APARTINFO_DESC m_ApartInfo = {};
 	
+	map<int32_t, int32_t>m_FoodInventory;
 public:
 	virtual void Free()override;
 };

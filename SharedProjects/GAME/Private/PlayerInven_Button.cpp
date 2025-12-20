@@ -3,6 +3,8 @@
 #include "IOnClick.h"
 #include "ItemManager.h"
 
+#include "ApartManager.h"
+
 CPlayerInven_Button::CPlayerInven_Button(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CButton(pDevice, pContext)
 {
@@ -47,6 +49,7 @@ int32_t CPlayerInven_Button::Update_Priority(_float fDT)
 {
 	CButton::Update_Priority(fDT);
 
+	m_pGameInstance->ButtonManager_Set_HasSelectedCategoryButton(FALSE);
 	if (m_isOverlappedMouse && m_pGameInstance->MouseManager_Get_isClickLBT())
 	{
 		m_isClicked = TRUE;
@@ -62,6 +65,8 @@ int32_t CPlayerInven_Button::Update(_float fDT)
 
 void CPlayerInven_Button::Update_Late(_float fDT)
 {
+
+
 	CUI::Update_Late(fDT);
 }
 
@@ -135,6 +140,8 @@ int32_t CPlayerInven_Button::On_Click()
 	if (m_isSelected)
 	{
 		m_pSelected_Strgy->OnClick();
+
+		m_pGameInstance->ButtonManager_Set_HasSelectedCategoryButton(TRUE);
 
 		if (m_isClicked)
 		{

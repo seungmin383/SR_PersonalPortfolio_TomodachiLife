@@ -659,6 +659,16 @@ _bool CGameInstance::ButtonManager_Get_HasSelectedPlaceMoveButton()
 	return m_pButtonManager->Get_HasSelectedPlaceMoveButton();
 }
 
+void CGameInstance::ButtonManager_Set_HasSelectedCategoryButton(_bool isSelected)
+{
+	m_pButtonManager->Set_HasSelectedCategoryButton(isSelected);
+}
+
+_bool CGameInstance::ButtonManager_Get_HasSelectedCategoryButton() const
+{
+	return m_pButtonManager->Get_HasSelectedCategoryButton();
+}
+
 _wstring CGameInstance::ButtonManager_Get_Text()
 {
 	return m_pButtonManager->Get_Text();

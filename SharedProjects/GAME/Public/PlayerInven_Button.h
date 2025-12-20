@@ -22,6 +22,7 @@ public:
 		IOnClick* pSelectedClick_Strgy = { nullptr };
 
 		ITEM_TYPE eItemType = {};
+
 		_wstring strLeftText = {};
 		_wstring strRightText = {};
 
