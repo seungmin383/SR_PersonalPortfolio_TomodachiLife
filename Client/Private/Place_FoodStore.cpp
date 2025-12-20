@@ -25,6 +25,7 @@
 #include "ChangePlace_Strategy.h"
 #include "Deactive_Strgy.h"
 #include "SetFoodIndex_Strgy.h"
+#include "BuyFood_Strgy.h"
 
 CPlace_FoodStore::CPlace_FoodStore(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
@@ -355,18 +356,18 @@ HRESULT CPlace_FoodStore::Layer_UI_Option_Button()
 		Desc.fCY = 68.f;
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 		Desc.strText = TEXT("구입하기");
-		Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
-		Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+		Desc.pClicked_Strgy = CBuyFood_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelected_Strgy = CDeactive_Strgy::Create(m_pDevice, m_pContext, PLACEID::FOOD_STORE, TEXT("LayerTag_UI_Buy_Button"));
 		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Option_Button"), &Desc);
 		if (nullptr == tmp)
 			return E_FAIL;
 
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Save_Button"), tmp)))
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Buy_Button"), tmp)))
 			return E_FAIL;
 
-		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Save_Button"), static_cast<CButton*>(tmp))))
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Buy_Button"), static_cast<CButton*>(tmp))))
 			return E_FAIL;
 
 	}
@@ -387,7 +388,7 @@ HRESULT CPlace_FoodStore::Layer_UI_Wallet()
 		Desc.fCX	= 320.f;
 		Desc.fCY	= 48.f;
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
-		Desc.strText = TEXT("123456원");
+		Desc.pUpdateStrgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Wallet"), &Desc);
 		if (nullptr == tmp)

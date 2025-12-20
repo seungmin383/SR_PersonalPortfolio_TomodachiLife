@@ -40,9 +40,6 @@ int32_t CBuildingName_Texture::Update_Priority(_float fDT)
 
 int32_t CBuildingName_Texture::Update(_float fDT)
 {
-	m_iCurTextureIndex = m_pGameInstance->ButtonManager_Get_BuildingNameTextureIndex();
-
-
 	return 0;
 }
 
@@ -50,6 +47,9 @@ void CBuildingName_Texture::Update_Late(_float fDT)
 {
 	if (!m_pGameInstance->ButtonManager_Get_HasSelectedPlaceMoveButton())
 		m_iCurTextureIndex = 24;
+	else
+		m_iCurTextureIndex = m_pGameInstance->ButtonManager_Get_BuildingNameTextureIndex();
+
 
 	CUI::Update_Late(fDT);
 }

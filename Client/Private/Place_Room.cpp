@@ -243,10 +243,10 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 
 		/* 아이콘 텍스쳐 */
 		IconDesc.fX = Desc.fX;
-		IconDesc.fY = Desc.fY;
+		IconDesc.fY = Desc.fY - 4.f;
 		IconDesc.iTextureIndex = 21;
-		IconDesc.fCX = 35.f;
-		IconDesc.fCY = 35.f;
+		IconDesc.fCX = 39.f;
+		IconDesc.fCY = 45.f;
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Icon"), &IconDesc);
 		if (nullptr == tmp)
@@ -589,10 +589,10 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 	};
 
 	XMFLOAT2 IconSizeArr[] = {
-		XMFLOAT2{40.f, 46.f},
-		XMFLOAT2{48.f, 42.f},
-		XMFLOAT2{68.f, 44.f},
-		XMFLOAT2{75.f, 44.f},
+		XMFLOAT2{60.f, 36.f},
+		XMFLOAT2{60.f, 36.f},
+		XMFLOAT2{60.f, 36.f},
+		XMFLOAT2{60.f, 36.f},
 	};
 
 	for (uint32_t i = 0; i < 4; ++i)
@@ -661,10 +661,10 @@ HRESULT CPlace_Room::Layer_UI_SubCategory_Button()
 	};
 
 	XMFLOAT2 FoodIconSizeArr[] = {
-		XMFLOAT2{60.f, 22.f},
-		XMFLOAT2{60.f, 22.f},
-		XMFLOAT2{38.f, 20.f},
-		XMFLOAT2{27.f, 22.f},
+		XMFLOAT2{54.f, 18.f},
+		XMFLOAT2{54.f, 18.f},
+		XMFLOAT2{32.f, 16.f},
+		XMFLOAT2{22.f, 18.f},
 	};
 
 	for (uint32_t i = 0; i < 4; ++i)
@@ -722,11 +722,11 @@ HRESULT CPlace_Room::Layer_UI_SubCategory_Button()
 	};
 
 	XMFLOAT2 ClothIconSizeArr[] = {
-		XMFLOAT2{18.f, 30.f},
-		XMFLOAT2{18.f, 30.f},
-		XMFLOAT2{32.f, 30.f},
-		XMFLOAT2{18.f, 30.f},
-		XMFLOAT2{32.f, 30.f},
+		XMFLOAT2{48.f, 20.f},
+		XMFLOAT2{48.f, 20.f},
+		XMFLOAT2{48.f, 20.f},
+		XMFLOAT2{48.f, 20.f},
+		XMFLOAT2{48.f, 20.f},
 	};
 
 	for (uint32_t i = 0; i < 5; ++i)

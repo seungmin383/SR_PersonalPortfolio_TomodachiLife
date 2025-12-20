@@ -20,7 +20,7 @@ void CSaveMiiData_Strgy::OnClick()
 	_wstring strFilePath = L"../../SharedProjects/GAME/GameData/MiiData/" + strNickName + L".json";
 	
 	/* 주민 이름 저장 */
-	CApartManager::GetInstance()->Get_ApartInfo().strMiiNames.push_back(strNickName);
+	CApartManager::GetInstance()->Add_ApartInfo_NewMii(strNickName);
 
 	CMiiManager::GetInstance()->End_Edit();
 	CApartManager::GetInstance()->Save_ApartData();

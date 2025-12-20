@@ -37,13 +37,13 @@ HRESULT CRenderManager::Initialize()
 	/* Render Targets */
 	{
 		// Target_Diffuse
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Diffuse"), m_fViewportWidth, m_fViewportHeight, DXGI_FORMAT_R8G8B8A8_UNORM, static_cast<XMFLOAT4>(Colors::Black))))
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Diffuse"), Desc.Width, Desc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, static_cast<XMFLOAT4>(Colors::Black))))
 			return E_FAIL;
 		// Target_Normal
 		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Normal"), Desc.Width, Desc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, static_cast<XMFLOAT4>(Colors::Black))))
 			return E_FAIL;
 		// Target_Depth
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Depth"), Desc.Width, Desc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, static_cast<XMFLOAT4>(Colors::Black))))
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Shade"), Desc.Width, Desc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, static_cast<XMFLOAT4>(Colors::Black))))
 			return E_FAIL;
 	}
 	
@@ -54,7 +54,7 @@ HRESULT CRenderManager::Initialize()
 		vector<_wstring> strTargetTagArr = {
 			TEXT("Target_Diffuse"),
 			TEXT("Target_Normal"),
-			TEXT("Target_Depth"),
+			TEXT("Target_Shade"),
 		};
 
 		for (uint32_t i = 0; i < strTargetTagArr.size(); ++i)
@@ -71,6 +71,27 @@ HRESULT CRenderManager::Initialize()
 		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(Desc.Width, Desc.Height, 0.f, 1.f));
 	}
 	
+	/* Ready Component*/
+	{
+		m_pBuffer = CRectBufferCom::Create(m_pDevice, m_pContext);
+		if (nullptr == m_pBuffer)
+			return E_FAIL;
+
+		m_pShader = CShaderCom::Create(m_pDevice, m_pContext, TEXT("../../SharedProjects/GAME/Shader/Engine_Shader_Deferred.hlsl"), VTX_TEX::Elements, VTX_TEX::iNumElements);
+		if (nullptr == m_pShader)
+			return E_FAIL;
+
+	}
+
+#ifdef _DEBUG
+	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Diffuse"), 100.f, 100.f, 200.f, 200.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Normal"), 100.f, 300.f, 200.f, 200.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Shade"), 300.f, 100.f, 200.f, 200.f)))
+		return E_FAIL;
+
+#endif 
 
 	return S_OK;
 }
@@ -82,6 +103,8 @@ HRESULT CRenderManager::Render_Top()
 	Render_Top_Blend();
 	Render_Top_UI();
 	Render_Top_UI_Blend();
+
+	// Render_Debug();
 	return S_OK;
 }
 HRESULT CRenderManager::Render_Bottom()
@@ -114,6 +137,9 @@ HRESULT CRenderManager::Render_Top_Priority()
 
 HRESULT CRenderManager::Render_Top_NonBlend()
 {
+	 //if (FAILED(m_pGameInstance->TargetManager_Begin_MRT(TEXT("MRT_GameObject"), nullptr)))
+	 //	return E_FAIL;
+
 	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONBLEND)])
 	{
 		if (nullptr == Object)
@@ -127,6 +153,10 @@ HRESULT CRenderManager::Render_Top_NonBlend()
 		Safe_Release(Object);
 	}
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONBLEND)].clear();
+
+	 //if (FAILED(m_pGameInstance->TargetManager_End_MRT()))
+	 //	return E_FAIL;
+
 	return S_OK;
 }
 
@@ -294,7 +324,16 @@ HRESULT CRenderManager::Render_Bottom_UI_Blend()
 	return S_OK;
 }
 
+HRESULT CRenderManager::Render_Debug()
+{
+	m_pBuffer->Bind_Resource();
+	m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix);
+	m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix);
 
+	m_pGameInstance->TargetManager_Render(TEXT("MRT_GameObject"), m_pShader, m_pBuffer);
+
+	return S_OK;
+}
 
 
 
@@ -325,6 +364,9 @@ void CRenderManager::Free()
 		}
 		m_RenderGroup[i].clear();
 	}
+
+	Safe_Release(m_pShader);
+	Safe_Release(m_pBuffer);
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);

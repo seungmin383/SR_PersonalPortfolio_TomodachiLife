@@ -5,6 +5,8 @@
 
 #include "Engine_FlagHelper.h"
 
+#define ITEM_INFO_DATA_PATH "../../SharedProjects/GAME/GameData/ItemData.json"
+
 IMPLEMENT_SINGLETON(CItemManager)
 
 #define TOFLAG(x) static_cast<int32_t>(CFoodItem_Texture::FoodFlavor::x)

@@ -6,6 +6,9 @@ NS_BEGIN(Engine)
 class CObject;
 class CGameInstance;
 
+class CRectBufferCom;
+class CShaderCom;
+
 class CRenderManager : public CBase
 {
 private:
@@ -38,12 +41,20 @@ private:
 	HRESULT Render_Bottom_UI();
 	HRESULT Render_Bottom_UI_Blend();
 
+#ifdef _DEBUG
+	HRESULT Render_Debug();
+
+#endif 
+
 private:
 	list<CObject*> m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::END)];
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
 
 	CGameInstance* m_pGameInstance = { nullptr };
+
+	CShaderCom* m_pShader = { nullptr };
+	CRectBufferCom* m_pBuffer = { nullptr };
 
 private:
 	_float m_fViewportWidth = {};

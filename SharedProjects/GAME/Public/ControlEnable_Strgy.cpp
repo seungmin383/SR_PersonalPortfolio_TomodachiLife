@@ -19,7 +19,7 @@ HRESULT CControlEnable_Strgy::Initialize(const CONTROLENABLESTRGY_DESC& Desc)
 
 void CControlEnable_Strgy::OnClick()
 {
-	m_pGameInstance->ButtonManager_Layer_Deactivate(m_iPlaceID, m_strLayerTag);
+	m_pGameInstance->ButtonManager_All_Deactivate(m_iPlaceID);
 
 	for (auto& str : m_EnableLayers)
 		m_pGameInstance->ObjectManager_Enable_Layer(m_iPlaceID, str);

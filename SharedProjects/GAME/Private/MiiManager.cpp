@@ -10,11 +10,11 @@ CMiiManager::CMiiManager()
 
 HRESULT CMiiManager::Initialize()
 {
-	uint32_t iNumMii = static_cast<uint32_t>(CApartManager::GetInstance()->Get_ApartInfo().strMiiNames.size());
+	uint32_t iNumMii = CApartManager::GetInstance()->Get_ApartInfo_NumMii();
 
 	for (uint32_t i = 0; i < iNumMii; ++i)
 	{
-		_wstring strNickName = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames[i];
+		_wstring strNickName = CApartManager::GetInstance()->Get_ApartInfo_MiiName(i);
 		_wstring strFilePath = L"../../SharedProjects/GAME/GameData/MiiData/" + strNickName + L".json";
 
 		ifstream In(strFilePath);

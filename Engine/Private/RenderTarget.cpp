@@ -105,6 +105,10 @@ void CRenderTarget::Free()
 {
 	CBase::Free();
 
+	Safe_Release(m_pTexture2D);
+	Safe_Release(m_pRTV);
+	Safe_Release(m_pSRV);
+
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 }

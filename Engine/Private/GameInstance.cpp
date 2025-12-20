@@ -330,17 +330,17 @@ void CGameInstance::Get_String(wchar_t ch)
 
 #pragma region TIMER_MANAGER
 
-inline _float CGameInstance::TimerManager_Get_DeltaTime(const _tchar* pTimerTag)
+ _float CGameInstance::TimerManager_Get_DeltaTime(const _tchar* pTimerTag)
 {
 	return m_pTimerManager->Get_DeltaTime(pTimerTag);
 }
 
-inline HRESULT CGameInstance::TimerManager_Ready_Timer(const _tchar* pTimerTag)
+ HRESULT CGameInstance::TimerManager_Ready_Timer(const _tchar* pTimerTag)
 {
 	return m_pTimerManager->Ready_Timer(pTimerTag);
 }
 
-inline void CGameInstance::TimerManager_Calc_DeltaTime(const _tchar* pTimerTag)
+ void CGameInstance::TimerManager_Calc_DeltaTime(const _tchar* pTimerTag)
 {
 	m_pTimerManager->Calc_DeltaTime(pTimerTag);
 }
@@ -349,17 +349,17 @@ inline void CGameInstance::TimerManager_Calc_DeltaTime(const _tchar* pTimerTag)
 
 #pragma region GRAPHIC_DEVICE
 
-inline HRESULT CGameInstance::GraphicDevice_Clear_BackBuffer_View(const _float4* pClearColor)
+ HRESULT CGameInstance::GraphicDevice_Clear_BackBuffer_View(const _float4* pClearColor)
 {
 	return m_pGraphicDevice->Clear_BackBuffer_View(pClearColor);
 }
 
-inline HRESULT CGameInstance::GraphicDevice_Clear_DepthStencil_View()
+ HRESULT CGameInstance::GraphicDevice_Clear_DepthStencil_View()
 {
 	return m_pGraphicDevice->Clear_DepthStencil_View();
 }
 
-inline HRESULT CGameInstance::GraphicDevice_Present()
+ HRESULT CGameInstance::GraphicDevice_Present()
 {
 	return m_pGraphicDevice->Present();
 }
@@ -806,13 +806,14 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pObjectManager);
 	Safe_Release(m_pAnimationManager);
 	Safe_Release(m_pPrototype);
-	Safe_Release(m_pGraphicDevice);
 	Safe_Release(m_pMouseManager);
 	Safe_Release(m_pFontManager);
 	Safe_Release(m_pUIManager);
 	Safe_Release(m_pFileManager);
 	Safe_Release(m_pCollisionManager);
 	Safe_Release(m_pCutSceneManager);
+	Safe_Release(m_pTargetManager);
+	Safe_Release(m_pGraphicDevice);
 
 	CGameInstance::GetInstance()->DestroyInstance();
 }

@@ -280,6 +280,18 @@
     <Filter Include="03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\00.SetFoodIndex">
       <UniqueIdentifier>{d2d2c95d-de08-4567-82e4-b551fe43fafa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\01.Button\12.Save">
+      <UniqueIdentifier>{1ca7388d-b818-4892-afe2-c4f445606a65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\97.FuctionObject">
+      <UniqueIdentifier>{3284aacc-438f-4aec-8155-de7beca43304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\000.OnclickStrategy\14.Buy">
+      <UniqueIdentifier>{1580035b-6066-414e-8fdb-933cf3ce2588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\000.OnclickStrategy\14.Buy\00.BuyFood">
+      <UniqueIdentifier>{49184d43-6e23-41e6-8680-d2f88d380596}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -548,6 +560,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetFoodIndex_Strgy.h">
       <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\00.SetFoodIndex</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Save_Button.h">
+      <Filter>03.UI\01.Button\12.Save</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\BuyFood_Strgy.h">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\14.Buy\00.BuyFood</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
@@ -780,6 +798,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetFoodIndex_Strgy.cpp">
       <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\00.SetFoodIndex</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Save_Button.cpp">
+      <Filter>03.UI\01.Button\12.Save</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\BuyFood_Strgy.cpp">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\14.Buy\00.BuyFood</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

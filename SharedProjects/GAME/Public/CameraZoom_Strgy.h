@@ -19,7 +19,7 @@ private:
 	virtual ~CCameraZoom_Strgy() = default;
 
 public:
-	HRESULT Initialize(CAMERAZOOMSTRGY_DESC* pDesc);
+	HRESULT Initialize(const CAMERAZOOMSTRGY_DESC& Desc);
 
 public:
 	void OnClick() override;
@@ -33,7 +33,7 @@ private:
 	_float m_fLerpTimer = {};
 
 public:
-	static CCameraZoom_Strgy* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CAMERAZOOMSTRGY_DESC* pDesc);
+	static CCameraZoom_Strgy* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CAMERAZOOMSTRGY_DESC& Desc);
 	virtual void Free()override;
 };
 

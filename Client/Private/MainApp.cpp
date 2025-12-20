@@ -518,6 +518,7 @@ HRESULT CMainApp::Ready_Manager()
 	if (FAILED(CApartManager::GetInstance()->Load_ApartData()))
 		return E_FAIL;
 
+
 	if (FAILED(CMiiManager::GetInstance()->Initialize()))
 		return E_FAIL;	
 
@@ -729,7 +730,7 @@ HRESULT CMainApp::Ready_Static_Texture()
 	/* 아이콘 텍스쳐 */
 	// ProtoTag_Component_IconTexture
 	{
-		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Icon_Texture/%d.png"), 22);
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Icon_Texture/%d.png"), 23);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_IconTexture"), tmp)))
 			return E_FAIL;
 	}

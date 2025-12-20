@@ -32,6 +32,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BlueBackGround.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Body.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BuildingName_Texture.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\BuyFood_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\CameraZoom_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Category_Button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ChangePlace_Strategy.cpp" />
@@ -56,6 +57,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Inventory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Item.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlayerInven_Button.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Save_Button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetFoodIndex_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Store_Food.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TextBox.cpp" />
@@ -112,6 +114,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PUblic\BlueBackGround.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Body.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BuildingName_Texture.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\BuyFood_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\CameraZoom_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Category_Button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ChangePlace_Strategy.h" />
@@ -139,6 +142,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Inventory.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Item.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlayerInven_Button.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Save_Button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetFoodIndex_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Store_Food.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TextBox.h" />

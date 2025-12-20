@@ -1,5 +1,7 @@
 #include "Wallet.h"
 #include "GameInstance.h"
+#include "ApartManager.h"
+#include "IOnClick.h"
 
 CWallet::CWallet(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -25,6 +27,7 @@ HRESULT CWallet::Initialize_Origin()
 HRESULT CWallet::Initialize_Clone(void* pArg)
 {
 	WALLET_DESC* pDesc = static_cast<WALLET_DESC*>(pArg);
+	m_pUpdateStrgy = pDesc->pUpdateStrgy;
 
 	m_strText = pDesc->strText;
 	m_vFontSize = m_pGameInstance->FontManager_Measure_Text(TEXT("Basic_Font_18"), m_strText);
@@ -45,11 +48,16 @@ int32_t CWallet::Update_Priority(_float fDT)
 
 int32_t CWallet::Update(_float fDT)
 {
+	m_pUpdateStrgy->OnClick();
+
 	return 0;
 }
 
 void CWallet::Update_Late(_float fDT)
 {
+	m_strText = to_wstring(CApartManager::GetInstance()->Get_ApartInfo_Money()) + L"¿ø";
+	m_vFontSize = m_pGameInstance->FontManager_Measure_Text(TEXT("Basic_Font_18"), m_strText);
+
 	CUI::Update_Late(fDT);
 }
 
@@ -137,6 +145,7 @@ CObject* CWallet::Clone(void* pArg)
 void CWallet::Free()
 {
 	CUI::Free();
+	Safe_Release(m_pUpdateStrgy);
 
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTextureCom);

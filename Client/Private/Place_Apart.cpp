@@ -89,7 +89,8 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 	// ProtoTag_Actor_seMii
 	{
-		m_iNumMii = static_cast<uint32_t>(CApartManager::GetInstance()->Get_ApartInfo().strMiiNames.size());
+		m_iNumMii = CApartManager::GetInstance()->Get_ApartInfo_NumMii();
+
 		for (uint32_t i = 0; i < m_iNumMii; ++i)
 		{
 			CSEMii::MII_DESC Desc = {};
@@ -101,7 +102,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 			Desc.fRotationPerSecond = XMConvertToRadians(20.f);
 			Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 
-			_wstring nickname = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames[i];
+			_wstring nickname = CApartManager::GetInstance()->Get_ApartInfo_MiiName(i);
 			Desc.strNickName = nickname;
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMii"), &Desc);
@@ -146,8 +147,16 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		uint32_t iIndex = { 0 };
 
 		/* 주민들의 이름 */
-		vector<_wstring > Layers = CApartManager::GetInstance()->Get_ApartInfo().strMiiNames;
-			
+
+		vector<_wstring > Layers;
+		uint32_t iNumMii = CApartManager::GetInstance()->Get_ApartInfo_NumMii();
+		Layers.reserve(iNumMii);
+
+		for (uint32_t i = 0; i < iNumMii; ++i)
+		{
+			Layers.push_back(CApartManager::GetInstance()->Get_ApartInfo_MiiName(i));
+		}
+
 		for (int32_t i = 2; i >= 0; --i)
 		{
 			for (int32_t j = 0; j < 8; ++j)

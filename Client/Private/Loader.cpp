@@ -22,6 +22,7 @@
 #include "Gauge.h"
 #include "Store_Food.h"
 #include "MiiEditButton.h"
+#include "Save_Button.h"
 #include "PageButton.h"
 #include "HungryBar.h"
 #include "Hungry_Gauge.h"
@@ -272,6 +273,17 @@ HRESULT CLoader::Loading_Island()
 				TEXT("ProtoTag_Component_CommonButton_Texture"), tmp)))
 				return E_FAIL;
 		}
+
+		/* 저장 버튼 텍스쳐 */
+		// ProtoTag_Component_Save_Button_Texture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Save_Button/%d.dds"), 1);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_Component_Save_Button_Texture"), tmp)))
+				return E_FAIL;
+		}
+
+
 	}
 
 	// Actor
@@ -329,6 +341,17 @@ HRESULT CLoader::Loading_Island()
 				TEXT("ProtoTag_UI_BuildingNameTexture"), tmp)))
 				return E_FAIL;
 		}
+
+		/* 세이브 버튼 */
+		// ProtoTag_UI_Save_Button
+		{
+			tmp = CSave_Button::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND),
+				TEXT("ProtoTag_UI_Save_Button"), tmp)))
+				return E_FAIL;
+		}
+
+
 	}
 
 	lstrcpy(m_szFPS, TEXT("Place Island Loading Complete"));

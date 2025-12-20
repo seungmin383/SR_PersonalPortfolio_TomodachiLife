@@ -11,12 +11,15 @@ class CRectBufferCom;
 NS_END
 
 NS_BEGIN(Game)
+class IOnClick;
 
 class CWallet final : public CUI
 {
 public:
 	typedef struct tagWalletDesc : public UI_DESC
 	{
+		IOnClick* pUpdateStrgy = { nullptr };
+
 		_wstring strText = {};
 	}WALLET_DESC;
 
@@ -43,6 +46,8 @@ private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CTextureCom* m_pTextureCom = { nullptr };
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
+
+	IOnClick* m_pUpdateStrgy = { nullptr };
 
 private:
 	_wstring m_strText = {};

@@ -1,22 +1,33 @@
 #include "Place_Island.h"
 #include "GameInstance.h"
 #include "Place_Loading.h"
+
+/* Component */
+
+/* Actor */
 #include "WorldCamera.h"
 #include "UICamera.h"
-
 #include "Island.h"
 #include "SkyAndSea.h"
-#include "PlaceMoveButton.h"
-#include "BackGround.h"
 #include "Apart.h"
 #include "TempModel.h"
+
+/* UI */
+#include "BackGround.h"
+#include "PlaceMoveButton.h"
+#include "YellowBackGround.h"
+#include "BuildingName_Texture.h"
+#include "Save_Button.h"
+#include "IconTexture.h"
+#include "Back_Button.h"
+#include "Wallet.h"
+
+/* Strgy*/
+#include "IUnlock.h"
 #include "ChangePlace_Strategy.h"
 #include "CameraZoom_Strgy.h"
 #include "Deactive_Strgy.h"
-
-#include "IUnlock.h"
-#include"YellowBackGround.h"
-#include "BuildingName_Texture.h"
+#include "ControlEnable_Strgy.h"
 
 
 /***********************
@@ -158,6 +169,8 @@ HRESULT CPlace_Island::Render_Late()
 HRESULT CPlace_Island::Ready_Actor_Layer()
 {
 	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ISLAND);
+
 
 	// ProtoTag_Actor_Island
 	{
@@ -594,82 +607,91 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		22   // 22. Go Cafe
 	};
 
-	PLACEID NextPlaceIDArr[] = {
-	PLACEID::APART,	// 0. Go Apart
-	PLACEID::APART,// 1. Go Wear
-	PLACEID::APART,// 2. Go Antique
-	PLACEID::APART,// 3. Go Cap
-	PLACEID::FOOD_STORE, // 4. Go Food
-	PLACEID::APART, // 5. Go Luxury
-	PLACEID::APART, // 6. Go Music
-	PLACEID::APART,  // 7. Go House
-	PLACEID::CITYHALL,  // 8. Go CityHall
-	PLACEID::APART,// 9. Go Rank   
-	PLACEID::APART,// 10. Go Tent
-	PLACEID::APART,// 11. Go Wedding
-	PLACEID::APART,// 12. Go Love
-	PLACEID::APART,// 13. Go Port
-	PLACEID::APART,// 14. Go Photo
-	PLACEID::APART,// 15. Go News
-	PLACEID::DEVELOPER,// 16. Go Export 
-	PLACEID::APART,// 17. Go Fountain
-	PLACEID::APART,// 18. Go Sea
-	PLACEID::APART,// 19. Go JeonMangDae
-	PLACEID::APART,// 20. Go Park
-	PLACEID::APART,// 21. Go Play
-	PLACEID::APART	 // 22. Go Cafe
-	};
-	CPlaceMoveButton::PLACEMOVEBUTTON_DESC tPlaceMoveButtonDesc = {};
-	constexpr uint32_t iNumPlace = sizeof(vPosArr) / sizeof(vPosArr[0]);
-	_bool isApart = { FALSE };
-
-	/* LayerTag_UI_PlaceMoveButton */
-	for (uint32_t i = 0; i < iNumPlace; ++i)
 	{
-		tPlaceMoveButtonDesc.fX = vPosArr[i].x;
-		tPlaceMoveButtonDesc.fY = vPosArr[i].y;
-		tPlaceMoveButtonDesc.fZ = vPosArr[i].z;
 
-		if (isApart == FALSE)
+		PLACEID NextPlaceIDArr[] = {
+		PLACEID::APART,	// 0. Go Apart
+		PLACEID::APART,// 1. Go Wear
+		PLACEID::APART,// 2. Go Antique
+		PLACEID::APART,// 3. Go Cap
+		PLACEID::FOOD_STORE, // 4. Go Food
+		PLACEID::APART, // 5. Go Luxury
+		PLACEID::APART, // 6. Go Music
+		PLACEID::APART,  // 7. Go House
+		PLACEID::CITYHALL,  // 8. Go CityHall
+		PLACEID::APART,// 9. Go Rank   
+		PLACEID::APART,// 10. Go Tent
+		PLACEID::APART,// 11. Go Wedding
+		PLACEID::APART,// 12. Go Love
+		PLACEID::APART,// 13. Go Port
+		PLACEID::APART,// 14. Go Photo
+		PLACEID::APART,// 15. Go News
+		PLACEID::DEVELOPER,// 16. Go Export 
+		PLACEID::APART,// 17. Go Fountain
+		PLACEID::APART,// 18. Go Sea
+		PLACEID::APART,// 19. Go JeonMangDae
+		PLACEID::APART,// 20. Go Park
+		PLACEID::APART,// 21. Go Play
+		PLACEID::APART	 // 22. Go Cafe
+		};
+		CPlaceMoveButton::PLACEMOVEBUTTON_DESC PM_Desc = {};
+		constexpr uint32_t iNumPlace = sizeof(vPosArr) / sizeof(vPosArr[0]);
+		_bool isApart = { FALSE };
+
+		/* LayerTag_UI_PlaceMoveButton */
+		for (uint32_t i = 0; i < iNumPlace; ++i)
 		{
-			tPlaceMoveButtonDesc.fCX = 130.f;
-			tPlaceMoveButtonDesc.fCY = 120.f;
-			isApart = TRUE;
+			PM_Desc.fX = vPosArr[i].x;
+			PM_Desc.fY = vPosArr[i].y;
+			PM_Desc.fZ = vPosArr[i].z;
+
+			if (isApart == FALSE)
+			{
+				PM_Desc.fCX = 130.f;
+				PM_Desc.fCY = 120.f;
+				isApart = TRUE;
+			}
+			else
+			{
+				PM_Desc.fCX = 115.f;
+				PM_Desc.fCY = 115.f;
+			}
+
+			PM_Desc.fSpeedPerSecond = 0.f;
+			PM_Desc.eCurPlaceID = PLACEID::ISLAND;
+			PM_Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+			PM_Desc.fRotationPerSecond = XMConvertToRadians(20.f);
+			PM_Desc.iTextureIndex = static_cast<uint32_t>(TextureIndexArr[i].x);
+			PM_Desc.iOutlineTextureIndex = static_cast<uint32_t>(TextureIndexArr[i].y);
+
+			/* 전략 */
+			CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgy_Desc = {};
+			strgy_Desc.ePlaceID = PLACEID::ISLAND;
+			strgy_Desc.strLayerTag = TEXT("LayerTag_UI_PlaceMoveButton");
+			strgy_Desc.EnableLayers = vector<_wstring>{ TEXT("LayerTag_UI_Back_Button") };
+			strgy_Desc.DisableLayers = vector<_wstring>{TEXT("LayerTag_UI_Wallet")};
+
+			PM_Desc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext,strgy_Desc);
+
+			CCameraZoom_Strgy::CAMERAZOOMSTRGY_DESC tCameraZoomStrgyDesc = {};
+			tCameraZoomStrgyDesc.strCameraTag = TEXT("World_Camera");
+			tCameraZoomStrgyDesc.fTargetFov = XMConvertToRadians(10.f);
+			tCameraZoomStrgyDesc.vTargetPos = vTargetPosArr[i];
+			tCameraZoomStrgyDesc.fLerpTime = 0.1f;
+			PM_Desc.pSelected_Strgy = CCameraZoom_Strgy::Create(m_pDevice, m_pContext, tCameraZoomStrgyDesc);
+
+			PM_Desc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, NextPlaceIDArr[i]);
+			PM_Desc.iMatchBuildingIndex = BuildingIndexArr[i];
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_UI_PlaceMoveButton"), &PM_Desc);
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI_PlaceMoveButton"), tmp)))
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI_PlaceMoveButton"), static_cast<CButton*>(tmp))))
+				return E_FAIL;
 		}
-		else
-		{
-			tPlaceMoveButtonDesc.fCX = 115.f;
-			tPlaceMoveButtonDesc.fCY = 115.f;
-		}
-
-		tPlaceMoveButtonDesc.fSpeedPerSecond = 0.f;
-		tPlaceMoveButtonDesc.eCurPlaceID = PLACEID::ISLAND;
-		tPlaceMoveButtonDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
-		tPlaceMoveButtonDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-		tPlaceMoveButtonDesc.iTextureIndex = static_cast<uint32_t>(TextureIndexArr[i].x);
-		tPlaceMoveButtonDesc.iOutlineTextureIndex = static_cast<uint32_t>(TextureIndexArr[i].y);
-
-		/* 전략 */
-		tPlaceMoveButtonDesc.pClicked_Strgy = CDeactive_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND, TEXT("LayerTag_UI_PlaceMoveButton"));
-
-		CCameraZoom_Strgy::CAMERAZOOMSTRGY_DESC tCameraZoomStrgyDesc = {};
-		tCameraZoomStrgyDesc.strCameraTag = TEXT("World_Camera");
-		tCameraZoomStrgyDesc.fTargetFov = XMConvertToRadians(10.f);
-		tCameraZoomStrgyDesc.vTargetPos = vTargetPosArr[i];
-		tCameraZoomStrgyDesc.fLerpTime = 0.1f;
-		tPlaceMoveButtonDesc.pSelected_Strgy = CCameraZoom_Strgy::Create(m_pDevice, m_pContext, &tCameraZoomStrgyDesc);
-
-		tPlaceMoveButtonDesc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, NextPlaceIDArr[i]);
-		tPlaceMoveButtonDesc.iMatchBuildingIndex = BuildingIndexArr[i];
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_UI_PlaceMoveButton"), &tPlaceMoveButtonDesc);
-		if (nullptr == tmp)
-			return E_FAIL;
-
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI_PlaceMoveButton"), tmp)))
-			return E_FAIL;
-
-		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI_PlaceMoveButton"), static_cast<CButton*>(tmp))))
-			return E_FAIL;
 	}
 
 	// ProtoTag_UI_BuildingName_Texture
@@ -690,8 +712,8 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI_BuildingName_Texture"), tmp)))
 			return E_FAIL;
 
-		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI_BuildingName_Texture"), static_cast<CButton*>(tmp))))
-			return E_FAIL;
+		// if (FAILED(m_pGameInstance->ButtonManager_Add_Button(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_UI_BuildingName_Texture"), static_cast<CButton*>(tmp))))
+		// 	return E_FAIL;
 	}
 
 
@@ -724,7 +746,113 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 return E_FAIL;
 		 }
 	 }
+
+	 /* 세이브 버튼 */
+	 // ProtoTag_UI_Save_Button
+	 {
+		 CSave_Button::SAVEBUTTON_DESC Desc = {};
+		 Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		 Desc.fCX = 189.f;
+		 Desc.fCY = 99.f;
+		 Desc.fX = 960.f - Desc.fCX * 0.5f + 4.f;
+		 Desc.fY = 480.f - Desc.fCY * 0.5f + 4.f;
+		 Desc.fZ = 0.5f;
+
+		 CIconTexture::ICONTEXTURE_DESC IconDesc = {};
+		 IconDesc.eRenderGroup = Desc.eRenderGroup;
+		 IconDesc.fZ = 0.4f;
+
+		 Desc.pClicked_Strgy = CDeactive_Strgy::Create(m_pDevice, m_pContext,PLACEID::ISLAND, TEXT("LayerTag_UI_Save_Button"));
+		 Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		 Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		 tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_Save_Button"), &Desc);
+		 if (nullptr == tmp)
+			 return E_FAIL;
+
+		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Save_Button"), tmp)))
+			 return E_FAIL;
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Save_Button"), static_cast<CButton*>(tmp))))
+			 return E_FAIL;
+
+		 /* 아이콘 텍스쳐 */
+		 IconDesc.fX = Desc.fX;
+		 IconDesc.fY = Desc.fY - 4.f;
+		 IconDesc.iTextureIndex = 22;
+		 IconDesc.fCX = 96.f;
+		 IconDesc.fCY = 30.f;
+
+		 tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Icon"), &IconDesc);
+		 if (nullptr == tmp)
+			 return E_FAIL;
+
+		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Save_Button"), tmp)))
+			 return E_FAIL;
+	 }
+
+	 /* 지갑 */
+	 // ProtoTag_UI_Wallet
+	 {
+		 CWallet::WALLET_DESC Desc = {};
+		 Desc.fCX = 320.f;
+		 Desc.fCY = 48.f;
+		 Desc.fX = 0.f + Desc.fCX * 0.5f + 10.f;
+		 Desc.fY = 480.f - Desc.fCY * 0.5f - 5.f;
+		 Desc.fZ = 0.5f;
+		 Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		 CCameraZoom_Strgy::CAMERAZOOMSTRGY_DESC strgy_Desc = {};
+		 strgy_Desc.strCameraTag = TEXT("World_Camera");
+		 strgy_Desc.fTargetFov = XMConvertToRadians(45.f);
+		 strgy_Desc.vTargetPos = XMFLOAT4{ 2.f, 0.f, 0.f, 1.f };
+		 strgy_Desc.fLerpTime = 0.1f;
+
+		 Desc.pUpdateStrgy = CCameraZoom_Strgy::Create(m_pDevice, m_pContext, strgy_Desc);
+
+		 tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Wallet"), &Desc);
+		 if (nullptr == tmp)
+			 return E_FAIL;
+
+		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Wallet"), tmp)))
+			 return E_FAIL;
+	 }
 	 
+
+	 /* 뒤로가기 버튼 */
+	// LayerTag_UI_Back_Button
+	 {
+		 CBack_Button::BACKBUTTON_DESC Desc = {};
+		 Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		 Desc.fCX = 100.f;
+		 Desc.fCY = 68.f;
+		 Desc.fX = 50.f;
+		 Desc.fY = 446.f;
+		 Desc.fZ = 0.5f;
+
+		 CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgy_Desc = {};
+		 strgy_Desc.ePlaceID = PLACEID::ISLAND;
+		 strgy_Desc.strLayerTag = TEXT("LayerTag_UI_PlaceMoveButton");
+		 strgy_Desc.EnableLayers = vector<_wstring>{ TEXT("LayerTag_UI_Wallet") };
+		 strgy_Desc.DisableLayers = vector<_wstring>{ TEXT("LayerTag_UI_Back_Button") };
+		 
+		 Desc.pClicked_Strgy = CControlEnable_Strgy::Create	(m_pDevice, m_pContext, strgy_Desc);
+		 Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		 Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		 tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Back_Button"), &Desc);
+		 if (nullptr == tmp)
+			 return E_FAIL;
+
+		 if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Back_Button"), tmp)))
+			 return E_FAIL;
+
+		 if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Back_Button"), static_cast<CButton*>(tmp))))
+			 return E_FAIL;
+	 }
+
+	 m_pGameInstance->ObjectManager_Enable_Layer(iPlaceID, TEXT("LayerTag_UI_Wallet"));
+	 m_pGameInstance->ObjectManager_Disable_Layer(iPlaceID, TEXT("LayerTag_UI_Back_Button"));
 	return S_OK;
 }
 

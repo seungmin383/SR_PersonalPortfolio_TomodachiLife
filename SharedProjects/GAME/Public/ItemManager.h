@@ -26,6 +26,7 @@ public:
 	void Set_ItemIndex(ITEM_TYPE eItemType, uint32_t iIndex);
 	uint32_t Get_FoodItemIndex() { return m_iCurFoodIndex; }
 
+	const ITEM_FOOD_INFO& Get_CurFoodInfo() const { return m_FoodInformations[m_iCurFoodIndex]; }
 	const ITEM_FOOD_INFO& Get_FoodInfo(uint32_t iIndex) const { return m_FoodInformations[iIndex]; }
 	const uint32_t Get_NumFood() { return static_cast<uint32_t>(m_FoodInformations.size() - 1); }
 
