@@ -1,39 +1,49 @@
-#include "ChangePlace_Strategy.h"
-#include "ControlEnable_Strgy.h"
-#include "All_Deactive_Strgy.h"
-#include "PlayerInven_Button.h"
-#include "SetFoodIndex_Strgy.h"
-#include "LevelUp_Inventory.h"
-#include "FoodItem_Texture.h"
-#include "Category_Button.h"
-#include "TimeLine_Trans.h"  
-#include "BlueBackGround.h"    
-#include "Deactive_Strgy.h"
-#include "Window_Button.h"       
+#include "Place_Room.h"          
 #include "Place_Loading.h"    
 #include "GameInstance.h"        
 #include "ApartManager.h"  
-#include "CommonButton.h"   
-#include "Hungry_Gauge.h"
-#include "LevelUp_Item.h"
-#include "WorldCamera.h" 
-#include "Back_Button.h"         
-#include "IconTexture.h"
 #include "ItemManager.h"
-#include "Place_Room.h"          
 #include "MiiManager.h"        
+
+#include "TimeLine_Trans.h"  
+#include "CutScene.h"       
+
+/* Component */
+
+/* Actor */
+#include "WorldCamera.h" 
 #include "TempModel.h"           
-#include "HungryBar.h"
-#include "LevelBar.h"
-#include "CutScene.h"            
 #include "UICamera.h"            
-#include "TestMii.h" 
-#include "TextBox.h"
 #include "Player.h"              
 #include "Apart.h"               
 #include "SEMii.h"               
+#include "Room.h"    
+
+/* UI */
+#include "PlayerInven_Button.h"
+#include "LevelUp_Inventory.h"
+#include "FoodItem_Texture.h"
+#include "Category_Button.h"
+#include "BlueBackGround.h"    
+#include "Window_Button.h"       
+#include "Option_Button.h"
+#include "Hungry_Gauge.h"
+#include "LevelUp_Item.h"
+#include "CommonButton.h"   
+#include "Back_Button.h"         
+#include "IconTexture.h"
+#include "HungryBar.h"
+#include "LevelBar.h"
+#include "TextBox.h"
 #include "Gauge.h"
-#include "Room.h"                
+
+/* Strgy*/
+#include "ChangePlace_Strategy.h"
+#include "ControlEnable_Strgy.h"
+#include "All_Deactive_Strgy.h"
+#include "SetFoodIndex_Strgy.h"
+#include "Deactive_Strgy.h"
+
 
 #define LEVELUP_INVENTORY_BASE_X 600.f
 #define LEVELUP_INVENTORY_BASE_Y 370.f
@@ -359,6 +369,9 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		return E_FAIL;	
 
 	if (FAILED(Layer_UI_TextBox()))
+		return E_FAIL;
+
+	if (FAILED(Layer_UI_Option_Button()))
 		return E_FAIL;
 
 
@@ -1154,6 +1167,24 @@ HRESULT CPlace_Room::Layer_UI_TextBox()
 
 	return S_OK;
 }
+
+
+HRESULT CPlace_Room::Layer_UI_Option_Button()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
+
+	COption_Button::OPTIONBUTTON_DESC Desc = {};
+	Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+	Desc.fX = 850.f;
+	Desc.fY = 150.f;
+	Desc.fZ = 0.5f;
+	Desc.fCX = 104.f;
+	Desc.fCY = 104.f;
+	Desc.strText = TEXT("аж╠Б");
+	return S_OK;
+}
+
 
 CPlace_Room* CPlace_Room::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

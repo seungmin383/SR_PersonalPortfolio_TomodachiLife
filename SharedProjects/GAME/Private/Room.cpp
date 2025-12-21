@@ -149,7 +149,7 @@ HRESULT CRoom::Ready_Component()
 		return E_FAIL;
 
 #else
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_seRoom1"), TEXT("Com_ModelCom"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_seRoom0"), TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 #endif
