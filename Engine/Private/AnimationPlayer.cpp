@@ -11,25 +11,14 @@ CAnimationPlayer::CAnimationPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* p
 
 CAnimationPlayer::CAnimationPlayer(const CAnimationPlayer& rhs)
 	:CComponent(rhs),
-	m_strCurAnimTag(rhs.m_strCurAnimTag),
 	m_fCurTrackPosition(rhs.m_fCurTrackPosition),
 	m_fBlendDuration(rhs.m_fBlendDuration),
 	m_fBlendTime(rhs.m_fBlendTime)
 {
-	m_pCurAnimation = m_pGameInstance->AnimationManager_Get_Animation(m_strCurAnimTag);
 }
 
-HRESULT CAnimationPlayer::Initialize(
-	const _string& strInitAnimTag,
-	vector<CSEBone*>* pBones)
+HRESULT CAnimationPlayer::Initialize()
 {
-	m_pBones = pBones;
-	m_strCurAnimTag = strInitAnimTag;
-	m_pCurAnimation = m_pGameInstance->AnimationManager_Get_Animation(strInitAnimTag);
-
-	if (nullptr == m_pCurAnimation)
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -37,6 +26,10 @@ HRESULT CAnimationPlayer::Initialize_Clone(void* pArg)
 {
 	ANIMATIONPLAYER_DESC* pDesc = static_cast<ANIMATIONPLAYER_DESC*>(pArg);
 	m_pBones = (pDesc->m_pBones);
+	m_strCurAnimTag = pDesc->strInitAnimTag;
+	m_TargetPreTransformMatrix = pDesc->PreTransformMatrix;
+
+	m_pCurAnimation = m_pGameInstance->AnimationManager_Find_Animation(pDesc->strInitAnimTag);
 
 	return S_OK;
 }
@@ -54,6 +47,11 @@ void CAnimationPlayer::Play_Animation(_float fDT)
 	{
 		Update_TransformationMatrix(fDT);
 	}
+
+	for (auto& pBone : *m_pBones)
+	{
+		pBone->Update_CombinedTransformMatrix(*m_pBones, XMLoadFloat4x4(&m_TargetPreTransformMatrix));
+	}
 }
 
 /* Play_Animation이 돌고 있을 때를 가정함 */
@@ -68,7 +66,7 @@ _bool CAnimationPlayer::Play_Macro(const _wstring& strMacroTag, _float fDT)
 	}
 
 	if (m_iCurMacroIndex == 0 && m_pCurAnimation == nullptr)
-		m_pCurAnimation = m_pGameInstance->AnimationManager_Get_Animation(iter->second[0]);
+		m_pCurAnimation = m_pGameInstance->AnimationManager_Find_Animation(iter->second[0]);
 
 
 	/* 애니메이션이 끝났으면 */
@@ -83,7 +81,7 @@ _bool CAnimationPlayer::Play_Macro(const _wstring& strMacroTag, _float fDT)
 			return TRUE;
 		}
 
-		const _string& strAnimTag = iter->second[m_iCurMacroIndex];
+		const _wstring& strAnimTag = iter->second[m_iCurMacroIndex];
 		Change_Animation(strAnimTag, 0.2f, FALSE);
 		m_isAnimFin = FALSE;
 	}
@@ -91,7 +89,7 @@ _bool CAnimationPlayer::Play_Macro(const _wstring& strMacroTag, _float fDT)
 	return FALSE;
 }
 
-void CAnimationPlayer::Change_Animation(const _string& strAnimaTag, _float fBlendDuration, _bool isLoop)
+void CAnimationPlayer::Change_Animation(const _wstring& strAnimaTag, _float fBlendDuration, _bool isLoop)
 {
 	if (m_strCurAnimTag == strAnimaTag)
 		return;
@@ -106,13 +104,13 @@ void CAnimationPlayer::Change_Animation(const _string& strAnimaTag, _float fBlen
 	m_fPreTrackPosition = m_fCurTrackPosition;
 	m_fCurTrackPosition = 0.f;
 
-	m_pCurAnimation = m_pGameInstance->AnimationManager_Get_Animation(strAnimaTag);
+	m_pCurAnimation = m_pGameInstance->AnimationManager_Find_Animation(strAnimaTag);
 
 	m_isChangedAnimation = TRUE;
 	m_isLoop = isLoop;
 }
 
-HRESULT CAnimationPlayer::Add_Animation_Macro(const _wstring& strMacroTag, vector<_string> AnimTags)
+HRESULT CAnimationPlayer::Add_Animation_Macro(const _wstring& strMacroTag, vector<_wstring> AnimTags)
 {
 	auto iter = m_AnimationMacro.find(strMacroTag);
 	if (m_AnimationMacro.end() != iter)
@@ -213,14 +211,10 @@ void CAnimationPlayer::Blend_Animation(_float fDT)
 	}
 }
 
-CAnimationPlayer* CAnimationPlayer::Create(
-	ID3D11Device* pDevice, 
-	ID3D11DeviceContext* pContext, 
-	const _string& strInitAnimationTag,
-	vector<CSEBone*>* pBones)
+CAnimationPlayer* CAnimationPlayer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CAnimationPlayer* pInstance = new CAnimationPlayer(pDevice, pContext);
-	if (FAILED(pInstance->Initialize(strInitAnimationTag, pBones)))
+	if (FAILED(pInstance->Initialize()))
 	{
 		MSG_BOX("ErrCode : CAnimationPlayer Create Failed");
 		Safe_Release(pInstance);

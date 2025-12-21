@@ -49,9 +49,6 @@ public:
 		CShaderCom* pShader,
 		const _char* pConstantName,
 		uint32_t iMeshIndex);
-public:
-	void Play_Animation(_float fDT);
-	void Set_Animation(uint32_t iAnimIndex, _bool isLoop = FALSE);
 
 public:
 	const XMFLOAT4X4& Get_OffsetMatrixByName(const _string& name) const;

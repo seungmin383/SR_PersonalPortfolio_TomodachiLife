@@ -359,9 +359,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Weapon.h">
       <Filter>02.Actor\01.PlayerTest\00.Player\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\TestMii.h">
-      <Filter>02.Actor\01.PlayerTest</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\MiiBody.h">
       <Filter>02.Actor\03.Mii\Body</Filter>
     </ClInclude>
@@ -606,9 +603,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Weapon.cpp">
       <Filter>02.Actor\01.PlayerTest\00.Player\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\TestMii.cpp">
-      <Filter>02.Actor\01.PlayerTest</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\MiiBody.cpp">
       <Filter>02.Actor\03.Mii\Body</Filter>

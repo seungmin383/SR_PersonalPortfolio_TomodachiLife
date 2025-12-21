@@ -6,6 +6,8 @@ NS_BEGIN(Engine)
 class CModel;
 class CSEModel;
 class CShaderCom;
+class CAnimationPlayer;
+
 NS_END
 
 NS_BEGIN(Game)

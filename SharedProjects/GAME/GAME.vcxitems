@@ -95,7 +95,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Snow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TempModel.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Terrain.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\TestMii.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TextButton.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\UICamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Weapon.cpp" />
@@ -181,7 +180,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Snow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TempModel.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Terrain.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\TestMii.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TextButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Weapon.h" />

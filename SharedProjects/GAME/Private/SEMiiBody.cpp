@@ -31,12 +31,6 @@ HRESULT CSEMiiBody::Initialize_Clone(void* pArg)
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
-	vector<_string> AnimMacroTags = {
-		"Recieve_Item",
-		"Hoist_Item",
-		"PutIn_Item",
-	};
-	m_pSeModel->Add_Animation_Macro(TEXT("AnimMacro_1"), AnimMacroTags);
 	return S_OK;
 }
 
@@ -48,15 +42,6 @@ int32_t CSEMiiBody::Update_Priority(_float fDT)
 int32_t CSEMiiBody::Update(_float fDT)
 {
 	m_pCollider->Update_Collider();
-
-	/*if (static_cast<int32_t>(STATE::IDLE) & *m_pParentState)
-		m_pSeModel->Change_Animation("PutIn_Item", 0.2f, TRUE);
-	if (static_cast<int32_t>(STATE::WALK) & *m_pParentState)
-		m_pSeModel->Change_Animation("CM_Walk01", 0.2f, TRUE);
-	if (static_cast<int32_t>(STATE::RUN )& *m_pParentState)
-		m_pSeModel->Change_Animation("CM_Run00", 0.2f, TRUE);
-	if (static_cast<int32_t>(STATE::Greet )& *m_pParentState)
-		m_pSeModel->Change_Animation("CM_Greet00", 0.2f, TRUE);*/
 
 	if (m_pGameInstance->Get_DIKeyState(DIK_B))
 	{
@@ -73,9 +58,8 @@ void CSEMiiBody::Update_Late(_float fDT)
 	if (m_pCollider->Get_isTriggerExit())
 		MSG_BOX("OnTriggerExit");
 
-	m_pSeModel->Play_Animation(fDT);
-	m_pSeModel->Play_Macro(TEXT("AnimMacro_1"), fDT);
-
+	m_pAnimationPlayer->Play_Animation(fDT);
+	m_pAnimationPlayer->Change_Animation(TEXT("CM_Walk01"), 0.3f, TRUE);
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
 	CPartObject::Update_Late(fDT);
 }
@@ -108,14 +92,17 @@ HRESULT CSEMiiBody::Render()
 
 HRESULT CSEMiiBody::Ready_Component()
 {
+	uint32_t iStaticID = static_cast<uint32_t>(PLACEID::STATIC);
+
 	/* Shader */
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxAnimMesh_Shader"), TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
+	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_VtxAnimMesh_Shader"), TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
 		return E_FAIL;
 
 	/* Model */
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_seChineseDress"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
+	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_seChineseDress"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 
+	/* Collider */
 	CBounding_Sphere::SPHERE_DESC BoundDesc = {};
 	BoundDesc.fRadius = 1.f;
 	BoundDesc.vCenter = XMFLOAT3{ 0.f, 0.f, 0.f };
@@ -126,13 +113,23 @@ HRESULT CSEMiiBody::Ready_Component()
 	ColliderDesc.iCollisionMask = COL_OBJECTS;
 	ColliderDesc.pOwnerWorldMatrix = &m_CombinedWorldMatrix;
 
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_SphereCollider"), TEXT("Com_Collider"),
+	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_SphereCollider"), TEXT("Com_Collider"),
 		reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->CollsionManager_Add_Collider(static_cast<uint32_t>(PLACEID::STATIC), COLLISION::TRIGGER, m_pCollider)))
+	if (FAILED(m_pGameInstance->CollsionManager_Add_Collider(static_cast<uint32_t>(PLACEID::STATIC), COLLISION::OBJECT, m_pCollider)))
 		return E_FAIL;
 
+	/* 애니메이션 플레이어 */
+	/* ProtoTag_Component_AnimationPlayer */
+	{
+		CAnimationPlayer::ANIMATIONPLAYER_DESC Desc = {};
+		Desc.m_pBones = m_pSeModel->Get_BonesPtr();
+		Desc.strInitAnimTag = TEXT("CM_Wait00");
+		Desc.PreTransformMatrix = m_pSeModel->Get_InitMatrix();
+		if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_AnimationPlayer"), TEXT("Com_AnimationPlayer"), reinterpret_cast<CComponent**>(&m_pAnimationPlayer), &Desc)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

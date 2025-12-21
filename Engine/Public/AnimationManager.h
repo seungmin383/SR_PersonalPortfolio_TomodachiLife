@@ -15,11 +15,10 @@ public:
 	HRESULT Initialize();
 
 public:
-	CSEAnimation* Get_Animation(const _string& strAnimationTag);
+	CSEAnimation* Find_Animation(const _wstring& strAnimationTag);
 
 private:
-	vector<SE_ANIMATION> m_vecAnimationData;
-	map<_string, CSEAnimation*> m_Animations;
+	map<_wstring, CSEAnimation*> m_Animations;
 
 public:
 	static CAnimationManager* Create();

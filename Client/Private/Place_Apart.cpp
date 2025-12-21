@@ -79,8 +79,8 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		Desc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f , 1.f };
 		Desc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Actor_Room"), &Desc);
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::APART), TEXT("LayerTag_Actor"), tmp)))
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_Room"), &Desc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::STATIC	), TEXT("LayerTag_Actor"), tmp)))
 		{
 			Safe_Release(tmp);
 			return E_FAIL;

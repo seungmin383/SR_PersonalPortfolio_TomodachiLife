@@ -678,9 +678,9 @@ _wstring CGameInstance::ButtonManager_Get_Text()
 
 #pragma region ANIMATIONMANAGER
 
-CSEAnimation* CGameInstance::AnimationManager_Get_Animation(const _string& strAnimationTag)
+CSEAnimation* CGameInstance::AnimationManager_Find_Animation(const _wstring& strAnimationTag)
 {
-	return m_pAnimationManager->Get_Animation(strAnimationTag);
+	return m_pAnimationManager->Find_Animation(strAnimationTag);
 }
 
 #pragma endregion

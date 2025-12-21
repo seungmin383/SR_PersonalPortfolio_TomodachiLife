@@ -216,29 +216,31 @@ public:
 #pragma endregion
 
 #pragma region BUTTONMANAGER
-	HRESULT ButtonManager_Add_Button(uint32_t iPlaceID, const _wstring& strLayerTag, CButton* pButton);
+	HRESULT		ButtonManager_Add_Button(uint32_t iPlaceID, const _wstring& strLayerTag, CButton* pButton);
 
-	HRESULT ButtonManager_Layer_Deactivate(uint32_t iPlaceID, const _wstring& strLayerTag);
-	HRESULT ButtonManager_All_Deactivate(uint32_t iPlaceID);
+	HRESULT		ButtonManager_Layer_Deactivate(uint32_t iPlaceID, const _wstring& strLayerTag);
+	HRESULT		ButtonManager_All_Deactivate(uint32_t iPlaceID);
 
-	void ButtonManager_Set_CurButton(CButton* pButton);
-	CButton* ButtonManager_Get_CurButton();
+	void		ButtonManager_Set_CurButton(CButton* pButton);
+	CButton*	ButtonManager_Get_CurButton();
 
-	void ButtonManager_Set_OnText(_bool is);
+	void		ButtonManager_Set_OnText(_bool is);
 
-	void ButtonManager_Set_BuildingNameTextureIndex(uint32_t i);
-	uint32_t ButtonManager_Get_BuildingNameTextureIndex();
-	void ButtonManager_Set_HasSelectedPlaceMoveButton(_bool isSelected);
-	_bool ButtonManager_Get_HasSelectedPlaceMoveButton();
-	void	ButtonManager_Set_HasSelectedCategoryButton(_bool isSelected);
-	_bool	ButtonManager_Get_HasSelectedCategoryButton() const;
+	uint32_t	ButtonManager_Get_BuildingNameTextureIndex();
+	void		ButtonManager_Set_BuildingNameTextureIndex(uint32_t i);
+
+	_bool		ButtonManager_Get_HasSelectedPlaceMoveButton();
+	void		ButtonManager_Set_HasSelectedPlaceMoveButton(_bool isSelected);
+
+	_bool		ButtonManager_Get_HasSelectedCategoryButton() const;
+	void		ButtonManager_Set_HasSelectedCategoryButton(_bool isSelected);
 
 	_wstring ButtonManager_Get_Text();
 
 #pragma endregion
 
 #pragma region ANIMATIONMANAGER
-	CSEAnimation* AnimationManager_Get_Animation(const _string& strAnimationTag);
+	CSEAnimation* AnimationManager_Find_Animation(const _wstring& strAnimationTag);
 
 #pragma endregion
 

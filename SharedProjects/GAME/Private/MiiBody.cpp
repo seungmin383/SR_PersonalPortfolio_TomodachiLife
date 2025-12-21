@@ -29,6 +29,7 @@ HRESULT CMiiBody::Initialize_Clone(void* pArg)
 		return E_FAIL;
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -39,26 +40,13 @@ int32_t CMiiBody::Update_Priority(_float fDT)
 
 int32_t CMiiBody::Update(_float fDT)
 {
-	if (static_cast<int32_t>(STATE::IDLE) & *m_pParentState)
-		m_pSeModel->Change_Animation("CM_Wait00", 0.2f, TRUE);
-	if (static_cast<int32_t>(STATE::WALK) & *m_pParentState)
-		m_pSeModel->Change_Animation("CM_Walk01", 0.2f, TRUE);
-	if (static_cast<int32_t>(STATE::RUN )& *m_pParentState)
-		m_pSeModel->Change_Animation("CM_Run00", 0.2f, TRUE);
-	if (static_cast<int32_t>(STATE::Greet )& *m_pParentState)
-		m_pSeModel->Change_Animation("CM_Greet00", 0.2f, TRUE);
-
-	if (m_pGameInstance->Get_DIKeyState(DIK_B))
-	{
-		if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_BabyJumper"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
-			return E_FAIL;
-	}
 	return UPDATE_CLEAR;
 }
 
 void CMiiBody::Update_Late(_float fDT)
 {
-	m_pSeModel->Play_Animation(fDT);
+	m_pAnimationPlayer->Play_Animation(fDT);
+
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
 	CPartObject::Update_Late(fDT);
 }
@@ -85,13 +73,25 @@ HRESULT CMiiBody::Render()
 
 HRESULT CMiiBody::Ready_Component()
 {
+	uint32_t iStaticID = static_cast<uint32_t>(PLACEID::STATIC);
 	/* Shader */
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxAnimMesh_Shader"), TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
+	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_VtxAnimMesh_Shader"), TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShader), nullptr)))
 		return E_FAIL;
 
 	/* Model */
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_seChineseDress"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
+	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_seChineseDress"), TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
+
+	/* AnimationPlayer */
+	{
+		CAnimationPlayer::ANIMATIONPLAYER_DESC Desc = {};
+		Desc.m_pBones = m_pSeModel->Get_BonesPtr();
+		Desc.strInitAnimTag = TEXT("CM_Wait00");
+		Desc.PreTransformMatrix = m_pSeModel->Get_InitMatrix();
+
+		if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_AnimationPlayer"), TEXT("Com_AnimationPlayer"), reinterpret_cast<CComponent**>(&m_pAnimationPlayer), &Desc)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

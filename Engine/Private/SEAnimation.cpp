@@ -9,13 +9,12 @@ CSEAnimation::CSEAnimation(const CSEAnimation& rhs)
 	:m_strName(rhs.m_strName),
 	m_fTickPerSec(rhs.m_fTickPerSec),
 	m_fDuration(rhs.m_fDuration),
-	// m_Channels(rhs.m_Channels),
 	m_iNumChannel(rhs.m_iNumChannel),
 	m_ChannelPos(rhs.m_ChannelPos)
 {
 	m_iNumChannel = static_cast<uint32_t>(rhs.m_Channels.size());
-
 	m_Channels.reserve(m_iNumChannel);
+
 	for (auto* pChannel : rhs.m_Channels)
 	{
 		m_Channels.push_back(pChannel->Clone());

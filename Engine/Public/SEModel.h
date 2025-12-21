@@ -30,8 +30,7 @@ public:
 	HRESULT Initialize_SeModel(
 		ANIM_TYPE eAnimType,
 		const _char* SaveDataName,
-		FXMMATRIX InitMatrix,
-		const _string& strInitAnimTag );
+		FXMMATRIX InitMatrix);
 
 	HRESULT Initialize_Clone(void* pArg);
 	HRESULT Render_SeModel(uint32_t iMeshIndex);
@@ -58,13 +57,6 @@ public:
 		const _char* pConstantName,
 		uint32_t iMeshIndex);
 
-	void Change_Animation(
-		const _string strAnimTag, _float fBlendDuration, _bool isLoop);
-	void Play_Animation(_float fDT);
-
-	HRESULT Add_Animation_Macro(const _wstring& strMacroTag,vector<_string>AnimTags);
-	_bool Play_Macro(const _wstring& strMacroTag, _float fDT);
-
 public:
 	const uint32_t Get_NumMesh()const { return m_iNumMesh; }
 	const XMFLOAT4X4* Get_BoneCombinedTransformMatrixPtr(const _char* pBoneName)const;
@@ -72,6 +64,9 @@ public:
 	vector<uint32_t> Get_AlphaMeshIndices() { return m_AlphaMeshIndices; }
 	vector<uint32_t> Get_LightMeshIndices() { return m_LightMeshIndices; }
 	vector<uint32_t> Get_ShadowMeshIndices() { return m_ShadowMeshIndices; }
+
+	vector<CSEBone*>* Get_BonesPtr() { return &m_pBones; }
+	const XMFLOAT4X4& Get_InitMatrix() { return m_InitMatrix; }
 
 private:
 	_string					m_strSaveFilePath = {};
@@ -95,7 +90,6 @@ private:
 	vector<CSEBone*> m_pBones;
 	vector<CSEMesh*> m_pMeshes;
 	vector<CSEMaterial*> m_pMaterials;
-	CAnimationPlayer* m_pAnimPlayer = { nullptr };
 	XMFLOAT4X4 m_InitMatrix = {};
 
 public:
@@ -104,8 +98,7 @@ public:
 		ID3D11DeviceContext* pContext,
 		ANIM_TYPE eAnimType,
 		const _char* SaveDataName,
-		FXMMATRIX InitTransformMatrix,
-		const _string& strInitAnimTag = "");
+		FXMMATRIX InitTransformMatrix);
 
 	CObject* Clone(void* pArg) override;
 	virtual void Free()override;

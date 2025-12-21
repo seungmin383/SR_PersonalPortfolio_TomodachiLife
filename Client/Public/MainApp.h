@@ -34,6 +34,7 @@ public:
 	HRESULT Ready_Static_Component();
 
 	/* for.Actor*/
+	HRESULT Ready_Static_Actor();
 	HRESULT Ready_Static_Camera();
 	HRESULT Ready_Mii();
 

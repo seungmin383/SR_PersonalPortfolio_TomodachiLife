@@ -403,8 +403,7 @@ HRESULT CLoader::Loading_Apart()
 				if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, wstrProtoTag, tmp)))
 					return E_FAIL;
 
-				tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM,
-					strSaveName.c_str(), InitMatrix, "Action");
+				tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM,strSaveName.c_str(), InitMatrix);
 				if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, wstrSeProtoTag, tmp)))
 					return E_FAIL;
 			}
@@ -437,36 +436,6 @@ HRESULT CLoader::Loading_Apart()
 
 	// Actor
 	{
-		// ProtoTag_Actor_Mii
-		{
-			tmp = CTestMii::Create(m_pDevice,m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Actor_Mii"), tmp)))
-				return E_FAIL;
-		}
-
-		// ProtoTag_Actor_Player_Body
-		{
-			tmp = CBody::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Actor_Player_Body"), tmp)))
-				return E_FAIL;
-		}
-
-		/* 무기 */
-		// ProtoTag_Actor_Player_Weapon
-		{
-			tmp = CWeapon::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Actor_Player_Weapon"), tmp)))
-				return E_FAIL;
-		}
-
-		/* 플레이어 */
-		// ProtoTag_Actor_Player
-		{
-			tmp = CPlayer::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Actor_Player"), tmp)))
-				return E_FAIL;
-		}
-
 		/* 주민 방 */
 		// ProtoTag_Actor_Room
 		{
@@ -870,23 +839,12 @@ HRESULT CLoader::Loading_Developer()
 				return E_FAIL;
 		}
 
-		/* 테스트 모델 */
-		// ProtoTag_Component_BasicManBody_Model
-		{
-			XMMATRIX InitMatrix;
-			InitMatrix = XMMatrixIdentity();
-
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_BasicManBody_Model", ANIM_TYPE::ANIM,
-				"../../../../../../Resource/dev/05_Anim_fbx/CM_Greet00.fbx", InitMatrix, "ChineseDress");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_BasicManBody_Model"), tmp)))
-				return E_FAIL;
-		}
 
 		// ProtoTag_Component_BasicManBody_SEModel
 		{
 			XMMATRIX InitMatrix;
 			InitMatrix = XMMatrixIdentity();
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix, "CM_Wait00");
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_BasicManBody_SEModel"), tmp)))
 				return E_FAIL;
 		}
@@ -919,13 +877,6 @@ HRESULT CLoader::Loading_Developer()
 
 	// Actor
 	{
-		/* 테스트 mii*/
-		// ProtoTag_Actor_Fiona
-		{
-			tmp = CTestMii::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Fiona"), tmp)))
-				return E_FAIL;
-		}
 		/* 터레인 */
 		// ProtoTag_Actor_Terrain
 		{

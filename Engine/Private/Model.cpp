@@ -150,25 +150,6 @@ HRESULT CModel::Bind_Bones(
 	return m_Meshes[iMeshIndex]->Bind_Bones(pShader, pConstantName, m_Bones);
 }
 
-void CModel::Play_Animation(_float fDT)
-{
-	m_Animations[m_iCurAnimationIndex]->Update_TransformationMatrices(
-		m_Bones, fDT, m_isAnimLoop);
-
-	for (auto& pBone : m_Bones)
-	{
-		pBone->Update_CombinedTransformationMatrix(
-			m_Bones,
-			XMLoadFloat4x4(&m_InitMatrix));
-	}
-}
-
-void CModel::Set_Animation(uint32_t iAnimIndex, _bool isLoop)
-{
-	m_iCurAnimationIndex = iAnimIndex;
-	m_isAnimLoop = isLoop;
-}
-
 const int32_t CModel::Get_BoneIndex(const _char* pBoneName) const
 {
 	int32_t iIndex = { 0 };

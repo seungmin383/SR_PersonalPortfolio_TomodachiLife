@@ -25,10 +25,8 @@ CSEModel::CSEModel(const CSEModel& rhs)
 	, m_seAnimMeshes{ rhs.m_seAnimMeshes }
 	, m_iNumMaterial{ rhs.m_iNumMaterial }
 	, m_seMaterials{ rhs.m_seMaterials }
-	// , m_pBones{ rhs.m_pBones }         
 	, m_pMeshes{ rhs.m_pMeshes }       
 	, m_pMaterials{ rhs.m_pMaterials }
-	// , m_pAnimPlayer(rhs.m_pAnimPlayer)
 	, m_InitMatrix{rhs.m_InitMatrix }
 	,m_AlphaMeshIndices{rhs.m_AlphaMeshIndices }
 	, m_LightMeshIndices{rhs.m_LightMeshIndices }
@@ -41,19 +39,9 @@ CSEModel::CSEModel(const CSEModel& rhs)
 
 	for (auto& pMat : m_pMaterials)
 		Safe_AddRef(pMat);
-	if (m_eAnimType == ANIM_TYPE::ANIM)
-	{
-		CAnimationPlayer::ANIMATIONPLAYER_DESC AnimationPlayerDesc = {};
-		AnimationPlayerDesc.m_pBones = &m_pBones;
-		m_pAnimPlayer = static_cast<CAnimationPlayer*>(rhs.m_pAnimPlayer->Clone(&AnimationPlayerDesc));
-	}
 }
 
-HRESULT CSEModel::Initialize_SeModel(
-	ANIM_TYPE eAnimType,
-	const _char* SaveDataName,
-	FXMMATRIX InitMatrix,
-	const _string& strInitAnimTag)
+HRESULT CSEModel::Initialize_SeModel(ANIM_TYPE eAnimType,const _char* SaveDataName,FXMMATRIX InitMatrix)
 {
 	m_strSaveDataName = SaveDataName;
 	m_eAnimType = eAnimType;
@@ -91,10 +79,6 @@ HRESULT CSEModel::Initialize_SeModel(
 	if(FAILED(Ready_seMaterial()))
 		return E_FAIL;
 
-	if (m_eAnimType == ANIM_TYPE::ANIM)
-	{
-		m_pAnimPlayer = CAnimationPlayer::Create(m_pDevice, m_pContext, strInitAnimTag , &m_pBones);
-	}
 	return S_OK;
 }
 
@@ -319,31 +303,6 @@ HRESULT CSEModel::Bind_Bones(
 	return m_pMeshes[iMeshIndex]->Bind_Bones(pShader, pConstantName, m_pBones);
 }
 
-void CSEModel::Change_Animation(const _string strAnimTag, _float fBlendDuration, _bool isLoop )
-{
-	m_pAnimPlayer->Change_Animation(strAnimTag, fBlendDuration, isLoop);
-}
-
-void CSEModel::Play_Animation(_float fDT)
-{
-	m_pAnimPlayer->Play_Animation(fDT);
-
-	for (auto& pBone : m_pBones)
-	{
-		pBone->Update_CombinedTransformMatrix(m_pBones, XMLoadFloat4x4(&m_InitMatrix));
-	}
-}
-
-HRESULT CSEModel::Add_Animation_Macro(const _wstring& strMacroTag, vector<_string>AnimTags)
-{
-	return m_pAnimPlayer->Add_Animation_Macro(strMacroTag, AnimTags);
-}
-
-_bool CSEModel::Play_Macro(const _wstring& strMacroTag, _float fDT)
-{
-	return m_pAnimPlayer->Play_Macro(strMacroTag, fDT);
-}
-
 
 const XMFLOAT4X4* CSEModel::Get_BoneCombinedTransformMatrixPtr(const _char* pBoneName) const
 {
@@ -363,17 +322,12 @@ const _string& CSEModel::Get_MeshName(uint32_t index) const
 }
 
 
-CSEModel* CSEModel::Create(
-	ID3D11Device* pDevice, 
-	ID3D11DeviceContext* pContext, 
-	ANIM_TYPE eAnimType,
-	const _char* SaveDataName,
-	FXMMATRIX InitTransformMatrix,
-	const _string& strInitAnimTag)
+CSEModel* CSEModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,
+	ANIM_TYPE eAnimType, const _char* SaveDataName, FXMMATRIX InitTransformMatrix)
 {
 	CSEModel* pInstance = new CSEModel(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_SeModel(eAnimType, SaveDataName, InitTransformMatrix, strInitAnimTag)))
+	if (FAILED(pInstance->Initialize_SeModel(eAnimType, SaveDataName, InitTransformMatrix)))
 	{
 		MSG_BOX("ErrCode : SeModel Create Failed");
 		Safe_Release(pInstance);
@@ -407,6 +361,4 @@ void CSEModel::Free()
 
 	for (auto& pMat : m_pMaterials)
 		Safe_Release(pMat);
-
-	Safe_Release(m_pAnimPlayer);
 }

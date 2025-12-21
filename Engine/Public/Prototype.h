@@ -9,6 +9,7 @@
 #include "ParticleBufferCom_Point.h"
 #include "TextureCom.h"
 #include "Camera.h"
+#include "AnimationPlayer.h"
 #include "Model.h"
 #include "SEModel.h"
 #include "Collider.h"

@@ -1,7 +1,7 @@
 #include "AnimationManager.h"
 #include "SEAnimation.h"
 
-#define ANIM_FOLDER_PATH L"../../SharedProjects/GAME/Asset/Animations"
+#define ANIM_BINARY_FOLDER_PATH L"../../SharedProjects/GAME/Asset/Animations"
 
 CAnimationManager::CAnimationManager()
 {
@@ -9,7 +9,8 @@ CAnimationManager::CAnimationManager()
 
 HRESULT CAnimationManager::Initialize()
 {
-    for (const auto& entry : filesystem::directory_iterator(ANIM_FOLDER_PATH))
+    vector<SE_ANIMATION> AnimationDescs;
+    for (const auto& entry : filesystem::directory_iterator(ANIM_BINARY_FOLDER_PATH))
     {
         if (!entry.is_regular_file())
             continue;
@@ -23,21 +24,22 @@ HRESULT CAnimationManager::Initialize()
 
         SE_ANIMATION seAnim = {};
         seAnim.ReadSEAnimationFile(in);
-        m_vecAnimationData.push_back(seAnim);
+        AnimationDescs.push_back(seAnim);
     }
 
-    uint32_t NumAnimation = static_cast<uint32_t>(m_vecAnimationData.size());
-    for (uint32_t i = 0; i < NumAnimation; ++i)
+    for (auto& Desc : AnimationDescs)
     {
-        CSEAnimation* pAnimation = CSEAnimation::Create(m_vecAnimationData[i]);
+        CSEAnimation* pAnimation = CSEAnimation::Create(Desc);
         if (nullptr == pAnimation)
             return E_FAIL;
-        m_Animations.emplace(m_vecAnimationData[i].strName, pAnimation);
+
+        m_Animations.emplace(StrToWstr(Desc.strName), pAnimation);
     }
+
     return S_OK;
 }
 
-CSEAnimation* CAnimationManager::Get_Animation(const _string& strAnimationTag)
+CSEAnimation* CAnimationManager::Find_Animation(const _wstring& strAnimationTag)
 {
     auto iter = m_Animations.find(strAnimationTag);
 
@@ -52,7 +54,7 @@ CSEAnimation* CAnimationManager::Get_Animation(const _string& strAnimationTag)
 
 CAnimationManager* CAnimationManager::Create()
 {
-    CAnimationManager* pInstance = new CAnimationManager;;
+    CAnimationManager* pInstance = new CAnimationManager;
     if (FAILED(pInstance->Initialize()))
     {
         MSG_BOX("ErrCode : CAnimationManager Create Failed");
@@ -67,5 +69,6 @@ void CAnimationManager::Free()
     for (auto& pair : m_Animations)
         Safe_Release(pair.second);
     m_Animations.clear();
+
 	CBase::Free();
 }

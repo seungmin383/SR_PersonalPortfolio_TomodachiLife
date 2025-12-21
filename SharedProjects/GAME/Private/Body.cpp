@@ -43,8 +43,6 @@ int32_t CBody::Update(_float fDT)
 
 void CBody::Update_Late(_float fDT)
 {
-	m_pModel->Set_Animation(1, TRUE);
-	m_pModel->Play_Animation(fDT);
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
 	CPartObject::Update_Late(fDT);
 }
@@ -80,8 +78,7 @@ const XMFLOAT4X4* CBody::Get_SocketMatrix(const _char* pBoneName)
 
 HRESULT CBody::Ready_Component()
 {
-	if (FAILED(Add_Component(
-		static_cast<uint32_t>(PLACEID::STATIC),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC),
 		TEXT("ProtoTag_Component_VtxAnimMesh_Shader"),
 		TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom),

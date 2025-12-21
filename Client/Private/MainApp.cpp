@@ -10,6 +10,7 @@
 // Actor
 #include "WorldCamera.h"
 #include "UICamera.h"
+#include "Room.h"
 
 // Componenet
 #include "Mii.h"
@@ -161,6 +162,9 @@ HRESULT CMainApp::Ready_Static()
 		return E_FAIL;
 
 	/* 액터 */
+	if (FAILED(Ready_Static_Actor()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Static_Camera()))
 		return E_FAIL;
 
@@ -323,7 +327,7 @@ HRESULT CMainApp::Ready_Static_Model()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_BabyJumper"), tmp)))
 			return E_FAIL;
 
-		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "BabyJumper", InitMatrix, "CM_Wait00");
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "BabyJumper", InitMatrix);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_seBabyJumper"), tmp)))
 			return E_FAIL;
 	}
@@ -338,7 +342,7 @@ HRESULT CMainApp::Ready_Static_Model()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_ChineseDress"), tmp)))
 			return E_FAIL;
 
-		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix, "CM_Wait00");
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_seChineseDress"), tmp)))
 			return E_FAIL;
 	}
@@ -353,7 +357,7 @@ HRESULT CMainApp::Ready_Static_Model()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_CamouflageJacket"), tmp)))
 			return E_FAIL;
 
-		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "CamouflageJacket", InitMatrix, "CM_Wait00");
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "CamouflageJacket", InitMatrix);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_seCamouflageJacket"), tmp)))
 			return E_FAIL;
 	}
@@ -429,11 +433,27 @@ HRESULT CMainApp::Ready_Static_Model()
 				return E_FAIL;
 #endif 
 
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, strSaveName.c_str(), InitMatrix, "Action");
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, strSaveName.c_str(), InitMatrix);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, wstrSeProtoTag, tmp)))
 				return E_FAIL;
 		}
 	}
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Static_Actor()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::STATIC);
+	
+	/* 주민 방 */
+	// ProtoTag_Actor_Room
+	{
+		tmp = CRoom::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Room"), tmp)))
+			return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -651,6 +671,15 @@ HRESULT CMainApp::Ready_Static_Component()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Brain"), tmp)))
 			return E_FAIL;
 	}
+
+	/* 애니메이션 플레이어 */
+	// ProtoTag_Component_AnimationPlayer
+	{
+		tmp = CAnimationPlayer::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_AnimationPlayer"), tmp)))
+			return E_FAIL;	
+	}
+
 	return S_OK;
 }
 

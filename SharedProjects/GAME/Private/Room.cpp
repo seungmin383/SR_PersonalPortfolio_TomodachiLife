@@ -36,7 +36,7 @@ int32_t CRoom::Update(_float fDT)
 	m_pModelCom->Set_Animation(0, TRUE);
 	m_pModelCom->Play_Animation(fDT);
 #else
-	m_pSeModel->Play_Animation(fDT);
+	m_pAnimationPlayer->Play_Animation(fDT);
 #endif
 	return UPDATE_CLEAR;
 }
@@ -139,20 +139,36 @@ HRESULT CRoom::Render()
 
 HRESULT CRoom::Ready_Component()
 {
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_VtxAnimMesh_Shader"), TEXT("Com_Shader"),
+	uint32_t iStaticID = static_cast<uint32_t>(PLACEID::STATIC);
+
+	/* Shader */
+	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_VtxAnimMesh_Shader"), TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
 
+	/* Model */
 #ifdef LOADING_MODEL
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Component_Room2"), TEXT("Com_ModelCom"),
+	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_Room2"), TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pModelCom), nullptr)))
 		return E_FAIL;
 
 #else
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_seRoom0"), TEXT("Com_ModelCom"),
+	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_seRoom0"), TEXT("Com_ModelCom"),
 		reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 #endif
+
+	/* Animation Player */
+	{
+		CAnimationPlayer::ANIMATIONPLAYER_DESC Desc = {};
+		Desc.m_pBones = m_pSeModel->Get_BonesPtr();
+		Desc.strInitAnimTag = TEXT("Action");
+		Desc.PreTransformMatrix = m_pSeModel->Get_InitMatrix();
+
+		if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_AnimationPlayer"), TEXT("Com_AnimationPlayer"),
+			reinterpret_cast<CComponent**>(&m_pAnimationPlayer), &Desc)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

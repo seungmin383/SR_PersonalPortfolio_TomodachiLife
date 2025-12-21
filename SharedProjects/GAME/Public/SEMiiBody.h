@@ -7,6 +7,8 @@ class CSEModel;
 class CShaderCom;
 class CCollider;
 
+class CAnimationPlayer;
+
 NS_END
 
 NS_BEGIN(Game)
@@ -47,6 +49,7 @@ private:
 	CSEModel* m_pSeModel = { nullptr };
 	CShaderCom* m_pShader = { nullptr };
 	CCollider* m_pCollider = { nullptr };
+	CAnimationPlayer* m_pAnimationPlayer = { nullptr };
 
 private:
 	const uint32_t* m_pParentState = { nullptr };
