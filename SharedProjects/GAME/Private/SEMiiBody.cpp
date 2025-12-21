@@ -43,10 +43,9 @@ int32_t CSEMiiBody::Update(_float fDT)
 {
 	m_pCollider->Update_Collider();
 
-	if (m_pGameInstance->Get_DIKeyState(DIK_B))
+	if (!m_isStartMacro && m_pGameInstance->Get_DIKeyState(DIK_B))
 	{
-		if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_BabyJumper"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
-			return E_FAIL;
+		m_isStartMacro = TRUE;
 	}
 	return 0;
 }
@@ -58,8 +57,13 @@ void CSEMiiBody::Update_Late(_float fDT)
 	if (m_pCollider->Get_isTriggerExit())
 		MSG_BOX("OnTriggerExit");
 
-	m_pAnimationPlayer->Play_Animation(fDT);
-	m_pAnimationPlayer->Change_Animation(TEXT("CM_Walk01"), 0.3f, TRUE);
+	if (m_isStartMacro && !m_isPlayMacro)
+	{
+		m_isPlayMacro = TRUE;
+		m_pAnimationPlayer->Begin_Macro(TEXT("RecieveItem"));
+	}
+
+	m_pAnimationPlayer->Update(fDT);
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
 	CPartObject::Update_Late(fDT);
 }
@@ -180,6 +184,7 @@ void CSEMiiBody::Free()
 	Safe_Release(m_pSeModel);
 	Safe_Release(m_pShader);
 	Safe_Release(m_pCollider);
+	Safe_Release(m_pAnimationPlayer);
 
 	CPartObject::Free();
 }

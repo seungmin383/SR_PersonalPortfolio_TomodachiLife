@@ -80,7 +80,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		Desc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_Room"), &Desc);
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::STATIC	), TEXT("LayerTag_Actor"), tmp)))
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_Actor"), tmp)))
 		{
 			Safe_Release(tmp);
 			return E_FAIL;

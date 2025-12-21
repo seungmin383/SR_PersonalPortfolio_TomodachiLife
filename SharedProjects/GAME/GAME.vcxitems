@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\All_Deactive_Strgy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\AnimMacroManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Apart.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ApartManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BackGround.cpp" />
@@ -104,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\All_Deactive_Strgy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\AnimMacroManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Apart.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ApartInformation.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ApartManager.h" />

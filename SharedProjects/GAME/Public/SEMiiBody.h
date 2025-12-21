@@ -55,6 +55,9 @@ private:
 	const uint32_t* m_pParentState = { nullptr };
 	const uint32_t* m_pParentClothState = { nullptr };
 
+	_bool m_isStartMacro = FALSE;
+	_bool m_isPlayMacro = FALSE;
+
 public:
 	static CSEMiiBody* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg)override;

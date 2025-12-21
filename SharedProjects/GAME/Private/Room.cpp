@@ -212,6 +212,7 @@ CObject* CRoom::Clone(void* pArg)
 void CRoom::Free()
 {
 	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pAnimationPlayer);
 
 #ifdef LOADING_MODEL
 	Safe_Release(m_pModelCom);

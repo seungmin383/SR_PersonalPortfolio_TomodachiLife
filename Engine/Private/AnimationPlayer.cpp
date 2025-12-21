@@ -19,6 +19,7 @@ CAnimationPlayer::CAnimationPlayer(const CAnimationPlayer& rhs)
 
 HRESULT CAnimationPlayer::Initialize()
 {
+
 	return S_OK;
 }
 
@@ -34,59 +35,96 @@ HRESULT CAnimationPlayer::Initialize_Clone(void* pArg)
 	return S_OK;
 }
 
+int32_t CAnimationPlayer::Update(_float fDT)
+{
+	switch (m_eAnimType)
+	{
+	case Engine::ANIMPLAYER_TYPE::NORMAL:
+		Play_Animation(fDT);
+			break;
+	case Engine::ANIMPLAYER_TYPE::MACRO:
+		Play_Macro(fDT);
+		break;
+	default:
+		break;
+	}
+
+
+	return 0;
+}
+
+HRESULT CAnimationPlayer::Begin_Animation(const _wstring& strAnimTag, _bool isLoop)
+{
+	if (nullptr == m_pGameInstance->AnimationManager_Find_Animation(strAnimTag))
+		return E_FAIL;
+
+	m_isStartAnim = TRUE;
+	m_isEndAnim = FALSE;
+	m_eAnimType = ANIMPLAYER_TYPE::NORMAL;
+
+	Change_Animation(strAnimTag, 0.3f, isLoop);
+	return S_OK;
+}
+
+HRESULT CAnimationPlayer::Begin_Macro(const _wstring& strMacroTag)
+{
+	vector<_wstring>* pMacro = m_pGameInstance->AnimationManager_Find_AnimationMacro(strMacroTag);
+	if (nullptr == pMacro)
+		return E_FAIL;
+
+	if (nullptr == m_pGameInstance->AnimationManager_Find_Animation((*pMacro)[0]))
+		return E_FAIL;
+
+	m_pMacro = pMacro;
+	m_iCurMacroIndex = 0;
+	m_iMaxMacroIndex = static_cast<uint32_t>((*pMacro).size());
+	m_eAnimType = ANIMPLAYER_TYPE::MACRO;
+	m_isStartMacro = TRUE;
+
+	Change_Animation((*pMacro)[0], 0.3f, FALSE);
+	return S_OK;
+}
+
 void CAnimationPlayer::Play_Animation(_float fDT)
 {
 	if (nullptr == m_pCurAnimation)
 		return;
 
+	/* 애니메이션 체인지가 호출되었다면 */
 	if (m_isChangedAnimation)
-	{
 		Blend_Animation(fDT);
-	}
-	else if(!m_isChangedAnimation)
-	{
+	else
 		Update_TransformationMatrix(fDT);
-	}
 
-	for (auto& pBone : *m_pBones)
-	{
-		pBone->Update_CombinedTransformMatrix(*m_pBones, XMLoadFloat4x4(&m_TargetPreTransformMatrix));
-	}
+	if (m_isStartAnim)
+		m_isStartAnim = FALSE;
 }
 
-/* Play_Animation이 돌고 있을 때를 가정함 */
-_bool CAnimationPlayer::Play_Macro(const _wstring& strMacroTag, _float fDT)
+void CAnimationPlayer::Play_Macro(_float fDT)
 {
-	auto iter = m_AnimationMacro.find(strMacroTag);
-
-	if (m_AnimationMacro.end() == iter)
+	if (m_isChangedAnimation)
+		Blend_Animation(fDT);
+	else
 	{
-		MSG_BOX("ErrCode : No Macro");
-		return TRUE;
-	}
+		Update_TransformationMatrix(fDT);
 
-	if (m_iCurMacroIndex == 0 && m_pCurAnimation == nullptr)
-		m_pCurAnimation = m_pGameInstance->AnimationManager_Find_Animation(iter->second[0]);
-
-
-	/* 애니메이션이 끝났으면 */
-	if (m_isAnimFin)
-	{
-		m_iCurMacroIndex++;
-
-		if (m_iCurMacroIndex >= iter->second.size())
+		if (m_isAnimFin)
 		{
-			m_isAnimFin = FALSE;
-			m_iCurMacroIndex = 0;
-			return TRUE;
+			if ((++m_iCurMacroIndex < m_iMaxMacroIndex))
+			{
+				m_isPlayingMacro = TRUE;
+				Change_Animation((*m_pMacro)[m_iCurMacroIndex], 0.3f, FALSE);
+			}
+			else
+			{
+				m_isPlayingMacro = FALSE;
+				m_isEndMacro = TRUE;
+			}
 		}
-
-		const _wstring& strAnimTag = iter->second[m_iCurMacroIndex];
-		Change_Animation(strAnimTag, 0.2f, FALSE);
-		m_isAnimFin = FALSE;
 	}
 
-	return FALSE;
+	if (m_isStartMacro)
+		m_isStartMacro = FALSE;
 }
 
 void CAnimationPlayer::Change_Animation(const _wstring& strAnimaTag, _float fBlendDuration, _bool isLoop)
@@ -97,36 +135,23 @@ void CAnimationPlayer::Change_Animation(const _wstring& strAnimaTag, _float fBle
 	if (m_pPreAnimation != nullptr)
 		Safe_Release(m_pPreAnimation);
 
-	m_fBlendDuration = fBlendDuration;
-	m_strCurAnimTag = strAnimaTag;
+	m_fBlendDuration	= fBlendDuration;
+	m_strCurAnimTag		= strAnimaTag;
 	
-	m_pPreAnimation = m_pCurAnimation;
-	m_fPreTrackPosition = m_fCurTrackPosition;
-	m_fCurTrackPosition = 0.f;
+	m_pPreAnimation		= m_pCurAnimation;
 
-	m_pCurAnimation = m_pGameInstance->AnimationManager_Find_Animation(strAnimaTag);
+	m_fPreTrackPosition	= m_fCurTrackPosition;
+	m_fCurTrackPosition = 0.f;
 
 	m_isChangedAnimation = TRUE;
 	m_isLoop = isLoop;
-}
 
-HRESULT CAnimationPlayer::Add_Animation_Macro(const _wstring& strMacroTag, vector<_wstring> AnimTags)
-{
-	auto iter = m_AnimationMacro.find(strMacroTag);
-	if (m_AnimationMacro.end() != iter)
-		return E_FAIL;
-
-	m_AnimationMacro.emplace(strMacroTag, AnimTags);
-
-	return S_OK;
+	m_pCurAnimation = m_pGameInstance->AnimationManager_Find_Animation(strAnimaTag);
 }
 
 void CAnimationPlayer::Update_TransformationMatrix(_float fDT)
 {
 	m_isAnimFin = m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, m_isLoop);
-
-	if (m_isAnimFin == TRUE)
-		int a = 0;
 
 	if (nullptr != m_pPreAnimation)
 	{
@@ -150,11 +175,16 @@ void CAnimationPlayer::Update_TransformationMatrix(_float fDT)
 		//여기서 채널의 BoneInddex를 가져와야됨
 		(*m_pBones)[ChannelPos[i].iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
 	}
+
+	/* 뼈 업데이트 돌려주기 */
+	for (auto& pBone : *m_pBones)
+	{
+		pBone->Update_CombinedTransformMatrix(*m_pBones, XMLoadFloat4x4(&m_TargetPreTransformMatrix));
+	}
 }
 
 void CAnimationPlayer::Blend_Animation(_float fDT)
 {
-	_bool isFalse = FALSE;
 	m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, m_isLoop);
 	m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, m_isLoop);
 
@@ -208,6 +238,12 @@ void CAnimationPlayer::Blend_Animation(_float fDT)
 		{
 			(*m_pBones)[iBoneIndex]->Set_TransformationMatrix(TransformationMatrix);
 		}
+	}
+
+	/* 뼈 업데이트 돌려주기 */
+	for (auto& pBone : *m_pBones)
+	{
+		pBone->Update_CombinedTransformMatrix(*m_pBones, XMLoadFloat4x4(&m_TargetPreTransformMatrix));
 	}
 }
 

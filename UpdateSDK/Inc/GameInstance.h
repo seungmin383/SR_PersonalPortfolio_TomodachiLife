@@ -241,6 +241,7 @@ public:
 
 #pragma region ANIMATIONMANAGER
 	CSEAnimation* AnimationManager_Find_Animation(const _wstring& strAnimationTag);
+	vector<_wstring>* AnimationManager_Find_AnimationMacro(const _wstring& strMacroTag);
 
 #pragma endregion
 

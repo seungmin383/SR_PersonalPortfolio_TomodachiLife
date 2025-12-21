@@ -17,7 +17,7 @@ namespace Engine
 
 	enum class COLLISION{ TRIGGER, OBJECT, END};
 	enum class TIMELINE_TYPE {TRANS, ANIM, CAMERA, END};
-
+	enum class ANIMPLAYER_TYPE {NORMAL, MACRO, END};
 
 	enum class RENDER_GROUP : int32_t {
 		TOP_PRIORITY,

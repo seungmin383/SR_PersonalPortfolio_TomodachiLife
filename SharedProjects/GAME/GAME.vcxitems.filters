@@ -181,12 +181,6 @@
     <Filter Include="03.UI\01.Button\10.PlayerInventory">
       <UniqueIdentifier>{0f023abc-e9f4-4c10-b8de-3e1942d0ffed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.Actor\07.Item">
-      <UniqueIdentifier>{57fd34e1-bbc4-491d-964b-b350cfe70599}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.Actor\07.Item\LevelUpItem">
-      <UniqueIdentifier>{7353b972-6377-4935-a840-bf313fc8c9ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\05.ItemIcon">
       <UniqueIdentifier>{f1c9a51c-b9d2-4690-b4f5-e7fe0e36f17e}</UniqueIdentifier>
     </Filter>
@@ -291,6 +285,15 @@
     </Filter>
     <Filter Include="03.UI\01.Button\000.OnclickStrategy\14.Buy\00.BuyFood">
       <UniqueIdentifier>{49184d43-6e23-41e6-8680-d2f88d380596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\03.Mii\Items\LevelUpItem">
+      <UniqueIdentifier>{7353b972-6377-4935-a840-bf313fc8c9ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\08.Store\00.Food">
+      <UniqueIdentifier>{97112011-7d46-4bce-9a0b-62d6030df066}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Manager\AnimMacroManager">
+      <UniqueIdentifier>{7b1d9c7f-98f9-42f5-bfc9-778e4ecadf58}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -510,7 +513,7 @@
       <Filter>03.UI\03.Texture\02.LevelUp</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Item.h">
-      <Filter>02.Actor\07.Item\LevelUpItem</Filter>
+      <Filter>02.Actor\03.Mii\Items\LevelUpItem</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlayerInven_Button.h">
       <Filter>03.UI\01.Button\10.PlayerInventory</Filter>
@@ -545,9 +548,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TextBox.h">
       <Filter>03.UI\03.Texture\06.TextBox</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Store_Food.h">
-      <Filter>02.Actor\08.Store</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BasicBackGround.h">
       <Filter>03.UI\02.BackGround\Basic_BackGround</Filter>
     </ClInclude>
@@ -562,6 +562,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\BuyFood_Strgy.h">
       <Filter>03.UI\01.Button\000.OnclickStrategy\14.Buy\00.BuyFood</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Store_Food.h">
+      <Filter>02.Actor\08.Store\00.Food</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\AnimMacroManager.h">
+      <Filter>00.Manager\AnimMacroManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -746,7 +752,7 @@
       <Filter>03.UI\03.Texture\02.LevelUp</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Item.cpp">
-      <Filter>02.Actor\07.Item\LevelUpItem</Filter>
+      <Filter>02.Actor\03.Mii\Items\LevelUpItem</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlayerInven_Button.cpp">
       <Filter>03.UI\01.Button\10.PlayerInventory</Filter>
@@ -781,9 +787,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TextBox.cpp">
       <Filter>03.UI\03.Texture\06.TextBox</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Store_Food.cpp">
-      <Filter>02.Actor\08.Store</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BasicBackGround.cpp">
       <Filter>03.UI\02.BackGround\Basic_BackGround</Filter>
     </ClCompile>
@@ -798,6 +801,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\BuyFood_Strgy.cpp">
       <Filter>03.UI\01.Button\000.OnclickStrategy\14.Buy\00.BuyFood</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Store_Food.cpp">
+      <Filter>02.Actor\08.Store\00.Food</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\AnimMacroManager.cpp">
+      <Filter>00.Manager\AnimMacroManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

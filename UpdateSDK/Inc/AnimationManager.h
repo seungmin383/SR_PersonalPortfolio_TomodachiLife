@@ -16,9 +16,12 @@ public:
 
 public:
 	CSEAnimation* Find_Animation(const _wstring& strAnimationTag);
+	vector<_wstring>* Find_AnimationMacro(const _wstring& strMacroTag);
 
 private:
 	map<_wstring, CSEAnimation*> m_Animations;
+
+	map<_wstring, vector<_wstring>> m_AnimationMacros;
 
 public:
 	static CAnimationManager* Create();

@@ -3,6 +3,8 @@
 
 #define ANIM_BINARY_FOLDER_PATH L"../../SharedProjects/GAME/Asset/Animations"
 
+#define ANIM_MACRO_DATA_FILE_PATH L"../../SharedProjects/GAME/GameData/AnimMacroData.json" 
+
 CAnimationManager::CAnimationManager()
 {
 }
@@ -36,7 +38,40 @@ HRESULT CAnimationManager::Initialize()
         m_Animations.emplace(StrToWstr(Desc.strName), pAnimation);
     }
 
-    return S_OK;
+    /* 애니메이션 매크로 */
+    {
+        ifstream in(ANIM_MACRO_DATA_FILE_PATH);
+
+        if (!in.is_open())
+            return E_FAIL;
+
+        nlohmann::json j;
+        in >> j;
+
+        m_AnimationMacros.clear();
+
+        for (auto iter = j.begin(); iter != j.end(); ++iter)
+        {
+            const _string key = iter.key();
+            const nlohmann::json& Arr = iter.value();
+
+            vector<_wstring> macro;
+            macro.reserve(Arr.size());
+
+            for (const auto& value : Arr)
+            {
+                if (!value.is_string())
+                    continue;
+
+                macro.push_back(StrToWstr(value.get<_string>()));
+
+            }
+
+            m_AnimationMacros.emplace(StrToWstr(key), move(macro));
+        }
+
+        return S_OK;
+    }
 }
 
 CSEAnimation* CAnimationManager::Find_Animation(const _wstring& strAnimationTag)
@@ -50,6 +85,16 @@ CSEAnimation* CAnimationManager::Find_Animation(const _wstring& strAnimationTag)
     }
 
     return iter->second->Clone();
+}
+
+vector<_wstring>* CAnimationManager::Find_AnimationMacro(const _wstring& strMacroTag)
+{
+    auto iter = m_AnimationMacros.find(strMacroTag);
+
+    if(iter == m_AnimationMacros.end())
+        return nullptr;
+    
+    return &iter->second;
 }
 
 CAnimationManager* CAnimationManager::Create()

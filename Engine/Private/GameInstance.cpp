@@ -683,6 +683,11 @@ CSEAnimation* CGameInstance::AnimationManager_Find_Animation(const _wstring& str
 	return m_pAnimationManager->Find_Animation(strAnimationTag);
 }
 
+vector<_wstring>* CGameInstance::AnimationManager_Find_AnimationMacro(const _wstring& strMacroTag)
+{
+	return m_pAnimationManager->Find_AnimationMacro(strMacroTag);
+}
+
 #pragma endregion
 
 #pragma region UIMANAGER
