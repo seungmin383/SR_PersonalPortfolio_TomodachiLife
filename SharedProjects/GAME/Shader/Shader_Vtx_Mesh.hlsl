@@ -34,6 +34,7 @@ struct VS_OUT
     float4 vNormal          : NORMAL;
     float2 vTexcoord        : TEXCOORD0;
     float4 vWorldPosition   : TEXCOORD1;
+    float4 vProjPos         : TEXCOORD2;
 };
 
 
@@ -46,9 +47,13 @@ VS_OUT VS_MAIN(VS_IN In)
     vPosition = mul(vPosition, g_ProjMatrix);
     
     Out.vPosition = vPosition;
-    Out.vNormal = mul(float4(In.vNormal, 0.f), g_WorldMatrix);
+    Out.vNormal = normalize(mul(float4(In.vNormal, 0.f), g_WorldMatrix));
     Out.vTexcoord = In.vTexcoord;
     Out.vWorldPosition = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
+    
+    /* 굳이 클립 스페이스상의 위치를 받는 이유 -> Out.vPosition은 System Value로 PS로 넘어가기 전에 
+    w 나누기 / 뷰포트 변환을 거친 후 PS에 넘겨질 것이기 때문 */ 
+    Out.vProjPos = Out.vPosition;
     
     return Out;
 }
@@ -59,13 +64,15 @@ struct PS_IN
     float4 vNormal          : NORMAL;
     float2 vTexcoord        : TEXCOORD0;
     float4 vWorldPosition   : TEXCOORD1;
+    float4 vProjPos         : TEXCOORD2;
 };
 
 struct PS_OUT
 {
-    float4 vColor : SV_TARGET0;
+    float4 vDiffuse : SV_TARGET0;
     float4 vNormal : SV_TARGET1;
     float4 vDepth : SV_TARGET2;
+    float4 vPick : SV_Target3;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
@@ -74,23 +81,21 @@ PS_OUT PS_MAIN(PS_IN In)
     
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
     
-    float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
-    float fAlpha = vMtrlDiffuse.a;
-    
-    float fShade = max(dot(normalize(g_vLightDir) * -1.f, In.vNormal), 0.f);
-    
-    float4 vLook = In.vWorldPosition - g_vCamPosition;
-    float4 vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
-    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 1000);
-    
-    float3 vFinalColor = 
-    (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
-    
-    if(fAlpha < 0.1f)
+    if (vMtrlDiffuse.a < 0.3f)
         discard;
     
-    Out.vColor = float4(vFinalColor, fAlpha);
+    Out.vDiffuse = vMtrlDiffuse;
+    /* World 상태의 Normal은 -1 ~ 1의 범위인데, 
+    Normal의 Render Target에 픽셀 포맷이 DXGI_FORMAT_R16G16B16A16_UNORM 이라 음수값이 잘린다.
+    이를 방지하기 위해 0 ~ 1로 선형보간 해주는 작업 */
+    Out.vNormal = float4(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
     
+    /* x 위치에 뷰포트 공간의 z값을 저장하고 싶다.
+    w로 나누게 되면 NDC 좌표계의 z 값이고 /
+    뷰포트 변환을 거쳐야 되는데 어짜피 mindepth, maxdepth가 0, 1이므로 따로 변환하지 않아도 됨 / 만약 설정이 바뀌면 변환을 해줘야 됨
+    */
+    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.f, 0.f, 0.f);
+    Out.vPick = vector(In.vWorldPosition.xyz, 1.f);
     return Out;
 }
 
@@ -109,7 +114,10 @@ PS_OUT PS_COLOR(PS_IN In)
     (g_vLightDiffuse * g_BaseColor) * saturate(fShade + (g_vLightAmbient * g_vMtrlAmbient)) + (g_vLightSpecular * g_vMtrlSpecular) * fSpecular;
     
     
-    Out.vColor = vFinalColor;
+    Out.vDiffuse = vFinalColor;
+    Out.vNormal = float4(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.f, 0.f, 0.f);
+    Out.vPick = vector(In.vWorldPosition.xyz, 1.f);
     return Out;
 }
 
@@ -121,26 +129,30 @@ PS_OUT PS_ADJUST_BRIGHTNESS(PS_IN In)
 
     float3 vColor = vMtrlDiffuse.rgb;
     vColor += g_Brightness;
-    
-    if(vMtrlDiffuse.a < 0.1f)
+
+    if (vMtrlDiffuse.a < 0.1f)
         discard;
-    
-    Out.vColor = float4(vColor, vMtrlDiffuse.a);
+
+    Out.vDiffuse = float4(vColor, vMtrlDiffuse.a);
+    Out.vNormal = float4(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.f, 0.f, 0.f);
+    Out.vPick = vector(In.vWorldPosition.xyz, 1.f);
     return Out;
 }
 
 PS_OUT PS_SHADOW(PS_IN In)
 {
     PS_OUT Out;
-    
+
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
-    
+
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a;
- 
-    Out.vColor = vMtrlDiffuse;
-    Out.vColor = float4(vNoneAlphaDiffuse * 2.f, fAlpha);
-    
+
+    Out.vDiffuse = float4(vNoneAlphaDiffuse * 2.f, fAlpha);
+    Out.vNormal = float4(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.f, 0.f, 0.f);
+    Out.vPick = vector(In.vWorldPosition.xyz, 1.f);
     return Out;
 }
 
@@ -148,40 +160,41 @@ PS_OUT PS_SHADOW(PS_IN In)
 PS_OUT PS_LIGHT(PS_IN In)
 {
     PS_OUT Out;
-    
+
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
-    
+
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a;
- 
-    Out.vColor = vMtrlDiffuse;
-    Out.vColor = float4(1.f - (vNoneAlphaDiffuse * 2.f), fAlpha / 3.f);
-    
+
+    Out.vDiffuse = float4(1.f - (vNoneAlphaDiffuse * 2.f), fAlpha / 3.f);
+    Out.vNormal = float4(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.f, 0.f, 0.f);
+    Out.vPick = vector(In.vWorldPosition.xyz, 1.f);
     return Out;
 }
 
 PS_OUT PS_BRIGHTNESS(PS_IN In)
 {
     PS_OUT Out;
-    
-    // 나중에 diffuse에서 a 값 분리
-    
+
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
-    
+
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a;
-    
+
     float fShade = max(dot(normalize(g_vLightDir) * -1.f, In.vNormal), 0.f);
-    
+
     float4 vLook = In.vWorldPosition - g_vCamPosition;
     float4 vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
     float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 1000);
-    
+
     float3 vFinalColor =
     (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
-    
-    Out.vColor = float4(vFinalColor += 0.12f, fAlpha);
-    
+
+    Out.vDiffuse = float4(vFinalColor += 0.12f, fAlpha);
+    Out.vNormal = float4(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.f, 0.f, 0.f);
+    Out.vPick = vector(In.vWorldPosition.xyz, 1.f);
     return Out;
 }
 

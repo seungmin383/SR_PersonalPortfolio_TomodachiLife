@@ -28,13 +28,12 @@ struct VS_IN
     uint4 vBlendIndex   : BLENDINDEX;
     float4 vBlendWeight : BLENDWEIGHT;
 };
-
 struct VS_OUT
 {
-    float4 vPosition        : SV_POSITION;
-    float4 vNormal          : NORMAL;
-    float2 vTexcoord        : TEXCOORD0;
-    float4 vWorldPosition   : TEXCOORD1;
+    float4 vPosition : SV_POSITION;
+    float4 vNormal : NORMAL;
+    float2 vTexcoord : TEXCOORD0;
+    float4 vWorldPosition : TEXCOORD1;
 };
 
 
@@ -56,48 +55,54 @@ VS_OUT VS_MAIN(VS_IN In)
     wvMatrix = mul(g_WorldMatrix, g_ViewMatrix);
     wvpMatrix = mul(wvMatrix, g_ProjMatrix);
     
-    Out.vPosition       = mul(vPosition, wvpMatrix);
-    Out.vNormal         = mul(float4(In.vNormal, 0.f), g_WorldMatrix);
-    Out.vTexcoord       = In.vTexcoord;
-    Out.vWorldPosition  = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
+    Out.vPosition = mul(vPosition, wvpMatrix);
+    Out.vNormal = normalize(mul(float4(In.vNormal, 0.f), g_WorldMatrix));
+    Out.vTexcoord = In.vTexcoord;
+    Out.vWorldPosition = mul(vPosition, g_WorldMatrix);
     
     return Out;
 }
 
 struct PS_IN
 {
-    float4 vPosition        : SV_POSITION;
-    float4 vNormal          : NORMAL;
-    float2 vTexcoord        : TEXCOORD0;
-    float4 vWorldPosition   : TEXCOORD1;
+    float4 vPosition : SV_POSITION;
+    float4 vNormal : NORMAL;
+    float2 vTexcoord : TEXCOORD0;
+    float4 vWorldPosition : TEXCOORD1;
 };
 
 struct PS_OUT
 {
-    float4 vColor : SV_TARGET0;
+    float4 vDiffuse : SV_TARGET0;
+    float4 vNormal : SV_TARGET1;
+    float4 vDepth : SV_TARGET2;
+    float4 vPick : SV_TARGET3;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    // 나중에 diffuse에서 a 값 분리
-    
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
     
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a;
     
-    float fShade = max(dot(normalize(g_vLightDir) * -1.f, In.vNormal), 0.f);
+    float3 vN = normalize(In.vNormal.xyz);
+    
+    float fShade = max(dot(normalize(g_vLightDir.xyz) * -1.f, vN), 0.f);
     
     float4 vLook = In.vWorldPosition - g_vCamPosition;
-    float4 vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
+    float4 vReflect = reflect(normalize(g_vLightDir), float4(vN, 0.f));
     float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 1000);
     
-    float3 vFinalColor = 
+    float3 vFinalColor =
     (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
     
-    Out.vColor = float4(vFinalColor += 0.1f, fAlpha);
+    Out.vDiffuse = float4(vFinalColor += 0.1f, fAlpha);
+    Out.vNormal = float4(vN * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vPosition.z / In.vPosition.w, In.vPosition.w / 1000.f, 0.f, 0.f);
+    Out.vPick = float4(In.vWorldPosition.xyz, 1.f);
     
     return Out;
 }
@@ -110,9 +115,13 @@ PS_OUT PS_SHADOW(PS_IN In)
     
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a;
- 
-    Out.vColor = vMtrlDiffuse;
-    Out.vColor = float4(vNoneAlphaDiffuse * 2.f, fAlpha);
+    
+    float3 vN = normalize(In.vNormal.xyz);
+    
+    Out.vDiffuse = float4(vNoneAlphaDiffuse * 2.f, fAlpha);
+    Out.vNormal = float4(vN * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vPosition.z / In.vPosition.w, In.vPosition.w / 1000.f, 0.f, 0.f);
+    Out.vPick = float4(In.vWorldPosition.xyz, 1.f);
     
     return Out;
 }
@@ -126,9 +135,13 @@ PS_OUT PS_LIGHT(PS_IN In)
     
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a;
- 
-    Out.vColor = vMtrlDiffuse;
-    Out.vColor = float4(1.f - (vNoneAlphaDiffuse * 2.f), fAlpha/3.f);
+    
+    float3 vN = normalize(In.vNormal.xyz);
+    
+    Out.vDiffuse = float4(1.f - (vNoneAlphaDiffuse * 2.f), fAlpha / 3.f);
+    Out.vNormal = float4(vN * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vPosition.z / In.vPosition.w, In.vPosition.w / 1000.f, 0.f, 0.f);
+    Out.vPick = float4(In.vWorldPosition.xyz, 1.f);
     
     return Out;
 }
@@ -137,27 +150,29 @@ PS_OUT PS_BRIGHTNESS(PS_IN In)
 {
     PS_OUT Out;
     
-    // 나중에 diffuse에서 a 값 분리
-    
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
     
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a;
     
-    float fShade = max(dot(normalize(g_vLightDir) * -1.f, In.vNormal), 0.f);
+    float3 vN = normalize(In.vNormal.xyz);
+    
+    float fShade = max(dot(normalize(g_vLightDir.xyz) * -1.f, vN), 0.f);
     
     float4 vLook = In.vWorldPosition - g_vCamPosition;
-    float4 vReflect = reflect(normalize(g_vLightDir), normalize(In.vNormal));
+    float4 vReflect = reflect(normalize(g_vLightDir), float4(vN, 0.f));
     float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 1000);
     
     float3 vFinalColor =
     (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
     
-    Out.vColor = float4(vFinalColor += 0.12f, fAlpha);
+    Out.vDiffuse = float4(vFinalColor += 0.12f, fAlpha);
+    Out.vNormal = float4(vN * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vPosition.z / In.vPosition.w, In.vPosition.w / 1000.f, 0.f, 0.f);
+    Out.vPick = float4(In.vWorldPosition.xyz, 1.f);
     
     return Out;
 }
-
 technique11 DefaultTechnique
 {
     pass Model

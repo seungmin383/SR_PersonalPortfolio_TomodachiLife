@@ -148,20 +148,16 @@ public:
 
 	#pragma region CAMERAMANAGER
 
-	HRESULT CameraManager_Add_Camera(
-		const _wstring CameraTag,
-		CCamera* pCamera);
+	HRESULT CameraManager_Add_Camera(const _wstring CameraTag,CCamera* pCamera);
 
-	HRESULT CameraManager_Bind_Matrix(
-		CShaderCom* pShader,
-		const _char* ConstantName,
-		const _wstring CameraTag,
-		D3DTS eMatrix);
+	HRESULT CameraManager_Bind_Matrix(CShaderCom* pShader,const _char* ConstantName,
+		const _wstring CameraTag,D3DTS eMatrix);
 
-	HRESULT CameraManager_Bind_Camera_Pos(
-		CShaderCom* pShader,
-		const _char* pConstantName,
+	HRESULT CameraManager_Bind_Camera_Pos(CShaderCom* pShader, const _char* pConstantName,
 		const _wstring CameraTag);
+
+	HRESULT CameraManager_Bind_Matrix_Inv(CShaderCom* pShader, const _char* ConstantName,
+		const _wstring CameraTag, D3DTS eMatrix);
 
 	CCamera* CameraManager_Get_Camera(const _wstring& strCameraTag);
 
@@ -183,6 +179,8 @@ public:
 
 	const LIGHT_DESC* LightManager_Get_LightDesc(uint32_t iIndex);
 	HRESULT LightManager_Add_Light(const LIGHT_DESC& eLight);
+
+	void LightManager_Render_Light(CShaderCom* pShader, CRectBufferCom* pBuffer);
 
 #pragma endregion
 
@@ -282,7 +280,7 @@ public:
 #pragma region TARGETMANAGER
 	HRESULT TargetManager_Add_RenderTarget(const _wstring& strTargetTag, uint32_t iWidth, uint32_t iHeight, DXGI_FORMAT ePixelFormat, const XMFLOAT4& vClearColor);
 	HRESULT TargetManager_Add_MRT(const _wstring& strMRTTag, const _wstring& strTargetTag);
-	HRESULT TargetManager_Begin_MRT(const _wstring& strMRTTag, ID3D11DepthStencilView* pDSV);
+	HRESULT TargetManager_Begin_MRT(const _wstring& strMRTTag, ID3D11DepthStencilView* pDSV = nullptr);
 	HRESULT TargetManager_End_MRT();
 	HRESULT TargetManager_Bind_ShaderResource(const _wstring& strTargetTag, CShaderCom* pShader, const _char* pConstantName);
 	void TargetManager_Copy_Resource(const _wstring& strTargetTag, ID3D11Resource* pDst);

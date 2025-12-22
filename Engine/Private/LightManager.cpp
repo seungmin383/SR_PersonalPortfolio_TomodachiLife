@@ -25,6 +25,14 @@ HRESULT CLightManager::Add_Light(const LIGHT_DESC& eLight)
 	return S_OK;
 }
 
+void CLightManager::Render_Light(CShaderCom* pShader, CRectBufferCom* pBuffer)
+{
+	for (auto& pLight : m_Lights)
+	{
+		pLight->Render_Light(pShader, pBuffer);
+	}
+}
+
 CLightManager* CLightManager::Create()
 {
 	return new CLightManager;
@@ -32,5 +40,8 @@ CLightManager* CLightManager::Create()
 
 void CLightManager::Free()
 {
+	for (auto& pLight : m_Lights)
+		Safe_Release(pLight);
+
 	CBase::Free();
 }

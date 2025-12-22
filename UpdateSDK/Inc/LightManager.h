@@ -4,6 +4,8 @@
 NS_BEGIN(Engine)
 class CLight;
 
+class CShaderCom;
+class CRectBufferCom;
 class CLightManager final : public CBase
 {
 private:
@@ -15,6 +17,7 @@ public:
 
 public:
 	HRESULT Add_Light(const LIGHT_DESC& eLight);
+	void Render_Light(CShaderCom* pShader, CRectBufferCom* pBuffer);
 
 private:
 	list<CLight*> m_Lights;

@@ -127,6 +127,16 @@ HRESULT CGameInstance::Initialize(
 			return E_FAIL;
 		}
 	}
+
+	// LightManager
+	{
+		m_pLightManager = CLightManager::Create();
+		if (nullptr == m_pCameraManager) {
+			MSG_BOX("ErrCode : CLightManager Create Failed");
+			return E_FAIL;
+		}
+	}
+
 	// InputDeice
 	{
 		m_pInput_Device = CInput_Device::Create(Engine_desc.hInst, Engine_desc.hWnd);
@@ -487,6 +497,11 @@ HRESULT CGameInstance::CameraManager_Bind_Camera_Pos(CShaderCom* pShader, const 
 	return m_pCameraManager->Bind_Camera_Pos(pShader, pConstantName, CameraTag);
 }
 
+HRESULT CGameInstance::CameraManager_Bind_Matrix_Inv(CShaderCom* pShader, const _char* ConstantName, const _wstring CameraTag, D3DTS eMatrix)
+{
+	return m_pCameraManager->Bind_Matrix_Inv(pShader, ConstantName, CameraTag, eMatrix);
+}
+
 CCamera* CGameInstance::CameraManager_Get_Camera(const _wstring& strCameraTag)
 {
 	return m_pCameraManager->Get_Camera(strCameraTag);
@@ -540,6 +555,11 @@ const LIGHT_DESC* CGameInstance::LightManager_Get_LightDesc(uint32_t iIndex)
 HRESULT CGameInstance::LightManager_Add_Light(const LIGHT_DESC& eLight)
 {
 	return m_pLightManager->Add_Light(eLight);
+}
+
+void CGameInstance::LightManager_Render_Light(CShaderCom* pShader, CRectBufferCom* pBuffer)
+{
+	m_pLightManager->Render_Light(pShader, pBuffer);
 }
 
 
@@ -811,8 +831,6 @@ HRESULT CGameInstance::TargetManager_Render(const _wstring& strMRTTag, CShaderCo
 
 #pragma endregion
 
-
-
 void CGameInstance::Clear_Engine()
 {
 	Safe_Release(m_pTimerManager);
@@ -821,6 +839,7 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pButtonManager);
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pPlaceManager);
+	Safe_Release(m_pLightManager);
 	Safe_Release(m_pActorManager);
 	Safe_Release(m_pRenderManager);
 	Safe_Release(m_pObjectManager);

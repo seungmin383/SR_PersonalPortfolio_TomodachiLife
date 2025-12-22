@@ -21,16 +21,11 @@ public:
 		const _wstring CameraTag, 
 		CCamera* pCamera);
 
-	HRESULT Bind_Matrix(
-		CShaderCom* pShader,
-		const _char* ConstantName,
-		const _wstring CameraTag,
-		D3DTS eMatrix);
+	HRESULT Bind_Matrix(CShaderCom* pShader, const _char* ConstantName,
+		const _wstring CameraTag, D3DTS eMatrix);
 
-	//HRESULT Bind_PipeLine_Inverse_Matrix(
-	//	CShaderCom* pShader,
-	//	const _char* pConstantName,
-	//	D3DTS eMatrix);
+	HRESULT Bind_Matrix_Inv(CShaderCom* pShader, const _char* ConstantName,
+		const _wstring CameraTag, D3DTS eMatrix);
 
 	HRESULT Bind_Camera_Pos(
 		CShaderCom* pShader,

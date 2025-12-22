@@ -38,11 +38,7 @@ void CCameraManager::Update_Late(_float fDT)
 
 }
 
-HRESULT CCameraManager::Bind_Matrix(
-	CShaderCom* pShader, 
-	const _char* ConstantName, 
-	const _wstring CameraTag, 
-	D3DTS eMatrix)
+HRESULT CCameraManager::Bind_Matrix(CShaderCom* pShader, const _char* ConstantName, const _wstring CameraTag, D3DTS eMatrix)
 {
 	auto iter = m_Cameras.find(CameraTag);
 
@@ -61,6 +57,38 @@ HRESULT CCameraManager::Bind_Matrix(
 
 	case Engine::D3DTS::PROJ:
 		XMStoreFloat4x4(&tmpMat, iter->second->Get_ProjMatrix());
+		if (FAILED(pShader->Bind_Matrix(ConstantName, &(tmpMat))))
+			return E_FAIL;
+		break;
+
+	case Engine::D3DTS::END:
+		return E_FAIL;
+	default:
+		return E_FAIL;
+	}
+
+	return S_OK;
+}
+
+HRESULT CCameraManager::Bind_Matrix_Inv(CShaderCom* pShader, const _char* ConstantName, const _wstring CameraTag, D3DTS eMatrix)
+{
+	auto iter = m_Cameras.find(CameraTag);
+
+	if (iter == m_Cameras.end())
+		return E_FAIL;
+
+	XMFLOAT4X4 tmpMat;
+
+	switch (eMatrix)
+	{
+	case Engine::D3DTS::VIEW:
+		XMStoreFloat4x4(&tmpMat, XMMatrixInverse(nullptr, iter->second->Get_ViewMatrix()));
+		if (FAILED(pShader->Bind_Matrix(ConstantName, &(tmpMat))))
+			return E_FAIL;
+		break;
+
+	case Engine::D3DTS::PROJ:
+		XMStoreFloat4x4(&tmpMat, XMMatrixInverse(nullptr, iter->second->Get_ViewMatrix()));
 		if (FAILED(pShader->Bind_Matrix(ConstantName, &(tmpMat))))
 			return E_FAIL;
 		break;

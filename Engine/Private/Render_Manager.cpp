@@ -40,16 +40,18 @@ HRESULT CRenderManager::Initialize()
 		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Diffuse"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R8G8B8A8_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
 			return E_FAIL;
 		// Target_Normal
+		/* Normal은 범위가 고정된 방향벡터라 0 ~ 1 Unorm으로 저장해도 품질 손실이 거의 없고, 성능이 좋아서 사용함
+		대신 쉐이더에서 0 ~ 1로 보간해줘야 함*/
 		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Normal"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
 			return E_FAIL;
 		// Target_Depth
 		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Depth"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
 			return E_FAIL;
 		// Target_Shade
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Shade"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4{ 1.f, 1.f, 1.f, 1.f })))
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Shade"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
 			return E_FAIL;
 		/* Target_Specular */
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Specular"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4(0.f, 0.f, 0.f, 0.f))))
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Specular"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
 			return E_FAIL;
 		// Target_Pick
 		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Pick"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
@@ -63,6 +65,7 @@ HRESULT CRenderManager::Initialize()
 		vector<_wstring> strTargetTagArr = {
 			TEXT("Target_Diffuse"),
 			TEXT("Target_Normal"),
+			/* 화면에 그려지는 지형, 플레이어, 몬스터를 그리면서 깊이값을 입력 받아야됨 */
 			TEXT("Target_Depth"),
 			TEXT("Target_Pick"),
 		};
@@ -112,14 +115,14 @@ HRESULT CRenderManager::Initialize()
 #ifdef _DEBUG
 	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Diffuse"), 100.f, 100.f, 200.f, 200.f)))
 		return E_FAIL;
-	//if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Normal"), 300.f, 100.f, 200.f, 200.f)))
-	//	return E_FAIL;
-	//if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Depth"), 500.f, 100.f, 200.f, 200.f)))
-	//	return E_FAIL;
+	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Normal"), 300.f, 100.f, 200.f, 200.f)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Depth"), 500.f, 100.f, 200.f, 200.f)))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Shade"), 100.f, 300.f, 200.f, 200.f)))
 		return E_FAIL;
-	//if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Specular"), 300.f, 300.f, 200.f, 200.f)))
-	//	return E_FAIL;
+	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Specular"), 300.f, 300.f, 200.f, 200.f)))
+		return E_FAIL;
 
 
 #endif 
@@ -134,6 +137,8 @@ HRESULT CRenderManager::Render_Top()
 
 	Render_Top_Light();
 	Render_Top_Combined();
+
+	Render_Top_NonLight();
 
 	Render_Top_Blend();
 	Render_Top_UI();
@@ -196,7 +201,33 @@ HRESULT CRenderManager::Render_Top_NonBlend()
 }
 
 HRESULT CRenderManager::Render_Top_Light()
-{
+{	
+	if (FAILED(m_pGameInstance->TargetManager_Begin_MRT(TEXT("MRT_LightAcc"))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix_Inv(m_pShader,"g_ViewMatrixInv", TEXT("World_Camera"), D3DTS::VIEW)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix_Inv(m_pShader,"g_ProjMatrixInv", TEXT("World_Camera"), D3DTS::PROJ)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShader, ("g_vCamPosition"), TEXT("World_Camera"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Normal"), m_pShader, "g_NormalTexture")))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
+		return E_FAIL;
+
+	m_pGameInstance->LightManager_Render_Light(m_pShader, m_pBuffer);
+
+	if (FAILED(m_pGameInstance->TargetManager_End_MRT()))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -213,8 +244,12 @@ HRESULT CRenderManager::Render_Top_Combined()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
+	if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Normal"), m_pShader, "g_NormalTexture")))
 		return E_FAIL;
+	//if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
+	//	return E_FAIL;
+	//if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
+	//	return E_FAIL;
 
 	if (FAILED(m_pShader->Begin(static_cast<uint32_t>(DEFERRED::COMBINED))))
 		return E_FAIL;
@@ -223,6 +258,24 @@ HRESULT CRenderManager::Render_Top_Combined()
 	if (FAILED(m_pBuffer->Begin_Draw()))
 		return E_FAIL;
 
+	return S_OK;
+}
+
+HRESULT CRenderManager::Render_Top_NonLight()
+{
+	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONLIGHT)])
+	{
+		if (nullptr == Object)
+			break;
+
+		if (FAILED(Object->Render()))
+		{
+			MSG_BOX("ErrCode : TOP_NONLIGHT Object Render Failed");
+			return E_FAIL;
+		}
+		Safe_Release(Object);
+	}
+	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONLIGHT)].clear();
 	return S_OK;
 }
 
@@ -397,6 +450,7 @@ HRESULT CRenderManager::Render_Debug()
 	m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix);
 
 	m_pGameInstance->TargetManager_Render(TEXT("MRT_GameObject"), m_pShader, m_pBuffer);
+	m_pGameInstance->TargetManager_Render(TEXT("MRT_LightAcc"), m_pShader, m_pBuffer);
 
 	return S_OK;
 }

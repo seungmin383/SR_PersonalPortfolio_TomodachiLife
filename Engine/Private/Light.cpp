@@ -34,6 +34,12 @@ void CLight::Render_Light(CShaderCom* pShader, CRectBufferCom* pBuffer)
 	default:
 		break;
 	}
+	if (FAILED(pShader->Bind_RawValue("g_vLightDiffuse", &m_LightDesc.vDiffuse, sizeof(XMFLOAT4))))
+		return;
+	if (FAILED(pShader->Bind_RawValue("g_vLightAmbient", &m_LightDesc.vAmbient, sizeof(XMFLOAT4))))
+		return;
+	if (FAILED(pShader->Bind_RawValue("g_vLightSpecular", &m_LightDesc.vSpecular, sizeof(XMFLOAT4))))
+		return;
 
 	if (FAILED(pShader->Begin(iPassIndex)))
 		return;

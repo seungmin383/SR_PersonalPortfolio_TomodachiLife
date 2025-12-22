@@ -143,7 +143,7 @@ HRESULT CPlace_Developer::Ready_Actor_Layer()
 	// ProtoTag_Actor_Snow
 	{
 		CSnow::SNOW_DESC Desc = {};
-		Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+		Desc.eRenderGroup = RENDER_GROUP::TOP_NONLIGHT;
 		Desc.fCX = 1.f;
 		Desc.fCY = 1.f;
 		Desc.fCZ = 1.f;
@@ -160,7 +160,7 @@ HRESULT CPlace_Developer::Ready_Actor_Layer()
 	// ProtoTag_Actor_Explosion
 	{
 		CExplosion::EXPLOSION_DESC Desc = {};
-		Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+		Desc.eRenderGroup = RENDER_GROUP::TOP_NONLIGHT;
 		Desc.fCX = 1.f;
 		Desc.fCY = 1.f;
 		Desc.fCZ = 1.f;
