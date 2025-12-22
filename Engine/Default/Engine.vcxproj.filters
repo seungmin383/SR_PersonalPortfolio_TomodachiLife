@@ -241,6 +241,9 @@
     <Filter Include="98.Shader">
       <UniqueIdentifier>{48e66244-0a15-4ea7-8d4e-ebb51cbe8d1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\11.Picking">
+      <UniqueIdentifier>{2654ab9e-61a4-4578-a24b-efc45d9f4fa4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -452,6 +455,9 @@
     </ClCompile>
     <ClCompile Include="..\Public\Target_Manager.cpp">
       <Filter>01.Utility\09.RenderTarget\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Picking.cpp">
+      <Filter>01.Utility\11.Picking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -721,6 +727,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Target_Manager.h">
       <Filter>01.Utility\09.RenderTarget\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Picking.h">
+      <Filter>01.Utility\11.Picking</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

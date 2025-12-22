@@ -33,6 +33,8 @@ public:
 	HRESULT Bind_ShaderResource(const _wstring& strTargetTag, 
 		CShaderCom* pShader, const _char* pConstantName);
 
+	void Copy_Resource(const _wstring& strTargetTag, ID3D11Resource* pDst);
+
 #ifdef _DEBUG
 	HRESULT Ready_Debug(const _wstring& strTargetTag,
 		_float fX, _float fY, _float fCX, _float fCY);

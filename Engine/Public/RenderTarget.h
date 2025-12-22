@@ -23,6 +23,7 @@ public:
 	);
 
 	void Clear_RenderTargetView();
+	void Copy_Resource(ID3D11Resource* pDst);
 
 #ifdef _DEBUG
 	HRESULT Ready_Debug(

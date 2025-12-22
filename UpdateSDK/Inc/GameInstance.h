@@ -285,6 +285,7 @@ public:
 	HRESULT TargetManager_Begin_MRT(const _wstring& strMRTTag, ID3D11DepthStencilView* pDSV);
 	HRESULT TargetManager_End_MRT();
 	HRESULT TargetManager_Bind_ShaderResource(const _wstring& strTargetTag, CShaderCom* pShader, const _char* pConstantName);
+	void TargetManager_Copy_Resource(const _wstring& strTargetTag, ID3D11Resource* pDst);
 
 #ifdef _DEBUG
 	HRESULT TargetManager_Ready_Debug(const _wstring& strTargetTag, _float fX, _float fY, _float fCX, _float fCY);

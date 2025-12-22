@@ -19,6 +19,8 @@ namespace Engine
 	enum class TIMELINE_TYPE {TRANS, ANIM, CAMERA, END};
 	enum class ANIMPLAYER_TYPE {NORMAL, MACRO, END};
 
+	enum class DEFERRED {DEBUG, DIRECTIONAL, POINT, COMBINED, END};
+
 	enum class RENDER_GROUP : int32_t {
 		TOP_PRIORITY,
 		TOP_NONBLEND,

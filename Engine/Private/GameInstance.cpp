@@ -794,6 +794,11 @@ HRESULT CGameInstance::TargetManager_Bind_ShaderResource(const _wstring& strTarg
 	return m_pTargetManager->Bind_ShaderResource(strTargetTag, pShader, pConstantName);
 }
 
+void CGameInstance::TargetManager_Copy_Resource(const _wstring& strTargetTag, ID3D11Resource* pDst)
+{
+	m_pTargetManager->Copy_Resource(strTargetTag, pDst);
+}
+
 HRESULT CGameInstance::TargetManager_Ready_Debug(const _wstring& strTargetTag, _float fX, _float fY, _float fCX, _float fCY)
 {
 	return m_pTargetManager->Ready_Debug(strTargetTag, fX, fY, fCX, fCY);

@@ -28,6 +28,9 @@ private:
 	HRESULT Render_Top_Priority();
 	HRESULT Render_Top_NonBlend();
 
+	HRESULT Render_Top_Light();
+	HRESULT Render_Top_Combined();
+
 	HRESULT Render_Top_Blend();
 	HRESULT Render_Top_UI();
 	HRESULT Render_Top_UI_Blend();
@@ -57,8 +60,8 @@ private:
 	CRectBufferCom* m_pBuffer = { nullptr };
 
 private:
-	_float m_fViewportWidth = {};
-	_float m_fViewportHeight = {};
+	uint32_t m_iViewportWidth = {};
+	uint32_t m_iViewportHeight = {};
 
 	XMFLOAT4X4 m_WorldMatrix = {};
 	XMFLOAT4X4 m_ViewMatrix = {};

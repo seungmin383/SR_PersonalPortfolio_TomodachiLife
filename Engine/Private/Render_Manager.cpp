@@ -31,19 +31,28 @@ HRESULT CRenderManager::Initialize()
 
 	m_pContext->RSGetViewports(&iNumViewport, &Desc);
 
-	m_fViewportWidth = Desc.Width;
-	m_fViewportHeight = Desc.Height;
+	m_iViewportWidth = static_cast<uint32_t>(Desc.Width);
+	m_iViewportHeight = static_cast<uint32_t>(Desc.Height);
 
 	/* Render Targets */
 	{
 		// Target_Diffuse
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Diffuse"), Desc.Width, Desc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, static_cast<XMFLOAT4>(Colors::Black))))
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Diffuse"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R8G8B8A8_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
 			return E_FAIL;
 		// Target_Normal
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Normal"), Desc.Width, Desc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, static_cast<XMFLOAT4>(Colors::Black))))
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Normal"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
 			return E_FAIL;
 		// Target_Depth
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Shade"), Desc.Width, Desc.Height, DXGI_FORMAT_R16G16B16A16_UNORM, static_cast<XMFLOAT4>(Colors::Black))))
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Depth"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
+			return E_FAIL;
+		// Target_Shade
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Shade"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4{ 1.f, 1.f, 1.f, 1.f })))
+			return E_FAIL;
+		/* Target_Specular */
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Specular"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4(0.f, 0.f, 0.f, 0.f))))
+			return E_FAIL;
+		// Target_Pick
+		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Pick"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
 			return E_FAIL;
 	}
 	
@@ -54,7 +63,24 @@ HRESULT CRenderManager::Initialize()
 		vector<_wstring> strTargetTagArr = {
 			TEXT("Target_Diffuse"),
 			TEXT("Target_Normal"),
+			TEXT("Target_Depth"),
+			TEXT("Target_Pick"),
+		};
+
+		for (uint32_t i = 0; i < strTargetTagArr.size(); ++i)
+		{
+			if (FAILED(m_pGameInstance->TargetManager_Add_MRT(strMRTTag, strTargetTagArr[i])))
+				return E_FAIL;
+		}
+	}
+
+	/* Light Multi Render Target */
+	{
+		_wstring strMRTTag = TEXT("MRT_LightAcc");
+
+		vector<_wstring> strTargetTagArr = {
 			TEXT("Target_Shade"),
+			TEXT("Target_Specular"),
 		};
 
 		for (uint32_t i = 0; i < strTargetTagArr.size(); ++i)
@@ -86,10 +112,15 @@ HRESULT CRenderManager::Initialize()
 #ifdef _DEBUG
 	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Diffuse"), 100.f, 100.f, 200.f, 200.f)))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Normal"), 100.f, 300.f, 200.f, 200.f)))
+	//if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Normal"), 300.f, 100.f, 200.f, 200.f)))
+	//	return E_FAIL;
+	//if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Depth"), 500.f, 100.f, 200.f, 200.f)))
+	//	return E_FAIL;
+	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Shade"), 100.f, 300.f, 200.f, 200.f)))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Shade"), 300.f, 100.f, 200.f, 200.f)))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Specular"), 300.f, 300.f, 200.f, 200.f)))
+	//	return E_FAIL;
+
 
 #endif 
 
@@ -100,11 +131,15 @@ HRESULT CRenderManager::Render_Top()
 {
 	Render_Top_Priority();
 	Render_Top_NonBlend();
+
+	Render_Top_Light();
+	Render_Top_Combined();
+
 	Render_Top_Blend();
 	Render_Top_UI();
 	Render_Top_UI_Blend();
 
-	// Render_Debug();
+	Render_Debug();
 	return S_OK;
 }
 HRESULT CRenderManager::Render_Bottom()
@@ -137,8 +172,8 @@ HRESULT CRenderManager::Render_Top_Priority()
 
 HRESULT CRenderManager::Render_Top_NonBlend()
 {
-	 //if (FAILED(m_pGameInstance->TargetManager_Begin_MRT(TEXT("MRT_GameObject"), nullptr)))
-	 //	return E_FAIL;
+	 if (FAILED(m_pGameInstance->TargetManager_Begin_MRT(TEXT("MRT_GameObject"), nullptr)))
+	 	return E_FAIL;
 
 	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONBLEND)])
 	{
@@ -154,8 +189,39 @@ HRESULT CRenderManager::Render_Top_NonBlend()
 	}
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONBLEND)].clear();
 
-	 //if (FAILED(m_pGameInstance->TargetManager_End_MRT()))
-	 //	return E_FAIL;
+	 if (FAILED(m_pGameInstance->TargetManager_End_MRT()))
+	 	return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderManager::Render_Top_Light()
+{
+	return S_OK;
+}
+
+HRESULT CRenderManager::Render_Top_Combined()
+{
+	if (FAILED(m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Begin(static_cast<uint32_t>(DEFERRED::COMBINED))))
+		return E_FAIL;
+	if (FAILED(m_pBuffer->Bind_Resource()))
+		return E_FAIL;
+	if (FAILED(m_pBuffer->Begin_Draw()))
+		return E_FAIL;
 
 	return S_OK;
 }

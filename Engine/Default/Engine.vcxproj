@@ -70,6 +70,7 @@
     <ClInclude Include="..\Public\ParticleBufferCom_Point.h" />
     <ClInclude Include="..\Public\ParticleBufferCom_Rect.h" />
     <ClInclude Include="..\Public\PartObject.h" />
+    <ClInclude Include="..\Public\Picking.h" />
     <ClInclude Include="..\Public\PipeLine.h" />
     <ClInclude Include="..\Public\Place.h" />
     <ClInclude Include="..\Public\Place_Manager.h" />
@@ -154,6 +155,7 @@
     <ClCompile Include="..\Private\ParticleBufferCom_Point.cpp" />
     <ClCompile Include="..\Private\ParticleBufferCom_Rect.cpp" />
     <ClCompile Include="..\Private\PartObject.cpp" />
+    <ClCompile Include="..\Private\Picking.cpp" />
     <ClCompile Include="..\Private\PipeLine.cpp" />
     <ClCompile Include="..\Private\Place.cpp" />
     <ClCompile Include="..\Private\Place_Manager.cpp" />
