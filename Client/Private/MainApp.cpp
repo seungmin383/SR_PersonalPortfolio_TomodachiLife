@@ -11,6 +11,7 @@
 #include "WorldCamera.h"
 #include "UICamera.h"
 #include "Room.h"
+#include "MiiEditorBG.h"
 
 // Componenet
 #include "Mii.h"
@@ -438,6 +439,23 @@ HRESULT CMainApp::Ready_Static_Model()
 				return E_FAIL;
 		}
 	}
+
+	/* 배경 모델 */
+	// ProtoTag_Componenet_MiiEditorBG
+	{
+		XMMATRIX InitMatrix = XMMatrixIdentity();
+#ifdef _DEBUG
+		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Componenet_MiiEditorBG", ANIM_TYPE::NONEANIM,
+			"../../Resource/00Model/BackGround - MiiEditor/EditorBG.fbx", InitMatrix, "EditorBG");
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Componenet_MiiEditorBG"), tmp)))
+			return E_FAIL;
+
+#endif 
+
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "EditorBG", InitMatrix);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Componenet_seMiiEditorBG"), tmp)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 
@@ -454,6 +472,13 @@ HRESULT CMainApp::Ready_Static_Actor()
 			return E_FAIL;
 	}
 
+	/* 에디터 배경 */
+	// ProtoTag_Actor_EditorBG
+	{
+		tmp = CMiiEditorBG::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_EditorBG"), tmp)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

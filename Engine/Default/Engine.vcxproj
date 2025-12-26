@@ -40,8 +40,6 @@
     <ClInclude Include="..\Public\CollisionManager.h" />
     <ClInclude Include="..\Public\Component.h" />
     <ClInclude Include="..\Public\ContainerObject.h" />
-    <ClInclude Include="..\Public\CutScene.h" />
-    <ClInclude Include="..\Public\CutSceneManager.h" />
     <ClInclude Include="..\Public\DataManager.h" />
     <ClInclude Include="..\Public\DebugDraw.h" />
     <ClInclude Include="..\Public\Engine_Define.h" />
@@ -93,7 +91,9 @@
     <ClInclude Include="..\Public\Sound_Manager.h" />
     <ClInclude Include="..\Public\TerrainBufferCom.h" />
     <ClInclude Include="..\Public\TextureCom.h" />
-    <ClInclude Include="..\Public\TimeLine_Trans.h" />
+    <ClInclude Include="..\Public\TimeLine.h" />
+    <ClInclude Include="..\Public\TimeLine_Manager.h" />
+    <ClInclude Include="..\Public\TimeLine_Player.h" />
     <ClInclude Include="..\Public\Timer.h" />
     <ClInclude Include="..\Public\Timer_Manager.h" />
     <ClInclude Include="..\Public\TransformCom.h" />
@@ -132,8 +132,6 @@
     <ClCompile Include="..\Private\CollisionManager.cpp" />
     <ClCompile Include="..\Private\Component.cpp" />
     <ClCompile Include="..\Private\ContainerObject.cpp" />
-    <ClCompile Include="..\Private\CutScene.cpp" />
-    <ClCompile Include="..\Private\CutSceneManager.cpp" />
     <ClCompile Include="..\Private\DataManager.cpp" />
     <ClCompile Include="..\Private\DebugDraw.cpp" />
     <ClCompile Include="..\Private\FileManager.cpp" />
@@ -173,7 +171,9 @@
     <ClCompile Include="..\Private\Sound_Manager.cpp" />
     <ClCompile Include="..\Private\TerrainBufferCom.cpp" />
     <ClCompile Include="..\Private\TextureCom.cpp" />
-    <ClCompile Include="..\Private\TimeLine_Trans.cpp" />
+    <ClCompile Include="..\Private\TimeLine.cpp" />
+    <ClCompile Include="..\Private\TimeLine_Manager.cpp" />
+    <ClCompile Include="..\Private\TimeLine_Player.cpp" />
     <ClCompile Include="..\Private\Timer.cpp" />
     <ClCompile Include="..\Private\Timer_Manager.cpp" />
     <ClCompile Include="..\Private\TransformCom.cpp" />

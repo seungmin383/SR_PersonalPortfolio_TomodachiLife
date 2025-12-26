@@ -196,21 +196,6 @@
     <Filter Include="01.Utility\03.Object\02.Component\06.Collider\06.CollisionManager">
       <UniqueIdentifier>{927730ea-f680-4022-b6ee-8d95daaabf85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\08.CutScene">
-      <UniqueIdentifier>{af59ad4f-7acb-4b15-90cd-ceb3a2709b3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\08.CutScene\Manager">
-      <UniqueIdentifier>{db66c336-0adf-4275-a5e4-f836d154e15f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\08.CutScene\TimeLine">
-      <UniqueIdentifier>{66992096-4c01-44d2-8345-5e5e7ca02c18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\08.CutScene\TimeLine\TimeLine_Trans">
-      <UniqueIdentifier>{8c5280fa-df77-41c3-87df-0019affc88b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\08.CutScene\TimeLine\TimeLine_Anim">
-      <UniqueIdentifier>{ace632fd-9c16-46d2-9632-07c9530a4859}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Utility\03.Object\02.Component\07.Brain">
       <UniqueIdentifier>{0fa88b04-5138-4f51-b7da-d5ce82e97027}</UniqueIdentifier>
     </Filter>
@@ -243,6 +228,15 @@
     </Filter>
     <Filter Include="01.Utility\11.Picking">
       <UniqueIdentifier>{2654ab9e-61a4-4578-a24b-efc45d9f4fa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\12.TimeLine">
+      <UniqueIdentifier>{6adc8d9e-7836-4155-8500-245f6bbce6f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\12.TimeLine\Manager">
+      <UniqueIdentifier>{67d32674-a092-40af-9e24-8a8e1a7387b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\12.TimeLine\Player">
+      <UniqueIdentifier>{a909a0c9-eacf-4947-b6c8-42cd9c904cf5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -420,15 +414,6 @@
     <ClCompile Include="..\Private\CollisionManager.cpp">
       <Filter>01.Utility\03.Object\02.Component\06.Collider\06.CollisionManager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CutScene.cpp">
-      <Filter>01.Utility\08.CutScene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\CutSceneManager.cpp">
-      <Filter>01.Utility\08.CutScene\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\TimeLine_Trans.cpp">
-      <Filter>01.Utility\08.CutScene\TimeLine\TimeLine_Trans</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Brain.cpp">
       <Filter>01.Utility\03.Object\02.Component\07.Brain</Filter>
     </ClCompile>
@@ -458,6 +443,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Picking.cpp">
       <Filter>01.Utility\11.Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TimeLine_Manager.cpp">
+      <Filter>01.Utility\12.TimeLine\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TimeLine_Player.cpp">
+      <Filter>01.Utility\12.TimeLine\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TimeLine.cpp">
+      <Filter>01.Utility\12.TimeLine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -692,15 +686,6 @@
     <ClInclude Include="..\Public\Engine_FlagHelper.h">
       <Filter>99.Defines</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\CutScene.h">
-      <Filter>01.Utility\08.CutScene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\CutSceneManager.h">
-      <Filter>01.Utility\08.CutScene\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\TimeLine_Trans.h">
-      <Filter>01.Utility\08.CutScene\TimeLine\TimeLine_Trans</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Brain.h">
       <Filter>01.Utility\03.Object\02.Component\07.Brain</Filter>
     </ClInclude>
@@ -730,6 +715,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Picking.h">
       <Filter>01.Utility\11.Picking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TimeLine_Manager.h">
+      <Filter>01.Utility\12.TimeLine\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TimeLine_Player.h">
+      <Filter>01.Utility\12.TimeLine\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TimeLine.h">
+      <Filter>01.Utility\12.TimeLine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

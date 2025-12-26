@@ -73,21 +73,14 @@ HRESULT CActor::Render()
 	return S_OK;
 }
 
-HRESULT CActor::Add_Component(
-	uint32_t PlaceID,
-	const _wstring PrototypeTag,
-	const _wstring ComponentTag,
-	CComponent** ppOut,
-	void* pArg)
+HRESULT CActor::Add_Component(uint32_t PlaceID,const _wstring PrototypeTag,const _wstring ComponentTag,
+	CComponent** ppOut,void* pArg)
 {
 	if (m_Components.find(ComponentTag) != m_Components.end())
 		return E_FAIL;
 
 	CComponent* pComponent =
-		static_cast<CComponent*>(m_pGameInstance->Proto_Get_Object_Clone(
-			PlaceID,
-			PrototypeTag,
-			pArg));
+		static_cast<CComponent*>(m_pGameInstance->Proto_Get_Object_Clone(PlaceID, PrototypeTag, pArg));
 
 	if (nullptr == pComponent)
 		return E_FAIL;

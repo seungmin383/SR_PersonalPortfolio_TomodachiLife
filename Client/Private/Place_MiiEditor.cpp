@@ -76,6 +76,7 @@ HRESULT CPlace_MiiEditor::Render_Late()
 HRESULT CPlace_MiiEditor::Ready_Actor_Layer()
 {
 	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);;
 
 	// ProtoTag_Actor_Mii
 	{
@@ -93,8 +94,28 @@ HRESULT CPlace_MiiEditor::Ready_Actor_Layer()
 		if (nullptr == tmp)
 			return E_FAIL;
 
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::MII_EDITOR),
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID,
 			TEXT("LayerTag_Actor"),	tmp)))
+			return E_FAIL;
+	}
+
+
+	// ProtoTag_Actor_EditorBG
+	{
+		CMiiEditorBG::MIIEDITORBG_DESC Desc = {};
+		Desc.vPos = XMFLOAT4{ 0.f, 0.f, 5.f, 0.f };
+		Desc.fCX = 0.05f;
+		Desc.fCY = 0.05f;
+		Desc.fCZ = 0.05f;
+		Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+		Desc.fSpeedPerSecond = 10.f;
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_EditorBG"), &Desc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_Actor"), tmp)))
+			return E_FAIL;
+
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_NONBLEND;
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_EditorBG"), &Desc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_Actor"), tmp)))
 			return E_FAIL;
 	}
 	return S_OK;
@@ -102,7 +123,7 @@ HRESULT CPlace_MiiEditor::Ready_Actor_Layer()
 
 HRESULT CPlace_MiiEditor::Ready_UI_Layer()
 {
-	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
+	uint32_t iPlaceID = static_cast<uint32_t >(PLACEID::MII_EDITOR);
 
 	if (FAILED(Layer_UI_BackGround()))
 		return E_FAIL;
@@ -471,7 +492,7 @@ HRESULT CPlace_MiiEditor::Layer_UI_Page_Button()
 HRESULT CPlace_MiiEditor::Layer_UI_Category_Button()
 {
 	CObject* tmp = { nullptr };
-	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);;
 
 	CPageButton::PAGEBUTTON_DESC Desc = {};
 	Desc.fY = CATEGORY_BASE_POS_Y;
@@ -551,7 +572,7 @@ HRESULT CPlace_MiiEditor::Layer_UI_Category_Button()
 HRESULT CPlace_MiiEditor::Layer_UI_Save_Button()
 {
 	CObject* tmp = { nullptr };
-	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);;
 
 	//LayerTag_UI_Save_Button
 	{
@@ -584,7 +605,7 @@ HRESULT CPlace_MiiEditor::Layer_UI_Save_Button()
 HRESULT CPlace_MiiEditor::Layer_UI_Text_Button()
 {
 	CObject* tmp = { nullptr };
-	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);;
 	// LayerTag_UI_Text_Button
 	{
 		CTextButton::TEXTBUTTON_DESC Desc = {};

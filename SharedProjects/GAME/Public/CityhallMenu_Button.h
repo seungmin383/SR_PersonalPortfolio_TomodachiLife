@@ -53,6 +53,8 @@ private:
 	IOnClick* m_pSelected_Strgy = { nullptr };
 	IOnClick* m_pSelectedClick_Strgy = { nullptr };
 
+
+	_wstring m_strText = {};
 public:
 	static CCityhallMenu_Button* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg) override;

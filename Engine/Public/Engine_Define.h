@@ -29,6 +29,7 @@
 #include <json/json.hpp>
 
 #include <vector>
+#include <queue>
 #include <list>
 #include <map>
 #include <stack>

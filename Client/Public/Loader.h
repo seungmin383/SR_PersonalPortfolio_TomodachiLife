@@ -57,9 +57,6 @@ private:
 	HRESULT Loading_Developer();
 	
 #pragma endregion
-
-private:
-
 public:
 	static CLoader* Create(
 		ID3D11Device* pDevice, 

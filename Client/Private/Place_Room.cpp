@@ -231,6 +231,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 			TEXT("LayerTag_UI_PlayerInven_Food_Main"), 
 			TEXT("LayerTag_UI_Out_Inven_Button"), 
 			TEXT("LayerTag_UI_FoodItem"), 
+			TEXT("LayerTag_UI_GiveItem_Button"), 
 			
 
 		};
@@ -323,6 +324,9 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 
 			/* 음식 텍스쳐 */
 			TEXT("LayerTag_UI_FoodItem"),
+
+			/* 주기 버튼 */
+			TEXT("LayerTag_UI_GiveItem_Button"),
 		};
 
 
@@ -375,7 +379,6 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		return E_FAIL;
 
 
-
 	{
 		_wstring DisableLayers[] =
 		{
@@ -405,6 +408,8 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 			// 집/아이템
 			TEXT("LayerTag_UI_PlayerInven_House"),
 			TEXT("LayerTag_UI_PlayerInven_Item"),
+
+			TEXT("LayerTag_UI_GiveItem_Button"),
 		};
 
 
@@ -1175,13 +1180,24 @@ HRESULT CPlace_Room::Layer_UI_Option_Button()
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
 
 	COption_Button::OPTIONBUTTON_DESC Desc = {};
-	Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
-	Desc.fX = 850.f;
-	Desc.fY = 150.f;
+	Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI	;
+	Desc.fCX = 264.f;
+	Desc.fCY = 60.f;
+	Desc.fX = 960.f - (Desc.fCX * 0.5f) - 10.f;
+	Desc.fY = 480.f - (Desc.fCY * 0.5f);
 	Desc.fZ = 0.5f;
-	Desc.fCX = 104.f;
-	Desc.fCY = 104.f;
 	Desc.strText = TEXT("주기");
+	Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+	Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+	Desc.pSelectedClick_Strgy= CNull_Strgy::Create(m_pDevice, m_pContext);
+
+	tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Option_Button"), &Desc);
+	if (nullptr == tmp)
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_GiveItem_Button"), tmp)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

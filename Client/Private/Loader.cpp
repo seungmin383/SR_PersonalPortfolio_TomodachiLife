@@ -487,22 +487,6 @@ HRESULT CLoader::Loading_CityHall()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_IconTexture"), tmp)))
 				return E_FAIL;
 		}
-
-
-		/* 배경 모델 */
-		// ProtoTag_Componenet_MiiEditorBG
-		{
-			XMMATRIX InitMatrix = XMMatrixIdentity();
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Componenet_MiiEditorBG", ANIM_TYPE::NONEANIM,
-				"../../Resource/00Model/BackGround - MiiEditor/EditorBG.fbx", InitMatrix, "EditorBG");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Componenet_MiiEditorBG"), tmp)))
-				return E_FAIL;
-
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "EditorBG", InitMatrix);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Componenet_seMiiEditorBG"), tmp)))
-				return E_FAIL;
-		}
-
 	}
 
 	// Actor
@@ -526,16 +510,6 @@ HRESULT CLoader::Loading_CityHall()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_UI_Icon"), tmp)))
 				return E_FAIL;
 		}
-
-		/* 에디터 배경 */
-		// ProtoTag_Actor_EditorBG
-		{
-			tmp = CMiiEditorBG::Create(m_pDevice, m_pContext);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Actor_EditorBG"), tmp)))
-				return E_FAIL;
-		}
-
-
 	}
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
@@ -581,6 +555,8 @@ HRESULT CLoader::Loading_MiiEditor()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_TextButton_Texture"), tmp)))
 				return E_FAIL;
 		}
+
+
 	}
 
 	// Actor
@@ -621,6 +597,8 @@ HRESULT CLoader::Loading_MiiEditor()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_TextButton"), tmp)))
 				return E_FAIL;
 		}
+
+
 	}
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));

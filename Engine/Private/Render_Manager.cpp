@@ -65,7 +65,6 @@ HRESULT CRenderManager::Initialize()
 		vector<_wstring> strTargetTagArr = {
 			TEXT("Target_Diffuse"),
 			TEXT("Target_Normal"),
-			/* 화면에 그려지는 지형, 플레이어, 몬스터를 그리면서 깊이값을 입력 받아야됨 */
 			TEXT("Target_Depth"),
 			TEXT("Target_Pick"),
 		};
@@ -135,8 +134,8 @@ HRESULT CRenderManager::Render_Top()
 	Render_Top_Priority();
 	Render_Top_NonBlend();
 
-	Render_Top_Light();
-	Render_Top_Combined();
+	//Render_Top_Light();
+	//Render_Top_Combined();
 
 	Render_Top_NonLight();
 
@@ -144,7 +143,8 @@ HRESULT CRenderManager::Render_Top()
 	Render_Top_UI();
 	Render_Top_UI_Blend();
 
-	Render_Debug();
+	//Render_Debug();
+
 	return S_OK;
 }
 HRESULT CRenderManager::Render_Bottom()
@@ -177,8 +177,8 @@ HRESULT CRenderManager::Render_Top_Priority()
 
 HRESULT CRenderManager::Render_Top_NonBlend()
 {
-	 if (FAILED(m_pGameInstance->TargetManager_Begin_MRT(TEXT("MRT_GameObject"), nullptr)))
-	 	return E_FAIL;
+	 //if (FAILED(m_pGameInstance->TargetManager_Begin_MRT(TEXT("MRT_GameObject"), nullptr)))
+	 //	return E_FAIL;
 
 	for (auto& Object : m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONBLEND)])
 	{
@@ -194,8 +194,8 @@ HRESULT CRenderManager::Render_Top_NonBlend()
 	}
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_NONBLEND)].clear();
 
-	 if (FAILED(m_pGameInstance->TargetManager_End_MRT()))
-	 	return E_FAIL;
+	 //if (FAILED(m_pGameInstance->TargetManager_End_MRT()))
+	 //	return E_FAIL;
 
 	return S_OK;
 }
@@ -340,7 +340,6 @@ HRESULT CRenderManager::Render_Top_UI_Blend()
 	m_RenderGroup[static_cast<uint32_t>(RENDER_GROUP::TOP_UI_BLEND)].clear();
 	return S_OK;
 }
-
 
 
 

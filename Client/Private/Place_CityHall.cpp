@@ -76,7 +76,7 @@ HRESULT CPlace_CityHall::Render_Late()
 HRESULT CPlace_CityHall::Ready_Actor_Layer()
 {
 	CObject* tmp = { nullptr };
-
+	//uint32_t iPlaceID = 
 	// ProtoTag_Actor_EditorBG
 	{
 		CMiiEditorBG::MIIEDITORBG_DESC Desc = {};
@@ -86,12 +86,12 @@ HRESULT CPlace_CityHall::Ready_Actor_Layer()
 		Desc.fCZ = 0.05f;
 		Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		Desc.fSpeedPerSecond = 10.f;
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Actor_EditorBG"), &Desc);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_EditorBG"), &Desc);
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_Actor"), tmp)))
 			return E_FAIL;
 
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_NONBLEND;
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("ProtoTag_Actor_EditorBG"), &Desc);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_EditorBG"), &Desc);
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::CITYHALL), TEXT("LayerTag_Actor"), tmp)))
 			return E_FAIL;
 	}

@@ -24,11 +24,12 @@ class CTimerManager;
 class CUI;
 class CUIManager;
 class CCollisionManager;
-class CCutSceneManager;
 class CCutScene;
 class CActorManager;
 class CFontManager;
 class CTargetManager;
+class CTimeLine_Manager;
+class CTimeLine;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -256,13 +257,6 @@ public:
 
 #pragma endregion
 
-#pragma region CUTSCENEMANAGER
-
-	HRESULT CutSceneManager_Play_CutScene(const _string& strCutSceneTag, _float fDT);
-	HRESULT CutSceneManager_Add_CutScene(const _string& strCutSceneTag, CCutScene* pCutScene);
-
-#pragma endregion
-
 #pragma region ACTORMANGER
 	void ActorManager_Set_IsBuildingUnlock(_bool isUnlock);
 	_bool ActorManager_Get_IsBuildingUnlock() const;
@@ -292,6 +286,10 @@ public:
 
 #pragma endregion
 
+#pragma region TIMELINEMANAGER
+	HRESULT	TimelineManager_Add_TimeLine(CTimeLine* pTimeline);
+
+#pragma endregion
 
 private:
 	CTimerManager*		m_pTimerManager		= { nullptr };
@@ -310,10 +308,10 @@ private:
 	CAnimationManager*	m_pAnimationManager = { nullptr };
 	CUIManager*			m_pUIManager		= { nullptr };
 	CCollisionManager*	m_pCollisionManager = { nullptr };
-	CCutSceneManager*	m_pCutSceneManager	= { nullptr };
 	CActorManager*		m_pActorManager		= { nullptr };
 	CFontManager*		m_pFontManager		= { nullptr };
 	CTargetManager*		m_pTargetManager	= { nullptr };
+	CTimeLine_Manager*	m_pTimeLineManager = { nullptr };
 
 public:
 	void Clear_Engine();
