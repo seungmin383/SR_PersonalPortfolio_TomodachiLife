@@ -4,26 +4,23 @@
 NS_BEGIN(Engine)
 
 class CGameInstance;
-class ENGINE_DLL CTimeLine final : public CBase
+class ENGINE_DLL CTimeLine abstract : public CBase
 {
-private:
+protected:
 	CTimeLine();
 	virtual ~CTimeLine() = default;
 
 public:
-	HRESULT Initialize();
-
 	virtual void Begin_Timeline();
 	virtual void Update_Priority(_float fDT);
 	virtual void Update(_float fDT);
 	virtual int32_t Update_Late(_float fDT);
 	virtual void End_Timeline();
 
-private:
+protected:
 	CGameInstance* m_pGameInstance = { nullptr };
 
 public:
-	static CTimeLine* Create();
 	virtual void Free() override;
 };
 

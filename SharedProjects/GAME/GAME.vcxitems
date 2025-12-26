@@ -53,6 +53,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IOnClick.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ItemManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ItemReceive_TL.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IUnlock.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelBar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Inventory.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IOnClick.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ItemManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ItemReceive_TL.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IUnlock.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelBar.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Inventory.h" />

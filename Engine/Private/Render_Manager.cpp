@@ -26,105 +26,105 @@ HRESULT CRenderManager::Add_RenderGroup(
 
 HRESULT CRenderManager::Initialize()
 {
-	uint32_t iNumViewport = {1};
-	D3D11_VIEWPORT Desc = {};
-
-	m_pContext->RSGetViewports(&iNumViewport, &Desc);
-
-	m_iViewportWidth = static_cast<uint32_t>(Desc.Width);
-	m_iViewportHeight = static_cast<uint32_t>(Desc.Height);
-
-	/* Render Targets */
-	{
-		// Target_Diffuse
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Diffuse"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R8G8B8A8_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
-			return E_FAIL;
-		// Target_Normal
-		/* Normal은 범위가 고정된 방향벡터라 0 ~ 1 Unorm으로 저장해도 품질 손실이 거의 없고, 성능이 좋아서 사용함
-		대신 쉐이더에서 0 ~ 1로 보간해줘야 함*/
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Normal"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
-			return E_FAIL;
-		// Target_Depth
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Depth"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
-			return E_FAIL;
-		// Target_Shade
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Shade"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
-			return E_FAIL;
-		/* Target_Specular */
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Specular"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
-			return E_FAIL;
-		// Target_Pick
-		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Pick"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
-			return E_FAIL;
-	}
-	
-	/* Object Multi Render Target */
-	{
-		_wstring strMRTTag = TEXT("MRT_GameObject");
-
-		vector<_wstring> strTargetTagArr = {
-			TEXT("Target_Diffuse"),
-			TEXT("Target_Normal"),
-			TEXT("Target_Depth"),
-			TEXT("Target_Pick"),
-		};
-
-		for (uint32_t i = 0; i < strTargetTagArr.size(); ++i)
-		{
-			if (FAILED(m_pGameInstance->TargetManager_Add_MRT(strMRTTag, strTargetTagArr[i])))
-				return E_FAIL;
-		}
-	}
-
-	/* Light Multi Render Target */
-	{
-		_wstring strMRTTag = TEXT("MRT_LightAcc");
-
-		vector<_wstring> strTargetTagArr = {
-			TEXT("Target_Shade"),
-			TEXT("Target_Specular"),
-		};
-
-		for (uint32_t i = 0; i < strTargetTagArr.size(); ++i)
-		{
-			if (FAILED(m_pGameInstance->TargetManager_Add_MRT(strMRTTag, strTargetTagArr[i])))
-				return E_FAIL;
-		}
-	}
-
-	/* Set Matrix */
-	{
-		XMStoreFloat4x4(&m_WorldMatrix, XMMatrixScaling(Desc.Width, Desc.Height, 1.f));
-		XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
-		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(Desc.Width, Desc.Height, 0.f, 1.f));
-	}
-	
-	/* Ready Component*/
-	{
-		m_pBuffer = CRectBufferCom::Create(m_pDevice, m_pContext);
-		if (nullptr == m_pBuffer)
-			return E_FAIL;
-
-		m_pShader = CShaderCom::Create(m_pDevice, m_pContext, TEXT("../../SharedProjects/GAME/Shader/Engine_Shader_Deferred.hlsl"), VTX_TEX::Elements, VTX_TEX::iNumElements);
-		if (nullptr == m_pShader)
-			return E_FAIL;
-
-	}
-
-#ifdef _DEBUG
-	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Diffuse"), 100.f, 100.f, 200.f, 200.f)))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Normal"), 300.f, 100.f, 200.f, 200.f)))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Depth"), 500.f, 100.f, 200.f, 200.f)))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Shade"), 100.f, 300.f, 200.f, 200.f)))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Specular"), 300.f, 300.f, 200.f, 200.f)))
-		return E_FAIL;
-
-
-#endif 
+//	uint32_t iNumViewport = {1};
+//	D3D11_VIEWPORT Desc = {};
+//
+//	m_pContext->RSGetViewports(&iNumViewport, &Desc);
+//
+//	m_iViewportWidth = static_cast<uint32_t>(Desc.Width);
+//	m_iViewportHeight = static_cast<uint32_t>(Desc.Height);
+//
+//	/* Render Targets */
+//	{
+//		// Target_Diffuse
+//		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Diffuse"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R8G8B8A8_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
+//			return E_FAIL;
+//		// Target_Normal
+//		/* Normal은 범위가 고정된 방향벡터라 0 ~ 1 Unorm으로 저장해도 품질 손실이 거의 없고, 성능이 좋아서 사용함
+//		대신 쉐이더에서 0 ~ 1로 보간해줘야 함*/
+//		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Normal"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
+//			return E_FAIL;
+//		// Target_Depth
+//		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Depth"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
+//			return E_FAIL;
+//		// Target_Shade
+//		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Shade"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
+//			return E_FAIL;
+//		/* Target_Specular */
+//		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Specular"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R16G16B16A16_UNORM, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
+//			return E_FAIL;
+//		// Target_Pick
+//		if (FAILED(m_pGameInstance->TargetManager_Add_RenderTarget(TEXT("Target_Pick"), m_iViewportWidth, m_iViewportHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, XMFLOAT4{ 0.f, 0.f, 0.f, 0.f })))
+//			return E_FAIL;
+//	}
+//	
+//	/* Object Multi Render Target */
+//	{
+//		_wstring strMRTTag = TEXT("MRT_GameObject");
+//
+//		vector<_wstring> strTargetTagArr = {
+//			TEXT("Target_Diffuse"),
+//			TEXT("Target_Normal"),
+//			TEXT("Target_Depth"),
+//			TEXT("Target_Pick"),
+//		};
+//
+//		for (uint32_t i = 0; i < strTargetTagArr.size(); ++i)
+//		{
+//			if (FAILED(m_pGameInstance->TargetManager_Add_MRT(strMRTTag, strTargetTagArr[i])))
+//				return E_FAIL;
+//		}
+//	}
+//
+//	/* Light Multi Render Target */
+//	{
+//		_wstring strMRTTag = TEXT("MRT_LightAcc");
+//
+//		vector<_wstring> strTargetTagArr = {
+//			TEXT("Target_Shade"),
+//			TEXT("Target_Specular"),
+//		};
+//
+//		for (uint32_t i = 0; i < strTargetTagArr.size(); ++i)
+//		{
+//			if (FAILED(m_pGameInstance->TargetManager_Add_MRT(strMRTTag, strTargetTagArr[i])))
+//				return E_FAIL;
+//		}
+//	}
+//
+//	/* Set Matrix */
+//	{
+//		XMStoreFloat4x4(&m_WorldMatrix, XMMatrixScaling(Desc.Width, Desc.Height, 1.f));
+//		XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+//		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(Desc.Width, Desc.Height, 0.f, 1.f));
+//	}
+//	
+//	/* Ready Component*/
+//	{
+//		m_pBuffer = CRectBufferCom::Create(m_pDevice, m_pContext);
+//		if (nullptr == m_pBuffer)
+//			return E_FAIL;
+//
+//		m_pShader = CShaderCom::Create(m_pDevice, m_pContext, TEXT("../../SharedProjects/GAME/Shader/Engine_Shader_Deferred.hlsl"), VTX_TEX::Elements, VTX_TEX::iNumElements);
+//		if (nullptr == m_pShader)
+//			return E_FAIL;
+//
+//	}
+//
+//#ifdef _DEBUG
+//	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Diffuse"), 100.f, 100.f, 200.f, 200.f)))
+//		return E_FAIL;
+//	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Normal"), 300.f, 100.f, 200.f, 200.f)))
+//		return E_FAIL;
+//	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Depth"), 500.f, 100.f, 200.f, 200.f)))
+//		return E_FAIL;
+//	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Shade"), 100.f, 300.f, 200.f, 200.f)))
+//		return E_FAIL;
+//	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Specular"), 300.f, 300.f, 200.f, 200.f)))
+//		return E_FAIL;
+//
+//
+//#endif 
 
 	return S_OK;
 }
@@ -476,7 +476,7 @@ void CRenderManager::Free()
 	{
 		for (auto& Object : m_RenderGroup[i])
 		{
-			if (nullptr != Object)
+			if (nullptr == Object)
 				continue;
 
 			Safe_Release(Object);

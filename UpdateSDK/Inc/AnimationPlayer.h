@@ -42,7 +42,6 @@ private:
 	void Blend_Animation(_float fDT);
 
 public:
-public:
 	_bool Get_isAnimFin() const { return m_isAnimFin; }
 	void  Set_isAnimFin(_bool is) { m_isAnimFin = is; }
 

@@ -55,9 +55,6 @@ int32_t CAnimationPlayer::Update(_float fDT)
 
 HRESULT CAnimationPlayer::Begin_Animation(const _wstring& strAnimTag, _bool isLoop)
 {
-	if (nullptr == m_pGameInstance->AnimationManager_Find_Animation(strAnimTag))
-		return E_FAIL;
-
 	m_isStartAnim = TRUE;
 	m_isEndAnim = FALSE;
 	m_eAnimType = ANIMPLAYER_TYPE::NORMAL;
@@ -72,15 +69,14 @@ HRESULT CAnimationPlayer::Begin_Macro(const _wstring& strMacroTag)
 	if (nullptr == pMacro)
 		return E_FAIL;
 
-	if (nullptr == m_pGameInstance->AnimationManager_Find_Animation((*pMacro)[0]))
-		return E_FAIL;
 
 	m_pMacro = pMacro;
 	m_iCurMacroIndex = 0;
+
 	m_iMaxMacroIndex = static_cast<uint32_t>((*pMacro).size());
 	m_eAnimType = ANIMPLAYER_TYPE::MACRO;
 	m_isStartMacro = TRUE;
-
+	m_isEndMacro = FALSE;
 	Change_Animation((*pMacro)[0], 0.3f, FALSE);
 	return S_OK;
 }
@@ -108,7 +104,7 @@ void CAnimationPlayer::Play_Macro(_float fDT)
 	{
 		Update_TransformationMatrix(fDT);
 
-		if (m_isAnimFin)
+		if (m_isAnimFin && !m_isEndMacro)
 		{
 			if ((++m_iCurMacroIndex < m_iMaxMacroIndex))
 			{
@@ -127,11 +123,12 @@ void CAnimationPlayer::Play_Macro(_float fDT)
 		m_isStartMacro = FALSE;
 }
 
+
 void CAnimationPlayer::Change_Animation(const _wstring& strAnimaTag, _float fBlendDuration, _bool isLoop)
 {
 	if (m_strCurAnimTag == strAnimaTag)
 		return;
-	
+
 	if (m_pPreAnimation != nullptr)
 		Safe_Release(m_pPreAnimation);
 
@@ -191,7 +188,6 @@ void CAnimationPlayer::Blend_Animation(_float fDT)
 	uint32_t NumChannel = m_pCurAnimation->Get_NumChannel();
 	const vector<CHANNEL_POS>& CurChannelPos = m_pCurAnimation->Get_ChannelPos();
 	const vector<CHANNEL_POS>& PreChannelPos = m_pPreAnimation->Get_ChannelPos();
-	const vector<CSEChannel*> tmpChannel = m_pPreAnimation->Get_Channel();
 
 	m_fBlendTime += fDT;
 	_float fRatio = 0.f;

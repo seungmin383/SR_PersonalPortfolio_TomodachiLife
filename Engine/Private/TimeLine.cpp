@@ -7,11 +7,6 @@ CTimeLine::CTimeLine()
 	Safe_AddRef(m_pGameInstance);
 }
 
-HRESULT CTimeLine::Initialize()
-{
-	return S_OK;
-}
-
 void CTimeLine::Begin_Timeline()
 {
 

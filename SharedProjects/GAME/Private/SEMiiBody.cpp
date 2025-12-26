@@ -62,6 +62,10 @@ void CSEMiiBody::Update_Late(_float fDT)
 		m_isPlayMacro = TRUE;
 		m_pAnimationPlayer->Begin_Macro(TEXT("RecieveItem"));
 	}
+	else
+	{
+		m_pAnimationPlayer->Begin_Animation(TEXT("CM_Wait00"), TRUE);
+	}
 
 	m_pAnimationPlayer->Update(fDT);
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
