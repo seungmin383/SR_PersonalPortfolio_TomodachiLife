@@ -43,25 +43,20 @@ private:
 
 public:
 	_bool Get_isAnimFin() const { return m_isAnimFin; }
-	void  Set_isAnimFin(_bool is) { m_isAnimFin = is; }
 
 	_bool Get_isStartAnim() const { return m_isStartAnim; }
-	void  Set_isStartAnim(_bool is) { m_isStartAnim = is; }
 
 	_bool Get_isPlayingAnim() const { return m_isPlayingAnim; }
-	void  Set_isPlayingAnim(_bool is) { m_isPlayingAnim = is; }
 
 	_bool Get_isEndAnim() const { return m_isEndAnim; }
-	void  Set_isEndAnim(_bool is) { m_isEndAnim = is; }
 
 	_bool Get_isStartMacro() const { return m_isStartMacro; }
-	void  Set_isStartMacro(_bool is) { m_isStartMacro = is; }
 
 	_bool Get_isPlayingMacro() const { return m_isPlayingMacro; }
-	void  Set_isPlayingMacro(_bool is) { m_isPlayingMacro = is; }
 
 	_bool Get_isEndMacro() const { return m_isEndMacro; }
-	void  Set_isEndMacro(_bool is) { m_isEndMacro = is; }
+
+	_wstring Get_CurAnimTag() const { return m_strCurAnimTag; }
 
 private:
 	vector<CSEBone*>* m_pBones;

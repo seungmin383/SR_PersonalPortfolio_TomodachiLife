@@ -4,6 +4,8 @@
 #include "GameDirector.h"
 
 #include "Mii.h"
+#include "SEMii.h"
+
 #include "Engine_FlagHelper.h"
 
 CSEMiiBody::CSEMiiBody(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -26,6 +28,7 @@ HRESULT CSEMiiBody::Initialize_Clone(void* pArg)
 	SEMIIBODY_DESC* pDesc = static_cast<SEMIIBODY_DESC*>(pArg);
 	m_pParentState = pDesc->pParnetState;
 	m_pParentClothState = pDesc->pParentClothState;
+	m_pChangeState = pDesc->pChangeState;
 
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -38,77 +41,65 @@ HRESULT CSEMiiBody::Initialize_Clone(void* pArg)
 
 int32_t CSEMiiBody::Update_Priority(_float fDT)
 {
-	//if (m_pAnimationPlayer->Get_isEndMacro())
-	//{
-	//	CGameDirector::GetInstance()->Set_Direction(CGameDirector::GAME_DIRECTION::NO_EVENT);
-	//}
+	/* Receive Food가 아니라면*/
+	if (!Has_Any_Flag(*m_pParentState, CSEMii::STATE::RECEIVE_FOOD))
+	{
+		m_isEatingFood =  FALSE ;
+		m_isFin_EatingFood =  FALSE ;
+	}
+
+	if (m_pAnimationPlayer->Get_isAnimFin())
+		cout << "ANIMFIN :: TRUE" << endl;
+	else
+		cout << "ANIMFIN : FALSE" << endl;
+
+	if (m_isEatingFood)
+	{
+		if (m_pAnimationPlayer->Get_isAnimFin())
+		{
+			if (m_strCurAnimTag != TEXT("Chr_Eat") && m_strCurAnimTag != TEXT("Chr_Eat_Hold"))
+			{
+				m_isFin_EatingFood = TRUE;
+				m_isEatingFood = FALSE;
+			}
+		}
+	}
 
 	return 0;
 }
 
 int32_t CSEMiiBody::Update(_float fDT)
 {
-	m_eDirection = CGameDirector::GetInstance()->Get_Direction();
 	m_pCollider->Update_Collider();
 
-	switch (m_eDirection)
+	if (*m_pChangeState)
 	{
-	case Game::CGameDirector::GAME_DIRECTION::NO_EVENT:
-		m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE);
-		break;
-	case Game::CGameDirector::GAME_DIRECTION::GIVE_ITEM:
-		m_pAnimationPlayer->Begin_Macro(TEXT("RecieveItem"));
-		break;
-
-	case Game::CGameDirector::GAME_DIRECTION::GIVE_FOOD:
-	{
-		if (!m_isGiveFood)
-			m_isGiveFood = TRUE;
-		break;
+		if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::RECEIVE_FOOD))
+			m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Best"));
 	}
 
-	default:
-		break;
-	}
 
 	return 0;
 }
 
 void CSEMiiBody::Update_Late(_float fDT)
 {
-	//switch (m_eDirection)
-	//{
-	//case Game::CGameDirector::GAME_DIRECTION::NO_EVENT:
-	//	m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE);
-	//	break;
-	//case Game::CGameDirector::GAME_DIRECTION::GIVE_ITEM:
-	//	m_pAnimationPlayer->Begin_Macro(TEXT("RecieveItem"));
-	//	break;
-	//case Game::CGameDirector::GAME_DIRECTION::GIVE_FOOD:
-	//	/* 음식 선호도 별로 다른 매크로 */
-	//	m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Best"));
-	//	// m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Good"));
-	//	// m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_NotBad"));
-	//	// m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_SoSo"));
-	//	// m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Bad"));
-	//	// m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Worst"));
-	//	break;
-	//default:
-	//	break;
-	//}
-
-	static _bool is = FALSE;
-
-	if (m_isGiveFood && !is)
-	{
-		m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Best"));
-		is = TRUE;
-	}
 
 
 
 	m_pAnimationPlayer->Update(fDT);
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
+
+	m_strCurAnimTag = m_pAnimationPlayer->Get_CurAnimTag();
+
+	/* 매크로가 플레이중일 때 */
+	if (!m_pAnimationPlayer->Get_isEndMacro())
+	{
+		/* 먹는중 */
+		if (m_strCurAnimTag == TEXT("Chr_Eat") || m_strCurAnimTag == TEXT("Chr_Eat_Hold"))
+			m_isEatingFood = TRUE;
+	}
+
 	CPartObject::Update_Late(fDT);
 }
 

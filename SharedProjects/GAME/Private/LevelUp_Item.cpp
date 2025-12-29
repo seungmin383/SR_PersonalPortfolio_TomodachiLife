@@ -26,6 +26,7 @@ HRESULT CLevelUp_Item::Initialize_Clone(void* pArg)
 {
 	LEVELUPITEM_DESC* pDesc = static_cast<LEVELUPITEM_DESC*>(pArg);
 	m_pSocketMatrix = pDesc->pSocketMatrix;
+	m_pParentState = pDesc->pParentState;
 
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
 		return E_FAIL;

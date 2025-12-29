@@ -35,8 +35,8 @@ private:
 	HRESULT Bind_ShaderResources();
 
 private:
-	uint32_t m_iState = {};
-	uint32_t m_iClothState = {};
+	int32_t m_iState = {};
+	int32_t m_iClothState = {};
 
 	MIIINFO_DESC m_MiiInfo = {};
 

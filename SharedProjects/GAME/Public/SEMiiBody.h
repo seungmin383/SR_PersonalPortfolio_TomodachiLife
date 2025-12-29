@@ -1,7 +1,6 @@
 #pragma once
 #include "Game_Defines.h"
 #include "PartObject.h"
-#include "GameDirector.h"
 
 NS_BEGIN(Engine)
 class CSEModel;
@@ -19,8 +18,10 @@ class CSEMiiBody final : public CPartObject
 public:
 	typedef struct tagSEMiiBodyDesc : public CPartObject::PARTOBJECT_DESC
 	{
-		const uint32_t* pParnetState;
-		const uint32_t* pParentClothState;
+		const int32_t* pParnetState;
+		const int32_t* pParentClothState;
+
+		const _bool* pChangeState;
 
 	}SEMIIBODY_DESC;
 
@@ -46,7 +47,6 @@ private:
 public:
 	const XMFLOAT4X4* Get_SocketMatrix(const _char* pBoneName);
 
-	CGameDirector::GAME_DIRECTION m_eDirection = { CGameDirector::GAME_DIRECTION::END };
 
 private:
 	CSEModel* m_pSeModel = { nullptr };
@@ -55,15 +55,27 @@ private:
 	CAnimationPlayer* m_pAnimationPlayer = { nullptr };
 
 private:
-	const uint32_t* m_pParentState = { nullptr };
-	const uint32_t* m_pParentClothState = { nullptr };
+	const int32_t* m_pParentState = { nullptr };
+	const int32_t* m_pParentClothState = { nullptr };
 
-	_bool m_isStartMacro = FALSE;
-	_bool m_isPlayMacro = FALSE;
+	_bool m_isStartMacro = { FALSE };
+	_bool m_isPlayMacro =	{ FALSE };
 
-	_bool m_isGiveFood = { FALSE };
+	const _bool* m_pChangeState = { nullptr };
 
+public:
+	_bool Get_isEatingFood() const { return m_isEatingFood; }
+	_bool Get_isFin_EatingFood() const { return m_isFin_EatingFood; }
 
+	void Set_isEatingFood(_bool is) { m_isEatingFood = is; }
+	void Set_isFin_EatingFood(_bool is) { m_isFin_EatingFood = is; }
+
+private:
+	_wstring m_strCurAnimTag = {};
+	_wstring m_strPreAnimTag = {};
+
+	_bool m_isEatingFood = { FALSE };
+	_bool m_isFin_EatingFood = { FALSE };
 
 public:
 	static CSEMiiBody* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

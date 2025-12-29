@@ -66,30 +66,6 @@ HRESULT CMii::Render()
 
 void CMii::Key_Control(float fDT)
 {
-	m_iState = static_cast<int32_t>(STATE::IDLE);
-
-		XMFLOAT4 look = {}; 
-	XMStoreFloat4(&look,  m_pTransformCom->Get_State(TRANSFORM_STATE::LOOK));
-
-	// cout << "X : " << look.x << " Y : " << look.y << " Z : " << look.z << endl;
-
-	if (m_pGameInstance->Get_DIKeyState(DIK_W) & 0x80)
-	{
-		m_pTransformCom->Go_Straight(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_A) & 0x80)
-	{
-		m_pTransformCom->Go_Left(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_S) & 0x80)
-	{
-		m_pTransformCom->Go_Backward(fDT*10.f);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_D) & 0x80)
-	{
-		m_pTransformCom->Go_Right(fDT);
-	}
-
 }
 
 HRESULT CMii::Ready_Components()

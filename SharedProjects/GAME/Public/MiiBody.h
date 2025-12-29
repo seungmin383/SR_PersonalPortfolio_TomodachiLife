@@ -16,8 +16,8 @@ class CMiiBody final : public CPartObject
 public:
 	typedef struct tagMiiBodyDesc : public CPartObject::PARTOBJECT_DESC
 	{
-		const uint32_t* pParnetState;
-		const uint32_t* pParentClothState;
+		const int32_t* pParnetState;
+		const int32_t* pParentClothState;
 
 	}MIIBODY_DESC;
 
@@ -49,8 +49,8 @@ private:
 	CAnimationPlayer* m_pAnimationPlayer = { nullptr };
 
 private:
-	const uint32_t* m_pParentState = { nullptr };
-	const uint32_t* m_pParentClothState = { nullptr };
+	const int32_t* m_pParentState = { nullptr };
+	const int32_t* m_pParentClothState = { nullptr };
 
 public:
 	static CMiiBody* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

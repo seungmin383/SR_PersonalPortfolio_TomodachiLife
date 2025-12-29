@@ -18,6 +18,7 @@ class CLevelUp_Item final : public CPartObject
 public:
 	typedef struct tagLevelUpItemDesc : public CPartObject::PARTOBJECT_DESC
 	{
+		const int32_t* pParentState;
 		const XMFLOAT4X4* pSocketMatrix;
 	}LEVELUPITEM_DESC;
 
@@ -48,6 +49,7 @@ private:
 	CTextureCom* m_pTextureCom = { nullptr };
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
+	const int32_t* m_pParentState = { nullptr };
 	CTextureCom* m_pItemIcon_TextureCom = { nullptr };
 	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
 

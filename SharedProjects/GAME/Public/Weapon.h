@@ -15,7 +15,7 @@ class CWeapon final : public CPartObject
 public:
 	typedef struct tagWeaponDesc : public CPartObject::PARTOBJECT_DESC
 	{
-		const _uint* pParentState = { nullptr };
+		const _int* pParentState = { nullptr };
 		const _float4x4* pSocketMatrix = { nullptr };
 	}WEAPON_DESC;
 
@@ -40,7 +40,7 @@ private:
 	CShaderCom* m_pShaderCom = { nullptr };
 
 private:
-	const uint32_t* m_pParentState = { nullptr };
+	const int32_t* m_pParentState = { nullptr };
 	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
 
 private:

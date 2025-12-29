@@ -13,6 +13,8 @@
 #include "LevelUp_Item.h"
 #include "Food_Item.h"
 
+#include "Engine_FlagHelper.h"
+
 CSEMii::CSEMii(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CContainerObject(pDevice, pContext)
 {
@@ -48,9 +50,9 @@ HRESULT CSEMii::Initialize_Clone(void* pArg)
 
 int32_t CSEMii::Update_Priority(_float fDT)
 {
-	XMFLOAT4X4* tmp = m_pTransformCom->Get_WorldMatrixPtr();
+	Observe();
+	Thinking();
 
-	Key_Control(fDT);
 	return CContainerObject::Update_Priority(fDT);
 }
 
@@ -69,84 +71,54 @@ HRESULT CSEMii::Render()
 	return S_OK;
 }
 
-void CSEMii::Key_Control(float fDT)
+void CSEMii::Observe()
 {
-	m_iState = static_cast<int32_t>(STATE::IDLE);
+	/* 전역 스테이트 -> 일종의 타임라인 (어떤 이벤트가 실행중인지 )*/
+	m_eDirection = CGameDirector::GetInstance()->Get_Direction();
 
-	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
-	{
-		m_iState &= ~static_cast<int32_t>(STATE::IDLE);
-		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
-		{
-			m_pTransformCom->Go_Straight(fDT * 2.f);
-			m_iState |= static_cast<int32_t>(STATE::RUN);
-		}
-		else
-		{
-			m_pTransformCom->Go_Straight(fDT);
-			m_iState |= static_cast<int32_t>(STATE::WALK);
-		}
-	}
+	if (m_eDirection != m_ePreDirection)
+		m_isChangeState = TRUE;
+	else
+		m_isChangeState = FALSE;
+	m_ePreDirection = m_eDirection;
 
-	if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
-	{
-		m_iState &= ~static_cast<int32_t>(STATE::IDLE);
-		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
-		{
-			m_pTransformCom->Go_Backward(fDT * 2.f);
-			m_iState |= static_cast<int32_t>(STATE::RUN);
-		}
-		else
-		{
-			m_pTransformCom->Go_Backward(fDT);
-			m_iState |= static_cast<int32_t>(STATE::WALK);
-		}
-	}
 
-	if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
-	{
-		m_iState &= ~static_cast<int32_t>(STATE::IDLE);
-		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
-		{
-			m_pTransformCom->TurnY(-fDT * 2.f);
-			m_iState |= static_cast<int32_t>(STATE::RUN);
-		}
-		else
-		{
-			m_pTransformCom->TurnY(-fDT);
-			m_iState |= static_cast<int32_t>(STATE::WALK);
-		}
-	}
-
-	if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
-	{
-		m_iState &= ~static_cast<int32_t>(STATE::IDLE);
-		if (m_pGameInstance->Get_DIKeyState(DIK_LSHIFT))
-		{
-			m_pTransformCom->TurnY(fDT * 2.f);
-			m_iState |= static_cast<int32_t>(STATE::RUN);
-		}
-		else
-		{
-			m_pTransformCom->TurnY(fDT);
-			m_iState |= static_cast<int32_t>(STATE::WALK);
-		}
-	}
-
-	if (m_pGameInstance->Get_DIKeyState(DIK_1))
-	{
-		m_iState = 0;
-		m_iState |= static_cast<int32_t>(STATE::Greet);
-	}
+	m_isFin_EatingFood = dynamic_cast<CSEMiiBody*>( Find_PartObject(TEXT("Part_Body")))->Get_isFin_EatingFood();
 }
+
+void CSEMii::Thinking()
+{
+	Clear_Flag(m_iState);
+
+	/* 전역 스테이트로 1차 내부 스테이트를 설정 */
+	switch (m_eDirection)
+	{
+	case Game::CGameDirector::GAME_DIRECTION::NO_EVENT:
+		Set_Flag(m_iState, STATE::IDLE);
+		break;
+	case Game::CGameDirector::GAME_DIRECTION::GIVE_ITEM:
+		break;
+	case Game::CGameDirector::GAME_DIRECTION::GIVE_FOOD:
+		Set_Flag(m_iState, STATE::RECEIVE_FOOD);
+		break;
+
+	default:
+		break;
+	}
+
+	/* 파트 오브젝트의 값을 이용해서 2차 내부 스테이트를 추가 */
+	if (m_isFin_EatingFood)
+		Add_Flag(m_iState, STATE::ATE_FOOD);
+
+}
+
+void CSEMii::Acting()
+{
+}
+
 
 HRESULT CSEMii::Ready_Components()
 {
-	uint32_t iPlace = static_cast<uint32_t>(PLACEID::STATIC);
-
-	if (FAILED(Add_Component(iPlace, TEXT("ProtoTag_Component_Brain"), TEXT("Com_Brain"), reinterpret_cast<CComponent**>(&m_pBrain), nullptr)))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -165,6 +137,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		MiiBodyDesc.eRenderGroup = m_eRenderGroup;
 		MiiBodyDesc.pParentClothState = &m_iClothState;
 		MiiBodyDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
+		MiiBodyDesc.pChangeState = &m_isChangeState;
 
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiBody"), TEXT("Part_Body"), &MiiBodyDesc)))
 			return E_FAIL;
@@ -247,6 +220,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		Desc.eRenderGroup = m_eRenderGroup;
 		Desc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		Desc.pSocketMatrix = BodySockeMatrix;
+		Desc.pParentState = &m_iState;
 
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_Food_Item"), TEXT("Part_RFood"), &Desc)))
 			return E_FAIL;
@@ -399,6 +373,5 @@ CObject* CSEMii::Clone(void* pArg)
 
 void CSEMii::Free()
 {
-	Safe_Release(m_pBrain);
 	CContainerObject::Free();
 }

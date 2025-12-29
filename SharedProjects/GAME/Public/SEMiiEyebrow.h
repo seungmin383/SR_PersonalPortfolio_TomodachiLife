@@ -15,7 +15,7 @@ class CSEMiiEyebrow final : public CPartObject
 public:
 	typedef struct tagSEMiiEyebrowDesc : public CPartObject::PARTOBJECT_DESC
 	{
-		const uint32_t* pParentState;
+		const int32_t* pParentState;
 		const XMFLOAT4X4* pSocketMatrix;
 
 		_bool isRight;
@@ -52,7 +52,7 @@ private:
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
 private:
-	const uint32_t* m_pParentState = { nullptr };
+	const int32_t* m_pParentState = { nullptr };
 	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
 
 	XMFLOAT4 m_vEyebrowColor = {};

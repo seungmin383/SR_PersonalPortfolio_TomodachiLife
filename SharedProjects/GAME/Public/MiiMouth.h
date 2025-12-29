@@ -15,7 +15,7 @@ class CMiiMouth final : public CPartObject
 public:
 	typedef struct tagMiiMouthDesc : public CPartObject::PARTOBJECT_DESC
 	{
-		const uint32_t* pParentState;
+		const int32_t* pParentState;
 		const XMFLOAT4X4* pSocketMatrix;
 
 
@@ -49,7 +49,7 @@ private:
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
 private:
-	const uint32_t* m_pParentState = { nullptr };
+	const int32_t* m_pParentState = { nullptr };
 	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
 
 	uint32_t m_iTextureIndex = {};

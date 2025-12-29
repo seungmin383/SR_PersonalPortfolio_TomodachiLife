@@ -63,11 +63,8 @@ HRESULT CContainerObject::Render()
 	return S_OK;
 }
 
-HRESULT CContainerObject::Add_PartObject(
-	uint32_t iPlaceID, 
-	const _wstring& strProtoTag, 
-	const _wstring& strPartObjectTag, 
-	void* pArg)
+HRESULT CContainerObject::Add_PartObject(uint32_t iPlaceID, const _wstring& strProtoTag, 
+	const _wstring& strPartObjectTag, void* pArg)
 {
 	if (nullptr != Find_PartObject(strPartObjectTag))
 	{

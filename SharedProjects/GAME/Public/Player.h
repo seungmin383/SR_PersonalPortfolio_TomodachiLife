@@ -29,7 +29,7 @@ public:
 	virtual HRESULT Render()override;
 
 private: 
-	uint32_t m_iState = {};
+	int32_t m_iState = {};
 
 private:
 	HRESULT Ready_Components();

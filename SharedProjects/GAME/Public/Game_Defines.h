@@ -103,14 +103,6 @@ namespace Game
 		END
 	};
 
-	enum class STATE
-	{
-		IDLE = 1 << 0,
-		WALK = 1 << 1,
-		RUN = 1 << 2,
-		Greet = 1 << 3
-	};
-
 	enum COLLIDER_TYPES
 	{
 		COL_TRIGGER = 1 << 0,

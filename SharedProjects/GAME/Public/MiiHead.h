@@ -14,7 +14,7 @@ class CMiiHead final : public CPartObject
 public:
 	typedef struct tagMiiHead : public CPartObject::PARTOBJECT_DESC
 	{
-		const uint32_t* pParentState;
+		const int32_t* pParentState;
 		const XMFLOAT4X4* pSocketMatrix;
 
 		MIIHEADINFO_DESC* pHeadInfo = { nullptr };
@@ -51,7 +51,7 @@ private:
 	uint32_t m_iCurModelIndex = {};
 
 private:
-	const uint32_t* m_pParentState = { nullptr };
+	const int32_t* m_pParentState = { nullptr };
 	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
 	XMFLOAT4 m_vSkinColor = {};
 

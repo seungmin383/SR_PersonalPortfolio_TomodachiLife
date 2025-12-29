@@ -18,6 +18,8 @@ class CFood_Item final : public CPartObject
 public:
 	typedef struct tagFoodItemDesc : public CPartObject::PARTOBJECT_DESC
 	{
+		const int32_t* pParentState;
+
 		const XMFLOAT4X4* pSocketMatrix;
 	}FOODITEM_DESC;
 
@@ -41,15 +43,14 @@ private:
 	HRESULT Bind_ShaderResources();
 
 private:
-	CGameDirector::GAME_DIRECTION m_eDirection = { CGameDirector::GAME_DIRECTION::END };
-
-private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CTextureCom* m_pTextureCom = { nullptr };
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
-	CTextureCom* m_pItemIcon_TextureCom = { nullptr };
 	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
+
+	const int32_t* m_pParentState = { nullptr };
+	uint32_t m_iTextureIndex = {};
 
 public:
 	static CFood_Item* Create(

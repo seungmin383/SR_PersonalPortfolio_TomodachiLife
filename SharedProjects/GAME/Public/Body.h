@@ -17,7 +17,7 @@ class CBody final : public CPartObject
 public:
 	typedef struct tagBodyDesc : public CPartObject::PARTOBJECT_DESC
 	{
-		const uint32_t* pParentState = { nullptr };
+		const int32_t* pParentState = { nullptr };
 	}BODY_DESC;
 
 private:
@@ -44,7 +44,7 @@ private:
 	CShaderCom* m_pShaderCom = { nullptr };
 
 private:
-	const uint32_t* m_pParentState = { nullptr };
+	const int32_t* m_pParentState = { nullptr };
 
 private:
 	HRESULT Ready_Component();

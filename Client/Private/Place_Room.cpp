@@ -528,7 +528,7 @@ HRESULT CPlace_Room::Layer_UI_FoodItem()
 		strgyDesc.ePlaceID = PLACEID::ROOM;
 		strgyDesc.strLayerTag = TEXT("LayerTag_UI_FoodItem_Button");
 
-		strgyDesc.EnableLayers = vector<_wstring>{TEXT("")};
+		strgyDesc.EnableLayers = vector<_wstring>{TEXT("LayerTag_UI_Enter_Inventory_Button")};
 		strgyDesc.DisableLayers = vector<_wstring>{TEXT("LayerTag_UI_FoodItem_Button")};
 
 		Desc.pSelected_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);

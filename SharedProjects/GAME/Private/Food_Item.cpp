@@ -1,5 +1,10 @@
 #include "Food_Item.h"
 #include "GameInstance.h"
+#include "ItemManager.h"
+
+
+#include "SEMii.h"
+#include "Engine_FlagHelper.h"
 
 CFood_Item::CFood_Item(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPartObject(pDevice, pContext)
@@ -26,6 +31,7 @@ HRESULT CFood_Item::Initialize_Clone(void* pArg)
 {
 	FOODITEM_DESC* pDesc = static_cast<FOODITEM_DESC*>(pArg);
 	m_pSocketMatrix = pDesc->pSocketMatrix;
+	m_pParentState = pDesc->pParentState;
 
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -38,7 +44,7 @@ HRESULT CFood_Item::Initialize_Clone(void* pArg)
 
 int32_t CFood_Item::Update_Priority(_float fDT)
 {
-	m_eDirection = CGameDirector::GetInstance()->Get_Direction();
+	m_iTextureIndex = CItemManager::GetInstance()->Get_CurFoodItemIndex();
 
 	return 0;
 }
@@ -50,7 +56,10 @@ int32_t CFood_Item::Update(_float fDT)
 
 void CFood_Item::Update_Late(_float fDT)
 {
-	if (m_eDirection != CGameDirector::GAME_DIRECTION::GIVE_FOOD)
+	if (!Has_Any_Flag(*m_pParentState, CSEMii::STATE::RECEIVE_FOOD))
+		return;
+
+	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::ATE_FOOD))
 		return;
 
 	CPartObject::Update_Late(fDT);
@@ -60,8 +69,10 @@ void CFood_Item::Update_Late(_float fDT)
 
 HRESULT CFood_Item::Render()
 {
-	if (m_eDirection != CGameDirector::GAME_DIRECTION::GIVE_FOOD)
+	if (!Has_Any_Flag(*m_pParentState, CSEMii::STATE::RECEIVE_FOOD))
 		return S_OK;
+	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::ATE_FOOD))
+		return S_OK;;
 
 	__super::Render();
 
@@ -86,7 +97,7 @@ HRESULT CFood_Item::Ready_Component()
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
 
-	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_LevelUp_Item_Texture"),
+	if (FAILED(Add_Component(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_FoodItem_Texture"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom), nullptr)))
 		return E_FAIL;
 
@@ -105,7 +116,7 @@ HRESULT CFood_Item::Bind_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ)))
 		return E_FAIL;
-	if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 2)))
+	if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureIndex)))
 		return E_FAIL;
 
 	return S_OK;
