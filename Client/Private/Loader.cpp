@@ -2,7 +2,6 @@
 #include "BackGround.h"
 #include "Body.h"
 #include "CommonButton.h"
-#include "Food.h"
 #include "GameInstance.h"
 #include "Island.h"
 #include "Loader.h"
@@ -36,6 +35,7 @@
 #include "Explosion.h"
 #include "LevelUp_Inventory.h"
 #include "LevelUp_Item.h"
+#include "FoodItem_Button.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -213,16 +213,17 @@ HRESULT CLoader::Loading_Island()
 			XMMATRIX initMatrix = XMMatrixIdentity();
 			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
 
-			string ProtoTag = "ProtoTag_Component_Building" + to_string(i);
 			_wstring ProtoTagw = L"ProtoTag_Component_Building" + to_wstring(i);
 			_wstring seProtoTag = L"ProtoTag_Component_seBuilding" + to_wstring(i);
 			string FilePath = "../../Resource/00Model/Actor - Building/Building" + to_string(i) + "/Building.fbx";
 			string SaveName = "Building" + to_string(i);
 
-			tmp = CModel::Create(m_pDevice, m_pContext, ProtoTag, ANIM_TYPE::NONEANIM,
+#ifdef _DEBUG
+			tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM,
 				FilePath.c_str(), initMatrix, SaveName.c_str());
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), ProtoTagw, tmp)))
 				return E_FAIL;
+#endif
 
 			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, SaveName.c_str(), initMatrix);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), seProtoTag, tmp)))
@@ -366,21 +367,11 @@ HRESULT CLoader::Loading_Apart()
 
 	// Component
 	{
-		// ProtoTag_Component_BasicManBody_Model
-		{
-			XMMATRIX InitMatrix;
-			InitMatrix = XMMatrixIdentity();
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_BasicManBody_Model", ANIM_TYPE::ANIM,
-				"../../Resource/Models/Fiona/Fiona.fbx", InitMatrix, "BasicManBody");
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_BasicManBody_Model"), tmp)))
-				return E_FAIL;
-		}
-
 		// ProtoTag_Component_GirlHair1_Model
 		{
 			XMMATRIX InitMatrix;
 			InitMatrix = XMMatrixIdentity();
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_GirlHair1_Model", ANIM_TYPE::ANIM,
+			tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM,
 				"../../Resource/00Model/00Body/CamouflageJacket/Untitled.fbx", InitMatrix, "Hair1");
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_GirlHair1_Model"), tmp)))
 				return E_FAIL;
@@ -393,15 +384,16 @@ HRESULT CLoader::Loading_Apart()
 			{
 				XMMATRIX InitMatrix = XMMatrixIdentity();
 
-				_string strProtoTag = "ProtoTag_Component_Room" + to_string(i);
 				_wstring wstrProtoTag = L"ProtoTag_Component_Room" + to_wstring(i);
 				_wstring wstrSeProtoTag = L"ProtoTag_Component_seRoom" + to_wstring(i);
 				_string strFilePath = "../../Resource/Actor/room" + to_string(i) + "/room.fbx";
 				_string strSaveName = "room" + to_string(i);
 
-				tmp = CModel::Create(m_pDevice, m_pContext, strProtoTag, ANIM_TYPE::ANIM, strFilePath.c_str(), InitMatrix, strSaveName.c_str());
+#ifdef _DEBUG
+				tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, strFilePath.c_str(), InitMatrix, strSaveName.c_str());
 				if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, wstrProtoTag, tmp)))
 					return E_FAIL;
+#endif
 
 				tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM,strSaveName.c_str(), InitMatrix);
 				if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, wstrSeProtoTag, tmp)))
@@ -414,12 +406,12 @@ HRESULT CLoader::Loading_Apart()
 			XMMATRIX initMatrix = XMMatrixIdentity();
 			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
 
-
-			tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_Building1" , ANIM_TYPE::NONEANIM,
+#ifdef _DEBUG
+			tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM,
 				"../../Resource/00Model/Actor - Building/Building1/Building.fbx", initMatrix, "Building1");
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Component_Building1") , tmp)))
 				return E_FAIL;
-
+#endif 
 			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Building1", initMatrix);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_Component_seBuilding1"), tmp)))
 				return E_FAIL;
@@ -727,6 +719,14 @@ HRESULT CLoader::Loading_Room()
 			return E_FAIL;
 	}
 
+	/* 음식 버튼 */
+	// ProtoTag_UI_FoodItem_Button
+	{
+		tmp = CFoodItem_Button::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_FoodItem_Button"), tmp)))
+			return E_FAIL;
+	}
+
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
 	m_isFinished = true;
@@ -745,7 +745,7 @@ HRESULT CLoader::Loading_FoodStore()
 	{
 		XMMATRIX InitMatrix = XMMatrixIdentity();
 #ifdef _DEBUG
-		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_FoodStore_Model", 
+		tmp = CModel::Create(m_pDevice, m_pContext, 
 			ANIM_TYPE::NONEANIM, "../../Resource/Model_Sell/Food/0.fbx", InitMatrix, "FoodStore");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_FoodStore_Model"), tmp)))
 			return E_FAIL;

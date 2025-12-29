@@ -1,6 +1,7 @@
 #pragma once
 #include "Game_Defines.h"
 #include "PartObject.h"
+#include "GameDirector.h"
 
 NS_BEGIN(Engine)
 class CSEModel;
@@ -45,6 +46,8 @@ private:
 public:
 	const XMFLOAT4X4* Get_SocketMatrix(const _char* pBoneName);
 
+	CGameDirector::GAME_DIRECTION m_eDirection = { CGameDirector::GAME_DIRECTION::END };
+
 private:
 	CSEModel* m_pSeModel = { nullptr };
 	CShaderCom* m_pShader = { nullptr };
@@ -57,6 +60,10 @@ private:
 
 	_bool m_isStartMacro = FALSE;
 	_bool m_isPlayMacro = FALSE;
+
+	_bool m_isGiveFood = { FALSE };
+
+
 
 public:
 	static CSEMiiBody* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -43,8 +43,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ConvertJson.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Deactive_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Explosion.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food_Item.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\FoodItem_Button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\FoodItem_Texture.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\GameDirector.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Gauge.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\HungryBar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Hungry_Gauge.cpp" />
@@ -53,7 +55,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IOnClick.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Island.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\ItemManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ItemReceive_TL.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\IUnlock.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelBar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Inventory.cpp" />
@@ -127,8 +128,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ConvertJson.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Deactive_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Explosion.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food_Item.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\FoodItem_Button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\FoodItem_Texture.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\GameDirector.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Defines.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Struct.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Gauge.h" />
@@ -139,7 +142,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IOnClick.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Island.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\ItemManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ItemReceive_TL.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\IUnlock.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelBar.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Inventory.h" />

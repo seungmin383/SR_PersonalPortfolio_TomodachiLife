@@ -28,14 +28,14 @@ public:
 	int32_t Update(_float fDT)override;
 
 public:
-	HRESULT Begin_Animation(const _wstring& strAnimTag, _bool isLoop);
+	HRESULT Begin_Animation(const _wstring& strAnimTag, _bool isLoop, _float fSpeed = 1.f);
 	HRESULT Begin_Macro(const _wstring& strMacroTag);
 
 	void Play_Animation(_float fDT);
 	void Play_Macro(_float fDT);
 
 	void Change_Animation(const _wstring& strAnimaTag, 
-		_float fBlendDuration, _bool isLoop);
+		_float fBlendDuration, _bool isLoop, _float fSpeed = 1.f);
 
 private:
 	void Update_TransformationMatrix(_float fDT);
@@ -77,6 +77,7 @@ private:
 	_wstring m_strCurMacroTag = {};
 
 	vector<_wstring>* m_pMacro = { nullptr };
+	vector<_float>* m_pSpeeds = { nullptr };
 
 	_float m_fCurTrackPosition = {};
 	_float m_fPreTrackPosition = {};
@@ -92,6 +93,9 @@ private:
 
 	_float m_fBlendDuration = { 0.f };
 	_float m_fBlendTime = { 0.f };
+
+	_float m_fCurAnimSpeed = { 1.f };
+	_float m_fPreAnimSpeed = { 1.f };
 
 	/* 애니메이션 매크로 */
 	uint32_t m_iCurMacroIndex = {};

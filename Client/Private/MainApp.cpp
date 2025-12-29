@@ -12,6 +12,8 @@
 #include "UICamera.h"
 #include "Room.h"
 #include "MiiEditorBG.h"
+#include "LevelUp_Item.h"
+#include "Food_Item.h"
 
 // Componenet
 #include "Mii.h"
@@ -31,7 +33,6 @@
 #include "SEMiiEyebrow.h"
 #include "SEMiiNose.h"
 #include "SEMiiMouth.h"
-#include "LevelUp_Item.h"
 
 #include "Collider.h"
 
@@ -127,7 +128,6 @@ void CMainApp::Update_Late(_float _fDT)
 
 void CMainApp::Render()
 {
-	// cout << "현재 텍스쳐 인덱스 : " << CItemManager::GetInstance()->Get_FoodItemIndex() << endl;
 
 	m_pGameInstance->Begin_Render();
 
@@ -307,16 +307,40 @@ HRESULT CMainApp::Ready_Static_Model()
 			return E_FAIL;
 	}
 
-	/* 애니메이션 테스터 모델 */
-	// ProtoTag_Component_AnimationTester
-	{
-		XMMATRIX InitMatrix = XMMatrixIdentity();
-		InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
+#ifdef _DEBUG
+	///* 애니메이션 테스터 모델 */
+	//// ProtoTag_Component_AnimationTester
+	//{
+	//	XMMATRIX InitMatrix = XMMatrixIdentity();
+	//	InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
 
-		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_AnimationTester", ANIM_TYPE::ANIM, "../../../../../../Resource/dev/05_Anim_fbx/Hoist_Item.fbx", InitMatrix, "AnimTester");
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Component_AnimationTester"), tmp)))
-			return E_FAIL;
-	}
+	//	/* 폴더 순회 / entry는 그 폴더 안의 파일이나 폴더 */
+	//	for (const auto& entry : filesystem::directory_iterator("../../../../../../Resource/dev/05_Anim_fbx/"))
+	//	{
+	//		/* entry가 일반 파일인지 확인 / 폴더, 바로가기 등이면 false */
+	//		if (!entry.is_regular_file())
+	//			continue;
+
+	//		/* 파일 경로에서 확장자만 추출 */
+	//		_wstring strEXT = entry.path().extension().wstring();
+	//		if (strEXT != L".fbx")
+	//			continue;
+
+	//		string FileStemA = entry.path().stem().string();
+	//		wstring ProtoTagW = L"ProtoTag_Component_AnimationTester_" + entry.path().stem().wstring();
+
+	//		tmp = CModel::Create(m_pDevice, m_pContext,
+	//			ANIM_TYPE::ANIM,
+	//			entry.path().generic_string().c_str(),
+	//			InitMatrix,
+	//			FileStemA.c_str());
+
+
+	//		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, ProtoTagW, tmp)))
+	//			return E_FAIL;
+	//	}
+	//}
+#endif
 
 	/* 애기 옷 모델 */
 	// ProtoTag_Component_seBabyJumper
@@ -324,9 +348,11 @@ HRESULT CMainApp::Ready_Static_Model()
 		XMMATRIX InitMatrix = XMMatrixIdentity();
 		InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
 
-		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_BabyJumper", ANIM_TYPE::ANIM, "../../Resource/Model_Body/BabyJumper/BabyJumper.fbx", InitMatrix, "BabyJumper");
+#ifdef _DEBUG
+		tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "../../Resource/Model_Body/BabyJumper/BabyJumper.fbx", InitMatrix, "BabyJumper");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_BabyJumper"), tmp)))
 			return E_FAIL;
+#endif
 
 		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "BabyJumper", InitMatrix);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_seBabyJumper"), tmp)))
@@ -339,10 +365,11 @@ HRESULT CMainApp::Ready_Static_Model()
 		XMMATRIX InitMatrix = XMMatrixIdentity();
 		InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
 
-		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_ChineseDress", ANIM_TYPE::ANIM, "../../Resource/Model_Body/ChineseDress/ChineseDress.fbx", InitMatrix, "ChineseDress");
+#ifdef _DEBUG
+		tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "../../Resource/Model_Body/ChineseDress/ChineseDress.fbx", InitMatrix, "ChineseDress");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_ChineseDress"), tmp)))
 			return E_FAIL;
-
+#endif
 		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_seChineseDress"), tmp)))
 			return E_FAIL;
@@ -354,10 +381,11 @@ HRESULT CMainApp::Ready_Static_Model()
 		XMMATRIX InitMatrix = XMMatrixIdentity();
 		InitMatrix; //= XMMatrixRotationY(XMConvertToRadians(180.f));
 
-		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Component_CamouflageJacket", ANIM_TYPE::ANIM, "../../Resource/Model_Body/CamouflageJacket/CamouflageJacket.fbx", InitMatrix, "CamouflageJacket");
+#ifdef _DEBUG
+		tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "../../Resource/Model_Body/CamouflageJacket/CamouflageJacket.fbx", InitMatrix, "CamouflageJacket");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_CamouflageJacket"), tmp)))
 			return E_FAIL;
-
+#endif
 		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "CamouflageJacket", InitMatrix);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_seCamouflageJacket"), tmp)))
 			return E_FAIL;
@@ -378,7 +406,7 @@ HRESULT CMainApp::Ready_Static_Model()
 			_string ProtoTag = "ProtoTag_Component_Head" + to_string(i);
 			_string FilePath = "../../Resource/Model_Head/Head" + to_string(i) + ".fbx";
 
-			tmp = CModel::Create(m_pDevice, m_pContext, ProtoTag, ANIM_TYPE::NONEANIM, FilePath.c_str(), InitMatrix, SaveName.c_str());
+			tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, FilePath.c_str(), InitMatrix, SaveName.c_str());
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, StrToWstr(ProtoTag), tmp)))
 				return E_FAIL;
 #endif
@@ -404,7 +432,7 @@ HRESULT CMainApp::Ready_Static_Model()
 			_string ProtoTag = "ProtoTag_Component_Hair" + to_string(i);
 			_string FilePath = "../../Resource/Model_Hair/Hair" + to_string(i) + ".fbx";
 
-			tmp = CModel::Create(m_pDevice, m_pContext, ProtoTag, ANIM_TYPE::NONEANIM, FilePath.c_str(), InitMatrix, SaveName.c_str());
+			tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, FilePath.c_str(), InitMatrix, SaveName.c_str());
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, StrToWstr(ProtoTag), tmp)))
 				return E_FAIL;
 #endif
@@ -429,7 +457,7 @@ HRESULT CMainApp::Ready_Static_Model()
 			_string strSaveName		= "room" + to_string(i);
 
 #ifdef _DEBUG
-			tmp = CModel::Create(m_pDevice, m_pContext, strProtoTag, ANIM_TYPE::ANIM, strFilePath.c_str(), InitMatrix, strSaveName.c_str());
+			tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, strFilePath.c_str(), InitMatrix, strSaveName.c_str());
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, wstrProtoTag, tmp)))
 				return E_FAIL;
 #endif 
@@ -445,7 +473,7 @@ HRESULT CMainApp::Ready_Static_Model()
 	{
 		XMMATRIX InitMatrix = XMMatrixIdentity();
 #ifdef _DEBUG
-		tmp = CModel::Create(m_pDevice, m_pContext, "ProtoTag_Componenet_MiiEditorBG", ANIM_TYPE::NONEANIM,
+		tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM,
 			"../../Resource/00Model/BackGround - MiiEditor/EditorBG.fbx", InitMatrix, "EditorBG");
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Componenet_MiiEditorBG"), tmp)))
 			return E_FAIL;
@@ -655,10 +683,18 @@ HRESULT CMainApp::Ready_Mii()
 	}
 
 	/* 레벨업 선물 아이템 */
-	// ProtoTag_UI_LevelUp_Item
+	// ProtoTag_Actor_LevelUp_Item
 	{
 		tmp = CLevelUp_Item::Create(m_pDevice, m_pContext);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_LevelUp_Item"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 음식 아이템 */
+	// ProtoTag_Actor_Food_Item
+	{
+		tmp = CFood_Item::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Food_Item"), tmp)))
 			return E_FAIL;
 	}
 

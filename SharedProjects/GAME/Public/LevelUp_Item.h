@@ -1,6 +1,7 @@
 #pragma once
 #include "Game_Defines.h"
 #include "PartObject.h"
+#include "GameDirector.h"
 
 NS_BEGIN(Engine)
 
@@ -18,7 +19,6 @@ public:
 	typedef struct tagLevelUpItemDesc : public CPartObject::PARTOBJECT_DESC
 	{
 		const XMFLOAT4X4* pSocketMatrix;
-
 	}LEVELUPITEM_DESC;
 
 protected:
@@ -39,6 +39,9 @@ public:
 private:
 	HRESULT Ready_Component();
 	HRESULT Bind_ShaderResources();
+
+private:
+	CGameDirector::GAME_DIRECTION m_eDirection = { CGameDirector::GAME_DIRECTION::END };
 
 private:
 	CShaderCom* m_pShaderCom = { nullptr };

@@ -40,7 +40,6 @@ CModel::CModel(const CModel& rhs)
 }
 
 HRESULT CModel::Initialize_Origin(
-	_string strProtoTag,
 	ANIM_TYPE eAnimType,
 	const _char* pModelFilePath,
 	FXMMATRIX InitTransformMatrix,
@@ -96,7 +95,7 @@ HRESULT CModel::Initialize_Origin(
 
 		strcpy_s(file, MAX_PATH, ANIMATION_FILE_PATH);
 		strcat_s(file, MAX_PATH, m_SEAnimationToWrite[0].strName.c_str());
-		strcat_s(file, MAX_PATH, "_Anim.bin");
+		strcat_s(file, MAX_PATH, ".bin");
 
 		ofstream out(file, std::ios::binary | std::ios::trunc);
 		m_SEAnimationToWrite[0].WriteAnimationFile(out);
@@ -439,7 +438,6 @@ HRESULT CModel::Save_Animation(const _char* pAnimationName)
 CModel* CModel::Create(
 	ID3D11Device* pDevice, 
 	ID3D11DeviceContext* pContext,
-	_string strProtoTag,
 	ANIM_TYPE eAnimType,
 	const _char* pModelFIlePath,
 	FXMMATRIX InitTransformMatrix,
@@ -448,7 +446,6 @@ CModel* CModel::Create(
 	CModel* pModel = new CModel(pDevice, pContext);
 	
 	if (FAILED(pModel->Initialize_Origin(
-		strProtoTag,
 		eAnimType, 
 		pModelFIlePath, 
 		InitTransformMatrix,

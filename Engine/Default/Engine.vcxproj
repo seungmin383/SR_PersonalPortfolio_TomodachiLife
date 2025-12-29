@@ -91,9 +91,6 @@
     <ClInclude Include="..\Public\Sound_Manager.h" />
     <ClInclude Include="..\Public\TerrainBufferCom.h" />
     <ClInclude Include="..\Public\TextureCom.h" />
-    <ClInclude Include="..\Public\TimeLine.h" />
-    <ClInclude Include="..\Public\TimeLine_Manager.h" />
-    <ClInclude Include="..\Public\TimeLine_Player.h" />
     <ClInclude Include="..\Public\Timer.h" />
     <ClInclude Include="..\Public\Timer_Manager.h" />
     <ClInclude Include="..\Public\TransformCom.h" />
@@ -171,9 +168,6 @@
     <ClCompile Include="..\Private\Sound_Manager.cpp" />
     <ClCompile Include="..\Private\TerrainBufferCom.cpp" />
     <ClCompile Include="..\Private\TextureCom.cpp" />
-    <ClCompile Include="..\Private\TimeLine.cpp" />
-    <ClCompile Include="..\Private\TimeLine_Manager.cpp" />
-    <ClCompile Include="..\Private\TimeLine_Player.cpp" />
     <ClCompile Include="..\Private\Timer.cpp" />
     <ClCompile Include="..\Private\Timer_Manager.cpp" />
     <ClCompile Include="..\Private\TransformCom.cpp" />

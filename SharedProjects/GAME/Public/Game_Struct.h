@@ -13,4 +13,10 @@ namespace Game
 
 	}ITEM_FOOD_INFO;
 
+
+	enum class TIMELINE_STATE
+	{
+		ITEM_RECEIVE,
+		END
+	};
 }

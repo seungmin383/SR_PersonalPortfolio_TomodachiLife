@@ -62,6 +62,16 @@ void CButton::Compare_Position(const POINT& vMousePos)
 		m_isClicked = FALSE;
 		m_isOverlappedMouse = FALSE;
 	}
+	_float fLeftX = m_fX - (m_fCX / 2.f);
+	_float fRightX = m_fX + (m_fCX / 2.f);
+
+	_float fTopY = m_fY - (m_fCY / 2.f);
+	_float fBottomY = m_fY + (m_fCY / 2.f);
+
+	m_fLeftTop.x = fLeftX;
+	m_fLeftTop.y = fTopY;
+	m_fRIghtBottom.x = fRightX;
+	m_fRIghtBottom.y = fBottomY;
 
 	_bool isOverlapMouseX = { FALSE };
 	_bool isOverlapMouseY = { FALSE };

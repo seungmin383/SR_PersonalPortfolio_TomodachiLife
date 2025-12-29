@@ -24,6 +24,7 @@
 #include "LevelUp_Inventory.h"
 #include "FoodItem_Texture.h"
 #include "Category_Button.h"
+#include "FoodItem_Button.h"
 #include "BlueBackGround.h"    
 #include "Window_Button.h"       
 #include "Option_Button.h"
@@ -241,6 +242,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 			TEXT("LayerTag_UI_Enter_Inventory_Button") ,
 			TEXT("LayerTag_UI_LevelUp_Inventory") ,
 			TEXT("LayerTag_UI_TOP"),
+			TEXT("LayerTag_UI_FoodItem_Button"),
 		};
 
 		Desc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
@@ -327,6 +329,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 
 			/* 주기 버튼 */
 			TEXT("LayerTag_UI_GiveItem_Button"),
+			TEXT("LayerTag_UI_FoodItem_Button"),
 		};
 
 
@@ -410,6 +413,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 			TEXT("LayerTag_UI_PlayerInven_Item"),
 
 			TEXT("LayerTag_UI_GiveItem_Button"),
+			TEXT("LayerTag_UI_FoodItem_Button"),
 		};
 
 
@@ -489,20 +493,56 @@ HRESULT CPlace_Room::Layer_UI_FoodItem()
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
 
-	CFoodItem_Texture::FOODITEMTEXTURE_DESC Desc = {};
-	Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
-	Desc.fCX = 128.f;
-	Desc.fCY = 128.f;
-	Desc.fX = 480.f;
-	Desc.fY = 240.f;
-	Desc.fZ = 0.5f;
+	{
+		CFoodItem_Texture::FOODITEMTEXTURE_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+		Desc.fCX = 128.f;
+		Desc.fCY = 128.f;
+		Desc.fX = 480.f;
+		Desc.fY = 240.f;
+		Desc.fZ = 0.5f;
 
-	tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_FoodItem"), &Desc);
-	if (nullptr == tmp)
-		return E_FAIL;
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_FoodItem"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
 
-	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_FoodItem"), tmp)))
-		return E_FAIL;
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_FoodItem"), tmp)))
+			return E_FAIL;
+	}
+
+	// ProtoTag_UI_FoodItem_Button
+	{
+		CFoodItem_Button::FOODITEMBUTTON_DESC Desc = {};		
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.fCX = 64.f;
+		Desc.fCY = 64.f;
+		Desc.fX = 720.f;
+		Desc.fY = 120.f;
+		Desc.fZ = 0.5f;
+		Desc.fSpeedPerSecond = 10.f;
+
+		/* Selected 일 때 FoodItem 비활성화, 파트오브젝트 음식 활성화, */
+		Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
+		strgyDesc.ePlaceID = PLACEID::ROOM;
+		strgyDesc.strLayerTag = TEXT("LayerTag_UI_FoodItem_Button");
+
+		strgyDesc.EnableLayers = vector<_wstring>{TEXT("")};
+		strgyDesc.DisableLayers = vector<_wstring>{TEXT("LayerTag_UI_FoodItem_Button")};
+
+		Desc.pSelected_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_FoodItem_Button"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_FoodItem_Button"), tmp)))
+			return E_FAIL;
+	}
+
+
 
 	return S_OK;
 }
@@ -1187,9 +1227,59 @@ HRESULT CPlace_Room::Layer_UI_Option_Button()
 	Desc.fY = 480.f - (Desc.fCY * 0.5f);
 	Desc.fZ = 0.5f;
 	Desc.strText = TEXT("주기");
-	Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+
+	CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
+	strgyDesc.ePlaceID = PLACEID::ROOM;
+
+	strgyDesc.strLayerTag = TEXT("LayerTag_UI_GiveItem_Button");
+
+	strgyDesc.EnableLayers = vector<_wstring>{
+		TEXT("LayerTag_UI_Back_Button"),
+		TEXT("LayerTag_UI_Enter_Inventory_Button") ,
+		TEXT("LayerTag_UI_LevelUp_Inventory"),
+		TEXT("LayerTag_UI_TOP"),
+		TEXT("LayerTag_UI_FoodItem_Button"),
+	};
+
+	strgyDesc.DisableLayers = vector<_wstring>{
+		TEXT("LayerTag_UI_PlayerInven_BackGround"),
+		// 카테고리 버튼
+		TEXT("LayerTag_UI_Category_Button"),
+
+		// 서브 카테고리 버튼
+		TEXT("LayerTag_UI_Sub_Category_Button_Food"),
+		TEXT("LayerTag_UI_Sub_Category_Button_Cloth"),
+
+		// 음식 인벤 레이어들
+		TEXT("LayerTag_UI_PlayerInven_Food_Main"),
+		TEXT("LayerTag_UI_PlayerInven_Food_Side"),
+		TEXT("LayerTag_UI_PlayerInven_Food_Dessert"),
+		TEXT("LayerTag_UI_PlayerInven_Food_Drink"),
+
+		// 옷 인벤 레이어들
+		TEXT("LayerTag_UI_PlayerInven_Cloth_Man"),
+		TEXT("LayerTag_UI_PlayerInven_Cloth_Woman"),
+		TEXT("LayerTag_UI_PlayerInven_Cloth_Unisex"),
+		TEXT("LayerTag_UI_PlayerInven_Cloth_Uniform"),
+		TEXT("LayerTag_UI_PlayerInven_Cloth_Event"),
+
+		// 집/아이템
+		TEXT("LayerTag_UI_PlayerInven_House"),
+		TEXT("LayerTag_UI_PlayerInven_Item"),
+		TEXT("LayerTag_UI_Out_Inven_Button"),
+
+		/* 음식 텍스쳐 */
+		TEXT("LayerTag_UI_FoodItem"),
+
+		/* 주기 버튼 */
+		TEXT("LayerTag_UI_GiveItem_Button"),
+	};
+
+
+	Desc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
 	Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
-	Desc.pSelectedClick_Strgy= CNull_Strgy::Create(m_pDevice, m_pContext);
+	Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 
 	tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Option_Button"), &Desc);
 	if (nullptr == tmp)

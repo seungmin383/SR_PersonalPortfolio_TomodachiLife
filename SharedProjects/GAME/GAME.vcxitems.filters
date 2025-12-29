@@ -34,9 +34,6 @@
     <Filter Include="03.UI">
       <UniqueIdentifier>{c9fc8f04-9edd-4ed5-b7db-821663fd95f6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\00.Food">
-      <UniqueIdentifier>{f3ca4eda-82cd-4478-90d5-4770e9b366b0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\01.Button">
       <UniqueIdentifier>{83102d93-ec98-47bf-8064-ceffdb4e3df1}</UniqueIdentifier>
     </Filter>
@@ -172,9 +169,6 @@
     <Filter Include="03.UI\04.Inventory">
       <UniqueIdentifier>{2327dde8-1da4-488e-8a59-01326f78ebd7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\03.Texture\01.FavoriteFood">
-      <UniqueIdentifier>{e2c93f17-a3e6-4d16-b2b5-32cccd8fb21c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\03.Texture\02.LevelUp">
       <UniqueIdentifier>{2bf2e0ad-8bf6-4182-91a0-62923accca1d}</UniqueIdentifier>
     </Filter>
@@ -295,11 +289,20 @@
     <Filter Include="00.Manager\AnimMacroManager">
       <UniqueIdentifier>{7b1d9c7f-98f9-42f5-bfc9-778e4ecadf58}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05.Timeline">
-      <UniqueIdentifier>{c06645dc-e9be-437f-be7a-b94f22b2df6a}</UniqueIdentifier>
+    <Filter Include="03.UI\01.Button\001.TimeLinePlay">
+      <UniqueIdentifier>{20dd4e20-e2de-4a6c-b6d5-46a03b3e5a98}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05.Timeline\00.ItemReceive">
-      <UniqueIdentifier>{b663b082-3dd5-4fcd-a190-f3911b22bb7c}</UniqueIdentifier>
+    <Filter Include="03.UI\01.Button\001.TimeLinePlay\00.ItemReceive">
+      <UniqueIdentifier>{d2e73271-7ca4-4696-a008-d03b454549f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.Manager\GameDirector">
+      <UniqueIdentifier>{87c8efe4-efba-42ce-a33e-41ad94d01b13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\13.Food">
+      <UniqueIdentifier>{abc3d8a2-2c7f-4449-bb1e-e6dd3a27208a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\03.Mii\Items\FoodItem">
+      <UniqueIdentifier>{3e407ba0-5e30-4702-90e1-f14c39d29651}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -326,9 +329,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food.h">
-      <Filter>03.UI\00.Food</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\UICamera.h">
       <Filter>02.Actor\99.Camera\00.UI</Filter>
     </ClInclude>
@@ -575,14 +575,17 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\AnimMacroManager.h">
       <Filter>00.Manager\AnimMacroManager</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Public\ItemReceive_TL.h">
-      <Filter>05.Timeline\00.ItemReceive</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\GameDirector.h">
+      <Filter>00.Manager\GameDirector</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\FoodItem_Button.h">
+      <Filter>03.UI\01.Button\13.Food</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food_Item.h">
+      <Filter>02.Actor\03.Mii\Items\FoodItem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food.cpp">
-      <Filter>03.UI\00.Food</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp">
       <Filter>03.UI\01.Button\01.PlaceMoveButton</Filter>
     </ClCompile>
@@ -817,8 +820,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\AnimMacroManager.cpp">
       <Filter>00.Manager\AnimMacroManager</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Private\ItemReceive_TL.cpp">
-      <Filter>05.Timeline\00.ItemReceive</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\GameDirector.cpp">
+      <Filter>00.Manager\GameDirector</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\FoodItem_Button.cpp">
+      <Filter>03.UI\01.Button\13.Food</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food_Item.cpp">
+      <Filter>02.Actor\03.Mii\Items\FoodItem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

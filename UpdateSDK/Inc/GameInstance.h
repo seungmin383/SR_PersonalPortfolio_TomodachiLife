@@ -28,8 +28,6 @@ class CCutScene;
 class CActorManager;
 class CFontManager;
 class CTargetManager;
-class CTimeLine_Manager;
-class CTimeLine;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -241,6 +239,7 @@ public:
 #pragma region ANIMATIONMANAGER
 	CSEAnimation* AnimationManager_Find_Animation(const _wstring& strAnimationTag);
 	vector<_wstring>* AnimationManager_Find_AnimationMacro(const _wstring& strMacroTag);
+	vector<_float>* AnimationManager_Find_AnimationSpeeds(const _wstring& strMacroTag);
 
 #pragma endregion
 
@@ -284,12 +283,6 @@ public:
 	HRESULT TargetManager_Render(const _wstring& strMRTTag, CShaderCom* pShader, CRectBufferCom* pBuffer);
 #endif
 
-#pragma endregion
-
-#pragma region TIMELINEMANAGER
-	HRESULT	TimelineManager_Add_TimeLine(CTimeLine* pTimeline);
-
-#pragma endregion
 
 private:
 	CTimerManager*		m_pTimerManager		= { nullptr };
@@ -311,7 +304,6 @@ private:
 	CActorManager*		m_pActorManager		= { nullptr };
 	CFontManager*		m_pFontManager		= { nullptr };
 	CTargetManager*		m_pTargetManager	= { nullptr };
-	CTimeLine_Manager*	m_pTimeLineManager = { nullptr };
 
 public:
 	void Clear_Engine();

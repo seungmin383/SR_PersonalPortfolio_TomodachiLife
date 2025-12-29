@@ -1,8 +1,10 @@
 #include "SEMiiBody.h"
 #include "GameInstance.h"
 #include "Bounding_SPHERE.h"
+#include "GameDirector.h"
 
 #include "Mii.h"
+#include "Engine_FlagHelper.h"
 
 CSEMiiBody::CSEMiiBody(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPartObject(pDevice, pContext)
@@ -36,36 +38,74 @@ HRESULT CSEMiiBody::Initialize_Clone(void* pArg)
 
 int32_t CSEMiiBody::Update_Priority(_float fDT)
 {
+	//if (m_pAnimationPlayer->Get_isEndMacro())
+	//{
+	//	CGameDirector::GetInstance()->Set_Direction(CGameDirector::GAME_DIRECTION::NO_EVENT);
+	//}
+
 	return 0;
 }
 
 int32_t CSEMiiBody::Update(_float fDT)
 {
+	m_eDirection = CGameDirector::GetInstance()->Get_Direction();
 	m_pCollider->Update_Collider();
 
-	if (!m_isStartMacro && m_pGameInstance->Get_DIKeyState(DIK_B))
+	switch (m_eDirection)
 	{
-		m_isStartMacro = TRUE;
+	case Game::CGameDirector::GAME_DIRECTION::NO_EVENT:
+		m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE);
+		break;
+	case Game::CGameDirector::GAME_DIRECTION::GIVE_ITEM:
+		m_pAnimationPlayer->Begin_Macro(TEXT("RecieveItem"));
+		break;
+
+	case Game::CGameDirector::GAME_DIRECTION::GIVE_FOOD:
+	{
+		if (!m_isGiveFood)
+			m_isGiveFood = TRUE;
+		break;
 	}
+
+	default:
+		break;
+	}
+
 	return 0;
 }
 
 void CSEMiiBody::Update_Late(_float fDT)
 {
-	if (m_pCollider->Get_isTriggerEnter())
-		MSG_BOX("OnTriggerEnter");
-	if (m_pCollider->Get_isTriggerExit())
-		MSG_BOX("OnTriggerExit");
+	//switch (m_eDirection)
+	//{
+	//case Game::CGameDirector::GAME_DIRECTION::NO_EVENT:
+	//	m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE);
+	//	break;
+	//case Game::CGameDirector::GAME_DIRECTION::GIVE_ITEM:
+	//	m_pAnimationPlayer->Begin_Macro(TEXT("RecieveItem"));
+	//	break;
+	//case Game::CGameDirector::GAME_DIRECTION::GIVE_FOOD:
+	//	/* 음식 선호도 별로 다른 매크로 */
+	//	m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Best"));
+	//	// m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Good"));
+	//	// m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_NotBad"));
+	//	// m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_SoSo"));
+	//	// m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Bad"));
+	//	// m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Worst"));
+	//	break;
+	//default:
+	//	break;
+	//}
 
-	if (m_isStartMacro && !m_isPlayMacro)
+	static _bool is = FALSE;
+
+	if (m_isGiveFood && !is)
 	{
-		m_isPlayMacro = TRUE;
-		m_pAnimationPlayer->Begin_Macro(TEXT("RecieveItem"));
+		m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Best"));
+		is = TRUE;
 	}
-	else
-	{
-		m_pAnimationPlayer->Begin_Animation(TEXT("CM_Wait00"), TRUE);
-	}
+
+
 
 	m_pAnimationPlayer->Update(fDT);
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
@@ -133,7 +173,7 @@ HRESULT CSEMiiBody::Ready_Component()
 	{
 		CAnimationPlayer::ANIMATIONPLAYER_DESC Desc = {};
 		Desc.m_pBones = m_pSeModel->Get_BonesPtr();
-		Desc.strInitAnimTag = TEXT("CM_Wait00");
+		Desc.strInitAnimTag = TEXT("Chr_Normal_Wait");
 		Desc.PreTransformMatrix = m_pSeModel->Get_InitMatrix();
 		if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_AnimationPlayer"), TEXT("Com_AnimationPlayer"), reinterpret_cast<CComponent**>(&m_pAnimationPlayer), &Desc)))
 			return E_FAIL;

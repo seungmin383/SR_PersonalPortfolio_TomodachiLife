@@ -26,6 +26,7 @@ HRESULT CFoodItem_Texture::Initialize_Origin()
 HRESULT CFoodItem_Texture::Initialize_Clone(void* pArg)
 {
 	FOODITEMTEXTURE_DESC* pDesc = static_cast<FOODITEMTEXTURE_DESC*>(pArg);
+	m_isItem = pDesc->isItem;
 
 	if (FAILED(CUI::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -38,40 +39,11 @@ HRESULT CFoodItem_Texture::Initialize_Clone(void* pArg)
 
 int32_t CFoodItem_Texture::Update_Priority(_float fDT)
 {
-	/*if (m_fTimer > 0.5f)
-	{
-		if (m_pGameInstance->Get_DIKeyState(DIK_UP) & 0x8000)
-		{
-			m_isUp = TRUE;
-			m_fTimer = 0.f;
-		}
-		else if (m_pGameInstance->Get_DIKeyState(DIK_DOWN) & 0x8000)
-		{
-			m_isDown = TRUE;
-			m_fTimer = 0.f;
-		}
-	}*/
-
 	return 0;
 }
 
 int32_t CFoodItem_Texture::Update(_float fDT)
 {
-
-
-	/*m_fTimer += fDT;
-
-	if (m_isUp && m_iTextureIndex < 28)
-	{
-		m_isUp = FALSE;
-		m_iTextureIndex++;
-	}
-	else if (m_isDown && m_iTextureIndex > 0)
-	{
-		m_isDown = FALSE;
-		m_iTextureIndex--;
-	}*/
-
 	return 0;
 }
 

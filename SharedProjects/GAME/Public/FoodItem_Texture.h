@@ -31,6 +31,8 @@ public:
 public:
 	typedef struct tagFoodItemTextureIndex : public UI_DESC
 	{
+		_bool isItem = { FALSE };
+
 	}FOODITEMTEXTURE_DESC;
 
 protected:
@@ -66,9 +68,7 @@ private:
 	uint32_t m_iQuantity		= {};
 	int32_t m_iFlavor			= {};
 
-	_bool m_isUp = { FALSE };
-	_bool m_isDown = { FALSE };
-	_float m_fTimer = {};
+	_bool m_isItem = { FALSE };
 
 public:
 	static CFoodItem_Texture* Create(

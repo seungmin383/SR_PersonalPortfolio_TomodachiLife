@@ -14,14 +14,12 @@
 #include "Place_Manager.h"
 #include "FontManager.h"
 #include "Render_Manager.h"
-#include "TimeLine_Manager.h"
 #include "Timer_Manager.h"
 #include "UI.h"
 #include "UIManager.h"
 #include "CollisionManager.h"
 #include "ActorManager.h"
 #include "Target_Manager.h"
-#include "TimeLine.h"
 
 #define CONFIG_FILE_PATH "../../SharedProjects/GAME/GameData/config.json"
 
@@ -223,17 +221,6 @@ HRESULT CGameInstance::Initialize(
 		}
 	}
 
-	// TimelineManager
-	{
-		m_pTimeLineManager = CTimeLine_Manager::Create();
-		if (nullptr == m_pActorManager)
-		{
-			MSG_BOX("ErrCode : TimelineManager Create Failed");
-			return E_FAIL;
-		}
-	}
-
-
 	return S_OK;
 }
 
@@ -245,7 +232,6 @@ int32_t CGameInstance::Update_Priority(_float fDT)
 	m_pCameraManager->Update_Priority(fDT);
 	m_pUIManager->UIGroup_Update_Priority(fDT);
 
-	m_pTimeLineManager->Update_Priority(fDT);
 	return 0;
 }
 
@@ -260,7 +246,6 @@ int32_t CGameInstance::Update(_float fDT)
 	
 	m_pCameraManager->Update(fDT);
 	m_pUIManager->UIGroup_Update(fDT);
-	m_pTimeLineManager->Update(fDT);
 	return 	0;
 }
 
@@ -269,7 +254,6 @@ void CGameInstance::Update_Late( _float fDT)
 	m_pObjectManager->Update_Late(fDT);	
 	m_pCameraManager->Update_Late(fDT);
 	m_pUIManager->UIGroup_Update_Late(fDT);
-	m_pTimeLineManager->Update_Late(fDT);
 }
 
 void CGameInstance::Begin_Render()
@@ -712,6 +696,11 @@ vector<_wstring>* CGameInstance::AnimationManager_Find_AnimationMacro(const _wst
 	return m_pAnimationManager->Find_AnimationMacro(strMacroTag);
 }
 
+vector<_float>* CGameInstance::AnimationManager_Find_AnimationSpeeds(const _wstring& strMacroTag)
+{
+	return m_pAnimationManager->Find_AnimationSpeeds(strMacroTag);
+}
+
 #pragma endregion
 
 #pragma region UIMANAGER
@@ -822,15 +811,6 @@ HRESULT CGameInstance::TargetManager_Render(const _wstring& strMRTTag, CShaderCo
 }
 #pragma endregion
 
-#pragma region TIMELINEMANAGER
-
-HRESULT CGameInstance::TimelineManager_Add_TimeLine(CTimeLine* pTimeline)
-{
-	return m_pTimeLineManager->Add_TimeLine(pTimeline);
-}
-
-#pragma endregion
-
 void CGameInstance::Clear_Engine()
 {
 	Safe_Release(m_pTimerManager);
@@ -848,7 +828,6 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pMouseManager);
 	Safe_Release(m_pFontManager);
 	Safe_Release(m_pUIManager);
-	Safe_Release(m_pTimeLineManager);
 	Safe_Release(m_pFileManager);
 	Safe_Release(m_pCollisionManager);
 	Safe_Release(m_pTargetManager);

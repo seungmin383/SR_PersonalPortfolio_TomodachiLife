@@ -11,6 +11,7 @@ CAnimationManager::CAnimationManager()
 
 HRESULT CAnimationManager::Initialize()
 {
+    /* 애니메이션들 */
     vector<SE_ANIMATION> AnimationDescs;
     for (const auto& entry : filesystem::directory_iterator(ANIM_BINARY_FOLDER_PATH))
     {
@@ -50,24 +51,50 @@ HRESULT CAnimationManager::Initialize()
 
         m_AnimationMacros.clear();
 
+        /* json 순회 */
         for (auto iter = j.begin(); iter != j.end(); ++iter)
         {
-            const _string key = iter.key();
-            const nlohmann::json& Arr = iter.value();
+            const _wstring Tag = StrToWstr(iter.key());
 
-            vector<_wstring> macro;
-            macro.reserve(Arr.size());
+            const nlohmann::json& Value = iter.value();
+            vector<_wstring> AnimTags;
+            vector<_float> AnimSpeeds;
 
-            for (const auto& value : Arr)
+            if (!Value.is_array())
+                continue;
+
+            /* 애니메이션 태그들 */
+            for (const auto& obj : Value)
             {
-                if (!value.is_string())
+                if (!obj.is_object())
                     continue;
 
-                macro.push_back(StrToWstr(value.get<_string>()));
+                if (!obj.contains("AnimTag"))
+                    continue;
 
+                if (!obj["AnimTag"].is_string())
+                    continue;
+
+                AnimTags.push_back(StrToWstr(obj["AnimTag"].get<_string>()));
             }
 
-            m_AnimationMacros.emplace(StrToWstr(key), move(macro));
+            /* 애니메이션 속도 */
+            for (const auto& obj : Value)
+            {
+                if (!obj.is_object())
+                    continue;
+
+                if (!obj.contains("AnimSpeed"))
+                    continue;
+
+                if (!obj["AnimSpeed"].is_number())
+                    continue;
+
+                AnimSpeeds.push_back(obj["AnimSpeed"].get<_float>());
+            }
+
+            m_AnimationMacros.emplace(Tag, move(AnimTags));
+            m_AnimationSpeeds.emplace(Tag, move(AnimSpeeds));
         }
 
         return S_OK;
@@ -94,6 +121,16 @@ vector<_wstring>* CAnimationManager::Find_AnimationMacro(const _wstring& strMacr
     if(iter == m_AnimationMacros.end())
         return nullptr;
     
+    return &iter->second;
+}
+
+vector<_float>* CAnimationManager::Find_AnimationSpeeds(const _wstring& strMacroTag)
+{
+    auto iter = m_AnimationSpeeds.find(strMacroTag);
+
+    if (iter == m_AnimationSpeeds.end())
+        return nullptr;
+
     return &iter->second;
 }
 

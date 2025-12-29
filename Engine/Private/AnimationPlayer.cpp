@@ -53,13 +53,13 @@ int32_t CAnimationPlayer::Update(_float fDT)
 	return 0;
 }
 
-HRESULT CAnimationPlayer::Begin_Animation(const _wstring& strAnimTag, _bool isLoop)
+HRESULT CAnimationPlayer::Begin_Animation(const _wstring& strAnimTag, _bool isLoop, _float fSpeed)
 {
 	m_isStartAnim = TRUE;
 	m_isEndAnim = FALSE;
 	m_eAnimType = ANIMPLAYER_TYPE::NORMAL;
 
-	Change_Animation(strAnimTag, 0.3f, isLoop);
+	Change_Animation(strAnimTag, 0.3f, isLoop, fSpeed);
 	return S_OK;
 }
 
@@ -69,15 +69,21 @@ HRESULT CAnimationPlayer::Begin_Macro(const _wstring& strMacroTag)
 	if (nullptr == pMacro)
 		return E_FAIL;
 
+	vector<_float>* pSpeeds = m_pGameInstance->AnimationManager_Find_AnimationSpeeds(strMacroTag);
+	if (nullptr == pSpeeds)
+		return E_FAIL;
 
 	m_pMacro = pMacro;
+	m_pSpeeds = pSpeeds;
+
 	m_iCurMacroIndex = 0;
 
 	m_iMaxMacroIndex = static_cast<uint32_t>((*pMacro).size());
 	m_eAnimType = ANIMPLAYER_TYPE::MACRO;
 	m_isStartMacro = TRUE;
 	m_isEndMacro = FALSE;
-	Change_Animation((*pMacro)[0], 0.3f, FALSE);
+
+	Change_Animation((*pMacro)[0], 0.3f, FALSE, (*pSpeeds)[0]);
 	return S_OK;
 }
 
@@ -109,7 +115,7 @@ void CAnimationPlayer::Play_Macro(_float fDT)
 			if ((++m_iCurMacroIndex < m_iMaxMacroIndex))
 			{
 				m_isPlayingMacro = TRUE;
-				Change_Animation((*m_pMacro)[m_iCurMacroIndex], 0.3f, FALSE);
+				Change_Animation((*m_pMacro)[m_iCurMacroIndex], 0.3f, FALSE, (*m_pSpeeds)[m_iCurMacroIndex]);
 			}
 			else
 			{
@@ -124,7 +130,8 @@ void CAnimationPlayer::Play_Macro(_float fDT)
 }
 
 
-void CAnimationPlayer::Change_Animation(const _wstring& strAnimaTag, _float fBlendDuration, _bool isLoop)
+void CAnimationPlayer::Change_Animation(
+	const _wstring& strAnimaTag, _float fBlendDuration, _bool isLoop, _float fSpeed)
 {
 	if (m_strCurAnimTag == strAnimaTag)
 		return;
@@ -143,16 +150,22 @@ void CAnimationPlayer::Change_Animation(const _wstring& strAnimaTag, _float fBle
 	m_isChangedAnimation = TRUE;
 	m_isLoop = isLoop;
 
+	m_fPreAnimSpeed = m_fCurAnimSpeed;
+	m_fCurAnimSpeed = fSpeed;
+
 	m_pCurAnimation = m_pGameInstance->AnimationManager_Find_Animation(strAnimaTag);
+	if (nullptr == m_pCurAnimation)
+		MSG_BOX("ErrCode : Change Animation Failed");
+
 }
 
 void CAnimationPlayer::Update_TransformationMatrix(_float fDT)
 {
-	m_isAnimFin = m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, m_isLoop);
+	m_isAnimFin = m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT * m_fCurAnimSpeed, m_isLoop);
 
 	if (nullptr != m_pPreAnimation)
 	{
-		m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, m_isLoop);
+		m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT * m_fPreAnimSpeed, m_isLoop);
 	}
 
 	uint32_t NumChannel = m_pCurAnimation->Get_NumChannel();
@@ -182,8 +195,8 @@ void CAnimationPlayer::Update_TransformationMatrix(_float fDT)
 
 void CAnimationPlayer::Blend_Animation(_float fDT)
 {
-	m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, m_isLoop);
-	m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, m_isLoop);
+	m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT * m_fCurAnimSpeed, m_isLoop);
+	m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT * m_fPreAnimSpeed, m_isLoop);
 
 	uint32_t NumChannel = m_pCurAnimation->Get_NumChannel();
 	const vector<CHANNEL_POS>& CurChannelPos = m_pCurAnimation->Get_ChannelPos();
@@ -197,8 +210,8 @@ void CAnimationPlayer::Blend_Animation(_float fDT)
 	if (m_fBlendDuration < m_fBlendTime)
 	{
 		m_fBlendTime = 0.f;
-		m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT, m_isLoop);
-		m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT, m_isLoop);
+		m_pCurAnimation->Update_TransformationMatrix(m_fCurTrackPosition, fDT * m_fCurAnimSpeed, m_isLoop);
+		m_pPreAnimation->Update_TransformationMatrix(m_fPreTrackPosition, fDT * m_fPreAnimSpeed, m_isLoop);
 
 		m_isChangedAnimation = FALSE;
 		return;

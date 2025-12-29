@@ -27,7 +27,6 @@ private:
 
 public:
 	virtual HRESULT Initialize_Origin(
-		_string strProtoTag,
 		ANIM_TYPE eAnimType,
 		const _char* pModelFilePath,
 		FXMMATRIX InitTransformMatrix,
@@ -110,7 +109,6 @@ public:
 	static CModel* Create(
 		ID3D11Device* pDevice,
 		ID3D11DeviceContext* pContext,
-		_string strProtoTag,
 		ANIM_TYPE eAnimType,
 		const _char* pModelFIlePath,
 		FXMMATRIX InitTransformMatrix,

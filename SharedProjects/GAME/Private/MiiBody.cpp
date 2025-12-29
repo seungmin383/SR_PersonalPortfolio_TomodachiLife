@@ -86,7 +86,7 @@ HRESULT CMiiBody::Ready_Component()
 	{
 		CAnimationPlayer::ANIMATIONPLAYER_DESC Desc = {};
 		Desc.m_pBones = m_pSeModel->Get_BonesPtr();
-		Desc.strInitAnimTag = TEXT("CM_Wait00");
+		Desc.strInitAnimTag = TEXT("Chr_Normal_Wait");
 		Desc.PreTransformMatrix = m_pSeModel->Get_InitMatrix();
 
 		if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_AnimationPlayer"), TEXT("Com_AnimationPlayer"), reinterpret_cast<CComponent**>(&m_pAnimationPlayer), &Desc)))

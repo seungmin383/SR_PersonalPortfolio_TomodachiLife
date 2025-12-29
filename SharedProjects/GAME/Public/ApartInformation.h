@@ -35,6 +35,10 @@ typedef struct tagApartInfoDesc
 
 	void FromJson(nlohmann::json& In)
 	{
+		strMiiNames.clear();
+		iFoodInventory.clear();
+		iFoodInventory.resize(29, 0);
+
 		if (In.contains("MiiNames"))
 		{
 			for (const auto& j : In.at("MiiNames"))
@@ -56,17 +60,12 @@ typedef struct tagApartInfoDesc
 
 		if (In.contains("FoodInventory"))
 		{
+			uint32_t iIndex = { 0 };
+
 			for (const auto j : In.at("FoodInventory"))
 			{
-				uint32_t iIndex = j.get<uint32_t>();
-				iFoodInventory.push_back(iIndex);
-			}
-		}
-		else
-		{
-			for (uint32_t i = 0; i < 29; ++i)
-			{
-				iFoodInventory.push_back(0);
+				uint32_t foodCnt = j.get<uint32_t>();
+				iFoodInventory[iIndex++] = (foodCnt);
 			}
 		}
 	}

@@ -229,15 +229,6 @@
     <Filter Include="01.Utility\11.Picking">
       <UniqueIdentifier>{2654ab9e-61a4-4578-a24b-efc45d9f4fa4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\12.TimeLine">
-      <UniqueIdentifier>{6adc8d9e-7836-4155-8500-245f6bbce6f9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\12.TimeLine\Manager">
-      <UniqueIdentifier>{67d32674-a092-40af-9e24-8a8e1a7387b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Utility\12.TimeLine\Player">
-      <UniqueIdentifier>{a909a0c9-eacf-4947-b6c8-42cd9c904cf5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -443,15 +434,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Picking.cpp">
       <Filter>01.Utility\11.Picking</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\TimeLine_Manager.cpp">
-      <Filter>01.Utility\12.TimeLine\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\TimeLine_Player.cpp">
-      <Filter>01.Utility\12.TimeLine\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\TimeLine.cpp">
-      <Filter>01.Utility\12.TimeLine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -715,15 +697,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Picking.h">
       <Filter>01.Utility\11.Picking</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\TimeLine_Manager.h">
-      <Filter>01.Utility\12.TimeLine\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\TimeLine_Player.h">
-      <Filter>01.Utility\12.TimeLine\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\TimeLine.h">
-      <Filter>01.Utility\12.TimeLine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

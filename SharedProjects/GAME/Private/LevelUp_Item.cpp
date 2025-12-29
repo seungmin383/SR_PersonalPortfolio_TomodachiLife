@@ -38,45 +38,20 @@ HRESULT CLevelUp_Item::Initialize_Clone(void* pArg)
 
 int32_t CLevelUp_Item::Update_Priority(_float fDT)
 {
+	m_eDirection = CGameDirector::GetInstance()->Get_Direction();
 	return 0;
 }
 
 int32_t CLevelUp_Item::Update(_float fDT)
 {
-	//XMFLOAT4 tmp = {};
-	//XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
-
-	//cout << "X : " << tmp.x << " Y : " << tmp.y << " Z : " << tmp.z << endl;
-	//if (m_pGameInstance->Get_DIKeyState(DIK_UP))
-	//{
-	//	m_pTransformCom->Go_Straight(fDT);
-	//}
-	//else if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
-	//{
-	//	m_pTransformCom->Go_Backward(fDT);
-	//}
-	//else if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
-	//{
-	//	m_pTransformCom->Go_Right(fDT);
-	//}
-	//else if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
-	//{
-	//	m_pTransformCom->Go_Left(fDT);
-	//}
-	//else if (m_pGameInstance->Get_DIKeyState(DIK_U))
-	//{
-	//	m_pTransformCom->Go_Up(fDT);
-	//}
-	//else if (m_pGameInstance->Get_DIKeyState(DIK_J))
-	//{
-	//	m_pTransformCom->Go_Down(fDT);
-	//}
-
 	return 0;
 }
 
 void CLevelUp_Item::Update_Late(_float fDT)
 {
+	if (m_eDirection != CGameDirector::GAME_DIRECTION::GIVE_ITEM)
+		return;
+
 	CPartObject::Update_Late(fDT);
 	XMMATRIX fianlParentMatrix = XMLoadFloat4x4(m_pSocketMatrix) * XMLoadFloat4x4(m_pParentMatrix);
 	SetUp_CombinedWorldMatrix(fianlParentMatrix);
@@ -84,6 +59,9 @@ void CLevelUp_Item::Update_Late(_float fDT)
 
 HRESULT CLevelUp_Item::Render()
 {
+	if (m_eDirection != CGameDirector::GAME_DIRECTION::GIVE_ITEM)
+		return S_OK;
+
 	__super::Render();
 
 	if (FAILED(Bind_ShaderResources()))

@@ -1,3 +1,190 @@
 {
-  "RecieveItem": [ "Recieve_Item", "Hoist_Item", "PutIn_Item" ]
+  "RecieveItem": [
+    {
+      "AnimTag": "Chr_ItemReceive_Hold",
+      "AnimSpeed": 1.0,
+      "SoundTag": [ "Sfx_ItemGet" ],
+      "Notifies": 0.1
+    },
+    {
+      "AnimTag": "PutIn_Item",
+      "AnimSpeed": 2.0,
+      "SoundTag": [ "Sfx_PutIn" ],
+      "Notifies": 0.1
+    },
+    {
+      "AnimTag": "Chr_Normal_Wait",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.1
+    }
+  ],
+
+  "RecieveFood_Best": [
+    {
+      "AnimTag": "Chr_ItemReceive_Hold",
+      "AnimSpeed": 4.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Eat",
+      "AnimSpeed": 2.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_SwipeMouth_Hold",
+      "AnimSpeed": 1.5,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Food_Best",
+      "AnimSpeed": 0.5,
+      "SoundTag": [],
+      "Notifies": 0.0
+    }
+  ],
+
+  "RecieveFood_Good": [
+    {
+      "AnimTag": "Chr_ItemReceive_Hold",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Eat",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_SwipeMouth_Hold",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Food_Good",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    }
+  ],
+
+  "RecieveFood_NotBad": [
+    {
+      "AnimTag": "Chr_ItemReceive_Hold",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Eat",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_SwipeMouth_Hold",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Food_NotBad",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    }
+  ],
+
+  "RecieveFood_SoSo": [
+    {
+      "AnimTag": "Chr_ItemReceive_Hold",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Eat",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_SwipeMouth_Hold",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Food_SoSo",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    }
+  ],
+
+  "RecieveFood_Bad": [
+    {
+      "AnimTag": "Chr_ItemReceive_Hold",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Eat",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_SwipeMouth_Hold",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Food_Bad",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    }
+  ],
+
+  "RecieveFood_Worst": [
+    {
+      "AnimTag": "Chr_ItemReceive_Hold",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Eat",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_SwipeMouth_Hold",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Food_Worst",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Food_Worst_Follow",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    }
+  ]
 }

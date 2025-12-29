@@ -46,7 +46,6 @@ int32_t CLevelUp_Inventory::Update(_float fDT)
 	XMFLOAT4 tmp = {};
 	XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
 
-	cout << "X : " << tmp.x << " Y : " << tmp.y << " Z : " << tmp.z << endl;
 	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
 	{
 		m_pTransformCom->Go_Straight(fDT);
