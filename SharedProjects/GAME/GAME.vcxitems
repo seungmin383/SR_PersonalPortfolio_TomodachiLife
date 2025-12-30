@@ -59,6 +59,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelBar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Inventory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\LevelUp_Item.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\NarrationManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Narration_TextBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlayerInven_Button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Save_Button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetFoodIndex_Strgy.cpp" />
@@ -146,6 +148,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelBar.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Inventory.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\LevelUp_Item.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\NarrationManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Narration_TextBox.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlayerInven_Button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Save_Button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetFoodIndex_Strgy.h" />
