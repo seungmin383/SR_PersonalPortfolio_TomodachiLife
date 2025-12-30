@@ -9,10 +9,11 @@
 
 #include "GameInstance.h"
 #include "MiiManager.h"
+#include "ItemManager.h"
 
 #include "LevelUp_Item.h"
+#include "FoodItem_Texture.h"
 #include "Food_Item.h"
-
 #include "Engine_FlagHelper.h"
 
 CSEMii::CSEMii(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -35,6 +36,7 @@ HRESULT CSEMii::Initialize_Clone(void* pArg)
 {
 	MII_DESC* pDesc = static_cast<MII_DESC*>(pArg);
 	m_strNickName = pDesc->strNickName;
+	m_iIndex = pDesc->iIndex;
 
 	if (FAILED(CContainerObject::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -58,6 +60,8 @@ int32_t CSEMii::Update_Priority(_float fDT)
 
 int32_t CSEMii::Update(_float fDT)
 {
+	Acting();
+
 	return CContainerObject::Update(fDT);
 }
 
@@ -83,11 +87,19 @@ void CSEMii::Observe()
 	m_ePreDirection = m_eDirection;
 
 
+	m_isEatingFood = dynamic_cast<CSEMiiBody*>( Find_PartObject(TEXT("Part_Body")))->Get_isEatingFood();
 	m_isFin_EatingFood = dynamic_cast<CSEMiiBody*>( Find_PartObject(TEXT("Part_Body")))->Get_isFin_EatingFood();
+	m_isFin_Macro = dynamic_cast<CSEMiiBody*>(Find_PartObject(TEXT("Part_Body")))->Get_isFin_Macro();
 }
 
 void CSEMii::Thinking()
 {
+	if (m_isChangeState)
+	{
+		m_isLevelUp = FALSE;
+		m_isFullnessUp = FALSE;
+
+	}
 	Clear_Flag(m_iState);
 
 	/* 전역 스테이트로 1차 내부 스테이트를 설정 */
@@ -106,14 +118,97 @@ void CSEMii::Thinking()
 		break;
 	}
 
-	/* 파트 오브젝트의 값을 이용해서 2차 내부 스테이트를 추가 */
+	/* 내 정보를 이용해서 2차 내부 스테이트를 추가 */
+
+	if (m_eDirection == CGameDirector::GAME_DIRECTION::GIVE_FOOD)
+	{
+		_float fFlavor = 0.f;
+		uint32_t iCnt = 0;
+	
+		/* 음식 맛 평가 */
+		{
+			const int32_t iFlav = CItemManager::GetInstance()->Get_CurFoodInfo().iFlavor;
+			const auto& Profile = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile;
+
+			static const int32_t FlavorFlagArr[9] =
+			{
+				static_cast<int32_t>(CFoodItem_Texture::FOODFLAVOR::SALTY),
+				static_cast<int32_t>(CFoodItem_Texture::FOODFLAVOR::UMAMI),
+				static_cast<int32_t>(CFoodItem_Texture::FOODFLAVOR::MILD),
+				static_cast<int32_t>(CFoodItem_Texture::FOODFLAVOR::SPICY),
+				static_cast<int32_t>(CFoodItem_Texture::FOODFLAVOR::GREASY),
+				static_cast<int32_t>(CFoodItem_Texture::FOODFLAVOR::SWEET),
+				static_cast<int32_t>(CFoodItem_Texture::FOODFLAVOR::SOUR),
+				static_cast<int32_t>(CFoodItem_Texture::FOODFLAVOR::BITTER),
+				static_cast<int32_t>(CFoodItem_Texture::FOODFLAVOR::REFRESHING),
+			};
+
+			for (uint32_t i = 0; i < 9; ++i)
+			{
+				if (Has_Any_Flag(iFlav, FlavorFlagArr[i]))
+				{
+					fFlavor += Profile.fFlavor[i];
+					++iCnt;
+					if (iCnt == 2)
+						break;
+				}
+			}
+		}
+
+		if(fFlavor <= 4.f && fFlavor > 3.5f)
+			Add_Flag(m_iState, STATE::FOOD_BEST);
+		else if(fFlavor <= 3.5f && fFlavor > 2.8f)
+			Add_Flag(m_iState, STATE::FOOD_GOOD);
+		else if(fFlavor <= 2.8f && fFlavor > 2.1f)
+			Add_Flag(m_iState, STATE::FOOD_NOTBAD);
+		else if(fFlavor <= 2.1f && fFlavor > 1.2f)
+			Add_Flag(m_iState, STATE::FOOD_SOSO);
+		else if(fFlavor <= 1.2f && fFlavor > 0.5f)
+			Add_Flag(m_iState, STATE::FOOD_BAD);
+		else if(fFlavor <= 0.5f && fFlavor >= 0.f)
+			Add_Flag(m_iState, STATE::FOOD_WORST);
+
+		{
+			if (m_isFin_EatingFood && m_isFin_Macro)
+			{
+				CGameDirector::GetInstance()->Set_Direction(CGameDirector::GAME_DIRECTION::NO_EVENT);
+				Add_Flag(m_iState, STATE::FIN_FOODEVENT);
+			}
+		}
+	}
+
+	/* 파트 오브젝트의 값을 이용해서 3차 내부 스테이트를 추가 */
 	if (m_isFin_EatingFood)
 		Add_Flag(m_iState, STATE::ATE_FOOD);
-
+	else if (m_isEatingFood)
+		Add_Flag(m_iState, STATE::EATING_FOOD);
 }
 
 void CSEMii::Acting()
 {
+	if (!m_isLevelUp && Has_Any_Flag(m_iState, STATE::FIN_FOODEVENT))
+	{
+		m_isLevelUp = TRUE;
+
+		if (Has_Any_Flag(m_iState, STATE::FOOD_BEST))
+			CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.fLevel += 0.7f;
+		else if(Has_Any_Flag(m_iState, STATE::FOOD_GOOD))
+			CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.fLevel += 0.5f;
+		else if(Has_Any_Flag(m_iState, STATE::FOOD_NOTBAD))
+			CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.fLevel += 0.3f;
+		else if(Has_Any_Flag(m_iState, STATE::FOOD_SOSO))
+			CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.fLevel += 0.2f;
+		else if(Has_Any_Flag(m_iState, STATE::FOOD_BAD))
+			CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.fLevel += 0.f;
+		else if(Has_Any_Flag(m_iState, STATE::FOOD_WORST))
+			CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.fLevel += -0.2f;
+	}
+
+	if (m_isFin_EatingFood && !m_isFullnessUp)
+	{
+		m_isFullnessUp = TRUE;
+		CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iFullness += CItemManager::GetInstance()->Get_CurFoodInfo().iSatiety;
+	}
 }
 
 
@@ -124,7 +219,7 @@ HRESULT CSEMii::Ready_Components()
 
 HRESULT CSEMii::Ready_PartObjects()
 {
-	CMiiManager::GetInstance()->Load_MiiData(m_MiiInfo, m_strNickName);
+	m_MiiInfo = CMiiManager::GetInstance()->Get_MiiInfo(m_iIndex);
 
 	/* Part_Body */
 	{

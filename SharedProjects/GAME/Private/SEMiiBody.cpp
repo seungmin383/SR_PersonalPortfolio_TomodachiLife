@@ -36,6 +36,7 @@ HRESULT CSEMiiBody::Initialize_Clone(void* pArg)
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
+	m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
 	return S_OK;
 }
 
@@ -48,15 +49,12 @@ int32_t CSEMiiBody::Update_Priority(_float fDT)
 		m_isFin_EatingFood =  FALSE ;
 	}
 
-	if (m_pAnimationPlayer->Get_isAnimFin())
-		cout << "ANIMFIN :: TRUE" << endl;
-	else
-		cout << "ANIMFIN : FALSE" << endl;
-
+	/* 먹는 중 애니메이션이 끝났다면 */
 	if (m_isEatingFood)
 	{
 		if (m_pAnimationPlayer->Get_isAnimFin())
 		{
+			/* 애니메이션이 끝났는데 Eat도 Eat Hold도 아니라면 -> 다 먹은거 */
 			if (m_strCurAnimTag != TEXT("Chr_Eat") && m_strCurAnimTag != TEXT("Chr_Eat_Hold"))
 			{
 				m_isFin_EatingFood = TRUE;
@@ -75,7 +73,22 @@ int32_t CSEMiiBody::Update(_float fDT)
 	if (*m_pChangeState)
 	{
 		if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::RECEIVE_FOOD))
-			m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Best"));
+		{
+			if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_BEST))
+				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Best"));
+			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_GOOD))
+				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Good"));
+			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_NOTBAD))
+				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_NotBad"));
+			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_SOSO))
+				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_SoSo"));
+			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_BAD))
+				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Bad"));
+			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_WORST))
+				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Worst"));
+		}
+		else if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::IDLE))
+			m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
 	}
 
 
@@ -84,9 +97,6 @@ int32_t CSEMiiBody::Update(_float fDT)
 
 void CSEMiiBody::Update_Late(_float fDT)
 {
-
-
-
 	m_pAnimationPlayer->Update(fDT);
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
 
@@ -95,6 +105,7 @@ void CSEMiiBody::Update_Late(_float fDT)
 	/* 매크로가 플레이중일 때 */
 	if (!m_pAnimationPlayer->Get_isEndMacro())
 	{
+
 		/* 먹는중 */
 		if (m_strCurAnimTag == TEXT("Chr_Eat") || m_strCurAnimTag == TEXT("Chr_Eat_Hold"))
 			m_isEatingFood = TRUE;
@@ -188,6 +199,11 @@ HRESULT CSEMiiBody::Bind_ShaderResources()
 const XMFLOAT4X4* CSEMiiBody::Get_SocketMatrix(const _char* pBoneName)
 {
 	return m_pSeModel->Get_BoneCombinedTransformMatrixPtr(pBoneName);
+}
+
+_bool CSEMiiBody::Get_isFin_Macro() const
+{
+	return m_pAnimationPlayer->Get_isEndMacro();
 }
 
 CSEMiiBody* CSEMiiBody::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -1,6 +1,8 @@
 #include "SEMiiMouth.h"
 #include "GameInstance.h"
 #include "MiiManager.h"
+#include "Engine_FlagHelper.h"
+#include "SEMii.h"
 
 CSEMiiMouth::CSEMiiMouth(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPartObject(pDevice, pContext)
@@ -37,6 +39,32 @@ HRESULT CSEMiiMouth::Initialize_Clone(void* pArg)
 
 int32_t CSEMiiMouth::Update_Priority(_float fDT)
 {
+	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::EATING_FOOD))
+	{
+		m_fOpenTimeAcc += fDT;
+
+		if (m_fOpenTimeAcc > m_fOpenMouthTimer)
+		{
+			m_isOpeing = TRUE;
+			m_fOpeningTimeAcc += fDT;
+
+			if (m_fOpeningTimeAcc > m_fOpeningMouthTimer)
+			{
+				m_isOpeing = FALSE;
+				m_fOpenTimeAcc = 0.f;
+				m_fOpeningTimeAcc = 0.f;
+			}
+		}
+		else
+			m_isOpeing = FALSE;
+	}
+	else
+	{
+		m_isOpeing = FALSE;
+		m_fOpenTimeAcc = 0.f;
+		m_fOpeningTimeAcc = 0.f;
+	}
+
 	return 0;
 }
 
@@ -61,7 +89,7 @@ HRESULT CSEMiiMouth::Render()
 	if (FAILED(m_pRectBuffer->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Begin(VTS_COLOR)))
+	if (FAILED(m_pShader->Begin(VTS_DEFAULT)))
 		return E_FAIL;
 
 	if (FAILED(m_pRectBuffer->Begin_Draw()))
@@ -96,12 +124,24 @@ HRESULT CSEMiiMouth::Bind_ShaderResources()
 	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ)))
 		return E_FAIL;
 
-	if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex)))
-		return E_FAIL;
-
-	
-	if (FAILED(m_pShader->Bind_RawValue("g_FixColor", &Colors::Black, sizeof(Colors::Black))))
-		return E_FAIL;
+	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::EATING_FOOD))
+	{
+		if (m_isOpeing)
+		{
+			if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iOpenMouthTextureIndex)))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iCloseMouthTextureIndex)))
+				return E_FAIL;
+		}
+	}
+	else
+	{
+		if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

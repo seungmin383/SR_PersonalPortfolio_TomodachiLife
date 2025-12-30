@@ -55,6 +55,19 @@ private:
 
 	uint32_t m_iTextureIndex = {};
 
+	/* 열 타이밍 */
+	_float m_fOpenTimeAcc = {};
+	_float m_fOpenMouthTimer = { 0.5f };
+
+	/* 열고 있을 시간 */
+	_float m_fOpeningTimeAcc = {};
+	_float m_fOpeningMouthTimer = { 0.3f };
+
+	_bool m_isOpeing = { FALSE };
+
+	uint32_t m_iOpenMouthTextureIndex = { 108 };
+	uint32_t m_iCloseMouthTextureIndex = { 101 };
+
 public:
 	static CSEMiiMouth* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg)override;

@@ -21,6 +21,8 @@ public:
 		IOnClick* pSelected_Strgy = { nullptr };
 		IOnClick* pSelectedClick_Strgy = { nullptr };
 
+		_wstring strText = {};
+
 	}CITYHALLMENUBUTTON_DESC;
 
 private:
@@ -55,6 +57,8 @@ private:
 
 
 	_wstring m_strText = {};
+	XMFLOAT4 m_vFontSize = {};
+
 public:
 	static CCityhallMenu_Button* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg) override;

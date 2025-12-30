@@ -129,6 +129,14 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 		vector<_wstring> DisableLayers{
 			TEXT("LayerTag_UI_CityhallMenu")
 		};
+		_wstring strTextArr[] = {
+			TEXT("신규 등록"),
+			TEXT("주민 목록"),
+			TEXT("아이 기록"),
+			TEXT("앨범"),
+			TEXT("보내기/받기"),
+			TEXT("QR Code"),
+		};
 
 		uint32_t iIndex = { 0 };
 		for (uint32_t i = 0; i < 2; ++i)
@@ -149,6 +157,7 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 
 				Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.strText = strTextArr[iIndex];
 
 				tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_CityhallMenu_Button"), &Desc);
 				if (nullptr == tmp)

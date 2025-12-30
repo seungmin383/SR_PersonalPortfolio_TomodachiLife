@@ -151,8 +151,6 @@ int32_t CWindow_Button::On_Click()
 
 		if (m_isClicked)
 		{
-			CMiiManager::GetInstance()->Set_CurMiiNickName(m_strMiiNickName);
-			CMiiManager::GetInstance()->Set_CurMiiIndex(m_iMiiIndex);
 			m_pSelectedClick_Strgy->OnClick();
 		}
 	}
@@ -160,6 +158,8 @@ int32_t CWindow_Button::On_Click()
 	{
 		if (m_isClicked)
 		{
+			CMiiManager::GetInstance()->Set_CurMiiNickName(m_strMiiNickName);
+			CMiiManager::GetInstance()->Set_CurMiiIndex(m_iMiiIndex);
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;
 		}

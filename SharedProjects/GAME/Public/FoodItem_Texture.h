@@ -15,7 +15,7 @@ NS_BEGIN(Game)
 class CFoodItem_Texture final : public CUI
 {
 public:
-	enum class FoodFlavor
+	enum class FOODFLAVOR
 	{
 		SALTY		= 1 << 0,	// Â¬Â©ÇÑ
 		SWEET		= 1 << 1,   // ´ÞÄÞÇÑ
@@ -26,6 +26,19 @@ public:
 		UMAMI		= 1 << 6,   // °¨Ä¥¸À
 		MILD		= 1 << 7,   // ´ã¹éÇÑ/¼øÇÑ
 		REFRESHING	= 1 << 8,   // »óÅ­/Ã»·®
+	};
+
+	enum FOODFLAVORINDEX
+	{
+		SALTY = 0,
+		SWEET ,
+		SPICY ,
+		GREAS ,
+		SOUR  ,
+		BITTER,
+		UMAMI,
+		MILD ,
+		REFRESHING
 	};
 
 public:

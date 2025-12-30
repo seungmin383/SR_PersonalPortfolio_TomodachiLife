@@ -24,6 +24,8 @@ void CSaveMiiData_Strgy::OnClick()
 
 	CMiiManager::GetInstance()->End_Edit();
 	CApartManager::GetInstance()->Save_ApartData();
+
+	CMiiManager::GetInstance()->Load_AllMiiData();
 }
 
 CSaveMiiData_Strgy* CSaveMiiData_Strgy::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -83,6 +83,8 @@ HRESULT CAnimationPlayer::Begin_Macro(const _wstring& strMacroTag)
 	m_isStartMacro = TRUE;
 	m_isEndMacro = FALSE;
 
+	m_strCurMacroTag = strMacroTag;
+
 	Change_Animation((*pMacro)[0], 0.3f, FALSE, (*pSpeeds)[0]);
 	return S_OK;
 }
@@ -119,6 +121,7 @@ void CAnimationPlayer::Play_Macro(_float fDT)
 			}
 			else
 			{
+				m_strCurMacroTag = L"";
 				m_isPlayingMacro = FALSE;
 				m_isEndMacro = TRUE;
 			}

@@ -44,8 +44,8 @@ private:
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
 private:
-	_float m_fCurLevel = {};
-	_float m_fPreLevel = {};
+	uint32_t m_iCurFullness = {};
+	uint32_t m_iPreFullness = {};
 
 	_bool m_isLevelUp = {};
 	_bool m_isStartGaugeUp = {};
@@ -55,6 +55,7 @@ private:
 	_float m_fStartTexCoord = {};
 
 	_float m_fTimeAcc = {};
+	_float m_fRatio = {};
 
 public:
 	static CHungry_Gauge* Create(

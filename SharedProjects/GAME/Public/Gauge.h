@@ -56,6 +56,8 @@ private:
 
 	_float m_fTimeAcc = {};
 
+	_float m_fRatio = {};
+
 public:
 	static CGauge* Create(
 		ID3D11Device* pDevice,

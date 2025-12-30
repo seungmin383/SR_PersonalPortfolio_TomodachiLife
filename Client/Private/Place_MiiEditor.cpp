@@ -583,6 +583,7 @@ HRESULT CPlace_MiiEditor::Layer_UI_Save_Button()
 		Desc.fCX = 141.f;
 		Desc.fCY = 45.f;
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.strText = TEXT("등록");
 
 		/* 이거 삭제하고 End_Edit이나 BeginEdit에서 컨트롤 하게 해야겠다 */
 		Desc.pClicked_Strgy = CSaveMiiData_Strgy::Create(m_pDevice, m_pContext);

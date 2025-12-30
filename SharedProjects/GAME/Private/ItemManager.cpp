@@ -9,7 +9,7 @@
 
 IMPLEMENT_SINGLETON(CItemManager)
 
-#define TOFLAG(x) static_cast<int32_t>(CFoodItem_Texture::FoodFlavor::x)
+#define TOFLAG(x) static_cast<int32_t>(CFoodItem_Texture::FOODFLAVOR::x)
 #define TOFLAG2(x,y) (TOFLAG(x) | TOFLAG(y))
 
 CItemManager::CItemManager()

@@ -8,6 +8,8 @@ struct MIIPROFILE_DESC
 	_string strNickName;
 	_bool isMan;
 	_float fLevel;
+	_float fFlavor[9];
+	uint32_t iFullness;
 
 	uint32_t iRoomIndex;
 	
@@ -19,7 +21,13 @@ struct MIIPROFILE_DESC
 		Out["LastName"]		= strLastName;
 		Out["NickName"]		= strNickName;
 		Out["isMan"]		= isMan;
-		Out["fLevel"]		= fLevel;
+		Out["Level"]		= fLevel;
+
+		Out["Flavor"]		= nlohmann::json::array();
+		for (uint32_t i = 0; i < 9; i++)
+			Out["Flavor"].push_back(fFlavor[i]);
+
+		Out["Fullness"]		= iFullness;
 		Out["RoomIndex"]	= iRoomIndex;
 		return Out;
 	}
@@ -30,7 +38,13 @@ struct MIIPROFILE_DESC
 		strLastName		= In.at("LastName").get<_string>();
 		strNickName		= In.at("NickName").get<_string>();
 		isMan			= In.at("isMan").get<_bool>();
-		fLevel			= In.at("fLevel").get<_float>();
+		fLevel			= In.at("Level").get<_float>();
+
+		const auto& Arr = In.at("Flavor");
+		for (uint32_t i = 0; i < 9; i++)
+			fFlavor[i] = Arr.at(i).get<_float>();
+
+		iFullness		= In.at("Fullness").get<uint32_t>();
 		iRoomIndex		= In.at("RoomIndex").get<uint32_t>();
 	}
 };

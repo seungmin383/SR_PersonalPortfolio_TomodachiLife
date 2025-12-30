@@ -33,23 +33,25 @@ HRESULT CGauge::Initialize_Clone(void* pArg)
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
+	m_fCurLevel = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.fLevel;
+	m_fPreLevel = m_fCurLevel;
+	m_fCurTexCoord = m_fCurLevel;
+	m_fPreTexCoord = m_fCurLevel;
+	m_fStartTexCoord = m_fCurLevel;
 	return S_OK;
 }
 
 int32_t CGauge::Update_Priority(_float fDT)
 {
+	cout << "PreTexcoord : " << m_fPreTexCoord << endl;
+	cout << "CurTexcoord : " << m_fCurTexCoord << endl;
 
+	m_fCurLevel = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.fLevel;
 	return 0;
 }
 
 int32_t CGauge::Update(_float fDT)
 {
-	if (m_pGameInstance->Get_DIKeyState(DIK_H))
-	{
-		m_fCurLevel = 0.2f;
-	}
-	// m_fCurLevel = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.fLevel;
-
 	if (m_fCurLevel != m_fPreLevel)
 	{
 		int32_t iCurLevel = static_cast<int32_t>(m_fCurLevel);
@@ -58,9 +60,10 @@ int32_t CGauge::Update(_float fDT)
 		m_fCurTexCoord = m_fCurLevel - iCurLevel;
 
 		m_fStartTexCoord = m_fPreTexCoord;
+
+		m_fRatio = m_fCurTexCoord - m_fPreTexCoord;
+
 		m_isLevelUp = TRUE;
-		
-		m_fTimeAcc = 0.f;
 	}
 
 	m_fPreLevel = m_fCurLevel;
@@ -73,17 +76,19 @@ void CGauge::Update_Late(_float fDT)
 	{
 		m_fTimeAcc += fDT;
 
-		_float t = m_fTimeAcc / 6.f;
+		_float t = m_fTimeAcc / 1.f;
 		if (t > 1.f)
 			t = 1.f;
 
-		m_fPreTexCoord += m_fStartTexCoord + (m_fCurTexCoord - m_fPreTexCoord) * t;
+		m_fPreTexCoord = m_fStartTexCoord + (m_fRatio * t);
 		
 		if (t >= 1.f)
 		{
 			m_fPreTexCoord = m_fCurTexCoord;
 			m_isLevelUp = FALSE;
 			m_isStartGaugeUp = FALSE;
+			m_fTimeAcc = 0.f;
+			m_fRatio = 0.f;
 		}
 	}
 

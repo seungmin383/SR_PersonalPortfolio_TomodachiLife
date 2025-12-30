@@ -104,6 +104,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 			_wstring nickname = CApartManager::GetInstance()->Get_ApartInfo_MiiName(i);
 			Desc.strNickName = nickname;
+			Desc.iIndex = i;
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMii"), &Desc);
 			if (nullptr == tmp)

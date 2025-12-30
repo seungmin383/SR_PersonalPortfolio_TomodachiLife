@@ -148,6 +148,8 @@ int32_t CSave_Button::On_Click()
 		if (m_isClicked)
 		{
 			CApartManager::GetInstance()->Save_ApartData();
+			CMiiManager::GetInstance()->Save_AllMiiData();
+
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;
 		}

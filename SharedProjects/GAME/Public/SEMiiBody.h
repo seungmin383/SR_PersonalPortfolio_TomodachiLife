@@ -66,6 +66,7 @@ private:
 public:
 	_bool Get_isEatingFood() const { return m_isEatingFood; }
 	_bool Get_isFin_EatingFood() const { return m_isFin_EatingFood; }
+	_bool Get_isFin_Macro() const;
 
 	void Set_isEatingFood(_bool is) { m_isEatingFood = is; }
 	void Set_isFin_EatingFood(_bool is) { m_isFin_EatingFood = is; }

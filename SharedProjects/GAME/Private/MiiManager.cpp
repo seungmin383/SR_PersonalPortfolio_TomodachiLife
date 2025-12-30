@@ -10,25 +10,8 @@ CMiiManager::CMiiManager()
 
 HRESULT CMiiManager::Initialize()
 {
-	uint32_t iNumMii = CApartManager::GetInstance()->Get_ApartInfo_NumMii();
-
-	for (uint32_t i = 0; i < iNumMii; ++i)
-	{
-		_wstring strNickName = CApartManager::GetInstance()->Get_ApartInfo_MiiName(i);
-		_wstring strFilePath = L"../../SharedProjects/GAME/GameData/MiiData/" + strNickName + L".json";
-
-		ifstream In(strFilePath);
-		if (!In.is_open())
-			return E_FAIL;
-
-		nlohmann::json j;
-		In >> j;
-		MIIINFO_DESC Desc = {};
-		Desc.FromJson(j);
-
-		m_Mii_Informations.push_back(Desc);
-	}
-
+	if (FAILED(Load_AllMiiData()))
+		return E_FAIL;	
 	return S_OK;
 }
 
@@ -119,6 +102,48 @@ HRESULT CMiiManager::Load_MiiData(__out MIIINFO_DESC& Out, const _wstring& strNi
 	nlohmann::json j;
 	In >> j;
 	Out.FromJson(j);
+	return S_OK;
+}
+
+HRESULT CMiiManager::Save_AllMiiData()
+{
+	for (uint32_t i = 0; i < CApartManager::GetInstance()->Get_ApartInfo_NumMii(); ++i)
+	{
+		_wstring strFilePath = SAVEDATA_FOLDER_PATH + CApartManager::GetInstance()->Get_ApartInfo_MiiName(i) + L".json";
+		ofstream Out(strFilePath);
+
+		if (!Out.is_open())
+			return E_FAIL;
+
+		nlohmann::json j = m_Mii_Informations[i].ToJson();
+		Out << j.dump(4);
+	}
+
+
+	MSG_BOX("Success Save : MiiData");
+	return S_OK;
+}
+
+HRESULT CMiiManager::Load_AllMiiData()
+{
+	uint32_t iNumMii = CApartManager::GetInstance()->Get_ApartInfo_NumMii();
+
+	for (uint32_t i = 0; i < iNumMii; ++i)
+	{
+		_wstring strNickName = CApartManager::GetInstance()->Get_ApartInfo_MiiName(i);
+		_wstring strFilePath = L"../../SharedProjects/GAME/GameData/MiiData/" + strNickName + L".json";
+
+		ifstream In(strFilePath);
+		if (!In.is_open())
+			return E_FAIL;
+
+		nlohmann::json j;
+		In >> j;
+		MIIINFO_DESC Desc = {};
+		Desc.FromJson(j);
+
+		m_Mii_Informations.push_back(Desc);
+	}
 	return S_OK;
 }
 

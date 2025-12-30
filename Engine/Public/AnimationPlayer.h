@@ -57,6 +57,7 @@ public:
 	_bool Get_isEndMacro() const { return m_isEndMacro; }
 
 	_wstring Get_CurAnimTag() const { return m_strCurAnimTag; }
+	_wstring Get_CurMacroTag() const { return m_strCurMacroTag; }
 
 private:
 	vector<CSEBone*>* m_pBones;

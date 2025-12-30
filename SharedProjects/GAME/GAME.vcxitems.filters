@@ -304,6 +304,9 @@
     <Filter Include="02.Actor\03.Mii\Items\FoodItem">
       <UniqueIdentifier>{3e407ba0-5e30-4702-90e1-f14c39d29651}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00.Manager\Narration">
+      <UniqueIdentifier>{a2fd312a-0b79-4b66-8ddb-21312cb79f94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">

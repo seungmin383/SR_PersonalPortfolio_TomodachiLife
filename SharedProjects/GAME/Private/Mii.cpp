@@ -8,6 +8,9 @@
 
 #include "GameInstance.h"
 #include "MiiManager.h"
+#include "ItemManager.h"
+
+#include "FoodItem_Texture.h"
 
 CMii::CMii(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CContainerObject(pDevice, pContext)
@@ -242,6 +245,12 @@ HRESULT CMii::Ready_PartObjects()
 
 		if (FAILED(Add_PartObject(iPlaceID, TEXT("ProtoTag_Actor_MiiMouth"), TEXT("Part_Mouth"), &MiiMouthDesc)))
 			return E_FAIL;
+	}
+
+	for (uint32_t i = 0; i < 9; i++)
+	{
+		CMiiManager::GetInstance()->Get_Edit_Profile().fFlavor[i] = 
+			m_pGameInstance->Random(0.f, 2.f);
 	}
 
 	return S_OK;

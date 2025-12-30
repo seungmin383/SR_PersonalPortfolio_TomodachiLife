@@ -33,57 +33,62 @@ HRESULT CHungry_Gauge::Initialize_Clone(void* pArg)
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
+	m_iCurFullness = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iFullness;
+	m_iPreFullness = m_iCurFullness;
+	m_fCurTexCoord = m_iCurFullness / 100.f;
+	m_fPreTexCoord = m_iCurFullness / 100.f;
+	m_fStartTexCoord = m_iCurFullness / 100.f;
+	m_fTimeAcc = 0.f;
+	m_fRatio = 0.f;
+
 	return S_OK;
 }
 
 int32_t CHungry_Gauge::Update_Priority(_float fDT)
 {
-
 	return 0;
 }
 
 int32_t CHungry_Gauge::Update(_float fDT)
 {
-	if (m_pGameInstance->Get_DIKeyState(DIK_H))
-	{
-		m_fCurLevel = 0.2f;
-	}
-	// m_fCurLevel = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.fLevel;
+	m_iCurFullness = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iFullness;
 
-	if (m_fCurLevel != m_fPreLevel)
+	if (m_iCurFullness != m_iPreFullness)
 	{
-		int32_t iCurLevel = static_cast<int32_t>(m_fCurLevel);
-
 		m_fPreTexCoord = m_fCurTexCoord;
-		m_fCurTexCoord = m_fCurLevel - iCurLevel;
+		m_fCurTexCoord = m_iCurFullness / 100.f;
 
 		m_fStartTexCoord = m_fPreTexCoord;
+		m_fRatio = m_fCurTexCoord - m_fPreTexCoord;
+
 		m_isLevelUp = TRUE;
 
 		m_fTimeAcc = 0.f;
 	}
 
-	m_fPreLevel = m_fCurLevel;
+	m_iPreFullness = m_iCurFullness;
 	return 0;
 }
 
 void CHungry_Gauge::Update_Late(_float fDT)
 {
-	if (m_isLevelUp)// && m_isStartGaugeUp)
+	if (m_isLevelUp)
 	{
 		m_fTimeAcc += fDT;
 
-		_float t = m_fTimeAcc / 6.f;
+		_float t = m_fTimeAcc;
 		if (t > 1.f)
 			t = 1.f;
 
-		m_fPreTexCoord += m_fStartTexCoord + (m_fCurTexCoord - m_fPreTexCoord) * t;
+		m_fPreTexCoord = m_fStartTexCoord + (m_fRatio * t);
 
 		if (t >= 1.f)
 		{
 			m_fPreTexCoord = m_fCurTexCoord;
 			m_isLevelUp = FALSE;
 			m_isStartGaugeUp = FALSE;
+			m_fTimeAcc = 0.f;
+			m_fRatio = 0.f;
 		}
 	}
 

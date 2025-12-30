@@ -102,7 +102,7 @@ HRESULT CPlace_Room::Ready_Actor_Layer()
 		Desc.fSpeedPerSecond = 10.f;
 		Desc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f , 1.f };
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_NONBLEND;
-
+	
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_Actor_Room"), &Desc);
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_Actor"), tmp)))
 		{
@@ -122,6 +122,7 @@ HRESULT CPlace_Room::Ready_Actor_Layer()
 		Desc.fRotationPerSecond = XMConvertToRadians(20.f);
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_NONBLEND;
 		Desc.strNickName = CMiiManager::GetInstance()->Get_CurMiiNickName();
+		Desc.iIndex = CMiiManager::GetInstance()->Get_CurMiiIndex();
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMii"), &Desc);
 		if (nullptr == tmp)

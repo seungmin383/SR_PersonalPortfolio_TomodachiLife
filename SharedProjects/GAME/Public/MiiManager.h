@@ -22,6 +22,9 @@ public:
 	HRESULT Save_MiiData(const _wstring& strNickName);
 	HRESULT Load_MiiData(__out MIIINFO_DESC& Out, const _wstring& strNickName);
 
+	HRESULT Save_AllMiiData();
+	HRESULT Load_AllMiiData();
+
 public:
 	MIIPROFILE_DESC&		Get_Edit_Profile()		{ return m_EditDesc.MiiProfile; }
 	MIIHEADINFO_DESC&		Get_Edit_HeadInfo()		{ return m_EditDesc.HeadInfo; }
@@ -37,9 +40,11 @@ public:
 	const _wstring& Get_CurMiiNickName() const { return m_strCurMiiNickName; }
 	void Set_CurMiiNickName(const _wstring& strNickName) { m_strCurMiiNickName = strNickName; }
 
+	uint32_t Get_CurMiiIndex() const { return m_icurMiiIndex; }
 	void Set_CurMiiIndex(uint32_t i) { m_icurMiiIndex = i; }
 
 	const MIIINFO_DESC& Get_CurMiiInfo() const { return m_Mii_Informations[m_icurMiiIndex]; }
+	MIIINFO_DESC& Edit_CurMiiInfo() { return m_Mii_Informations[m_icurMiiIndex]; }
 
 private:
 	vector<MIIINFO_DESC > m_Mii_Informations;
