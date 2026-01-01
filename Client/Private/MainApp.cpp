@@ -6,6 +6,8 @@
 #include "MiiManager.h"
 #include "ApartManager.h"
 #include "ItemManager.h"
+#include "NarrationManager.h"
+#include "GameDirector.h"
 
 // Actor
 #include "WorldCamera.h"
@@ -598,6 +600,11 @@ HRESULT CMainApp::Ready_Manager()
 
 	if (FAILED(CItemManager::GetInstance()->Initialize()))
 		return E_FAIL;
+
+
+	if (FAILED(CNarrationManager::GetInstance()->Initialize(m_pDevice, m_pContext)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -1014,6 +1021,8 @@ void CMainApp::Free()
 	CMiiManager::DestroyInstance();
 	CApartManager::DestroyInstance();
 	CItemManager::DestroyInstance();
+	CNarrationManager::DestroyInstance();
+	CGameDirector::DestroyInstance();
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);

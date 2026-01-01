@@ -21,6 +21,7 @@
 
 /* UI */
 #include "PlayerInven_Button.h"
+#include "Narration_TextBox.h"
 #include "LevelUp_Inventory.h"
 #include "FoodItem_Texture.h"
 #include "Category_Button.h"
@@ -1210,10 +1211,26 @@ HRESULT CPlace_Room::Layer_UI_TextBox()
 		}
 	}
 
+	/* 나레이션 텍스트 박스 */
+	// ProtoTag_UI_Narration_TextBox 
+	{
+		CNarration_TextBox::NARRATION_TEXTBOX_DESC Desc = {};
+		Desc.fX = 480.f;
+		Desc.fY = 400.f;
+		Desc.fZ = 0.1f;
+		Desc.fCX = 960.f;
+		Desc.fCY = 160.f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Narration_TextBox"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Narration_TextBox"), tmp)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
-
 
 HRESULT CPlace_Room::Layer_UI_Option_Button()
 {

@@ -1,5 +1,6 @@
 #include "Narration_TextBox.h"
 #include "GameInstance.h"
+#include "NarrationManager.h"
 
 CNarration_TextBox::CNarration_TextBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -25,10 +26,8 @@ HRESULT CNarration_TextBox::Initialize_Origin()
 HRESULT CNarration_TextBox::Initialize_Clone(void* pArg)
 {
 	NARRATION_TEXTBOX_DESC* pDesc = static_cast<NARRATION_TEXTBOX_DESC*>(pArg);
-	m_strFontTag	= pDesc->strFontTag;
-	m_strText		= pDesc->strText;
-	m_iTextureIndex = pDesc->iTextureIndex;
-	m_vColor		= static_cast<XMFLOAT4>(pDesc->vTextColor);
+
+	m_vFontSize = m_pGameInstance->FontManager_Measure_Text(TEXT("Basic_Font_18"), m_strText);
 
 	if (FAILED(CUI::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -51,11 +50,17 @@ int32_t CNarration_TextBox::Update(_float fDT)
 
 void CNarration_TextBox::Update_Late(_float fDT)
 {
+	if (!CNarrationManager::GetInstance()->Get_isEnabledNarration())
+		return;
+		
 	CUI::Update_Late(fDT);
 }
 
 HRESULT CNarration_TextBox::Render()
 {
+	if (!CNarrationManager::GetInstance()->Get_isEnabledNarration())
+		return S_OK;
+
 	__super::Render();
 
 	if (FAILED(Bind_ShaderResources()))
@@ -69,8 +74,11 @@ HRESULT CNarration_TextBox::Render()
 
 	if (FAILED(m_pRectBufferCom->Begin_Draw()))
 		return E_FAIL;
+	m_vColor = CNarrationManager::GetInstance()->Get_NarrationColor();
+	m_strText = CNarrationManager::GetInstance()->Get_NarrationText();
+	m_pGameInstance->FontManager_Draw_Text(TEXT("Basic_Font_18"), m_strText,
+		XMFLOAT2{ m_fX - (m_fCX * 0.5f) + 10.f , m_fY - (m_fCY * 0.5f) + 10.f}, XMLoadFloat4(&m_vColor));
 
-	m_pGameInstance->FontManager_Draw_Text(m_strFontTag, m_strText, XMFLOAT2{ m_fX, m_fY  }, XMLoadFloat4(&m_vColor));
 	return S_OK;
 }
 

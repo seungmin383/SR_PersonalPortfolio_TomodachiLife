@@ -26,9 +26,9 @@ HRESULT CSEMiiBody::Initialize_Origin()
 HRESULT CSEMiiBody::Initialize_Clone(void* pArg)
 {
 	SEMIIBODY_DESC* pDesc = static_cast<SEMIIBODY_DESC*>(pArg);
-	m_pParentState = pDesc->pParnetState;
+	m_pParentState		= pDesc->pParnetState;
 	m_pParentClothState = pDesc->pParentClothState;
-	m_pChangeState = pDesc->pChangeState;
+	m_pChangeState		= pDesc->pChangeState;
 
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -42,25 +42,11 @@ HRESULT CSEMiiBody::Initialize_Clone(void* pArg)
 
 int32_t CSEMiiBody::Update_Priority(_float fDT)
 {
-	/* Receive Food가 아니라면*/
-	if (!Has_Any_Flag(*m_pParentState, CSEMii::STATE::RECEIVE_FOOD))
-	{
-		m_isEatingFood =  FALSE ;
-		m_isFin_EatingFood =  FALSE ;
-	}
+	m_isPlaying_ReceiveFood_Event = FALSE;
 
-	/* 먹는 중 애니메이션이 끝났다면 */
-	if (m_isEatingFood)
+	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::RECEIVE_FOOD))
 	{
-		if (m_pAnimationPlayer->Get_isAnimFin())
-		{
-			/* 애니메이션이 끝났는데 Eat도 Eat Hold도 아니라면 -> 다 먹은거 */
-			if (m_strCurAnimTag != TEXT("Chr_Eat") && m_strCurAnimTag != TEXT("Chr_Eat_Hold"))
-			{
-				m_isFin_EatingFood = TRUE;
-				m_isEatingFood = FALSE;
-			}
-		}
+		m_isPlaying_ReceiveFood_Event = TRUE;
 	}
 
 	return 0;
@@ -72,8 +58,12 @@ int32_t CSEMiiBody::Update(_float fDT)
 
 	if (*m_pChangeState)
 	{
-		if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::RECEIVE_FOOD))
+		m_isStart_ReceiveFood_Event = FALSE;
+
+		if (m_isPlaying_ReceiveFood_Event)
 		{
+			m_isStart_ReceiveFood_Event = TRUE;
+
 			if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_BEST))
 				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Best"));
 			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_GOOD))
@@ -87,7 +77,7 @@ int32_t CSEMiiBody::Update(_float fDT)
 			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_WORST))
 				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Worst"));
 		}
-		else if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::IDLE))
+		else if(!m_isPlaying_ReceiveFood_Event)
 			m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
 	}
 
@@ -97,20 +87,10 @@ int32_t CSEMiiBody::Update(_float fDT)
 
 void CSEMiiBody::Update_Late(_float fDT)
 {
-	m_pAnimationPlayer->Update(fDT);
+	/* 애니메이션 플레이 -> State 계산까지 */
+	Calc_BodyState(fDT);
+
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
-
-	m_strCurAnimTag = m_pAnimationPlayer->Get_CurAnimTag();
-
-	/* 매크로가 플레이중일 때 */
-	if (!m_pAnimationPlayer->Get_isEndMacro())
-	{
-
-		/* 먹는중 */
-		if (m_strCurAnimTag == TEXT("Chr_Eat") || m_strCurAnimTag == TEXT("Chr_Eat_Hold"))
-			m_isEatingFood = TRUE;
-	}
-
 	CPartObject::Update_Late(fDT);
 }
 
@@ -174,9 +154,10 @@ HRESULT CSEMiiBody::Ready_Component()
 	/* ProtoTag_Component_AnimationPlayer */
 	{
 		CAnimationPlayer::ANIMATIONPLAYER_DESC Desc = {};
-		Desc.m_pBones = m_pSeModel->Get_BonesPtr();
-		Desc.strInitAnimTag = TEXT("Chr_Normal_Wait");
+		Desc.m_pBones			= m_pSeModel->Get_BonesPtr();
+		Desc.strInitAnimTag		= TEXT("Chr_Normal_Wait");
 		Desc.PreTransformMatrix = m_pSeModel->Get_InitMatrix();
+
 		if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_AnimationPlayer"), TEXT("Com_AnimationPlayer"), reinterpret_cast<CComponent**>(&m_pAnimationPlayer), &Desc)))
 			return E_FAIL;
 	}
@@ -194,6 +175,48 @@ HRESULT CSEMiiBody::Bind_ShaderResources()
 	if(FAILED(m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShader, "g_vCamPosition", TEXT("World_Camera"))))
 		return E_FAIL;
 	return S_OK;
+}
+
+void CSEMiiBody::Calc_BodyState(_float fDT)
+{
+	m_pAnimationPlayer->Update(fDT);
+
+	m_strCurAnimTag = m_pAnimationPlayer->Get_CurAnimTag();
+
+	/* Receive Food 이벤트가 플레이 중 이라면 */
+	if (m_isPlaying_ReceiveFood_Event)
+	{
+		/* 관련 플래그 초기화 */
+		m_isEatingFood		= FALSE;
+		m_isReceiveFood		= FALSE;
+		m_isFin_EatingFood	= FALSE;
+		m_isReactingTaste	= FALSE;
+
+		/* 음식을 받았는지 */
+		if (m_strCurAnimTag.find(TEXT("Chr_ItemReceive_Hold")) != _wstring::npos)
+		{
+			m_isReceiveFood = TRUE;
+		}
+
+		/* 음식을 먹고 있는지 */
+		else if (m_strCurAnimTag.find(TEXT("Chr_Eat")) != _wstring::npos)
+		{
+			m_isEatingFood = TRUE;
+		}
+
+		/* 음식을 다 먹었는지 */
+		else if (m_strCurAnimTag.find(TEXT("Chr_SwipeMouth")) != _wstring::npos)
+		{
+			m_isFin_EatingFood = TRUE;
+		}
+
+		/* 맛평가를 하고 있는지 */
+		else if (m_strCurAnimTag.find(TEXT("Chr_Food")) != _wstring::npos)
+		{
+			m_isReactingTaste = TRUE;
+		}
+
+	}
 }
 
 const XMFLOAT4X4* CSEMiiBody::Get_SocketMatrix(const _char* pBoneName)

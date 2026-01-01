@@ -1,6 +1,8 @@
 #include "NarrationManager.h"
 #include "GameInstance.h"
 
+#include "Narration_TextBox.h"
+
 IMPLEMENT_SINGLETON(CNarrationManager);
 
 CNarrationManager::CNarrationManager()
@@ -16,6 +18,8 @@ HRESULT CNarrationManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext
 
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
+
+	return S_OK;
 }
 
 void CNarrationManager::Free()

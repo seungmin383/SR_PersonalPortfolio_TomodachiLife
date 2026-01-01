@@ -9,13 +9,15 @@ NS_END
 
 NS_BEGIN(Game)
 
+class CSEMiiBody;
+
 class CSEMii final : public CContainerObject
 {
 public:
 	enum STATE
 	{
 		IDLE			= 1u << 0,
-		RECEIVE_FOOD	= 1u << 1,
+		RECEIVE_FOOD	= 1u << 1, /* 이벤트가 시작했는지 확인용*/
 		EATING_FOOD		= 1u << 2,
 		ATE_FOOD		= 1u << 3,	/* 음식 다 먹음 */
 		FOOD_BEST		= 1u << 4,
@@ -24,7 +26,9 @@ public:
 		FOOD_SOSO		= 1u << 7,
 		FOOD_BAD		= 1u << 8,
 		FOOD_WORST		= 1u << 9,
-		FIN_FOODEVENT	= 1u << 10
+		FIN_FOODEVENT	= 1u << 10,
+		RECEIVED_FOOD	= 1u << 11	/* 주민 손에 올라왔는지 */
+
 	};
 
 public:
@@ -57,8 +61,12 @@ public:
 	/* 받아온 플래그를 이용해서 상태 만들기 */
 	void Thinking();
 
+	void About_ReceiveFood();
+
 	/* 상태에 따른 명령 내리기 */
 	void Acting();
+
+	void For_ReceivedFood();
 
 private:
 	HRESULT Ready_Components();
@@ -70,6 +78,9 @@ private:
 	CGameDirector::GAME_DIRECTION m_ePreDirection = { CGameDirector::GAME_DIRECTION::END };
 
 private:
+	CSEMiiBody* m_pBody = { nullptr };
+
+private:
 	int32_t m_iState = {};
 	int32_t m_iClothState = {};
 	_bool m_isChangeState = { FALSE };
@@ -79,10 +90,17 @@ private:
 	_wstring m_strNickName = {};
 	uint32_t m_iIndex = {};
 
+	vector<int32_t> m_FoodFlavorFlags;
+
 private:
-	_bool m_isFin_EatingFood = { FALSE };
-	_bool m_isEatingFood = { FALSE };
 	_bool m_isFin_Macro = { FALSE };
+
+	_bool m_isStart_ReceiveFood_Event = { FALSE };
+
+	_bool m_isReceivedFood = { FALSE };
+	_bool m_isEatingFood = { FALSE };
+	_bool m_isFin_EatingFood = { FALSE };
+	_bool m_isReactingTaste = { FALSE };
 
 	_bool m_isLevelUp = { FALSE };
 	_bool m_isFullnessUp = { FALSE };

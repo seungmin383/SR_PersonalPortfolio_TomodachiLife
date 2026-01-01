@@ -45,7 +45,6 @@ HRESULT CFood_Item::Initialize_Clone(void* pArg)
 int32_t CFood_Item::Update_Priority(_float fDT)
 {
 	m_iTextureIndex = CItemManager::GetInstance()->Get_CurFoodItemIndex();
-
 	return 0;
 }
 
@@ -56,9 +55,11 @@ int32_t CFood_Item::Update(_float fDT)
 
 void CFood_Item::Update_Late(_float fDT)
 {
+	/* 음식을 받은 상태가 아니라면 안 보이게 */
 	if (!Has_Any_Flag(*m_pParentState, CSEMii::STATE::RECEIVE_FOOD))
 		return;
 
+	/* 음식을 받은 상태이지만 이미 다 먹었다면 안 보이게 */
 	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::ATE_FOOD))
 		return;
 
@@ -71,6 +72,7 @@ HRESULT CFood_Item::Render()
 {
 	if (!Has_Any_Flag(*m_pParentState, CSEMii::STATE::RECEIVE_FOOD))
 		return S_OK;
+
 	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::ATE_FOOD))
 		return S_OK;;
 

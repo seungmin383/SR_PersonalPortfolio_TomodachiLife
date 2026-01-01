@@ -43,9 +43,6 @@ HRESULT CGauge::Initialize_Clone(void* pArg)
 
 int32_t CGauge::Update_Priority(_float fDT)
 {
-	cout << "PreTexcoord : " << m_fPreTexCoord << endl;
-	cout << "CurTexcoord : " << m_fCurTexCoord << endl;
-
 	m_fCurLevel = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.fLevel;
 	return 0;
 }
@@ -72,7 +69,7 @@ int32_t CGauge::Update(_float fDT)
 
 void CGauge::Update_Late(_float fDT)
 {
-	if (m_isLevelUp)// && m_isStartGaugeUp)
+	if (m_isLevelUp)
 	{
 		m_fTimeAcc += fDT;
 

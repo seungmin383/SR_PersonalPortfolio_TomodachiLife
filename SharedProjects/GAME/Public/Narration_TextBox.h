@@ -17,11 +17,6 @@ class CNarration_TextBox final : public CUI
 public:
 	typedef struct tagNarrationTextBoxDesc : public UI_DESC
 	{
-		_wstring strFontTag		= {};
-		uint32_t iTextureIndex	= {};
-		_wstring strText		= {};
-		XMVECTORF32 vTextColor	= {};
-
 	}NARRATION_TEXTBOX_DESC;
 
 protected:
@@ -49,10 +44,9 @@ private:
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
 private:
-	_wstring m_strFontTag = {};
 	_wstring m_strText = {};
-	uint32_t m_iTextureIndex = {};
 	XMFLOAT4 m_vColor = {};
+	XMFLOAT4 m_vFontSize = {};
 
 public:
 	static CNarration_TextBox* Create(
