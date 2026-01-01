@@ -36,6 +36,9 @@
 #include "LevelUp_Inventory.h"
 #include "LevelUp_Item.h"
 #include "FoodItem_Button.h"
+#include "Level_TextBox.h"
+#include "Thinking_Button.h"
+
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -146,28 +149,6 @@ HRESULT CLoader::Loading_Island()
 
 	//Component
  	{
-		 
-		//// ProtoTag_Component_Island_Model
-		//{
-		//	XMMATRIX initMatrix = XMMatrixIdentity();
-		//	initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);// *XMMatrixRotationY(XMConvertToRadians(180.0f));
-
-		//	tmp = CModel::Create(
-		//		m_pDevice,
-		//		m_pContext,
-		//		"ProtoTag_Component_Island_Model",
-		//		ANIM_TYPE::NONEANIM,
-		//		"../../Resource/00Model/BackGround - Island/island.fbx",
-		//		initMatrix,
-		//		"Island");
-
-		//	if (FAILED(m_pGameInstance->Proto_Add_Prototype(
-		//		static_cast<uint32_t>(PLACEID::ISLAND),
-		//		TEXT("ProtoTag_Component_Island_Model"),
-		//		tmp)))
-		//		return E_FAIL;
-		//}
-		
 		/* 섬 */
 		// ProtoTag_Component_Island_seModel
 		{
@@ -655,8 +636,13 @@ HRESULT CLoader::Loading_Room()
 			return E_FAIL;
 	}
 	
-
-
+	/* 생각하는 버튼 텍스쳐 */
+	// ProtoTag_Component_Thinking_Button_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Thinking_Button/%d.dds"), 2);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Thinking_Button_Texture"), tmp)))
+			return E_FAIL;
+	}
 
 	/* Actor */
 
@@ -727,6 +713,22 @@ HRESULT CLoader::Loading_Room()
 			return E_FAIL;
 	}
 
+	/* 레벨 텍스트박스*/
+	// ProtoTag_UI_Level_TextBox
+	{
+		tmp = CLevel_TextBox::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_Level_TextBox"), tmp)))
+			return E_FAIL;
+	}
+
+
+	/* 생각하는 버튼 */
+	// ProtoTag_UI_Thinking_Button
+	{
+		tmp = CThinking_Button::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_Thinking_Button"), tmp)))
+			return E_FAIL;
+	}
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
 	m_isFinished = true;

@@ -849,6 +849,14 @@ HRESULT CMainApp::Ready_Static_Texture()
 			return E_FAIL;
 	}
 
+	/* 임시 텍스쳐들 */
+	// ProtoTag_Component_Temp_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Temp_Textures/%d.dds"), 1);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Temp_Texture"), tmp)))
+			return E_FAIL;
+	}
+
 	return S_OK;
 }
 

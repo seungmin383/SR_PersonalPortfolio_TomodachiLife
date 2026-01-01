@@ -310,6 +310,12 @@
     <Filter Include="03.UI\03.Texture\06.TextBox\Narration">
       <UniqueIdentifier>{cf8917e1-be39-4def-b053-e40447f797d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\03.Texture\06.TextBox\Level">
+      <UniqueIdentifier>{323bd375-ebe9-4207-85fe-1b355dc1f36f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\14.Thinking">
+      <UniqueIdentifier>{963b6d88-5ba2-4c1f-9a2b-6fa4078043fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -596,6 +602,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Narration_TextBox.h">
       <Filter>03.UI\03.Texture\06.TextBox\Narration</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Level_TextBox.h">
+      <Filter>03.UI\03.Texture\06.TextBox\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Thinking_Button.h">
+      <Filter>03.UI\01.Button\14.Thinking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp">
@@ -846,6 +858,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Narration_TextBox.cpp">
       <Filter>03.UI\03.Texture\06.TextBox\Narration</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Level_TextBox.cpp">
+      <Filter>03.UI\03.Texture\06.TextBox\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Thinking_Button.cpp">
+      <Filter>03.UI\01.Button\14.Thinking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

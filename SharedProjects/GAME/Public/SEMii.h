@@ -105,6 +105,9 @@ private:
 	_bool m_isLevelUp = { FALSE };
 	_bool m_isFullnessUp = { FALSE };
 
+private:
+
+
 public:
 	static CSEMii* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg)override;

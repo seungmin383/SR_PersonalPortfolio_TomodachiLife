@@ -44,6 +44,9 @@ public:
 	HRESULT Layer_UI_TextBox();
 
 	HRESULT Layer_UI_Option_Button();
+
+	HRESULT Layer_UI_Thinking_Button();
+
 public:
 	static CPlace_Room* Create(
 		ID3D11Device* pDevice,

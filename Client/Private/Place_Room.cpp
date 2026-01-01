@@ -26,9 +26,11 @@
 #include "FoodItem_Texture.h"
 #include "Category_Button.h"
 #include "FoodItem_Button.h"
+#include "Thinking_Button.h"
 #include "BlueBackGround.h"    
 #include "Window_Button.h"       
 #include "Option_Button.h"
+#include "Level_TextBox.h"
 #include "Hungry_Gauge.h"
 #include "LevelUp_Item.h"
 #include "CommonButton.h"   
@@ -383,6 +385,8 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 	if (FAILED(Layer_UI_Option_Button()))
 		return E_FAIL;
 
+	if (FAILED(Layer_UI_Thinking_Button()))
+		return E_FAIL;
 
 	{
 		_wstring DisableLayers[] =
@@ -1229,6 +1233,25 @@ HRESULT CPlace_Room::Layer_UI_TextBox()
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Narration_TextBox"), tmp)))
 			return E_FAIL;
 	}
+
+	/* ·¹º§ */
+	// ProtoTag_UI_Level_TextBox
+	{
+		CLevel_TextBox::LEVELTEXTBOX_DESC Desc = {};
+		Desc.fX = 510.f;
+		Desc.fY = 80.f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 100.f;
+		Desc.fCY = 100.f;
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_Level_TextBox"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_TOP"), tmp)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 
@@ -1305,6 +1328,37 @@ HRESULT CPlace_Room::Layer_UI_Option_Button()
 
 	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_GiveItem_Button"), tmp)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CPlace_Room::Layer_UI_Thinking_Button()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
+
+
+	// ProtoTag_UI_Thinking_Button
+	{
+		CThinking_Button::THINKINGBUTTON_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.fX = 360.f;
+		Desc.fY = 120.f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 80.f;
+		Desc.fCY = 64.f;
+
+		Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_Thinking_Button"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Thinking_Button"), tmp)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
