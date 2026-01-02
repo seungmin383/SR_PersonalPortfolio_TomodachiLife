@@ -12,6 +12,11 @@ HRESULT CMiiManager::Initialize()
 {
 	if (FAILED(Load_AllMiiData()))
 		return E_FAIL;	
+
+	for (auto& info : m_Mii_Informations)
+		info.MiiProfile.iNeeds = static_cast<uint32_t>(NEEDS::BE_FRIEND);
+		//info.MiiProfile.iNeeds = rand() % static_cast<int32_t>(NEEDS::END);
+
 	return S_OK;
 }
 
@@ -28,21 +33,21 @@ HRESULT CMiiManager::Begin_Edit(_bool isMan)
 
 	if (isMan)
 	{
-		m_EditDesc.HeadInfo.iIndex = 0;
-		m_EditDesc.HairInfo.iIndex = 1;
-		m_EditDesc.EyebrowInfo.iIndex = 78;
-		m_EditDesc.EyesInfo.iIndex = 0;
-		m_EditDesc.NoseInfo.iIndex = 60;
-		m_EditDesc.MouthInfo.iIndex = 101;
+		m_EditDesc.HeadInfo.iIndex		= 0;
+		m_EditDesc.HairInfo.iIndex		= 1;
+		m_EditDesc.EyebrowInfo.iIndex	= 78;
+		m_EditDesc.EyesInfo.iIndex		= 0;
+		m_EditDesc.NoseInfo.iIndex		= 60;
+		m_EditDesc.MouthInfo.iIndex		= 101;
 	}
 	else
 	{
-		m_EditDesc.HeadInfo.iIndex = 0;
-		m_EditDesc.HairInfo.iIndex = 0;
-		m_EditDesc.EyebrowInfo.iIndex = 79;
-		m_EditDesc.EyesInfo.iIndex = 1;
-		m_EditDesc.NoseInfo.iIndex = 60;
-		m_EditDesc.MouthInfo.iIndex = 101;
+		m_EditDesc.HeadInfo.iIndex		= 0;
+		m_EditDesc.HairInfo.iIndex		= 0;
+		m_EditDesc.EyebrowInfo.iIndex	= 79;
+		m_EditDesc.EyesInfo.iIndex		= 1;
+		m_EditDesc.NoseInfo.iIndex		= 60;
+		m_EditDesc.MouthInfo.iIndex		= 101;
 	}
 
 	return S_OK;

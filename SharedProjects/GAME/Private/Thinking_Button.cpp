@@ -3,6 +3,9 @@
 #include "IOnClick.h"
 #include "ItemManager.h"
 
+#include "MiiManager.h"
+#include "GameDirector.h"
+
 CThinking_Button::CThinking_Button(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CButton(pDevice, pContext)
 {
@@ -44,6 +47,8 @@ int32_t CThinking_Button::Update_Priority(_float fDT)
 		m_isClicked = TRUE;
 	}
 
+	m_eCurMii_Needs = static_cast<NEEDS>(CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iNeeds);
+
 	return UPDATE_CLEAR;
 }
 
@@ -54,11 +59,23 @@ int32_t CThinking_Button::Update(_float fDT)
 
 void CThinking_Button::Update_Late(_float fDT)
 {
-	CUI::Update_Late(fDT);
+	if (CGameDirector::GetInstance()->Get_Direction() == CGameDirector::GAME_DIRECTION::NO_EVENT)
+	{
+		if (m_eCurMii_Needs != NEEDS::NOTHING)
+		{
+			CUI::Update_Late(fDT);
+			m_isRender = TRUE;
+			return;
+		}
+	}
+	m_isRender = FALSE;
 }
 
 HRESULT CThinking_Button::Render()
 {
+	if (!m_isRender)
+		return S_OK;
+
 	__super::Render();
 
 	if (FAILED(Bind_ShaderResources()))
@@ -126,6 +143,17 @@ int32_t CThinking_Button::On_Click()
 	{
 		if (m_isClicked)
 		{
+			switch (m_eCurMii_Needs)
+			{
+			case Game::NEEDS::NOTHING:
+				break;
+			case Game::NEEDS::BE_FRIEND:
+				CGameDirector::GetInstance()->Set_Direction(CGameDirector::GAME_DIRECTION::BE_FRIEND);
+				break;
+
+			default:
+				break;
+			}
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;
 		}

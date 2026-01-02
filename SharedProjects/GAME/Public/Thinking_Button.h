@@ -53,6 +53,11 @@ private:
 	IOnClick* m_pSelected_Strgy = { nullptr };
 	IOnClick* m_pSelectedClick_Strgy = { nullptr };
 
+private:
+	NEEDS m_eCurMii_Needs = { NEEDS::END };
+
+	_bool m_isRender = { TRUE };
+
 public:
 	static CThinking_Button* Create(
 		ID3D11Device* pDevice,

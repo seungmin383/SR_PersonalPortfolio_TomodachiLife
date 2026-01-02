@@ -27,9 +27,11 @@ public:
 		FOOD_BAD		= 1u << 8,
 		FOOD_WORST		= 1u << 9,
 		FIN_FOODEVENT	= 1u << 10,
-		RECEIVED_FOOD	= 1u << 11	/* 주민 손에 올라왔는지 */
-
+		RECEIVED_FOOD	= 1u << 11,	/* 주민 손에 올라왔는지 */
+		TALKING			= 1u << 12,
+		BE_FRIEND		= 1u << 13
 	};
+
 
 public:
 	typedef struct tagMiiDesc : public CContainerObject::CONTAINEROBJECT_DESC
@@ -48,6 +50,8 @@ public:
 	virtual HRESULT Initialize_Origin()override;
 	virtual HRESULT Initialize_Clone(void* pArg)override;
 
+	void Initialize_FriendList();
+
 	virtual int32_t Update_Priority(_float fDT)override;
 	virtual int32_t Update(_float fDT)override;
 	virtual void Update_Late(_float fDT)override;
@@ -59,14 +63,16 @@ public:
 	void Observe();
 
 	/* 받아온 플래그를 이용해서 상태 만들기 */
-	void Thinking();
+	void Thinking(_float fDT);
 
-	void About_ReceiveFood();
+	void Thinking_About_ReceiveFood();
+	void Thinking_About_BeFriend(_float fDT);
 
 	/* 상태에 따른 명령 내리기 */
 	void Acting();
 
-	void For_ReceivedFood();
+	void Acting_For_ReceivedFood();
+	void Acting_For_BeFriend();
 
 private:
 	HRESULT Ready_Components();
@@ -106,7 +112,13 @@ private:
 	_bool m_isFullnessUp = { FALSE };
 
 private:
+	uint32_t m_iWantToBeFriendIndex = {};
+	_wstring m_strWantToBeFriendName = {};
 
+	_float m_fTalkingTimer = {};
+	_bool m_isFin_FirstTalk = { FALSE };
+
+	_float m_fTalkingTimer_2 = {};
 
 public:
 	static CSEMii* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

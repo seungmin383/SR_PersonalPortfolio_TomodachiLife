@@ -186,5 +186,38 @@
       "SoundTag": [],
       "Notifies": 0.0
     }
+  ],
+
+  "WantToBeFriend": [
+    {
+      "AnimTag": "",
+      "AnimSpeed": 2.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "Chr_Eat",
+      "AnimSpeed": 2.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "",
+      "AnimSpeed": 1.5,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    },
+    {
+      "AnimTag": "",
+      "AnimSpeed": 1.0,
+      "SoundTag": [],
+      "Notifies": 0.0
+    }
   ]
 }

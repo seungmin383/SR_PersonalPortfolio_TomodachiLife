@@ -316,6 +316,9 @@
     <Filter Include="03.UI\01.Button\14.Thinking">
       <UniqueIdentifier>{963b6d88-5ba2-4c1f-9a2b-6fa4078043fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\01.SetisBeFriend">
+      <UniqueIdentifier>{4b1ecc89-4571-481c-a2ae-36a873f31d2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -608,6 +611,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Thinking_Button.h">
       <Filter>03.UI\01.Button\14.Thinking</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetisBeFriend_Strgy.h">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\01.SetisBeFriend</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp">
@@ -864,6 +870,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Thinking_Button.cpp">
       <Filter>03.UI\01.Button\14.Thinking</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetisBeFriend_Strgy.cpp">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\01.SetisBeFriend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

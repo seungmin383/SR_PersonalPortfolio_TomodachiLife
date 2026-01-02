@@ -39,10 +39,13 @@ HRESULT CSEMiiMouth::Initialize_Clone(void* pArg)
 
 int32_t CSEMiiMouth::Update_Priority(_float fDT)
 {
-	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::EATING_FOOD))
+	if (Has_Any_Flag(*m_pParentState, (CSEMii::STATE::EATING_FOOD | CSEMii::STATE::TALKING)))
 	{
-		m_fOpenTimeAcc += fDT;
-
+		if(Has_Any_Flag(*m_pParentState, (CSEMii::STATE::TALKING)))
+			m_fOpenTimeAcc += 5.f * fDT;
+		else 
+			m_fOpenTimeAcc += fDT;
+		
 		if (m_fOpenTimeAcc > m_fOpenMouthTimer)
 		{
 			m_isOpeing = TRUE;
@@ -124,7 +127,7 @@ HRESULT CSEMiiMouth::Bind_ShaderResources()
 	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShader, "g_ProjMatrix", TEXT("World_Camera"), D3DTS::PROJ)))
 		return E_FAIL;
 
-	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::EATING_FOOD))
+	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::EATING_FOOD | CSEMii::STATE::TALKING))
 	{
 		if (m_isOpeing)
 		{

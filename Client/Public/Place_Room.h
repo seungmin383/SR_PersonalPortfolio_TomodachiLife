@@ -24,27 +24,16 @@ public:
 	HRESULT Ready_Camera_Layer();
 
 	HRESULT Layer_UI_LevelUp_Inventory();
-
 	HRESULT Layer_Actor_LevelUp_Item();
-
 	HRESULT Layer_UI_FoodItem();
-
 	HRESULT Layer_UI_Category_Button();
-
 	HRESULT Layer_UI_SubCategory_Button();
-
 	HRESULT Layer_UI_PlayerInven_Button();
-
 	HRESULT	Layer_UI_Favorite_Food_Texture();
-
 	HRESULT Layer_UI_LevelBar();
-
 	HRESULT	Layer_UI_HungryBar();
-
 	HRESULT Layer_UI_TextBox();
-
 	HRESULT Layer_UI_Option_Button();
-
 	HRESULT Layer_UI_Thinking_Button();
 
 public:

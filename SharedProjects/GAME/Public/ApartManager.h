@@ -34,12 +34,19 @@ public:
 	/* food inven */
 	const vector<uint32_t> Get_FoodInventory() { return m_ApartInfo.iFoodInventory; }
 	void Add_FoodInventory(uint32_t iIndex);
-	void Minus_FoodInventoru(uint32_t iIndex);
+	void Minus_FoodInventory(uint32_t iIndex);
+
+	/* 친구되기 이벤트 */
+	_bool Get_isBeFriend()const { return m_isBeFriend; }
+	void Set_isBeFriend(_bool is) { m_isBeFriend = is; }
 
 private:
 	APARTINFO_DESC m_ApartInfo = {};
 	
 	map<int32_t, int32_t>m_FoodInventory;
+
+	_bool m_isBeFriend = { FALSE };
+
 public:
 	virtual void Free()override;
 };

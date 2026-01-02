@@ -55,7 +55,7 @@ void CApartManager::Add_FoodInventory(uint32_t iIndex)
 	m_ApartInfo.iFoodInventory[iIndex]++;
 }
 
-void CApartManager::Minus_FoodInventoru(uint32_t iIndex)
+void CApartManager::Minus_FoodInventory(uint32_t iIndex)
 {
 	if (iIndex > 28 || iIndex < 0)
 		return;

@@ -13,6 +13,10 @@ struct MIIPROFILE_DESC
 
 	uint32_t iRoomIndex;
 	
+	vector<uint32_t> iFriendIndexList;
+
+	uint32_t iNeeds;
+
 	nlohmann::json ToJson()const
 	{
 		nlohmann::json Out;
@@ -29,6 +33,13 @@ struct MIIPROFILE_DESC
 
 		Out["Fullness"]		= iFullness;
 		Out["RoomIndex"]	= iRoomIndex;
+
+		Out["FriendIndexList"] = nlohmann::json::array();
+		for(const auto& i : iFriendIndexList)
+			Out["FriendIndexList"].push_back(i);
+
+
+		Out["Needs"] = iNeeds;
 		return Out;
 	}
 
@@ -46,6 +57,13 @@ struct MIIPROFILE_DESC
 
 		iFullness		= In.at("Fullness").get<uint32_t>();
 		iRoomIndex		= In.at("RoomIndex").get<uint32_t>();
+
+		iFriendIndexList.clear();
+		const auto& FriendList = In.at("FriendIndexList");
+		for (const auto& i : FriendList)
+			iFriendIndexList.push_back(i.get<uint32_t>());
+
+		iNeeds = In.at("Needs").get<uint32_t>();
 	}
 };
 

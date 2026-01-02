@@ -143,7 +143,6 @@ int32_t CFoodItem_Button::On_Click()
 
 		/* 때면 STATE를 음식 받은거로 변경 및 파트오브젝트 활성화 */
 		m_pSelected_Strgy->OnClick();
-		
 
 		if (m_isClicked)
 		{

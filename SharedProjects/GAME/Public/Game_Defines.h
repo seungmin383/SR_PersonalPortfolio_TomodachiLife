@@ -116,6 +116,14 @@ namespace Game
 		HOUSE,
 		END
 	};
+
+	enum class NEEDS
+	{
+		NOTHING,
+		HUNGRY,
+		BE_FRIEND,
+		END
+	};
 }
 using namespace std;
 using namespace Game;

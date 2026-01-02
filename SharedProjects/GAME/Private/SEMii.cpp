@@ -12,10 +12,13 @@
 #include "ItemManager.h"
 
 #include "LevelUp_Item.h"
+#include "ApartManager.h"
 #include "FoodItem_Texture.h"
 #include "Food_Item.h"
 #include "Engine_FlagHelper.h"
 #include "NarrationManager.h"
+
+#include "Place_Loading.h"
 
 CSEMii::CSEMii(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CContainerObject(pDevice, pContext)
@@ -54,13 +57,52 @@ HRESULT CSEMii::Initialize_Clone(void* pArg)
 		m_FoodFlavorFlags.push_back(static_cast<int32_t>(CFoodItem_Texture::FOODFLAVOR::SALTY) << i);
 	}
 
+	Initialize_FriendList();
+
 	return S_OK;
+}
+
+void CSEMii::Initialize_FriendList()
+{	/* 전체 주민 수를 가져옴 */
+	uint32_t iNumMii = CApartManager::GetInstance()->Get_ApartInfo_NumMii();
+
+	/* 나랑 친구인 mii 인덱스들을 가져옴 */
+	const auto& iArr = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iFriendIndexList;
+
+	/* 나랑 친구가 아닌 애들을 저장할꺼임*/
+	vector<uint32_t>NotFriendList;
+
+	for (uint32_t i = 0; i < iNumMii; ++i)
+	{
+		_bool isFriend = { FALSE };
+
+		if (CMiiManager::GetInstance()->Get_CurMiiIndex() == i)
+			continue;
+
+		for (uint32_t j : iArr)
+		{
+			if (j == i)
+			{
+				isFriend = TRUE;
+				break;
+			}
+		}
+		if (!isFriend)
+			NotFriendList.push_back(i);
+	}
+
+	uint32_t iNumNotFriend = static_cast<uint32_t>(NotFriendList.size());
+	if (iNumNotFriend <= 0)
+		return;
+
+	m_iWantToBeFriendIndex = NotFriendList[rand() % iNumNotFriend];
+	m_strWantToBeFriendName = StrToWstr(CMiiManager::GetInstance()->Get_MiiInfo(m_iWantToBeFriendIndex).MiiProfile.strNickName);
 }
 
 int32_t CSEMii::Update_Priority(_float fDT)
 {
 	Observe();
-	Thinking();
+	Thinking(fDT);
 
 	return CContainerObject::Update_Priority(fDT);
 }
@@ -105,9 +147,14 @@ void CSEMii::Observe()
 		m_isFin_EatingFood = m_pBody->Get_isFin_EatingFood();
 		m_isReactingTaste = m_pBody->Get_isReactingTaste();
 	}
+	else if (m_eDirection == CGameDirector::GAME_DIRECTION::BE_FRIEND)
+	{
+
+	}
+
 }
 
-void CSEMii::Thinking()
+void CSEMii::Thinking(_float fDT)
 {
 	if (m_isChangeState)
 	{
@@ -123,25 +170,39 @@ void CSEMii::Thinking()
 	case Game::CGameDirector::GAME_DIRECTION::NO_EVENT:
 		Set_Flag(m_iState, STATE::IDLE);
 		break;
+
+
 	case Game::CGameDirector::GAME_DIRECTION::GIVE_ITEM:
 		break;
+
+
 	case Game::CGameDirector::GAME_DIRECTION::GIVE_FOOD:
 		Set_Flag(m_iState, STATE::RECEIVE_FOOD);
 		break;
+
+
+	case Game::CGameDirector::GAME_DIRECTION::BE_FRIEND:
+		Set_Flag(m_iState, STATE::BE_FRIEND);
+		break;
+
 
 	default:
 		break;
 	}
 
+
 	/* 내 정보를 이용해서 2차 내부 스테이트를 추가 */
 	if (m_eDirection == CGameDirector::GAME_DIRECTION::GIVE_FOOD)
-		About_ReceiveFood();
+		Thinking_About_ReceiveFood();
+
+	else if (m_eDirection == CGameDirector::GAME_DIRECTION::BE_FRIEND)
+		Thinking_About_BeFriend(fDT);
 
 	/* 파트 오브젝트의 값을 이용해서 3차 내부 스테이트를 추가 */
 
 }
 
-void CSEMii::About_ReceiveFood()
+void CSEMii::Thinking_About_ReceiveFood()
 {
 	_float fFlavor = 0.f;
 	uint32_t iCnt = 0;
@@ -186,7 +247,7 @@ void CSEMii::About_ReceiveFood()
 	}
 
 	if (m_isReceivedFood)
-		Add_Flag(m_iState, STATE::RECEIVED_FOOD);
+		Add_Flag(m_iState, (STATE::RECEIVED_FOOD|STATE::TALKING));
 
 	if (m_isFin_EatingFood || m_isReactingTaste)
 		Add_Flag(m_iState, STATE::ATE_FOOD);
@@ -196,14 +257,49 @@ void CSEMii::About_ReceiveFood()
 
 }
 
-void CSEMii::Acting()
+void CSEMii::Thinking_About_BeFriend(_float fDT)
 {
-	if (m_eDirection == CGameDirector::GAME_DIRECTION::GIVE_FOOD)
-		For_ReceivedFood();
+	m_fTalkingTimer += fDT;
+
+	if (m_fTalkingTimer < 5.f )
+	{
+		CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+		CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{1.f, 1.f, 1.f, 1.f});
+
+		CNarrationManager::GetInstance()->Set_NarrationText(L"'" + m_strWantToBeFriendName + L"'"
+ 		+ L"이/가 저랑 친구가 되고 싶다는데요...");
+	}
+	else if(m_fTalkingTimer >= 5.f && !CApartManager::GetInstance()->Get_isBeFriend())
+	{
+		CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+		m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_BeFriend_Button"));
+	}
+	else if (m_fTalkingTimer >= 5.f && CApartManager::GetInstance()->Get_isBeFriend() && m_fTalkingTimer_2 < 5.f)
+	{
+		m_fTalkingTimer_2 += fDT;
+		CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+		CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+
+		CNarrationManager::GetInstance()->Set_NarrationText(TEXT("그럼 얘기를 좀 해 보고 올게요."));
+	}
+	else
+	{
+		m_pGameInstance->PlaceManager_Change_Place(static_cast<uint32_t>(PLACEID::LOADING), 
+			CPlace_Loading::Create(m_pDevice, m_pContext, PLACEID::ISLAND));
+	}
 
 }
 
-void CSEMii::For_ReceivedFood()
+void CSEMii::Acting()
+{
+	if (m_eDirection == CGameDirector::GAME_DIRECTION::GIVE_FOOD)
+		Acting_For_ReceivedFood();
+	else if (m_eDirection == CGameDirector::GAME_DIRECTION::BE_FRIEND)
+		Acting_For_BeFriend();
+
+}
+
+void CSEMii::Acting_For_ReceivedFood()
 {
 	if (m_isReceivedFood)
 	{
@@ -284,6 +380,11 @@ void CSEMii::For_ReceivedFood()
 
 	if (m_isStart_ReceiveFood_Event && m_isFin_Macro)
 		CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+}
+
+void CSEMii::Acting_For_BeFriend()
+{
+
 }
 
 

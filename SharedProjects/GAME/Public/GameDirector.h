@@ -19,6 +19,7 @@ public:
 		NO_EVENT,
 		GIVE_ITEM,
 		GIVE_FOOD,
+		BE_FRIEND,
 		END
 	};
 
