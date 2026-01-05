@@ -152,6 +152,11 @@ void CCameraManager::Set_Position(const _wstring& strCameraTag, FXMVECTOR vPos)
 	pInstance->Set_Position(vPos);
 }
 
+void CCameraManager::Move_Position(const _wstring& strCameraTag)
+{
+
+}
+
 CCamera* CCameraManager::Get_Camera(const _wstring& strCameraTag)
 {
 	auto iter = m_Cameras.find(strCameraTag);

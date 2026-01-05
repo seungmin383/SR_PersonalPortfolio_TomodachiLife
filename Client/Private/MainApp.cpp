@@ -312,7 +312,7 @@ HRESULT CMainApp::Ready_Static_Model()
 
 #ifdef _DEBUG
 	///* 애니메이션 테스터 모델 */
-	//// ProtoTag_Component_AnimationTester
+	// ProtoTag_Component_AnimationTester
 	//{
 	//	XMMATRIX InitMatrix = XMMatrixIdentity();
 	//	InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));

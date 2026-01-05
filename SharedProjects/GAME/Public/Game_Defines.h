@@ -91,6 +91,7 @@ namespace Game
 		ROOM,
 		FOOD_STORE,
 
+		EVENT_BEFRIEND,
 		DEVELOPER,
 		LOADING,
 		END
@@ -122,6 +123,7 @@ namespace Game
 		NOTHING,
 		HUNGRY,
 		BE_FRIEND,
+		LOVE,
 		END
 	};
 }

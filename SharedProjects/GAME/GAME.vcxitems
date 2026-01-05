@@ -46,6 +46,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Food_Item.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\FoodItem_Button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\FoodItem_Texture.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\FriendList_BackGround.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Friend_TextBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\GameDirector.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Gauge.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\HungryBar.cpp" />
@@ -136,6 +138,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Food_Item.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\FoodItem_Button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\FoodItem_Texture.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\FriendList_BackGround.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Friend_TextBox.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\GameDirector.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Defines.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Game_Struct.h" />

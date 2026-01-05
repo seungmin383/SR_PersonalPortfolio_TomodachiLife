@@ -54,8 +54,10 @@ private:
 	HRESULT Loading_MiiEditor();
 	HRESULT Loading_Room();
 	HRESULT Loading_FoodStore();
-	HRESULT Loading_Developer();
 	
+	HRESULT Loading_Event_BeFriend();
+
+	HRESULT Loading_Developer();
 #pragma endregion
 public:
 	static CLoader* Create(

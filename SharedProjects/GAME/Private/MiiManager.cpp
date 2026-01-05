@@ -14,8 +14,11 @@ HRESULT CMiiManager::Initialize()
 		return E_FAIL;	
 
 	for (auto& info : m_Mii_Informations)
-		info.MiiProfile.iNeeds = static_cast<uint32_t>(NEEDS::BE_FRIEND);
-		//info.MiiProfile.iNeeds = rand() % static_cast<int32_t>(NEEDS::END);
+	{
+		uint32_t i = rand() % static_cast<int32_t>(NEEDS::END);
+		info.MiiProfile.iNeeds = i;
+	}
+		//info.MiiProfile.iNeeds = static_cast<uint32_t>(NEEDS::BE_FRIEND);
 
 	return S_OK;
 }

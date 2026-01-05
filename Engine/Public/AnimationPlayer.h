@@ -74,6 +74,11 @@ private:
 
 	vector<_wstring>* m_pMacro = { nullptr };
 	vector<_float>* m_pSpeeds = { nullptr };
+	vector<uint32_t>* m_pLoopTimes = { nullptr };
+
+	uint32_t m_iLoopCount = {};
+
+
 
 	_float m_fCurTrackPosition = {};
 	_float m_fPreTrackPosition = {};

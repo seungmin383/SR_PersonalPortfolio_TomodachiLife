@@ -59,6 +59,7 @@ HRESULT CAnimationManager::Initialize()
             const nlohmann::json& Value = iter.value();
             vector<_wstring> AnimTags;
             vector<_float> AnimSpeeds;
+            vector<uint32_t> AnimLoopTime;
 
             if (!Value.is_array())
                 continue;
@@ -93,8 +94,24 @@ HRESULT CAnimationManager::Initialize()
                 AnimSpeeds.push_back(obj["AnimSpeed"].get<_float>());
             }
 
+            /* 애니메이션 반복 횟수 */
+            for (const auto& obj : Value)
+            {
+                if (!obj.is_object())
+                    continue;
+
+                if (!obj.contains("LoopTime"))
+                    continue;
+
+                if (!obj["LoopTime"].is_number())
+                    continue;
+
+                AnimLoopTime.push_back(obj["LoopTime"].get<uint32_t>());
+            }
+
             m_AnimationMacros.emplace(Tag, move(AnimTags));
             m_AnimationSpeeds.emplace(Tag, move(AnimSpeeds));
+            m_AnimationLoopTime.emplace(Tag, move(AnimLoopTime));
         }
 
         return S_OK;
@@ -129,6 +146,16 @@ vector<_float>* CAnimationManager::Find_AnimationSpeeds(const _wstring& strMacro
     auto iter = m_AnimationSpeeds.find(strMacroTag);
 
     if (iter == m_AnimationSpeeds.end())
+        return nullptr;
+
+    return &iter->second;
+}
+
+vector<uint32_t>* CAnimationManager::Find_AnimationLoopTime(const _wstring& strMacroTag)
+{
+    auto iter = m_AnimationLoopTime.find(strMacroTag);
+
+    if (iter == m_AnimationLoopTime.end())
         return nullptr;
 
     return &iter->second;

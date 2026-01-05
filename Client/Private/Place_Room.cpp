@@ -20,6 +20,7 @@
 #include "Room.h"    
 
 /* UI */
+#include "FriendList_BackGround.h"
 #include "PlayerInven_Button.h"
 #include "Narration_TextBox.h"
 #include "LevelUp_Inventory.h"
@@ -27,6 +28,7 @@
 #include "Category_Button.h"
 #include "FoodItem_Button.h"
 #include "Thinking_Button.h"
+#include "Friend_TextBox.h"
 #include "BlueBackGround.h"    
 #include "Window_Button.h"       
 #include "Option_Button.h"
@@ -71,7 +73,7 @@ HRESULT CPlace_Room::Initialize()
 	if (FAILED(Ready_Camera_Layer()))
 		return E_FAIL;
 
-	
+
 	return S_OK;
 }
 
@@ -96,6 +98,7 @@ HRESULT CPlace_Room::Ready_Actor_Layer()
 {
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
+	uint32_t iStaticID = static_cast<uint32_t>(PLACEID::STATIC);
 
 	// ProtoTag_Actor_Room
 	{
@@ -106,8 +109,8 @@ HRESULT CPlace_Room::Ready_Actor_Layer()
 		Desc.fSpeedPerSecond = 10.f;
 		Desc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f , 1.f };
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_NONBLEND;
-	
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_Actor_Room"), &Desc);
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iStaticID, TEXT("ProtoTag_Actor_Room"), &Desc);
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_Actor"), tmp)))
 		{
 			Safe_Release(tmp);
@@ -161,7 +164,41 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		if (nullptr == tmp)
 			return E_FAIL;
 
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID,TEXT("LayerTag_UI_BackGround"), tmp)))
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_BackGround"), tmp)))
+			return E_FAIL;
+	}
+
+	/* Ä£±¸ ¸ñ·Ï µÞ¹è°æ */
+	// LayerTag_UI_BackGround
+	{
+		CFriendList_BackGround::FRIENDLISTBACKGROUND_DESC Desc = {};
+		Desc.fX		= 480.f;
+		Desc.fY		= 240.f;
+		Desc.fZ		= 0.1f;
+		Desc.fCX	= 960.f;
+		Desc.fCY	= 480.f;
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+		Desc.strDisableLayers = vector<_wstring>{
+			TEXT("LayerTag_UI_BackGround"),
+			TEXT("LayerTag_UI_FoodItem"),
+			TEXT("LayerTag_UI_LevelUp_Inventory"),
+			TEXT("LayerTag_UI_Narration_TextBox"),
+			TEXT("LayerTag_UI_Out_Inven_Button"),
+			TEXT("LayerTag_UI_TOP"),
+		};
+		Desc.strEnableLayers = vector<_wstring>{
+			TEXT("LayerTag_UI_BackGround"),
+			TEXT("LayerTag_UI_FoodItem"),
+			TEXT("LayerTag_UI_LevelUp_Inventory"),
+			TEXT("LayerTag_UI_Narration_TextBox"),
+			TEXT("LayerTag_UI_Out_Inven_Button"),
+			TEXT("LayerTag_UI_TOP"),
+		};
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_FriendList_BackGround"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_FriendBackGround"), tmp)))
 			return E_FAIL;
 	}
 
@@ -169,11 +206,11 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 	// LayerTag_UI_PlayerInven_BackGround
 	{
 		CBlueBackGround::BLUEBACKGORUND_DESC Desc = {};
-		Desc.fX = 480.f;
-		Desc.fY = 240.f;
-		Desc.fZ = 0.6f;
-		Desc.fCX = 960.f;
-		Desc.fCY = 480.f;
+		Desc.fX		= 480.f;
+		Desc.fY		= 240.f;
+		Desc.fZ		= 0.6f;
+		Desc.fCX	= 960.f;
+		Desc.fCY	= 480.f;
 		Desc.fSpeedPerSecond = 0.f;
 		Desc.fRotationPerSecond = XMConvertToRadians(0.f);
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
@@ -199,7 +236,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		Desc.pClicked_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::APART);
 		Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
-	
+
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Back_Button"), &Desc);
 		if (nullptr == tmp)
 			return E_FAIL;
@@ -230,16 +267,14 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		strgyDesc.ePlaceID = PLACEID::ROOM;
 
 		strgyDesc.strLayerTag = TEXT("LayerTag_UI_Enter_Inventory_Button");
-		strgyDesc.EnableLayers = vector<_wstring>{ 
+		strgyDesc.EnableLayers = vector<_wstring>{
 			TEXT("LayerTag_UI_PlayerInven_BackGround"),
-			TEXT("LayerTag_UI_Category_Button"), 
-			TEXT("LayerTag_UI_Sub_Category_Button_Food"), 
-			TEXT("LayerTag_UI_PlayerInven_Food_Main"), 
-			TEXT("LayerTag_UI_Out_Inven_Button"), 
-			TEXT("LayerTag_UI_FoodItem"), 
-			TEXT("LayerTag_UI_GiveItem_Button"), 
-			
-
+			TEXT("LayerTag_UI_Category_Button"),
+			TEXT("LayerTag_UI_Sub_Category_Button_Food"),
+			TEXT("LayerTag_UI_PlayerInven_Food_Main"),
+			TEXT("LayerTag_UI_Out_Inven_Button"),
+			TEXT("LayerTag_UI_FoodItem"),
+			TEXT("LayerTag_UI_GiveItem_Button"),
 		};
 
 		strgyDesc.DisableLayers = vector<_wstring>{
@@ -248,11 +283,12 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 			TEXT("LayerTag_UI_LevelUp_Inventory") ,
 			TEXT("LayerTag_UI_TOP"),
 			TEXT("LayerTag_UI_FoodItem_Button"),
+			TEXT("LayerTag_UI_Thinking_Button"),
 		};
 
-		Desc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
-		Desc.pSelected_Strgy = CAll_Deactive_Strgy::Create(m_pDevice, m_pContext, PLACEID::ROOM);
-		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pClicked_Strgy			= CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
+		Desc.pSelected_Strgy		= CAll_Deactive_Strgy::Create(m_pDevice, m_pContext, PLACEID::ROOM);
+		Desc.pSelectedClick_Strgy	= CNull_Strgy::Create(m_pDevice, m_pContext);
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Category_Button"), &Desc);
 		if (nullptr == tmp)
@@ -300,6 +336,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 			TEXT("LayerTag_UI_Enter_Inventory_Button") ,
 			TEXT("LayerTag_UI_LevelUp_Inventory"),
 			TEXT("LayerTag_UI_TOP"),
+			TEXT("LayerTag_UI_Thinking_Button"),
 		};
 
 		strgyDesc.DisableLayers = vector<_wstring>{
@@ -378,7 +415,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		return E_FAIL;
 
 	if (FAILED(Layer_UI_HungryBar()))
-		return E_FAIL;	
+		return E_FAIL;
 
 	if (FAILED(Layer_UI_TextBox()))
 		return E_FAIL;
@@ -480,7 +517,7 @@ HRESULT CPlace_Room::Layer_UI_LevelUp_Inventory()
 				++iIndex;
 			}
 		}
-		
+
 	}
 	return S_OK;
 }
@@ -520,7 +557,7 @@ HRESULT CPlace_Room::Layer_UI_FoodItem()
 
 	// ProtoTag_UI_FoodItem_Button
 	{
-		CFoodItem_Button::FOODITEMBUTTON_DESC Desc = {};		
+		CFoodItem_Button::FOODITEMBUTTON_DESC Desc = {};
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 		Desc.fCX = 64.f;
 		Desc.fCY = 64.f;
@@ -536,8 +573,8 @@ HRESULT CPlace_Room::Layer_UI_FoodItem()
 		strgyDesc.ePlaceID = PLACEID::ROOM;
 		strgyDesc.strLayerTag = TEXT("LayerTag_UI_FoodItem_Button");
 
-		strgyDesc.EnableLayers = vector<_wstring>{TEXT("LayerTag_UI_Enter_Inventory_Button")};
-		strgyDesc.DisableLayers = vector<_wstring>{TEXT("LayerTag_UI_FoodItem_Button")};
+		strgyDesc.EnableLayers = vector<_wstring>{ TEXT("LayerTag_UI_Enter_Inventory_Button") };
+		strgyDesc.DisableLayers = vector<_wstring>{ TEXT("LayerTag_UI_FoodItem_Button") };
 
 		Desc.pSelected_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
 		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
@@ -731,7 +768,7 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 			{
 				Desc.strText = TEXT("±¦ÂúÀºµ¥?");
 				Desc.pClicked_Strgy = CSetisBeFriend_Strgy::Create(m_pDevice, m_pContext, TRUE);
-				Desc.fY = 240.f - (Desc.fCY* 0.6f);
+				Desc.fY = 240.f - (Desc.fCY * 0.6f);
 			}
 			else
 			{
@@ -787,11 +824,11 @@ HRESULT CPlace_Room::Layer_UI_SubCategory_Button()
 
 	for (uint32_t i = 0; i < 4; ++i)
 	{
-		Desc.fX						= 200.f + (100.f * i);
+		Desc.fX = 200.f + (100.f * i);
 
 		strgyDesc.strLayerTag = TEXT("LayerTag_UI_Sub_Category_Button_Food");
 		strgyDesc.EnableLayers = vector<_wstring>{ LayerTagFoodArr[i] };
-		strgyDesc.DisableLayers = vector<_wstring>{}; 
+		strgyDesc.DisableLayers = vector<_wstring>{};
 		for (uint32_t j = 0; j < 4; ++j)
 		{
 			if (j == i)
@@ -800,10 +837,10 @@ HRESULT CPlace_Room::Layer_UI_SubCategory_Button()
 			strgyDesc.DisableLayers.push_back(LayerTagFoodArr[j]);
 		}
 
-		Desc.pClicked_Strgy			= CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
+		Desc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
 
-		Desc.pSelected_Strgy		= CNull_Strgy::Create(m_pDevice, m_pContext);
-		Desc.pSelectedClick_Strgy	= CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Category_Button"), &Desc);
 		if (nullptr == tmp)
@@ -852,7 +889,7 @@ HRESULT CPlace_Room::Layer_UI_SubCategory_Button()
 		Desc.fX = 200.f + (100.f * i);
 
 		strgyDesc.strLayerTag = TEXT("LayerTag_UI_Sub_Category_Button_Cloth");
-		strgyDesc.EnableLayers = vector<_wstring>{ LayerTagClothArr[i]};
+		strgyDesc.EnableLayers = vector<_wstring>{ LayerTagClothArr[i] };
 		strgyDesc.DisableLayers = vector<_wstring>{};
 		for (uint32_t j = 0; j < 5; ++j)
 		{
@@ -1049,9 +1086,9 @@ HRESULT CPlace_Room::Layer_UI_Favorite_Food_Texture()
 {
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ROOM);
-	
+
 	{
-	// 	CFavoriteFood_Texture::FAVORITEFOODTEXTURE_DESC Desc = {};
+		// 	CFavoriteFood_Texture::FAVORITEFOODTEXTURE_DESC Desc = {};
 
 		CTextBox::TEXTBOX_DESC Desc = {};
 		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
@@ -1089,8 +1126,8 @@ HRESULT CPlace_Room::Layer_UI_Favorite_Food_Texture()
 		CTextBox::TEXTBOX_DESC Desc = {};
 
 		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
-		Desc.fX = 285.f ;
-		Desc.fZ = 0.5f; 
+		Desc.fX = 285.f;
+		Desc.fZ = 0.5f;
 		Desc.fCX = 420.f;
 		Desc.fCY = 35.f;
 		Desc.iTextureIndex = 1;
@@ -1138,11 +1175,11 @@ HRESULT CPlace_Room::Layer_UI_LevelBar()
 	{
 		CLevelBar::LEVELUPBAR_DESC Desc = {};
 		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
-		Desc.fX		= 700.f;
-		Desc.fY		= 50.f;
-		Desc.fZ		= 0.5f;
-		Desc.fCX	= 320.f;
-		Desc.fCY	= 40.f;
+		Desc.fX = 700.f;
+		Desc.fY = 50.f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 320.f;
+		Desc.fCY = 40.f;
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_LevelBar"), &Desc);
 		if (nullptr == tmp)
@@ -1156,11 +1193,11 @@ HRESULT CPlace_Room::Layer_UI_LevelBar()
 	{
 		CGauge::GAUGE_DESC Desc = {};
 		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
-		Desc.fX		= 700.f;
-		Desc.fY		= 50.f;
-		Desc.fZ		= 0.5f;
-		Desc.fCX	= 310.f;
-		Desc.fCY	= 32.f;
+		Desc.fX = 700.f;
+		Desc.fY = 50.f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 310.f;
+		Desc.fCY = 32.f;
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_LevelGauge"), &Desc);
 		if (nullptr == tmp)
@@ -1230,12 +1267,13 @@ HRESULT CPlace_Room::Layer_UI_TextBox()
 		Desc.iTextureIndex = 0;
 		Desc.strFontTag = TEXT("Basic_Font_14");
 		Desc.vTextColor = Colors::AntiqueWhite;
-	
+
 		XMFLOAT4 vPosSizeArr[] = {
 			XMFLOAT4{300.f, 40.f, 240.f,  28.f},
 			XMFLOAT4{700.f, 100.f, 270.f, 28.f},
 			XMFLOAT4{760.f, 220.f, 300.f, 28.f},
 			XMFLOAT4{760.f, 280.f, 300.f, 28.f},
+
 		};
 
 		const _tchar* strTextArr[] = {
@@ -1247,11 +1285,12 @@ HRESULT CPlace_Room::Layer_UI_TextBox()
 
 		for (uint32_t i = 0; i < 4; ++i)
 		{
-			Desc.fX		= vPosSizeArr[i].x;
-			Desc.fY		= vPosSizeArr[i].y;
-			Desc.fCX	= vPosSizeArr[i].z;
-			Desc.fCY	= vPosSizeArr[i].w;
+			Desc.fX = vPosSizeArr[i].x;
+			Desc.fY = vPosSizeArr[i].y;
+			Desc.fCX = vPosSizeArr[i].z;
+			Desc.fCY = vPosSizeArr[i].w;
 			Desc.strText = strTextArr[i];
+
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_TextBox"), &Desc);
 			if (nullptr == tmp)
 				return E_FAIL;
@@ -1298,6 +1337,32 @@ HRESULT CPlace_Room::Layer_UI_TextBox()
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_TOP"), tmp)))
 			return E_FAIL;
 	}
+
+	{
+		XMFLOAT4 vPosSizeArr[] = {
+			XMFLOAT4{760.f, 250.f, 300.f, 28.f},
+			XMFLOAT4{760.f, 310.f, 300.f, 28.f},
+		};
+
+		CFriend_TextBox::FRIENDTEXTBOX_DESC Desc = {};
+		Desc.fZ = 0.5f;
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+
+		for (uint32_t i = 0; i < 2; ++i)
+		{
+			Desc.fX = vPosSizeArr[i].x;
+			Desc.fY = vPosSizeArr[i].y;
+			Desc.fCX = vPosSizeArr[i].z;
+			Desc.fCY = vPosSizeArr[i].w;
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_Friend_TextBox"), &Desc);
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_TOP"), tmp)))
+				return E_FAIL;
+		}
+	}
 	return S_OK;
 }
 
@@ -1308,7 +1373,7 @@ HRESULT CPlace_Room::Layer_UI_Option_Button()
 
 	{
 		COption_Button::OPTIONBUTTON_DESC Desc = {};
-		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI	;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 		Desc.fCX = 264.f;
 		Desc.fCY = 60.f;
 		Desc.fX = 960.f - (Desc.fCX * 0.5f) - 10.f;

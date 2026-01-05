@@ -415,6 +415,11 @@ inline HRESULT CGameInstance::PlaceManager_Change_Place(
 	return m_pPlaceManager->Change_Place(PlaceID, pPlace);
 }
 
+uint32_t CGameInstance::PlaceManager_Get_CurPlaceID() const
+{
+	return m_pPlaceManager->Get_CurPlaceID();
+}
+
 #pragma endregion
 
 #pragma region PROTOTYPE
@@ -699,6 +704,11 @@ vector<_wstring>* CGameInstance::AnimationManager_Find_AnimationMacro(const _wst
 vector<_float>* CGameInstance::AnimationManager_Find_AnimationSpeeds(const _wstring& strMacroTag)
 {
 	return m_pAnimationManager->Find_AnimationSpeeds(strMacroTag);
+}
+
+vector<uint32_t>* CGameInstance::AnimationManager_Find_AnimationLoopTime(const _wstring& strMacroTag)
+{
+	return m_pAnimationManager->Find_AnimationLoopTime(strMacroTag);
 }
 
 #pragma endregion

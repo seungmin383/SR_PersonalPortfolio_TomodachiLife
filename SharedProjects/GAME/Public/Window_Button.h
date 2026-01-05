@@ -69,6 +69,9 @@ private:
 
 	uint32_t m_iWindowIndex = {};
 
+private:
+	NEEDS m_eCurMii_Needs = { NEEDS::END };
+
 public:
 	static CWindow_Button* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg) override;

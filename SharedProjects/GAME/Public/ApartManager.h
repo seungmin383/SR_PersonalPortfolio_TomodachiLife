@@ -40,12 +40,31 @@ public:
 	_bool Get_isBeFriend()const { return m_isBeFriend; }
 	void Set_isBeFriend(_bool is) { m_isBeFriend = is; }
 
+	uint32_t Get_SrcMiiIndex()const { return m_iSrcMiiIndex; }
+	uint32_t Get_DstMiiIndex()const { return m_iDstMiiIndex; }
+
+	void Set_SrcMiiIndex(uint32_t i){ m_iSrcMiiIndex = i; }
+	void Set_DstMiiIndex(uint32_t i){ m_iDstMiiIndex = i; }
+
+	_bool Get_isVisitFriendRoom() const { return m_isVisitFriendRoom; }
+	void Set_isVisitFriendRoom(_bool is) { m_isVisitFriendRoom = is; }
+	
+	_bool Get_isVisitingFriendRoom() const { return m_isVisitingFriendRoom; }
+	void Set_isVisitingFriendRoom(_bool is) { m_isVisitingFriendRoom = is; }
+
 private:
 	APARTINFO_DESC m_ApartInfo = {};
 	
 	map<int32_t, int32_t>m_FoodInventory;
 
+private:
 	_bool m_isBeFriend = { FALSE };
+
+	uint32_t m_iSrcMiiIndex = {};
+	uint32_t m_iDstMiiIndex = {};
+
+	_bool m_isVisitFriendRoom = { FALSE };
+	_bool m_isVisitingFriendRoom = { FALSE };
 
 public:
 	virtual void Free()override;

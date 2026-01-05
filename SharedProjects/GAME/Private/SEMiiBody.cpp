@@ -43,10 +43,15 @@ HRESULT CSEMiiBody::Initialize_Clone(void* pArg)
 int32_t CSEMiiBody::Update_Priority(_float fDT)
 {
 	m_isPlaying_ReceiveFood_Event = FALSE;
+	m_isPlaying_BeFriend_Event = FALSE;
 
 	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::RECEIVE_FOOD))
 	{
 		m_isPlaying_ReceiveFood_Event = TRUE;
+	}
+	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::BE_FRIEND))
+	{
+		m_isPlaying_BeFriend_Event = TRUE;
 	}
 
 	return 0;
@@ -56,7 +61,8 @@ int32_t CSEMiiBody::Update(_float fDT)
 {
 	m_pCollider->Update_Collider();
 
-	if (*m_pChangeState)
+	/* Direction이 바꼈을 때 */
+	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::CHANGE_STATE))
 	{
 		m_isStart_ReceiveFood_Event = FALSE;
 
@@ -77,10 +83,25 @@ int32_t CSEMiiBody::Update(_float fDT)
 			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_WORST))
 				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Worst"));
 		}
-		else if(!m_isPlaying_ReceiveFood_Event)
+		else if (m_isPlaying_BeFriend_Event)
+		{
+			if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::WALKING))
+				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Walk"), TRUE, 1.f);
+			if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::BANTER))
+			{
+				_float fRand = m_pGameInstance->Random(1.f, 5.f);
+
+				_wstring str = L"Banter_" + to_wstring(static_cast<uint32_t>(fRand));
+				//_wstring str = L"Banter_0";// +to_wstring(rand() % 5 + 1);
+				m_pAnimationPlayer->Begin_Macro(str);
+			}
+			if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::HAPPY))
+				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Happy_Wait"), TRUE, 2.f);
+
+		}
+		else
 			m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
 	}
-
 
 	return 0;
 }
@@ -216,6 +237,17 @@ void CSEMiiBody::Calc_BodyState(_float fDT)
 			m_isReactingTaste = TRUE;
 		}
 
+	}
+	else if (m_isPlaying_BeFriend_Event)
+	{
+		m_isFin_Banter = FALSE;
+
+
+		/* 대화가 끝났는지 */
+		if (m_strCurAnimTag.find(TEXT("Chr_Bow_Hold")) != _wstring::npos)
+		{
+			m_isFin_Banter = TRUE;
+		}
 	}
 }
 

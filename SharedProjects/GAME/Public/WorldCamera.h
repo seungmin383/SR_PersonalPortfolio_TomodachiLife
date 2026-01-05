@@ -31,6 +31,8 @@ public:
 private:
 	_float m_fSensor = {};
 	
+	XMFLOAT4 m_vPos = {};
+
 
 public:
 	static CWorldCamera* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

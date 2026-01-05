@@ -35,11 +35,18 @@ public:
 	void FocusOnTarget(const _wstring& strCameraTag, FXMVECTOR vTargetPos, _float fTargetFov, _float fRatio);
 	void Reset_State(const _wstring& strCameraTag);
 	void Set_Position(const _wstring& strCameraTag, FXMVECTOR vPos);
+
+	void Move_Position(const _wstring& strCameraTag);
+
+
 public:
 	CCamera* Get_Camera(const _wstring& strCameraTag);
 
 private:
 	map<const _wstring, CCamera*> m_Cameras;
+
+	XMFLOAT4 m_vCameraPos = {};
+	XMFLOAT4 m_vTargetPos = {};
 
 public:
 	static CCameraManager* Create();

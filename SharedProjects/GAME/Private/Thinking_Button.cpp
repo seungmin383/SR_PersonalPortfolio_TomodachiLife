@@ -61,7 +61,7 @@ void CThinking_Button::Update_Late(_float fDT)
 {
 	if (CGameDirector::GetInstance()->Get_Direction() == CGameDirector::GAME_DIRECTION::NO_EVENT)
 	{
-		if (m_eCurMii_Needs != NEEDS::NOTHING)
+		if (m_eCurMii_Needs == NEEDS::BE_FRIEND)
 		{
 			CUI::Update_Late(fDT);
 			m_isRender = TRUE;
@@ -146,6 +146,8 @@ int32_t CThinking_Button::On_Click()
 			switch (m_eCurMii_Needs)
 			{
 			case Game::NEEDS::NOTHING:
+				break;
+			case Game::NEEDS::HUNGRY:
 				break;
 			case Game::NEEDS::BE_FRIEND:
 				CGameDirector::GetInstance()->Set_Direction(CGameDirector::GAME_DIRECTION::BE_FRIEND);

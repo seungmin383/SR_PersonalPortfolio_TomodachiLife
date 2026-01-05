@@ -61,6 +61,28 @@ int32_t CSEMiiMouth::Update_Priority(_float fDT)
 		else
 			m_isOpeing = FALSE;
 	}
+	else if (Has_All_Flag(*m_pParentState, (CSEMii::STATE::HAPPY | CSEMii::STATE::TALKING)))
+	{
+		if (Has_Any_Flag(*m_pParentState, (CSEMii::STATE::TALKING)))
+			m_fOpenTimeAcc += 5.f * fDT;
+		else
+			m_fOpenTimeAcc += fDT;
+
+		if (m_fOpenTimeAcc > m_fOpenMouthTimer)
+		{
+			m_isOpeing = TRUE;
+			m_fOpeningTimeAcc += fDT;
+
+			if (m_fOpeningTimeAcc > m_fOpeningMouthTimer)
+			{
+				m_isOpeing = FALSE;
+				m_fOpenTimeAcc = 0.f;
+				m_fOpeningTimeAcc = 0.f;
+			}
+		}
+		else
+			m_isOpeing = FALSE;
+	}
 	else
 	{
 		m_isOpeing = FALSE;
@@ -137,6 +159,19 @@ HRESULT CSEMiiMouth::Bind_ShaderResources()
 		else
 		{
 			if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iCloseMouthTextureIndex)))
+				return E_FAIL;
+		}
+	}
+	else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::HAPPY))
+	{
+		if (m_isOpeing)
+		{
+			if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iOpenMouthTextureIndex)))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iHappyMouthTextureIndex)))
 				return E_FAIL;
 		}
 	}

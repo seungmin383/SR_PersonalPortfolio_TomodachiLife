@@ -20,6 +20,10 @@ public:
 	int32_t Update(_float fDT);
 	HRESULT Render_Priority();
 	HRESULT Render_Late();
+
+public:
+	uint32_t Get_CurPlaceID()const { return m_iPlaceID; }
+
 private:
 	CGameInstance* m_pGameInstance = { nullptr };
 	CPlace* m_pPlace = { nullptr };

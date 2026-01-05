@@ -29,7 +29,11 @@ public:
 		FIN_FOODEVENT	= 1u << 10,
 		RECEIVED_FOOD	= 1u << 11,	/* 주민 손에 올라왔는지 */
 		TALKING			= 1u << 12,
-		BE_FRIEND		= 1u << 13
+		BE_FRIEND		= 1u << 13,
+		WALKING			= 1u << 14,
+		CHANGE_STATE	= 1u << 15,
+		BANTER			= 1u << 16,
+		HAPPY			= 1u << 17
 	};
 
 
@@ -38,6 +42,8 @@ public:
 	{
 		_wstring strNickName;
 		uint32_t iIndex;
+
+		_wstring strInitAnimTag = {};
 
 	}MII_DESC;
 
@@ -119,6 +125,23 @@ private:
 	_bool m_isFin_FirstTalk = { FALSE };
 
 	_float m_fTalkingTimer_2 = {};
+
+	_bool m_isVisitFriendRoom = { FALSE };
+	_bool m_isPreVisitingFriendRoom = { FALSE };
+
+	_float m_fWalkingTimer = {};
+
+	_bool m_isStartBanter = {FALSE};
+
+	_float m_isWaitingTImer = { FALSE };
+
+	_float m_fComeBackAndWaitTimer = {};
+	_float m_fComeBackAndTalkingTimer = {};
+	_bool m_isComeBackRoom = { FALSE };
+
+	_bool m_isFin_BeFriendEvent = { FALSE };
+
+private:
 
 public:
 	static CSEMii* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

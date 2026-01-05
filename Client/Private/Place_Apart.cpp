@@ -199,12 +199,18 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 				tDesc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ROOM);
 				
 				/* 인덱스로 보관 */
-				tDesc.iMiiIndex = iIndex;
 
 				if (m_iNumMii > iIndex)
+				{
+					tDesc.iMiiIndex = iIndex;
 					tDesc.isLive = TRUE;
+
+				}
 				else
+				{
+					tDesc.iMiiIndex = 0;
 					tDesc.isLive = FALSE;
+				}
 
 				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_WindowButton"), &tDesc);
 				if (nullptr == tmp)

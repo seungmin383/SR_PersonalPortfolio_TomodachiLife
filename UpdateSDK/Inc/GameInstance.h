@@ -105,6 +105,8 @@ public:
 		uint32_t PlaceID,
 		CPlace* pPlace);
 
+	uint32_t PlaceManager_Get_CurPlaceID()const;
+
 #pragma endregion
 
 	#pragma region PROTOTYPE
@@ -240,6 +242,7 @@ public:
 	CSEAnimation* AnimationManager_Find_Animation(const _wstring& strAnimationTag);
 	vector<_wstring>* AnimationManager_Find_AnimationMacro(const _wstring& strMacroTag);
 	vector<_float>* AnimationManager_Find_AnimationSpeeds(const _wstring& strMacroTag);
+	vector<uint32_t>* AnimationManager_Find_AnimationLoopTime(const _wstring& strMacroTag);
 
 #pragma endregion
 

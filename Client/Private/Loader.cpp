@@ -38,6 +38,8 @@
 #include "FoodItem_Button.h"
 #include "Level_TextBox.h"
 #include "Thinking_Button.h"
+#include "FriendList_BackGround.h"
+#include "Friend_TextBox.h"
 
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -111,6 +113,10 @@ HRESULT CLoader::Loading()
 
 	case PLACEID::FOOD_STORE:
 		hr = Loading_FoodStore();
+		break;
+
+	case PLACEID::EVENT_BEFRIEND:
+		hr = Loading_Event_BeFriend();
 		break;
 
 	case PLACEID::DEVELOPER:
@@ -644,15 +650,17 @@ HRESULT CLoader::Loading_Room()
 			return E_FAIL;
 	}
 
-	/* Actor */
-
-	/* 주민 방 */
-	// ProtoTag_Actor_Room
+	/* 친구 목록 뒷배경 텍스쳐 */
+	// ProtoTag_Component_FriendList_BackGround_Texture
 	{
-		tmp = CRoom::Create(m_pDevice, m_pContext);
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Room"), tmp)))
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/FriendList_BackGround_Texture/%d.dds"), 1);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_FriendList_BackGround_Texture"), tmp)))
 			return E_FAIL;
 	}
+
+	/* Actor */
+
+
 
 	/* UI */
 	
@@ -730,6 +738,22 @@ HRESULT CLoader::Loading_Room()
 			return E_FAIL;
 	}
 
+	/* 친구 목록 뒷 배경*/
+	// ProtoTag_UI_FriendList_BackGround
+	{
+		tmp = CFriendList_BackGround::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_FriendList_BackGround"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 친구 목록 */
+	// ProtoTag_UI_Friend_TextBox
+	{
+		tmp = CFriend_TextBox::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_Friend_TextBox"), tmp)))
+			return E_FAIL;
+	}
+
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
 	m_isFinished = true;
 	return S_OK;
@@ -775,6 +799,17 @@ HRESULT CLoader::Loading_FoodStore()
 			return E_FAIL;
 	}
 	/* UI */
+
+	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_Event_BeFriend()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::EVENT_BEFRIEND);
+
+
 
 	m_isFinished = true;
 	return S_OK;

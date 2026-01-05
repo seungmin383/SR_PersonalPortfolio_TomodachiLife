@@ -46,6 +46,9 @@
     <ClInclude Include="..\Public\Place_FoodStore.h">
       <Filter>01.Place\05.Place_FoodStore</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Place_Event_BeFriend.h">
+      <Filter>01.Place\97.Place_Event_BeFriend</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -95,6 +98,9 @@
     <Filter Include="01.Place\05.Place_FoodStore">
       <UniqueIdentifier>{70def362-735e-4a0a-8df8-1a5eb160f12a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Place\97.Place_Event_BeFriend">
+      <UniqueIdentifier>{26722726-eece-4ae8-9837-b724a799eb97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -129,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Place_FoodStore.cpp">
       <Filter>01.Place\05.Place_FoodStore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_Event_BeFriend.cpp">
+      <Filter>01.Place\97.Place_Event_BeFriend</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

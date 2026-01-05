@@ -75,6 +75,9 @@ public:
 	_bool Get_isReactingTaste() const { return m_isReactingTaste; }
 	_bool Get_isFin_EatingFood() const { return m_isFin_EatingFood; }
 
+public:
+	_bool Get_isFin_Banter() const { return m_isFin_Banter; }
+
 private:
 	_wstring m_strCurAnimTag = {};
 	_wstring m_strPreAnimTag = {};
@@ -83,6 +86,9 @@ private:
 	/* 음식 받았을 때 */
 	_bool m_isPlaying_ReceiveFood_Event = { FALSE };
 	
+	/* 친구 만나러 갔을 때 */
+	_bool m_isPlaying_BeFriend_Event = { FALSE };
+
 private:/* 밖에 알려줘야 되는 플래그 */
 
 	/* 매크로 애니메이션이 시작 되었는지 */
@@ -99,6 +105,11 @@ private:/* 밖에 알려줘야 되는 플래그 */
 
 	/* 맛 평가를 하고 있는지 */
 	_bool m_isReactingTaste = { FALSE };
+
+private:
+	/* 대화가 끝났는지 */
+	_bool m_isFin_Banter = { FALSE };
+
 
 public:
 	static CSEMiiBody* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

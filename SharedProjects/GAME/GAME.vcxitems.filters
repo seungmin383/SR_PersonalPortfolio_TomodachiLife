@@ -319,6 +319,12 @@
     <Filter Include="03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\01.SetisBeFriend">
       <UniqueIdentifier>{4b1ecc89-4571-481c-a2ae-36a873f31d2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\03.Texture\06.TextBox\Friend">
+      <UniqueIdentifier>{8ab7aea7-e676-422c-af26-1292b35e8a54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.BackGround\FriendListBackGround">
+      <UniqueIdentifier>{bc7af292-97ee-456e-b730-229106648430}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -614,6 +620,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetisBeFriend_Strgy.h">
       <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\01.SetisBeFriend</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Friend_TextBox.h">
+      <Filter>03.UI\03.Texture\06.TextBox\Friend</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\FriendList_BackGround.h">
+      <Filter>03.UI\02.BackGround\FriendListBackGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp">
@@ -873,6 +885,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetisBeFriend_Strgy.cpp">
       <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\01.SetisBeFriend</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Friend_TextBox.cpp">
+      <Filter>03.UI\03.Texture\06.TextBox\Friend</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\FriendList_BackGround.cpp">
+      <Filter>03.UI\02.BackGround\FriendListBackGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -67,6 +67,8 @@ private:
 
 	uint32_t m_iOpenMouthTextureIndex = { 108 };
 	uint32_t m_iCloseMouthTextureIndex = { 101 };
+	uint32_t m_iHappyMouthTextureIndex = { 102 };
+
 
 public:
 	static CSEMiiMouth* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

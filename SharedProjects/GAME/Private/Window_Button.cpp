@@ -61,6 +61,8 @@ int32_t CWindow_Button::Update_Priority(_float fDT)
 		m_isClicked = TRUE;
 	}
 
+	m_eCurMii_Needs = static_cast<NEEDS>(CMiiManager::GetInstance()->Get_MiiInfo(m_iMiiIndex).MiiProfile.iNeeds);
+
 	return UPDATE_CLEAR;
 }
 
@@ -129,8 +131,16 @@ HRESULT CWindow_Button::Bind_ShaderResources()
 	}
 	else
 	{
-		if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureIndex)))
-			return E_FAIL;
+		if (m_eCurMii_Needs == NEEDS::BE_FRIEND)
+		{
+			if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 3)))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureIndex)))
+				return E_FAIL;
+		}
 
 		if (m_isSelected)
 		{

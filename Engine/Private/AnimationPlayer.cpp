@@ -73,8 +73,13 @@ HRESULT CAnimationPlayer::Begin_Macro(const _wstring& strMacroTag)
 	if (nullptr == pSpeeds)
 		return E_FAIL;
 
+	vector<uint32_t>* pLoopTimes = m_pGameInstance->AnimationManager_Find_AnimationLoopTime(strMacroTag);
+	if (nullptr == pLoopTimes)
+		return E_FAIL;
+
 	m_pMacro = pMacro;
 	m_pSpeeds = pSpeeds;
+	m_pLoopTimes = pLoopTimes;
 
 	m_iCurMacroIndex = 0;
 
@@ -114,7 +119,33 @@ void CAnimationPlayer::Play_Macro(_float fDT)
 
 		if (m_isAnimFin && !m_isEndMacro)
 		{
-			if ((++m_iCurMacroIndex < m_iMaxMacroIndex))
+			m_iLoopCount++;
+
+			if (m_iLoopCount < (*m_pLoopTimes)[m_iCurMacroIndex])
+			{
+				if (m_pPreAnimation != nullptr)
+					Safe_Release(m_pPreAnimation);
+
+				m_fBlendDuration = 0.3f;
+				m_strCurAnimTag = (*m_pMacro)[m_iCurMacroIndex];
+
+				m_pPreAnimation = m_pCurAnimation;
+
+				m_fPreTrackPosition = m_fCurTrackPosition;
+				m_fCurTrackPosition = 0.f;
+
+				m_isChangedAnimation = TRUE;
+				m_isLoop = FALSE;
+
+				m_fPreAnimSpeed = m_fCurAnimSpeed;
+				m_fCurAnimSpeed = (*m_pSpeeds)[m_iCurMacroIndex];
+
+				m_pCurAnimation = m_pGameInstance->AnimationManager_Find_Animation((*m_pMacro)[m_iCurMacroIndex]);
+				if (nullptr == m_pCurAnimation)
+					MSG_BOX("ErrCode : Change Animation Failed");
+			}
+
+			else if ((++m_iCurMacroIndex < m_iMaxMacroIndex))
 			{
 				m_isPlayingMacro = TRUE;
 				Change_Animation((*m_pMacro)[m_iCurMacroIndex], 0.3f, FALSE, (*m_pSpeeds)[m_iCurMacroIndex]);
@@ -152,6 +183,8 @@ void CAnimationPlayer::Change_Animation(
 
 	m_isChangedAnimation = TRUE;
 	m_isLoop = isLoop;
+
+	m_iLoopCount = 0;
 
 	m_fPreAnimSpeed = m_fCurAnimSpeed;
 	m_fCurAnimSpeed = fSpeed;
@@ -229,13 +262,13 @@ void CAnimationPlayer::Blend_Animation(_float fDT)
 		const CHANNEL_POS& pre = PreChannelPos[i];
 		const CHANNEL_POS& cur = CurChannelPos[i];
 
-		XMVECTOR vPreScale = XMLoadFloat3(&pre.vCurScale);
-		XMVECTOR vCurScale = XMLoadFloat3(&cur.vCurScale);
+		XMVECTOR vPreScale		= XMLoadFloat3(&pre.vCurScale);
+		XMVECTOR vCurScale		= XMLoadFloat3(&cur.vCurScale);
 
-		XMVECTOR vPreRotation = XMLoadFloat4(&pre.vCurRotation);
-		XMVECTOR vCurRotation = XMLoadFloat4(&cur.vCurRotation);
+		XMVECTOR vPreRotation	= XMLoadFloat4(&pre.vCurRotation);
+		XMVECTOR vCurRotation	= XMLoadFloat4(&cur.vCurRotation);
 
-		XMVECTOR vPreTranslation = XMVectorSetW(XMLoadFloat3(&pre.vCurTranslation), 1.f);
+		XMVECTOR vPreTranslation= XMVectorSetW(XMLoadFloat3(&pre.vCurTranslation), 1.f);
 		XMVECTOR vCurTranslation = XMVectorSetW(XMLoadFloat3(&cur.vCurTranslation), 1.f);
 
 		XMVECTOR vScale = XMVectorLerp(vPreScale, vCurScale, fRatio);
