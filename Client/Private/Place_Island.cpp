@@ -225,34 +225,6 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 		}
 	}
 
-	//// ProtoTag_Actor_Apart
-	//{
-	//	CApart::APART_DESC tApartDesc = {};
-	//	tApartDesc.fX = 0.f;
-	//	tApartDesc.fY = 0.f;
-	//	tApartDesc.fZ = 0.f;
-	//	tApartDesc.fCX = 1.f;
-	//	tApartDesc.fCY = 1.f;
-	//	tApartDesc.fCZ = 1.f;
-	//	tApartDesc.fSpeedPerSecond = 0.f;
-	//	tApartDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-	//	tApartDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
-
-	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(
-	//		static_cast<uint32_t>(PLACEID::ISLAND),
-	//		TEXT("ProtoTag_Actor_Apart"),
-	//		&tApartDesc);
-
-	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-	//		static_cast<uint32_t>(PLACEID::ISLAND),
-	//		TEXT("LayerTag_Actor"),
-	//		tmp)))
-	//	{
-	//		Safe_Release(tmp);
-	//		return E_FAIL;
-	//	}
-	//}
-
 	CTempModel::TEMPMODEL_DESC tTmpModelDesc = {};
 
 	XMFLOAT4 vPlacePosArr[] = {
@@ -377,6 +349,55 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 
 	constexpr uint32_t iNumPlace = sizeof(vPlacePosArr) / sizeof(XMFLOAT4);
 
+	IUnlock* pUnlockStrgyArr[] = {
+		// 0. Go Apart
+		CApart_UnlockStrategy::Create(),
+		// 1. Go Wear
+		CClothStore_UnlockStrategy::Create(),
+		// 2. Go Antique
+		COtherBuilding_UnlockStrategy::Create(),
+		// 3. Go Cap
+		COtherBuilding_UnlockStrategy::Create(),
+		// 4. Go Food
+		CFoodStore_UnlockStrategy::Create(),
+		// 5. Go Luxury
+		COtherBuilding_UnlockStrategy::Create(),
+		// 6. Go Music
+		COtherBuilding_UnlockStrategy::Create(),
+		// 7. Go House
+		CHouse_UnlockStrategy::Create(),
+		// 8. Go CityHall
+		CCityHall_UnlockStrategy::Create(),
+		// 9. Go Rank
+		COtherBuilding_UnlockStrategy::Create(),
+		// 10. Go Tent
+		COtherBuilding_UnlockStrategy::Create(),	
+		// 11. Go wedding
+		COtherBuilding_UnlockStrategy::Create(),	
+		// 12. Go love
+		COtherBuilding_UnlockStrategy::Create(),	
+		// 13. Go port
+		COtherBuilding_UnlockStrategy::Create(),	
+		// 14. Go photo
+		COtherBuilding_UnlockStrategy::Create(),	
+		// 15. Go news
+		COtherBuilding_UnlockStrategy::Create(),	
+		// 16. Go export
+		COtherBuilding_UnlockStrategy::Create(),	
+		// 17. Go Fountain
+		COtherBuilding_UnlockStrategy::Create(),	
+		// 18. Go Sea
+		COtherBuilding_UnlockStrategy::Create(),	
+		// 19. Go jeonMangDae
+		COtherBuilding_UnlockStrategy::Create(),	
+		// 20. Go park
+		COtherBuilding_UnlockStrategy::Create(),	
+		// 21. Go play
+		COtherBuilding_UnlockStrategy::Create(),	
+		// 22. Go cafe
+		COtherBuilding_UnlockStrategy::Create(), 
+	};
+
 	/* 건물들 */
 	for (uint32_t i = 0; i < iNumPlace; ++i)
 	{
@@ -388,7 +409,7 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 		tTmpModelDesc.fSpeedPerSecond = 3.f;
 		tTmpModelDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		tTmpModelDesc.fRotationPerSecond = XMConvertToRadians(0.f);
-		tTmpModelDesc.pUnlockStrategy = CFoodStore_UnlockStrategy::Create();
+		tTmpModelDesc.pUnlockStrategy = pUnlockStrgyArr[i];
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), &tTmpModelDesc);
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_Actor"), tmp)))
@@ -408,8 +429,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ISLAND);
 
 	/* 위치 배열 */
-	const XMFLOAT3 vPosArr[] =
-	{
+	const XMFLOAT3 vPosArr[] =	{
 		// 0. Go Apart
 		XMFLOAT3{385.f, 135.f, 0.4f},
 
@@ -481,8 +501,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	};
 
 	/* 텍스쳐 인덱스 배열 */
-	const POINT TextureIndexArr[] =
-	{
+	const POINT TextureIndexArr[] =	{
 		{44, 4},  // 0. Go Apart
 		{ 0, 0},  // 1. Go Wear
 		{ 4, 0},  // 2. Go Antique
@@ -509,8 +528,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 	};
 
 	/* 타겟 위치 */
-	const XMFLOAT4 vTargetPosArr[] =
-	{
+	const XMFLOAT4 vTargetPosArr[] =	{
 		// 0. Go Apart
 		APART_TARGETPOS,
 
@@ -586,25 +604,25 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		2,	// 1. Go Wear
 		3,	// 2. Go Antique
 		4,	// 3. Go Cap
-		5,   // 4. Go Food
-		7,   // 5. Go Luxury
-		8,   // 6. Go Music
-		10,   // 7. Go House
-		11,   // 8. Go CityHall
-		12,   // 9. Go Rank   
-		13,   // 10. Go Tent
-		15,   // 11. Go Wedding
-		16,   // 12. Go Love
-		17,   // 13. Go Port
-		19,   // 14. Go Photo
-		20,   // 15. Go News
-		23,   // 16. Go Export 
-		6,   // 17. Go Fountain
-		9,   // 18. Go Sea
-		14,   // 19. Go JeonMangDae
-		18,   // 20. Go Park
-		21,   // 21. Go Play
-		22   // 22. Go Cafe
+		5,	// 4. Go Food
+		7,	// 5. Go Luxury
+		8,	// 6. Go Music
+		10,	// 7. Go House
+		11,	// 8. Go CityHall
+		12,	// 9. Go Rank   
+		13,	// 10. Go Tent
+		15,	// 11. Go Wedding
+		16,	// 12. Go Love
+		17,	// 13. Go Port
+		19,	// 14. Go Photo
+		20,	// 15. Go News
+		23,	// 16. Go Export 
+		6,	// 17. Go Fountain
+		9,	// 18. Go Sea
+		14,	// 19. Go JeonMangDae
+		18,	// 20. Go Park
+		21,	// 21. Go Play
+		22	// 22. Go Cafe
 	};
 
 	{
@@ -666,18 +684,18 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 
 			/* 전략 */
 			CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgy_Desc = {};
-			strgy_Desc.ePlaceID = PLACEID::ISLAND;
-			strgy_Desc.strLayerTag = TEXT("LayerTag_UI_PlaceMoveButton");
+			strgy_Desc.ePlaceID		= PLACEID::ISLAND;
+			strgy_Desc.strLayerTag	= TEXT("LayerTag_UI_PlaceMoveButton");
 			strgy_Desc.EnableLayers = vector<_wstring>{ TEXT("LayerTag_UI_Back_Button") };
 			strgy_Desc.DisableLayers = vector<_wstring>{TEXT("LayerTag_UI_Wallet")};
 
 			PM_Desc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext,strgy_Desc);
 
 			CCameraZoom_Strgy::CAMERAZOOMSTRGY_DESC tCameraZoomStrgyDesc = {};
-			tCameraZoomStrgyDesc.strCameraTag = TEXT("World_Camera");
-			tCameraZoomStrgyDesc.fTargetFov = XMConvertToRadians(10.f);
-			tCameraZoomStrgyDesc.vTargetPos = vTargetPosArr[i];
-			tCameraZoomStrgyDesc.fLerpTime = 0.1f;
+			tCameraZoomStrgyDesc.strCameraTag	= TEXT("World_Camera");
+			tCameraZoomStrgyDesc.fTargetFov		= XMConvertToRadians(10.f);
+			tCameraZoomStrgyDesc.vTargetPos		= vTargetPosArr[i];
+			tCameraZoomStrgyDesc.fLerpTime		= 0.1f;
 			PM_Desc.pSelected_Strgy = CCameraZoom_Strgy::Create(m_pDevice, m_pContext, tCameraZoomStrgyDesc);
 
 			PM_Desc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, NextPlaceIDArr[i]);

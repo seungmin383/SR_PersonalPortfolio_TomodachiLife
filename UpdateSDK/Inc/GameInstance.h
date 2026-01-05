@@ -260,8 +260,8 @@ public:
 #pragma endregion
 
 #pragma region ACTORMANGER
-	void ActorManager_Set_IsBuildingUnlock(_bool isUnlock);
-	_bool ActorManager_Get_IsBuildingUnlock() const;
+	void ActorManager_Set_IsBuildingUnlock(uint32_t i, _bool isUnlock);
+	_bool ActorManager_Get_IsBuildingUnlock(uint32_t i) const;
 #pragma endregion
 
 #pragma region FONTMANAGER

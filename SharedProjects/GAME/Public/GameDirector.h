@@ -20,6 +20,7 @@ public:
 		GIVE_ITEM,
 		GIVE_FOOD,
 		BE_FRIEND,
+		LOVE,
 		END
 	};
 

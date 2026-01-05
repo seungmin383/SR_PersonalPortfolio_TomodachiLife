@@ -13,12 +13,59 @@ HRESULT CMiiManager::Initialize()
 	if (FAILED(Load_AllMiiData()))
 		return E_FAIL;	
 
+	uint32_t iIndex = {};
+	uint32_t iNumMii = static_cast<uint32_t>(m_Mii_Informations.size());
+
 	for (auto& info : m_Mii_Informations)
 	{
-		uint32_t i = rand() % static_cast<int32_t>(NEEDS::END);
-		info.MiiProfile.iNeeds = i;
+		/* ³ª¶û Ä£±¸ÀÎ mii ÀÎµ¦½ºµéÀ» °¡Á®¿È */
+		const auto& iArr = info.MiiProfile.iFriendIndexList;
+		_bool isMan = info.MiiProfile.isMan;
+
+		/* ³ª¶û Ä£±¸°¡ ¾Æ´Ñ ¾ÖµéÀ» ÀúÀåÇÒ²¨ÀÓ*/
+		vector<uint32_t>NotFriendList;
+
+		/* ³ª¶û Ä£±¸°í ÀÌ¼ºÀÎ ¾Öµé ÀúÀåÇÒ°ÅÀÓ */
+		vector<uint32_t> LoveList;
+
+		/* ¸ðµç ÁÖ¹Î ¼øÈ¸ */
+
+		for (uint32_t i = 0; i < iNumMii; ++i)
+		{
+			_bool isFriend = { FALSE };
+			_bool CanLove = { FALSE };
+
+			/* ³ª¸é »©±â */
+			if (iIndex == i)
+				continue;
+
+			/* ³ª¶û Ä£±¸ÀÎ ¾Öµé ÀÎµ¦½º j */
+			for (uint32_t j : iArr)
+			{
+				if (j == i)
+				{
+					_bool a = m_Mii_Informations[j].MiiProfile.isMan;
+					_bool b = info.MiiProfile.isMan;
+
+					if (m_Mii_Informations[j].MiiProfile.isMan != info.MiiProfile.isMan)
+						CanLove = TRUE;
+
+					isFriend = TRUE;
+					break;
+				}
+			}
+
+			if (!isFriend)
+				NotFriendList.push_back(i);
+			if (CanLove)
+				LoveList.push_back(i);
+		}
+
+		iIndex++;
+
+		uint32_t iRandNeeds = rand() % static_cast<int32_t>(NEEDS::END);
+		info.MiiProfile.iNeeds = iRandNeeds;
 	}
-		//info.MiiProfile.iNeeds = static_cast<uint32_t>(NEEDS::BE_FRIEND);
 
 	return S_OK;
 }
@@ -42,6 +89,7 @@ HRESULT CMiiManager::Begin_Edit(_bool isMan)
 		m_EditDesc.EyesInfo.iIndex		= 0;
 		m_EditDesc.NoseInfo.iIndex		= 60;
 		m_EditDesc.MouthInfo.iIndex		= 101;
+		m_EditDesc.MiiProfile.isMan = TRUE;
 	}
 	else
 	{
@@ -51,6 +99,7 @@ HRESULT CMiiManager::Begin_Edit(_bool isMan)
 		m_EditDesc.EyesInfo.iIndex		= 1;
 		m_EditDesc.NoseInfo.iIndex		= 60;
 		m_EditDesc.MouthInfo.iIndex		= 101;
+		m_EditDesc.MiiProfile.isMan = FALSE;
 	}
 
 	return S_OK;

@@ -88,7 +88,6 @@ void CSEMii::Initialize_FriendList()
 		/* 나랑 친구인 애들 인덱스 j */
 		for (uint32_t j : iArr)
 		{
-	
 			if (j == i)
 			{
 				isFriend = TRUE;
@@ -100,7 +99,6 @@ void CSEMii::Initialize_FriendList()
 			NotFriendList.push_back(i);
 	}
 
-
 	for (uint32_t j : iArr)
 	{
 		/* 성별이 다르다면 */
@@ -108,6 +106,12 @@ void CSEMii::Initialize_FriendList()
 			LoveList.push_back(j);
 	}
 	
+	if (!LoveList.empty())
+	{
+		m_iLoveMiiIndex = LoveList.front();
+		CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iNeeds = static_cast<uint32_t>(NEEDS::LOVE);
+	}
+
 
 	uint32_t iNumNotFriend = static_cast<uint32_t>(NotFriendList.size());
 	if (iNumNotFriend <= 0)
@@ -149,6 +153,7 @@ void CSEMii::Observe()
 	/* 전역 스테이트 -> 일종의 타임라인 (어떤 이벤트가 실행중인지 )*/
 	m_eDirection = CGameDirector::GetInstance()->Get_Direction();
 	Clear_Flag(m_iState);
+
 	if (m_eDirection != m_ePreDirection)
 	{
 		Add_Flag(m_iState, STATE::CHANGE_STATE);
@@ -171,6 +176,10 @@ void CSEMii::Observe()
 		m_isReactingTaste = m_pBody->Get_isReactingTaste();
 	}
 	else if (m_eDirection == CGameDirector::GAME_DIRECTION::BE_FRIEND)
+	{
+
+	}
+	else if (m_eDirection == CGameDirector::GAME_DIRECTION::LOVE)
 	{
 
 	}
@@ -209,6 +218,10 @@ void CSEMii::Thinking(_float fDT)
 		break;
 
 
+	case Game::CGameDirector::GAME_DIRECTION::LOVE:
+		Add_Flag(m_iState, STATE::LOVE);
+		break;
+
 	default:
 		break;
 	}
@@ -220,6 +233,10 @@ void CSEMii::Thinking(_float fDT)
 
 	else if (m_eDirection == CGameDirector::GAME_DIRECTION::BE_FRIEND)
 		Thinking_About_BeFriend(fDT);
+
+	else if (m_eDirection == CGameDirector::GAME_DIRECTION::LOVE)
+		Thinking_About_Love(fDT);
+
 
 	/* 파트 오브젝트의 값을 이용해서 3차 내부 스테이트를 추가 */
 
@@ -445,6 +462,11 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 
 
 	m_isPreVisitingFriendRoom = isVisiting;
+}
+
+void CSEMii::Thinking_About_Love(_float fDT)
+{
+
 }
 
 void CSEMii::Acting()

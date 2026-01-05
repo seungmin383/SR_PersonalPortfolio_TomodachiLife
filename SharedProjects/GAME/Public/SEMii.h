@@ -33,7 +33,8 @@ public:
 		WALKING			= 1u << 14,
 		CHANGE_STATE	= 1u << 15,
 		BANTER			= 1u << 16,
-		HAPPY			= 1u << 17
+		HAPPY			= 1u << 17,
+		LOVE			= 1u << 18
 	};
 
 
@@ -73,6 +74,7 @@ public:
 
 	void Thinking_About_ReceiveFood();
 	void Thinking_About_BeFriend(_float fDT);
+	void Thinking_About_Love(_float fDT);
 
 	/* 상태에 따른 명령 내리기 */
 	void Acting();
@@ -142,6 +144,7 @@ private:
 	_bool m_isFin_BeFriendEvent = { FALSE };
 
 private:
+	uint32_t m_iLoveMiiIndex = {};
 
 public:
 	static CSEMii* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

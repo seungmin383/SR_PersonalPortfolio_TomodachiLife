@@ -43,11 +43,14 @@
             0.5639820694923401,
             1.9597766399383545
         ],
-        "FriendIndexList": [],
+        "FriendIndexList": [
+            0,
+            1
+        ],
         "Fullness": 0,
         "LastName": "ccc",
-        "Level": 0.0,
-        "Needs": 0,
+        "Level": 0.6000000238418579,
+        "Needs": 3,
         "NickName": "ccc",
         "RoomIndex": 0,
         "isMan": false

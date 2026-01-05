@@ -136,6 +136,16 @@ HRESULT CWindow_Button::Bind_ShaderResources()
 			if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 3)))
 				return E_FAIL;
 		}
+		else if (m_eCurMii_Needs == NEEDS::LOVE)
+		{
+			if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 4)))
+				return E_FAIL;
+		}
+		else if (m_eCurMii_Needs == NEEDS::HUNGRY)
+		{
+			if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", 2)))
+				return E_FAIL;
+		}
 		else
 		{
 			if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureIndex)))

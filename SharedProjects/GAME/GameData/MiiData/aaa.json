@@ -47,10 +47,10 @@
         "Fullness": 0,
         "LastName": "aaa",
         "Level": 0.0,
-        "Needs": 0,
+        "Needs": 1,
         "NickName": "aaa",
         "RoomIndex": 0,
-        "isMan": false
+        "isMan": true
     },
     "MouthInfo": {
         "Index": 101

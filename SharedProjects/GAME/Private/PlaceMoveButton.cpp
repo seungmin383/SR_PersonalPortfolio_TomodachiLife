@@ -63,7 +63,7 @@ int32_t CPlaceMoveButton::Update_Priority(_float fDT)
 
 int32_t CPlaceMoveButton::Update(_float fDT)
 {
-	m_isUnlock = m_pGameInstance->ActorManager_Get_IsBuildingUnlock();
+	m_isUnlock = m_pGameInstance->ActorManager_Get_IsBuildingUnlock(m_iMatchBuildingIndex);
 	return On_Click();
 }
 
@@ -126,6 +126,8 @@ HRESULT CPlaceMoveButton::Bind_ShaderResources()
 	if (!m_isUnlock)
 	{
 		if (FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureIndex)))
+			return E_FAIL;
+		if (FAILED(m_pOutlineTextureCom->Bind_ShaderResource(m_pShaderCom, "g_UpperTexture", 5)))
 			return E_FAIL;
 	}
 	else

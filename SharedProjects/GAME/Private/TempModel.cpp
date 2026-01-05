@@ -39,7 +39,7 @@ int32_t CTempModel::Update_Priority(_float fDT)
 {
 	if ( !m_isUnlock && m_pUnlockStrategy->isUnlock())
 	{
-		m_pGameInstance->ActorManager_Set_IsBuildingUnlock(TRUE);
+		m_pGameInstance->ActorManager_Set_IsBuildingUnlock(m_iBuildingIndex, TRUE);
 		m_isUnlock = TRUE;
 	}
 

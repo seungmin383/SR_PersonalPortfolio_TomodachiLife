@@ -93,6 +93,8 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 		for (uint32_t i = 0; i < m_iNumMii; ++i)
 		{
+			CMiiManager::GetInstance()->Set_CurMiiIndex(i);
+
 			CSEMii::MII_DESC Desc = {};
 			Desc.vPos = XMFLOAT4{0.f, 0.f, 0.f, 1.f };
 			Desc.fCX = 1.5f;

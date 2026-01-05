@@ -352,25 +352,11 @@
 
   "Banter_3": [
     {
-      "AnimTag": "Chr_Curious_Talk",
-      "AnimSpeed": 3.0,
-      "SoundTag": [],
-      "Notifies": 0.0,
-      "LoopTime": 4
-    },
-    {
       "AnimTag": "Chr_SelfPraise_Talk",
-      "AnimSpeed": 1.0,
+      "AnimSpeed": 1.5,
       "SoundTag": [],
       "Notifies": 0.0,
       "LoopTime": 1
-    },
-    {
-      "AnimTag": "Chr_BBQ_Talk",
-      "AnimSpeed": 2.0,
-      "SoundTag": [],
-      "Notifies": 0.0,
-      "LoopTime": 2
     },
     {
       "AnimTag": "Chr_Bow_Hold",

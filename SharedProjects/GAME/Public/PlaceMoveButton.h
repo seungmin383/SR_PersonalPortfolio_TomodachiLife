@@ -31,6 +31,7 @@ public:
 		_float fTargetFov = {};
 		uint32_t iMatchBuildingIndex = {};
 
+		
 	}PLACEMOVEBUTTON_DESC;
 
 private:

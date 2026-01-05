@@ -747,14 +747,14 @@ HRESULT CGameInstance::CollsionManager_Add_Collider(uint32_t iPlaceID, COLLISION
 
 #pragma region ACTORMANAGER
 
-void CGameInstance::ActorManager_Set_IsBuildingUnlock(_bool isUnlock)
+void CGameInstance::ActorManager_Set_IsBuildingUnlock(uint32_t i, _bool isUnlock)
 {
-	m_pActorManager->Set_IsBuildingUnlock(isUnlock);
+	m_pActorManager->Set_IsBuildingUnlock(i, isUnlock);
 }
 
-_bool CGameInstance::ActorManager_Get_IsBuildingUnlock() const
+_bool CGameInstance::ActorManager_Get_IsBuildingUnlock(uint32_t i) const
 {
-	return m_pActorManager->Get_IsBuildingUnlock();
+	return m_pActorManager->Get_IsBuildingUnlock(i);
 }
 #pragma endregion
 
