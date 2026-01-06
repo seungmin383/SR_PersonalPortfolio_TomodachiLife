@@ -56,6 +56,8 @@ private:
 	HRESULT Loading_FoodStore();
 	
 	HRESULT Loading_Event_BeFriend();
+	HRESULT Loading_Event_Love();
+
 
 	HRESULT Loading_Developer();
 #pragma endregion

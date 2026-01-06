@@ -2,6 +2,11 @@
 #include "GameInstance.h"
 #include "Place_Loading.h"
 
+
+#include"MiiManager.h"
+#include "ApartManager.h"
+
+
 /* Component */
 
 /* Actor */
@@ -11,6 +16,8 @@
 #include "SkyAndSea.h"
 #include "Apart.h"
 #include "TempModel.h"
+#include "Sky_Actor.h"
+#include "Sea_Actor.h"
 
 /* UI */
 #include "BackGround.h"
@@ -21,6 +28,7 @@
 #include "IconTexture.h"
 #include "Back_Button.h"
 #include "Wallet.h"
+#include "Window_Button.h"
 
 /* Strgy*/
 #include "IUnlock.h"
@@ -199,32 +207,68 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 		}
 	}
 
-	// ProtoTag_Actor_SkyAndSea
+	//// ProtoTag_Actor_SkyAndSea
+	//{
+	//	CSkyAndSea::SKYANDSEA_DESC tSkyAndSeaDesc = {};
+	//	tSkyAndSeaDesc.vPos = XMFLOAT4{0.f, 0.f, 0.f,1.f};
+	//	tSkyAndSeaDesc.fCX = 1.f;
+	//	tSkyAndSeaDesc.fCY = 1.f;
+	//	tSkyAndSeaDesc.fCZ = 1.f;
+	//	tSkyAndSeaDesc.fSpeedPerSecond = 0.f;
+	//	tSkyAndSeaDesc.fRotationPerSecond = XMConvertToRadians(20.f);
+	//	tSkyAndSeaDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+
+	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(
+	//		static_cast<uint32_t>(PLACEID::ISLAND),
+	//		TEXT("ProtoTag_Actor_SkyAndSea"),
+	//		&tSkyAndSeaDesc);
+
+	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
+	//		static_cast<uint32_t>(PLACEID::ISLAND),
+	//		TEXT("LayerTag_Actor"),
+	//		tmp)))
+	//	{
+	//		Safe_Release(tmp);
+	//		return E_FAIL;
+	//	}
+	//}
+
+	// ProtoTag_Actor_Sky
 	{
-		CSkyAndSea::SKYANDSEA_DESC tSkyAndSeaDesc = {};
-		tSkyAndSeaDesc.vPos = XMFLOAT4{0.f, 0.f, 0.f,1.f};
-		tSkyAndSeaDesc.fCX = 1.f;
-		tSkyAndSeaDesc.fCY = 1.f;
-		tSkyAndSeaDesc.fCZ = 1.f;
-		tSkyAndSeaDesc.fSpeedPerSecond = 0.f;
-		tSkyAndSeaDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-		tSkyAndSeaDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+		CSky_Actor::SKY_DESC Desc = {};
+		Desc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
+		Desc.fCX = 1.f;
+		Desc.fCY = 1.f;
+		Desc.fCZ = 1.f;
+		Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(
-			static_cast<uint32_t>(PLACEID::ISLAND),
-			TEXT("ProtoTag_Actor_SkyAndSea"),
-			&tSkyAndSeaDesc);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND),TEXT("ProtoTag_Actor_Sky"),&Desc);
 
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-			static_cast<uint32_t>(PLACEID::ISLAND),
-			TEXT("LayerTag_Actor"),
-			tmp)))
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::ISLAND),TEXT("LayerTag_Actor"),tmp)))
 		{
 			Safe_Release(tmp);
 			return E_FAIL;
 		}
 	}
 
+	// ProtoTag_Actor_Sea
+	{
+		CSea_Actor::SEA_DESC Desc = {};
+		Desc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
+		Desc.fCX = 1.f;
+		Desc.fCY = 1.f;
+		Desc.fCZ = 1.f;
+		Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Actor_Sea"), &Desc);
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("LayerTag_Actor"), tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}
+	}
+	
 	CTempModel::TEMPMODEL_DESC tTmpModelDesc = {};
 
 	XMFLOAT4 vPlacePosArr[] = {
@@ -869,6 +913,10 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 return E_FAIL;
 	 }
 
+
+	 if (FAILED(Ready_Layer_Windows()))
+		 return E_FAIL;
+
 	 m_pGameInstance->ObjectManager_Enable_Layer(iPlaceID, TEXT("LayerTag_UI_Wallet"));
 	 m_pGameInstance->ObjectManager_Disable_Layer(iPlaceID, TEXT("LayerTag_UI_Back_Button"));
 	return S_OK;
@@ -895,6 +943,76 @@ HRESULT CPlace_Island::Ready_Camera_Layer()
 	m_pGameInstance->CameraManager_Set_Position(TEXT("World_Camera"), XMVECTOR{ 2.f, 5.f, -30.f, 1.f });
 	m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 2.f, 0.f, 0.f, 1.f }, XMConvertToRadians(45.f), 1.f);
 
+	return S_OK;
+}
+
+HRESULT CPlace_Island::Ready_Layer_Windows()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::ISLAND);
+
+
+	// ProtoTag_UI_WindowButton
+	{
+		CWindow_Button::WINDOWBUTTON_DESC tDesc = {};
+		tDesc.fCX = 0.5f;
+		tDesc.fCY = 0.5f;
+		tDesc.fZ = -2.5f;
+		tDesc.strCameraTag = TEXT("World_Camera");
+
+		uint32_t iIndex = { 0 };
+
+		/* 주민들의 이름 */
+
+		vector<_wstring > Layers;
+		uint32_t iNumMii = CApartManager::GetInstance()->Get_ApartInfo_NumMii();
+		Layers.reserve(iNumMii);
+
+		for (uint32_t i = 0; i < iNumMii; ++i)
+		{
+			Layers.push_back(CApartManager::GetInstance()->Get_ApartInfo_MiiName(i));
+		}
+
+		for (int32_t i = 2; i >= 0; --i)
+		{
+			for (int32_t j = 0; j < 8; ++j)
+			{
+				tDesc.eRenderGroup = RENDER_GROUP::TOP_UI;
+				tDesc.fX = 478.3f + (0.5f * j);
+				tDesc.fY = 237.5f + (0.5f * i);
+
+				tDesc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				tDesc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				tDesc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+				/* 인덱스로 보관 */
+
+				if (CApartManager::GetInstance()->Get_ApartInfo_NumMii() > iIndex)
+				{
+					tDesc.iMiiIndex = iIndex; 
+					tDesc.isLive = TRUE;
+
+				}
+				else
+				{
+					tDesc.iMiiIndex = 0;
+					tDesc.isLive = FALSE;
+				}
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_WindowButton"), &tDesc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_WindowButton"), tmp)))
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_WindowButton"), dynamic_cast<CButton*>(tmp))))
+					return E_FAIL;
+
+				++iIndex;
+			}
+		}
+	}
 	return S_OK;
 }
 

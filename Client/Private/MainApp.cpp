@@ -82,11 +82,11 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	 AllocConsole();                           // 콘솔 창 생성
-	 FILE* fp;								  
-	 freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
-	 freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
-	 freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
+	 //AllocConsole();                           // 콘솔 창 생성
+	 //FILE* fp;								  
+	 //freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
+	 //freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
+	 //freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
 
 	ENGINE_DESC EngineDesc = {};
 	EngineDesc.hWnd = g_hWnd;
@@ -311,86 +311,66 @@ HRESULT CMainApp::Ready_Static_Model()
 	}
 
 #ifdef _DEBUG
-	///* 애니메이션 테스터 모델 */
+	/* 애니메이션 테스터 모델 */
 	// ProtoTag_Component_AnimationTester
-	//{
-	//	XMMATRIX InitMatrix = XMMatrixIdentity();
-	//	InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
+	{
+		XMMATRIX InitMatrix = XMMatrixIdentity();
+		InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
 
-	//	/* 폴더 순회 / entry는 그 폴더 안의 파일이나 폴더 */
-	//	for (const auto& entry : filesystem::directory_iterator("../../../../../../Resource/dev/05_Anim_fbx/"))
-	//	{
-	//		/* entry가 일반 파일인지 확인 / 폴더, 바로가기 등이면 false */
-	//		if (!entry.is_regular_file())
-	//			continue;
+		/* 폴더 순회 / entry는 그 폴더 안의 파일이나 폴더 */
+		for (const auto& entry : filesystem::directory_iterator("../../../../../../Resource/dev/05_Anim_fbx/"))
+		{
+			/* entry가 일반 파일인지 확인 / 폴더, 바로가기 등이면 false */
+			if (!entry.is_regular_file())
+				continue;
 
-	//		/* 파일 경로에서 확장자만 추출 */
-	//		_wstring strEXT = entry.path().extension().wstring();
-	//		if (strEXT != L".fbx")
-	//			continue;
+			/* 파일 경로에서 확장자만 추출 */
+			_wstring strEXT = entry.path().extension().wstring();
+			if (strEXT != L".fbx")
+				continue;
 
-	//		string FileStemA = entry.path().stem().string();
-	//		wstring ProtoTagW = L"ProtoTag_Component_AnimationTester_" + entry.path().stem().wstring();
+			string FileStemA = entry.path().stem().string();
+			wstring ProtoTagW = L"ProtoTag_Component_AnimationTester_" + entry.path().stem().wstring();
 
-	//		tmp = CModel::Create(m_pDevice, m_pContext,
-	//			ANIM_TYPE::ANIM,
-	//			entry.path().generic_string().c_str(),
-	//			InitMatrix,
-	//			FileStemA.c_str());
+			tmp = CModel::Create(m_pDevice, m_pContext,
+				ANIM_TYPE::ANIM,
+				entry.path().generic_string().c_str(),
+				InitMatrix,
+				FileStemA.c_str());
 
 
-	//		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, ProtoTagW, tmp)))
-	//			return E_FAIL;
-	//	}
-	//}
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, ProtoTagW, tmp)))
+				return E_FAIL;
+		}
+	}
 #endif
 
-	/* 애기 옷 모델 */
-	// ProtoTag_Component_seBabyJumper
+	_wstring strClothModelTagArr[] = {
+		TEXT("BabyJumper"),
+		TEXT("CamouflageJacket"),
+		TEXT("ChineseDress"),
+		TEXT("FauxFarCoat"),
+		TEXT("NintendoUniform"),
+		TEXT("SilkBlouse"),
+		TEXT("SoccerUniform"),
+		TEXT("Toga"),
+		TEXT("WaitressUniform"),
+	};
+
+	for (const _wstring& strTag : strClothModelTagArr)
 	{
 		XMMATRIX InitMatrix = XMMatrixIdentity();
 		InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
 
 #ifdef _DEBUG
-		tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "../../Resource/Model_Body/BabyJumper/BabyJumper.fbx", InitMatrix, "BabyJumper");
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_BabyJumper"), tmp)))
+		_wstring strFbxPath = L"../../Resource/Model_Body/" + strTag + L"/" + strTag + L".fbx";
+		tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, WstrToStr(strFbxPath).c_str(), InitMatrix, WstrToStr(strTag).c_str());
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, (L"ProtoTag_Component_" + strTag).c_str(), tmp)))
 			return E_FAIL;
 #endif
 
-		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "BabyJumper", InitMatrix);
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_seBabyJumper"), tmp)))
-			return E_FAIL;
-	}
-
-	/* 치파오 모델 */
-	// ProtoTag_Component_seChineseDress
-	{
-		XMMATRIX InitMatrix = XMMatrixIdentity();
-		InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
-
-#ifdef _DEBUG
-		tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "../../Resource/Model_Body/ChineseDress/ChineseDress.fbx", InitMatrix, "ChineseDress");
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_ChineseDress"), tmp)))
-			return E_FAIL;
-#endif
-		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "ChineseDress", InitMatrix);
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_seChineseDress"), tmp)))
-			return E_FAIL;
-	}
-
-	/* 군용 자켓 모델 */
-	// ProtoTag_Component_seCamouflageJacket
-	{
-		XMMATRIX InitMatrix = XMMatrixIdentity();
-		InitMatrix; //= XMMatrixRotationY(XMConvertToRadians(180.f));
-
-#ifdef _DEBUG
-		tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "../../Resource/Model_Body/CamouflageJacket/CamouflageJacket.fbx", InitMatrix, "CamouflageJacket");
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_CamouflageJacket"), tmp)))
-			return E_FAIL;
-#endif
-		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "CamouflageJacket", InitMatrix);
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_seCamouflageJacket"), tmp)))
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, WstrToStr(strTag).c_str(), InitMatrix);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, (L"ProtoTag_Component_se" + strTag).c_str(), tmp)))
 			return E_FAIL;
 	}
 
@@ -527,14 +507,14 @@ HRESULT CMainApp::Ready_Static_Camera()
 			return E_FAIL;
 
 		CWorldCamera::WORLDCAMERA_DESC tDesc = {};
-		tDesc.fRotationPerSecond = XMConvertToRadians(20.f);
+		tDesc.fRotationPerSecond = XMConvertToRadians(60.f);
 		tDesc.fHeight = static_cast<_float>(WINCY / 2);
 		tDesc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f, 1.f };
 		tDesc.fWidth = static_cast<_float>(WINCX);
 		tDesc.fFov = XMConvertToRadians(45.f);
 		tDesc.vEye = _float3(2.f, 5.f, -30.f);
 		tDesc.vAt = _float3(2.f, 0.f, 0.f);
-		tDesc.fSpeedPerSecond = 5.f;
+		tDesc.fSpeedPerSecond = 30.f;
 		tDesc.fFarZ = 1000.f;
 		tDesc.fSensor = 0.5f;
 		tDesc.fAspect = 2.f;

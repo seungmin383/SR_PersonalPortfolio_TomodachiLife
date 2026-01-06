@@ -3,7 +3,9 @@
 #include "Place_Loading.h"
 #include "IOnClick.h"
 #include "WorldCamera.h"
+#include "GameDirector.h"
 
+#include "NarrationManager.h"
 
 CBack_Button::CBack_Button(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CButton(pDevice, pContext)
@@ -140,6 +142,9 @@ int32_t CBack_Button::On_Click()
 	{
 		if (m_isClicked)
 		{
+			CGameDirector::GetInstance()->Set_Direction(CGameDirector::GAME_DIRECTION::NO_EVENT);
+			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;
 		}

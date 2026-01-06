@@ -42,15 +42,8 @@ public:
 		return m_BoneIndices;
 	}
 private:
-	HRESULT Ready_AnimMesh(
-		SE_ANIM_MESH& seAnimMesh,
-		const aiMesh* pAIMesh,
-		CModel* pModel);
-
-	HRESULT Ready_NoneAnimMesh(
-		SE_MESH& seMesh,
-		const aiMesh* pAIMesh, 
-		FXMMATRIX InitTransforMatrix);
+	HRESULT Ready_AnimMesh(	SE_ANIM_MESH& seAnimMesh,	const aiMesh* pAIMesh,	CModel* pModel);
+	HRESULT Ready_NoneAnimMesh(	SE_MESH& seMesh,const aiMesh* pAIMesh, FXMMATRIX InitTransforMatrix);
 
 private:
 	_char m_szName[MAX_PATH] = {};
@@ -67,16 +60,7 @@ private:
 	vector<XMFLOAT4X4>	m_OffsetMatrices;
 
 public:
-	static CMesh* Create(
-		ID3D11Device* pDevice,
-		ID3D11DeviceContext* pContext,
-		SE_MESH& seMesh,
-		SE_ANIM_MESH& seAnimMesh,
-		ANIM_TYPE eAnimType,
-		CModel* pModel,
-		aiMesh* pAIMesh,
-		FXMMATRIX InitTransformMatrix);
-
+	static CMesh* Create(ID3D11Device* pDevice,ID3D11DeviceContext* pContext,SE_MESH& seMesh,SE_ANIM_MESH& seAnimMesh,ANIM_TYPE eAnimType,CModel* pModel,aiMesh* pAIMesh,FXMMATRIX InitTransformMatrix);
 	virtual CObject* Clone(void* pArg)override;
 	virtual void Free()override;
 };

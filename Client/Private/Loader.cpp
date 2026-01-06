@@ -23,6 +23,9 @@
 #include "MiiEditButton.h"
 #include "Save_Button.h"
 #include "PageButton.h"
+#include "Sky_Actor.h"
+#include "Sea_Actor.h"
+#include "Park_Actor.h"
 #include "HungryBar.h"
 #include "Hungry_Gauge.h"
 #include "Collider.h"
@@ -117,6 +120,10 @@ HRESULT CLoader::Loading()
 
 	case PLACEID::EVENT_BEFRIEND:
 		hr = Loading_Event_BeFriend();
+		break;
+
+	case PLACEID::EVENT_LOVE:
+		hr = Loading_Event_Love();
 		break;
 
 	case PLACEID::DEVELOPER:
@@ -217,6 +224,39 @@ HRESULT CLoader::Loading_Island()
 				return E_FAIL;
 		}
 		
+
+		/* ÇÏ´Ã ¸ðµ¨ */
+		// ProtoTag_Component_Sky
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.1f, 0.1f, 0.1f);
+
+#ifdef _DEBUG
+			tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "../../Resource/Model_Environment/Sky/Sky.fbx", initMatrix, "Sky");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Sky_Model"), tmp)))
+				return E_FAIL;
+#endif
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "Sky", initMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Sky_SeModel"), tmp)))
+				return E_FAIL;
+		}
+
+		/* ¹Ù´Ù ¸ðµ¨ */
+		// ProtoTag_Component_Sky
+		{
+			XMMATRIX initMatrix = XMMatrixIdentity();
+			initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
+
+#ifdef _DEBUG
+			tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "../../Resource/Model_Environment/Sea/Sea.fbx", initMatrix, "Sea");
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Sea_Model"), tmp)))
+				return E_FAIL;
+#endif
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, "Sea", initMatrix);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Component_Sea_SeModel"), tmp)))
+				return E_FAIL;
+		}
+
 		/* °Ç¹° ¹öÆ° ÅØ½ºÃÄ */
 		// ProtoTag_Component_PlaceMoveButton_Texture
 		{
@@ -297,6 +337,22 @@ HRESULT CLoader::Loading_Island()
 		{
 			tmp = CTempModel::Create(m_pDevice, m_pContext);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Actor_TempModel"), tmp)))
+				return E_FAIL;
+		}
+
+		/* ÇÏ´Ã */
+		//ProtoTag_Actor_Sky
+		{
+			tmp = CSky_Actor::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Actor_Sky"), tmp)))
+				return E_FAIL;
+		}
+
+		/* ¹Ù´Ù */
+		//ProtoTag_Actor_Sea
+		{
+			tmp = CSea_Actor::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(static_cast<uint32_t>(PLACEID::ISLAND), TEXT("ProtoTag_Actor_Sea"), tmp)))
 				return E_FAIL;
 		}
 	}
@@ -809,6 +865,48 @@ HRESULT CLoader::Loading_Event_BeFriend()
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::EVENT_BEFRIEND);
 
+
+
+	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_Event_Love()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::EVENT_LOVE);
+
+	/* Component */
+
+	/* °ø¿ø ¸ðµ¨ */
+	// ProtoTag_Component_Park_SeModel
+	{
+		XMMATRIX initMatrix = XMMatrixIdentity();
+		initMatrix = XMMatrixScaling(0.05f, 0.05f, 0.05f);
+
+#ifdef _DEBUG
+		tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "../../Resource/Model_Environment/Park/Park.fbx", initMatrix, "Park");
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Park_Model"), tmp)))
+			return E_FAIL;
+#endif
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "Park", initMatrix);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Park_SeModel"), tmp)))
+			return E_FAIL;
+	}
+
+
+	/* UI */
+
+
+	/* Actor */
+
+	/* °ø¿ø */
+	// ProtoTag_Actor_Park
+	{
+		tmp = CPark_Actor::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Park"), tmp)))
+			return E_FAIL;
+	}
 
 
 	m_isFinished = true;

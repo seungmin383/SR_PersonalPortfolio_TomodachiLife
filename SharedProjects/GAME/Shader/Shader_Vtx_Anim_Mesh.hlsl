@@ -15,6 +15,7 @@ vector g_vMtrlSpecular = vector(1.0f, 1.0f, 1.0f, 1.f);
 
 texture2D g_DiffuseTexture;
 
+
 float4x4 g_BoneMatrices[128];
 
 
@@ -173,6 +174,40 @@ PS_OUT PS_BRIGHTNESS(PS_IN In)
     
     return Out;
 }
+
+PS_OUT PS_SEA(PS_IN In)
+{
+    PS_OUT Out;
+    
+    vector vMaskTexture = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    
+    /* 하얀색인 부분은 하얀색 - 검은색이 될 수록 파란색으로 */
+    vector vColor = (1 - vMaskTexture.x) * float4(0.078f, 0.216f, 0.549f, 1.0f) + vMaskTexture.x * float4(1.f, 1.f, 1.f, 1.f);
+    
+    
+    float3 vNoneAlphaDiffuse = float3(vColor.rgb);
+    float fAlpha = vColor.a;
+    
+    float3 vN = normalize(In.vNormal.xyz);
+    
+    float fShade = max(dot(normalize(g_vLightDir.xyz) * -1.f, vN), 0.f);
+    
+    float4 vLook = In.vWorldPosition - g_vCamPosition;
+    float4 vReflect = reflect(normalize(g_vLightDir), float4(vN, 0.f));
+    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 1000);
+    
+    float3 vFinalColor =
+    (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
+    
+    Out.vDiffuse = float4(vFinalColor += 0.12f, fAlpha);
+    Out.vNormal = float4(vN * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vPosition.z / In.vPosition.w, In.vPosition.w / 1000.f, 0.f, 0.f);
+    Out.vPick = float4(In.vWorldPosition.xyz, 1.f);
+    
+    return Out;
+}
+
+
 technique11 DefaultTechnique
 {
     pass Model
@@ -228,6 +263,17 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_BRIGHTNESS();
+    }
+
+    pass Sea
+    {
+        SetRasterizerState(RS_NoneCull);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_SEA();
     }
 
 }

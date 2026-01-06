@@ -64,6 +64,7 @@ public:
 	vector<uint32_t> Get_AlphaMeshIndices() { return m_AlphaMeshIndices; }
 	vector<uint32_t> Get_LightMeshIndices() { return m_LightMeshIndices; }
 	vector<uint32_t> Get_ShadowMeshIndices() { return m_ShadowMeshIndices; }
+	uint32_t Get_SeaMeshIndex() const {	return m_iSeaMeshIndex;	}
 
 	vector<CSEBone*>* Get_BonesPtr() { return &m_pBones; }
 	const XMFLOAT4X4& Get_InitMatrix() { return m_InitMatrix; }
@@ -82,6 +83,7 @@ private:
 	vector<uint32_t> m_AlphaMeshIndices;
 	vector<uint32_t> m_LightMeshIndices;
 	vector<uint32_t> m_ShadowMeshIndices;
+	uint32_t m_iSeaMeshIndex = {};
 
 	uint32_t m_iNumMaterial = {};
 	vector<SE_MATERIAL> m_seMaterials;

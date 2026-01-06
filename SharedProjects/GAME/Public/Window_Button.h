@@ -26,6 +26,8 @@ public:
 		_wstring strMiiNickName = {};
 		uint32_t iMiiIndex = {};
 
+		_wstring strCameraTag = {TEXT("UI_Camera")};
+
 	}WINDOWBUTTON_DESC;
 
 private:
@@ -68,6 +70,9 @@ private:
 	uint32_t m_iMiiIndex = {};
 
 	uint32_t m_iWindowIndex = {};
+
+
+	_wstring m_strCametaTag = {};
 
 private:
 	NEEDS m_eCurMii_Needs = { NEEDS::END };

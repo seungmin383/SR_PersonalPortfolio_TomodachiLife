@@ -64,6 +64,10 @@ HRESULT CMiiManager::Initialize()
 		iIndex++;
 
 		uint32_t iRandNeeds = rand() % static_cast<int32_t>(NEEDS::END);
+		
+		if (iRandNeeds == static_cast<int32_t>(NEEDS::LOVE))
+			iRandNeeds = static_cast<int32_t>(NEEDS::NOTHING);
+
 		info.MiiProfile.iNeeds = iRandNeeds;
 	}
 

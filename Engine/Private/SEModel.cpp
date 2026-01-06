@@ -30,6 +30,7 @@ CSEModel::CSEModel(const CSEModel& rhs)
 	, m_InitMatrix{rhs.m_InitMatrix }
 	,m_AlphaMeshIndices{rhs.m_AlphaMeshIndices }
 	, m_LightMeshIndices{rhs.m_LightMeshIndices }
+	, m_ShadowMeshIndices{rhs.m_ShadowMeshIndices }
 {
 	for (auto& pBone : rhs.m_pBones)
 		m_pBones.push_back(pBone->Clone());
@@ -231,7 +232,9 @@ HRESULT CSEModel::Ready_seMesh()
 				return E_FAIL;
 
 			if (pMesh->Get_isAlpha())
-				m_AlphaMeshIndices.push_back(i);
+				m_AlphaMeshIndices.push_back(i);			
+			if (pMesh->Get_isShadow())
+				m_ShadowMeshIndices.push_back(i);
 
 			m_pMeshes.push_back(pMesh);
 		}
@@ -254,6 +257,9 @@ HRESULT CSEModel::Ready_seMesh()
 				m_LightMeshIndices.push_back(i);
 			if (pMesh->Get_isLight())
 				m_ShadowMeshIndices.push_back(i);
+			if (pMesh->Get_isSea())
+				m_iSeaMeshIndex = i;
+
 			m_pMeshes.push_back(pMesh);
 		}
 	}
@@ -274,12 +280,7 @@ HRESULT CSEModel::Ready_seMaterial()
 	return S_OK;
 }
 
-HRESULT CSEModel::Bind_Material(
-	CShaderCom* pShader, 
-	const _char* pConstantName, 
-	uint32_t iMeshIndex,
-	SE_TEXTURE_TYPE eMaterialType, 
-	uint32_t iTextureIndex)
+HRESULT CSEModel::Bind_Material(CShaderCom* pShader, const _char* pConstantName, uint32_t iMeshIndex,SE_TEXTURE_TYPE eMaterialType, uint32_t iTextureIndex)
 {
 	if (iMeshIndex >= m_iNumMesh)
 		return E_FAIL;
@@ -292,10 +293,7 @@ HRESULT CSEModel::Bind_Material(
 	return m_pMaterials[iMaterialIndex]->Bind_ShaderResource(pShader, pConstantName, eMaterialType, iTextureIndex);
 }
 
-HRESULT CSEModel::Bind_Bones(
-	CShaderCom* pShader,
-	const _char* pConstantName,
-	uint32_t iMeshIndex)
+HRESULT CSEModel::Bind_Bones(CShaderCom* pShader,const _char* pConstantName,uint32_t iMeshIndex)
 {
 	if (iMeshIndex >= m_iNumMesh)
 		return E_FAIL;

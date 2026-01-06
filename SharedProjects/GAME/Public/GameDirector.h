@@ -17,6 +17,7 @@ public:
 	enum class GAME_DIRECTION
 	{
 		NO_EVENT,
+		HUNGRY,
 		GIVE_ITEM,
 		GIVE_FOOD,
 		BE_FRIEND,

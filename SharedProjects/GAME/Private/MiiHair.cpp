@@ -28,7 +28,7 @@ HRESULT CMiiHair::Initialize_Clone(void* pArg)
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
-	m_vHairColor = { 1.f, 0.f, 0.f, 1.f };
+	m_vHairColor = { 0.f, 0.f, 0.f, 1.f };
 	return S_OK;
 }
 

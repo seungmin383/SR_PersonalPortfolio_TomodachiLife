@@ -140,6 +140,9 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 	}
 
 	
+	vector<_wstring> AllMiiNameArr;
+	vector<_wstring> AllMiiLayers;
+
 	// ProtoTag_UI_WindowButton
 	{
 		CWindow_Button::WINDOWBUTTON_DESC tDesc = {};
@@ -151,13 +154,15 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 		/* 주민들의 이름 */
 
-		vector<_wstring > Layers;
 		uint32_t iNumMii = CApartManager::GetInstance()->Get_ApartInfo_NumMii();
-		Layers.reserve(iNumMii);
+		AllMiiNameArr.reserve(iNumMii);
 
 		for (uint32_t i = 0; i < iNumMii; ++i)
 		{
-			Layers.push_back(CApartManager::GetInstance()->Get_ApartInfo_MiiName(i));
+			_wstring Name = CApartManager::GetInstance()->Get_ApartInfo_MiiName(i);
+			AllMiiNameArr.push_back(Name);
+
+			AllMiiLayers.push_back(L"LayerTag_Actor_" + Name);
 		}
 
 		for (int32_t i = 2; i >= 0; --i)
@@ -177,10 +182,9 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 				uint32_t iLayerIndex = { 0 };
 
-				for (auto& str : Layers)
+				for (auto& str : AllMiiNameArr)
 				{
 					strLayerTag = L"LayerTag_Actor_" + str;
-
 					if (iLayerIndex == iIndex)
 					{
 						tDesc.strMiiNickName = str;
@@ -196,8 +200,8 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 				strgyDesc.DisableLayers = DisableLayer;
 				strgyDesc.strLayerTag = strLayerTag;
 
-				tDesc.pClicked_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
-				tDesc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				tDesc.pClicked_Strgy	= CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
+				tDesc.pSelected_Strgy	= CNull_Strgy::Create(m_pDevice, m_pContext);
 				tDesc.pSelectedClick_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ROOM);
 				
 				/* 인덱스로 보관 */
@@ -223,6 +227,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 				if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, strLayerTag, dynamic_cast<CButton*>(tmp))))
 					return E_FAIL;
+
 
 				++iIndex;
 			}
@@ -266,6 +271,12 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		}
 
 	}
+
+	for (const auto& str : AllMiiLayers)
+	{
+		m_pGameInstance->ObjectManager_Disable_Layer(iPlaceID, str);
+	}
+
 	return S_OK;
 }
 

@@ -79,7 +79,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(MirrorSampler, In.vTexcoord);
     
     if (vMtrlDiffuse.a < 0.3f)
         discard;
@@ -198,6 +198,25 @@ PS_OUT PS_BRIGHTNESS(PS_IN In)
     return Out;
 }
 
+PS_OUT PS_PARK(PS_IN In)
+{
+    PS_OUT Out;
+
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+
+    float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
+    float fAlpha = vMtrlDiffuse.a - 0.5f;
+     
+    if (vNoneAlphaDiffuse.x > 0.1f) 
+        discard;
+    
+    Out.vDiffuse = float4(vNoneAlphaDiffuse, fAlpha );
+    Out.vNormal = float4(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.f, 0.f, 0.f);
+    Out.vPick = vector(In.vWorldPosition.xyz, 1.f);
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
     pass Defualt
@@ -276,5 +295,18 @@ technique11 DefaultTechnique
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_BRIGHTNESS();
     }
+
+
+    pass Park
+    {
+        SetRasterizerState(RS_NoneCull);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_PARK();
+    }
+
 }
 

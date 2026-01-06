@@ -14,7 +14,7 @@
     },
     "HairInfo": {
         "HairColor": [
-            1.0,
+            0.0,
             0.0,
             0.0,
             1.0
@@ -47,7 +47,7 @@
         "Fullness": 0,
         "LastName": "eee",
         "Level": 0.0,
-        "Needs": 0,
+        "Needs": 1,
         "NickName": "eee",
         "RoomIndex": 0,
         "isMan": true

@@ -33,6 +33,8 @@ HRESULT CWindow_Button::Initialize_Clone(void* pArg)
 
 	m_isLived = pDesc->isLive;
 
+	m_strCametaTag = pDesc->strCameraTag;
+
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -68,13 +70,13 @@ int32_t CWindow_Button::Update_Priority(_float fDT)
 
 int32_t CWindow_Button::Update(_float fDT)
 {
+	_bool a = m_isClicked;
 	return On_Click();
 }
 
 void CWindow_Button::Update_Late(_float fDT)
 {
-
-	CUI::Update_Late(fDT);
+	CButton::Update_Late(fDT);
 }
 
 HRESULT CWindow_Button::Render()
@@ -118,9 +120,9 @@ HRESULT CWindow_Button::Bind_ShaderResources()
 	if (FAILED(m_pTransformCom->Bind_ShaderResource(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ViewMatrix", TEXT("UI_Camera"), D3DTS::VIEW)))
+	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ViewMatrix", m_strCametaTag, D3DTS::VIEW)))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", TEXT("UI_Camera"), D3DTS::PROJ)))
+	if (FAILED(m_pGameInstance->CameraManager_Bind_Matrix(m_pShaderCom, "g_ProjMatrix", m_strCametaTag, D3DTS::PROJ)))
 		return E_FAIL;
 
 	/* 잠겨있다면 */

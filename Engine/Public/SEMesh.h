@@ -17,10 +17,7 @@ public:
 	HRESULT Initialize_Mesh(SE_MESH& seMesh, vector<CSEBone*>& pBones);
 	HRESULT Initialize_AnimMesh(SE_ANIM_MESH& seAnimMesh, vector<CSEBone*>& pBones);
 	
-	HRESULT Bind_Bones(
-		CShaderCom* pShader,
-		const _char* pConstantName,
-		vector<CSEBone*>& pBones);
+	HRESULT Bind_Bones(CShaderCom* pShader,const _char* pConstantName,vector<CSEBone*>& pBones);
 
 public:
 	const uint32_t Get_MaterialIndex()const { return m_iMaterialIndex; }
@@ -28,6 +25,8 @@ public:
 	const _bool Get_isAlpha() { return m_isAlpha; }
 	const _bool Get_isLight() { return m_isLight; }
 	const _bool Get_isShadow() { return m_isShadow; }
+	const _bool Get_isSea() { return m_isSea; }
+
 private:
 	string m_strName = {};
 	uint32_t m_iMaterialIndex = {};
@@ -42,14 +41,11 @@ private:
 	_bool m_isAlpha = { FALSE };
 	_bool m_isLight = { FALSE };
 	_bool m_isShadow = { FALSE };
+	_bool m_isSea = { FALSE };
 
 public:
-	static CSEMesh* Create_Mesh(
-		ID3D11Device* pDevice, ID3D11DeviceContext* pContext,
-		SE_MESH& seMesh, vector<CSEBone*>& pBones);
-	static CSEMesh* Create_AnimMesh(
-		ID3D11Device* pDevice, ID3D11DeviceContext* pContext, 
-		SE_ANIM_MESH& seAnimMesh, vector<CSEBone*>& pBones);
+	static CSEMesh* Create_Mesh(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,SE_MESH& seMesh, vector<CSEBone*>& pBones);
+	static CSEMesh* Create_AnimMesh(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, SE_ANIM_MESH& seAnimMesh, vector<CSEBone*>& pBones);
 
 	CObject* Clone(void* pArg) override;
 	virtual void Free()override;

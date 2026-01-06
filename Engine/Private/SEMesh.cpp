@@ -19,6 +19,8 @@ HRESULT CSEMesh::Initialize_Mesh(SE_MESH& seMesh, vector<CSEBone*>& pBones)
 	 if (m_strName.find("Shadow") != std::string::npos)
 		 m_isShadow = TRUE;
 
+
+
 	 m_iMaterialIndex = seMesh.iMaterialIndex;
 	 m_BoneIndices = seMesh.BoneIndices;
 	 m_Vertices = seMesh.Vertices;
@@ -93,6 +95,9 @@ HRESULT CSEMesh::Initialize_AnimMesh(SE_ANIM_MESH& seAnimMesh, vector<CSEBone*>&
 
 	if (m_strName.find("Shadow") != std::string::npos)
 		m_isShadow = TRUE;
+
+	if (m_strName.find("SeaMaskMesh") != std::string::npos)
+		m_isSea = TRUE;
 
 	m_iMaterialIndex = seAnimMesh.iMaterialIndex;
 	m_BoneIndices = seAnimMesh.BoneIndices;

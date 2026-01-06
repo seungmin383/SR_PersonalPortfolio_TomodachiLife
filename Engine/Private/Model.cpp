@@ -435,21 +435,12 @@ HRESULT CModel::Save_Animation(const _char* pAnimationName)
 	return S_OK;
 }
 
-CModel* CModel::Create(
-	ID3D11Device* pDevice, 
-	ID3D11DeviceContext* pContext,
-	ANIM_TYPE eAnimType,
-	const _char* pModelFIlePath,
-	FXMMATRIX InitTransformMatrix,
-	const _char* pSaveDataName)
+CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, ANIM_TYPE eAnimType, const _char* pModelFIlePath,
+	FXMMATRIX InitTransformMatrix, const _char* pSaveDataName)
 {
 	CModel* pModel = new CModel(pDevice, pContext);
 	
-	if (FAILED(pModel->Initialize_Origin(
-		eAnimType, 
-		pModelFIlePath, 
-		InitTransformMatrix,
-		pSaveDataName)))
+	if (FAILED(pModel->Initialize_Origin(eAnimType, pModelFIlePath, InitTransformMatrix, pSaveDataName)))
 	{
 		MSG_BOX("ErrCode : Model Create Failed");
 		Safe_Release(pModel);

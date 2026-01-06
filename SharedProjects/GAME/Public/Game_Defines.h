@@ -73,6 +73,7 @@ namespace Game
 #define VMS_SHADOW 4
 #define VMS_LIGHT 5
 #define VMS_BRIGHTNESS2 6
+#define VMS_PARK 7
 
 
 
@@ -82,6 +83,8 @@ namespace Game
 #define VAMS_SHADOW 2
 #define VAMS_LIGHT 3
 #define VAMS_BRIGHTNESS 4
+#define VAMS_SEA 5
+
 	enum class PLACEID {
 		STATIC,
 		ISLAND,
@@ -92,6 +95,8 @@ namespace Game
 		FOOD_STORE,
 
 		EVENT_BEFRIEND,
+		EVENT_LOVE,
+
 		DEVELOPER,
 		LOADING,
 		END

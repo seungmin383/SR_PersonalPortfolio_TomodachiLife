@@ -119,8 +119,6 @@ void CSEMii::Initialize_FriendList()
 
 	m_iWantToBeFriendIndex = NotFriendList[rand() % iNumNotFriend];
 	m_strWantToBeFriendName = StrToWstr(CMiiManager::GetInstance()->Get_MiiInfo(m_iWantToBeFriendIndex).MiiProfile.strNickName);
-
-
 }
 
 int32_t CSEMii::Update_Priority(_float fDT)
@@ -147,6 +145,7 @@ HRESULT CSEMii::Render()
 {
 	return S_OK;
 }
+
 
 void CSEMii::Observe()
 {
@@ -179,6 +178,10 @@ void CSEMii::Observe()
 	{
 
 	}
+	else if (m_eDirection == CGameDirector::GAME_DIRECTION::HUNGRY)
+	{
+
+	}
 	else if (m_eDirection == CGameDirector::GAME_DIRECTION::LOVE)
 	{
 
@@ -192,9 +195,14 @@ void CSEMii::Thinking(_float fDT)
 	{
 		m_isLevelUp = FALSE;
 		m_isFullnessUp = FALSE;
+		m_fTalkingTimer = 0.f;
 	}
 
-	
+	if (CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iNeeds == static_cast<uint32_t>(NEEDS::LOVE) && !m_isLoveEnter && !m_isFin_Shy)
+	{
+		Add_Flag(m_iState, STATE::LOVE);
+		Add_Flag(m_iState, STATE::CHANGE_STATE);
+	}
 
 	/* 전역 스테이트로 1차 내부 스테이트를 설정 */
 	switch (m_eDirection)
@@ -205,6 +213,11 @@ void CSEMii::Thinking(_float fDT)
 
 
 	case Game::CGameDirector::GAME_DIRECTION::GIVE_ITEM:
+		break;	
+	
+	
+	case Game::CGameDirector::GAME_DIRECTION::HUNGRY:
+		Add_Flag(m_iState, STATE::HUNGRY);
 		break;
 
 
@@ -225,8 +238,7 @@ void CSEMii::Thinking(_float fDT)
 	default:
 		break;
 	}
-
-
+	
 	/* 내 정보를 이용해서 2차 내부 스테이트를 추가 */
 	if (m_eDirection == CGameDirector::GAME_DIRECTION::GIVE_FOOD)
 		Thinking_About_ReceiveFood();
@@ -237,9 +249,12 @@ void CSEMii::Thinking(_float fDT)
 	else if (m_eDirection == CGameDirector::GAME_DIRECTION::LOVE)
 		Thinking_About_Love(fDT);
 
+	else if (m_eDirection == CGameDirector::GAME_DIRECTION::HUNGRY)
+		Thinking_About_Hungry(fDT);
 
 	/* 파트 오브젝트의 값을 이용해서 3차 내부 스테이트를 추가 */
 
+	
 }
 
 void CSEMii::Thinking_About_ReceiveFood()
@@ -466,7 +481,116 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 
 void CSEMii::Thinking_About_Love(_float fDT)
 {
+	m_fTalkingTimer += fDT;
+	_bool isStartPropose = CApartManager::GetInstance()->Get_isStartPropose();
+	_bool isProposing = CApartManager::GetInstance()->Get_isProposing();
 
+	if (!isStartPropose)
+	{
+		if (m_fTalkingTimer < 1.f)
+		{
+			static _bool isFirstEnter = { FALSE };
+			if (!isFirstEnter)
+			{
+				Add_Flag(m_iState, STATE::CHANGE_STATE);
+				Remove_Flag(m_iState, STATE::LOVE);
+				isFirstEnter = TRUE;
+				m_isFin_Shy = TRUE;
+			}
+			CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+			CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+
+			CNarrationManager::GetInstance()->Set_NarrationText(L"사실은 '" + StrToWstr(CMiiManager::GetInstance()->Get_MiiInfo(m_iLoveMiiIndex).MiiProfile.strNickName) + L"'"
+				+ L" 을/를 좋아해요. 고백을 할까 하는데요...");
+
+			Add_Flag(m_iState, STATE::TALKING);
+		}
+		else if (m_fTalkingTimer >= 1.f && !CApartManager::GetInstance()->Get_isLove())
+		{
+			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_Love_Button"));
+		}
+		else if (m_fTalkingTimer >= 1.f && CApartManager::GetInstance()->Get_isLove() && m_fTalkingTimer_2 < 1.f)
+		{
+			m_fTalkingTimer_2 += fDT;
+			CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+			CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+
+			CNarrationManager::GetInstance()->Set_NarrationText(TEXT("어떤 식으로 고백하는 게 좋을까요?"));
+
+			Add_Flag(m_iState, STATE::TALKING);
+		}
+		else if (m_fTalkingTimer_2 >= 1.f && CApartManager::GetInstance()->Get_iLoveMethod() == 0)
+		{
+			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_LoveMethod_Button"));
+		}
+
+		else if (m_fTalkingTimer_2 >= 1.f && CApartManager::GetInstance()->Get_iLoveMethod() != 0 && m_fTalkingTimer_3 < 1.f)
+		{
+			m_fTalkingTimer_3 += fDT;
+			CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+			CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+
+			CNarrationManager::GetInstance()->Set_NarrationText(TEXT("고백할 장소로는 어디가 좋을까요?"));
+
+			Add_Flag(m_iState, STATE::TALKING);
+		}
+		else if (m_fTalkingTimer_3 >= 1.f && CApartManager::GetInstance()->Get_iLovePlace() == 0)
+		{
+			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_LovePlace_Button"));
+		}
+
+		else if (m_fTalkingTimer_3 >= 1.f && CApartManager::GetInstance()->Get_iLovePlace() != 0 && m_fTalkingTimer_4 < 1.f)
+		{
+			m_fTalkingTimer_4 += fDT;
+
+			CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+			CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+
+			CNarrationManager::GetInstance()->Set_NarrationText(TEXT("좋아요. 그럼 용기 내서 고백하고 올게요!"));
+
+			Add_Flag(m_iState, STATE::TALKING);
+		}
+
+		else if (!CApartManager::GetInstance()->Get_isProposing())
+		{
+			CApartManager::GetInstance()->Set_isProposing(TRUE);
+			CApartManager::GetInstance()->Set_isStartPropose(TRUE);
+
+			CApartManager::GetInstance()->Set_DstMiiIndex(m_iIndex);
+			CApartManager::GetInstance()->Set_SrcMiiIndex(m_iLoveMiiIndex);
+
+			m_pGameInstance->PlaceManager_Change_Place(static_cast<uint32_t>(PLACEID::LOADING),
+				CPlace_Loading::Create(m_pDevice, m_pContext, PLACEID::EVENT_LOVE));
+		}
+	}
+	else if (isProposing)
+	{
+		
+	}
+
+}
+
+void CSEMii::Thinking_About_Hungry(_float fDT)
+{
+	m_fTalkingTimer += fDT;
+
+	if (m_fTalkingTimer < 5.f)
+	{
+		CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+		CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+
+		CNarrationManager::GetInstance()->Set_NarrationText(L"배가 고프네요.");
+
+		Add_Flag(m_iState, STATE::TALKING);
+	}
+	else
+	{
+		CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+		CGameDirector::GetInstance()->Set_Direction(CGameDirector::GAME_DIRECTION::NO_EVENT);
+	}
 }
 
 void CSEMii::Acting()

@@ -6,6 +6,13 @@ sampler DefaultSampler = sampler_state
     AddressV = wrap;
 };
 
+sampler MirrorSampler = sampler_state
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = mirror;
+    AddressV = mirror;
+};
+
 sampler PointSampler = sampler_state
 {
     Filter = MIN_MAG_MIP_POINT;

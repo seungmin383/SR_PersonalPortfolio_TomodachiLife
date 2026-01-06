@@ -325,6 +325,24 @@
     <Filter Include="03.UI\02.BackGround\FriendListBackGround">
       <UniqueIdentifier>{bc7af292-97ee-456e-b730-229106648430}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\02.SetLove">
+      <UniqueIdentifier>{aa23cc3f-8553-49c7-bd25-2b48681d827e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\03.SetLoveMethod">
+      <UniqueIdentifier>{e276f9d6-cccb-4865-8369-120c3ac81169}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\04.SetLovePlace">
+      <UniqueIdentifier>{d16f3a51-721b-462f-8452-3f94857e139b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.Island\01.Sky">
+      <UniqueIdentifier>{125928f4-79a4-441d-a467-71231861a45d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.Island\02.Sea">
+      <UniqueIdentifier>{bae05b00-e112-49ca-840d-36d5e7aa35ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Actor\00.Island\03.Park">
+      <UniqueIdentifier>{60db1267-6fd1-4065-8777-769dd6e870ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -626,6 +644,24 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\FriendList_BackGround.h">
       <Filter>03.UI\02.BackGround\FriendListBackGround</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetLove_Strgy.h">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\02.SetLove</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetLoveMethod_Strgy.h">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\03.SetLoveMethod</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetLovePlace_Strgy.h">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\04.SetLovePlace</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Sky_Actor.h">
+      <Filter>02.Actor\00.Island\01.Sky</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Sea_Actor.h">
+      <Filter>02.Actor\00.Island\02.Sea</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Park_Actor.h">
+      <Filter>02.Actor\00.Island\03.Park</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp">
@@ -891,6 +927,24 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\FriendList_BackGround.cpp">
       <Filter>03.UI\02.BackGround\FriendListBackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetLove_Strgy.cpp">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\02.SetLove</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetLoveMethod_Strgy.cpp">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\03.SetLoveMethod</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetLovePlace_Strgy.cpp">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\04.SetLovePlace</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Sky_Actor.cpp">
+      <Filter>02.Actor\00.Island\01.Sky</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Sea_Actor.cpp">
+      <Filter>02.Actor\00.Island\02.Sea</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Park_Actor.cpp">
+      <Filter>02.Actor\00.Island\03.Park</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -23,11 +23,13 @@
 #include "FriendList_BackGround.h"
 #include "PlayerInven_Button.h"
 #include "Narration_TextBox.h"
+#include "YellowBackGround.h"
 #include "LevelUp_Inventory.h"
 #include "FoodItem_Texture.h"
 #include "Category_Button.h"
 #include "FoodItem_Button.h"
 #include "Thinking_Button.h"
+#include "BasicBackGround.h"
 #include "Friend_TextBox.h"
 #include "BlueBackGround.h"    
 #include "Window_Button.h"       
@@ -50,7 +52,9 @@
 #include "SetFoodIndex_Strgy.h"
 #include "Deactive_Strgy.h"
 #include "SetisBeFriend_Strgy.h"
-
+#include "SetLove_Strgy.h"
+#include "SetLoveMethod_Strgy.h"
+#include "SetLovePlace_Strgy.h"
 
 #define LEVELUP_INVENTORY_BASE_X 600.f
 #define LEVELUP_INVENTORY_BASE_Y 370.f
@@ -459,6 +463,10 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 			TEXT("LayerTag_UI_GiveItem_Button"),
 			TEXT("LayerTag_UI_FoodItem_Button"),
 			TEXT("LayerTag_UI_BeFriend_Button"),
+
+			TEXT("LayerTag_UI_Love_Button"),
+			TEXT("LayerTag_UI_LoveMethod_Button"),
+			TEXT("LayerTag_UI_LovePlace_Button"),
 		};
 
 
@@ -466,6 +474,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		{
 			m_pGameInstance->ObjectManager_Disable_Layer(iPlaceID, str);
 		}
+
 	}
 	return S_OK;
 }
@@ -479,7 +488,6 @@ HRESULT CPlace_Room::Ready_Camera_Layer()
 {
 	m_pGameInstance->CameraManager_Reset_State(TEXT("World_Camera"));
 	m_pGameInstance->CameraManager_Set_Position(TEXT("World_Camera"), XMVECTOR{ 0.f, 5.f, -15.f, 1.f });
-	// m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 2.f, 0.f, 0.f, 1.f }, XMConvertToRadians(45.f), 1.f);
 	return S_OK;
 }
 
@@ -783,6 +791,188 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 
 			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_BeFriend_Button"), tmp)))
 				return E_FAIL;
+		}
+	}
+
+	/* 고백할 때 뜨는 창*/
+	{
+		CCategory_Button::CATEGORYBUTTON_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.fCX = 264.f;
+		Desc.fCY = 60.f;
+		Desc.fX = 720.f;
+		Desc.fZ = 0.3f;
+
+
+		for (uint32_t i = 0; i < 2; ++i)
+		{
+			CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
+			strgyDesc.ePlaceID = PLACEID::ROOM;
+			strgyDesc.strLayerTag = TEXT("LayerTag_UI_Love_Button");
+			strgyDesc.EnableLayers = vector<_wstring>{};
+			strgyDesc.DisableLayers = vector<_wstring>{ TEXT("LayerTag_UI_Love_Button"), };
+			Desc.pSelected_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
+			Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+			if (i == 0)
+			{
+				Desc.strText = TEXT("내가 도와줄게");
+				Desc.pClicked_Strgy = CSetLove_Strgy::Create(m_pDevice, m_pContext, TRUE);
+				Desc.fY = 240.f - (Desc.fCY * 0.6f);
+			}
+			else
+			{
+				Desc.strText = TEXT("그건 안 돼!");
+				Desc.pClicked_Strgy = CSetLove_Strgy::Create(m_pDevice, m_pContext, FALSE);
+				Desc.fY = 240.f + (Desc.fCY * 0.6f);
+			}
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Category_Button"), &Desc);
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Love_Button"), tmp)))
+				return E_FAIL;
+		}
+
+
+		/* 고백할 방법 */
+		{
+			_wstring strTextArr[] = {
+				TEXT("무난하게"),
+				TEXT("로맨틱하게"),
+				TEXT("고자세로"),
+				TEXT("저자세로"),
+				TEXT("애교스럽게"),
+				TEXT("대사를 지정해서"),
+				TEXT("노래를 부르면서"),
+				TEXT("선물을 주면서"),
+			};
+
+			XMFLOAT2 vPosArr[] = {
+				XMFLOAT2{480.f - (Desc.fCX*0.6f), 240.f - (Desc.fCY * 1.7f) },
+				XMFLOAT2{480.f + (Desc.fCX*0.6f), 240.f - (Desc.fCY * 1.7f) },
+				XMFLOAT2{480.f - (Desc.fCX*0.6f), 240.f - (Desc.fCY*0.6f) },
+				XMFLOAT2{480.f + (Desc.fCX*0.6f), 240.f - (Desc.fCY*0.6f) },
+				XMFLOAT2{480.f - (Desc.fCX*0.6f), 240.f + (Desc.fCY*0.6f) },
+				XMFLOAT2{480.f + (Desc.fCX*0.6f), 240.f + (Desc.fCY*0.6f) },
+				XMFLOAT2{480.f - (Desc.fCX*0.6f), 240.f + (Desc.fCY * 1.7f) },
+				XMFLOAT2{480.f + (Desc.fCX*0.6f), 240.f + (Desc.fCY * 1.7f) },
+			};
+
+
+			for (uint32_t i = 0; i < 8; ++i)
+			{
+				Desc.fX = vPosArr[i].x;
+				Desc.fY = vPosArr[i].y;
+				Desc.strText = strTextArr[i];
+
+				CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
+				strgyDesc.ePlaceID			= PLACEID::ROOM;
+				strgyDesc.strLayerTag		= TEXT("LayerTag_UI_LoveMethod_Button");
+				strgyDesc.EnableLayers		= vector<_wstring>{};
+				strgyDesc.DisableLayers		= vector<_wstring>{ TEXT("LayerTag_UI_LoveMethod_Button"), };
+				Desc.pSelected_Strgy		= CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
+				Desc.pSelectedClick_Strgy	= CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.pClicked_Strgy			= CSetLoveMethod_Strgy::Create(m_pDevice, m_pContext, i + 1);
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Category_Button"), &Desc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_LoveMethod_Button"), tmp)))
+					return E_FAIL;
+			}
+
+
+
+			/* 위쪽 뒷배경 */
+			// LayerTag_UI_BackGround
+			{
+				CYellowBackGround::YELLOWBACKGROUND_DESC Desc = {};
+				Desc.fX = 480.f;
+				Desc.fY = 240.f;
+				Desc.fZ = 0.4f;
+				Desc.fCX = 960.f;
+				Desc.fCY = 480.f;
+				Desc.fSpeedPerSecond = 0.f;
+				Desc.fRotationPerSecond = XMConvertToRadians(0.f);
+				Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_YellowBackGround_Plane"), &Desc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_LoveMethod_Button"), tmp)))
+					return E_FAIL;
+			}
+		}
+
+
+		/* 고백할 장소 */
+		{
+			_wstring strTextArr[] = {
+				TEXT("바닷가"),
+				TEXT("전망대"),
+				TEXT("교실"),
+				TEXT("공원"),
+				TEXT("음악당"),
+				TEXT("찻집"),
+			};
+
+			XMFLOAT2 vPosArr[] = {
+				XMFLOAT2{480.f - (Desc.fCX * 0.6f), 240.f - (Desc.fCY * 1.3f) },
+				XMFLOAT2{480.f + (Desc.fCX * 0.6f), 240.f - (Desc.fCY * 1.3f) },
+				XMFLOAT2{480.f - (Desc.fCX * 0.6f), 240.f },
+				XMFLOAT2{480.f + (Desc.fCX * 0.6f), 240.f },
+				XMFLOAT2{480.f - (Desc.fCX * 0.6f), 240.f + (Desc.fCY * 1.3f) },
+				XMFLOAT2{480.f + (Desc.fCX * 0.6f), 240.f + (Desc.fCY * 1.3f) },
+			};
+
+
+			for (uint32_t i = 0; i < 6; ++i)
+			{
+				Desc.fX = vPosArr[i].x;
+				Desc.fY = vPosArr[i].y;
+				Desc.strText = strTextArr[i];
+
+				CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
+				strgyDesc.ePlaceID = PLACEID::ROOM;
+				strgyDesc.strLayerTag = TEXT("LayerTag_UI_LovePlace_Button");
+				strgyDesc.EnableLayers = vector<_wstring>{};
+				strgyDesc.DisableLayers = vector<_wstring>{ TEXT("LayerTag_UI_LovePlace_Button"), };
+				Desc.pSelected_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
+				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.pClicked_Strgy = CSetLovePlace_Strgy::Create(m_pDevice, m_pContext, i + 1);
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Category_Button"), &Desc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_LovePlace_Button"), tmp)))
+					return E_FAIL;
+			}
+
+
+
+			/* 위쪽 뒷배경 */
+			// LayerTag_UI_BackGround
+			{
+				CYellowBackGround::YELLOWBACKGROUND_DESC Desc = {};
+				Desc.fX = 480.f;
+				Desc.fY = 240.f;
+				Desc.fZ = 0.4f;
+				Desc.fCX = 960.f;
+				Desc.fCY = 480.f;
+				Desc.fSpeedPerSecond = 0.f;
+				Desc.fRotationPerSecond = XMConvertToRadians(0.f);
+				Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_YellowBackGround_Plane"), &Desc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_LovePlace_Button"), tmp)))
+					return E_FAIL;
+			}
 		}
 	}
 	return S_OK;
