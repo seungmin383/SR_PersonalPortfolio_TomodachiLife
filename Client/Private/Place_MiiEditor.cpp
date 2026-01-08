@@ -16,6 +16,8 @@
 #include "ChangePlace_Strategy.h"
 #include "TextButton.h"
 #include "Deactive_Strgy.h"
+#include "YellowBackGround.h"
+#include "NoneBack_TextBox.h"
 
 #define HEAD_BASE_POS_X 300.f
 #define HEAD_BASE_POS_Y 120.f
@@ -113,10 +115,6 @@ HRESULT CPlace_MiiEditor::Ready_Actor_Layer()
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_Actor"), tmp)))
 			return E_FAIL;
 
-		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_NONBLEND;
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_EditorBG"), &Desc);
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_Actor"), tmp)))
-			return E_FAIL;
 	}
 	return S_OK;
 }
@@ -154,7 +152,7 @@ HRESULT CPlace_MiiEditor::Ready_UI_Layer()
 		TEXT("LayerTag_UI_Eyes"),
 		TEXT("LayerTag_UI_Nose"),
 		TEXT("LayerTag_UI_Mouth"),
-		TEXT("LayerTag_UI_Text_Button")
+		TEXT("LayerTag_UI_Text_Button"),
 	};
 
 	for (auto& str : EnableLayers)
@@ -192,6 +190,8 @@ HRESULT CPlace_MiiEditor::Layer_UI_BackGround()
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID,	TEXT("LayerTag_UI_BackGround"), tmp)))
 			return E_FAIL;
 	}
+
+
 
 	return S_OK;
 }
@@ -502,19 +502,20 @@ HRESULT CPlace_MiiEditor::Layer_UI_Category_Button()
 	Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 
 	vector<_wstring> LayerTagArr{
-		TEXT("LayerTag_UI_Page_Button"),
+		TEXT("LayerTag_UI_Page_Button"),	/* 0 */
 		TEXT("LayerTag_UI_FaceShape"),
 		TEXT("LayerTag_UI_Hair"),
 		TEXT("LayerTag_UI_Eyebrow"),
 		TEXT("LayerTag_UI_Eyes"),
-		TEXT("LayerTag_UI_Nose"),
+		TEXT("LayerTag_UI_Nose"),			/* 5 */
 		TEXT("LayerTag_UI_Mouth"),
-		TEXT("LayerTag_UI_Text_Button")
+		TEXT("LayerTag_UI_Text_Button"),
+
 	};
 
 	vector<uint32_t> EnableLayerIndex[] = {
 		vector<uint32_t>{0, 1},
-		vector<uint32_t>{7},
+		vector<uint32_t>{7, },
 		vector<uint32_t>{},
 		vector<uint32_t>{}
 	};
@@ -585,7 +586,6 @@ HRESULT CPlace_MiiEditor::Layer_UI_Save_Button()
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 		Desc.strText = TEXT("등록");
 
-		/* 이거 삭제하고 End_Edit이나 BeginEdit에서 컨트롤 하게 해야겠다 */
 		Desc.pClicked_Strgy = CSaveMiiData_Strgy::Create(m_pDevice, m_pContext);
 		Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
 		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
@@ -606,26 +606,31 @@ HRESULT CPlace_MiiEditor::Layer_UI_Save_Button()
 HRESULT CPlace_MiiEditor::Layer_UI_Text_Button()
 {
 	CObject* tmp = { nullptr };
-	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);;
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
+
+	XMFLOAT4 PosSizeArr[] = {
+		XMFLOAT4{TEXT_BASE_POS_X,			TEXT_BASE_POS_Y,			300.f,	50.f},	/* 성 */
+		XMFLOAT4{TEXT_BASE_POS_X + 350.f,	TEXT_BASE_POS_Y,			300.f,	50.f},	/* 이름 */
+		XMFLOAT4{TEXT_BASE_POS_X,			TEXT_BASE_POS_Y + 100.f,	300.f,	50.f},	/* 닉네임 */
+
+		XMFLOAT4{TEXT_BASE_POS_X + 275.f,	TEXT_BASE_POS_Y + 100.f,	150.f,	50.f},	/* 성별 */
+		XMFLOAT4{TEXT_BASE_POS_X + 450.f,	TEXT_BASE_POS_Y + 100.f,	150.f,	50.f},	/* 혈액형 */
+
+		XMFLOAT4{TEXT_BASE_POS_X - 60.f,	TEXT_BASE_POS_Y + 200.f,	180.f,	50.f},	/* 색 */
+		XMFLOAT4{TEXT_BASE_POS_X + 117.f,	TEXT_BASE_POS_Y + 200.f,	150.f,	50.f},	/* 년 */
+		XMFLOAT4{TEXT_BASE_POS_X + 257.5f,	TEXT_BASE_POS_Y + 200.f,	150.f,	50.f},	/* 일 */
+		XMFLOAT4{TEXT_BASE_POS_X + 435.f,	TEXT_BASE_POS_Y + 200.f,	180.f,	50.f},	/* 어른 */ // 
+
+		XMFLOAT4{TEXT_BASE_POS_X,			TEXT_BASE_POS_Y + 300.f,	300.f,	50.f},	/* 관계 */
+		XMFLOAT4{TEXT_BASE_POS_X + 350.f,	TEXT_BASE_POS_Y + 300.f,	300.f,	50.f}	/* 작성자 */
+	};
+
 	// LayerTag_UI_Text_Button
 	{
 		CTextButton::TEXTBUTTON_DESC Desc = {};
 		Desc.fZ = 0.5f;
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 
-		XMFLOAT4 PosSizeArr[] = {
-			XMFLOAT4{TEXT_BASE_POS_X,			TEXT_BASE_POS_Y,			200.f,	50.f},	/* 성 */
-			XMFLOAT4{TEXT_BASE_POS_X + 300.f,	TEXT_BASE_POS_Y,			200.f,	50.f},	/* 이름 */
-			XMFLOAT4{TEXT_BASE_POS_X,			TEXT_BASE_POS_Y + 80.f,		200.f,	50.f},	/* 닉네임 */
-			XMFLOAT4{TEXT_BASE_POS_X + 250.f,	TEXT_BASE_POS_Y + 80.f,		80.f,	50.f},	/* 성별 */
-			XMFLOAT4{TEXT_BASE_POS_X + 350.f,	TEXT_BASE_POS_Y + 80.f,		66.f,	50.f},	/* 혈액형 */
-			XMFLOAT4{TEXT_BASE_POS_X,			TEXT_BASE_POS_Y + 160.f,	66.f,	50.f},	/* 색 */
-			XMFLOAT4{TEXT_BASE_POS_X + 100.f,	TEXT_BASE_POS_Y + 160.f,	80.f,	50.f},	/* 년 */
-			XMFLOAT4{TEXT_BASE_POS_X + 180.f,	TEXT_BASE_POS_Y + 160.f,	80.f,	50.f},	/* 일 */
-			XMFLOAT4{TEXT_BASE_POS_X + 250.f,	TEXT_BASE_POS_Y + 160.f,	100.f,	50.f},	/* 어른 */
-			XMFLOAT4{TEXT_BASE_POS_X,			TEXT_BASE_POS_Y + 240.f,	200.f,	50.f},	/* 관계 */
-			XMFLOAT4{TEXT_BASE_POS_X + 300.f,	TEXT_BASE_POS_Y + 240.f,	200.f,	50.f}	/* 작성자 */
-		};
 		
 		for (uint32_t i = 0; i < 11; ++i)
 		{
@@ -650,6 +655,44 @@ HRESULT CPlace_MiiEditor::Layer_UI_Text_Button()
 				return E_FAIL;
 		}
 
+
+		// ProtoTag_UI_NoneBack_TextBox
+		{
+			CNoneBack_TextBox::NONEBACKTEXTBOX_DESC Desc = {};
+			Desc.fZ = 0.5f;
+			Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+			_wstring strArr[] = {
+				TEXT("성"),
+				TEXT("이름"),
+				TEXT("닉네임"),
+				TEXT("성별"),
+				TEXT("혈액형"),
+				TEXT("좋아하는 색"),
+				TEXT("생년"),
+				TEXT("생월/일"),
+				TEXT("어른/아이"),
+				TEXT("현실에서 당신과의 관계"),
+				TEXT("작성자"),
+			};
+
+			for (uint32_t i = 0; i < 11; ++i)
+			{
+				Desc.fX = PosSizeArr[i].x;
+				Desc.fY = PosSizeArr[i].y - 30.f;
+				Desc.fCX = PosSizeArr[i].z;
+				Desc.fCY = PosSizeArr[i].w;
+				Desc.strText = strArr[i];
+				Desc.vColor = static_cast<XMFLOAT4>(Colors::DarkSlateGray);
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_NoneBack_TextBox"), &Desc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Text_Button"), tmp)))
+					return E_FAIL;
+			}
+		}
 	}
 	return S_OK;
 }

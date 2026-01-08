@@ -51,6 +51,7 @@
 #include "IconTexture.h"
 #include "Wallet.h"
 #include "Narration_TextBox.h"
+#include "NoneBack_TextBox.h"
 
 USING(Client)
 
@@ -82,11 +83,11 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	 //AllocConsole();                           // 콘솔 창 생성
-	 //FILE* fp;								  
-	 //freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
-	 //freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
-	 //freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
+	 AllocConsole();                           // 콘솔 창 생성
+	 FILE* fp;								  
+	 freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
+	 freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
+	 freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
 
 	ENGINE_DESC EngineDesc = {};
 	EngineDesc.hWnd = g_hWnd;
@@ -311,38 +312,38 @@ HRESULT CMainApp::Ready_Static_Model()
 	}
 
 #ifdef _DEBUG
-	/* 애니메이션 테스터 모델 */
-	// ProtoTag_Component_AnimationTester
-	{
-		XMMATRIX InitMatrix = XMMatrixIdentity();
-		InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
+	///* 애니메이션 테스터 모델 */
+	//// ProtoTag_Component_AnimationTester
+	//{
+	//	XMMATRIX InitMatrix = XMMatrixIdentity();
+	//	InitMatrix;// = XMMatrixRotationY(XMConvertToRadians(180.f));
 
-		/* 폴더 순회 / entry는 그 폴더 안의 파일이나 폴더 */
-		for (const auto& entry : filesystem::directory_iterator("../../../../../../Resource/dev/05_Anim_fbx/"))
-		{
-			/* entry가 일반 파일인지 확인 / 폴더, 바로가기 등이면 false */
-			if (!entry.is_regular_file())
-				continue;
+	//	/* 폴더 순회 / entry는 그 폴더 안의 파일이나 폴더 */
+	//	for (const auto& entry : filesystem::directory_iterator("../../../../../../Resource/dev/05_Anim_fbx/"))
+	//	{
+	//		/* entry가 일반 파일인지 확인 / 폴더, 바로가기 등이면 false */
+	//		if (!entry.is_regular_file())
+	//			continue;
 
-			/* 파일 경로에서 확장자만 추출 */
-			_wstring strEXT = entry.path().extension().wstring();
-			if (strEXT != L".fbx")
-				continue;
+	//		/* 파일 경로에서 확장자만 추출 */
+	//		_wstring strEXT = entry.path().extension().wstring();
+	//		if (strEXT != L".fbx")
+	//			continue;
 
-			string FileStemA = entry.path().stem().string();
-			wstring ProtoTagW = L"ProtoTag_Component_AnimationTester_" + entry.path().stem().wstring();
+	//		string FileStemA = entry.path().stem().string();
+	//		wstring ProtoTagW = L"ProtoTag_Component_AnimationTester_" + entry.path().stem().wstring();
 
-			tmp = CModel::Create(m_pDevice, m_pContext,
-				ANIM_TYPE::ANIM,
-				entry.path().generic_string().c_str(),
-				InitMatrix,
-				FileStemA.c_str());
+	//		tmp = CModel::Create(m_pDevice, m_pContext,
+	//			ANIM_TYPE::ANIM,
+	//			entry.path().generic_string().c_str(),
+	//			InitMatrix,
+	//			FileStemA.c_str());
 
 
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, ProtoTagW, tmp)))
-				return E_FAIL;
-		}
-	}
+	//		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, ProtoTagW, tmp)))
+	//			return E_FAIL;
+	//	}
+	//}
 #endif
 
 	_wstring strClothModelTagArr[] = {
@@ -936,7 +937,13 @@ HRESULT CMainApp::Ready_StaticUI()
 			return E_FAIL;
 	}
 
-
+	/* 뒷배경이 없는 텍스트 박스 */
+	// ProtoTag_UI_NoneBack_TextBox
+	{
+		tmp = CNoneBack_TextBox::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_NoneBack_TextBox"), tmp)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

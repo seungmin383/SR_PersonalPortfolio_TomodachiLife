@@ -12,6 +12,9 @@
 #include "Room.h"
 #include "SEMii.h"
 
+/* UI */
+#include "BlueBackGround.h"
+
 CPlace_Event_BeFriend::CPlace_Event_BeFriend(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
 {
@@ -110,8 +113,28 @@ HRESULT CPlace_Event_BeFriend::Ready_Actor_Layer()
 HRESULT CPlace_Event_BeFriend::Ready_UI_Layer()
 {
 	CObject* tmp = { nullptr };
+	uint32_t iStaticID = static_cast<uint32_t>(PLACEID::STATIC);
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::EVENT_BEFRIEND);
 
+	{
+		CBlueBackGround::BLUEBACKGORUND_DESC Desc = {};
+		Desc.fX = 480.f;
+		Desc.fY = 240.f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 960.f;
+		Desc.fCY = 480.f;
+		Desc.fSpeedPerSecond = 0.f;
+		Desc.fRotationPerSecond = XMConvertToRadians(0.f);
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iStaticID, TEXT("ProtoTag_UI_BlueBackGround_Dot"), &Desc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::EVENT_BEFRIEND),
+			TEXT("LayerTag_UI"), tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}	
+	}
 	return S_OK;
 }
 

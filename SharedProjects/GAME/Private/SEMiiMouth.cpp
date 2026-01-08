@@ -175,6 +175,11 @@ HRESULT CSEMiiMouth::Bind_ShaderResources()
 				return E_FAIL;
 		}
 	}
+	else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::NERVOUS))
+	{
+		if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", 115)))
+			return E_FAIL;
+	}
 	else
 	{
 		if (FAILED(m_pTexture->Bind_ShaderResource(m_pShader, "g_Texture", m_iTextureIndex)))

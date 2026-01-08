@@ -61,12 +61,35 @@ HRESULT CMiiManager::Initialize()
 				LoveList.push_back(i);
 		}
 
-		iIndex++;
-
 		uint32_t iRandNeeds = rand() % static_cast<int32_t>(NEEDS::END);
 		
-		if (iRandNeeds == static_cast<int32_t>(NEEDS::LOVE))
+		switch (iIndex)
+		{
+		case 0:
+			iRandNeeds = static_cast<int32_t>(NEEDS::HUNGRY);
+			break;
+		case 1:
+			iRandNeeds = static_cast<int32_t>(NEEDS::BE_FRIEND);
+			break;
+		case 2:
+			iRandNeeds = static_cast<int32_t>(NEEDS::LOVE);
+			break;
+		case 3:
 			iRandNeeds = static_cast<int32_t>(NEEDS::NOTHING);
+			break;
+		case 4:
+			iRandNeeds = static_cast<int32_t>(NEEDS::NOTHING);
+			break;
+
+		default:
+			break;
+		}
+
+		iIndex++;
+
+		
+		//if (iRandNeeds == static_cast<int32_t>(NEEDS::LOVE))
+		//	iRandNeeds = static_cast<int32_t>(NEEDS::NOTHING);
 
 		info.MiiProfile.iNeeds = iRandNeeds;
 	}

@@ -58,16 +58,27 @@ public:
 	_bool Get_isStart_Method()const { return m_isStart_Method; }
 	void Set_isStart_Method(_bool is) { m_isStart_Method = is; }
 	
-	uint32_t Get_iLoveMethod()const { return m_iLoveMethod; }
-	void Set_iLoveMethod(uint32_t i) { m_iLoveMethod = i; }
-	uint32_t Get_iLovePlace()const { return m_iLovePlace; }
-	void Set_iLovePlace(uint32_t i) { m_iLovePlace = i; }
+	uint32_t Get_iLoveMethod()const		{ return m_iLoveMethod; }
+	void Set_iLoveMethod(uint32_t i)	{ m_iLoveMethod = i; }
+	uint32_t Get_iLovePlace()const		{ return m_iLovePlace; }
+	void Set_iLovePlace(uint32_t i)		{ m_iLovePlace = i; }
 	
-	_bool Get_isStartPropose()const { return m_isStartPropose; }
-	void Set_isStartPropose(_bool is) { m_isStartPropose = is; }
+	_bool Get_isStartPropose()const		{ return m_isStartPropose; }
+	void Set_isStartPropose(_bool is)	{ m_isStartPropose = is; }
 
-	_bool Get_isProposing() const { return m_isProposing; }
-	void Set_isProposing(_bool is) { m_isProposing = is; }
+	_bool Get_isProposing() const		{ return m_isProposing; }
+	void Set_isProposing(_bool is)		{ m_isProposing = is; }
+	
+	_bool Get_isFinEvent1() const		{ return m_isFin_Event1; }
+	void Set_isFinEvent1(_bool is)		{ m_isFin_Event1 = is; }
+	_bool Get_isFinEvent2() const		{ return m_isFin_Event2; }
+	void Set_isFinEvent2(_bool is)		{ m_isFin_Event2 = is; }
+	_bool Get_isFinEvent3() const		{ return m_isFin_Event3	; }
+	void Set_isFinEvent3(_bool is)		{ m_isFin_Event3 = is; }
+	_bool Get_isFinEvent4() const		{ return m_isFin_Event4	; }
+	void Set_isFinEvent4(_bool is)		{ m_isFin_Event4 = is; }
+	_bool Get_isFinEvent5() const		{ return m_isFin_Event5; }
+	void Set_isFinEvent5(_bool is)		{ m_isFin_Event5 = is; }
 
 private:
 	APARTINFO_DESC m_ApartInfo = {};
@@ -91,6 +102,12 @@ private:
 
 	_bool m_isStartPropose = { FALSE };
 	_bool m_isProposing = { FALSE };
+
+	_bool m_isFin_Event1 = { FALSE };
+	_bool m_isFin_Event2 = { FALSE };
+	_bool m_isFin_Event3 = { FALSE };
+	_bool m_isFin_Event4 = { FALSE };
+	_bool m_isFin_Event5 = { FALSE };
 
 public:
 	virtual void Free()override;

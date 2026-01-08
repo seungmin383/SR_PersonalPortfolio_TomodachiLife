@@ -106,7 +106,7 @@ void CSEMii::Initialize_FriendList()
 			LoveList.push_back(j);
 	}
 	
-	if (!LoveList.empty())
+	if (!LoveList.empty() && !CApartManager::GetInstance()->Get_isProposing())
 	{
 		m_iLoveMiiIndex = LoveList.front();
 		CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iNeeds = static_cast<uint32_t>(NEEDS::LOVE);
@@ -198,7 +198,7 @@ void CSEMii::Thinking(_float fDT)
 		m_fTalkingTimer = 0.f;
 	}
 
-	if (CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iNeeds == static_cast<uint32_t>(NEEDS::LOVE) && !m_isLoveEnter && !m_isFin_Shy)
+	if (CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iNeeds == static_cast<uint32_t>(NEEDS::LOVE) && !m_isLoveEnter && !CApartManager::GetInstance()->Get_isProposing())
 	{
 		Add_Flag(m_iState, STATE::LOVE);
 		Add_Flag(m_iState, STATE::CHANGE_STATE);
@@ -320,7 +320,7 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 
 	if (!isVisit)
 	{
-		if (m_fTalkingTimer < 5.f )
+		if (m_fTalkingTimer < 4.f)
 		{
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 			CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{1.f, 1.f, 1.f, 1.f});
@@ -330,12 +330,12 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 
 			Add_Flag(m_iState, STATE::TALKING);
 		}
-		else if(m_fTalkingTimer >= 5.f && !CApartManager::GetInstance()->Get_isBeFriend())
+		else if(m_fTalkingTimer >= 4.f && !CApartManager::GetInstance()->Get_isBeFriend())
 		{
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
 			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_BeFriend_Button"));
 		}
-		else if (m_fTalkingTimer >= 5.f && CApartManager::GetInstance()->Get_isBeFriend() && m_fTalkingTimer_2 < 5.f)
+		else if (m_fTalkingTimer >= 4.f && CApartManager::GetInstance()->Get_isBeFriend() && m_fTalkingTimer_2 < 4.f)
 		{
 			m_fTalkingTimer_2 += fDT;
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
@@ -407,8 +407,8 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 		/* 방에 있던 애 */
 		else if(m_iIndex == CApartManager::GetInstance()->Get_SrcMiiIndex())
 		{
-			m_pTransformCom->Ratate(0.f, XMConvertToRadians(180.f), 0.f);
-			//m_pTransformCom->TurnY(XMConvertToRadians(180.f));
+			//m_pTransformCom->Ratate(0.f, XMConvertToRadians(180.f), 0.f);
+			m_pTransformCom->TurnY(XMConvertToRadians(180.f));
 
 			if (m_fWalkingTimer < 3.f)
 			{
@@ -430,7 +430,7 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 	{
 		m_fComeBackAndWaitTimer += fDT;
 
-		if (m_fComeBackAndWaitTimer < 5.f)
+		if (m_fComeBackAndWaitTimer < 4.f)
 		{
 			if (!m_isComeBackRoom)
 			{
@@ -448,7 +448,7 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 		{
 			m_fComeBackAndTalkingTimer += fDT;
 
-			if (m_fComeBackAndTalkingTimer < 5.f)
+			if (m_fComeBackAndTalkingTimer < 4.f)
 			{
 				CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 				CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
@@ -484,6 +484,7 @@ void CSEMii::Thinking_About_Love(_float fDT)
 	m_fTalkingTimer += fDT;
 	_bool isStartPropose = CApartManager::GetInstance()->Get_isStartPropose();
 	_bool isProposing = CApartManager::GetInstance()->Get_isProposing();
+	m_isLoveEnter = TRUE;
 
 	if (!isStartPropose)
 	{
@@ -556,6 +557,9 @@ void CSEMii::Thinking_About_Love(_float fDT)
 
 		else if (!CApartManager::GetInstance()->Get_isProposing())
 		{
+
+			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+
 			CApartManager::GetInstance()->Set_isProposing(TRUE);
 			CApartManager::GetInstance()->Set_isStartPropose(TRUE);
 
@@ -568,16 +572,180 @@ void CSEMii::Thinking_About_Love(_float fDT)
 	}
 	else if (isProposing)
 	{
-		
+		if (m_isPreProposing != isProposing)
+			Add_Flag(m_iState, STATE::CHANGE_STATE);
+
+		/* 고백 하는 애 */
+		if (m_iIndex == CApartManager::GetInstance()->Get_DstMiiIndex())
+		{
+			/* 이벤트 1이 실행중이라면 */
+			if (!CApartManager::GetInstance()->Get_isFinEvent1())
+			{
+				m_fCameraLookTimer += fDT;
+
+				/* 카메라가 얘를 바라봄 */
+				if (m_fCameraLookTimer < 3.f)
+				{
+					static _bool is = { FALSE };
+					m_pTransformCom->Go_Backward(fDT);
+
+					if (!is)
+					{
+						Add_Flag(m_iState, STATE::CHANGE_STATE);
+						Add_Flag(m_iState, STATE::WALKING);
+					}
+				}
+				else if (m_fCameraLookTimer >= 3.f && m_fCameraLookTimer < 4.5f)
+				{
+					static _bool is = { FALSE };
+					if (!is)
+					{
+						Add_Flag(m_iState, STATE::CHANGE_STATE);
+						Add_Flag(m_iState, STATE::CALM);
+					}
+
+					Add_Flag(m_iState, STATE::NERVOUS);
+
+					m_pGameInstance->CameraManager_Set_Position(TEXT("World_Camera"), XMVECTOR{ 53.f, 5.f, -5.f, 1.f });
+					m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 30.f, 5.f, 30.f, 1.f }, XMConvertToRadians(45.f), 0.1f);
+
+				}
+				else
+				{
+					CApartManager::GetInstance()->Set_isFinEvent1(TRUE);
+				}
+			}
+
+			/* 이벤트 3가 끝났다면 */
+			else if (CApartManager::GetInstance()->Get_isFinEvent3() && m_fWaitingTimer_1 < 3.f)
+			{
+				m_fWaitingTimer_1 += fDT;
+
+				static _bool is = { FALSE };
+				if (!is)
+				{
+					Add_Flag(m_iState, STATE::CHANGE_STATE);
+					Add_Flag(m_iState, STATE::PROPOSE);
+
+					is = TRUE;
+				}
+
+
+				CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+				CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+
+				CNarrationManager::GetInstance()->Set_NarrationText(TEXT("내가 없는 세상을 한번 상상해 봐요. 혹시라도 허전하다면 당신에겐 내가 필요해요."));
+
+				Add_Flag(m_iState, STATE::TALKING);
+			}
+			else if (m_fWaitingTimer_1 >= 5.f && m_fWaitingTimer_2 < 1.f)
+			{
+				m_fWaitingTimer_2 += fDT;
+
+				CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+			}
+			else if (m_fWaitingTimer_2 >= 1.f)
+			{
+				CApartManager::GetInstance()->Set_isFinEvent4(TRUE);
+				m_pGameInstance->CameraManager_Set_Position(TEXT("World_Camera"), XMVECTOR{ 50.f, 5.f, 5.f, 1.f });
+				m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ -200.f, 5.f, -10000.f, 1.f }, XMConvertToRadians(45.f), 0.1f);
+			}
+		}
+
+		/* 고백 당하는 애 */
+		else if (m_iIndex == CApartManager::GetInstance()->Get_SrcMiiIndex())
+		{
+			m_pTransformCom->Ratate(0.f, XMConvertToRadians(220.f), 0.f);
+
+			/* 이벤트 1이 끝났다면 / 이벤트 2가 실행중이라면 */
+			if (CApartManager::GetInstance()->Get_isFinEvent1() && !CApartManager::GetInstance()->Get_isFinEvent2())
+			{
+				if (m_fWalkingTimer_2 < 2.f)
+				{
+					m_fWalkingTimer_2 += fDT;
+
+					static _bool is = { FALSE };
+					if (!is)
+					{
+						Add_Flag(m_iState, STATE::CHANGE_STATE);
+						Add_Flag(m_iState, STATE::WALKING);
+
+						m_pTransformCom->Set_State(TRANSFORM_STATE::POS, XMFLOAT4{ 30.f, 0.f, -40.f, 1.f });
+						is = TRUE;
+					}
+
+					m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ -30.f, 5.f, -60.f, 1.f }, XMConvertToRadians(45.f), 0.1f);
+					m_pTransformCom->Go_Backward(fDT);
+					m_pTransformCom->Go_Left(fDT * 1.1f);
+				}
+
+				else if (m_fWalkingTimer_2 >= 2.f)
+				{
+					CApartManager::GetInstance()->Set_isFinEvent2(TRUE);
+				}
+
+			}
+			/* 이벤트 2가 끝났다면 */
+			if (CApartManager::GetInstance()->Get_isFinEvent2() && m_fWalkingTimer_3 < 3.f)
+			{
+				m_pTransformCom->Ratate(0.f, XMConvertToRadians(180.f), 0.f);
+				m_fWalkingTimer_3 += fDT;
+
+				static _bool is = { FALSE };
+				if (!is)
+				{
+					is = TRUE;
+					Add_Flag(m_iState, STATE::CHANGE_STATE);
+					Add_Flag(m_iState, STATE::WALKING);
+
+					m_pTransformCom->Set_State(TRANSFORM_STATE::POS, XMFLOAT4{ 50.f, 0.f, -6.f, 1.f });
+				}
+
+				m_pGameInstance->CameraManager_Reset_State(TEXT("World_Camera"));
+				m_pGameInstance->CameraManager_Set_Position(TEXT("World_Camera"), XMVECTOR{ 70.f, 10.6f, -20.f, 1.f });
+				m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 50.f, 5.f, 0.f, 1.f }, XMConvertToRadians(45.f), 1.f);
+
+				m_pTransformCom->Go_Backward(fDT);
+			}
+			else if (CApartManager::GetInstance()->Get_isFinEvent2() && m_fWalkingTimer_3 >= 3.f && m_fWaitingTimer < 1.f)
+			{
+				m_pTransformCom->Ratate(0.f, XMConvertToRadians(180.f), 0.f);
+				m_fWaitingTimer += fDT;
+
+				static _bool is = { FALSE };
+				if (!is)
+				{
+					is = TRUE;
+					Add_Flag(m_iState, STATE::CHANGE_STATE);
+					Add_Flag(m_iState, STATE::CALM);
+				}
+			}
+			else if (CApartManager::GetInstance()->Get_isFinEvent2() && m_fWalkingTimer_3 >= 3.f && m_fWaitingTimer >= 1.f && !CApartManager::GetInstance()->Get_isFinEvent4())
+			{
+				m_pTransformCom->Ratate(0.f, XMConvertToRadians(160.f), 0.f);
+				m_pGameInstance->CameraManager_Set_Position(TEXT("World_Camera"), XMVECTOR{ 60.f, 5.f, -10.f, 1.f });
+				m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 30.f, 5.f, 30.f, 1.f }, XMConvertToRadians(45.f), 1.f);
+
+				CApartManager::GetInstance()->Set_isFinEvent3(TRUE);
+			}
+			else if (CApartManager::GetInstance()->Get_isFinEvent4())
+			{
+				m_pTransformCom->Ratate(0.f, XMConvertToRadians(180.f), 0.f);
+
+			}
+
+		}
+
 	}
 
+	m_isPreProposing = isProposing;
 }
 
 void CSEMii::Thinking_About_Hungry(_float fDT)
 {
 	m_fTalkingTimer += fDT;
 
-	if (m_fTalkingTimer < 5.f)
+	if (m_fTalkingTimer < 2.f)
 	{
 		CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 		CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });

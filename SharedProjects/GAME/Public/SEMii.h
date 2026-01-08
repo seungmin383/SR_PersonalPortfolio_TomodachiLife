@@ -35,7 +35,10 @@ public:
 		BANTER			= 1u << 16,
 		HAPPY			= 1u << 17,
 		LOVE			= 1u << 18,
-		HUNGRY			= 1u << 19
+		HUNGRY			= 1u << 19,
+		CALM			= 1u << 20,
+		NERVOUS			= 1u << 21,
+		PROPOSE			= 1u << 22
 	};
 
 
@@ -97,61 +100,67 @@ private:
 	CSEMiiBody* m_pBody = { nullptr };
 
 private:
-	int32_t m_iState = {};
-	int32_t m_iClothState = {};
-	_bool m_isChangeState = { FALSE };
+	int32_t m_iState					= {};
+	int32_t m_iClothState				= {};
+	_bool	m_isChangeState				= { FALSE };
 
-	MIIINFO_DESC m_MiiInfo = {};
+	MIIINFO_DESC m_MiiInfo				= {};
 
-	_wstring m_strNickName = {};
-	uint32_t m_iIndex = {};
+	_wstring m_strNickName				= {};
+	uint32_t m_iIndex					= {};
 
 	vector<int32_t> m_FoodFlavorFlags;
 
 private:
-	_bool m_isFin_Macro = { FALSE };
+	_bool m_isFin_Macro					= { FALSE };
 
-	_bool m_isStart_ReceiveFood_Event = { FALSE };
+	_bool m_isStart_ReceiveFood_Event	= { FALSE };
 
-	_bool m_isReceivedFood = { FALSE };
-	_bool m_isEatingFood = { FALSE };
-	_bool m_isFin_EatingFood = { FALSE };
-	_bool m_isReactingTaste = { FALSE };
+	_bool m_isReceivedFood				= { FALSE };
+	_bool m_isEatingFood				= { FALSE };
+	_bool m_isFin_EatingFood			= { FALSE };
+	_bool m_isReactingTaste				= { FALSE };
 
-	_bool m_isLevelUp = { FALSE };
-	_bool m_isFullnessUp = { FALSE };
-
-private:
-	uint32_t m_iWantToBeFriendIndex = {};
-	_wstring m_strWantToBeFriendName = {};
-
-	_float m_fTalkingTimer = {};
-	_bool m_isFin_FirstTalk = { FALSE };
-
-	_float m_fTalkingTimer_2 = {};
-
-	_bool m_isVisitFriendRoom = { FALSE };
-	_bool m_isPreVisitingFriendRoom = { FALSE };
-
-	_float m_fWalkingTimer = {};
-
-	_bool m_isStartBanter = {FALSE};
-
-	_float m_isWaitingTImer = { FALSE };
-
-	_float m_fComeBackAndWaitTimer = {};
-	_float m_fComeBackAndTalkingTimer = {};
-	_bool m_isComeBackRoom = { FALSE };
-
-	_bool m_isFin_BeFriendEvent = { FALSE };
+	_bool m_isLevelUp					= { FALSE };
+	_bool m_isFullnessUp				= { FALSE };
 
 private:
-	uint32_t m_iLoveMiiIndex = {};
-	_bool m_isLoveEnter = { FALSE };
-	_bool m_isFin_Shy = { FALSE };
+	uint32_t m_iWantToBeFriendIndex		= {};
+	_wstring m_strWantToBeFriendName	= {};
 
-	_float m_fTalkingTimer_3 = {};
-	_float m_fTalkingTimer_4 = {};
+	_float m_fTalkingTimer				= {};
+	_bool m_isFin_FirstTalk				= { FALSE };
+
+	_float m_fTalkingTimer_2			= {};
+
+	_bool m_isVisitFriendRoom			= { FALSE };
+	_bool m_isPreVisitingFriendRoom		= { FALSE };
+	_bool m_isPreProposing				= { FALSE };
+
+	_float m_fWalkingTimer				= {};
+	_bool m_isStartBanter				= {FALSE};
+	_float m_isWaitingTImer				= { FALSE };
+
+	_float m_fComeBackAndWaitTimer		= {};
+	_float m_fComeBackAndTalkingTimer	= {};
+	_bool m_isComeBackRoom				= { FALSE };
+
+	_bool m_isFin_BeFriendEvent			= { FALSE };
+
+private:
+	uint32_t m_iLoveMiiIndex			= {};
+	_bool m_isLoveEnter					= { FALSE };
+	_bool m_isFin_Shy					= { FALSE };
+
+	_float m_fTalkingTimer_3			= {};
+	_float m_fTalkingTimer_4			= {};
+
+	_float m_fCameraLookTimer			= {};
+	_float m_fWalkingTimer_2			= {};
+	_float m_fWalkingTimer_3			= {};
+	_float m_fWaitingTimer				= {};
+	_float m_fWaitingTimer_1			= {};
+	_float m_fWaitingTimer_2			= {};
 
 public:
 	static CSEMii* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

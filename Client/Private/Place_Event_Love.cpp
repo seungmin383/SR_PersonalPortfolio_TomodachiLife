@@ -13,6 +13,10 @@
 #include "Park_Actor.h"
 #include "SEMii.h"
 
+/* UI */
+#include "BlueBackGround.h"
+#include "Narration_TextBox.h"
+
 CPlace_Event_Love::CPlace_Event_Love(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPlace(pDevice, pContext)
 {
@@ -87,7 +91,7 @@ HRESULT CPlace_Event_Love::Ready_Actor_Layer()
 		{
 			if (i == 0)
 			{
-				Desc.vPos = XMFLOAT4{ 50.f, 0.f, -3.f, 1.f };
+				Desc.vPos = XMFLOAT4{ 50.f, 0.f, -40.f, 1.f };
 				Desc.iIndex = CApartManager::GetInstance()->Get_SrcMiiIndex();
 			}
 			else
@@ -105,13 +109,55 @@ HRESULT CPlace_Event_Love::Ready_Actor_Layer()
 				return E_FAIL;
 		}
 	}
+
+
 	return S_OK;
 }
 
 HRESULT CPlace_Event_Love::Ready_UI_Layer()
 {
 	CObject* tmp = { nullptr };
+	uint32_t iStaticID = static_cast<uint32_t>(PLACEID::STATIC);
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::EVENT_LOVE);
+
+	{
+		CBlueBackGround::BLUEBACKGORUND_DESC Desc = {};
+		Desc.fX = 480.f;
+		Desc.fY = 240.f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 960.f;
+		Desc.fCY = 480.f;
+		Desc.fSpeedPerSecond = 0.f;
+		Desc.fRotationPerSecond = XMConvertToRadians(0.f);
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iStaticID, TEXT("ProtoTag_UI_BlueBackGround_Dot"), &Desc);
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::EVENT_LOVE),
+			TEXT("LayerTag_UI"), tmp)))
+		{
+			Safe_Release(tmp);
+			return E_FAIL;
+		}
+	}
+
+	/* 나레이션 텍스트 박스 */
+	// ProtoTag_UI_Narration_TextBox 
+	{
+		CNarration_TextBox::NARRATION_TEXTBOX_DESC Desc = {};
+		Desc.fX = 480.f;
+		Desc.fY = 400.f;
+		Desc.fZ = 0.1f;
+		Desc.fCX = 960.f;
+		Desc.fCY = 160.f;
+		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Narration_TextBox"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Narration_TextBox"), tmp)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

@@ -99,8 +99,17 @@ int32_t CSEMiiBody::Update(_float fDT)
 				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Happy_Wait"), TRUE, 2.f);
 
 		}
-		else if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::LOVE))
-			m_pAnimationPlayer->Begin_Animation(TEXT("Chr_FallInLove"), TRUE, 1.f);
+		else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::LOVE))
+		{
+			if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::PROPOSE))
+				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Romantic_Hold"), FALSE	, 1.f);
+			else if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::WALKING))
+				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Walk"), TRUE, 1.f);
+			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::CALM))
+				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
+			else
+				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_FallInLove"), TRUE, 1.f);
+		}
 		else
 			m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
 	}

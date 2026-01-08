@@ -64,6 +64,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Level_TextBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\NarrationManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Narration_TextBox.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\NoneBack_TextBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Park_Actor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlayerInven_Button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Save_Button.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Level_TextBox.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\NarrationManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Narration_TextBox.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\NoneBack_TextBox.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Park_Actor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\PlayerInven_Button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Save_Button.h" />
