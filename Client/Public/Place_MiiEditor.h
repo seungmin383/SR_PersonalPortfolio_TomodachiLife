@@ -27,6 +27,8 @@ public:
 	HRESULT Layer_UI_Category_Button();
 	HRESULT Layer_UI_Save_Button();
 	HRESULT Layer_UI_Text_Button();
+	HRESULT Layer_UI_Voice_Button();
+	HRESULT Layer_UI_Personal_Button();
 
 	HRESULT Ready_Environment_Layer();
 	HRESULT Ready_Camera_Layer();

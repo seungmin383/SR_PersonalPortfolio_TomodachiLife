@@ -26,6 +26,8 @@ HRESULT CIconTexture::Initialize_Clone(void* pArg)
 {
 	ICONTEXTURE_DESC* pDesc = static_cast<ICONTEXTURE_DESC*>(pArg);
 	m_iTextureIndex = pDesc->iTextureIndex;
+	m_isSpecialMove = pDesc->isSpecialMove;
+	m_fTargetFadeTime = pDesc->TargetFadeTime; 
 
 	if (FAILED(CUI::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -33,17 +35,34 @@ HRESULT CIconTexture::Initialize_Clone(void* pArg)
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
+	m_fOriginX = m_fX;
+	m_fOriginY = m_fY;
 	return S_OK;
 }
 
 int32_t CIconTexture::Update_Priority(_float fDT)
 {
-
+	if (m_isSpecialMove)
+		m_isEnable = m_pGameInstance->UIManager_Get_isEnable();
 	return 0;
 }
 
 int32_t CIconTexture::Update(_float fDT)
 {
+	if (m_isSpecialMove)
+	{
+		if (m_isEnable)
+		{
+			if (!m_isFin_Fade)
+				Fade_Enterance(fDT);
+
+		}
+		else
+		{
+			if (m_isFin_Fade)
+				Fade_Exit(fDT);
+		}
+	}
 	return 0;
 }
 
@@ -62,8 +81,16 @@ HRESULT CIconTexture::Render()
 	if (FAILED(m_pRectBufferCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(VTS_DEFAULT)))
-		return E_FAIL;
+	if (m_isSpecialMove)
+	{
+		if (FAILED(m_pShaderCom->Begin(VTS_ALPHA_FADE)))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pShaderCom->Begin(VTS_DEFAULT)))
+			return E_FAIL;
+	}
 
 	if (FAILED(m_pRectBufferCom->Begin_Draw()))
 		return E_FAIL;
@@ -85,7 +112,80 @@ HRESULT CIconTexture::Ready_Component()
 		TEXT("Com_RectBuffer"), reinterpret_cast<CComponent**>(&m_pRectBufferCom), nullptr)))
 		return E_FAIL;
 
+
+
 	return S_OK;
+}
+
+
+
+void CIconTexture::Fade_Enterance(_float fDT)
+{
+	if (m_fFadeTimer == 0.f)
+	{
+		m_vTargetPos.x = m_fOriginX;
+		m_vTargetPos.y = m_fOriginY;
+
+		m_vInitPos.x = m_fOriginX;
+		m_vInitPos.y = m_fOriginY + 100.f;
+	}
+
+	m_fFadeTimer += fDT;
+
+	m_fRatio = m_fFadeTimer / m_fTargetFadeTime;
+
+	if (m_fRatio > 1.f)
+	{
+		m_isFin_Fade = TRUE;
+		m_fFadeTimer = m_fTargetFadeTime;
+		m_fRatio = 1.f;
+	}
+
+	m_fX = m_vInitPos.x + (m_vTargetPos.x - m_vInitPos.x) * m_fRatio;
+	m_fY = m_vInitPos.y + (m_vTargetPos.y - m_vInitPos.y) * m_fRatio;
+
+	uint32_t iNumViewPorts{ 1 };
+	D3D11_VIEWPORT ViewportDescs;
+
+	m_pContext->RSGetViewports(&iNumViewPorts, &ViewportDescs);
+
+	m_pTransformCom->Set_State(TRANSFORM_STATE::POS,
+		XMVectorSet(m_fX - ViewportDescs.Width * 0.5f, -m_fY + ViewportDescs.Height * 0.5f, m_fZ, 1.f));
+
+}
+
+void CIconTexture::Fade_Exit(_float fDT)
+{
+	if (m_fFadeTimer == m_fTargetFadeTime)
+	{
+		m_vTargetPos.x = m_fOriginX;
+		m_vTargetPos.y = m_fOriginY - 100.f;
+
+		m_vInitPos.x = m_fOriginX;
+		m_vInitPos.y = m_fOriginY;
+	}
+
+	m_fFadeTimer -= fDT;
+
+	m_fRatio = m_fFadeTimer / m_fTargetFadeTime;
+
+	if (m_fRatio <= 0.f)
+	{
+		m_isFin_Fade = FALSE;
+		m_fFadeTimer = 0.f;
+		m_fRatio = 0.f;
+	}
+
+	m_fX = m_vInitPos.x + (m_vTargetPos.x - m_vInitPos.x) * (1.f - m_fRatio);
+	m_fY = m_vInitPos.y + (m_vTargetPos.y - m_vInitPos.y) * (1.f - m_fRatio);
+
+	uint32_t iNumViewPorts{ 1 };
+	D3D11_VIEWPORT ViewportDescs;
+
+	m_pContext->RSGetViewports(&iNumViewPorts, &ViewportDescs);
+
+	m_pTransformCom->Set_State(TRANSFORM_STATE::POS,
+		XMVectorSet(m_fX - ViewportDescs.Width * 0.5f, -m_fY + ViewportDescs.Height * 0.5f, m_fZ, 1.f));
 }
 
 HRESULT CIconTexture::Bind_ShaderResources()
@@ -98,6 +198,10 @@ HRESULT CIconTexture::Bind_ShaderResources()
 		return E_FAIL;
 	if(FAILED(m_pTextureCom->Bind_ShaderResource(m_pShaderCom, "g_Texture", m_iTextureIndex)))
 		return E_FAIL;
+
+	if (m_isSpecialMove)
+		if (FAILED(m_pShaderCom->Bind_RawValue("g_Ratio", &m_fRatio, sizeof(_float))))
+			return E_FAIL;
 
 	return S_OK;
 }

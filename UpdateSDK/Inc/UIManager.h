@@ -40,6 +40,10 @@ private:
 public:
 	_float Get_FadeForce();
 
+public:
+	_bool Get_isEnable() const { return m_isEnable; }
+	void Set_isEnable(_bool is) { m_isEnable = is; }
+
 private:
 	ID3D11Device* m_pDevice = { nullptr };
 	ID3D11DeviceContext* m_pContext = { nullptr };
@@ -61,6 +65,10 @@ private:
 
 	_float m_fFadeTimer = {};
 	_float m_fFadeForce = {};
+
+private:
+	/* mii Editor에서 사용 */
+	_bool m_isEnable = {};
 
 public:
 	static CUIManager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

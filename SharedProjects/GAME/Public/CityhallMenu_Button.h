@@ -23,6 +23,9 @@ public:
 
 		_wstring strText = {};
 
+		_bool isSpecialMove = { FALSE };
+		_float fTargetFadeTime = {};
+
 	}CITYHALLMENUBUTTON_DESC;
 
 private:
@@ -47,6 +50,10 @@ private:
 	int32_t On_Click() override;
 
 private:
+	void Fade_Enterance(_float fDT);
+	void Fade_Exit(_float fDT);
+
+private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CTextureCom* m_pTextureCom = { nullptr };
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
@@ -56,8 +63,26 @@ private:
 	IOnClick* m_pSelectedClick_Strgy = { nullptr };
 
 
-	_wstring m_strText = {};
-	XMFLOAT4 m_vFontSize = {};
+private:
+	_float m_fOriginX = {};
+	_float m_fOriginY = {};
+
+	_wstring	m_strText = {};
+	XMFLOAT4	m_vFontSize = {};
+
+	_bool		m_isSpecialMove = { FALSE };
+	XMFLOAT3	m_vTargetPos = {};
+	XMFLOAT3	m_vInitPos = {};
+
+	_bool m_isEnable = { FALSE };
+
+	_float		m_fFadeTimer = {};
+	_float		m_fTargetFadeTime = {};
+
+	_bool		m_isFin_Fade = { FALSE };
+
+	_float		m_fRatio = {};
+
 
 public:
 	static CCityhallMenu_Button* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

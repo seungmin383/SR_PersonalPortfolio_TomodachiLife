@@ -13,6 +13,8 @@ float g_Brightness;
 float g_Pow;
 float g_TexCoord;
 
+float g_Ratio;
+
 struct VS_IN
 {
     float3 vPosition : POSITION;
@@ -215,6 +217,26 @@ PS_OUT PS_GAUGE_UP(PS_IN In)
     return Out;
 }
 
+/* 알파 조정 */ 
+PS_OUT PS_ALPHA_FADE(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float4 TextureColor = g_Texture.Sample(PointSampler, In.vTexcoord);
+    
+    if (TextureColor.a < 0.3f)
+        discard;
+    
+    float fAlpha = TextureColor.a * g_Ratio;
+    
+    Out.vColor = TextureColor;
+    Out.vColor.a = fAlpha;
+    
+    return Out;
+}
+
+
+
 technique11 DefaultTechnique
 {
     pass Default
@@ -325,6 +347,17 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_GAUGE_UP();
+    }
+
+    pass AlphaFade
+    {
+        SetRasterizerState(RS_NoneCull);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_ALPHA_FADE();
     }
 
 }

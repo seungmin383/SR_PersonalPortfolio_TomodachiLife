@@ -23,6 +23,7 @@ HRESULT CTextButton::Initialize_Clone(void* pArg)
 	TEXTBUTTON_DESC* pDesc = static_cast<TEXTBUTTON_DESC*>(pArg);
 
 	m_pClicked_Strgy = pDesc->pClicked_Strgy;
+	m_pClicked_Strgy_1 = pDesc->pClicked_Strgy_1;
 	m_pSelected_Strgy = pDesc->pSelected_Strgy;
 	m_pSelectedClick_Strgy = pDesc->pSelectedClick_Strgy;
 
@@ -62,18 +63,75 @@ void CTextButton::Update_Late(_float fDT)
 	switch (m_eTextType)
 	{
 	case Game::CTextButton::FIRSTNAME:
-		CMiiManager::GetInstance()->Get_Edit_Profile().strFirstName = WstrToStr( m_strText);
+		CMiiManager::GetInstance()->Get_Edit_Profile().strFirstName = WstrToStr(m_strText);
 		break;
 	case Game::CTextButton::LASTNAME:
-		CMiiManager::GetInstance()->Get_Edit_Profile().strLastName = WstrToStr( m_strText);
+		CMiiManager::GetInstance()->Get_Edit_Profile().strLastName = WstrToStr(m_strText);
 		break;
 	case Game::CTextButton::NICKNAME:
-		CMiiManager::GetInstance()->Get_Edit_Profile().strNickName = WstrToStr( m_strText);
+		CMiiManager::GetInstance()->Get_Edit_Profile().strNickName = WstrToStr(m_strText);
+		break;
+	case Game::CTextButton::GENDER:
+	{
+	}
+		break;
+	case Game::CTextButton::BLOOD:
+		break;
+	case Game::CTextButton::COLOR:
+		break;
+	case Game::CTextButton::BIRTH_YEAR:
+		break;
+	case Game::CTextButton::BIRTH_DAY:
+		break;
+	case Game::CTextButton::ADULT:
+		break;
+	case Game::CTextButton::RELATION:
+		break;
+	case Game::CTextButton::MAKER:
 		break;
 	default:
 		break;
 	}
 
+
+	switch (m_eTextType)
+	{
+	case Game::CTextButton::FIRSTNAME:
+		m_strShowText = StrToWstr(CMiiManager::GetInstance()->Get_Edit_Profile().strFirstName);
+		break;
+	case Game::CTextButton::LASTNAME:
+		m_strShowText = StrToWstr(CMiiManager::GetInstance()->Get_Edit_Profile().strLastName);
+		break;
+	case Game::CTextButton::NICKNAME:
+		m_strShowText = StrToWstr(CMiiManager::GetInstance()->Get_Edit_Profile().strNickName);
+		break;
+	case Game::CTextButton::GENDER:
+	{
+		if (CMiiManager::GetInstance()->Get_Edit_Profile().isMan)
+			m_strShowText = TEXT("남자");
+		else
+			m_strShowText = TEXT("여자");
+	}
+	break;
+	case Game::CTextButton::BLOOD:
+		break;
+	case Game::CTextButton::COLOR:
+		break;
+	case Game::CTextButton::BIRTH_YEAR:
+		break;
+	case Game::CTextButton::BIRTH_DAY:
+		break;
+	case Game::CTextButton::ADULT:
+		break;
+	case Game::CTextButton::RELATION:
+		m_strShowText = TEXT("기타");
+		break;
+	case Game::CTextButton::MAKER:
+		break;
+	default:
+		break;
+	}
+	m_vFontSize = m_pGameInstance->FontManager_Measure_Text(TEXT("Basic_Font_18"), m_strShowText);
 	CUI::Update_Late(fDT);
 }
 
@@ -93,6 +151,8 @@ HRESULT CTextButton::Render()
 	if (FAILED(m_pRectBuffer->Begin_Draw()))
 		return E_FAIL;
 
+	m_pGameInstance->FontManager_Draw_Text(TEXT("Basic_Font_18"), m_strShowText,
+		XMFLOAT2{ m_fX - (m_vFontSize.x * 0.5f), m_fY - (m_vFontSize.y * 0.5f) }, XMVECTOR{0.f, 0.f, 0.f, 1.f});
 	return S_OK;
 }
 
@@ -145,9 +205,43 @@ int32_t CTextButton::On_Click()
 	{
 		if (m_isClicked)
 		{
-			MSG_BOX("이름을 입력하세요 ");
-			m_pGameInstance->ButtonManager_Set_OnText(TRUE);
+			switch (m_eTextType)
+			{
+			case Game::CTextButton::FIRSTNAME:
+				MSG_BOX("이름을 입력하세요 ");
+				m_pGameInstance->ButtonManager_Set_OnText(TRUE);
+				break;
+			case Game::CTextButton::LASTNAME:
+				MSG_BOX("이름을 입력하세요 ");
+				m_pGameInstance->ButtonManager_Set_OnText(TRUE);
+				break;
+			case Game::CTextButton::NICKNAME:
+				MSG_BOX("이름을 입력하세요 ");
+				m_pGameInstance->ButtonManager_Set_OnText(TRUE);
+				break;
+			case Game::CTextButton::GENDER:
+				break;
+			case Game::CTextButton::BLOOD:
+				break;
+			case Game::CTextButton::COLOR:
+				break;
+			case Game::CTextButton::BIRTH_YEAR:
+				break;
+			case Game::CTextButton::BIRTH_DAY:
+				break;
+			case Game::CTextButton::ADULT:
+				break;
+			case Game::CTextButton::RELATION:
+				break;
+			case Game::CTextButton::MAKER:
+				break;
+			default:
+				break;
+			}
+
 			m_pClicked_Strgy->OnClick();
+			m_pClicked_Strgy_1->OnClick();
+
 			m_isSelected = TRUE;
 		}
 	}
@@ -184,6 +278,7 @@ CObject* CTextButton::Clone(void* pArg)
 void CTextButton::Free()
 {
 	Safe_Release(m_pClicked_Strgy);
+	Safe_Release(m_pClicked_Strgy_1);
 	Safe_Release(m_pSelected_Strgy);
 	Safe_Release(m_pSelectedClick_Strgy);
 

@@ -18,11 +18,20 @@ public:
 	enum TEXTTYPE {
 		FIRSTNAME,
 		LASTNAME,
-		NICKNAME
+		NICKNAME,
+		GENDER,
+		BLOOD,
+		COLOR,
+		BIRTH_YEAR,
+		BIRTH_DAY,
+		ADULT,
+		RELATION,
+		MAKER,
 	};
 	typedef struct tagTextButtonDesc : public BUTTON_DESC
 	{
 		IOnClick* pClicked_Strgy = { nullptr };
+		IOnClick* pClicked_Strgy_1 = { nullptr };
 		IOnClick* pSelected_Strgy = { nullptr };
 		IOnClick* pSelectedClick_Strgy = { nullptr };
 
@@ -57,11 +66,15 @@ private:
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
 	IOnClick* m_pClicked_Strgy			= { nullptr };
+	IOnClick* m_pClicked_Strgy_1		= { nullptr };
 	IOnClick* m_pSelected_Strgy			= { nullptr };
 	IOnClick* m_pSelectedClick_Strgy	= { nullptr };
 
 	_wstring m_strText = {};
 	TEXTTYPE m_eTextType = {};
+
+	_wstring m_strShowText = { };
+	XMFLOAT4 m_vFontSize = {};
 
 public:
 	static CTextButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

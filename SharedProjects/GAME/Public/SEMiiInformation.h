@@ -7,6 +7,14 @@ struct MIIPROFILE_DESC
 	_string strLastName;
 	_string strNickName;
 	_bool isMan;
+
+	uint32_t iBlood;
+	uint32_t iColor;
+	uint32_t iBirthYear;
+	uint32_t iBirthMonth;
+	uint32_t iBirthDay;
+	_bool isAdult;
+
 	_float fLevel;
 	_float fFlavor[9];
 	uint32_t iFullness;
@@ -25,6 +33,15 @@ struct MIIPROFILE_DESC
 		Out["LastName"]		= strLastName;
 		Out["NickName"]		= strNickName;
 		Out["isMan"]		= isMan;
+
+		Out["Blood"]		= iBlood;
+		Out["Color"]		= iColor;
+		Out["BirthYear"]	= iBirthYear;
+		Out["BirthMonth"]	= iBirthMonth;
+		Out["BirthDay"]		= iBirthDay;
+		Out["isAdult"]		= isAdult;
+
+
 		Out["Level"]		= fLevel;
 
 		Out["Flavor"]		= nlohmann::json::array();
@@ -49,6 +66,14 @@ struct MIIPROFILE_DESC
 		strLastName		= In.at("LastName").get<_string>();
 		strNickName		= In.at("NickName").get<_string>();
 		isMan			= In.at("isMan").get<_bool>();
+
+		iBlood			= In.at("Blood").get<uint32_t>();
+		iColor			= In.at("Color").get<uint32_t>();
+		iBirthYear		= In.at("BirthYear").get<uint32_t>();
+		iBirthMonth		= In.at("BirthMonth").get<uint32_t>();
+		iBirthDay		= In.at("BirthDay").get<uint32_t>();
+		isAdult			= In.at("isAdult").get<_bool>();
+
 		fLevel			= In.at("Level").get<_float>();
 
 		const auto& Arr = In.at("Flavor");

@@ -63,7 +63,8 @@ int32_t CWindow_Button::Update_Priority(_float fDT)
 		m_isClicked = TRUE;
 	}
 
-	m_eCurMii_Needs = static_cast<NEEDS>(CMiiManager::GetInstance()->Get_MiiInfo(m_iMiiIndex).MiiProfile.iNeeds);
+	if(!CMiiManager::GetInstance()->Get_isEmpty())
+		m_eCurMii_Needs = static_cast<NEEDS>(CMiiManager::GetInstance()->Get_MiiInfo(m_iMiiIndex).MiiProfile.iNeeds);
 
 	return UPDATE_CLEAR;
 }

@@ -735,6 +735,16 @@ _float CGameInstance::UIManager_Get_FadeForce()
 	return m_pUIManager->Get_FadeForce();
 }
 
+_bool CGameInstance::UIManager_Get_isEnable() const
+{
+	return m_pUIManager->Get_isEnable();
+}
+
+void CGameInstance::UIManager_Set_isEnable(_bool is)
+{
+	m_pUIManager->Set_isEnable(is);
+}
+
 #pragma endregion
 
 #pragma region COLLISIONMANAGER

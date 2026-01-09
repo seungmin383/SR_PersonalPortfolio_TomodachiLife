@@ -767,7 +767,7 @@ HRESULT CMainApp::Ready_Static_Texture()
 	/* 땡땡이 배경 텍스쳐 */
 	// ProtoTag_Component_BackGround_Texture
 	{
-		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/BackGround_Texture/%d.dds"), 3);
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/BackGround_Texture/%d.dds"), 4);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_ColorDot_BackGround_Texture"), tmp)))
 			return E_FAIL;
 	}
@@ -835,6 +835,14 @@ HRESULT CMainApp::Ready_Static_Texture()
 	{
 		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Temp_Textures/%d.dds"), 1);
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Temp_Texture"), tmp)))
+			return E_FAIL;
+	}
+
+	/* 시청 버튼 텍스쳐 */
+	// ProtoTag_Component_CityhallMenu_Button_Texture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/CityhallMenu_Button/%d.dds"), 2);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_CityhallMenu_Button_Texture"), tmp)))
 			return E_FAIL;
 	}
 

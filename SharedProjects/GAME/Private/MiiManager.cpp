@@ -117,6 +117,9 @@ HRESULT CMiiManager::Begin_Edit(_bool isMan)
 		m_EditDesc.NoseInfo.iIndex		= 60;
 		m_EditDesc.MouthInfo.iIndex		= 101;
 		m_EditDesc.MiiProfile.isMan = TRUE;
+		m_EditDesc.MiiProfile.strFirstName = "";
+		m_EditDesc.MiiProfile.strLastName = "";
+		m_EditDesc.MiiProfile.strNickName = "";
 	}
 	else
 	{
@@ -127,6 +130,9 @@ HRESULT CMiiManager::Begin_Edit(_bool isMan)
 		m_EditDesc.NoseInfo.iIndex		= 60;
 		m_EditDesc.MouthInfo.iIndex		= 101;
 		m_EditDesc.MiiProfile.isMan = FALSE;
+		m_EditDesc.MiiProfile.strFirstName = "";
+		m_EditDesc.MiiProfile.strLastName = "";
+		m_EditDesc.MiiProfile.strNickName = "";
 	}
 
 	return S_OK;
@@ -140,7 +146,6 @@ HRESULT CMiiManager::End_Edit()
 		MSG_BOX("편집중이 아닙니다.");
 		return E_FAIL;
 	}
-
 
 	_wstring strFilePath = SAVEDATA_FOLDER_PATH + StrToWstr(m_EditDesc.MiiProfile.strNickName) + L".json";
 

@@ -21,6 +21,7 @@
 #include "Gauge.h"
 #include "Store_Food.h"
 #include "MiiEditButton.h"
+#include "Personal_Button.h"
 #include "Save_Button.h"
 #include "PageButton.h"
 #include "Sky_Actor.h"
@@ -42,8 +43,9 @@
 #include "Level_TextBox.h"
 #include "Thinking_Button.h"
 #include "FriendList_BackGround.h"
+#include "Voice_Button.h"
 #include "Friend_TextBox.h"
-
+#include "EditOption_BackGround.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -507,21 +509,6 @@ HRESULT CLoader::Loading_CityHall()
 
 	// Component
 	{
-		/* 일반 버튼 텍스쳐 */
-		// ProtoTag_Component_CityhallMenu_Button_Texture
-		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/CityhallMenu_Button/%d.dds"), 2);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_CityhallMenu_Button_Texture"), tmp)))
-				return E_FAIL;
-		}
-
-		/* 아이콘 텍스쳐 */
-		// ProtoTag_Component_IconTexture
-		{
-			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/CityhallMenu_Button/Icon/%d.dds"), 8);
-			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iCITYHALL, TEXT("ProtoTag_Component_IconTexture"), tmp)))
-				return E_FAIL;
-		}
 	}
 
 	// Actor
@@ -591,7 +578,29 @@ HRESULT CLoader::Loading_MiiEditor()
 				return E_FAIL;
 		}
 
+		/* 보이스 버튼 텍스쳐 */
+		// ProtoTag_Component_VoiceButton_Texture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Voice_Button/%d.dds"), 10);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_VoiceButton_Texture"), tmp)))
+				return E_FAIL;
+		}
 
+		/* 보이스 버튼 텍스쳐 */
+		// ProtoTag_Component_VoiceButton_Texture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Voice_Button/%d.dds"), 10);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_VoiceButton_Texture1"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 성격 버튼 텍스쳐 */
+		// ProtoTag_Component_PersonalButton_Texture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Personal_Button/%d.dds"), 1);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_PersonalButton_Texture"), tmp)))
+				return E_FAIL;
+		}
 	}
 
 	// Actor
@@ -633,7 +642,46 @@ HRESULT CLoader::Loading_MiiEditor()
 				return E_FAIL;
 		}
 
+		/* 편집 옵션 배경 */
+		// ProtoTag_UI_EditOption_BackGround
+		{
+			tmp = CEditOption_BackGround::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_EditOption_BackGround"), tmp)))
+				return E_FAIL;
+		}
 
+
+		/* 마을회관 메뉴 버튼 */
+		// ProtoTag_UI_CMButton
+		{
+			tmp = CCityhallMenu_Button::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_CityhallMenu_Button"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 아이콘 */
+		// ProtoTag_UI_Icon
+		{
+			tmp = CIconTexture::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_Icon"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 보이스 버튼 */
+		// ProtoTag_UI_Voice_Button
+		{
+			tmp = CVoice_Button::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_Voice_Button"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 성격 버튼 */
+		// ProtoTag_UI_Personal_Button
+		{
+			tmp = CPersonal_Button::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_Personal_Button"), tmp)))
+				return E_FAIL;
+		}
 	}
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));

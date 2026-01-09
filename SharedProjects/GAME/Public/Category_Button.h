@@ -18,10 +18,13 @@ public:
 	typedef struct tagCategoryButtonDesc : public BUTTON_DESC
 	{
 		IOnClick* pClicked_Strgy = { nullptr };
+		IOnClick* pClicked_Strgy_1 = { nullptr };
 		IOnClick* pSelected_Strgy = { nullptr };
 		IOnClick* pSelectedClick_Strgy = { nullptr };
 		_wstring strText = {};
 
+		_bool isSpecialMove = { FALSE };
+		_float TargetFadeTime;
 	}CATEGORYBUTTON_DESC;
 
 private:
@@ -46,23 +49,46 @@ private:
 	int32_t On_Click() override;
 
 private:
+	void Fade_Enterance(_float fDT);
+	void Fade_Exit(_float fDT);
+
+private:
 	CShaderCom* m_pShader = { nullptr };
 	CTextureCom* m_pTexture = { nullptr };
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
 	IOnClick* m_pClicked_Strgy = { nullptr };
+	IOnClick* m_pClicked_Strgy_1 = { nullptr };
 	IOnClick* m_pSelected_Strgy = { nullptr };
 	IOnClick* m_pSelectedClick_Strgy = { nullptr };
 
 private:
+	_bool m_isSpecialMove = { FALSE };
+
 	_wstring m_strText = {};
+	_wstring m_strTmpText = {};
+	_wstring m_strShowText = {};
+
+
 	XMFLOAT4 m_vFontSize = {};
 
-public:
-	static CCategory_Button* Create(
-		ID3D11Device* pDevice,
-		ID3D11DeviceContext* pContext);
+private:
+	_float m_fOriginX = {};
+	_float m_fOriginY = {};
 
+	_bool m_isEnable = { FALSE };
+	XMFLOAT3	m_vTargetPos = {};
+	XMFLOAT3	m_vInitPos = {};
+
+	_float m_fFadeTimer = {};
+	_float m_fTargetFadeTime = {};
+
+	_bool m_isFin_Fade = { FALSE };
+
+	_float m_fRatio = {};
+
+public:
+	static CCategory_Button* Create(ID3D11Device* pDevice,	ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg) override;
 	virtual void Free()override;
 };

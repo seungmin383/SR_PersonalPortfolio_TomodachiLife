@@ -14,7 +14,7 @@
     },
     "HairInfo": {
         "HairColor": [
-            1.0,
+            0.0,
             0.0,
             0.0,
             1.0
@@ -31,9 +31,13 @@
         ]
     },
     "MiiProfile": {
-        "FirstName": "aaa",
+        "BirthDay": 0,
+        "BirthMonth": 0,
+        "BirthYear": 0,
+        "Blood": 0,
+        "Color": 0,
+        "FirstName": "fdsa",
         "Flavor": [
-            0.4362315833568573,
             0.2225409746170044,
             0.4421521723270416,
             1.8320261240005493,
@@ -41,15 +45,17 @@
             0.7197485566139221,
             0.22351756691932678,
             1.7198400497436523,
-            1.65257728099823
+            1.65257728099823,
+            0.25653859972953796
         ],
         "FriendIndexList": [],
         "Fullness": 0,
-        "LastName": "aaa",
+        "LastName": "fdsa",
         "Level": 0.0,
-        "Needs": 1,
-        "NickName": "aaa",
+        "Needs": 0,
+        "NickName": "fdsa",
         "RoomIndex": 0,
+        "isAdult": false,
         "isMan": true
     },
     "MouthInfo": {

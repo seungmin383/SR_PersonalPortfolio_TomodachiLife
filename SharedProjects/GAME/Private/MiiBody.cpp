@@ -142,6 +142,7 @@ void CMiiBody::Free()
 {
 	Safe_Release(m_pSeModel);
 	Safe_Release(m_pShader);
+	Safe_Release(m_pAnimationPlayer);
 
 	CPartObject::Free();
 }

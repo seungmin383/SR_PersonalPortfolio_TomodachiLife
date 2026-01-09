@@ -346,6 +346,21 @@
     <Filter Include="03.UI\03.Texture\06.TextBox\NoneBack">
       <UniqueIdentifier>{8e9c54cd-b201-4fae-9b9d-24b701207626}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\02.BackGround\EditOptionBackGround">
+      <UniqueIdentifier>{74b7e59d-20ec-4e70-9640-050347153ba6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\05.SetUIEnable">
+      <UniqueIdentifier>{d90e45bd-2a81-441f-9c3e-d20b9ab75232}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\06.SetEditInfo_isMan">
+      <UniqueIdentifier>{b4132ec0-51ca-41ff-bb17-275d02767e39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\15.Voice">
+      <UniqueIdentifier>{3124e801-da99-4cfe-b685-37fa4035af29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Button\16.Personal">
+      <UniqueIdentifier>{68b4313b-4823-4fc6-a2d1-6adc3df3155e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -668,6 +683,21 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\NoneBack_TextBox.h">
       <Filter>03.UI\03.Texture\06.TextBox\NoneBack</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\EditOption_BackGround.h">
+      <Filter>03.UI\02.BackGround\EditOptionBackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetUIisEnable_Strgy.h">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\05.SetUIEnable</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetEditInfo_isMan_Strgy.h">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\06.SetEditInfo_isMan</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Voice_Button.h">
+      <Filter>03.UI\01.Button\15.Voice</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Personal_Button.h">
+      <Filter>03.UI\01.Button\16.Personal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp">
@@ -954,6 +984,21 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\NoneBack_TextBox.cpp">
       <Filter>03.UI\03.Texture\06.TextBox\NoneBack</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\EditOption_BackGround.cpp">
+      <Filter>03.UI\02.BackGround\EditOptionBackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetUIisEnable_Strgy.cpp">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\05.SetUIEnable</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetEditInfo_isMan_Strgy.cpp">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\06.SetEditInfo_isMan</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Voice_Button.cpp">
+      <Filter>03.UI\01.Button\15.Voice</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Personal_Button.cpp">
+      <Filter>03.UI\01.Button\16.Personal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

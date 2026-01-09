@@ -55,6 +55,15 @@ namespace Game
 	/* g_TexCoord*/
 #define VTS_GAUGE_UP 9
 
+	/* float */
+	/* g_Ratio */
+#define VTS_ALPHA_FADE 10
+
+
+
+
+
+
 	/* texture2D */
 	/* g_DiffuseTexture */
 #define VMS_DEFAULT 0

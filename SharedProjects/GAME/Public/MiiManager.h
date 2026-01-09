@@ -35,7 +35,12 @@ public:
 	MIIMOUTHINFO_DESC&		Get_Edit_MouthInfo()	{ return m_EditDesc.MouthInfo; }
 
 public:
-	MIIINFO_DESC& Get_MiiInfo(uint32_t i) { return m_Mii_Informations[i]; }
+	_bool Get_isEmpty() const { return m_Mii_Informations.empty(); }
+
+	MIIINFO_DESC& Get_MiiInfo(uint32_t i) { 
+		if (!m_Mii_Informations.empty())
+			return m_Mii_Informations[i];
+	}
 	
 	const _wstring& Get_CurMiiNickName() const { return m_strCurMiiNickName; }
 	void Set_CurMiiNickName(const _wstring& strNickName) { m_strCurMiiNickName = strNickName; }

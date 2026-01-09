@@ -18,6 +18,14 @@
 #include "Deactive_Strgy.h"
 #include "YellowBackGround.h"
 #include "NoneBack_TextBox.h"
+#include "EditOption_BackGround.h"
+#include "IconTexture.h"
+#include "CityhallMenu_Button.h"
+#include "Category_Button.h"
+#include "SetUIisEnable_Strgy.h"
+#include "SetEditInfo_isMan_Strgy.h"
+#include "Voice_Button.h"
+#include "Personal_Button.h"
 
 #define HEAD_BASE_POS_X 300.f
 #define HEAD_BASE_POS_Y 120.f
@@ -141,6 +149,12 @@ HRESULT CPlace_MiiEditor::Ready_UI_Layer()
 	if (FAILED(Layer_UI_Text_Button()))
 		return E_FAIL;
 
+	if (FAILED(Layer_UI_Voice_Button()))
+		return E_FAIL;
+
+	if (FAILED(Layer_UI_Personal_Button()))
+		return E_FAIL;
+
 	vector<_wstring> EnableLayers{
 		TEXT("LayerTag_UI_FaceShape"),
 		TEXT("LayerTag_UI_Page_Button")
@@ -153,6 +167,12 @@ HRESULT CPlace_MiiEditor::Ready_UI_Layer()
 		TEXT("LayerTag_UI_Nose"),
 		TEXT("LayerTag_UI_Mouth"),
 		TEXT("LayerTag_UI_Text_Button"),
+		TEXT("LayerTag_UI_Voice_Button"),
+		TEXT("LayerTag_UI_Personal_Action"),
+		TEXT("LayerTag_UI_Personal_Accent"),
+		TEXT("LayerTag_UI_Personal_Face"),
+		TEXT("LayerTag_UI_Personal_Think"),
+		TEXT("LayerTag_UI_Personal_Total"),
 	};
 
 	for (auto& str : EnableLayers)
@@ -510,21 +530,28 @@ HRESULT CPlace_MiiEditor::Layer_UI_Category_Button()
 		TEXT("LayerTag_UI_Nose"),			/* 5 */
 		TEXT("LayerTag_UI_Mouth"),
 		TEXT("LayerTag_UI_Text_Button"),
+		TEXT("LayerTag_UI_Voice_Button"),
+
+		TEXT("LayerTag_UI_Personal_Action"),
+		TEXT("LayerTag_UI_Personal_Accent"),	/* 10 */
+		TEXT("LayerTag_UI_Personal_Face"),
+		TEXT("LayerTag_UI_Personal_Think"),
+		TEXT("LayerTag_UI_Personal_Total"),
 
 	};
 
 	vector<uint32_t> EnableLayerIndex[] = {
 		vector<uint32_t>{0, 1},
 		vector<uint32_t>{7, },
-		vector<uint32_t>{},
-		vector<uint32_t>{}
+		vector<uint32_t>{8},
+		vector<uint32_t>{9,10,11,12,13}
 	};
 
 	vector<uint32_t> DisableLayerIndex[] = {
-			vector<uint32_t>{2,3,4,5,6,7},
-			vector<uint32_t>{0,1,2,3,4,5,6},
-			vector<uint32_t>{0,1,2,3,4,5,6,7},
-			vector<uint32_t>{0,1,2,3,4,5,6,7}
+			vector<uint32_t>{2,3,4,5,6,7, 8, 9,10,11,12,13},
+			vector<uint32_t>{0,1,2,3,4,5,6,8,9,10,11,12,13},
+			vector<uint32_t>{0,1,2,3,4,5,6,7, 9,10,11,12,13},
+			vector<uint32_t>{0,1,2,3,4,5,6,7,8}
 	};
 
 
@@ -578,11 +605,11 @@ HRESULT CPlace_MiiEditor::Layer_UI_Save_Button()
 	//LayerTag_UI_Save_Button
 	{
 		COption_Button::OPTIONBUTTON_DESC Desc = {};
-		Desc.fX = 850.f;
+		Desc.fX = 875.f;
 		Desc.fY = 455.f;
 		Desc.fZ = 0.5f;
-		Desc.fCX = 141.f;
-		Desc.fCY = 45.f;
+		Desc.fCX = 170.f;
+		Desc.fCY = 48.f;
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 		Desc.strText = TEXT("등록");
 
@@ -600,6 +627,7 @@ HRESULT CPlace_MiiEditor::Layer_UI_Save_Button()
 		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Save_Button"), static_cast<CButton*>(tmp))))
 			return E_FAIL;
 	}
+
 	return S_OK;
 }
 
@@ -639,10 +667,19 @@ HRESULT CPlace_MiiEditor::Layer_UI_Text_Button()
 			Desc.fCX = PosSizeArr[i].z;
 			Desc.fCY = PosSizeArr[i].w;
 
+			CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
+			strgyDesc.ePlaceID = PLACEID::MII_EDITOR;
+			strgyDesc.strLayerTag = TEXT("LayerTag_UI_Text_Button");
+
 			Desc.pClicked_Strgy = CDeactive_Strgy::Create(m_pDevice, m_pContext, PLACEID::MII_EDITOR, TEXT("LayerTag_UI_Text_Button"));
 			Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 			Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 			Desc.eTextType = static_cast<CTextButton::TEXTTYPE>(i);
+
+			if (i == 3)
+				Desc.pClicked_Strgy_1 = CSetUIisEnable_Strgy::Create(m_pDevice, m_pContext, TRUE);
+			else 
+				Desc.pClicked_Strgy_1 = CNull_Strgy::Create(m_pDevice, m_pContext);
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID,	TEXT("ProtoTag_UI_TextButton"), &Desc);
 			if (nullptr == tmp)
@@ -692,6 +729,359 @@ HRESULT CPlace_MiiEditor::Layer_UI_Text_Button()
 				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Text_Button"), tmp)))
 					return E_FAIL;
 			}
+		}
+
+		/* 성별 버튼 눌렀을 때 나오는 Layer */
+
+		/* 배경 */
+		// ProtoTag_UI_EditOption_BackGround
+		{
+			CEditOption_BackGround::EDITOPTIONBACKGROUND_DESC Desc = {};
+			Desc.fX = 480.f;
+			Desc.fY = 240.f;
+			Desc.fZ = 0.5f;
+			Desc.fCX = 540.f;
+			Desc.fCY = 400.f;
+			Desc.fSpeedPerSecond = 10.f;
+
+			Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+			Desc.TargetFadeTime = 0.3f;
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_EditOption_BackGround"), &Desc);
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Text_Button"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 남잔지 여잔지 */
+		{
+			CCityhallMenu_Button::CITYHALLMENUBUTTON_DESC Desc = {};
+			Desc.fCX = 180.f;
+			Desc.fCY = 180.f;
+			Desc.fZ = 0.5f;
+			Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+			Desc.isSpecialMove = TRUE;
+			Desc.fTargetFadeTime = 0.3f;
+
+			CIconTexture::ICONTEXTURE_DESC IconDesc = {};
+			IconDesc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+			IconDesc.fCX = 100.f;
+			IconDesc.fCY = 132.f;
+			IconDesc.fZ = 0.4f;
+			IconDesc.TargetFadeTime = 0.3f;
+			IconDesc.isSpecialMove = TRUE;
+
+			uint32_t iIndex = { 0 };
+
+			/* 남자인지 여자인지 */
+			for (uint32_t i = 0; i < 2; ++i)
+			{
+				if (i == 0)
+				{
+					Desc.fX = 480.f - ((Desc.fCX * 0.5f)) - 30.f;
+					Desc.pClicked_Strgy = CSetEditInfo_isMan_Strgy::Create(m_pDevice, m_pContext, TRUE);
+				}
+				else
+				{
+					Desc.fX = 480.f + ((Desc.fCX * 0.5f)) + 30.f;
+					Desc.pClicked_Strgy = CSetEditInfo_isMan_Strgy::Create(m_pDevice, m_pContext, FALSE);
+				}
+
+				Desc.fY = 240.f;
+				Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_CityhallMenu_Button"), &Desc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Text_Button"), tmp)))
+					return E_FAIL;
+
+				/* 아이콘 텍스쳐 */
+				IconDesc.fX = Desc.fX;
+				IconDesc.fY = Desc.fY;
+
+				IconDesc.iTextureIndex = 6 + iIndex;
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_Icon"), &IconDesc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Text_Button"), tmp)))
+					return E_FAIL;
+
+				++iIndex;
+			}
+		}
+
+		{
+			CCategory_Button::CATEGORYBUTTON_DESC Desc = {};
+			Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+			Desc.fCX	= 500.f;
+			Desc.fCY	= 50.f;
+			Desc.fX		= 480.f;
+			Desc.fY		= 410.f;
+			Desc.fZ		= 0.3f;
+			Desc.strText = L"취소";
+			Desc.isSpecialMove = TRUE;
+			Desc.TargetFadeTime = 0.3f;
+
+			Desc.pClicked_Strgy			= CSetUIisEnable_Strgy::Create(m_pDevice, m_pContext, FALSE);
+			Desc.pSelected_Strgy		= CNull_Strgy::Create(m_pDevice, m_pContext);
+			Desc.pSelectedClick_Strgy	= CNull_Strgy::Create(m_pDevice, m_pContext);
+
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Category_Button"), &Desc);
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Text_Button"), tmp)))
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Text_Button"), static_cast<CButton*>(tmp))))
+				return E_FAIL;
+		}
+
+		/* 혈액형 눌렀을 때 나오는 Layer */
+		/* 좋아하는 색 눌렀을 때 나오는 Layer */
+		/* 생일 눌렀을 때 나오는 Layer */
+	}
+	return S_OK;
+}
+
+HRESULT CPlace_MiiEditor::Layer_UI_Voice_Button()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
+
+	// ProtoTag_UI_Voice_Button
+	{
+		CVoice_Button::VOICEBUTTON_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.fCX = 70.f;
+		Desc.fCY = 70.f;
+		Desc.fY = 130.f;
+		Desc.fZ = 0.5f;
+
+		const float fGap = 20.f;
+		const float fPitch = Desc.fCX + fGap;          // 80 + 20 = 100
+		const float fMidX = 480.f;                    // 3번째(2)와 4번째(3) 사이 중앙
+		const float fStartX = fMidX - fPitch * 2.5f;   // i=0 시작 X (230)
+
+		for (uint32_t i = 0; i < 8; ++i)
+		{
+			Desc.fX = fStartX + fPitch * static_cast<float>(i);
+			Desc.iTextureIndex = i;
+
+			Desc.pClicked_Strgy = CDeactive_Strgy::Create(m_pDevice,m_pContext, PLACEID::MII_EDITOR, TEXT("LayerTag_UI_Voice_Button"));
+			Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+			Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+			if (i == 6)
+			{
+				Desc.fX = fStartX;
+				Desc.fY = 268.f;
+			}
+			else if (i == 7)
+			{
+				Desc.fX = fStartX;
+				Desc.fY = 388.f;
+			}
+
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::MII_EDITOR), TEXT("ProtoTag_UI_Voice_Button"), &Desc);
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Voice_Button"), tmp)))
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Voice_Button"), static_cast<CButton*>(tmp))))
+				return E_FAIL;
+		}
+	}
+
+
+	// ProtoTag_UI_NoneBack_TextBox
+	{
+		CNoneBack_TextBox::NONEBACKTEXTBOX_DESC Desc = {};
+		Desc.fZ = 0.5f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		XMFLOAT4 PosSizeArr[] = {
+			XMFLOAT4{480.f, 40.f, 100.f, 50.f},
+			XMFLOAT4{260.f, 80.f, 100.f, 50.f},
+			XMFLOAT4{260.f, 220.f, 100.f, 50.f},
+			XMFLOAT4{260.f, 340.f, 100.f, 50.f},
+		};
+
+		_wstring strArr[] = {
+			TEXT("목소리 설정"),
+			TEXT("간단 설정"),
+			TEXT("랜덤 설정"),
+			TEXT("직접 설정"),
+		};
+
+		for (uint32_t i = 0; i < 4; ++i)
+		{
+			Desc.fX = PosSizeArr[i].x;
+			Desc.fY = PosSizeArr[i].y;
+			Desc.fCX = PosSizeArr[i].z;
+			Desc.fCY = PosSizeArr[i].w;
+			Desc.strText = strArr[i];
+			if(i == 0)
+				Desc.vColor = static_cast<XMFLOAT4>(Colors::Black);
+			else
+				Desc.vColor = static_cast<XMFLOAT4>(Colors::DarkSlateGray);
+
+			
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_NoneBack_TextBox"), &Desc);
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Voice_Button"), tmp)))
+				return E_FAIL;
+		}
+	}
+	return S_OK;
+}
+
+HRESULT CPlace_MiiEditor::Layer_UI_Personal_Button()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::MII_EDITOR);
+
+	//ProtoTag_UI_Personal_Button
+	{
+		CPersonal_Button::PERSONALBUTTON_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.fCX = 40.f;
+		Desc.fCY = 40.f;
+		Desc.fZ = 0.5f;
+
+		_wstring strArr[] = {
+			TEXT("LayerTag_UI_Personal_Action"),
+			TEXT("LayerTag_UI_Personal_Accent"),
+			TEXT("LayerTag_UI_Personal_Face"),
+			TEXT("LayerTag_UI_Personal_Think"),
+			TEXT("LayerTag_UI_Personal_Total"),
+		};
+
+		XMFLOAT4 vColorArr[] = {
+			static_cast<XMFLOAT4>(Colors::Chocolate),
+			static_cast<XMFLOAT4>(Colors::DarkOrange),
+			static_cast<XMFLOAT4>(Colors::Orange),
+			static_cast<XMFLOAT4>(Colors::PeachPuff),
+
+			static_cast<XMFLOAT4>(Colors::PeachPuff),
+			static_cast<XMFLOAT4>(Colors::Orange),
+			static_cast<XMFLOAT4>(Colors::DarkOrange),
+			static_cast<XMFLOAT4>(Colors::Chocolate),
+		};
+
+		const float fGapX = 10.f;
+		const float fPitchX = Desc.fCX + fGapX;
+		const float fMidX = 500.f;
+		const float fStartX = fMidX - fPitchX * 3.5f;
+
+		const float fStartY = 100.f;
+		const float fPitchY = 70.f;
+
+		for (uint32_t i = 0; i < 5; ++i)
+		{
+			for (uint32_t j = 0; j < 8; ++j)
+			{
+				Desc.fX = fStartX + (fPitchX * j);
+				Desc.fY = fStartY + (fPitchY * i);
+				Desc.vFixColor = vColorArr[j];
+
+				Desc.pClicked_Strgy = CDeactive_Strgy::Create(m_pDevice, m_pContext, PLACEID::MII_EDITOR, strArr[i]);
+				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+				Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::MII_EDITOR), TEXT("ProtoTag_UI_Personal_Button"), &Desc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, strArr[i], tmp)))
+					return E_FAIL;
+
+				if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, strArr[i], static_cast<CButton*>(tmp))))
+					return E_FAIL;
+			}
+		}
+	}
+
+
+	
+	// ProtoTag_UI_NoneBack_TextBox
+	{
+		CNoneBack_TextBox::NONEBACKTEXTBOX_DESC Desc = {};
+		Desc.fZ = 0.5f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+
+		_float fStartY = { 75.f };
+		_float fGapY = { 35.f };
+
+		XMFLOAT4 PosSizeArr[] = {
+			XMFLOAT4{515.f, fStartY, 100.f, 50.f},
+			XMFLOAT4{240.f, fStartY + fGapY, 100.f, 50.f},
+			XMFLOAT4{750.f, fStartY + fGapY, 100.f, 50.f},
+			XMFLOAT4{515.f, fStartY + fGapY*2, 100.f, 50.f},
+			XMFLOAT4{240.f, fStartY + fGapY*3, 100.f, 50.f},
+			XMFLOAT4{750.f, fStartY + fGapY*3, 100.f, 50.f},
+			XMFLOAT4{515.f, fStartY + fGapY*4, 100.f, 50.f},
+			XMFLOAT4{240.f, fStartY + fGapY*5, 100.f, 50.f},
+			XMFLOAT4{750.f, fStartY + fGapY*5, 100.f, 50.f},
+			XMFLOAT4{515.f, fStartY + fGapY*6, 100.f, 50.f},
+			XMFLOAT4{240.f, fStartY + fGapY*7, 100.f, 50.f},
+			XMFLOAT4{750.f, fStartY + fGapY*7, 100.f, 50.f},
+			XMFLOAT4{515.f, fStartY + fGapY*8, 100.f, 50.f},
+			XMFLOAT4{240.f, fStartY + fGapY*9, 100.f, 50.f},
+			XMFLOAT4{750.f, fStartY + fGapY*9, 100.f, 50.f},
+		};
+
+		_wstring strArr[] = {
+			TEXT("행동은..."),
+			TEXT("느릿느릿"),
+			TEXT("빠릿빠릿"),
+
+			TEXT("말투는..."),
+			TEXT("부드럽다"),
+			TEXT("직절적이다"),
+
+			TEXT("표정은..."),
+			TEXT("굳어 있다"),
+			TEXT("풍부하다"),
+
+			TEXT("사고방식은..."),
+			TEXT("신중하다"),
+			TEXT("낙천적이다"),
+
+			TEXT("한마디로..."),
+			TEXT("특이하다"),
+			TEXT("상식적이다"),
+		};
+
+		for (uint32_t i = 0; i < 15; ++i)
+		{
+			Desc.fX = PosSizeArr[i].x;
+			Desc.fY = PosSizeArr[i].y;
+			Desc.fCX = PosSizeArr[i].z;
+			Desc.fCY = PosSizeArr[i].w;
+			Desc.strText = strArr[i];
+			Desc.vColor = static_cast<XMFLOAT4>(Colors::Black);
+
+			
+			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_NoneBack_TextBox"), &Desc);
+			if (nullptr == tmp)
+				return E_FAIL;
+
+			if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Personal_Action"), tmp)))
+				return E_FAIL;
 		}
 	}
 	return S_OK;

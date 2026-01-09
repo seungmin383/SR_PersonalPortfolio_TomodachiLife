@@ -252,6 +252,10 @@ public:
 	void UIManager_Change_Place(uint32_t iInitGroupIndex);
 
 	_float  UIManager_Get_FadeForce();
+
+	_bool UIManager_Get_isEnable() const;
+	void UIManager_Set_isEnable(_bool is);
+
 #pragma endregion
 
 #pragma region COLLISIONMANAGER
