@@ -17,11 +17,6 @@ class CPersonal_Sub_BackGround final : public CUI
 public:
 	typedef struct tagPersonalSubBackGroundDesc : public UI_DESC
 	{
-		_wstring strTitleText = {};
-		_wstring strContentsText = {};
-
-		uint32_t iTextureIndex = {};
-
 		_float TargetFadeTime;
 
 	}PERSONALSUBBACKGROUND_DESC;

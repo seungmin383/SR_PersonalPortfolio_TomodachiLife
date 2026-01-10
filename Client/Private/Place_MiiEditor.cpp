@@ -28,6 +28,7 @@
 #include "Personal_Base_BackGround.h"
 #include "Personal_Button.h"
 #include "Personal_Sub_BackGround.h"
+#include "SetMiiPersonal_Strgy.h"
 
 #define HEAD_BASE_POS_X 300.f
 #define HEAD_BASE_POS_Y 120.f
@@ -986,7 +987,10 @@ HRESULT CPlace_MiiEditor::Layer_UI_Personal_Button()
 			static_cast<XMFLOAT4>(Colors::DarkOrange),
 			static_cast<XMFLOAT4>(Colors::Chocolate),
 		};
-
+	
+		int32_t iPersonalArr[] = {
+			-4,-3,-2,-1,1,2,3,4
+		};
 		const float fGapX = 10.f;
 		const float fPitchX = Desc.fCX + fGapX;
 		const float fMidX = 500.f;
@@ -1002,6 +1006,8 @@ HRESULT CPlace_MiiEditor::Layer_UI_Personal_Button()
 				Desc.fX = fStartX + (fPitchX * j);
 				Desc.fY = fStartY + (fPitchY * i);
 				Desc.vFixColor = vColorArr[j];
+
+				Desc.iPersonal = iPersonalArr[j];
 
 				Desc.pClicked_Strgy = CDeactive_Strgy::Create(m_pDevice, m_pContext, PLACEID::MII_EDITOR, strArr[i]);
 				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);

@@ -42,7 +42,14 @@ public:
 
 public:
 	_bool Get_isEnable() const { return m_isEnable; }
+	_bool Get_isBloodEnable() const { return m_isBloodEnable; }
+	_bool Get_isColorEnable() const { return m_isColorEnable; }
+	_bool Get_isBirthEnable() const { return m_isBirthEnable; }
+
 	void Set_isEnable(_bool is) { m_isEnable = is; }
+	void Set_isBloodEnable(_bool is) { m_isBloodEnable = is; }
+	void Set_isColorEnable(_bool is) { m_isColorEnable = is; }
+	void Set_isBirthEnable(_bool is) { m_isBirthEnable = is; }
 
 private:
 	ID3D11Device* m_pDevice = { nullptr };
@@ -69,6 +76,9 @@ private:
 private:
 	/* mii Editor에서 사용 */
 	_bool m_isEnable = {};
+	_bool m_isBloodEnable = {};
+	_bool m_isColorEnable = {};
+	_bool m_isBirthEnable = {};
 
 public:
 	static CUIManager* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

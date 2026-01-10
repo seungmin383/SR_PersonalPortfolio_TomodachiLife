@@ -79,6 +79,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetLoveMethod_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetLovePlace_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetLove_Strgy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetMiiPersonal_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetUIisEnable_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Sky_Actor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Store_Food.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetLoveMethod_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetLovePlace_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetLove_Strgy.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetMiiPersonal_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetUIisEnable_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Sky_Actor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Store_Food.h" />

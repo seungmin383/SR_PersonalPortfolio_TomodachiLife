@@ -15,7 +15,7 @@ public:
 	typedef struct tagSEMiiHair : public CPartObject::PARTOBJECT_DESC
 	{
 		const int32_t* pParentState;
-		const XMFLOAT4X4* pSocketMatrix;
+		vector<const XMFLOAT4X4* >* pSocketMatrix;
 
 		MIIHAIRINFO_DESC* pHairInfo = { nullptr };
 	}SEMIIHAIR_DESC;
@@ -48,7 +48,7 @@ private:
 
 private:
 	const int32_t* m_pParentState = { nullptr };
-	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
+	vector<const XMFLOAT4X4*>* m_pSocketMatrix = { nullptr };
 	XMFLOAT4 m_vHairColor = {};
 
 	uint32_t m_iCurModelIndex = {};

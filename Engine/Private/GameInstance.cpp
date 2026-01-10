@@ -682,6 +682,11 @@ _bool CGameInstance::ButtonManager_Get_HasSelectedCategoryButton() const
 	return m_pButtonManager->Get_HasSelectedCategoryButton();
 }
 
+void CGameInstance::ButtonManager_Clear_Text()
+{
+	m_pButtonManager->Clear_Text();
+}
+
 _wstring CGameInstance::ButtonManager_Get_Text()
 {
 	return m_pButtonManager->Get_Text();

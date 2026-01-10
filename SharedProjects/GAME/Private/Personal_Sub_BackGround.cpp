@@ -1,5 +1,6 @@
 #include "Personal_Sub_BackGround.h"
 #include "GameInstance.h"
+#include "MiiManager.h"
 
 CPersonal_Sub_BackGround::CPersonal_Sub_BackGround(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -26,9 +27,6 @@ HRESULT CPersonal_Sub_BackGround::Initialize_Clone(void* pArg)
 {
 	PERSONALSUBBACKGROUND_DESC* pDesc = static_cast<PERSONALSUBBACKGROUND_DESC*>(pArg);
 
-	m_strTitleText = pDesc->strTitleText;
-	m_strContentsText = pDesc->strContentsText;
-	m_iTextureIndex = pDesc->iTextureIndex;
 
 	m_fTargetFadeTime = pDesc->TargetFadeTime;
 
@@ -41,6 +39,19 @@ HRESULT CPersonal_Sub_BackGround::Initialize_Clone(void* pArg)
 	m_fOriginX = m_fX;
 	m_fOriginY = m_fY;
 
+	if (CMiiManager::GetInstance()->Get_Edit_Profile().iPersonal > 0)
+	{
+		m_iTextureIndex = 1;
+		m_strTitleText = TEXT("좌충우돌형");
+		m_strContentsText = TEXT("뭐든지 즐기고 싶은 타입\n\n낮선 사람과도 금방 친해진다.\n\n힘든 일도 즐겁게 받아들일 수 있는 사람.");
+	}
+	else
+	{
+		m_iTextureIndex = 0;
+		m_strTitleText = TEXT("우물쭈물형");	
+		m_strContentsText = TEXT("참을성이 강한 타입.\n\n자신보다 타인을 먼저 생각하며 싸움을 피한다.\n\n하지만 가끔은 너무 참다가 폭발해 버리가도...");
+
+	}
 	return S_OK;
 }
 
@@ -79,11 +90,9 @@ HRESULT CPersonal_Sub_BackGround::Render()
 	if (FAILED(m_pRectBufferCom->Begin_Draw()))
 		return E_FAIL;
 
-	m_strTitleText = TEXT("우물쭈물형");
 	m_pGameInstance->FontManager_Draw_Text(TEXT("Basic_Font_18"), m_strTitleText, XMFLOAT2{ m_fX, m_fY - (m_fCY * 0.5f) + 20.f  }, Colors::Black);
 
 
-	m_strContentsText = TEXT("참을성이 강한 타입.\n\n자신보다 타인을 먼저 생각하며 싸움을 피한다.\n\n하지만 가끔은 너무 참다가 폭발해 버리가도...");
 	m_pGameInstance->FontManager_Draw_Text(TEXT("Basic_Font_16"), m_strContentsText, XMFLOAT2{ m_fX - (m_fCX * 0.5f) + 30.f, m_fY - 50.f }, Colors::Black);
 
 	return S_OK;

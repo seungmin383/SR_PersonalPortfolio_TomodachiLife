@@ -93,6 +93,7 @@ namespace Game
 #define VAMS_LIGHT 3
 #define VAMS_BRIGHTNESS 4
 #define VAMS_SEA 5
+#define VAMS_BODY 6
 
 	enum class PLACEID {
 		STATIC,

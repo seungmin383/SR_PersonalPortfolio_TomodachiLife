@@ -126,6 +126,52 @@ int32_t CSEMii::Update_Priority(_float fDT)
 	Observe();
 	Thinking(fDT);
 
+	if (m_pGameInstance->Get_DIKeyState(DIK_1))
+	{
+		Add_Flag(m_iState, STATE::CHANGE_STATE);
+		m_iClothState = 0;
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_2))
+	{
+		Add_Flag(m_iState, STATE::CHANGE_STATE);
+		m_iClothState = 1;
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_3))
+	{
+		Add_Flag(m_iState, STATE::CHANGE_STATE);
+		m_iClothState = 2;
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_4))
+	{
+		Add_Flag(m_iState, STATE::CHANGE_STATE);
+		m_iClothState = 3;
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_5))
+	{
+		Add_Flag(m_iState, STATE::CHANGE_STATE);
+		m_iClothState = 4;
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_6))
+	{
+		Add_Flag(m_iState, STATE::CHANGE_STATE);
+		m_iClothState = 5;
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_7))
+	{
+		Add_Flag(m_iState, STATE::CHANGE_STATE);
+		m_iClothState = 6;
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_8))
+	{
+		Add_Flag(m_iState, STATE::CHANGE_STATE);
+		m_iClothState = 7;
+	}
+	if (m_pGameInstance->Get_DIKeyState(DIK_9))
+	{
+		Add_Flag(m_iState, STATE::CHANGE_STATE);
+		m_iClothState = 8;
+	}
+
 	return CContainerObject::Update_Priority(fDT);
 }
 
@@ -617,7 +663,7 @@ void CSEMii::Thinking_About_Love(_float fDT)
 			}
 
 			/* 이벤트 3가 끝났다면 */
-			else if (CApartManager::GetInstance()->Get_isFinEvent3() && m_fWaitingTimer_1 < 3.f)
+			else if (CApartManager::GetInstance()->Get_isFinEvent3() && m_fWaitingTimer_1 < 5.f)
 			{
 				m_fWaitingTimer_1 += fDT;
 
@@ -731,6 +777,44 @@ void CSEMii::Thinking_About_Love(_float fDT)
 			else if (CApartManager::GetInstance()->Get_isFinEvent4())
 			{
 				m_pTransformCom->Ratate(0.f, XMConvertToRadians(180.f), 0.f);
+
+				int32_t iSrcPersonal = CMiiManager::GetInstance()->Get_MiiInfo(CApartManager::GetInstance()->Get_SrcMiiIndex()).MiiProfile.iPersonal;
+				int32_t iDstPersonal = CMiiManager::GetInstance()->Get_MiiInfo(CApartManager::GetInstance()->Get_DstMiiIndex()).MiiProfile.iPersonal;
+
+				/* 서로 다를떄만 1 -> 부호비트가 다르다면 1 -> 음수 / 즉 xor을 해서 양수라면 -> 두개의 부호가 같다 / xor을 해서 음수라면 -> 두개의 부호가 다르다.*/
+				/* 부호가 같다 */
+				if ((iSrcPersonal ^ iDstPersonal) >= 0)
+				{
+					m_fTalkingTimer_5 += fDT;
+					CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+					CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+					CNarrationManager::GetInstance()->Set_NarrationText(TEXT("좋아요 잘 부탁해요."));
+					Add_Flag(m_iState, STATE::TALKING);
+
+					if (m_fTalkingTimer_5 > 5.f)
+					{
+						m_pGameInstance->PlaceManager_Change_Place(static_cast<uint32_t>(PLACEID::LOADING),
+							CPlace_Loading::Create(m_pDevice, m_pContext, PLACEID::ROOM));
+					}
+				}
+				/* 부호가 다르다 */
+				else if ((iSrcPersonal ^ iDstPersonal) < 0)
+				{
+					m_fTalkingTimer_5 += fDT;
+
+					if (m_fTalkingTimer_5 > 6.f)
+					{
+						m_pGameInstance->PlaceManager_Change_Place(static_cast<uint32_t>(PLACEID::LOADING),
+							CPlace_Loading::Create(m_pDevice, m_pContext, PLACEID::ROOM));
+					}
+					else if (m_fTalkingTimer_5 > 3.f)
+					{
+						CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+						CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+						CNarrationManager::GetInstance()->Set_NarrationText(TEXT("미안합니다."));
+						Add_Flag(m_iState, STATE::TALKING);
+					}
+				}
 
 			}
 
@@ -897,7 +981,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* Part_Head */
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("head");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("head");
 
 		CSEMiiHead::SEMIIHEAD_DESC seHeadDesc = {};
 		seHeadDesc.vPos = XMFLOAT4{ -0.15f, 0.f, 0.f, 1.f };
@@ -910,7 +994,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seHeadDesc.pSocketMatrix = BodySockeMatrix;
 		seHeadDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seHeadDesc.pHeadInfo = &m_MiiInfo.HeadInfo;
-
+		seHeadDesc.pParentState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiHead"), TEXT("Part_Head"), &seHeadDesc)))
 			return E_FAIL;
 	}
@@ -918,7 +1002,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* Part_Hair */
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("head");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("head");
 
 		CSEMiiHair::SEMIIHAIR_DESC seHairDesc = {};
 		seHairDesc.vPos = XMFLOAT4{ -0.15f, 0.f, 0.f, 1.f };
@@ -932,6 +1016,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seHairDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seHairDesc.pHairInfo = &m_MiiInfo.HairInfo;
 
+		seHairDesc.pParentState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiHair"), TEXT("Part_Hair"), &seHairDesc)))
 			return E_FAIL;
 	}
@@ -940,7 +1025,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	// ProtoTag_Actor_LevelUp_Item
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("R_handItem");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("R_handItem");
 
 		CLevelUp_Item::LEVELUPITEM_DESC Desc = {};
 		Desc.vPos = XMFLOAT4{ 0.f, 0.1f, 0.5f, 1.f };
@@ -952,6 +1037,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		Desc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		Desc.pSocketMatrix = BodySockeMatrix;
 
+		Desc.pParentState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_LevelUp_Item"), TEXT("Part_RItem"), &Desc)))
 			return E_FAIL;
 	}
@@ -960,7 +1046,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	// ProtoTag_Actor_Food_Item
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("R_handItem");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("R_handItem");
 
 		CFood_Item::FOODITEM_DESC Desc = {};
 		Desc.vPos = XMFLOAT4{ 0.f, 0.1f, 0.5f, 1.f };
@@ -973,6 +1059,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		Desc.pSocketMatrix = BodySockeMatrix;
 		Desc.pParentState = &m_iState;
 
+		Desc.pParentState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_Food_Item"), TEXT("Part_RFood"), &Desc)))
 			return E_FAIL;
 	}
@@ -982,7 +1069,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* 0 ~ 59 */
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("head");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("head");
 
 		CSEMiiEyes::SEMIIEYES_DESC seEyesDesc = {};
 		seEyesDesc.vPos = XMFLOAT4{ 0.18f, -0.12f, -0.23f, 1.f };
@@ -1000,6 +1087,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seEyesDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seEyesDesc.pEyesInfo = &m_MiiInfo.EyesInfo;
 
+		seEyesDesc.pParentState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiEyes"), TEXT("Part_Eyes"), &seEyesDesc)))
 			return E_FAIL;
 
@@ -1016,7 +1104,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* 78 ~ 100 */
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("head");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("head");
 
 		CSEMiiEyebrow::SEMIIEYEBROW_DESC seEyebrowDesc = {};
 		seEyebrowDesc.vPos = XMFLOAT4{ 0.25f, -0.1f, -0.23f, 1.f };
@@ -1032,6 +1120,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seEyebrowDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seEyebrowDesc.pEyebrowInfo = &m_MiiInfo.EyebrowInfo;
 
+		seEyebrowDesc.pParentState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiEyebrow"), TEXT("Part_RightEyebrow"), &seEyebrowDesc)))
 			return E_FAIL;
 
@@ -1047,7 +1136,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* 60 ~ 77 */
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("head");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("head");
 
 		CSEMiiNose::SEMIINOSE_DESC seNoseDesc = {};
 		seNoseDesc.vPos = XMFLOAT4{ 0.1f, 0.f, -0.23f, 1.f };
@@ -1062,6 +1151,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seNoseDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seNoseDesc.pNoseInfo = &m_MiiInfo.NoseInfo;
 
+		seNoseDesc.pParentState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiNose"), TEXT("Part_Nose"), &seNoseDesc)))
 			return E_FAIL;
 	}
@@ -1070,7 +1160,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* 101 ~ 128 */
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		const XMFLOAT4X4* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrix("head");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("head");
 
 		CSEMiiMouth::SEMIIMOUTH_DESC seMouthDesc = {};
 		seMouthDesc.vPos = XMFLOAT4{ 0.f, 0.f, -0.23f, 1.f };
@@ -1085,6 +1175,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seMouthDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seMouthDesc.pMouthInfo = &m_MiiInfo.MouthInfo;
 
+		seMouthDesc.pParentState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiMouth"), TEXT("Part_Mouth"), &seMouthDesc)))
 			return E_FAIL;
 	}

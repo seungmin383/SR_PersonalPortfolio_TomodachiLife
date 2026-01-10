@@ -1,5 +1,6 @@
 #include "MiiManager.h"
 #include "ApartManager.h"
+#include "GameInstance.h"
 
 IMPLEMENT_SINGLETON(CMiiManager)
 
@@ -120,6 +121,7 @@ HRESULT CMiiManager::Begin_Edit(_bool isMan)
 		m_EditDesc.MiiProfile.strFirstName = "";
 		m_EditDesc.MiiProfile.strLastName = "";
 		m_EditDesc.MiiProfile.strNickName = "";
+		m_EditDesc.MiiProfile.iPersonal = 0;
 	}
 	else
 	{
@@ -133,7 +135,10 @@ HRESULT CMiiManager::Begin_Edit(_bool isMan)
 		m_EditDesc.MiiProfile.strFirstName = "";
 		m_EditDesc.MiiProfile.strLastName = "";
 		m_EditDesc.MiiProfile.strNickName = "";
+		m_EditDesc.MiiProfile.iPersonal = 0;
 	}
+
+	CGameInstance::GetInstance()->ButtonManager_Clear_Text();
 
 	return S_OK;
 }

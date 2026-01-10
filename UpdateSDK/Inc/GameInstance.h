@@ -234,6 +234,7 @@ public:
 	_bool		ButtonManager_Get_HasSelectedCategoryButton() const;
 	void		ButtonManager_Set_HasSelectedCategoryButton(_bool isSelected);
 
+	void ButtonManager_Clear_Text();
 	_wstring ButtonManager_Get_Text();
 
 #pragma endregion

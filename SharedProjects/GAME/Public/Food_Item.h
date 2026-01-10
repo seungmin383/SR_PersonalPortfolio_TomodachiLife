@@ -20,7 +20,7 @@ public:
 	{
 		const int32_t* pParentState;
 
-		const XMFLOAT4X4* pSocketMatrix;
+		vector<const XMFLOAT4X4* >* pSocketMatrix;
 	}FOODITEM_DESC;
 
 protected:
@@ -47,7 +47,7 @@ private:
 	CTextureCom* m_pTextureCom = { nullptr };
 	CRectBufferCom* m_pRectBufferCom = { nullptr };
 
-	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
+	vector<const XMFLOAT4X4*>* m_pSocketMatrix = { nullptr };
 
 	const int32_t* m_pParentState = { nullptr };
 	uint32_t m_iTextureIndex = {};

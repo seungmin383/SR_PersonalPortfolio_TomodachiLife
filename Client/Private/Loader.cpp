@@ -219,6 +219,8 @@ HRESULT CLoader::Loading_Island()
 			string FilePath = "../../Resource/00Model/Actor - Building/Building" + to_string(i) + "/Building.fbx";
 			string SaveName = "Building" + to_string(i);
 
+			if (i == 0)
+				int a = 0;
 #ifdef _DEBUG
 			tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM,
 				FilePath.c_str(), initMatrix, SaveName.c_str());

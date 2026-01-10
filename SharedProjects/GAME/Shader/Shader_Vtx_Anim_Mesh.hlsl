@@ -14,6 +14,7 @@ vector g_vMtrlAmbient = vector(0.8f, 0.8f, 0.8f, 1.f);
 vector g_vMtrlSpecular = vector(1.0f, 1.0f, 1.0f, 1.f);
 
 texture2D g_DiffuseTexture;
+texture2D g_MaskTexture;
 
 
 float4x4 g_BoneMatrices[128];
@@ -208,6 +209,42 @@ PS_OUT PS_SEA(PS_IN In)
 }
 
 
+PS_OUT PS_BODY(PS_IN In)
+{
+    PS_OUT Out;
+    
+    vector vDiffuseColor = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vector vBodyMaskColor = g_MaskTexture.Sample(DefaultSampler, In.vTexcoord);
+ 
+    
+    vector vSkinColor = float4(0.80f, 0.63f, 0.50f, 1.0f);
+    
+    /* 마스크의 검정색은 Diffuse로 / 마스크에 하얀부분은 살색으로 */
+    vector vColor = (vBodyMaskColor.x) * vSkinColor + (1 - vBodyMaskColor.x) * vDiffuseColor;
+    
+    
+    float3 vNoneAlphaDiffuse = float3(vColor.rgb);
+    float fAlpha = vColor.a;
+    
+    float3 vN = normalize(In.vNormal.xyz);
+    
+    float fShade = max(dot(normalize(g_vLightDir.xyz) * -1.f, vN), 0.f);
+    
+    float4 vLook = In.vWorldPosition - g_vCamPosition;
+    float4 vReflect = reflect(normalize(g_vLightDir), float4(vN, 0.f));
+    float fSpecular = pow(max(dot(normalize(vLook) * -1.f, vReflect), 0.f), 1000);
+    
+    float3 vFinalColor =
+    (g_vLightDiffuse.rgb * vNoneAlphaDiffuse) * saturate(fShade + (g_vLightAmbient.rgb * g_vMtrlAmbient.rgb)) + (g_vLightSpecular.rgb * g_vMtrlSpecular.rgb) * fSpecular;
+    
+    Out.vDiffuse = float4(vFinalColor += 0.12f, fAlpha);
+    Out.vNormal = float4(vN * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vPosition.z / In.vPosition.w, In.vPosition.w / 1000.f, 0.f, 0.f);
+    Out.vPick = float4(In.vWorldPosition.xyz, 1.f);
+    
+    return Out;
+}
+
 technique11 DefaultTechnique
 {
     pass Model
@@ -274,6 +311,17 @@ technique11 DefaultTechnique
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_SEA();
+    }
+
+    pass Body
+    {
+        SetRasterizerState(RS_NoneCull);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_MAIN();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_BODY();
     }
 
 }

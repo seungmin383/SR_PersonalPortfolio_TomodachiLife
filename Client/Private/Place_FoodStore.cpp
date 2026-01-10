@@ -5,6 +5,8 @@
 #include "UICamera.h"
 
 #include "ItemManager.h"
+#include "MiiManager.h"
+#include "ApartManager.h"
 
 /* Actor */
 #include "Store_Food.h"
@@ -88,6 +90,33 @@ HRESULT CPlace_FoodStore::Ready_Actor_Layer()
 			return E_FAIL;
 	}
 
+	// ProtoTag_Actor_seMii
+	{
+		uint32_t NumMii = CApartManager::GetInstance()->Get_ApartInfo_NumMii();
+		if (NumMii <= 0)
+			goto NoLoad;
+
+		NumMii = rand() % NumMii;
+
+		CSEMii::MII_DESC Desc = {};
+		Desc.vPos = XMFLOAT4{ 0.f, -1.f, 7.f, 1.f };
+		Desc.fCX = 1.5f;
+		Desc.fCY = 1.5f;
+		Desc.fCZ = 1.5f;
+		Desc.fSpeedPerSecond = 10.f;
+		Desc.fRotationPerSecond = XMConvertToRadians(20.f);
+		Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
+		Desc.strNickName = StrToWstr( CMiiManager::GetInstance()->Get_MiiInfo(NumMii).MiiProfile.strNickName);
+		Desc.iIndex = NumMii;
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMii"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_Actor"), tmp)))
+			return E_FAIL;
+	}
+	NoLoad:
 	return S_OK;
 }
 

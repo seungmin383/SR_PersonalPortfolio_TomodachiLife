@@ -91,19 +91,11 @@ HRESULT CMaterial::Bind_ShaderResource(CShaderCom* pShader, const _char* pConsta
 	return pShader->Bind_ShaderResource(pConstantName, m_SRVs[eMaterialType][iTextureIndex]);
 }
 
-CMaterial* CMaterial::Create(
-	ID3D11Device* pDevice, 
-	ID3D11DeviceContext* pContext,
-	SE_MATERIAL& seMat,
-	const aiMaterial* pAIMaterial,
-	const _char* pModelFilePath)
+CMaterial* CMaterial::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext,SE_MATERIAL& seMat,const aiMaterial* pAIMaterial,const _char* pModelFilePath)
 {
 	CMaterial* pMaterial = new CMaterial(pDevice, pContext);
 
-	if (FAILED(pMaterial->Initialize_Origin(
-		seMat,
-		pAIMaterial, 
-		pModelFilePath)))
+	if (FAILED(pMaterial->Initialize_Origin(seMat,	pAIMaterial, pModelFilePath)))
 	{
 		Safe_Release(pMaterial);
 		MSG_BOX("ErrCode : Material Initialize Failed");

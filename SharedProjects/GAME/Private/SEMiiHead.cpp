@@ -4,6 +4,9 @@
 #include "MiiEditButton.h"
 #include "MiiManager.h"
 
+#include "Engine_FlagHelper.h"
+#include "SEMii.h"
+
 CSEMiiHead::CSEMiiHead(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPartObject(pDevice, pContext)
 {
@@ -44,13 +47,18 @@ int32_t CSEMiiHead::Update_Priority(_float fDT)
 
 int32_t CSEMiiHead::Update(_float fDT)
 {
+
+	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::CHANGE_STATE))
+	{
+
+	}
 	return 0;
 }
 
 void CSEMiiHead::Update_Late(_float fDT)
 {
 	CPartObject::Update_Late(fDT);
-	XMMATRIX fianlParentMatrix = XMLoadFloat4x4(m_pSocketMatrix) * XMLoadFloat4x4(m_pParentMatrix);
+	XMMATRIX fianlParentMatrix = XMLoadFloat4x4((*m_pSocketMatrix)[*m_pParentState]) * XMLoadFloat4x4(m_pParentMatrix);
 	SetUp_CombinedWorldMatrix(fianlParentMatrix);
 }
 

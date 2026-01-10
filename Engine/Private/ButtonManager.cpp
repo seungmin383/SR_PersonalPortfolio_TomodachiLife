@@ -140,6 +140,11 @@ _wstring CButtonManager::Get_Text()
 	return m_strText;
 }
 
+void CButtonManager::Clear_Text()
+{
+	m_strText = L"";
+}
+
 CButtonManager* CButtonManager::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, uint32_t iNumPlace)
 {
 	CButtonManager* pInstance = new CButtonManager(pDevice, pContext);

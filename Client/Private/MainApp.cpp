@@ -846,6 +846,13 @@ HRESULT CMainApp::Ready_Static_Texture()
 			return E_FAIL;
 	}
 
+	/* 치파오 마스크 텍스쳐 */
+	// ProtoTag_Component_Cloth_MaskTexture
+	{
+		tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/Model_Body/ChineseDress/body021_1.png"), 1);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_Cloth_MaskTexture"), tmp)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

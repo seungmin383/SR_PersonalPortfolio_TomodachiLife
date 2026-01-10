@@ -16,7 +16,7 @@ public:
 	typedef struct tagSEMiiEyesDesc : public CPartObject::PARTOBJECT_DESC
 	{
 		const int32_t* pParentState;
-		const XMFLOAT4X4* pSocketMatrix;
+		vector<const XMFLOAT4X4* >* pSocketMatrix;
 
 		_float fBlinkTime = {};
 		_float fBlinkDuration = { 0.3f };
@@ -56,7 +56,7 @@ private:
 
 private:
 	const int32_t* m_pParentState = { nullptr };
-	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
+	vector<const XMFLOAT4X4*>* m_pSocketMatrix = { nullptr };
 	
 	uint32_t m_iTextureIndex = {};
 	_float m_fBlinkTime = {};

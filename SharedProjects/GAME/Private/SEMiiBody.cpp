@@ -36,7 +36,7 @@ HRESULT CSEMiiBody::Initialize_Clone(void* pArg)
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
-	m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
+	m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
 	return S_OK;
 }
 
@@ -71,47 +71,47 @@ int32_t CSEMiiBody::Update(_float fDT)
 			m_isStart_ReceiveFood_Event = TRUE;
 
 			if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_BEST))
-				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Best"));
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Macro(TEXT("RecieveFood_Best"));
 			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_GOOD))
-				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Good"));
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Macro(TEXT("RecieveFood_Good"));
 			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_NOTBAD))
-				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_NotBad"));
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Macro(TEXT("RecieveFood_NotBad"));
 			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_SOSO))
-				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_SoSo"));
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Macro(TEXT("RecieveFood_SoSo"));
 			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_BAD))
-				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Bad"));
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Macro(TEXT("RecieveFood_Bad"));
 			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::FOOD_WORST))
-				m_pAnimationPlayer->Begin_Macro(TEXT("RecieveFood_Worst"));
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Macro(TEXT("RecieveFood_Worst"));
 		}
 		else if (m_isPlaying_BeFriend_Event)
 		{
 			if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::WALKING))
-				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Walk"), TRUE, 1.f);
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Walk"), TRUE, 1.f);
 			if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::BANTER))
 			{
 				_float fRand = m_pGameInstance->Random(1.f, 5.f);
 
 				_wstring str = L"Banter_" + to_wstring(static_cast<uint32_t>(fRand));
 				//_wstring str = L"Banter_0";// +to_wstring(rand() % 5 + 1);
-				m_pAnimationPlayer->Begin_Macro(str);
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Macro(str);
 			}
 			if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::HAPPY))
-				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Happy_Wait"), TRUE, 2.f);
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Happy_Wait"), TRUE, 2.f);
 
 		}
 		else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::LOVE))
 		{
 			if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::PROPOSE))
-				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Romantic_Hold"), FALSE	, 1.f);
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Romantic_Hold"), FALSE	, 1.f);
 			else if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::WALKING))
-				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Walk"), TRUE, 1.f);
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Walk"), TRUE, 1.f);
 			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::CALM))
-				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
 			else
-				m_pAnimationPlayer->Begin_Animation(TEXT("Chr_FallInLove"), TRUE, 1.f);
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_FallInLove"), TRUE, 1.f);
 		}
 		else
-			m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
+			m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
 	}
 
 	return 0;
@@ -131,19 +131,19 @@ HRESULT CSEMiiBody::Render()
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	uint32_t NumMesh = m_pSeModel->Get_NumMesh();
+	uint32_t NumMesh = m_pSeModel[*m_pParentClothState]->Get_NumMesh();
 	for (uint32_t i = 0; i < NumMesh; ++i)
 	{
-		if (FAILED(m_pSeModel->Bind_Material(m_pShader, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
+		if (FAILED(m_pSeModel[*m_pParentClothState]->Bind_Material(m_pShader, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
 			return E_FAIL;
 
-		if (FAILED(m_pSeModel->Bind_Bones(m_pShader, "g_BoneMatrices", i)))
+		if (FAILED(m_pSeModel[*m_pParentClothState]->Bind_Bones(m_pShader, "g_BoneMatrices", i)))
 			return E_FAIL;
 
-		if (FAILED(m_pShader->Begin(0)))
+		if (FAILED(m_pShader->Begin(VAMS_BODY)))
 			return E_FAIL;
 
-		if (FAILED(m_pSeModel->Render_SeModel(i)))
+		if (FAILED(m_pSeModel[*m_pParentClothState]->Render_SeModel(i)))
 			return E_FAIL;
 	}
 #ifdef _DEBUG
@@ -161,8 +161,27 @@ HRESULT CSEMiiBody::Ready_Component()
 		return E_FAIL;
 
 	/* Model */
-	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_seChineseDress"), TEXT("Com_ModelCom"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
-		return E_FAIL;
+	m_pSeModel.resize(10);
+
+	_wstring strClothModelTagArr[] = {
+	TEXT("BabyJumper"),
+	TEXT("CamouflageJacket"),
+	TEXT("ChineseDress"),
+	TEXT("FauxFarCoat"),
+	TEXT("NintendoUniform"),
+	TEXT("SilkBlouse"),
+	TEXT("SoccerUniform"),
+	TEXT("Toga"),
+	TEXT("WaitressUniform"),
+	};
+	
+
+	for (uint32_t i = 0; i < 9; ++i)
+	{
+		if (FAILED(Add_Component(iStaticID, (L"ProtoTag_Component_se" + strClothModelTagArr[i]), TEXT("Com_ModelCom") + to_wstring(i), reinterpret_cast<CComponent**>(&m_pSeModel[i]), nullptr)))
+			return E_FAIL;
+
+	}
 
 	/* Collider */
 	CBounding_Sphere::SPHERE_DESC BoundDesc = {};
@@ -186,11 +205,22 @@ HRESULT CSEMiiBody::Ready_Component()
 	/* ProtoTag_Component_AnimationPlayer */
 	{
 		CAnimationPlayer::ANIMATIONPLAYER_DESC Desc = {};
-		Desc.m_pBones			= m_pSeModel->Get_BonesPtr();
 		Desc.strInitAnimTag		= TEXT("Chr_Normal_Wait");
-		Desc.PreTransformMatrix = m_pSeModel->Get_InitMatrix();
 
-		if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_AnimationPlayer"), TEXT("Com_AnimationPlayer"), reinterpret_cast<CComponent**>(&m_pAnimationPlayer), &Desc)))
+		m_pAnimationPlayer.resize(10);
+		for(uint32_t i = 0; i < 9; ++i)
+		{
+			Desc.m_pBones			= m_pSeModel[i]->Get_BonesPtr();
+			Desc.PreTransformMatrix = m_pSeModel[i]->Get_InitMatrix();
+			if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_AnimationPlayer"), TEXT("Com_AnimationPlayer") + to_wstring(i), reinterpret_cast<CComponent**>(&m_pAnimationPlayer[i]), &Desc)))
+				return E_FAIL;
+		}
+	}
+
+
+	{
+		if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_Cloth_MaskTexture"),
+			TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pMaskTexture), nullptr)))
 			return E_FAIL;
 	}
 	return S_OK;
@@ -206,14 +236,16 @@ HRESULT CSEMiiBody::Bind_ShaderResources()
 		return E_FAIL;
 	if(FAILED(m_pGameInstance->CameraManager_Bind_Camera_Pos(m_pShader, "g_vCamPosition", TEXT("World_Camera"))))
 		return E_FAIL;
+	if (FAILED(m_pMaskTexture->Bind_ShaderResource(m_pShader, "g_MaskTexture", 0)))
+		return E_FAIL;	
 	return S_OK;
 }
 
 void CSEMiiBody::Calc_BodyState(_float fDT)
 {
-	m_pAnimationPlayer->Update(fDT);
+	m_pAnimationPlayer[*m_pParentClothState]->Update(fDT);
 
-	m_strCurAnimTag = m_pAnimationPlayer->Get_CurAnimTag();
+	m_strCurAnimTag = m_pAnimationPlayer[*m_pParentClothState]->Get_CurAnimTag();
 
 	/* Receive Food 이벤트가 플레이 중 이라면 */
 	if (m_isPlaying_ReceiveFood_Event)
@@ -264,12 +296,21 @@ void CSEMiiBody::Calc_BodyState(_float fDT)
 
 const XMFLOAT4X4* CSEMiiBody::Get_SocketMatrix(const _char* pBoneName)
 {
-	return m_pSeModel->Get_BoneCombinedTransformMatrixPtr(pBoneName);
+	return m_pSeModel[*m_pParentClothState]->Get_BoneCombinedTransformMatrixPtr(pBoneName);
+}
+
+vector<const XMFLOAT4X4*>* CSEMiiBody::Get_SocketMatrices(const _char* pBoneName)
+{
+	for (uint32_t i = 0; i < 9; ++i)
+	{
+		m_SoketMatrices.push_back(m_pSeModel[i]->Get_BoneCombinedTransformMatrixPtr(pBoneName));
+	}
+	return &m_SoketMatrices;
 }
 
 _bool CSEMiiBody::Get_isFin_Macro() const
 {
-	return m_pAnimationPlayer->Get_isEndMacro();
+	return m_pAnimationPlayer[*m_pParentClothState]->Get_isEndMacro();
 }
 
 CSEMiiBody* CSEMiiBody::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -290,6 +331,7 @@ CObject* CSEMiiBody::Clone(void* pArg)
 	if (FAILED(pInstance->Initialize_Clone(pArg)))
 	{
 		MSG_BOX("ErrCode : CSEMiiBody Clone Failed");
+
 		Safe_Release(pInstance);
 		return nullptr;
 	}
@@ -298,10 +340,19 @@ CObject* CSEMiiBody::Clone(void* pArg)
 
 void CSEMiiBody::Free()
 {
-	Safe_Release(m_pSeModel);
+	for(auto& p : m_pSeModel)
+		Safe_Release(p);
+	m_pSeModel.clear();
+
 	Safe_Release(m_pShader);
+	Safe_Release(m_pMaskTexture);
 	Safe_Release(m_pCollider);
-	Safe_Release(m_pAnimationPlayer);
+
+	for(auto& p : m_pAnimationPlayer)
+		Safe_Release(p);
+	m_pAnimationPlayer.clear();
+
+
 
 	CPartObject::Free();
 }

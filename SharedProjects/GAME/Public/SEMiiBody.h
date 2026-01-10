@@ -6,6 +6,7 @@ NS_BEGIN(Engine)
 class CSEModel;
 class CShaderCom;
 class CCollider;
+class CTextureCom;
 
 class CAnimationPlayer;
 
@@ -49,13 +50,17 @@ private:
 
 public:
 	const XMFLOAT4X4* Get_SocketMatrix(const _char* pBoneName);
+	vector<const XMFLOAT4X4*>* Get_SocketMatrices(const _char* pBoneName);
 
 
 private:
-	CSEModel* m_pSeModel = { nullptr };
+	vector<CSEModel*> m_pSeModel;
 	CShaderCom* m_pShader = { nullptr };
 	CCollider* m_pCollider = { nullptr };
-	CAnimationPlayer* m_pAnimationPlayer = { nullptr };
+	vector<CAnimationPlayer*> m_pAnimationPlayer = { nullptr };
+
+	CTextureCom* m_pMaskTexture = { nullptr };
+	vector<const XMFLOAT4X4*> m_SoketMatrices;
 
 private:
 	const int32_t* m_pParentState = { nullptr };

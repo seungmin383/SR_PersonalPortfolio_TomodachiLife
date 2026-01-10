@@ -162,6 +162,8 @@ private:
 	_float m_fWaitingTimer_1			= {};
 	_float m_fWaitingTimer_2			= {};
 
+	_float m_fTalkingTimer_5			= {};
+
 public:
 	static CSEMii* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg)override;

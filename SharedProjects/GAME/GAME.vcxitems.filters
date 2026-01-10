@@ -370,6 +370,9 @@
     <Filter Include="03.UI\02.BackGround\PersonalBackGround\Sub">
       <UniqueIdentifier>{8addea21-d14e-480f-8966-04e8a7734906}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\07.SetMiiPersonal">
+      <UniqueIdentifier>{7a398bd9-4365-4c27-a31c-1bbb3f75056f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -713,6 +716,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Personal_Sub_BackGround.h">
       <Filter>03.UI\02.BackGround\PersonalBackGround\Sub</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetMiiPersonal_Strgy.h">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\07.SetMiiPersonal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp">
@@ -1020,6 +1026,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Personal_Sub_BackGround.cpp">
       <Filter>03.UI\02.BackGround\PersonalBackGround\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetMiiPersonal_Strgy.cpp">
+      <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\07.SetMiiPersonal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

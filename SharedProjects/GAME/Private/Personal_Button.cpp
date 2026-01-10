@@ -25,13 +25,14 @@ HRESULT CPersonal_Button::Initialize_Clone(void* pArg)
 {
 	PERSONALBUTTON_DESC* pDesc = static_cast<PERSONALBUTTON_DESC*>(pArg);
 	m_pClicked_Strgy		= pDesc->pClicked_Strgy;
-	m_pClicked_Strgy_1		= pDesc->pClicked_Strgy_1;
 	m_pSelected_Strgy		= pDesc->pSelected_Strgy;
 	m_pSelectedClick_Strgy	= pDesc->pSelectedClick_Strgy;
 
 	m_vFixColor = pDesc->vFixColor;
 	m_vSelectedColor = static_cast<XMFLOAT4>(Colors::Turquoise);
 	m_vToggleColor = static_cast<XMFLOAT4>(Colors::DarkCyan);
+
+	m_iPersonal = pDesc->iPersonal;
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -77,6 +78,15 @@ int32_t CPersonal_Button::Update(_float fDT)
 
 void CPersonal_Button::Update_Late(_float fDT)
 {
+	if (m_isPreSelected)
+	{
+		if (m_isPreSelected != m_isSelected)
+		{
+			CMiiManager::GetInstance()->Get_Edit_Profile().iPersonal -= m_iPersonal;
+		}
+	}
+	m_isPreSelected = m_isSelected;
+
 	CUI::Update_Late(fDT);
 }
 
@@ -168,8 +178,8 @@ int32_t CPersonal_Button::On_Click()
 		if (m_isClicked)
 		{
 			m_pClicked_Strgy->OnClick();
-			m_pClicked_Strgy_1->OnClick();
 
+			CMiiManager::GetInstance()->Get_Edit_Profile().iPersonal += m_iPersonal;
 			m_isSelected = TRUE;
 		}
 	}
@@ -208,7 +218,6 @@ CObject* CPersonal_Button::Clone(void* pArg)
 void CPersonal_Button::Free()
 {
 	Safe_Release(m_pClicked_Strgy);
-	Safe_Release(m_pClicked_Strgy_1);
 	Safe_Release(m_pSelected_Strgy);
 	Safe_Release(m_pSelectedClick_Strgy);
 

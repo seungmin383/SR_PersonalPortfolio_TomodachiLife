@@ -17,13 +17,14 @@ public:
 	typedef struct tagPersonalButtonDesc : public BUTTON_DESC
 	{
 		IOnClick* pClicked_Strgy = { nullptr };
-		IOnClick* pClicked_Strgy_1 = { nullptr };
 		IOnClick* pSelected_Strgy = { nullptr };
 		IOnClick* pSelectedClick_Strgy = { nullptr };
 
 		uint32_t iTextureIndex = {};
 
 		XMFLOAT4 vFixColor;
+
+		int32_t iPersonal = {};
 
 	}PERSONALBUTTON_DESC;
 
@@ -54,11 +55,11 @@ private:
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
 	IOnClick* m_pClicked_Strgy = { nullptr };
-	IOnClick* m_pClicked_Strgy_1 = { nullptr };
 
 	IOnClick* m_pSelected_Strgy = { nullptr };
 	IOnClick* m_pSelectedClick_Strgy = { nullptr };
 
+private:
 	XMFLOAT4 m_vFixColor = {};
 	XMFLOAT4 m_vSelectedColor = {};
 	XMFLOAT4 m_vToggleColor = {};
@@ -66,6 +67,10 @@ private:
 	_float m_fToggleTimer = {};
 	_bool m_isToggle = {};
 	_float m_fToggleHoldTimer = {};
+
+	int32_t m_iPersonal = {};
+
+	_bool m_isPreSelected = {};
 
 public:
 	static CPersonal_Button* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

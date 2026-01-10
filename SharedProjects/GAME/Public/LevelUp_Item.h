@@ -19,7 +19,7 @@ public:
 	typedef struct tagLevelUpItemDesc : public CPartObject::PARTOBJECT_DESC
 	{
 		const int32_t* pParentState;
-		const XMFLOAT4X4* pSocketMatrix;
+		vector<const XMFLOAT4X4* >* pSocketMatrix;
 	}LEVELUPITEM_DESC;
 
 protected:
@@ -51,7 +51,7 @@ private:
 
 	const int32_t* m_pParentState = { nullptr };
 	CTextureCom* m_pItemIcon_TextureCom = { nullptr };
-	const XMFLOAT4X4* m_pSocketMatrix = { nullptr };
+	vector<const XMFLOAT4X4*>* m_pSocketMatrix = { nullptr };
 
 public:
 	static CLevelUp_Item* Create(

@@ -1,5 +1,6 @@
 #include "Personal_Base_BackGround.h"
 #include "GameInstance.h"
+#include "MiiManager.h"
 
 CPersonal_Base_BackGround::CPersonal_Base_BackGround(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -26,10 +27,6 @@ HRESULT CPersonal_Base_BackGround::Initialize_Clone(void* pArg)
 {
 	PERSONALBASEBACKGROUND_DESC* pDesc = static_cast<PERSONALBASEBACKGROUND_DESC*>(pArg);
 	
-	m_strTitleText = pDesc->strTitleText;
-	m_strContentsText = pDesc->strContentsText;
-	m_iTextureIndex = pDesc->iTextureIndex;
-
 	m_fTargetFadeTime = pDesc->TargetFadeTime;
 
 	if (FAILED(CUI::Initialize_Clone(pArg)))
@@ -40,6 +37,19 @@ HRESULT CPersonal_Base_BackGround::Initialize_Clone(void* pArg)
 
 	m_fOriginX = m_fX;
 	m_fOriginY = m_fY;
+
+	if (CMiiManager::GetInstance()->Get_Edit_Profile().iPersonal > 0)
+	{
+		m_iTextureIndex = 1;
+		m_strTitleText = TEXT("사교파");
+		m_strContentsText = TEXT("키워드  :  열정적이다\n\n특  징  :  말보다 행동이 먼저, 기분파, 털털하다\n\n낙천적이며 금방 달아오르고 금방 식는다");
+	}
+	else
+	{
+		m_iTextureIndex = 0;
+		m_strTitleText = TEXT("신중파");
+		m_strContentsText = TEXT("키워드  :  이성적이다\n\n특  징  :  소극적이다. 주의 깊다. 고집이 세다\n\n논리적이고 차분하게 이야기한다");
+	}
 
 	return S_OK;
 }
@@ -80,12 +90,11 @@ HRESULT CPersonal_Base_BackGround::Render()
 		return E_FAIL;
 
 
-	m_strTitleText = TEXT("신중파");
 	m_vTitleFontSize = m_pGameInstance->FontManager_Measure_Text(TEXT("Basic_Font_18"), m_strTitleText);
 	m_pGameInstance->FontManager_Draw_Text(TEXT("Basic_Font_18"), m_strTitleText, XMFLOAT2{ m_fX - (m_fCX * 0.25f) , m_fY - (m_fCY * 0.5f) + 10.f }, Colors::Black);
 
 
-	m_strContentsText = TEXT("키워드  :  이성적이다\n\n특  징  :  소극적이다. 주의 깊다. 고집이 세다\n\n논리적이고 차분하게 이야기한다");
+
 	m_vContentsFontSize = m_pGameInstance->FontManager_Measure_Text(TEXT("Basic_Font_16"), m_strContentsText);
 	m_pGameInstance->FontManager_Draw_Text(TEXT("Basic_Font_16"), m_strContentsText, XMFLOAT2{ m_fX - (m_fCX * 0.5f) + 20.f, m_fY - 50.f}, Colors::Black);
 
