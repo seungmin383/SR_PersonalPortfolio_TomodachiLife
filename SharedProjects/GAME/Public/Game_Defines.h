@@ -106,6 +106,7 @@ namespace Game
 		EVENT_BEFRIEND,
 		EVENT_LOVE,
 
+		SHOW_MII,
 		DEVELOPER,
 		LOADING,
 		END

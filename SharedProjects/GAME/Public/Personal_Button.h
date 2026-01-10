@@ -17,6 +17,7 @@ public:
 	typedef struct tagPersonalButtonDesc : public BUTTON_DESC
 	{
 		IOnClick* pClicked_Strgy = { nullptr };
+		IOnClick* pClicked_Strgy_1 = { nullptr };
 		IOnClick* pSelected_Strgy = { nullptr };
 		IOnClick* pSelectedClick_Strgy = { nullptr };
 
@@ -53,6 +54,8 @@ private:
 	CRectBufferCom* m_pRectBuffer = { nullptr };
 
 	IOnClick* m_pClicked_Strgy = { nullptr };
+	IOnClick* m_pClicked_Strgy_1 = { nullptr };
+
 	IOnClick* m_pSelected_Strgy = { nullptr };
 	IOnClick* m_pSelectedClick_Strgy = { nullptr };
 

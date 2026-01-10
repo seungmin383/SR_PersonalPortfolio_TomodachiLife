@@ -25,7 +25,9 @@
 #include "SetUIisEnable_Strgy.h"
 #include "SetEditInfo_isMan_Strgy.h"
 #include "Voice_Button.h"
+#include "Personal_Base_BackGround.h"
 #include "Personal_Button.h"
+#include "Personal_Sub_BackGround.h"
 
 #define HEAD_BASE_POS_X 300.f
 #define HEAD_BASE_POS_Y 120.f
@@ -154,6 +156,7 @@ HRESULT CPlace_MiiEditor::Ready_UI_Layer()
 
 	if (FAILED(Layer_UI_Personal_Button()))
 		return E_FAIL;
+
 
 	vector<_wstring> EnableLayers{
 		TEXT("LayerTag_UI_FaceShape"),
@@ -613,8 +616,9 @@ HRESULT CPlace_MiiEditor::Layer_UI_Save_Button()
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 		Desc.strText = TEXT("등록");
 
-		Desc.pClicked_Strgy = CSaveMiiData_Strgy::Create(m_pDevice, m_pContext);
-		Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+		//Desc.pClicked_Strgy = CSaveMiiData_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::SHOW_MII);
 		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Option_Button"), &Desc);
@@ -850,6 +854,7 @@ HRESULT CPlace_MiiEditor::Layer_UI_Text_Button()
 		/* 좋아하는 색 눌렀을 때 나오는 Layer */
 		/* 생일 눌렀을 때 나오는 Layer */
 	}
+
 	return S_OK;
 }
 
@@ -868,9 +873,9 @@ HRESULT CPlace_MiiEditor::Layer_UI_Voice_Button()
 		Desc.fZ = 0.5f;
 
 		const float fGap = 20.f;
-		const float fPitch = Desc.fCX + fGap;          // 80 + 20 = 100
-		const float fMidX = 480.f;                    // 3번째(2)와 4번째(3) 사이 중앙
-		const float fStartX = fMidX - fPitch * 2.5f;   // i=0 시작 X (230)
+		const float fPitch = Desc.fCX + fGap;          
+		const float fMidX = 480.f;                    
+		const float fStartX = fMidX - fPitch * 2.5f;   
 
 		for (uint32_t i = 0; i < 8; ++i)
 		{
@@ -1086,6 +1091,7 @@ HRESULT CPlace_MiiEditor::Layer_UI_Personal_Button()
 	}
 	return S_OK;
 }
+
 
 HRESULT CPlace_MiiEditor::Ready_Environment_Layer()
 {

@@ -52,6 +52,9 @@
     <ClInclude Include="..\Public\Place_Event_Love.h">
       <Filter>01.Place\96.Place_Event_Love</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Place_ShowMii.h">
+      <Filter>01.Place\06.Place_ShowMii</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -107,6 +110,9 @@
     <Filter Include="01.Place\96.Place_Event_Love">
       <UniqueIdentifier>{170663b9-673f-4451-a6b3-976037ac97bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Place\06.Place_ShowMii">
+      <UniqueIdentifier>{42cd4bd6-08cf-4663-9052-fb2b1c014725}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -147,6 +153,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Place_Event_Love.cpp">
       <Filter>01.Place\96.Place_Event_Love</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_ShowMii.cpp">
+      <Filter>01.Place\06.Place_ShowMii</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

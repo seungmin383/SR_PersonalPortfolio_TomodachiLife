@@ -159,6 +159,7 @@
     <ClInclude Include="..\Public\Place_Loading.h" />
     <ClInclude Include="..\Public\Place_MiiEditor.h" />
     <ClInclude Include="..\Public\Place_Room.h" />
+    <ClInclude Include="..\Public\Place_ShowMii.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="..\Private\Place_Loading.cpp" />
     <ClCompile Include="..\Private\Place_MiiEditor.cpp" />
     <ClCompile Include="..\Private\Place_Room.cpp" />
+    <ClCompile Include="..\Private\Place_ShowMii.cpp" />
     <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>

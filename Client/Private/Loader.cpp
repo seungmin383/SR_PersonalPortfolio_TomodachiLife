@@ -29,8 +29,10 @@
 #include "Park_Actor.h"
 #include "HungryBar.h"
 #include "Hungry_Gauge.h"
+#include "Personal_Sub_BackGround.h"
 #include "Collider.h"
 #include "IconTexture.h"
+#include "Personal_Base_BackGround.h"
 #include "TextButton.h"
 #include "Room.h"
 #include "BuildingName_Texture.h"
@@ -126,6 +128,9 @@ HRESULT CLoader::Loading()
 
 	case PLACEID::EVENT_LOVE:
 		hr = Loading_Event_Love();
+		break;
+	case PLACEID::SHOW_MII:
+		hr = Loading_ShowMii();
 		break;
 
 	case PLACEID::DEVELOPER:
@@ -601,6 +606,8 @@ HRESULT CLoader::Loading_MiiEditor()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_PersonalButton_Texture"), tmp)))
 				return E_FAIL;
 		}
+
+
 	}
 
 	// Actor
@@ -682,6 +689,10 @@ HRESULT CLoader::Loading_MiiEditor()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_Personal_Button"), tmp)))
 				return E_FAIL;
 		}
+
+
+
+
 	}
 
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
@@ -904,6 +915,61 @@ HRESULT CLoader::Loading_FoodStore()
 	}
 	/* UI */
 
+	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ShowMii()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::SHOW_MII);
+
+	// Component
+	{
+		/* 베이스 성격 배경 텍스쳐 */
+		// ProtoTag_Component_PersonalBase_BackGround_Texture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/PersonalBase_BackGround/%d.dds"), 2);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_PersonalBase_BackGround_Texture"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 서브 성격 배경 텍스쳐 */
+		// ProtoTag_Component_PersonalSub_BackGround_Texture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/PersonalSub_BackGround/%d.dds"), 2);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_PersonalSub_BackGround_Texture"), tmp)))
+				return E_FAIL;
+		}
+	}
+
+	// Actor
+	{
+
+	}
+
+	// UI
+	{
+		/* 베이스 성격 배경 */
+		// ProtoTag_UI_PersonalBase_BackGround
+		{
+			tmp = CPersonal_Base_BackGround::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_PersonalBase_BackGround"), tmp)))
+				return E_FAIL;
+		}
+
+		/* 서브 성격 배경 */
+		// ProtoTag_UI_PersonalSub_BackGround
+		{
+			tmp = CPersonal_Sub_BackGround::Create(m_pDevice, m_pContext);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_UI_PersonalSub_BackGround"), tmp)))
+				return E_FAIL;
+		}
+
+
+	}
+
+	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
 	m_isFinished = true;
 	return S_OK;
 }

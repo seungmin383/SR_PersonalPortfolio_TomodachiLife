@@ -361,6 +361,15 @@
     <Filter Include="03.UI\01.Button\16.Personal">
       <UniqueIdentifier>{68b4313b-4823-4fc6-a2d1-6adc3df3155e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\02.BackGround\PersonalBackGround">
+      <UniqueIdentifier>{00f1eca5-3d4d-4fc5-b434-764a152b927a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.BackGround\PersonalBackGround\Base">
+      <UniqueIdentifier>{47426caf-abe7-47b9-8018-f3cb16ffc482}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.BackGround\PersonalBackGround\Sub">
+      <UniqueIdentifier>{8addea21-d14e-480f-8966-04e8a7734906}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -698,6 +707,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Personal_Button.h">
       <Filter>03.UI\01.Button\16.Personal</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Personal_Base_BackGround.h">
+      <Filter>03.UI\02.BackGround\PersonalBackGround\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Personal_Sub_BackGround.h">
+      <Filter>03.UI\02.BackGround\PersonalBackGround\Sub</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp">
@@ -999,6 +1014,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Personal_Button.cpp">
       <Filter>03.UI\01.Button\16.Personal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Personal_Base_BackGround.cpp">
+      <Filter>03.UI\02.BackGround\PersonalBackGround\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Personal_Sub_BackGround.cpp">
+      <Filter>03.UI\02.BackGround\PersonalBackGround\Sub</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

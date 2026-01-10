@@ -25,6 +25,7 @@ HRESULT CPersonal_Button::Initialize_Clone(void* pArg)
 {
 	PERSONALBUTTON_DESC* pDesc = static_cast<PERSONALBUTTON_DESC*>(pArg);
 	m_pClicked_Strgy		= pDesc->pClicked_Strgy;
+	m_pClicked_Strgy_1		= pDesc->pClicked_Strgy_1;
 	m_pSelected_Strgy		= pDesc->pSelected_Strgy;
 	m_pSelectedClick_Strgy	= pDesc->pSelectedClick_Strgy;
 
@@ -167,6 +168,8 @@ int32_t CPersonal_Button::On_Click()
 		if (m_isClicked)
 		{
 			m_pClicked_Strgy->OnClick();
+			m_pClicked_Strgy_1->OnClick();
+
 			m_isSelected = TRUE;
 		}
 	}
@@ -205,6 +208,7 @@ CObject* CPersonal_Button::Clone(void* pArg)
 void CPersonal_Button::Free()
 {
 	Safe_Release(m_pClicked_Strgy);
+	Safe_Release(m_pClicked_Strgy_1);
 	Safe_Release(m_pSelected_Strgy);
 	Safe_Release(m_pSelectedClick_Strgy);
 

@@ -25,6 +25,8 @@ struct MIIPROFILE_DESC
 
 	uint32_t iNeeds;
 
+	int32_t iPersonal;
+
 	nlohmann::json ToJson()const
 	{
 		nlohmann::json Out;
@@ -57,6 +59,7 @@ struct MIIPROFILE_DESC
 
 
 		Out["Needs"] = iNeeds;
+		Out["Personal"] = iPersonal;
 		return Out;
 	}
 
@@ -89,6 +92,7 @@ struct MIIPROFILE_DESC
 			iFriendIndexList.push_back(i.get<uint32_t>());
 
 		iNeeds = In.at("Needs").get<uint32_t>();
+		iPersonal = In.at("Personal").get<int32_t>();
 	}
 };
 
