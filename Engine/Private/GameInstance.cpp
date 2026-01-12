@@ -221,11 +221,20 @@ HRESULT CGameInstance::Initialize(
 		}
 	}
 
+
+
+	random_device rd;
+	seed_seq seq{ rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd() };
+	m_rng.seed(seq);
+
 	return S_OK;
 }
 
 int32_t CGameInstance::Update_Priority(_float fDT)
 {
+	//게임 씬 매니저 업데이트			//주로 디버그용
+	m_pPlaceManager->Update(fDT);
+
 	m_pInput_Device->Update();
 	m_pMouseManager->Update(fDT);
 	m_pObjectManager->Update_Priority(fDT);
@@ -237,8 +246,6 @@ int32_t CGameInstance::Update_Priority(_float fDT)
 
 int32_t CGameInstance::Update(_float fDT)
 {
-	//게임 씬 매니저 업데이트			//주로 디버그용
-	m_pPlaceManager->Update(fDT);
 
 	//게임 오브젝트 매니저 업데이트		//진짜 업데이트
 	m_pObjectManager->Update(fDT);
@@ -316,6 +323,12 @@ _float CGameInstance::Random(_float fMin, _float fMax)
 	_float		fRandNormal = static_cast<_float>(rand()) / RAND_MAX;
 
 	return (fMax - fMin) * fRandNormal + fMin;
+}
+
+int32_t CGameInstance::Real_Random(int32_t iMin, int32_t iMax)
+{
+	std::uniform_int_distribution<int> dist(iMin, iMax);
+	return dist(m_rng);
 }
 
 void CGameInstance::Get_String(wchar_t ch)

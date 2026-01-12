@@ -55,7 +55,9 @@ private:
 	HRESULT Loading_Room();
 	HRESULT Loading_FoodStore();
 	HRESULT Loading_ShowMii();
+	HRESULT Loading_ClothStore();
 	
+
 	HRESULT Loading_Event_BeFriend();
 	HRESULT Loading_Event_Love();
 

@@ -17,7 +17,7 @@ public:
 	{
 		const int32_t* pParentState;
 		vector<const XMFLOAT4X4* >* pSocketMatrix;
-
+		const int32_t* pClothState;
 		MIINOSEINFO_DESC* pNoseInfo = { nullptr };
 
 	}SEMIINOSE_DESC;
@@ -54,7 +54,7 @@ private:
 	vector<const XMFLOAT4X4*>* m_pSocketMatrix = { nullptr };
 
 	uint32_t m_iTextureIndex = {};
-
+	const int32_t* m_pParentClothState = { nullptr };
 public:
 	static CSEMiiNose* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg)override;

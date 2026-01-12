@@ -41,6 +41,7 @@ HRESULT CSEMii::Initialize_Clone(void* pArg)
 	MII_DESC* pDesc = static_cast<MII_DESC*>(pArg);
 	m_strNickName = pDesc->strNickName;
 	m_iIndex = pDesc->iIndex;
+	m_vPreRotateAngle = pDesc->vPreRotateAngle;
 
 	if (FAILED(CContainerObject::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -117,7 +118,7 @@ void CSEMii::Initialize_FriendList()
 	if (iNumNotFriend <= 0)
 		return;
 
-	m_iWantToBeFriendIndex = NotFriendList[rand() % iNumNotFriend];
+	m_iWantToBeFriendIndex = NotFriendList[ m_pGameInstance->Real_Random(0, iNumNotFriend - 1)];
 	m_strWantToBeFriendName = StrToWstr(CMiiManager::GetInstance()->Get_MiiInfo(m_iWantToBeFriendIndex).MiiProfile.strNickName);
 }
 
@@ -126,51 +127,7 @@ int32_t CSEMii::Update_Priority(_float fDT)
 	Observe();
 	Thinking(fDT);
 
-	if (m_pGameInstance->Get_DIKeyState(DIK_1))
-	{
-		Add_Flag(m_iState, STATE::CHANGE_STATE);
-		m_iClothState = 0;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_2))
-	{
-		Add_Flag(m_iState, STATE::CHANGE_STATE);
-		m_iClothState = 1;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_3))
-	{
-		Add_Flag(m_iState, STATE::CHANGE_STATE);
-		m_iClothState = 2;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_4))
-	{
-		Add_Flag(m_iState, STATE::CHANGE_STATE);
-		m_iClothState = 3;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_5))
-	{
-		Add_Flag(m_iState, STATE::CHANGE_STATE);
-		m_iClothState = 4;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_6))
-	{
-		Add_Flag(m_iState, STATE::CHANGE_STATE);
-		m_iClothState = 5;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_7))
-	{
-		Add_Flag(m_iState, STATE::CHANGE_STATE);
-		m_iClothState = 6;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_8))
-	{
-		Add_Flag(m_iState, STATE::CHANGE_STATE);
-		m_iClothState = 7;
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_9))
-	{
-		Add_Flag(m_iState, STATE::CHANGE_STATE);
-		m_iClothState = 8;
-	}
+
 
 	return CContainerObject::Update_Priority(fDT);
 }
@@ -233,6 +190,12 @@ void CSEMii::Observe()
 
 	}
 
+	if (CApartManager::GetInstance()->Get_isBuying())
+	{
+		Add_Flag(m_iState, STATE::THANK);
+		Add_Flag(m_iState, STATE::CHANGE_STATE);
+		CApartManager::GetInstance()->Set_isBuying(FALSE);
+	}
 }
 
 void CSEMii::Thinking(_float fDT)
@@ -244,7 +207,9 @@ void CSEMii::Thinking(_float fDT)
 		m_fTalkingTimer = 0.f;
 	}
 
-	if (CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iNeeds == static_cast<uint32_t>(NEEDS::LOVE) && !m_isLoveEnter && !CApartManager::GetInstance()->Get_isProposing())
+	if (CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iNeeds == static_cast<uint32_t>(NEEDS::LOVE) && 
+		!m_isLoveEnter && 
+		!CApartManager::GetInstance()->Get_isProposing())
 	{
 		Add_Flag(m_iState, STATE::LOVE);
 		Add_Flag(m_iState, STATE::CHANGE_STATE);
@@ -453,8 +418,8 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 		/* 방에 있던 애 */
 		else if(m_iIndex == CApartManager::GetInstance()->Get_SrcMiiIndex())
 		{
-			//m_pTransformCom->Ratate(0.f, XMConvertToRadians(180.f), 0.f);
-			m_pTransformCom->TurnY(XMConvertToRadians(180.f));
+			m_pTransformCom->Ratate(0.f, XMConvertToRadians(180.f), 0.f);
+			//m_pTransformCom->TurnY(XMConvertToRadians(180.f));
 
 			if (m_fWalkingTimer < 3.f)
 			{
@@ -530,6 +495,20 @@ void CSEMii::Thinking_About_Love(_float fDT)
 	m_fTalkingTimer += fDT;
 	_bool isStartPropose = CApartManager::GetInstance()->Get_isStartPropose();
 	_bool isProposing = CApartManager::GetInstance()->Get_isProposing();
+	_bool isFinPropose = CApartManager::GetInstance()->Get_isFin_Proposing();
+
+	if (m_fEndTimer_1 > 3.f)
+	{
+		CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+		CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iNeeds = static_cast<uint32_t>(NEEDS::NOTHING);
+		CGameDirector::GetInstance()->Set_Direction(CGameDirector::GAME_DIRECTION::NO_EVENT);
+		Add_Flag(m_iState, STATE::IDLE);
+
+		m_isFin_LoveEvent = TRUE;
+
+		return;
+	}
+
 	m_isLoveEnter = TRUE;
 
 	if (!isStartPropose)
@@ -616,7 +595,7 @@ void CSEMii::Thinking_About_Love(_float fDT)
 				CPlace_Loading::Create(m_pDevice, m_pContext, PLACEID::EVENT_LOVE));
 		}
 	}
-	else if (isProposing)
+	else if (isProposing && !isFinPropose)
 	{
 		if (m_isPreProposing != isProposing)
 			Add_Flag(m_iState, STATE::CHANGE_STATE);
@@ -639,6 +618,7 @@ void CSEMii::Thinking_About_Love(_float fDT)
 					{
 						Add_Flag(m_iState, STATE::CHANGE_STATE);
 						Add_Flag(m_iState, STATE::WALKING);
+						is = TRUE;
 					}
 				}
 				else if (m_fCameraLookTimer >= 3.f && m_fCameraLookTimer < 4.5f)
@@ -648,6 +628,7 @@ void CSEMii::Thinking_About_Love(_float fDT)
 					{
 						Add_Flag(m_iState, STATE::CHANGE_STATE);
 						Add_Flag(m_iState, STATE::CALM);
+						is = TRUE;
 					}
 
 					Add_Flag(m_iState, STATE::NERVOUS);
@@ -786,15 +767,19 @@ void CSEMii::Thinking_About_Love(_float fDT)
 				if ((iSrcPersonal ^ iDstPersonal) >= 0)
 				{
 					m_fTalkingTimer_5 += fDT;
-					CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
-					CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
-					CNarrationManager::GetInstance()->Set_NarrationText(TEXT("좋아요 잘 부탁해요."));
-					Add_Flag(m_iState, STATE::TALKING);
-
-					if (m_fTalkingTimer_5 > 5.f)
+					if (m_fTalkingTimer_5 > 6.f)
 					{
+						CApartManager::GetInstance()->Set_isFin_Proposing(TRUE);
+						CApartManager::GetInstance()->Set_isSuccessPropose(TRUE);
 						m_pGameInstance->PlaceManager_Change_Place(static_cast<uint32_t>(PLACEID::LOADING),
 							CPlace_Loading::Create(m_pDevice, m_pContext, PLACEID::ROOM));
+					}
+					else if (m_fTalkingTimer_5 > 3.f)
+					{
+						CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+						CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+						CNarrationManager::GetInstance()->Set_NarrationText(TEXT("좋아요, 잘 부탁해요."));
+						Add_Flag(m_iState, STATE::TALKING);
 					}
 				}
 				/* 부호가 다르다 */
@@ -804,6 +789,8 @@ void CSEMii::Thinking_About_Love(_float fDT)
 
 					if (m_fTalkingTimer_5 > 6.f)
 					{
+						CApartManager::GetInstance()->Set_isFin_Proposing(TRUE);
+						CApartManager::GetInstance()->Set_isSuccessPropose(FALSE);
 						m_pGameInstance->PlaceManager_Change_Place(static_cast<uint32_t>(PLACEID::LOADING),
 							CPlace_Loading::Create(m_pDevice, m_pContext, PLACEID::ROOM));
 					}
@@ -820,6 +807,72 @@ void CSEMii::Thinking_About_Love(_float fDT)
 
 		}
 
+	}
+	else if (isFinPropose)
+	{
+		m_fEndTimer += fDT;
+
+		if (m_fEndTimer > 1.f)
+		{
+			static _bool is = { FALSE };
+			if (!is)
+			{
+				Add_Flag(m_iState, STATE::CHANGE_STATE);
+				is = TRUE;
+			}
+		}
+		if (!CApartManager::GetInstance()->Get_isSuccessPropose())
+		{
+			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+			Add_Flag(m_iState, STATE::SAD);
+
+			m_fSadTimer += fDT;
+
+
+			if (m_fSadTimer > 4.f)
+			{
+				m_fEndTimer_1 = 100.f;
+
+				CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+			}
+			else if (m_fEndTimer >= 1.f)
+			{
+				CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+				CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+				CNarrationManager::GetInstance()->Set_NarrationText(TEXT("잘 안됐나봐요."));
+
+				// CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iFriendIndexList.pop_back();
+			}
+
+
+		}
+		else if (CApartManager::GetInstance()->Get_isSuccessPropose())
+		{
+			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+			Add_Flag(m_iState, STATE::HAPPY);
+
+			if (m_pBody->Get_isFin_Anim())
+			{
+				m_isStartEndEvent = TRUE;
+				Add_Flag(m_iState, STATE::CHANGE_STATE);
+			}
+
+			if (m_isStartEndEvent)
+			{
+				m_fEndTimer_1 += fDT;
+
+				Add_Flag(m_iState, STATE::IDLE_HAPPY);
+				Remove_Flag(m_iState, STATE::HAPPY);
+
+				CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+				CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+				CNarrationManager::GetInstance()->Set_NarrationText(TEXT("성공했습니다."));
+
+
+				CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iFriendIndexList.clear();
+				CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iLoveMiiIndex = CApartManager::GetInstance()->Get_SrcMiiIndex();
+			}
+		}
 	}
 
 	m_isPreProposing = isProposing;
@@ -851,6 +904,15 @@ void CSEMii::Acting()
 		Acting_For_ReceivedFood();
 	else if (m_eDirection == CGameDirector::GAME_DIRECTION::BE_FRIEND)
 		Acting_For_BeFriend();
+	else if (m_isFin_LoveEvent)
+		Acting_For_Love();
+
+	if (CApartManager::GetInstance()->Get_isThankTalking())
+	{
+		CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
+		CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f,1.f,1.f });
+		CNarrationManager::GetInstance()->Set_NarrationText(TEXT("구입해 주셔서 감사합니다!"));
+	}
 
 }
 
@@ -931,6 +993,8 @@ void CSEMii::Acting_For_ReceivedFood()
 		{
 			CNarrationManager::GetInstance()->Set_NarrationText(TEXT("정말 맛 없었나봐요.."));
 		}
+
+		CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iNeeds = static_cast<uint32_t>(NEEDS::NOTHING);
 	}
 
 	if (m_isStart_ReceiveFood_Event && m_isFin_Macro)
@@ -943,6 +1007,23 @@ void CSEMii::Acting_For_BeFriend()
 	{
 		m_isLevelUp = TRUE;
 		CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.fLevel += 0.3f;
+		CApartManager::GetInstance()->Add_ApartInfo_Money(2000);
+	}
+}
+
+void CSEMii::Acting_For_Love()
+{
+	if (!m_isLevelUp)
+	{
+		if (CApartManager::GetInstance()->Get_isSuccessPropose())
+		{
+			CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.fLevel += 0.3f;
+			CApartManager::GetInstance()->Add_ApartInfo_Money(3000);
+		}
+		else
+			CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.fLevel -= 0.3f;
+
+		m_isLevelUp = TRUE;
 	}
 }
 
@@ -955,6 +1036,7 @@ HRESULT CSEMii::Ready_Components()
 HRESULT CSEMii::Ready_PartObjects()
 {
 	m_MiiInfo = CMiiManager::GetInstance()->Get_MiiInfo(m_iIndex);
+	m_iClothState = m_MiiInfo.MiiProfile.iClothState;
 
 	/* Part_Body */
 	{
@@ -994,7 +1076,8 @@ HRESULT CSEMii::Ready_PartObjects()
 		seHeadDesc.pSocketMatrix = BodySockeMatrix;
 		seHeadDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seHeadDesc.pHeadInfo = &m_MiiInfo.HeadInfo;
-		seHeadDesc.pParentState = &m_iClothState;
+		seHeadDesc.pParentState = &m_iState;
+		seHeadDesc.pClothState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiHead"), TEXT("Part_Head"), &seHeadDesc)))
 			return E_FAIL;
 	}
@@ -1016,7 +1099,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seHairDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seHairDesc.pHairInfo = &m_MiiInfo.HairInfo;
 
-		seHairDesc.pParentState = &m_iClothState;
+		seHairDesc.pClothState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiHair"), TEXT("Part_Hair"), &seHairDesc)))
 			return E_FAIL;
 	}
@@ -1037,7 +1120,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		Desc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		Desc.pSocketMatrix = BodySockeMatrix;
 
-		Desc.pParentState = &m_iClothState;
+		Desc.pParentClothState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_LevelUp_Item"), TEXT("Part_RItem"), &Desc)))
 			return E_FAIL;
 	}
@@ -1059,7 +1142,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		Desc.pSocketMatrix = BodySockeMatrix;
 		Desc.pParentState = &m_iState;
 
-		Desc.pParentState = &m_iClothState;
+		Desc.pClothState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_Food_Item"), TEXT("Part_RFood"), &Desc)))
 			return E_FAIL;
 	}
@@ -1087,7 +1170,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seEyesDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seEyesDesc.pEyesInfo = &m_MiiInfo.EyesInfo;
 
-		seEyesDesc.pParentState = &m_iClothState;
+		seEyesDesc.pClothState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiEyes"), TEXT("Part_Eyes"), &seEyesDesc)))
 			return E_FAIL;
 
@@ -1120,7 +1203,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seEyebrowDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seEyebrowDesc.pEyebrowInfo = &m_MiiInfo.EyebrowInfo;
 
-		seEyebrowDesc.pParentState = &m_iClothState;
+		seEyebrowDesc.pClothState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiEyebrow"), TEXT("Part_RightEyebrow"), &seEyebrowDesc)))
 			return E_FAIL;
 
@@ -1151,7 +1234,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seNoseDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seNoseDesc.pNoseInfo = &m_MiiInfo.NoseInfo;
 
-		seNoseDesc.pParentState = &m_iClothState;
+		seNoseDesc.pClothState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiNose"), TEXT("Part_Nose"), &seNoseDesc)))
 			return E_FAIL;
 	}
@@ -1174,8 +1257,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		seMouthDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		seMouthDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 		seMouthDesc.pMouthInfo = &m_MiiInfo.MouthInfo;
-
-		seMouthDesc.pParentState = &m_iClothState;
+		seMouthDesc.pClothState = &m_iClothState;
 		if (FAILED(Add_PartObject(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_seMiiMouth"), TEXT("Part_Mouth"), &seMouthDesc)))
 			return E_FAIL;
 	}

@@ -79,7 +79,7 @@ HRESULT CMiiBody::Ready_Component()
 		return E_FAIL;
 
 	/* Model */
-	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_seChineseDress"), TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
+	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_seNintendoUniform"), TEXT("Com_Model"), reinterpret_cast<CComponent**>(&m_pSeModel), nullptr)))
 		return E_FAIL;
 
 	/* AnimationPlayer */

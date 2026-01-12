@@ -144,7 +144,7 @@ PS_OUT PS_SHADOW(PS_IN In)
 {
     PS_OUT Out;
 
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(MirrorSampler, In.vTexcoord);
 
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a;
@@ -161,7 +161,7 @@ PS_OUT PS_LIGHT(PS_IN In)
 {
     PS_OUT Out;
 
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(MirrorSampler, In.vTexcoord);
 
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a;
@@ -177,7 +177,7 @@ PS_OUT PS_BRIGHTNESS(PS_IN In)
 {
     PS_OUT Out;
 
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(MirrorSampler, In.vTexcoord);
 
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a;
@@ -202,7 +202,7 @@ PS_OUT PS_PARK(PS_IN In)
 {
     PS_OUT Out;
 
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(MirrorSampler, In.vTexcoord);
 
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a - 0.5f;

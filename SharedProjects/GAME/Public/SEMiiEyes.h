@@ -20,7 +20,7 @@ public:
 
 		_float fBlinkTime = {};
 		_float fBlinkDuration = { 0.3f };
-
+		const int32_t* pClothState;
 		_bool isRight;
 		MIIEYESINFO_DESC* pEyesInfo = { nullptr };
 
@@ -57,7 +57,8 @@ private:
 private:
 	const int32_t* m_pParentState = { nullptr };
 	vector<const XMFLOAT4X4*>* m_pSocketMatrix = { nullptr };
-	
+
+	const int32_t* m_pParentClothState = { nullptr };
 	uint32_t m_iTextureIndex = {};
 	_float m_fBlinkTime = {};
 	_float m_fBlinkTimer = {};

@@ -11,6 +11,7 @@ CMiiManager::CMiiManager()
 
 HRESULT CMiiManager::Initialize()
 {
+	/* 전체 주민 다 로드 하고 */
 	if (FAILED(Load_AllMiiData()))
 		return E_FAIL;	
 
@@ -20,7 +21,7 @@ HRESULT CMiiManager::Initialize()
 	for (auto& info : m_Mii_Informations)
 	{
 		/* 나랑 친구인 mii 인덱스들을 가져옴 */
-		const auto& iArr = info.MiiProfile.iFriendIndexList;
+		const auto& iFriendArr = info.MiiProfile.iFriendIndexList;
 		_bool isMan = info.MiiProfile.isMan;
 
 		/* 나랑 친구가 아닌 애들을 저장할꺼임*/
@@ -41,14 +42,18 @@ HRESULT CMiiManager::Initialize()
 				continue;
 
 			/* 나랑 친구인 애들 인덱스 j */
-			for (uint32_t j : iArr)
+			for (uint32_t FriendIndex : iFriendArr)
 			{
-				if (j == i)
+				if (FriendIndex == i)
 				{
-					_bool a = m_Mii_Informations[j].MiiProfile.isMan;
-					_bool b = info.MiiProfile.isMan;
+					/* 내 친구의 성별 */
+					_bool FriendGender_isMan = m_Mii_Informations[FriendIndex].MiiProfile.isMan;
 
-					if (m_Mii_Informations[j].MiiProfile.isMan != info.MiiProfile.isMan)
+					/* 나의 성별 */
+					_bool MyGender_isMan = info.MiiProfile.isMan;
+
+					/* 성별이 다르다면 */
+					if (FriendGender_isMan != MyGender_isMan)
 						CanLove = TRUE;
 
 					isFriend = TRUE;
@@ -62,35 +67,35 @@ HRESULT CMiiManager::Initialize()
 				LoveList.push_back(i);
 		}
 
-		uint32_t iRandNeeds = rand() % static_cast<int32_t>(NEEDS::END);
 		
-		switch (iIndex)
-		{
-		case 0:
-			iRandNeeds = static_cast<int32_t>(NEEDS::HUNGRY);
-			break;
-		case 1:
-			iRandNeeds = static_cast<int32_t>(NEEDS::BE_FRIEND);
-			break;
-		case 2:
-			iRandNeeds = static_cast<int32_t>(NEEDS::LOVE);
-			break;
-		case 3:
-			iRandNeeds = static_cast<int32_t>(NEEDS::NOTHING);
-			break;
-		case 4:
-			iRandNeeds = static_cast<int32_t>(NEEDS::NOTHING);
-			break;
 
-		default:
-			break;
+		uint32_t iRandNeeds = CGameInstance::GetInstance()->Real_Random(0, static_cast<int32_t>(NEEDS::END));
+		
+		if (LoveList.empty())
+		{
+			if (iRandNeeds == static_cast<int32_t>(NEEDS::LOVE))
+				iRandNeeds = static_cast<int32_t>(NEEDS::NOTHING);
+		}
+		if (NotFriendList.empty())
+		{
+			if (info.MiiProfile.iLoveMiiIndex != -1)
+			{
+				if (iRandNeeds == static_cast<int32_t>(NEEDS::BE_FRIEND))
+					iRandNeeds = static_cast<int32_t>(NEEDS::NOTHING);
+			}
+			else
+			{
+				if (iRandNeeds == static_cast<int32_t>(NEEDS::BE_FRIEND))
+					iRandNeeds = static_cast<int32_t>(NEEDS::LOVE);
+			}
 		}
 
-		iIndex++;
-
-		
-		//if (iRandNeeds == static_cast<int32_t>(NEEDS::LOVE))
-		//	iRandNeeds = static_cast<int32_t>(NEEDS::NOTHING);
+		/* 연인이 있다면 */
+		if (info.MiiProfile.iLoveMiiIndex != -1)
+		{
+			if (iRandNeeds == static_cast<int32_t>(NEEDS::LOVE))
+				iRandNeeds = static_cast<int32_t>(NEEDS::NOTHING);
+		}
 
 		info.MiiProfile.iNeeds = iRandNeeds;
 	}
@@ -122,6 +127,8 @@ HRESULT CMiiManager::Begin_Edit(_bool isMan)
 		m_EditDesc.MiiProfile.strLastName = "";
 		m_EditDesc.MiiProfile.strNickName = "";
 		m_EditDesc.MiiProfile.iPersonal = 0;
+		m_EditDesc.MiiProfile.iClothState = CGameInstance::GetInstance()->Real_Random(0, 8);
+		m_EditDesc.MiiProfile.iLoveMiiIndex = -1;
 	}
 	else
 	{
@@ -136,6 +143,8 @@ HRESULT CMiiManager::Begin_Edit(_bool isMan)
 		m_EditDesc.MiiProfile.strLastName = "";
 		m_EditDesc.MiiProfile.strNickName = "";
 		m_EditDesc.MiiProfile.iPersonal = 0;
+		m_EditDesc.MiiProfile.iClothState = CGameInstance::GetInstance()->Real_Random(0, 8);
+		m_EditDesc.MiiProfile.iLoveMiiIndex = -1;
 	}
 
 	CGameInstance::GetInstance()->ButtonManager_Clear_Text();
@@ -221,6 +230,7 @@ HRESULT CMiiManager::Save_AllMiiData()
 HRESULT CMiiManager::Load_AllMiiData()
 {
 	uint32_t iNumMii = CApartManager::GetInstance()->Get_ApartInfo_NumMii();
+	m_Mii_Informations.clear();
 
 	for (uint32_t i = 0; i < iNumMii; ++i)
 	{

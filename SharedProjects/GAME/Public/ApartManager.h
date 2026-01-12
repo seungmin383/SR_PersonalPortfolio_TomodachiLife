@@ -31,6 +31,11 @@ public:
 	int32_t Add_ApartInfo_Money(uint32_t iMoney) {return m_ApartInfo.iMoney += iMoney; }
 	int32_t Minus_ApartInfo_Money(uint32_t iMoney) {return  m_ApartInfo.iMoney -= iMoney; }
 
+	_bool Get_isBuying()const { return m_isBuying; }
+	void Set_isBuying(_bool is) { m_isBuying = is; }
+	_bool Get_isThankTalking()const { return m_isThankTalking; }
+	void Set_isThankTalking(_bool is) { m_isThankTalking = is; }
+
 	/* food inven */
 	const vector<uint32_t> Get_FoodInventory() { return m_ApartInfo.iFoodInventory; }
 	void Add_FoodInventory(uint32_t iIndex);
@@ -80,10 +85,19 @@ public:
 	_bool Get_isFinEvent5() const		{ return m_isFin_Event5; }
 	void Set_isFinEvent5(_bool is)		{ m_isFin_Event5 = is; }
 
+	_bool Get_isSuccessPropose() const		{ return m_isSuccessPropose; }
+	void Set_isSuccessPropose(_bool is)		{ m_isSuccessPropose= is; }
+	
+	_bool Get_isFin_Proposing() const		{ return m_isFin_Proposing; }
+	void Set_isFin_Proposing(_bool is)		{ m_isFin_Proposing = is; }
+
 private:
 	APARTINFO_DESC m_ApartInfo = {};
 	
 	map<int32_t, int32_t>m_FoodInventory;
+
+	_bool m_isBuying = { FALSE };
+	_bool m_isThankTalking = { FALSE };
 
 private:
 	_bool m_isBeFriend = { FALSE };
@@ -109,6 +123,10 @@ private:
 	_bool m_isFin_Event4 = { FALSE };
 	_bool m_isFin_Event5 = { FALSE };
 
+	_bool m_isSuccessPropose = { FALSE };
+
+	_bool m_isFin_Proposing = { FALSE };
+		
 public:
 	virtual void Free()override;
 };

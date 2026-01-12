@@ -207,31 +207,6 @@ HRESULT CPlace_Island::Ready_Actor_Layer()
 		}
 	}
 
-	//// ProtoTag_Actor_SkyAndSea
-	//{
-	//	CSkyAndSea::SKYANDSEA_DESC tSkyAndSeaDesc = {};
-	//	tSkyAndSeaDesc.vPos = XMFLOAT4{0.f, 0.f, 0.f,1.f};
-	//	tSkyAndSeaDesc.fCX = 1.f;
-	//	tSkyAndSeaDesc.fCY = 1.f;
-	//	tSkyAndSeaDesc.fCZ = 1.f;
-	//	tSkyAndSeaDesc.fSpeedPerSecond = 0.f;
-	//	tSkyAndSeaDesc.fRotationPerSecond = XMConvertToRadians(20.f);
-	//	tSkyAndSeaDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
-
-	//	tmp = m_pGameInstance->Proto_Get_Object_Clone(
-	//		static_cast<uint32_t>(PLACEID::ISLAND),
-	//		TEXT("ProtoTag_Actor_SkyAndSea"),
-	//		&tSkyAndSeaDesc);
-
-	//	if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(
-	//		static_cast<uint32_t>(PLACEID::ISLAND),
-	//		TEXT("LayerTag_Actor"),
-	//		tmp)))
-	//	{
-	//		Safe_Release(tmp);
-	//		return E_FAIL;
-	//	}
-	//}
 
 	// ProtoTag_Actor_Sky
 	{
@@ -673,7 +648,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 
 		PLACEID NextPlaceIDArr[] = {
 		PLACEID::APART,	// 0. Go Apart
-		PLACEID::APART,// 1. Go Wear
+		PLACEID::CLOTH_STORE,// 1. Go Wear
 		PLACEID::APART,// 2. Go Antique
 		PLACEID::APART,// 3. Go Cap
 		PLACEID::FOOD_STORE, // 4. Go Food

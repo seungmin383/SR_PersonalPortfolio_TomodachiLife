@@ -19,7 +19,7 @@ public:
 		vector<const XMFLOAT4X4* >* pSocketMatrix;
 
 		_bool isRight;
-
+		const int32_t* pClothState;
 		MIIEYEBROWINFO_DESC* pEyebrowInfo = { nullptr };
 
 	}SEMIIEYEBROW_DESC;
@@ -55,6 +55,7 @@ private:
 	const int32_t* m_pParentState = { nullptr };
 	vector<const XMFLOAT4X4*>* m_pSocketMatrix = { nullptr };
 
+	const int32_t* m_pParentClothState = { nullptr };
 	XMFLOAT4 m_vEyebrowColor = {};
 
 	uint32_t m_iTextureIndex = {};

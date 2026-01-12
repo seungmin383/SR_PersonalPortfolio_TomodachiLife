@@ -12,6 +12,7 @@
 #include "Place_Event_BeFriend.h"
 #include "Place_Event_Love.h"
 #include "Place_ShowMii.h"
+#include "Place_ClothStore.h"
 
 #include "BackGround.h"
 #include "YellowBackGround.h"
@@ -92,6 +93,10 @@ int32_t CPlace_Loading::Update(_float fDT)
 
 		case PLACEID::SHOW_MII:
 			pPlace = CPlace_ShowMii::Create(m_pDevice, m_pContext);
+			break;
+
+		case PLACEID::CLOTH_STORE:
+			pPlace = CPlace_ClothStore::Create(m_pDevice, m_pContext);
 			break;
 
 		case PLACEID::END:

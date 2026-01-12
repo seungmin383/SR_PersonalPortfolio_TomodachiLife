@@ -16,7 +16,7 @@ public:
 	{
 		const int32_t* pParentState;
 		vector<const XMFLOAT4X4* >* pSocketMatrix;
-
+		const int32_t* pClothState;
 		MIIHAIRINFO_DESC* pHairInfo = { nullptr };
 	}SEMIIHAIR_DESC;
 
@@ -51,6 +51,7 @@ private:
 	vector<const XMFLOAT4X4*>* m_pSocketMatrix = { nullptr };
 	XMFLOAT4 m_vHairColor = {};
 
+	const int32_t* m_pParentClothState = { nullptr };
 	uint32_t m_iCurModelIndex = {};
 
 public:

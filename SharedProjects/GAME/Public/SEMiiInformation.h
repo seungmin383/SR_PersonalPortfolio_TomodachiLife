@@ -22,10 +22,13 @@ struct MIIPROFILE_DESC
 	uint32_t iRoomIndex;
 	
 	vector<uint32_t> iFriendIndexList;
+	int32_t iLoveMiiIndex;
 
 	uint32_t iNeeds;
 
 	int32_t iPersonal;
+
+	uint32_t iClothState;
 
 	nlohmann::json ToJson()const
 	{
@@ -58,8 +61,10 @@ struct MIIPROFILE_DESC
 			Out["FriendIndexList"].push_back(i);
 
 
+		Out["LoveMiiIndex"] = iLoveMiiIndex;
 		Out["Needs"] = iNeeds;
 		Out["Personal"] = iPersonal;
+		Out["ClothState"] = iClothState;
 		return Out;
 	}
 
@@ -91,8 +96,10 @@ struct MIIPROFILE_DESC
 		for (const auto& i : FriendList)
 			iFriendIndexList.push_back(i.get<uint32_t>());
 
+		iLoveMiiIndex = In.at("LoveMiiIndex").get<int32_t>();
 		iNeeds = In.at("Needs").get<uint32_t>();
 		iPersonal = In.at("Personal").get<int32_t>();
+		iClothState = In.at("ClothState").get<uint32_t>();
 	}
 };
 

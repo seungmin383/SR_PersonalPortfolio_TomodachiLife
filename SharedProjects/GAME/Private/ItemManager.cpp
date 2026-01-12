@@ -200,6 +200,10 @@ HRESULT CItemManager::Ready_Items()
 		}
 	}
 
+
+	/* ø  æ∆¿Ã≈€ */
+
+
 	return S_OK;
 }
 

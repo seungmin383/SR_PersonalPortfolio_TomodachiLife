@@ -27,6 +27,8 @@ HRESULT CFriend_TextBox::Initialize_Origin()
 HRESULT CFriend_TextBox::Initialize_Clone(void* pArg)
 {
 	FRIENDTEXTBOX_DESC* pDesc = static_cast<FRIENDTEXTBOX_DESC*>(pArg);
+	m_isLove = pDesc->isLove;
+
 
 	if (FAILED(CUI::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -39,12 +41,30 @@ HRESULT CFriend_TextBox::Initialize_Clone(void* pArg)
 
 int32_t CFriend_TextBox::Update_Priority(_float fDT)
 {
-	if (!CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iFriendIndexList.empty())
+	if (m_isLove)
 	{
-		uint32_t i = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iFriendIndexList.front();
-		_wstring	str = StrToWstr( CMiiManager::GetInstance()->Get_MiiInfo(i).MiiProfile.strNickName);
+		int32_t i = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iLoveMiiIndex;
 
-		m_strText = str;
+		if (i == -1)
+			m_strText = TEXT("없음");
+		else
+		{
+			_wstring	str = StrToWstr(CMiiManager::GetInstance()->Get_MiiInfo(i).MiiProfile.strNickName);
+			m_strText = str;
+		}
+	}
+	else
+	{
+		if (CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iFriendIndexList.empty())
+		{
+			m_strText = TEXT("없음");
+		}
+		else
+		{
+			uint32_t i = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iFriendIndexList.back();
+			_wstring	str = StrToWstr(CMiiManager::GetInstance()->Get_MiiInfo(i).MiiProfile.strNickName);
+			m_strText = str;
+		}
 	}
 
 	return 0;

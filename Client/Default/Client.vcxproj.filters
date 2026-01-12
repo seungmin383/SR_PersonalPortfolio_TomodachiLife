@@ -55,6 +55,9 @@
     <ClInclude Include="..\Public\Place_ShowMii.h">
       <Filter>01.Place\06.Place_ShowMii</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Place_ClothStore.h">
+      <Filter>01.Place\07.Place_ClothStore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -113,6 +116,9 @@
     <Filter Include="01.Place\06.Place_ShowMii">
       <UniqueIdentifier>{42cd4bd6-08cf-4663-9052-fb2b1c014725}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Place\07.Place_ClothStore">
+      <UniqueIdentifier>{5ec3f077-0ae2-4501-88c5-883bc6317560}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -156,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Place_ShowMii.cpp">
       <Filter>01.Place\06.Place_ShowMii</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Place_ClothStore.cpp">
+      <Filter>01.Place\07.Place_ClothStore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

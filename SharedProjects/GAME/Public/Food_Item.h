@@ -19,6 +19,7 @@ public:
 	typedef struct tagFoodItemDesc : public CPartObject::PARTOBJECT_DESC
 	{
 		const int32_t* pParentState;
+		const int32_t* pClothState;
 
 		vector<const XMFLOAT4X4* >* pSocketMatrix;
 	}FOODITEM_DESC;
@@ -50,6 +51,7 @@ private:
 	vector<const XMFLOAT4X4*>* m_pSocketMatrix = { nullptr };
 
 	const int32_t* m_pParentState = { nullptr };
+	const int32_t* m_pParentClothState = { nullptr };
 	uint32_t m_iTextureIndex = {};
 
 public:

@@ -151,6 +151,7 @@
     <ClInclude Include="..\Public\MainApp.h" />
     <ClInclude Include="..\Public\Place_Apart.h" />
     <ClInclude Include="..\Public\Place_CityHall.h" />
+    <ClInclude Include="..\Public\Place_ClothStore.h" />
     <ClInclude Include="..\Public\Place_Developer.h" />
     <ClInclude Include="..\Public\Place_Event_BeFriend.h" />
     <ClInclude Include="..\Public\Place_Event_Love.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="..\Private\MainApp.cpp" />
     <ClCompile Include="..\Private\Place_Apart.cpp" />
     <ClCompile Include="..\Private\Place_CityHall.cpp" />
+    <ClCompile Include="..\Private\Place_ClothStore.cpp" />
     <ClCompile Include="..\Private\Place_Developer.cpp" />
     <ClCompile Include="..\Private\Place_Event_BeFriend.cpp" />
     <ClCompile Include="..\Private\Place_Event_Love.cpp" />

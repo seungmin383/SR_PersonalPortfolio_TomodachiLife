@@ -24,6 +24,7 @@ HRESULT CSEMiiEyebrow::Initialize_Clone(void* pArg)
 	m_pSocketMatrix = pDesc->pSocketMatrix;
 	m_isRight = pDesc->isRight;
 
+	m_pParentClothState = pDesc->pClothState;
 	m_iTextureIndex = pDesc->pEyebrowInfo->iIndex;
 	m_vEyebrowColor = pDesc->pEyebrowInfo->vEyebrowColor;
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
@@ -54,7 +55,7 @@ int32_t CSEMiiEyebrow::Update(_float fDT)
 void CSEMiiEyebrow::Update_Late(_float fDT)
 {
 	CPartObject::Update_Late(fDT);
-	XMMATRIX fianlParentMatrix = XMLoadFloat4x4((*m_pSocketMatrix)[*m_pParentState]) * XMLoadFloat4x4(m_pParentMatrix);
+	XMMATRIX fianlParentMatrix = XMLoadFloat4x4((*m_pSocketMatrix)[*m_pParentClothState]) * XMLoadFloat4x4(m_pParentMatrix);
 	SetUp_CombinedWorldMatrix(fianlParentMatrix);
 }
 

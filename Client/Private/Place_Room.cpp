@@ -1545,6 +1545,11 @@ HRESULT CPlace_Room::Layer_UI_TextBox()
 			Desc.fCX = vPosSizeArr[i].z;
 			Desc.fCY = vPosSizeArr[i].w;
 
+			if(i == 0)
+				Desc.isLove = TRUE;
+			else
+				Desc.isLove = FALSE;
+				
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_Friend_TextBox"), &Desc);
 			if (nullptr == tmp)
 				return E_FAIL;

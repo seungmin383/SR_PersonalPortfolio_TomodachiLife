@@ -73,6 +73,7 @@ private:
 
 public:
 	_bool Get_isFin_Macro() const;
+	_bool Get_isFin_Anim() const;
 	
 	_bool Get_isStart_ReceiveFood_Event() const { return m_isStart_ReceiveFood_Event; }
 	_bool Get_isReceivedFood() const { return m_isReceiveFood; }
@@ -115,6 +116,9 @@ private:
 	/* 대화가 끝났는지 */
 	_bool m_isFin_Banter = { FALSE };
 
+private:
+	/* 알바하면서 감사하기 */
+	_bool m_isThankTalking = { FALSE };
 
 public:
 	static CSEMiiBody* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -373,6 +373,12 @@
     <Filter Include="03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\07.SetMiiPersonal">
       <UniqueIdentifier>{7a398bd9-4365-4c27-a31c-1bbb3f75056f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Actor\08.Store\01.Cloth">
+      <UniqueIdentifier>{6493b40f-0ff9-4dfe-b2c3-e4611e231fe8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.Texture\06.TextBox\Love">
+      <UniqueIdentifier>{7871e389-54c6-4bac-9e63-d7a2b07fcdbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -719,6 +725,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\SetMiiPersonal_Strgy.h">
       <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\07.SetMiiPersonal</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Store_Cloth.h">
+      <Filter>02.Actor\08.Store\01.Cloth</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Love_TextBox.h">
+      <Filter>03.UI\03.Texture\06.TextBox\Love</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp">
@@ -1029,6 +1041,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\SetMiiPersonal_Strgy.cpp">
       <Filter>03.UI\01.Button\000.OnclickStrategy\13.SetIndexStrategy\07.SetMiiPersonal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Store_Cloth.cpp">
+      <Filter>02.Actor\08.Store\01.Cloth</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Love_TextBox.cpp">
+      <Filter>03.UI\03.Texture\06.TextBox\Love</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

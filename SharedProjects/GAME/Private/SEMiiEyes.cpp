@@ -26,6 +26,7 @@ HRESULT CSEMiiEyes::Initialize_Clone(void* pArg)
 	m_fBlinkDuration = pDesc->fBlinkDuration;
 	m_isRight = pDesc->isRight;
 
+	m_pParentClothState = pDesc->pClothState;
 	m_iTextureIndex = pDesc->pEyesInfo->iIndex;
 	m_fBlinkTime = pDesc->pEyesInfo->fBlinkTime;
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
@@ -64,7 +65,7 @@ int32_t CSEMiiEyes::Update(_float fDT)
 void CSEMiiEyes::Update_Late(_float fDT)
 {
 	CPartObject::Update_Late(fDT);
-	XMMATRIX fianlParentMatrix = XMLoadFloat4x4((*m_pSocketMatrix)[*m_pParentState]) * XMLoadFloat4x4(m_pParentMatrix);
+	XMMATRIX fianlParentMatrix = XMLoadFloat4x4((*m_pSocketMatrix)[*m_pParentClothState]) * XMLoadFloat4x4(m_pParentMatrix);
 	SetUp_CombinedWorldMatrix(fianlParentMatrix);
 }
 

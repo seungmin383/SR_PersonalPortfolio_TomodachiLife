@@ -17,6 +17,8 @@ class CFriend_TextBox final : public CUI
 public:
 	typedef struct tagFriendTextBox : public UI_DESC
 	{
+		_bool isLove;
+
 	}FRIENDTEXTBOX_DESC;
 
 protected:
@@ -45,6 +47,9 @@ private:
 
 private:
 	_wstring m_strText = {};
+	_wstring m_strLoveText = {};
+
+	_bool m_isLove = {};
 
 public:
 	static CFriend_TextBox* Create(

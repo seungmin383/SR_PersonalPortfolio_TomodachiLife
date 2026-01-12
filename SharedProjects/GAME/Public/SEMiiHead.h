@@ -18,7 +18,7 @@ public:
 		vector<const XMFLOAT4X4* >* pSocketMatrix;
 
 		MIIHEADINFO_DESC* pHeadInfo = { nullptr };
-
+		const int32_t* pClothState;
 	}SEMIIHEAD_DESC;
 
 private:
@@ -50,6 +50,7 @@ private:
 
 	uint32_t m_iCurModelIndex = {};
 
+	const int32_t* m_pParentClothState = { nullptr };
 private:
 	const int32_t* m_pParentState = { nullptr };
 	vector<const XMFLOAT4X4*>* m_pSocketMatrix = { nullptr };

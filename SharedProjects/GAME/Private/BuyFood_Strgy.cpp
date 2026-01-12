@@ -30,6 +30,10 @@ void CBuyFood_Strgy::OnClick()
 	/* 구입되었다는 가정 */
 	CApartManager::GetInstance()->Minus_ApartInfo_Money(iPrice);
 	CApartManager::GetInstance()->Add_FoodInventory(CItemManager::GetInstance()->Get_CurFoodItemIndex());
+
+	CApartManager::GetInstance()->Set_isBuying(TRUE);
+	CApartManager::GetInstance()->Set_isThankTalking(TRUE);
+
 }
 
 CBuyFood_Strgy* CBuyFood_Strgy::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext  )

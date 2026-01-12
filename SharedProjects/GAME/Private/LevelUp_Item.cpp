@@ -27,7 +27,7 @@ HRESULT CLevelUp_Item::Initialize_Clone(void* pArg)
 	LEVELUPITEM_DESC* pDesc = static_cast<LEVELUPITEM_DESC*>(pArg);
 	m_pSocketMatrix = pDesc->pSocketMatrix;
 	m_pParentState = pDesc->pParentState;
-
+	m_pParentClothState = pDesc->pParentClothState;
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -54,7 +54,7 @@ void CLevelUp_Item::Update_Late(_float fDT)
 		return;
 
 	CPartObject::Update_Late(fDT);
-	XMMATRIX fianlParentMatrix = XMLoadFloat4x4((*m_pSocketMatrix)[*m_pParentState]) * XMLoadFloat4x4(m_pParentMatrix);
+	XMMATRIX fianlParentMatrix = XMLoadFloat4x4((*m_pSocketMatrix)[*m_pParentClothState]) * XMLoadFloat4x4(m_pParentMatrix);
 	SetUp_CombinedWorldMatrix(fianlParentMatrix);
 }
 

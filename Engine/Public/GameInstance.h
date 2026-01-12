@@ -38,11 +38,7 @@ private:
 	virtual ~CGameInstance() = default;
 
 public:
-	HRESULT Initialize(
-		const ENGINE_DESC& Engine_desc,
-		ID3D11Device** ppDevice,
-		ID3D11DeviceContext** ppContext);
-
+	HRESULT Initialize(	const ENGINE_DESC& Engine_desc,	ID3D11Device** ppDevice, ID3D11DeviceContext** ppContext);
 	int32_t Update_Priority(_float fDT);
 	int32_t Update(_float fDT);
 	void	Update_Late(_float fDT);
@@ -54,7 +50,12 @@ public:
 
 	HRESULT Clear_Resources(uint32_t PlaceID);
 	_float Random(_float fMin, _float fMax);
+	int32_t Real_Random(int32_t iMin, int32_t iMax);
+
 	void Get_String(wchar_t ch);
+
+private:
+	mt19937 m_rng = {};
 
 public:
 	#pragma region TIMER_MANAGER

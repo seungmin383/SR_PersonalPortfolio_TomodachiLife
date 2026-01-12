@@ -23,6 +23,7 @@ HRESULT CSEMiiHair::Initialize_Clone(void* pArg)
 	m_pParentState = pDesc->pParentState;
 	m_pSocketMatrix = pDesc->pSocketMatrix;
 
+	m_pParentClothState = pDesc->pClothState;
 	m_vHairColor = pDesc->pHairInfo->vHairColor;
 	m_iCurModelIndex = pDesc->pHairInfo->iIndex;
 
@@ -47,7 +48,7 @@ int32_t CSEMiiHair::Update(_float fDT)
 void CSEMiiHair::Update_Late(_float fDT)
 {
 	CPartObject::Update_Late(fDT);
-	XMMATRIX fianlParentMatrix = XMLoadFloat4x4((*m_pSocketMatrix)[*m_pParentState]) * XMLoadFloat4x4(m_pParentMatrix);
+	XMMATRIX fianlParentMatrix = XMLoadFloat4x4((*m_pSocketMatrix)[*m_pParentClothState]) * XMLoadFloat4x4(m_pParentMatrix);
 	SetUp_CombinedWorldMatrix(fianlParentMatrix);
 }
 

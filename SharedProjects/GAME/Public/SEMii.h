@@ -38,7 +38,10 @@ public:
 		HUNGRY			= 1u << 19,
 		CALM			= 1u << 20,
 		NERVOUS			= 1u << 21,
-		PROPOSE			= 1u << 22
+		PROPOSE			= 1u << 22,
+		THANK			= 1u << 23,
+		SAD				= 1u << 24,
+		IDLE_HAPPY		= 1u << 25,
 	};
 
 
@@ -49,6 +52,8 @@ public:
 		uint32_t iIndex;
 
 		_wstring strInitAnimTag = {};
+
+		XMFLOAT3 vPreRotateAngle = {};
 
 	}MII_DESC;
 
@@ -86,6 +91,7 @@ public:
 
 	void Acting_For_ReceivedFood();
 	void Acting_For_BeFriend();
+	void Acting_For_Love();
 
 private:
 	HRESULT Ready_Components();
@@ -98,6 +104,8 @@ private:
 
 private:
 	CSEMiiBody* m_pBody = { nullptr };
+
+	XMFLOAT3 m_vPreRotateAngle = {};
 
 private:
 	int32_t m_iState					= {};
@@ -163,6 +171,14 @@ private:
 	_float m_fWaitingTimer_2			= {};
 
 	_float m_fTalkingTimer_5			= {};
+
+	_float m_fEndTimer					= {};
+	_float m_fEndTimer_1				= {};
+	_bool m_isStartEndEvent				= { FALSE };
+
+	_float m_fSadTimer					= {};
+
+	_bool m_isFin_LoveEvent				= { FALSE };
 
 public:
 	static CSEMii* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

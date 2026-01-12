@@ -26,6 +26,7 @@ HRESULT CSEMiiMouth::Initialize_Clone(void* pArg)
 	m_pSocketMatrix = pDesc->pSocketMatrix;
 	m_iTextureIndex = pDesc->pMouthInfo->iIndex;
 
+	m_pParentClothState = pDesc->pClothState;
 	if (FAILED(CPartObject::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -101,7 +102,7 @@ int32_t CSEMiiMouth::Update(_float fDT)
 void CSEMiiMouth::Update_Late(_float fDT)
 {
 	CPartObject::Update_Late(fDT);
-	XMMATRIX fianlParentMatrix = XMLoadFloat4x4((*m_pSocketMatrix)[*m_pParentState]) * XMLoadFloat4x4(m_pParentMatrix);
+	XMMATRIX fianlParentMatrix = XMLoadFloat4x4((*m_pSocketMatrix)[*m_pParentClothState]) * XMLoadFloat4x4(m_pParentMatrix);
 	SetUp_CombinedWorldMatrix(fianlParentMatrix);
 }
 

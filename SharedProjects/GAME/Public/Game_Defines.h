@@ -103,6 +103,7 @@ namespace Game
 		MII_EDITOR,
 		ROOM,
 		FOOD_STORE,
+		CLOTH_STORE,
 
 		EVENT_BEFRIEND,
 		EVENT_LOVE,

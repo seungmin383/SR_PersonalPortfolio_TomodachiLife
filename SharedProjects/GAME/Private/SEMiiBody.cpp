@@ -4,9 +4,11 @@
 #include "GameDirector.h"
 
 #include "Mii.h"
+#include "ApartManager.h"
 #include "SEMii.h"
 
 #include "Engine_FlagHelper.h"
+#include "NarrationManager.h"
 
 CSEMiiBody::CSEMiiBody(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CPartObject(pDevice, pContext)
@@ -89,10 +91,7 @@ int32_t CSEMiiBody::Update(_float fDT)
 				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Walk"), TRUE, 1.f);
 			if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::BANTER))
 			{
-				_float fRand = m_pGameInstance->Random(1.f, 5.f);
-
-				_wstring str = L"Banter_" + to_wstring(static_cast<uint32_t>(fRand));
-				//_wstring str = L"Banter_0";// +to_wstring(rand() % 5 + 1);
+				_wstring str = L"Banter_" + to_wstring(m_pGameInstance->Real_Random(1, 5));
 				m_pAnimationPlayer[*m_pParentClothState]->Begin_Macro(str);
 			}
 			if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::HAPPY))
@@ -103,12 +102,24 @@ int32_t CSEMiiBody::Update(_float fDT)
 		{
 			if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::PROPOSE))
 				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Romantic_Hold"), FALSE	, 1.f);
+			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::IDLE_HAPPY))
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Happy_Wait"), TRUE, 1.f);
+			else if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::SAD))
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Sad_Wait"), TRUE, 1.f);
+			else if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::HAPPY))
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Jump_Delight"), FALSE, 1.f);
 			else if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::WALKING))
 				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Walk"), TRUE, 1.f);
 			else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::CALM))
 				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
+
 			else
 				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_FallInLove"), TRUE, 1.f);
+
+		}
+		else if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::THANK))
+		{
+			m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Bow"), FALSE, 1.f);
 		}
 		else
 			m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
@@ -292,6 +303,22 @@ void CSEMiiBody::Calc_BodyState(_float fDT)
 			m_isFin_Banter = TRUE;
 		}
 	}
+	else if (m_strCurAnimTag == (TEXT("Chr_Bow")))
+	{
+		m_isThankTalking = TRUE;
+	}
+
+	if (m_isThankTalking)
+	{
+		if (m_pAnimationPlayer[*m_pParentClothState]->Get_isAnimFin())
+		{
+			m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
+			
+			CApartManager::GetInstance()->Set_isThankTalking(FALSE);
+			m_isThankTalking = FALSE;
+			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
+		}
+	}
 }
 
 const XMFLOAT4X4* CSEMiiBody::Get_SocketMatrix(const _char* pBoneName)
@@ -311,6 +338,11 @@ vector<const XMFLOAT4X4*>* CSEMiiBody::Get_SocketMatrices(const _char* pBoneName
 _bool CSEMiiBody::Get_isFin_Macro() const
 {
 	return m_pAnimationPlayer[*m_pParentClothState]->Get_isEndMacro();
+}
+
+_bool CSEMiiBody::Get_isFin_Anim() const
+{
+	return m_pAnimationPlayer[*m_pParentClothState]->Get_isAnimFin();
 }
 
 CSEMiiBody* CSEMiiBody::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

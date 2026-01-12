@@ -6,11 +6,11 @@
             0.11999999731779099,
             1.0
         ],
-        "Index": 79
+        "Index": 78
     },
     "EyesInfo": {
         "BlinkTime": 5.0,
-        "Index": 11
+        "Index": 0
     },
     "HairInfo": {
         "HairColor": [
@@ -19,7 +19,7 @@
             0.0,
             1.0
         ],
-        "Index": 0
+        "Index": 1
     },
     "HeadInfo": {
         "Index": 0,
@@ -35,36 +35,36 @@
         "BirthMonth": 0,
         "BirthYear": 0,
         "Blood": 0,
+        "ClothState": 4,
         "Color": 0,
-        "FirstName": "100tmdals",
+        "FirstName": "이충호",
         "Flavor": [
-            1.2367931604385376,
-            0.922696590423584,
-            1.9765617847442627,
-            1.5065767765045166,
-            0.7627186179161072,
-            0.6926481127738953,
-            1.0957976579666138,
-            0.443128764629364,
-            0.3238013982772827
+            1.930661916732788,
+            1.3022857904434204,
+            1.2951445579528809,
+            1.6559343338012695,
+            0.5662404298782349,
+            1.8251289129257202,
+            1.1753898859024048,
+            1.454390048980713,
+            1.4982757568359375
         ],
-        "FriendIndexList": [
-            4
-        ],
+        "FriendIndexList": [],
         "Fullness": 0,
-        "LastName": "100tmdals",
-        "Level": 0.30000001192092896,
+        "LastName": "이충호",
+        "Level": 0.0,
+        "LoveMiiIndex": -1,
         "Needs": 0,
-        "NickName": "100tmdals",
-        "Personal": 20,
+        "NickName": "이충호",
+        "Personal": -10,
         "RoomIndex": 0,
         "isAdult": false,
-        "isMan": false
+        "isMan": true
     },
     "MouthInfo": {
-        "Index": 111
+        "Index": 101
     },
     "NoseInfo": {
-        "Index": 61
+        "Index": 60
     }
 }

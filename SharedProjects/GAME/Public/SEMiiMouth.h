@@ -17,7 +17,7 @@ public:
 	{
 		const int32_t* pParentState;
 		vector<const XMFLOAT4X4* >* pSocketMatrix;
-
+		const int32_t* pClothState;
 		MIIMOUTHINFO_DESC* pMouthInfo = { nullptr };
 
 	}SEMIIMOUTH_DESC;
@@ -53,6 +53,7 @@ private:
 	const int32_t* m_pParentState = { nullptr };
 	vector<const XMFLOAT4X4*>* m_pSocketMatrix = { nullptr };
 
+	const int32_t* m_pParentClothState = { nullptr };
 	uint32_t m_iTextureIndex = {};
 
 	/* 열 타이밍 */

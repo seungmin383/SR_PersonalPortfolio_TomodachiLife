@@ -20,6 +20,7 @@
 #include "LevelBar.h"
 #include "Gauge.h"
 #include "Store_Food.h"
+#include "Store_Cloth.h"
 #include "MiiEditButton.h"
 #include "Personal_Button.h"
 #include "Save_Button.h"
@@ -129,8 +130,13 @@ HRESULT CLoader::Loading()
 	case PLACEID::EVENT_LOVE:
 		hr = Loading_Event_Love();
 		break;
+
 	case PLACEID::SHOW_MII:
 		hr = Loading_ShowMii();
+		break;
+
+	case PLACEID::CLOTH_STORE:
+		hr = Loading_ClothStore();
 		break;
 
 	case PLACEID::DEVELOPER:
@@ -219,8 +225,7 @@ HRESULT CLoader::Loading_Island()
 			string FilePath = "../../Resource/00Model/Actor - Building/Building" + to_string(i) + "/Building.fbx";
 			string SaveName = "Building" + to_string(i);
 
-			if (i == 0)
-				int a = 0;
+	
 #ifdef _DEBUG
 			tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM,
 				FilePath.c_str(), initMatrix, SaveName.c_str());
@@ -908,13 +913,6 @@ HRESULT CLoader::Loading_FoodStore()
 			return E_FAIL;
 	}
 
-	/* ÁÖ¹Î ¹æ */
-	// ProtoTag_Actor_Room
-	{
-		tmp = CRoom::Create(m_pDevice, m_pContext);
-		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_Room"), tmp)))
-			return E_FAIL;
-	}
 	/* UI */
 
 	m_isFinished = true;
@@ -972,6 +970,44 @@ HRESULT CLoader::Loading_ShowMii()
 	}
 
 	lstrcpy(m_szFPS, TEXT("·ÎµùÀÌ ¿Ï·áµÇ¾ú½¿´Ï´Ù."));
+	m_isFinished = true;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ClothStore()
+{
+	CObject* tmp = { nullptr };
+	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::CLOTH_STORE);
+
+	/* Component */
+
+	/* ¿Ê°¡°Ô ¸ðµ¨*/
+	// ProtoTag_Component_FoodStore_Model
+	{
+		XMMATRIX InitMatrix = XMMatrixIdentity();
+#ifdef _DEBUG
+		tmp = CModel::Create(m_pDevice, m_pContext,
+			ANIM_TYPE::NONEANIM, "../../Resource/Model_Sell/Cloth/0.fbx", InitMatrix, "ClothStore");
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_ClothStore_Model"), tmp)))
+			return E_FAIL;
+#endif 
+		tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, "ClothStore", InitMatrix);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Component_ClothStore_seModel"), tmp)))
+			return E_FAIL;
+	}
+
+	/* Actor */
+
+	/* ¿Ê°¡°Ô */
+	// ProtoTag_Actor_ClothStore
+	{
+		tmp = CStore_Cloth::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, TEXT("ProtoTag_Actor_ClothStore"), tmp)))
+			return E_FAIL;
+	}
+
+	/* UI */
+
 	m_isFinished = true;
 	return S_OK;
 }
