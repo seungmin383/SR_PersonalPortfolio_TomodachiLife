@@ -66,3 +66,13 @@ DepthStencilState DSS_NoneDepth
     DepthWriteMask = ZERO;
     DepthFunc = ALWAYS;
 };
+
+BlendState BS_Blend
+{
+    BlendEnable[0] = true;
+    BlendEnable[1] = true;
+
+    SrcBlend = one;
+    DestBlend = one;
+    BlendOp = ADD;
+};

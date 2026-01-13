@@ -902,12 +902,33 @@ HRESULT CPlace_Island::Ready_Environment_Layer()
 	LIGHT_DESC Desc = {};
 	Desc.eType = LIGHT_TYPE::DIRECTIONAL;
 	Desc.vDir = _float4(1.f, -1.f, 1.f, 0.f);
-	Desc.vDiffuse = _float4(1.f, 1.f, 0.f, 1.f);
+	Desc.vDiffuse = _float4(0.4f, 0.4f, 0.4f, 1.f);
 	Desc.vAmbient = _float4(0.2f, 0.2f, 0.2f, 1.f);
 	Desc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
+	Desc.eType = LIGHT_TYPE::POINT;
+	Desc.vPos = _float4(0.f, 500.f, -30.f, 1.f);
+	Desc.fRange = 1000.f;
+	Desc.vDiffuse = _float4(1.f, 0.3f, 0.3f, 1.f);
+	Desc.vAmbient = _float4(0.3f, 0.1f, 0.1f, 1.f);
+	Desc.vSpecular = Desc.vDiffuse;
 
 	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
 		return E_FAIL;
+
+
+	Desc.eType = LIGHT_TYPE::POINT;
+	Desc.vPos = _float4(0.f, 500.f, 30.f, 1.f);
+	Desc.fRange = 1000.f;
+	Desc.vDiffuse = _float4(0.3f, 0.3f, 1.f, 1.f);
+	Desc.vAmbient = _float4(0.1f, 0.1f, 0.3f, 1.f);
+	Desc.vSpecular = Desc.vDiffuse;
+
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
 
 	return S_OK;
 }
