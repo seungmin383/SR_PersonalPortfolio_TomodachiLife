@@ -45,6 +45,8 @@ HRESULT CPlace_FoodStore::Initialize()
 		return E_FAIL;
 	if (FAILED(Ready_Camera_Layer()))
 		return E_FAIL;
+	if (FAILED(Ready_Sound()))
+		return E_FAIL;
 
 	CItemManager::GetInstance()->Set_ItemIndex(ITEM_TYPE::FOOD, 0);
 
@@ -201,6 +203,15 @@ HRESULT CPlace_FoodStore::Ready_Camera_Layer()
 {
 	m_pGameInstance->CameraManager_Reset_State(TEXT("World_Camera"));
 	m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 0.f, 4.f, 10.f, 1.f }, XMConvertToRadians(13.f), 1.f);
+	return S_OK;
+}
+
+HRESULT CPlace_FoodStore::Ready_Sound()
+{
+
+
+	if (FAILED(m_pGameInstance->SoundManager_Begin_BGM(TEXT("BGM_FoodStore"), 1.f)))
+		return E_FAIL;
 	return S_OK;
 }
 

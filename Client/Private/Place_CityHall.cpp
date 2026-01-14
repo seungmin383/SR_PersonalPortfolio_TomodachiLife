@@ -279,6 +279,8 @@ HRESULT CPlace_CityHall::Ready_Environment_Layer()
 
 	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
 		return E_FAIL;
+	return S_OK;
+
 }
 
 HRESULT CPlace_CityHall::Ready_Camera_Layer()

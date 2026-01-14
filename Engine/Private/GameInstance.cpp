@@ -20,6 +20,7 @@
 #include "CollisionManager.h"
 #include "ActorManager.h"
 #include "Target_Manager.h"
+#include "Sound_Manager.h"
 
 #define CONFIG_FILE_PATH "../../SharedProjects/GAME/GameData/config.json"
 
@@ -29,19 +30,10 @@ CGameInstance::CGameInstance()
 {
 }
 
-HRESULT CGameInstance::Initialize(
-	const ENGINE_DESC& Engine_desc,
-	ID3D11Device** ppDevice,
-	ID3D11DeviceContext** ppContext)
+HRESULT CGameInstance::Initialize(const ENGINE_DESC& Engine_desc,ID3D11Device** ppDevice,ID3D11DeviceContext** ppContext)
 {
 	//그래픽 디바이스
-	m_pGraphicDevice = CGraphic_Device::Create(
-		Engine_desc.hWnd,
-		Engine_desc.WinMode,
-		Engine_desc.iWinCX,
-		Engine_desc.iWinCY,
-		ppDevice,
-		ppContext);
+	m_pGraphicDevice = CGraphic_Device::Create(Engine_desc.hWnd,Engine_desc.WinMode,Engine_desc.iWinCX,Engine_desc.iWinCY,ppDevice,	ppContext);
 
 	if (nullptr == m_pGraphicDevice)
 		return E_FAIL;
@@ -221,6 +213,15 @@ HRESULT CGameInstance::Initialize(
 		}
 	}
 
+	// SoundManager
+	{
+		m_pSoundManager = CSoundManager::Create();
+		if (nullptr == m_pSoundManager)
+		{
+			MSG_BOX("ErrCode : m_pSoundManager Create Failed");
+			return E_FAIL;
+		}
+	}
 
 
 	random_device rd;
@@ -856,6 +857,36 @@ HRESULT CGameInstance::TargetManager_Render(const _wstring& strMRTTag, CShaderCo
 }
 #pragma endregion
 
+
+#pragma region SOUNDMANAGER
+
+HRESULT CGameInstance::SoundManager_Load_Sound(const _wstring& SoundTag, const _string& SoundFilePath, _bool isBGM, _bool isLoop)
+{
+	return m_pSoundManager->Load_Sound(SoundTag, SoundFilePath, isBGM, isLoop);
+}
+
+HRESULT CGameInstance::SoundManager_Begin_BGM(const _wstring& SoundTag, _float fVolume)
+{
+	return m_pSoundManager->Begin_BGM(SoundTag, fVolume);
+}
+
+HRESULT CGameInstance::SoundManager_Begin_Sound(const _wstring& SoundTag, SOUND_CHANNEL eChannel, _float fVolume)
+{
+	return m_pSoundManager->Begin_Sound(SoundTag, eChannel, fVolume);
+}
+
+HRESULT CGameInstance::SoundManager_Stop_Sound(SOUND_CHANNEL eChannel)
+{
+	return m_pSoundManager->Stop_Sound(eChannel);
+}
+
+HRESULT CGameInstance::SoundManager_Stop_AllSound()
+{
+	return m_pSoundManager->Stop_AllSound();
+}
+
+#pragma endregion
+
 void CGameInstance::Clear_Engine()
 {
 	Safe_Release(m_pTimerManager);
@@ -865,6 +896,7 @@ void CGameInstance::Clear_Engine()
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pPlaceManager);
 	Safe_Release(m_pLightManager);
+	Safe_Release(m_pSoundManager);
 	Safe_Release(m_pActorManager);
 	Safe_Release(m_pRenderManager);
 	Safe_Release(m_pObjectManager);

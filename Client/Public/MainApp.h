@@ -45,6 +45,7 @@ public:
 	HRESULT Ready_Static_Item();
 
 	HRESULT Ready_Fonts();
+	HRESULT Ready_Static_Sound();
 
 private://디바이스 관리
 	ID3D11Device*			m_pDevice = { nullptr };

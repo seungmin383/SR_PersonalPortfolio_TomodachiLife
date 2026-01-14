@@ -154,6 +154,9 @@ HRESULT CPlace_Island::Initialize()
 	if (FAILED(Ready_Camera_Layer()))
 		return E_FAIL;
 
+	if (FAILED(Ready_Sound()))
+		return E_FAIL;
+
 	m_tmpTargetPos = XMVECTOR{ 10.f, 10.f, 0.f, 1.f };
 	return S_OK;
 }
@@ -930,6 +933,14 @@ HRESULT CPlace_Island::Ready_Camera_Layer()
 	m_pGameInstance->CameraManager_Reset_State(TEXT("World_Camera"));
 	m_pGameInstance->CameraManager_Set_Position(TEXT("World_Camera"), XMVECTOR{ 2.f, 5.f, -30.f, 1.f });
 	m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 2.f, 0.f, 0.f, 1.f }, XMConvertToRadians(45.f), 1.f);
+
+	return S_OK;
+}
+
+HRESULT CPlace_Island::Ready_Sound()
+{
+	if (FAILED(m_pGameInstance->SoundManager_Begin_BGM(TEXT("BGM_Island"), 1.f)))
+		return E_FAIL;	
 
 	return S_OK;
 }

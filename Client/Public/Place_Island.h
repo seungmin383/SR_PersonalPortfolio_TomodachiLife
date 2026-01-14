@@ -27,6 +27,8 @@ public:
 	HRESULT Ready_Environment_Layer();
 	HRESULT Ready_Camera_Layer();
 
+	HRESULT Ready_Sound();
+
 	HRESULT Ready_Layer_Windows();
 
 private:

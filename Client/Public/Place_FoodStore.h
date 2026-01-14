@@ -22,6 +22,8 @@ public:
 	HRESULT Ready_Environment_Layer();
 	HRESULT Ready_Camera_Layer();
 
+	HRESULT Ready_Sound();
+
 	HRESULT Layer_UI_Bottom_Background();
 	HRESULT Layer_UI_Category_Button();
 	HRESULT Layer_UI_FoodList_Button();

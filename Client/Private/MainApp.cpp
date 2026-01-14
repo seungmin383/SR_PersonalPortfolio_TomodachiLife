@@ -183,6 +183,8 @@ HRESULT CMainApp::Ready_Static()
 	/* ÆùÆ® */
 	if (FAILED(Ready_Fonts()))
 		return E_FAIL;
+	if (FAILED(Ready_Static_Sound()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -994,6 +996,15 @@ HRESULT CMainApp::Ready_Fonts()
 	if (FAILED(m_pGameInstance->FontManager_Add_Font(TEXT("Basic_Font_16"), TEXT("../../Resource/Fonts/Basic_Font_16.spritefont"))))
 		return E_FAIL;	
 
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Static_Sound()
+{
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_Island"), "../../Resource/Sound/BGM_Island.wav", TRUE, TRUE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_FoodStore"), "../../Resource/Sound/BGM_FoodStore.wav", TRUE, TRUE)))
+		return E_FAIL;
 	return S_OK;
 }
 

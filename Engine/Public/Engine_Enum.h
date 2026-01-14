@@ -86,5 +86,13 @@ namespace Engine
         se_TextureType_GLTF_METALLIC_ROUGHNESS = 27,
 	};
 
+	enum class SOUND_CHANNEL
+	{
+		BGM,
+		SFX,
+		SFX_BUTTON,
+		VOICE,
+		END
+	};
 }
 #endif // Engine_Enum_h__

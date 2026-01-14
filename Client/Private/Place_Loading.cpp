@@ -36,6 +36,8 @@ HRESULT CPlace_Loading::Initialize(
 	if (nullptr == m_pLoader)
 		return E_FAIL;
 
+	m_pGameInstance->SoundManager_Stop_AllSound();
+
 	return S_OK;
 }
 

@@ -28,6 +28,7 @@ class CCutScene;
 class CActorManager;
 class CFontManager;
 class CTargetManager;
+class CSoundManager;
 
 class ENGINE_DLL CGameInstance final : public CBase
 {
@@ -102,9 +103,7 @@ public:
 	#pragma region PLACE_MANAGER
 
 	
-	HRESULT PlaceManager_Change_Place(
-		uint32_t PlaceID,
-		CPlace* pPlace);
+	HRESULT PlaceManager_Change_Place(uint32_t PlaceID,CPlace* pPlace);
 
 	uint32_t PlaceManager_Get_CurPlaceID()const;
 
@@ -112,32 +111,19 @@ public:
 
 	#pragma region PROTOTYPE
 
-	HRESULT Proto_Add_Prototype(
-		uint32_t PlaceID, 
-		const _wstring ObjectTag, 
-		CObject* pPrototype);
+	HRESULT Proto_Add_Prototype(uint32_t PlaceID, const _wstring ObjectTag, CObject* pPrototype);
 
-	CObject* Proto_Get_Object_Clone(
-		uint32_t PlaceID, 
-		const _wstring ObjectTag, 
-		void* pArg);
+	CObject* Proto_Get_Object_Clone(uint32_t PlaceID, const _wstring ObjectTag, void* pArg);
 
 #pragma endregion
 
 	#pragma region PIPELINE
-	void PipeLine_Set_Transform(
-		D3DTS eMatrix,
-		FXMMATRIX TransformMatrix);
+	void PipeLine_Set_Transform(D3DTS eMatrix,FXMMATRIX TransformMatrix);
 
 public:
-	HRESULT PipeLine_Bind_PipeLine_Matrix(
-		CShaderCom* pShader,
-		const _char* pConstantName,
-		D3DTS eMatrix);
+	HRESULT PipeLine_Bind_PipeLine_Matrix(CShaderCom* pShader,const _char* pConstantName,D3DTS eMatrix);
 
-	HRESULT PipeLine_Bind_PipeLine_Inverse_Matrix(
-		CShaderCom* pShader,
-		const _char* pConstantName,
+	HRESULT PipeLine_Bind_PipeLine_Inverse_Matrix(CShaderCom* pShader,	const _char* pConstantName,
 		D3DTS eMatrix);
 
 	//HRESULT PipeLine_Bind_Camera_Pos(
@@ -152,14 +138,11 @@ public:
 
 	HRESULT CameraManager_Add_Camera(const _wstring CameraTag,CCamera* pCamera);
 
-	HRESULT CameraManager_Bind_Matrix(CShaderCom* pShader,const _char* ConstantName,
-		const _wstring CameraTag,D3DTS eMatrix);
+	HRESULT CameraManager_Bind_Matrix(CShaderCom* pShader,const _char* ConstantName,const _wstring CameraTag,D3DTS eMatrix);
 
-	HRESULT CameraManager_Bind_Camera_Pos(CShaderCom* pShader, const _char* pConstantName,
-		const _wstring CameraTag);
+	HRESULT CameraManager_Bind_Camera_Pos(CShaderCom* pShader, const _char* pConstantName,const _wstring CameraTag);
 
-	HRESULT CameraManager_Bind_Matrix_Inv(CShaderCom* pShader, const _char* ConstantName,
-		const _wstring CameraTag, D3DTS eMatrix);
+	HRESULT CameraManager_Bind_Matrix_Inv(CShaderCom* pShader, const _char* ConstantName,const _wstring CameraTag, D3DTS eMatrix);
 
 	CCamera* CameraManager_Get_Camera(const _wstring& strCameraTag);
 
@@ -201,13 +184,9 @@ public:
 
 #pragma region FILEMANAGER
 public:
-	HRESULT FileManager_Read_File(
-		const string& strFilePath,
-		nlohmann::json& pOut);
+	HRESULT FileManager_Read_File(const string& strFilePath,nlohmann::json& pOut);
 
-	HRESULT FileManager_Write_File(
-		const string& strFilePath,
-		nlohmann::json& Data);
+	HRESULT FileManager_Write_File(const string& strFilePath,nlohmann::json& Data);
 
 	const nlohmann::json& FileManager_Get_Data(const string& strFilePath);
 
@@ -293,6 +272,16 @@ public:
 #endif
 
 
+#pragma region SOUNDMANAGER
+	HRESULT SoundManager_Load_Sound(const _wstring& SoundTag, const _string& SoundFilePath, _bool isBGM = FALSE, _bool isLoop = FALSE);
+	HRESULT SoundManager_Begin_BGM(const _wstring& SoundTag, _float fVolume = 1.f);
+	HRESULT SoundManager_Begin_Sound(const _wstring& SoundTag, SOUND_CHANNEL eChannel, _float fVolume = 1.f);
+	HRESULT SoundManager_Stop_Sound(SOUND_CHANNEL eChannel);
+	HRESULT SoundManager_Stop_AllSound();
+
+#pragma endregion
+
+
 private:
 	CTimerManager*		m_pTimerManager		= { nullptr };
 	CInput_Device*      m_pInput_Device		= { nullptr };
@@ -313,6 +302,7 @@ private:
 	CActorManager*		m_pActorManager		= { nullptr };
 	CFontManager*		m_pFontManager		= { nullptr };
 	CTargetManager*		m_pTargetManager	= { nullptr };
+	CSoundManager*		m_pSoundManager = { nullptr };
 
 public:
 	void Clear_Engine();
