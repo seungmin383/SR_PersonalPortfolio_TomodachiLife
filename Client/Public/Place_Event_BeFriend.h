@@ -23,10 +23,7 @@ public:
 	HRESULT Ready_Camera_Layer();
 
 public:
-	static CPlace_Event_BeFriend* Create(
-		ID3D11Device* pDevice,
-		ID3D11DeviceContext* pContext);
-
+	static CPlace_Event_BeFriend* Create(ID3D11Device* pDevice,	ID3D11DeviceContext* pContext);
 	virtual void Free() override;
 };
 

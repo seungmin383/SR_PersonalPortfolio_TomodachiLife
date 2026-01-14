@@ -50,7 +50,8 @@ private:
 
 public:
 	const XMFLOAT4X4* Get_SocketMatrix(const _char* pBoneName);
-	vector<const XMFLOAT4X4*>* Get_SocketMatrices(const _char* pBoneName);
+	vector<const XMFLOAT4X4*>* Get_HeadSocketMatrices();
+	vector<const XMFLOAT4X4*>* Get_LHandSocketMatrices();
 
 
 private:
@@ -60,7 +61,8 @@ private:
 	vector<CAnimationPlayer*> m_pAnimationPlayer = { nullptr };
 
 	CTextureCom* m_pMaskTexture = { nullptr };
-	vector<const XMFLOAT4X4*> m_SoketMatrices;
+	vector<const XMFLOAT4X4*> m_HeadSoketMatrices;
+	vector<const XMFLOAT4X4*> m_LHandSoketMatrices;
 
 private:
 	const int32_t* m_pParentState = { nullptr };

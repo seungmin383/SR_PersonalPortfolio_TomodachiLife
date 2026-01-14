@@ -77,7 +77,7 @@ HRESULT CPlace_FoodStore::Ready_Actor_Layer()
 	// 
 	{
 		CStore_Food::STORE_FOOD_DESC Desc = {};
-		Desc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		Desc.fCX = 0.03f;
 		Desc.fCY = 0.03f;
 		Desc.fCZ = 0.03f;
@@ -164,6 +164,36 @@ HRESULT CPlace_FoodStore::Ready_UI_Layer()
 
 HRESULT CPlace_FoodStore::Ready_Environment_Layer()
 {
+	LIGHT_DESC Desc = {};
+	Desc.eType = LIGHT_TYPE::DIRECTIONAL;
+	Desc.vDir = _float4(0.5f, -1.f, 3.5f, 0.f);
+	Desc.vDiffuse = _float4(1.00f, 1.f, 1.f, 1.0f);
+	Desc.vAmbient = _float4(0.20f, 0.17f, 0.10f, 1.0f);
+	Desc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
+	Desc.eType = LIGHT_TYPE::POINT;
+	Desc.vPos = _float4(3.7f, 12.f, -59.39f, 1.f);
+	Desc.fRange = 6.8f;
+	Desc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
+	Desc.vAmbient = _float4(0.1f, 0.1f, 0.3f, 1.f);
+	Desc.vSpecular = _float4(0.f, 0.f, 0.f, 1.f);
+
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
+
+	Desc.eType = LIGHT_TYPE::POINT;
+	Desc.vPos = _float4(6.9f, 11.3f, -59.59f, 1.f);
+	Desc.fRange = 7.2f;
+	Desc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
+	Desc.vAmbient = _float4(0.1f, 0.1f, 0.3f, 1.f);
+	Desc.vSpecular = _float4(0.f, 0.f, 0.f, 1.f);
+
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -381,10 +411,10 @@ HRESULT CPlace_FoodStore::Layer_UI_BackButton()
 		if (nullptr == tmp)
 			return E_FAIL;
 
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Back_Button"), tmp)))
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Cack_Button"), tmp)))
 			return E_FAIL;
 
-		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Back_Button"), static_cast<CButton*>(tmp))))
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Cack_Button"), static_cast<CButton*>(tmp))))
 			return E_FAIL;
 	}
 

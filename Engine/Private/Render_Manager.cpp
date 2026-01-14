@@ -112,16 +112,16 @@ HRESULT CRenderManager::Initialize()
 	}
 
 #ifdef _DEBUG
-	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Diffuse"), 100.f, 100.f, 200.f, 200.f)))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Normal"), 300.f, 100.f, 200.f, 200.f)))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Depth"), 500.f, 100.f, 200.f, 200.f)))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Shade"), 100.f, 300.f, 200.f, 200.f)))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Specular"), 300.f, 300.f, 200.f, 200.f)))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Diffuse"), 100.f, 100.f, 200.f, 200.f)))
+	//	return E_FAIL;
+	//if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Normal"), 300.f, 100.f, 200.f, 200.f)))
+	//	return E_FAIL;
+	//if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Depth"), 500.f, 100.f, 200.f, 200.f)))
+	//	return E_FAIL;
+	//if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Shade"), 100.f, 300.f, 200.f, 200.f)))
+	//	return E_FAIL;
+	//if (FAILED(m_pGameInstance->TargetManager_Ready_Debug(TEXT("Target_Specular"), 300.f, 300.f, 200.f, 200.f)))
+	//	return E_FAIL;
 #endif 
 
 	return S_OK;
@@ -245,10 +245,10 @@ HRESULT CRenderManager::Render_Top_Combined()
 	if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Normal"), m_pShader, "g_NormalTexture")))
 		return E_FAIL;
 
-	//if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
-	//	return E_FAIL;
-	//if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
-	//	return E_FAIL;
+	if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->TargetManager_Bind_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
+		return E_FAIL;
 
 	if (FAILED(m_pShader->Begin(static_cast<uint32_t>(DEFERRED::COMBINED))))
 		return E_FAIL;

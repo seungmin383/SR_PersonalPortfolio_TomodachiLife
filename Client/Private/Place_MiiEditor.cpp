@@ -99,7 +99,7 @@ HRESULT CPlace_MiiEditor::Ready_Actor_Layer()
 		MiiDesc.fCY = 1.f;
 		MiiDesc.fCZ = 1.f;
 		MiiDesc.fSpeedPerSecond = 0.f;
-		MiiDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		MiiDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		MiiDesc.fRotationPerSecond = XMConvertToRadians(90.f);
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC),
@@ -1101,6 +1101,15 @@ HRESULT CPlace_MiiEditor::Layer_UI_Personal_Button()
 
 HRESULT CPlace_MiiEditor::Ready_Environment_Layer()
 {
+	LIGHT_DESC Desc = {};
+	Desc.eType = LIGHT_TYPE::DIRECTIONAL;
+	Desc.vDir = _float4(0.5f, 1.f, 4.9f, 0.f);
+	Desc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.0f);
+	Desc.vAmbient = _float4(0.5f, 0.5f, 0.5f, 1.0f);
+	Desc.vSpecular = _float4(1.00f, 0.97f, 0.93f, 1.0f);
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

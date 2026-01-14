@@ -45,10 +45,10 @@
 #include <iostream>
 #include <filesystem>
 
-//#include "fmod.h"
-//#include "fmod.hpp"
-//#pragma comment(lib, "fmod_vc.lib")
-//#include <io.h>
+#include "fmod/fmod.h"
+#include "fmod/fmod.hpp"
+
+#include <io.h>
 
 #include <cstdlib>
 

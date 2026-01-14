@@ -170,7 +170,6 @@ HRESULT CMiiManager::End_Edit()
 	nlohmann::json j = m_EditDesc.ToJson();
 	Out << j.dump(4);
 
-	MSG_BOX("Success Save : MiiData");
 
 	m_Mii_Informations.push_back(m_EditDesc);
 	m_isEdit = FALSE; 
@@ -187,8 +186,6 @@ HRESULT CMiiManager::Save_MiiData(const _wstring& strNickName)
 
 	nlohmann::json j = m_EditDesc.ToJson();
 	Out << j.dump(4);
-
-	MSG_BOX("Success Save : MiiData");
 
 
 	return S_OK;
@@ -223,7 +220,6 @@ HRESULT CMiiManager::Save_AllMiiData()
 	}
 
 
-	MSG_BOX("Success Save : MiiData");
 	return S_OK;
 }
 

@@ -48,7 +48,11 @@
 
 /* 아파트 (y += 1.9f) */
 #define APART_POS            XMFLOAT4{0.f, 0.3f, 0.f, 1.f}
+//#define APART_TARGETPOS      XMFLOAT4{2.f, 0.f, 0.f, 1.f}
 #define APART_TARGETPOS      XMFLOAT4{0.f, 2.2f, 0.f, 1.f}
+
+//m_pGameInstance->CameraManager_FocusOnTarget(TEXT("World_Camera"), XMVECTOR{ 2.f, 0.f, 0.f, 1.f }, XMConvertToRadians(45.f), 1.f);
+
 
 /* 주민센터 (y += 2.f) */
 #define CITYHALL_POS         XMFLOAT4{4.93322f, 0.0844781f, -2.84163f, 1.f}
@@ -888,7 +892,6 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 			 return E_FAIL;
 	 }
 
-
 	 if (FAILED(Ready_Layer_Windows()))
 		 return E_FAIL;
 
@@ -901,30 +904,19 @@ HRESULT CPlace_Island::Ready_Environment_Layer()
 {
 	LIGHT_DESC Desc = {};
 	Desc.eType = LIGHT_TYPE::DIRECTIONAL;
-	Desc.vDir = _float4(1.f, -1.f, 1.f, 0.f);
-	Desc.vDiffuse = _float4(0.4f, 0.4f, 0.4f, 1.f);
+	Desc.vDir = _float4(0.f, -1.f, 1.6f, 0.f);
+	Desc.vDiffuse = _float4(0.55f, 0.62f, 0.80f, 1.0f);
 	Desc.vAmbient = _float4(0.2f, 0.2f, 0.2f, 1.f);
-	Desc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	Desc.vSpecular = _float4(0.f,0.f,0.f,1.f);
 	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
 		return E_FAIL;
 
 	Desc.eType = LIGHT_TYPE::POINT;
-	Desc.vPos = _float4(0.f, 500.f, -30.f, 1.f);
-	Desc.fRange = 1000.f;
-	Desc.vDiffuse = _float4(1.f, 0.3f, 0.3f, 1.f);
-	Desc.vAmbient = _float4(0.3f, 0.1f, 0.1f, 1.f);
-	Desc.vSpecular = Desc.vDiffuse;
-
-	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
-		return E_FAIL;
-
-
-	Desc.eType = LIGHT_TYPE::POINT;
-	Desc.vPos = _float4(0.f, 500.f, 30.f, 1.f);
-	Desc.fRange = 1000.f;
-	Desc.vDiffuse = _float4(0.3f, 0.3f, 1.f, 1.f);
+	Desc.vPos = _float4(4.1f, 15.9f, -59.19f, 1.f);
+	Desc.fRange = 17.3f;
+	Desc.vDiffuse = _float4(0.3f, 0.3f, 0.8f, 1.f);
 	Desc.vAmbient = _float4(0.1f, 0.1f, 0.3f, 1.f);
-	Desc.vSpecular = Desc.vDiffuse;
+	Desc.vSpecular = _float4(0.f, 0.f, 0.f, 1.f);
 
 	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
 		return E_FAIL;

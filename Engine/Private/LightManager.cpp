@@ -33,6 +33,16 @@ void CLightManager::Render_Light(CShaderCom* pShader, CRectBufferCom* pBuffer)
 	}
 }
 
+HRESULT CLightManager::Clear_Light()
+{
+	for (auto& pLight : m_Lights)
+		Safe_Release(pLight);
+
+	m_Lights.clear();
+
+	return S_OK;
+}
+
 CLightManager* CLightManager::Create()
 {
 	return new CLightManager;

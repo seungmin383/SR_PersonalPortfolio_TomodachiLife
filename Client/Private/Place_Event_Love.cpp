@@ -166,6 +166,36 @@ HRESULT CPlace_Event_Love::Ready_Environment_Layer()
 {
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::EVENT_LOVE);
+	LIGHT_DESC Desc = {};
+
+	Desc.eType = LIGHT_TYPE::DIRECTIONAL;
+	Desc.vDir = _float4(2.f, -1.f, 3.4f, 0.f);
+	Desc.vDiffuse = _float4(0.55f, 0.62f, 0.80f, 1.0f);
+	Desc.vAmbient = _float4(0.2f, 0.2f, 0.2f, 1.f);
+	Desc.vSpecular = _float4(0.f, 0.f, 0.f, 1.f);
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
+	Desc.eType = LIGHT_TYPE::DIRECTIONAL;
+	Desc.vDir = _float4(-0.1f, -1.f, 1.6f, 0.f);
+	Desc.vDiffuse = _float4(0.70f, 0.42f, 0.14f, 1.0f);
+	Desc.vAmbient = _float4(0.02f, 0.015f, 0.008f, 1.0f);
+	Desc.vSpecular = _float4(0.05f, 0.03f, 0.015f, 1.0f);
+
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
+
+	Desc.eType = LIGHT_TYPE::DIRECTIONAL;
+	Desc.vDir = _float4(-0.1f, -1.f, -1.3f, 0.f);
+
+	Desc.vDiffuse = _float4(0.70f, 0.42f, 0.14f, 1.0f);
+	Desc.vAmbient = _float4(0.02f, 0.015f, 0.008f, 1.0f);
+	Desc.vSpecular = _float4(0.05f, 0.03f, 0.015f, 1.0f);
+
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
 
 	return S_OK;
 }

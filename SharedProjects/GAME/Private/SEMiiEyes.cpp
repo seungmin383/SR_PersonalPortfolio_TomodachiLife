@@ -78,7 +78,7 @@ HRESULT CSEMiiEyes::Render()
 	if (FAILED(m_pRectBuffer->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Begin(VTS_DEFAULT)))
+	if (FAILED(m_pShader->Begin(VTS_ACTOR_DEFAULT)))
 		return E_FAIL;
 
 	if (FAILED(m_pRectBuffer->Begin_Draw()))

@@ -62,7 +62,7 @@ HRESULT CMiiNose::Render()
 	if (FAILED(m_pRectBuffer->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShader->Begin(VTS_COLOR)))
+	if (FAILED(m_pShader->Begin(VTS_ACTOR_COLOR)))
 		return E_FAIL;
 
 	if (FAILED(m_pRectBuffer->Begin_Draw()))

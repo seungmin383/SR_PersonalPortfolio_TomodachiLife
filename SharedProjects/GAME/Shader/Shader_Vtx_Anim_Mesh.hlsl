@@ -36,6 +36,7 @@ struct VS_OUT
     float4 vNormal : NORMAL;
     float2 vTexcoord : TEXCOORD0;
     float4 vWorldPosition : TEXCOORD1;
+    float4 vProjpos : TEXCOORD2;
 };
 
 
@@ -61,6 +62,7 @@ VS_OUT VS_MAIN(VS_IN In)
     Out.vNormal = normalize(mul(float4(In.vNormal, 0.f), g_WorldMatrix));
     Out.vTexcoord = In.vTexcoord;
     Out.vWorldPosition = mul(vPosition, g_WorldMatrix);
+    Out.vProjpos = Out.vPosition;
     
     return Out;
 }
@@ -71,6 +73,7 @@ struct PS_IN
     float4 vNormal : NORMAL;
     float2 vTexcoord : TEXCOORD0;
     float4 vWorldPosition : TEXCOORD1;
+    float4 vProjpos : TEXCOORD2;
 };
 
 struct PS_OUT
@@ -103,7 +106,7 @@ PS_OUT PS_MAIN(PS_IN In)
     
     Out.vDiffuse = float4(vFinalColor += 0.1f, fAlpha);
     Out.vNormal = float4(vN * 0.5f + 0.5f, 0.f);
-    Out.vDepth = float4(In.vPosition.z / In.vPosition.w, In.vPosition.w / 1000.f, 0.f, 0.f);
+    Out.vDepth = float4(In.vProjpos.z / In.vProjpos.w, In.vProjpos.w / 1000.f, 0.f, 0.f);
     Out.vPick = float4(In.vWorldPosition.xyz, 1.f);
     
     return Out;
@@ -117,12 +120,13 @@ PS_OUT PS_SHADOW(PS_IN In)
     
     float3 vNoneAlphaDiffuse = float3(vMtrlDiffuse.rgb);
     float fAlpha = vMtrlDiffuse.a;
+    fAlpha = 1.f;
     
     float3 vN = normalize(In.vNormal.xyz);
     
     Out.vDiffuse = float4(vNoneAlphaDiffuse * 2.f, fAlpha);
     Out.vNormal = float4(vN * 0.5f + 0.5f, 0.f);
-    Out.vDepth = float4(In.vPosition.z / In.vPosition.w, In.vPosition.w / 1000.f, 0.f, 0.f);
+    Out.vDepth = float4(In.vProjpos.z / In.vProjpos.w, In.vProjpos.w / 1000.f, 0.f, 0.f);
     Out.vPick = float4(In.vWorldPosition.xyz, 1.f);
     
     return Out;
@@ -142,7 +146,7 @@ PS_OUT PS_LIGHT(PS_IN In)
     
     Out.vDiffuse = float4(1.f - (vNoneAlphaDiffuse * 2.f), fAlpha / 3.f);
     Out.vNormal = float4(vN * 0.5f + 0.5f, 0.f);
-    Out.vDepth = float4(In.vPosition.z / In.vPosition.w, In.vPosition.w / 1000.f, 0.f, 0.f);
+    Out.vDepth = float4(In.vProjpos.z / In.vProjpos.w, In.vProjpos.w / 1000.f, 0.f, 0.f);
     Out.vPick = float4(In.vWorldPosition.xyz, 1.f);
     
     return Out;
@@ -170,7 +174,7 @@ PS_OUT PS_BRIGHTNESS(PS_IN In)
     
     Out.vDiffuse = float4(vFinalColor += 0.12f, fAlpha);
     Out.vNormal = float4(vN * 0.5f + 0.5f, 0.f);
-    Out.vDepth = float4(In.vPosition.z / In.vPosition.w, In.vPosition.w / 1000.f, 0.f, 0.f);
+    Out.vDepth = float4(In.vProjpos.z / In.vProjpos.w, In.vProjpos.w / 1000.f, 0.f, 0.f);
     Out.vPick = float4(In.vWorldPosition.xyz, 1.f);
     
     return Out;
@@ -202,7 +206,7 @@ PS_OUT PS_SEA(PS_IN In)
     
     Out.vDiffuse = float4(vFinalColor += 0.12f, fAlpha);
     Out.vNormal = float4(vN * 0.5f + 0.5f, 0.f);
-    Out.vDepth = float4(In.vPosition.z / In.vPosition.w, In.vPosition.w / 1000.f, 0.f, 0.f);
+    Out.vDepth = float4(In.vProjpos.z / In.vProjpos.w, In.vProjpos.w / 1000.f, 0.f, 0.f);
     Out.vPick = float4(In.vWorldPosition.xyz, 1.f);
     
     return Out;
@@ -239,7 +243,7 @@ PS_OUT PS_BODY(PS_IN In)
     
     Out.vDiffuse = float4(vFinalColor += 0.12f, fAlpha);
     Out.vNormal = float4(vN * 0.5f + 0.5f, 0.f);
-    Out.vDepth = float4(In.vPosition.z / In.vPosition.w, In.vPosition.w / 1000.f, 0.f, 0.f);
+    Out.vDepth = float4(In.vProjpos.z / In.vProjpos.w, In.vProjpos.w / 1000.f, 0.f, 0.f);
     Out.vPick = float4(In.vWorldPosition.xyz, 1.f);
     
     return Out;
@@ -273,7 +277,7 @@ technique11 DefaultTechnique
     {
         SetRasterizerState(RS_NoneCull);
         SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
@@ -284,7 +288,7 @@ technique11 DefaultTechnique
     {
         SetRasterizerState(RS_NoneCull);
         SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
@@ -295,7 +299,7 @@ technique11 DefaultTechnique
     {
         SetRasterizerState(RS_NoneCull);
         SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;
@@ -317,7 +321,7 @@ technique11 DefaultTechnique
     {
         SetRasterizerState(RS_NoneCull);
         SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = NULL;

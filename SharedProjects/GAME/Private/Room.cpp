@@ -36,7 +36,6 @@ int32_t CRoom::Update(_float fDT)
 	m_pModelCom->Set_Animation(0, TRUE);
 	m_pModelCom->Play_Animation(fDT);
 #else
-	m_pAnimationPlayer->Play_Animation(fDT);
 #endif
 	return UPDATE_CLEAR;
 }
@@ -101,11 +100,19 @@ HRESULT CRoom::Render()
 
 		if (FAILED(m_pSeModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", i, se_TextureType_DIFFUSE, 0)))
 			return E_FAIL;
-		if (FAILED(m_pSeModel->Bind_Bones(m_pShaderCom, "g_BoneMatrices", i)))
-			return E_FAIL;
-		if (FAILED(m_pShaderCom->Begin(VAMS_BRIGHTNESS)))
+		if (FAILED(m_pShaderCom->Begin(VMS_BRIGHTNESS2)))
 			return E_FAIL;
 		if (FAILED(m_pSeModel->Render_SeModel(i)))
+			return E_FAIL;
+	}
+
+	for (uint32_t index : ShadowMeshes)
+	{
+		if (FAILED(m_pSeModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", index, se_TextureType_DIFFUSE, 0)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Begin(VMS_BRIGHTNESS2)))
+			return E_FAIL;
+		if (FAILED(m_pSeModel->Render_SeModel(index)))
 			return E_FAIL;
 	}
 
@@ -113,9 +120,7 @@ HRESULT CRoom::Render()
 	{
 		if (FAILED(m_pSeModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", index, se_TextureType_DIFFUSE, 0)))
 			return E_FAIL;
-		if (FAILED(m_pSeModel->Bind_Bones(m_pShaderCom, "g_BoneMatrices", index)))
-			return E_FAIL;
-		if (FAILED(m_pShaderCom->Begin(VAMS_SHADOW)))
+		if (FAILED(m_pShaderCom->Begin(VMS_BRIGHTNESS2)))
 			return E_FAIL;
 		if (FAILED(m_pSeModel->Render_SeModel(index)))
 			return E_FAIL;
@@ -125,9 +130,7 @@ HRESULT CRoom::Render()
 	{
 		if (FAILED(m_pSeModel->Bind_Material(m_pShaderCom, "g_DiffuseTexture", index, se_TextureType_DIFFUSE, 0)))
 			return E_FAIL;
-		if (FAILED(m_pSeModel->Bind_Bones(m_pShaderCom, "g_BoneMatrices", index)))
-			return E_FAIL;
-		if (FAILED(m_pShaderCom->Begin(VAMS_LIGHT)))
+		if (FAILED(m_pShaderCom->Begin(VMS_BRIGHTNESS2)))
 			return E_FAIL;
 		if (FAILED(m_pSeModel->Render_SeModel(index)))
 			return E_FAIL;
@@ -142,7 +145,7 @@ HRESULT CRoom::Ready_Component()
 	uint32_t iStaticID = static_cast<uint32_t>(PLACEID::STATIC);
 
 	/* Shader */
-	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_VtxAnimMesh_Shader"), TEXT("Com_Shader"),
+	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_VtxMesh_Shader"), TEXT("Com_Shader"),
 		reinterpret_cast<CComponent**>(&m_pShaderCom), nullptr)))
 		return E_FAIL;
 
@@ -158,17 +161,6 @@ HRESULT CRoom::Ready_Component()
 		return E_FAIL;
 #endif
 
-	/* Animation Player */
-	{
-		CAnimationPlayer::ANIMATIONPLAYER_DESC Desc = {};
-		Desc.m_pBones = m_pSeModel->Get_BonesPtr();
-		Desc.strInitAnimTag = TEXT("Action");
-		Desc.PreTransformMatrix = m_pSeModel->Get_InitMatrix();
-
-		if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_AnimationPlayer"), TEXT("Com_AnimationPlayer"),
-			reinterpret_cast<CComponent**>(&m_pAnimationPlayer), &Desc)))
-			return E_FAIL;
-	}
 	return S_OK;
 }
 
@@ -212,7 +204,6 @@ CObject* CRoom::Clone(void* pArg)
 void CRoom::Free()
 {
 	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pAnimationPlayer);
 
 #ifdef LOADING_MODEL
 	Safe_Release(m_pModelCom);

@@ -29,7 +29,6 @@ private:
 	HRESULT Render_Top_NonBlend();
 
 	HRESULT Render_Top_Light();
-	HRESULT Render_Top_Combined();
 
 	HRESULT Render_Top_NonLight();
 
@@ -37,6 +36,7 @@ private:
 	HRESULT Render_Top_UI();
 	HRESULT Render_Top_UI_Blend();
 
+	HRESULT Render_Top_Combined();
 
 	/* BOTTOM */
 	HRESULT Render_Bottom_Priority();

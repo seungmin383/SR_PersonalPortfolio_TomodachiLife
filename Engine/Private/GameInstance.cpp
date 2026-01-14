@@ -315,6 +315,13 @@ HRESULT CGameInstance::Clear_Resources(uint32_t PlaceID)
 		return E_FAIL;
 	if (FAILED(m_pCollisionManager->Clear_Collides(PlaceID)))
 		return E_FAIL;
+	if (PlaceID == 12)
+		return S_OK;
+
+	if (FAILED(m_pLightManager->Clear_Light()))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 

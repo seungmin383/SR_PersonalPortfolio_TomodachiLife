@@ -550,6 +550,7 @@ void CSEMii::Thinking_About_Love(_float fDT)
 		{
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
 			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_LoveMethod_Button"));
+			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_LoveMethod_Button1"));
 		}
 
 		else if (m_fTalkingTimer_2 >= 1.f && CApartManager::GetInstance()->Get_iLoveMethod() != 0 && m_fTalkingTimer_3 < 1.f)
@@ -566,6 +567,7 @@ void CSEMii::Thinking_About_Love(_float fDT)
 		{
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
 			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_LovePlace_Button"));
+			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_LovePlace_Button1"));
 		}
 
 		else if (m_fTalkingTimer_3 >= 1.f && CApartManager::GetInstance()->Get_iLovePlace() != 0 && m_fTalkingTimer_4 < 1.f)
@@ -1063,7 +1065,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* Part_Head */
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("head");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_HeadSocketMatrices();
 
 		CSEMiiHead::SEMIIHEAD_DESC seHeadDesc = {};
 		seHeadDesc.vPos = XMFLOAT4{ -0.15f, 0.f, 0.f, 1.f };
@@ -1085,7 +1087,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* Part_Hair */
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("head");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_HeadSocketMatrices();
 
 		CSEMiiHair::SEMIIHAIR_DESC seHairDesc = {};
 		seHairDesc.vPos = XMFLOAT4{ -0.15f, 0.f, 0.f, 1.f };
@@ -1108,7 +1110,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	// ProtoTag_Actor_LevelUp_Item
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("R_handItem");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_LHandSocketMatrices();
 
 		CLevelUp_Item::LEVELUPITEM_DESC Desc = {};
 		Desc.vPos = XMFLOAT4{ 0.f, 0.1f, 0.5f, 1.f };
@@ -1129,10 +1131,10 @@ HRESULT CSEMii::Ready_PartObjects()
 	// ProtoTag_Actor_Food_Item
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("R_handItem");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_LHandSocketMatrices();
 
 		CFood_Item::FOODITEM_DESC Desc = {};
-		Desc.vPos = XMFLOAT4{ 0.f, 0.1f, 0.5f, 1.f };
+		Desc.vPos = XMFLOAT4{ 0.f, 0.f, -0.5f, 1.f };
 		Desc.fCX = 0.3f;
 		Desc.fCY = 0.3f;
 		Desc.fCZ = 0.3f;
@@ -1152,7 +1154,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* 0 ~ 59 */
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("head");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_HeadSocketMatrices();
 
 		CSEMiiEyes::SEMIIEYES_DESC seEyesDesc = {};
 		seEyesDesc.vPos = XMFLOAT4{ 0.18f, -0.12f, -0.23f, 1.f };
@@ -1187,7 +1189,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* 78 ~ 100 */
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("head");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_HeadSocketMatrices();
 
 		CSEMiiEyebrow::SEMIIEYEBROW_DESC seEyebrowDesc = {};
 		seEyebrowDesc.vPos = XMFLOAT4{ 0.25f, -0.1f, -0.23f, 1.f };
@@ -1219,7 +1221,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* 60 ~ 77 */
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("head");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_HeadSocketMatrices();
 
 		CSEMiiNose::SEMIINOSE_DESC seNoseDesc = {};
 		seNoseDesc.vPos = XMFLOAT4{ 0.1f, 0.f, -0.23f, 1.f };
@@ -1243,7 +1245,7 @@ HRESULT CSEMii::Ready_PartObjects()
 	/* 101 ~ 128 */
 	{
 		CPartObject* PartBody = Find_PartObject(TEXT("Part_Body"));
-		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_SocketMatrices("head");
+		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_HeadSocketMatrices();
 
 		CSEMiiMouth::SEMIIMOUTH_DESC seMouthDesc = {};
 		seMouthDesc.vPos = XMFLOAT4{ 0.f, 0.f, -0.23f, 1.f };

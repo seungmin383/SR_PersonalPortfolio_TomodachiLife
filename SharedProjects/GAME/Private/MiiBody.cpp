@@ -30,6 +30,7 @@ HRESULT CMiiBody::Initialize_Clone(void* pArg)
 	if (FAILED(Ready_Component()))
 		return E_FAIL;
 
+	m_pAnimationPlayer->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
 	return S_OK;
 }
 
@@ -45,7 +46,7 @@ int32_t CMiiBody::Update(_float fDT)
 
 void CMiiBody::Update_Late(_float fDT)
 {
-	m_pAnimationPlayer->Play_Animation(fDT);
+	m_pAnimationPlayer->Update(fDT);
 
 	SetUp_CombinedWorldMatrix(XMLoadFloat4x4(m_pParentMatrix));
 	CPartObject::Update_Late(fDT);
@@ -63,7 +64,7 @@ HRESULT CMiiBody::Render()
 			return E_FAIL;
 		if (FAILED(m_pSeModel->Bind_Bones(m_pShader, "g_BoneMatrices", i)))
 			return E_FAIL;
-		if (FAILED(m_pShader->Begin(0)))
+		if (FAILED(m_pShader->Begin(VAMS_BODY)))
 			return E_FAIL;
 		if (FAILED(m_pSeModel->Render_SeModel(i)))
 			return E_FAIL;

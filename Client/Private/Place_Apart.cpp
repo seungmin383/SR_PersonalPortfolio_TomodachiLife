@@ -77,7 +77,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 		Desc.fCZ = 0.05f;
 		Desc.fSpeedPerSecond = 10.f;
 		Desc.vPos = XMFLOAT4{ 0.f, 0.f, 0.f , 1.f };
-		Desc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		Desc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_Actor_Room"), &Desc);
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_Actor"), tmp)))
@@ -96,7 +96,7 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 			CMiiManager::GetInstance()->Set_CurMiiIndex(i);
 
 			CSEMii::MII_DESC Desc = {};
-			Desc.vPos = XMFLOAT4{0.f, 0.f, 0.f, 1.f };
+			Desc.vPos = XMFLOAT4{0.f, 0.f, 2.f, 1.f };
 			Desc.fCX = 1.5f;
 			Desc.fCY = 1.5f;
 			Desc.fCZ = 1.5f;
@@ -290,6 +290,27 @@ HRESULT CPlace_Apart::Ready_UI_Layer()
 
 HRESULT CPlace_Apart::Ready_Environment_Layer()
 {
+	LIGHT_DESC Desc = {};
+	Desc.eType = LIGHT_TYPE::DIRECTIONAL;
+	Desc.vDir = _float4(1.5f, -1.f, 3.5f, 0.f);
+
+	Desc.vDiffuse = _float4(0.55f, 0.62f, 0.80f, 1.0f);
+	Desc.vAmbient = _float4(0.5f, 0.5f, 0.5f, 1.0f); // 그림자(비조명) 영역 들어올림
+	Desc.vSpecular = _float4(0.85f, 0.90f, 0.88f, 1.0f); // 과한 번쩍임만 살짝 완화
+
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+	
+
+	Desc.eType = LIGHT_TYPE::POINT;
+	Desc.vPos = _float4(0.f, 18.f, -20.f, 1.f);
+	Desc.fRange = 42.f;
+	Desc.vDiffuse = _float4(1.00f, 0.96f, 0.90f, 1.0f);
+	Desc.vAmbient = _float4(0.1f, 0.1f, 0.1f, 1.f);
+	Desc.vSpecular = _float4(0.1f, 0.1f, 0.1f, 1.f);
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

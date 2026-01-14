@@ -21,6 +21,9 @@ public:
 private:
 	LIGHT_DESC m_LightDesc = {};
 
+	_bool m_is = { FALSE };
+	_bool m_Turn = { FALSE };
+
 public:
 	static CLight* Create(const LIGHT_DESC& LightDesc);
 	virtual void Free()override;

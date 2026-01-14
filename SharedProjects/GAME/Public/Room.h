@@ -52,7 +52,6 @@ private:
 	CShaderCom* m_pShaderCom = { nullptr };
 	CModel* m_pModelCom = { nullptr };
 	CSEModel* m_pSeModel = { nullptr };
-	CAnimationPlayer* m_pAnimationPlayer = { nullptr };
 
 	CSEMii* m_pOwner = { nullptr };
 

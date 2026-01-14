@@ -49,12 +49,14 @@
             1.0957976579666138,
             0.443128764629364
         ],
-        "FriendIndexList": [],
+        "FriendIndexList": [
+            13
+        ],
         "Fullness": 0,
         "LastName": "여자1",
-        "Level": 0.0,
+        "Level": 0.30000001192092896,
         "LoveMiiIndex": -1,
-        "Needs": 0,
+        "Needs": 3,
         "NickName": "여자1",
         "Personal": -20,
         "RoomIndex": 0,

@@ -59,6 +59,8 @@ namespace Game
 	/* g_Ratio */
 #define VTS_ALPHA_FADE 10
 
+#define VTS_ACTOR_DEFAULT 11
+#define VTS_ACTOR_COLOR 12
 
 
 

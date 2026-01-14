@@ -17,8 +17,6 @@ HRESULT CApartManager::Save_ApartData()
 	nlohmann::json j = m_ApartInfo.ToJson();
 	Out << j.dump(4);
 
-	MSG_BOX("Success Save : Apart");
-
 
 	return S_OK;
 }

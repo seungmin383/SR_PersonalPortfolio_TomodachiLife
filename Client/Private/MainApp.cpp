@@ -104,11 +104,7 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	// 다 지우고 다음 씬으로 넘어가고 싶다.
-	if (FAILED(m_pGameInstance->PlaceManager_Change_Place(static_cast<uint32_t>(PLACEID::LOADING),
-		CPlace_Loading::Create(						
-			m_pDevice,
-			m_pContext,
-			PLACEID::ISLAND))))	
+	if (FAILED(m_pGameInstance->PlaceManager_Change_Place(static_cast<uint32_t>(PLACEID::LOADING),	CPlace_Loading::Create(	m_pDevice,	m_pContext,	PLACEID::ISLAND))))	
 		return E_FAIL;
 
 
@@ -441,12 +437,12 @@ HRESULT CMainApp::Ready_Static_Model()
 			_string strSaveName		= "room" + to_string(i);
 
 #ifdef _DEBUG
-			tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, strFilePath.c_str(), InitMatrix, strSaveName.c_str());
+			tmp = CModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, strFilePath.c_str(), InitMatrix, strSaveName.c_str());
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, wstrProtoTag, tmp)))
 				return E_FAIL;
 #endif 
 
-			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::ANIM, strSaveName.c_str(), InitMatrix);
+			tmp = CSEModel::Create(m_pDevice, m_pContext, ANIM_TYPE::NONEANIM, strSaveName.c_str(), InitMatrix);
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iPlaceID, wstrSeProtoTag, tmp)))
 				return E_FAIL;
 		}

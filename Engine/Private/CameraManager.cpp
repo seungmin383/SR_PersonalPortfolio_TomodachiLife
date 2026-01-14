@@ -102,10 +102,7 @@ HRESULT CCameraManager::Bind_Matrix_Inv(CShaderCom* pShader, const _char* Consta
 	return S_OK;
 }
 
-HRESULT CCameraManager::Bind_Camera_Pos(
-	CShaderCom* pShader, 
-	const _char* pConstantName,
-	const _wstring CameraTag)
+HRESULT CCameraManager::Bind_Camera_Pos(CShaderCom* pShader, const _char* pConstantName, const _wstring CameraTag)
 {
 	auto iter = m_Cameras.find(CameraTag);
 

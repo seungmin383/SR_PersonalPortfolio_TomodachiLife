@@ -39,6 +39,11 @@ HRESULT CSEMiiBody::Initialize_Clone(void* pArg)
 		return E_FAIL;
 
 	m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
+
+	m_HeadSoketMatrices.resize(10);
+	m_LHandSoketMatrices.resize(10);
+
+	
 	return S_OK;
 }
 
@@ -326,13 +331,23 @@ const XMFLOAT4X4* CSEMiiBody::Get_SocketMatrix(const _char* pBoneName)
 	return m_pSeModel[*m_pParentClothState]->Get_BoneCombinedTransformMatrixPtr(pBoneName);
 }
 
-vector<const XMFLOAT4X4*>* CSEMiiBody::Get_SocketMatrices(const _char* pBoneName)
+vector<const XMFLOAT4X4*>* CSEMiiBody::Get_HeadSocketMatrices()
+{
+
+	for (uint32_t i = 0; i < 9; ++i)
+	{
+		m_HeadSoketMatrices[i] = (m_pSeModel[i]->Get_BoneCombinedTransformMatrixPtr("head"));
+	}
+	return &m_HeadSoketMatrices;
+}
+
+vector<const XMFLOAT4X4*>* CSEMiiBody::Get_LHandSocketMatrices()
 {
 	for (uint32_t i = 0; i < 9; ++i)
 	{
-		m_SoketMatrices.push_back(m_pSeModel[i]->Get_BoneCombinedTransformMatrixPtr(pBoneName));
+		m_LHandSoketMatrices[i] = (m_pSeModel[i]->Get_BoneCombinedTransformMatrixPtr("L_handItem"));
 	}
-	return &m_SoketMatrices;
+	return &m_LHandSoketMatrices;
 }
 
 _bool CSEMiiBody::Get_isFin_Macro() const

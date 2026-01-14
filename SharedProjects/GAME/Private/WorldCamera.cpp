@@ -39,35 +39,35 @@ int32_t CWorldCamera::Update_Priority(_float fDT)
 
 int32_t CWorldCamera::Update(_float fDT)
 {
-	XMFLOAT4 tmp = {};
-	XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
+	//XMFLOAT4 tmp = {};
+	//XMStoreFloat4(&tmp, m_pTransformCom->Get_State(TRANSFORM_STATE::POS));
 
-	cout << "X : " << tmp.x << " Y : " << tmp.y << " Z : " << tmp.z << endl;
+	//cout << "X : " << tmp.x << " Y : " << tmp.y << " Z : " << tmp.z << endl;
 
-	if (m_pGameInstance->Get_DIKeyState(DIK_UP))
-	{
-		m_pTransformCom->Go_Straight(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
-	{
-		m_pTransformCom->Go_Backward(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
-	{
-		m_pTransformCom->Go_Right(fDT);
-	}
-	if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
-	{
-		m_pTransformCom->Go_Left(fDT);
-	}	
-	if (m_pGameInstance->Get_DIKeyState(DIK_U))
-	{
-		m_pTransformCom->Go_Up(fDT);
-	}	
-	if (m_pGameInstance->Get_DIKeyState(DIK_J))
-	{
-		m_pTransformCom->Go_Down(fDT);
-	}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_UP))
+	//{
+	//	m_pTransformCom->Go_Straight(fDT);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_DOWN))
+	//{
+	//	m_pTransformCom->Go_Backward(fDT);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_RIGHT))
+	//{
+	//	m_pTransformCom->Go_Right(fDT);
+	//}
+	//if (m_pGameInstance->Get_DIKeyState(DIK_LEFT))
+	//{
+	//	m_pTransformCom->Go_Left(fDT);
+	//}	
+	//if (m_pGameInstance->Get_DIKeyState(DIK_U))
+	//{
+	//	m_pTransformCom->Go_Up(fDT);
+	//}	
+	//if (m_pGameInstance->Get_DIKeyState(DIK_J))
+	//{
+	//	m_pTransformCom->Go_Down(fDT);
+	//}
 
 	return 0;
 }

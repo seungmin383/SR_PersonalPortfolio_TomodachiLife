@@ -121,7 +121,8 @@ HRESULT CPlace_Room::Ready_Actor_Layer()
 			return E_FAIL;
 		}
 	}
-
+//X: -4.1 Y : 0.1 Z : 38.4 fRange : 1.4
+//X : -0.0999991 Y : 14.6 Z : -19.6003 fRange : 2.4
 	// ProtoTag_Actor_seMii
 	{
 		CSEMii::MII_DESC Desc = {};
@@ -207,7 +208,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 	}
 
 	/* 인벤토리 뒷 배경 */
-	// LayerTag_UI_PlayerInven_BackGround
+	// ALayerTag_UI_zPlayerInven_BackGround
 	{
 		CBlueBackGround::BLUEBACKGORUND_DESC Desc = {};
 		Desc.fX		= 480.f;
@@ -223,7 +224,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		if (nullptr == tmp)
 			return E_FAIL;
 
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_PlayerInven_BackGround"), tmp)))
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("ALayerTag_UI_zPlayerInven_BackGround"), tmp)))
 			return E_FAIL;
 	}
 
@@ -272,7 +273,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 
 		strgyDesc.strLayerTag = TEXT("LayerTag_UI_Enter_Inventory_Button");
 		strgyDesc.EnableLayers = vector<_wstring>{
-			TEXT("LayerTag_UI_PlayerInven_BackGround"),
+			TEXT("ALayerTag_UI_zPlayerInven_BackGround"),
 			TEXT("LayerTag_UI_Category_Button"),
 			TEXT("LayerTag_UI_Sub_Category_Button_Food"),
 			TEXT("LayerTag_UI_PlayerInven_Food_Main"),
@@ -344,7 +345,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		};
 
 		strgyDesc.DisableLayers = vector<_wstring>{
-			TEXT("LayerTag_UI_PlayerInven_BackGround"),
+			TEXT("ALayerTag_UI_zPlayerInven_BackGround"),
 			// 카테고리 버튼
 			TEXT("LayerTag_UI_Category_Button"),
 
@@ -434,7 +435,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		_wstring DisableLayers[] =
 		{
 			// 배경/공통
-			TEXT("LayerTag_UI_PlayerInven_BackGround"),
+			TEXT("ALayerTag_UI_zPlayerInven_BackGround"),
 
 			// 카테고리 버튼
 			TEXT("LayerTag_UI_Category_Button"),
@@ -466,7 +467,9 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 
 			TEXT("LayerTag_UI_Love_Button"),
 			TEXT("LayerTag_UI_LoveMethod_Button"),
+			TEXT("LayerTag_UI_LoveMethod_Button1"),
 			TEXT("LayerTag_UI_LovePlace_Button"),
+			TEXT("LayerTag_UI_LovePlace_Button1"),
 		};
 
 
@@ -481,6 +484,15 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 
 HRESULT CPlace_Room::Ready_Environment_Layer()
 {
+	LIGHT_DESC Desc = {};
+	Desc.eType = LIGHT_TYPE::DIRECTIONAL;
+	Desc.vDir = _float4(0.5f, 1.f, 4.9f, 0.f);
+	Desc.vDiffuse = _float4(1.00f, 1.f, 1.f, 1.0f);
+	Desc.vAmbient = _float4(0.20f, 0.17f, 0.10f, 1.0f);
+	Desc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -810,7 +822,9 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 			strgyDesc.ePlaceID = PLACEID::ROOM;
 			strgyDesc.strLayerTag = TEXT("LayerTag_UI_Love_Button");
 			strgyDesc.EnableLayers = vector<_wstring>{};
-			strgyDesc.DisableLayers = vector<_wstring>{ TEXT("LayerTag_UI_Love_Button"), };
+			strgyDesc.DisableLayers = vector<_wstring>{ 
+				TEXT("LayerTag_UI_Love_Button"), 
+			};
 			Desc.pSelected_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
 			Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 
@@ -824,7 +838,7 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 			{
 				Desc.strText = TEXT("그건 안 돼!");
 				Desc.pClicked_Strgy = CSetLove_Strgy::Create(m_pDevice, m_pContext, FALSE);
-				Desc.fY = 240.f + (Desc.fCY * 0.6f);
+				Desc.fY = 240.f + (Desc.fCY * 0.6f); 
 			}
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Category_Button"), &Desc);
@@ -866,12 +880,15 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 				Desc.fX = vPosArr[i].x;
 				Desc.fY = vPosArr[i].y;
 				Desc.strText = strTextArr[i];
-
+				Desc.fZ = 0.1f;
 				CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
 				strgyDesc.ePlaceID			= PLACEID::ROOM;
 				strgyDesc.strLayerTag		= TEXT("LayerTag_UI_LoveMethod_Button");
 				strgyDesc.EnableLayers		= vector<_wstring>{};
-				strgyDesc.DisableLayers		= vector<_wstring>{ TEXT("LayerTag_UI_LoveMethod_Button"), };
+				strgyDesc.DisableLayers		= vector<_wstring>{ 
+					TEXT("LayerTag_UI_LoveMethod_Button"), 
+					TEXT("LayerTag_UI_LoveMethod_Button1"), 
+				};
 				Desc.pSelected_Strgy		= CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
 				Desc.pSelectedClick_Strgy	= CNull_Strgy::Create(m_pDevice, m_pContext);
 				Desc.pClicked_Strgy			= CSetLoveMethod_Strgy::Create(m_pDevice, m_pContext, i + 1);
@@ -879,7 +896,7 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 				if (nullptr == tmp)
 					return E_FAIL;
 
-				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_LoveMethod_Button"), tmp)))
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_LoveMethod_Button1"), tmp)))
 					return E_FAIL;
 			}
 
@@ -891,7 +908,7 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 				CYellowBackGround::YELLOWBACKGROUND_DESC Desc = {};
 				Desc.fX = 480.f;
 				Desc.fY = 240.f;
-				Desc.fZ = 0.4f;
+				Desc.fZ = 0.9f;
 				Desc.fCX = 960.f;
 				Desc.fCY = 480.f;
 				Desc.fSpeedPerSecond = 0.f;
@@ -931,15 +948,20 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 
 			for (uint32_t i = 0; i < 6; ++i)
 			{
+
 				Desc.fX = vPosArr[i].x;
 				Desc.fY = vPosArr[i].y;
+				Desc.fZ = 0.9f;
 				Desc.strText = strTextArr[i];
 
 				CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
 				strgyDesc.ePlaceID = PLACEID::ROOM;
 				strgyDesc.strLayerTag = TEXT("LayerTag_UI_LovePlace_Button");
 				strgyDesc.EnableLayers = vector<_wstring>{};
-				strgyDesc.DisableLayers = vector<_wstring>{ TEXT("LayerTag_UI_LovePlace_Button"), };
+				strgyDesc.DisableLayers = vector<_wstring>{ 
+					TEXT("LayerTag_UI_LovePlace_Button"), 
+					TEXT("LayerTag_UI_LovePlace_Button1"), 
+				};
 				Desc.pSelected_Strgy = CControlEnable_Strgy::Create(m_pDevice, m_pContext, strgyDesc);
 				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 				Desc.pClicked_Strgy = CSetLovePlace_Strgy::Create(m_pDevice, m_pContext, i + 1);
@@ -947,7 +969,7 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 				if (nullptr == tmp)
 					return E_FAIL;
 
-				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_LovePlace_Button"), tmp)))
+				if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_LovePlace_Button1"), tmp)))
 					return E_FAIL;
 			}
 
@@ -959,7 +981,7 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 				CYellowBackGround::YELLOWBACKGROUND_DESC Desc = {};
 				Desc.fX = 480.f;
 				Desc.fY = 240.f;
-				Desc.fZ = 0.4f;
+				Desc.fZ = 0.1f;
 				Desc.fCX = 960.f;
 				Desc.fCY = 480.f;
 				Desc.fSpeedPerSecond = 0.f;
@@ -1591,7 +1613,7 @@ HRESULT CPlace_Room::Layer_UI_Option_Button()
 		};
 
 		strgyDesc.DisableLayers = vector<_wstring>{
-			TEXT("LayerTag_UI_PlayerInven_BackGround"),
+			TEXT("ALayerTag_UI_zPlayerInven_BackGround"),
 			// 카테고리 버튼
 			TEXT("LayerTag_UI_Category_Button"),
 

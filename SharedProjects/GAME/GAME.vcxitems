@@ -87,6 +87,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Store_Food.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TextBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Thinking_Button.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\TurnOffLight_Strgy.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Voice_Button.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\Wallet.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\YellowBackGround.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Store_Food.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TextBox.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Thinking_Button.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\TurnOffLight_Strgy.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Voice_Button.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\Wallet.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\YellowBackGround.h" />

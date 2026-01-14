@@ -74,7 +74,7 @@ HRESULT CPlace_ShowMii::Ready_Actor_Layer()
 		MiiDesc.fCY = 1.f;
 		MiiDesc.fCZ = 1.f;
 		MiiDesc.fSpeedPerSecond = 0.f;
-		MiiDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		MiiDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		MiiDesc.fRotationPerSecond = XMConvertToRadians(90.f);
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC),
@@ -160,6 +160,32 @@ HRESULT CPlace_ShowMii::Ready_Environment_Layer()
 {
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::SHOW_MII);
+
+	LIGHT_DESC Desc = {};
+	int a = CMiiManager::GetInstance()->Get_Edit_Profile().iPersonal;
+
+	if (CMiiManager::GetInstance()->Get_Edit_Profile().iPersonal >= 0)
+	{
+		Desc.eType = LIGHT_TYPE::DIRECTIONAL;
+		Desc.vDir = _float4(1.8f, -2.f, 3.f, 0.f);
+		Desc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.0f);
+		Desc.vAmbient = _float4(0.9f, 0.3f, 0.3f, 1.0f);
+		Desc.vSpecular = _float4(1.f, 1.f, 1.f, 1.0f);
+
+
+	}
+	else
+	{
+		Desc.eType = LIGHT_TYPE::DIRECTIONAL;
+		Desc.vDir = _float4(1.8f, -2.f, 3.f, 0.f);
+		Desc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.0f);
+		Desc.vAmbient = _float4(0.3f, 0.9f, 0.3f, 1.0f);
+		Desc.vSpecular = _float4(1.f, 1.f, 1.f, 1.0f);
+
+	}
+
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
 
 	return S_OK;
 }

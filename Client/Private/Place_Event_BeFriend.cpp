@@ -143,7 +143,28 @@ HRESULT CPlace_Event_BeFriend::Ready_Environment_Layer()
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::EVENT_BEFRIEND);
 
+
+	LIGHT_DESC Desc = {};
+	Desc.eType = LIGHT_TYPE::DIRECTIONAL;
+	Desc.vDir = _float4(-1.6f, 1.28f, -1.f, 0.f);
+	Desc.vDiffuse = _float4(0.55f, 0.62f, 0.80f, 1.0f);
+	Desc.vAmbient = _float4(0.5f, 0.5f, 0.5f, 1.f);
+	Desc.vSpecular = _float4(0.f, 0.f, 0.f, 1.f);
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
+	/* Áý Á¶¸í */
+	Desc.eType = LIGHT_TYPE::POINT;
+	Desc.vPos = _float4(-6.8f, 27.7001f, 26.1f, 1.f);
+	Desc.fRange = 60.f;
+	Desc.vDiffuse = _float4(1.00f, 0.97f, 0.92f, 1.0f);
+	Desc.vAmbient = _float4(0.33f, 0.31f, 0.28f, 1.0f);
+	Desc.vSpecular = _float4(0.f, 0.f, 0.f, 1.0f);
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
 	return S_OK;
+
 }
 
 HRESULT CPlace_Event_BeFriend::Ready_Camera_Layer()

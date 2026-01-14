@@ -53,6 +53,20 @@ VS_OUT VS_MAIN(VS_IN In)
     return Out;
 }
 
+VS_OUT VS_SCREEN(VS_IN In)
+{
+    VS_OUT Out;
+
+    // Texcoord(0~1) -> Clip(-1~1)
+    float2 ndc;
+    ndc.x = In.vTexcoord.x * 2.f - 1.f;
+    ndc.y = In.vTexcoord.y * (-2.f) + 1.f;
+
+    Out.vPosition = float4(ndc, 0.f, 1.f);
+    Out.vTexcoord = In.vTexcoord;
+    return Out;
+}
+
 struct PS_IN
 {
     float4 vPosition : SV_POSITION;
@@ -114,70 +128,72 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONAL_LIGHT(PS_IN In)
     /* 깊이값으로 월드위치 추론 */
     /* 픽셀들의 Texcoord상의 좌표 즉 뷰포트상의 좌표 -> NDC좌표계로 변환 */
     vector vWorldPos;
-    vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
-    vWorldPos.y = In.vTexcoord.y * (-2.f) + 1.f;
-    vWorldPos.z = vDepthDesc.x;
-    vWorldPos.w = 1.f;
+    float3 vNDCPos;
+    float fViewZ;
     
-    /* NDC좌표계 -> 클립 스페이스로 변환 */
+    /* Texcoord -> NDC */
+    vNDCPos.x = In.vTexcoord.x * 2.f - 1.f;
+    vNDCPos.y = In.vTexcoord.y * (-2.f) + 1.f;
+    vNDCPos.z = vDepthDesc.x;
+    
+    
+    
+    /* NDC -> Clip */
     float w = vDepthDesc.y * 1000.f;
-    vWorldPos *= w;
+    float4 vClipPos;
+    vClipPos.xyz = vNDCPos * w;
+    vClipPos.w = w;
     
-    /* 클립 스페이스 -> 뷰 스페이스 */
-    vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+    /* Clip -> View */
+    float4 vViewPos;
+    vViewPos = mul(float4(vClipPos), g_ProjMatrixInv);
+    vViewPos /= vViewPos.w;
     
-    /* 뷰 스페이스 -> 월드 스페이스 */
-    vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+    /* View -> World */
+    vWorldPos = mul(vViewPos, g_ViewMatrixInv);
     
     float4 vLook = vWorldPos - g_vCamPosition;
     Out.vSpecular = pow(max(dot((normalize(vReflect) * -1.f), normalize(vLook)), 0.f), 50.f) * (g_vLightSpecular * g_vMtrlSpecular);
     return Out;
 }
 
+
+
+
+
+
+
 PS_OUT_LIGHT PS_MAIN_POINT_LIGHT(PS_IN In)
 {
     PS_OUT_LIGHT Out;
- 
-    float4 vNormalDesc = g_NormalTexture.Sample(DefaultSampler, In.vTexcoord);
-   
-    /* 0 ~ 1로 보간된 노말을 다시 World 노말로 복원 */
+    float4 vNormalDesc = g_NormalTexture.Sample(DefaultSampler, In.vTexcoord); /* 0 ~ 1로 보간된 노말을 다시 World 노말로 복원 */
     float4 vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
-   
-    float4 vDepthDesc = g_DepthTexture.Sample(DefaultSampler, In.vTexcoord);
+    float4 vDepthDesc = g_DepthTexture.Sample(DefaultSampler, In.vTexcoord); /* 깊이값으로 월드위치 추론 */ /* 픽셀들의 Texcoord상의 좌표 즉 뷰포트상의 좌표 -> NDC좌표계로 변환 */
     
-    /* 깊이값으로 월드위치 추론 */
-    /* 픽셀들의 Texcoord상의 좌표 즉 뷰포트상의 좌표 -> NDC좌표계로 변환 */
-    float4 vWorldPos;
-    vWorldPos.x = In.vTexcoord.x * 2.f - 1.f;
-    vWorldPos.y = In.vTexcoord.y * (-2.f) + 1.f;
-    vWorldPos.z = vDepthDesc.x;
-    vWorldPos.w = 1.f;
-    
-    /* NDC좌표계 -> 클립 스페이스로 변환 */
+    vector vWorldPos;
+    float3 vNDCPos;
+    float fViewZ; /* Texcoord -> NDC */
+    vNDCPos.x = In.vTexcoord.x * 2.f - 1.f;
+    vNDCPos.y = In.vTexcoord.y * (-2.f) + 1.f;
+    vNDCPos.z = vDepthDesc.x; /* NDC -> Clip */
     float w = vDepthDesc.y * 1000.f;
-    vWorldPos *= w;
-    
-    /* 클립 스페이스 -> 뷰 스페이스 */
-    vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
-    
-    /* 뷰 스페이스 -> 월드 스페이스 */
-    vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
-    
-    float4 vLightDir = vWorldPos - g_vLightPos;
-    float fDistance = length(vLightDir);
-    
-    float fAtt = saturate((g_fLightRange - fDistance) / g_fLightRange);
-    
-    float4 vShade = max(dot((normalize(vLightDir) * -1.f), vNormal), 0) + (g_vLightAmbient * g_vMtrlAmbient);
-    Out.vShade = g_vLightDiffuse * vShade * fAtt;
-    
-    float4 vReflect = reflect(normalize(vLightDir), vNormal);
-    vector vLook = vWorldPos - g_vCamPosition;
-    Out.vSpecular = fAtt * ((g_vLightSpecular * g_vMtrlSpecular) * pow(max(dot(normalize(vReflect) * -1.f, normalize(vLook)), 0.f), 50.f));
-
-    
-    return Out;
-}
+    float4 vClipPos;
+    vClipPos.xyz = vNDCPos * w;
+    vClipPos.w = w; /* Clip -> View */
+    float4 vViewPos;
+    vViewPos = mul(float4(vClipPos), g_ProjMatrixInv);
+    vViewPos /= vViewPos.w; /* View -> World */
+    vWorldPos = mul(vViewPos, g_ViewMatrixInv);
+    float3 vLightDir = vWorldPos.xyz - g_vLightPos.xyz;
+    float fDistance = length(vLightDir); //float fAtt = saturate((g_fLightRange - fDistance) / g_fLightRange); 
+    float inner = g_fLightRange * 0.25f; // 중심부(항상 밝게 유지할 구간) 
+    float outer = g_fLightRange; float x = saturate((outer - fDistance) / (outer - inner)); // inner 안쪽은 1에 가까움 
+    float fAtt = pow(x, 6.0f); 
+    float4 vShade = max(dot((normalize(float4(vLightDir.xyz, 0.f)) * -1.f), vNormal), 0) + (g_vLightAmbient * g_vMtrlAmbient);
+    Out.vShade = g_vLightDiffuse * vShade * fAtt; float4 vReflect = reflect(normalize(float4(vLightDir.xyz, 0.f)), vNormal); 
+    vector vLook = vWorldPos - g_vCamPosition; Out.vSpecular = fAtt * ((g_vLightSpecular * g_vMtrlSpecular) * pow(max(dot(normalize(vReflect) * -1.f, normalize(vLook)), 0.f), 50.f));
+    return Out; 
+    }
 
 technique11 DefaultTechnique
 {

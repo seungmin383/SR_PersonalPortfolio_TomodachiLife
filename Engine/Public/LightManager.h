@@ -18,6 +18,7 @@ public:
 public:
 	HRESULT Add_Light(const LIGHT_DESC& eLight);
 	void Render_Light(CShaderCom* pShader, CRectBufferCom* pBuffer);
+	HRESULT Clear_Light();
 
 private:
 	list<CLight*> m_Lights;

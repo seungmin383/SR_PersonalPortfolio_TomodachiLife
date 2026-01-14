@@ -55,10 +55,7 @@ private:
 	uint32_t m_iTextureIndex = {};
 
 public:
-	static CFood_Item* Create(
-		ID3D11Device* pDevice,
-		ID3D11DeviceContext* pContext);
-
+	static CFood_Item* Create(ID3D11Device* pDevice,ID3D11DeviceContext* pContext);
 	virtual CObject* Clone(void* pArg)override;
 	virtual void Free()override;
 };

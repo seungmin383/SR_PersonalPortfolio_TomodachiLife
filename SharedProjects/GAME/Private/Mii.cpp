@@ -130,7 +130,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiHeadDesc.fCZ = 0.1f;
 		MiiHeadDesc.fRotationPerSecond = XMConvertToRadians(90.f);
 		MiiHeadDesc.fSpeedPerSecond = 3.f;
-		MiiHeadDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		MiiHeadDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		MiiHeadDesc.pSocketMatrix = BodySockeMatrix;
 		MiiHeadDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
@@ -156,7 +156,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiEyesDesc.fSpeedPerSecond = 10.f;
 		MiiEyesDesc.pParentState = &m_iState;
 		MiiEyesDesc.pSocketMatrix = BodySockeMatrix;
-		MiiEyesDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		MiiEyesDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		MiiEyesDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		MiiEyesDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
@@ -188,7 +188,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiEyebrowDesc.fSpeedPerSecond = 10.f;
 		MiiEyebrowDesc.pParentState = &m_iState;
 		MiiEyebrowDesc.pSocketMatrix = BodySockeMatrix;
-		MiiEyebrowDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		MiiEyebrowDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		MiiEyebrowDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		MiiEyebrowDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
@@ -217,7 +217,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiNoseDesc.fSpeedPerSecond = 10.f;
 		MiiNoseDesc.pParentState = &m_iState;
 		MiiNoseDesc.pSocketMatrix = BodySockeMatrix;
-		MiiNoseDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		MiiNoseDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		MiiNoseDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		MiiNoseDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 
@@ -239,7 +239,7 @@ HRESULT CMii::Ready_PartObjects()
 		MiiMouthDesc.fSpeedPerSecond = 10.f;
 		MiiMouthDesc.pParentState = &m_iState;
 		MiiMouthDesc.pSocketMatrix = BodySockeMatrix;
-		MiiMouthDesc.eRenderGroup = RENDER_GROUP::TOP_BLEND;
+		MiiMouthDesc.eRenderGroup = RENDER_GROUP::TOP_NONBLEND;
 		MiiMouthDesc.fRotationPerSecond = XMConvertToRadians(30.f);
 		MiiMouthDesc.pParnetMatrix = m_pTransformCom->Get_WorldMatrixPtr();
 

@@ -261,7 +261,24 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 
 HRESULT CPlace_CityHall::Ready_Environment_Layer()
 {
-	return S_OK;
+	LIGHT_DESC Desc = {};
+	Desc.eType = LIGHT_TYPE::DIRECTIONAL;
+	Desc.vDir = _float4(-0.f, 1.f, 3.f, 0.f);
+	Desc.vDiffuse = _float4(1.00f, 0.86f, 0.55f, 1.0f);
+	Desc.vAmbient = _float4(0.20f, 0.17f, 0.10f, 1.0f);
+	Desc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
+
+	Desc.eType = LIGHT_TYPE::POINT;
+	Desc.vPos = _float4(4.f, 14.5f, -58.f, 1.f);
+	Desc.fRange = 1.f;
+	Desc.vDiffuse = _float4(1.f, 0.f, 0.f, 1.0f);
+	Desc.vAmbient = _float4(0.1f, 0.1f, 0.1f, 1.f);
+	Desc.vSpecular = Desc.vDiffuse;
+
+	if (FAILED(m_pGameInstance->LightManager_Add_Light(Desc)))
+		return E_FAIL;
 }
 
 HRESULT CPlace_CityHall::Ready_Camera_Layer()

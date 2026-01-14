@@ -12,14 +12,8 @@ CFood_Item::CFood_Item(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 }
 
 CFood_Item::CFood_Item(const CFood_Item& rhs)
-	:CPartObject(rhs),
-	m_pShaderCom(rhs.m_pShaderCom),
-	m_pTextureCom(rhs.m_pTextureCom),
-	m_pRectBufferCom(rhs.m_pRectBufferCom)
+	:CPartObject(rhs)
 {
-	Safe_AddRef(m_pShaderCom);
-	Safe_AddRef(m_pTextureCom);
-	Safe_AddRef(m_pRectBufferCom);
 }
 
 HRESULT CFood_Item::Initialize_Origin()
@@ -77,7 +71,6 @@ HRESULT CFood_Item::Render()
 	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::ATE_FOOD))
 		return S_OK;;
 
-	__super::Render();
 
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
@@ -85,7 +78,7 @@ HRESULT CFood_Item::Render()
 	if (FAILED(m_pRectBufferCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Begin(VTS_DEFAULT_BLENDING)))
+	if (FAILED(m_pShaderCom->Begin(VTS_ACTOR_DEFAULT)))
 		return E_FAIL;
 
 	if (FAILED(m_pRectBufferCom->Begin_Draw()))
