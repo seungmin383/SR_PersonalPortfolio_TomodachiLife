@@ -162,6 +162,7 @@ int32_t CPlaceMoveButton::On_Click()
 
 		if (m_isClicked)
 		{
+			m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_EnterApart"), SOUND_CHANNEL::NONE_STOP_SFX, 1.f);
 			m_pSelectedClick_Strgy->OnClick();
 		}
 	}
@@ -169,6 +170,7 @@ int32_t CPlaceMoveButton::On_Click()
 	{
 		if (m_isClicked)
 		{
+			m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_PlaceMoveButton"), SOUND_CHANNEL::SFX, 1.f);
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;
 		}

@@ -241,6 +241,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		Desc.pClicked_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::APART);
 		Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.strSoundTag = TEXT("SFX_Button_Cancle_Exit");
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Back_Button"), &Desc);
 		if (nullptr == tmp)
@@ -263,6 +264,8 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		Desc.fX = 60.f;
 		Desc.fY = 30.f;
 		Desc.fZ = 0.5f;
+		Desc.strSoundTag = TEXT("SFX_Button_Click");
+
 
 		CIconTexture::ICONTEXTURE_DESC IconDesc = {};
 		IconDesc.eRenderGroup = Desc.eRenderGroup;
@@ -330,6 +333,7 @@ HRESULT CPlace_Room::Ready_UI_Layer()
 		Desc.fX = 50.f;
 		Desc.fY = 446.f;
 		Desc.fZ = 0.5f;
+		Desc.strSoundTag = TEXT("SFX_Button_Cancle");
 
 		CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
 		strgyDesc.ePlaceID = PLACEID::ROOM;

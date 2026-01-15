@@ -417,6 +417,7 @@ HRESULT CPlace_FoodStore::Layer_UI_BackButton()
 		Desc.pClicked_Strgy = CSetFoodIndex_Strgy::Create(m_pDevice, m_pContext, 0);
 		Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
 		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.strSoundTag = TEXT("SFX_Button_Cancle_Exit");
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Back_Button"), &Desc);
 		if (nullptr == tmp)
@@ -449,6 +450,7 @@ HRESULT CPlace_FoodStore::Layer_UI_Option_Button()
 		Desc.pClicked_Strgy = CBuyFood_Strgy::Create(m_pDevice, m_pContext);
 		Desc.pSelected_Strgy = CDeactive_Strgy::Create(m_pDevice, m_pContext, PLACEID::FOOD_STORE, TEXT("LayerTag_UI_Buy_Button"));
 		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.strSoundTag = TEXT("SFX_Buy");
 
 		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Option_Button"), &Desc);
 		if (nullptr == tmp)

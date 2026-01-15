@@ -134,6 +134,7 @@ int32_t CPageButton::On_Click()
 	{
 		if (m_isClicked)
 		{
+			m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_MiiEdit_Tab"), SOUND_CHANNEL::SFX_BUTTON, 1.f);
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;
 		}

@@ -56,6 +56,8 @@ private:
 	_wstring m_strText = {};
 	_bool m_isCommitted = { FALSE };
 
+	_bool m_isTyping = { FALSE };
+
 	/* 건물 이름 텍스쳐 인덱스 */
 	uint32_t m_iBuildingNameTextureIndex = {};
 	/* 선택된 장소 이동 버튼이 있는지 */

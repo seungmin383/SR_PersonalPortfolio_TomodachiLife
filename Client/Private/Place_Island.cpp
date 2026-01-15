@@ -168,6 +168,14 @@ int32_t CPlace_Island::Update(_float fDT)
 	swprintf_s(buf, L"FPS: %.1f", fps);   // 소수점 1자리
 	SetWindowTextW(g_hWnd, buf);
 
+
+	m_fTimer += fDT;
+	if (m_fTimer > 5.f)
+	{
+		m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_Owl"), SOUND_CHANNEL::SFX, 0.8f);
+		m_fTimer = 0.f;
+	}
+
 	return 0;
 }
 
@@ -873,6 +881,7 @@ HRESULT CPlace_Island::Ready_UI_Layer()
 		 Desc.fX = 50.f;
 		 Desc.fY = 446.f;
 		 Desc.fZ = 0.5f;
+		 Desc.strSoundTag = TEXT("SFX_PlaceMoveButton_Exit");
 
 		 CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgy_Desc = {};
 		 strgy_Desc.ePlaceID = PLACEID::ISLAND;

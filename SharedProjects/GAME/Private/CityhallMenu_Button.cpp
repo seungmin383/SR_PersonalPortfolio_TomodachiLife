@@ -34,6 +34,7 @@ HRESULT CCityhallMenu_Button::Initialize_Clone(void* pArg)
 	m_isSpecialMove = pDesc->isSpecialMove;
 
 	m_fTargetFadeTime = pDesc->fTargetFadeTime;
+	m_strSoundTag = pDesc->strSoundTag;
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
@@ -193,6 +194,7 @@ int32_t CCityhallMenu_Button::On_Click()
 	{
 		if (m_isClicked)
 		{
+			m_pGameInstance->SoundManager_Begin_Sound(m_strSoundTag, SOUND_CHANNEL::NONE_STOP_SFX, 1.f);
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;
 		}

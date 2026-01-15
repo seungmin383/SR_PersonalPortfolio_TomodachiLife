@@ -25,6 +25,9 @@ public:
 
 		_bool isSpecialMove = { FALSE };
 		_float TargetFadeTime;
+
+		_wstring strSoundTag = { L"" };
+
 	}CATEGORYBUTTON_DESC;
 
 private:
@@ -71,6 +74,9 @@ private:
 
 
 	XMFLOAT4 m_vFontSize = {};
+
+	_wstring m_strSoundTag = {};
+
 
 private:
 	_float m_fOriginX = {};

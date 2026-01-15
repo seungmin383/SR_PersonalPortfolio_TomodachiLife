@@ -23,6 +23,8 @@ public:
 
 		_wstring strText = {};
 
+		_wstring strSoundTag = { L"" };
+
 	}OPTIONBUTTON_DESC;
 
 private:
@@ -58,6 +60,8 @@ private:
 private:
 	_wstring m_strText = {};
 	XMFLOAT4 m_vFontSize = {};
+
+	_wstring m_strSoundTag = {};
 
 public:
 	static COption_Button* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

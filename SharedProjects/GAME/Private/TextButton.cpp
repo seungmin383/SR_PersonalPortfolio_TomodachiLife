@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "IOnClick.h"
 #include "MiiManager.h"
+#include "ApartManager.h"
 
 CTextButton::CTextButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CButton(pDevice, pContext)
@@ -58,19 +59,33 @@ int32_t CTextButton::Update(_float fDT)
 
 void CTextButton::Update_Late(_float fDT)
 {
-	m_strText = m_pGameInstance->ButtonManager_Get_Text();
 
 	switch (m_eTextType)
 	{
 	case Game::CTextButton::FIRSTNAME:
-		CMiiManager::GetInstance()->Get_Edit_Profile().strFirstName = WstrToStr(m_strText);
+		if (CApartManager::GetInstance()->Get_isFirst())
+		{
+			m_strFistName = m_pGameInstance->ButtonManager_Get_Text();
+			CMiiManager::GetInstance()->Get_Edit_Profile().strFirstName = WstrToStr(m_strFistName);
+		}
 		break;
+
 	case Game::CTextButton::LASTNAME:
-		CMiiManager::GetInstance()->Get_Edit_Profile().strLastName = WstrToStr(m_strText);
+		if (CApartManager::GetInstance()->Get_isLast())
+		{
+			m_strLastName = m_pGameInstance->ButtonManager_Get_Text();
+			CMiiManager::GetInstance()->Get_Edit_Profile().strLastName = WstrToStr(m_strLastName);
+		}
 		break;
+
 	case Game::CTextButton::NICKNAME:
-		CMiiManager::GetInstance()->Get_Edit_Profile().strNickName = WstrToStr(m_strText);
+		if (CApartManager::GetInstance()->Get_isNick())
+		{
+			m_strNickName = m_pGameInstance->ButtonManager_Get_Text();
+			CMiiManager::GetInstance()->Get_Edit_Profile().strNickName = WstrToStr(m_strNickName);
+		}
 		break;
+
 	case Game::CTextButton::GENDER:
 	{
 	}
@@ -208,16 +223,19 @@ int32_t CTextButton::On_Click()
 			switch (m_eTextType)
 			{
 			case Game::CTextButton::FIRSTNAME:
-				MSG_BOX("이름을 입력하세요 ");
+				CApartManager::GetInstance()->Set_True_isFirst();
 				m_pGameInstance->ButtonManager_Set_OnText(TRUE);
+				m_pGameInstance->ButtonManager_Clear_Text();
 				break;
 			case Game::CTextButton::LASTNAME:
-				MSG_BOX("이름을 입력하세요 ");
+				CApartManager::GetInstance()->Set_True_isLast();
 				m_pGameInstance->ButtonManager_Set_OnText(TRUE);
+				m_pGameInstance->ButtonManager_Clear_Text();
 				break;
 			case Game::CTextButton::NICKNAME:
-				MSG_BOX("이름을 입력하세요 ");
+				CApartManager::GetInstance()->Set_True_isNick();
 				m_pGameInstance->ButtonManager_Set_OnText(TRUE);
+				m_pGameInstance->ButtonManager_Clear_Text();
 				break;
 			case Game::CTextButton::GENDER:
 				break;

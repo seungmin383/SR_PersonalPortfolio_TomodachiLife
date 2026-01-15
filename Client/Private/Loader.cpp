@@ -49,6 +49,7 @@
 #include "Voice_Button.h"
 #include "Friend_TextBox.h"
 #include "EditOption_BackGround.h"
+#include "Name_TextBox.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:m_pGameInstance(CGameInstance::GetInstance()),
@@ -481,6 +482,14 @@ HRESULT CLoader::Loading_Apart()
 			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_CMButtonTexture"), tmp)))
 				return E_FAIL;
 		}
+
+		/* 이름 텍스트 박스 텍스쳐 */
+		// ProtoTag_Component_Name_TextBox_Texture
+		{
+			tmp = CTextureCom::Create(m_pDevice, m_pContext, TEXT("../../Resource/UI/Name_TextBox/%d.dds"), 1);
+			if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_Component_Name_TextBox_Texture"), tmp)))
+				return E_FAIL;
+		}
 	}
 
 	// Actor
@@ -509,6 +518,15 @@ HRESULT CLoader::Loading_Apart()
 		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_UI_CMButton"), tmp)))
 			return E_FAIL;
 	}
+
+	/* 이름 텍스트 박스 */
+	// ProtoTag_UI_Name_TextBox
+	{
+		tmp = CName_TextBox::Create(m_pDevice, m_pContext);
+		if (FAILED(m_pGameInstance->Proto_Add_Prototype(iAPART, TEXT("ProtoTag_UI_Name_TextBox"), tmp)))
+			return E_FAIL;
+	}
+
 	lstrcpy(m_szFPS, TEXT("로딩이 완료되었슴니다."));
 	m_isFinished = true;
 	return S_OK;

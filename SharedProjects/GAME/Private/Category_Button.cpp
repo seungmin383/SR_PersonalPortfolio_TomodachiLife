@@ -36,6 +36,7 @@ HRESULT CCategory_Button::Initialize_Clone(void* pArg)
 	m_isSpecialMove = pDesc->isSpecialMove;
 
 	m_fTargetFadeTime = pDesc->TargetFadeTime;
+	m_strSoundTag = pDesc->strSoundTag;
 
 
 	if (FAILED(CButton::Initialize_Clone(pArg)))
@@ -186,6 +187,8 @@ int32_t CCategory_Button::On_Click()
 	{
 		if (m_isClicked)
 		{
+			m_pGameInstance->SoundManager_Begin_Sound(m_strSoundTag, SOUND_CHANNEL::SFX_BUTTON, 1.f);
+
 			m_pClicked_Strgy->OnClick();
 			m_pClicked_Strgy_1->OnClick();
 			m_isSelected = TRUE;

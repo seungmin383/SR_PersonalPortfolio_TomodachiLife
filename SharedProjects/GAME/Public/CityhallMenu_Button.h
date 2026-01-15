@@ -26,6 +26,8 @@ public:
 		_bool isSpecialMove = { FALSE };
 		_float fTargetFadeTime = {};
 
+		_wstring strSoundTag;
+
 	}CITYHALLMENUBUTTON_DESC;
 
 private:
@@ -83,6 +85,7 @@ private:
 
 	_float		m_fRatio = {};
 
+	_wstring m_strSoundTag = {};
 
 public:
 	static CCityhallMenu_Button* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

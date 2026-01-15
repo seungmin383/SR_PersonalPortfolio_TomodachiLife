@@ -50,7 +50,6 @@ void CSoundManager::Update()
                 continue;
             }
 
-
             FMOD_BOOL isPlaying = FALSE;
             FMOD_RESULT fmodResult = FMOD_Channel_IsPlaying(vec[i], &isPlaying);
 
@@ -82,13 +81,9 @@ HRESULT CSoundManager::Load_Sound(const _wstring& SoundTag, const _string& Sound
     FMOD_RESULT fmodResult;
 
     if (isBGM)
-    {
         fmodResult = FMOD_System_CreateStream(m_pSystem, SoundFilePath.c_str(), Mode, 0, &pSound);
-    }
     else
-    {
         fmodResult = FMOD_System_CreateSound(m_pSystem, SoundFilePath.c_str(), Mode, 0, &pSound);
-    }
 
     if (FMOD_OK != fmodResult || nullptr == pSound)
     {
@@ -190,6 +185,9 @@ HRESULT CSoundManager::Stop_AllSound()
 
     for (auto& pair : m_Channels)
     {
+        if (pair.first == SOUND_CHANNEL::NONE_STOP_SFX)
+            continue;
+
         for (auto& pInst : pair.second)
         {
             if (nullptr != pInst)

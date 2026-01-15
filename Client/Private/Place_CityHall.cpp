@@ -53,6 +53,8 @@ HRESULT CPlace_CityHall::Initialize()
 	if (FAILED(Ready_Camera_Layer()))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->SoundManager_Begin_BGM(TEXT("BGM_CityHall"), 1.f)))
+		return E_FAIL;
 	return S_OK;
 }
 
@@ -158,6 +160,7 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 				Desc.pSelected_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 				Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
 				Desc.strText = strTextArr[iIndex];
+				Desc.strSoundTag = TEXT("SFX_Button_Click");
 
 				tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_CityhallMenu_Button"), &Desc);
 				if (nullptr == tmp)
@@ -216,6 +219,7 @@ HRESULT CPlace_CityHall::Ready_UI_Layer()
 
 			Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::MII_EDITOR);
 			Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+			Desc.strSoundTag = TEXT("SFX_Button_Click_Enter");
 
 			tmp = m_pGameInstance->Proto_Get_Object_Clone(iPlaceID, TEXT("ProtoTag_UI_CityhallMenu_Button"), &Desc);
 			if (nullptr == tmp)

@@ -66,6 +66,9 @@ HRESULT CPlace_MiiEditor::Initialize()
 	if (FAILED(Ready_Camera_Layer()))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->SoundManager_Begin_BGM(TEXT("BGM_MiiEditor"), 1.f)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -663,7 +666,6 @@ HRESULT CPlace_MiiEditor::Layer_UI_Text_Button()
 		CTextButton::TEXTBUTTON_DESC Desc = {};
 		Desc.fZ = 0.5f;
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
-
 		
 		for (uint32_t i = 0; i < 11; ++i)
 		{

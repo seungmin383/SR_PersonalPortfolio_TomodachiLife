@@ -236,6 +236,7 @@ int32_t CGameInstance::Update_Priority(_float fDT)
 	//게임 씬 매니저 업데이트			//주로 디버그용
 	m_pPlaceManager->Update(fDT);
 
+	m_pSoundManager->Update();
 	m_pInput_Device->Update();
 	m_pMouseManager->Update(fDT);
 	m_pObjectManager->Update_Priority(fDT);

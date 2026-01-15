@@ -76,6 +76,10 @@ private:
 	_wstring m_strShowText = { };
 	XMFLOAT4 m_vFontSize = {};
 
+	_wstring m_strFistName = {};
+	_wstring m_strLastName = {};
+	_wstring m_strNickName = {};
+
 public:
 	static CTextButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CObject* Clone(void* pArg) override;

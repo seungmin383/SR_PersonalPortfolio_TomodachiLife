@@ -21,6 +21,9 @@ public:
 		IOnClick* pSelected_Strgy = { nullptr };
 		IOnClick* pSelectedClick_Strgy = { nullptr };
 
+		_wstring strSoundTag = {L""};
+		SOUND_CHANNEL eChannel;
+
 	}BACKBUTTON_DESC;
 
 private:
@@ -52,6 +55,9 @@ private:
 	IOnClick* m_pClicked_Strgy = { nullptr };
 	IOnClick* m_pSelected_Strgy = { nullptr };
 	IOnClick* m_pSelectedClick_Strgy = { nullptr };
+
+	_wstring m_strSoundTag = {};
+	SOUND_CHANNEL m_eChannel;
 
 public:
 	static CBack_Button* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

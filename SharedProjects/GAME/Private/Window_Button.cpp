@@ -175,6 +175,7 @@ int32_t CWindow_Button::On_Click()
 
 		if (m_isClicked)
 		{
+			m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_Button_Click_Enter"), SOUND_CHANNEL::NONE_STOP_SFX, 1.f);
 			m_pSelectedClick_Strgy->OnClick();
 		}
 	}
@@ -182,6 +183,7 @@ int32_t CWindow_Button::On_Click()
 	{
 		if (m_isClicked)
 		{
+			m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_Window"), SOUND_CHANNEL::SFX_BUTTON, 1.f);
 			CMiiManager::GetInstance()->Set_CurMiiNickName(m_strMiiNickName);
 			CMiiManager::GetInstance()->Set_CurMiiIndex(m_iMiiIndex);
 			m_pClicked_Strgy->OnClick();

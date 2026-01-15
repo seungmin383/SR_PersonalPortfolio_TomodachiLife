@@ -149,7 +149,8 @@ int32_t CSave_Button::On_Click()
 		{
 			CApartManager::GetInstance()->Save_ApartData();
 			CMiiManager::GetInstance()->Save_AllMiiData();
-
+			
+			m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_Save_Complete"), SOUND_CHANNEL::SFX, 1.f);
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;
 		}

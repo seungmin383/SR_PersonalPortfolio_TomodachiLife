@@ -6,11 +6,11 @@
             0.11999999731779099,
             1.0
         ],
-        "Index": 86
+        "Index": 82
     },
     "EyesInfo": {
         "BlinkTime": 5.0,
-        "Index": 6
+        "Index": 7
     },
     "HairInfo": {
         "HairColor": [
@@ -19,10 +19,10 @@
             0.0,
             1.0
         ],
-        "Index": 2
+        "Index": 5
     },
     "HeadInfo": {
-        "Index": 6,
+        "Index": 7,
         "SkinColor": [
             1.0,
             0.8199999928474426,
@@ -35,36 +35,36 @@
         "BirthMonth": 0,
         "BirthYear": 0,
         "Blood": 0,
-        "ClothState": 0,
+        "ClothState": 2,
         "Color": 0,
-        "FirstName": "여자3",
+        "FirstName": "소",
         "Flavor": [
-            1.930661916732788,
-            1.3022857904434204,
-            1.2951445579528809,
-            1.6559343338012695,
-            0.5662404298782349,
-            1.8251289129257202,
-            1.1753898859024048,
-            1.454390048980713,
-            1.4982757568359375
+            0.8959013819694519,
+            0.3960692286491394,
+            0.9329508543014526,
+            1.3185217380523682,
+            1.8482009172439575,
+            1.1758171319961548,
+            1.5164647102355957,
+            1.30448317527771,
+            1.1698964834213257
         ],
         "FriendIndexList": [],
         "Fullness": 0,
-        "LastName": "여자3",
+        "LastName": "재혁",
         "Level": 0.0,
         "LoveMiiIndex": -1,
-        "Needs": 2,
-        "NickName": "여자3",
-        "Personal": 0,
+        "Needs": 0,
+        "NickName": "소재혁",
+        "Personal": -4,
         "RoomIndex": 0,
         "isAdult": false,
-        "isMan": false
+        "isMan": true
     },
     "MouthInfo": {
         "Index": 101
     },
     "NoseInfo": {
-        "Index": 68
+        "Index": 60
     }
 }

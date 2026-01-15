@@ -12,7 +12,6 @@ private:
 
 public:
 	HRESULT Initialize();
-
 	void Update();
 
 public:
@@ -33,7 +32,7 @@ private:
 
 	map<_wstring, FMOD_SOUND*> m_Sounds;
 
-	FMOD_CHANNEL* m_pBGMChannel;
+	FMOD_CHANNEL* m_pBGMChannel = { nullptr };
 	map<SOUND_CHANNEL, vector<FMOD_CHANNEL*>> m_Channels;
 
 	vector<uint32_t> m_FinChannelIndices;

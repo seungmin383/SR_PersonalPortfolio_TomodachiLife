@@ -382,6 +382,9 @@
     <Filter Include="03.UI\01.Button\000.OnclickStrategy\15.TurnOffLight">
       <UniqueIdentifier>{4228004b-76e4-4c41-ad96-d3d0cc4498e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\03.Texture\06.TextBox\Name">
+      <UniqueIdentifier>{dae6a3a3-6d50-483f-9c51-f77167ae76ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)Shader\Shader_Vtx_Mesh.hlsl">
@@ -737,6 +740,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Public\TurnOffLight_Strgy.h">
       <Filter>03.UI\01.Button\000.OnclickStrategy\15.TurnOffLight</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Public\Name_TextBox.h">
+      <Filter>03.UI\03.Texture\06.TextBox\Name</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\PlaceMoveButton.cpp">
@@ -1056,6 +1062,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Private\TurnOffLight_Strgy.cpp">
       <Filter>03.UI\01.Button\000.OnclickStrategy\15.TurnOffLight</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Private\Name_TextBox.cpp">
+      <Filter>03.UI\03.Texture\06.TextBox\Name</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

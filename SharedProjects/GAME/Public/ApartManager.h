@@ -91,6 +91,14 @@ public:
 	_bool Get_isFin_Proposing() const		{ return m_isFin_Proposing; }
 	void Set_isFin_Proposing(_bool is)		{ m_isFin_Proposing = is; }
 
+	_bool Get_isFirst() const { return m_isFirst; }
+	_bool Get_isLast() const { return m_isLast; }
+	_bool Get_isNick() const { return m_isNick; }
+
+	void Set_True_isFirst() { m_isFirst = TRUE; m_isLast = FALSE; m_isNick = FALSE; }
+	void Set_True_isLast() { m_isFirst = FALSE; m_isLast = TRUE; m_isNick = FALSE; }
+	void Set_True_isNick() { m_isFirst = FALSE; m_isLast = FALSE; m_isNick = TRUE; }
+
 private:
 	APARTINFO_DESC m_ApartInfo = {};
 	
@@ -127,6 +135,11 @@ private:
 
 	_bool m_isFin_Proposing = { FALSE };
 		
+private:
+	_bool m_isFirst = { FALSE };
+	_bool m_isLast = { FALSE };
+	_bool m_isNick = { FALSE };
+
 public:
 	virtual void Free()override;
 };

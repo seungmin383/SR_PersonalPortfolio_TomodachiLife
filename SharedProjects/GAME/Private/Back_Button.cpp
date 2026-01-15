@@ -30,6 +30,9 @@ HRESULT CBack_Button::Initialize_Clone(void* pArg)
 	m_pSelected_Strgy = pDesc->pSelected_Strgy;
 	m_pSelectedClick_Strgy = pDesc->pSelectedClick_Strgy;
 
+	m_strSoundTag = pDesc->strSoundTag;
+	m_eChannel = pDesc->eChannel;
+
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -145,6 +148,7 @@ int32_t CBack_Button::On_Click()
 			CGameDirector::GetInstance()->Set_Direction(CGameDirector::GAME_DIRECTION::NO_EVENT);
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
 
+			m_pGameInstance->SoundManager_Begin_Sound(m_strSoundTag, SOUND_CHANNEL::NONE_STOP_SFX, 1.f);
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;
 		}

@@ -92,6 +92,7 @@ namespace Engine
 		SFX,
 		SFX_BUTTON,
 		VOICE,
+		NONE_STOP_SFX,
 		END
 	};
 }

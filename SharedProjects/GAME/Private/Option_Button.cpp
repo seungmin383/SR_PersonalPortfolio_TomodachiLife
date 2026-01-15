@@ -31,6 +31,8 @@ HRESULT COption_Button::Initialize_Clone(void* pArg)
 	m_strText = pDesc->strText;
 	m_vFontSize = m_pGameInstance->FontManager_Measure_Text(TEXT("Basic_Font_18"), m_strText);
 
+	m_strSoundTag = pDesc->strSoundTag;
+
 	if (FAILED(CButton::Initialize_Clone(pArg)))
 		return E_FAIL;
 
@@ -147,6 +149,8 @@ int32_t COption_Button::On_Click()
 	{
 		if (m_isClicked)
 		{
+			if(m_strSoundTag != L"")
+				m_pGameInstance->SoundManager_Begin_Sound(m_strSoundTag, SOUND_CHANNEL::SFX_BUTTON, 1.f);
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;
 		}

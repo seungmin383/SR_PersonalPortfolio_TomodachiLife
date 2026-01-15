@@ -12,11 +12,14 @@
 
 #include "ApartManager.h"
 #include "Room.h"
+#include "Name_TextBox.h"
 
 #include "CutScene.h"
+#include "Back_Button.h"	
 #include "TimeLine_Trans.h"
 #include "CommonButton.h"
 
+#include "Option_Button.h"
 #include "Window_Button.h"
 #include "TempModel.h"
 #include "ChangePlace_Strategy.h"
@@ -42,6 +45,8 @@ HRESULT CPlace_Apart::Initialize()
 		return E_FAIL;
 	if (FAILED(Ready_Camera_Layer()))
 		return E_FAIL;
+
+	m_pGameInstance->SoundManager_Begin_BGM(TEXT("BGM_Apart"), 1.f);
 
 	return S_OK;
 }
@@ -144,16 +149,26 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 	vector<_wstring> AllMiiLayers;
 
 	// ProtoTag_UI_WindowButton
+	// ProtoTag_UI_Name_TextBox
 	{
 		CWindow_Button::WINDOWBUTTON_DESC tDesc = {};
 		tDesc.fCX = 96.f;
 		tDesc.fCY = 96.f;
 		tDesc.fZ = 0.5f;
 
+		CName_TextBox::NAMETEXTBOX_DESC NameTextBoxDesc = {};
+		NameTextBoxDesc.fCX = 500.f;
+		NameTextBoxDesc.fCY = 50.f;
+		NameTextBoxDesc.eRenderGroup = RENDER_GROUP::TOP_UI;
+		NameTextBoxDesc.fX = 480.f;
+		NameTextBoxDesc.fY = 50.f;
+		NameTextBoxDesc.fZ = 0.5f;
+
+
 		uint32_t iIndex = { 0 };
 
 		/* 주민들의 이름 */
-
+		 
 		uint32_t iNumMii = CApartManager::GetInstance()->Get_ApartInfo_NumMii();
 		AllMiiNameArr.reserve(iNumMii);
 
@@ -196,6 +211,8 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 					++iLayerIndex;
 				}
 
+				EnableLayer.push_back(TEXT("LayerTag_UI_Enter"));
+
 				strgyDesc.EnableLayers = EnableLayer;
 				strgyDesc.DisableLayers = DisableLayer;
 				strgyDesc.strLayerTag = strLayerTag;
@@ -208,12 +225,14 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 
 				if (m_iNumMii > iIndex)
 				{
+					NameTextBoxDesc.strName = AllMiiNameArr[iIndex];
 					tDesc.iMiiIndex = iIndex;
 					tDesc.isLive = TRUE;
 
 				}
 				else
 				{
+					NameTextBoxDesc.strName = TEXT("");
 					tDesc.iMiiIndex = 0;
 					tDesc.isLive = FALSE;
 				}
@@ -229,53 +248,33 @@ HRESULT CPlace_Apart::Ready_Actor_Layer()
 					return E_FAIL;
 
 
+				NameTextBoxDesc.iRoomIndex = (3-i) * 100 + j + 1;
+
+				tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::APART), TEXT("ProtoTag_UI_Name_TextBox"), &NameTextBoxDesc);
+				if (nullptr == tmp)
+					return E_FAIL;
+
+				if (m_iNumMii > iIndex)
+				{
+					if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, AllMiiLayers[iIndex], tmp)))
+						return E_FAIL;
+				}
+				else
+				{
+					if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_NoMii"), tmp)))
+						return E_FAIL;
+				}
+
 				++iIndex;
 			}
 		}
-	}
-
-
-	/* 저장 버튼 */
-	{
-		CCommonButton::COMMONBUTTON_DESC Desc = {};
-		Desc.fX = 850.f;
-		Desc.fY = 455.f;
-		Desc.fZ = 0.5f;
-		Desc.fCX = 141.f;
-		Desc.fCY = 45.f;
-		Desc.fSpeedPerSecond = 15.f;
-
-		Desc.pStrategy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
-
-		Desc.eTexturePlaceID = PLACEID::APART;
-		Desc.eIconTexturePlaceID = PLACEID::APART;
-		Desc.strTextureTag = TEXT("ProtoTag_Component_CMButtonTexture");
-		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
-		Desc.iTextureIndex = 4;
-
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::APART),
-			TEXT("ProtoTag_UI_CMButton"), &Desc);
-
-		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::APART),
-			TEXT("LayerTag_Category"), tmp)))
-		{
-			Safe_Release(tmp);
-			return E_FAIL;
-		}
-
-		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(
-			static_cast<uint32_t>(PLACEID::APART), TEXT("LayerTag_Category"),
-			static_cast<CButton*>(tmp))))
-		{
-			return E_FAIL;
-		}
-
 	}
 
 	for (const auto& str : AllMiiLayers)
 	{
 		m_pGameInstance->ObjectManager_Disable_Layer(iPlaceID, str);
 	}
+	m_pGameInstance->ObjectManager_Disable_Layer(iPlaceID, TEXT("LayerTag_UI_NoMii"));
 
 	return S_OK;
 }
@@ -284,7 +283,59 @@ HRESULT CPlace_Apart::Ready_UI_Layer()
 {
 	CObject* tmp = { nullptr };
 	uint32_t iPlaceID = static_cast<uint32_t>(PLACEID::APART);
+	/* 뒤로가기 버튼 */
+	// LayerTag_UI_Back_Button
+	{
+		CBack_Button::BACKBUTTON_DESC Desc = {};
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.fCX = 100.f;
+		Desc.fCY = 68.f;
+		Desc.fX = 50.f;
+		Desc.fY = 446.f;
+		Desc.fZ = 0.5f;
+		Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.strSoundTag = TEXT("SFX_Button_Cancle_Exit");
 
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Back_Button"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Cack_Button"), tmp)))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Cack_Button"), static_cast<CButton*>(tmp))))
+			return E_FAIL;
+	}
+
+
+	/* 저장 버튼 */
+	{
+		COption_Button::OPTIONBUTTON_DESC Desc = {};
+		Desc.fX = 480.f;
+		Desc.fY = 440.f;
+		Desc.fZ = 0.5f;
+		Desc.fCX = 300.f;
+		Desc.fCY = 92.72727f;
+		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+		Desc.strText = TEXT("들어가기");
+		Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ROOM);
+		Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.pSelectedClick_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
+		Desc.strSoundTag = TEXT("SFX_Button_Click_Enter");
+
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(static_cast<uint32_t>(PLACEID::STATIC), TEXT("ProtoTag_UI_Option_Button"), &Desc);
+		if (nullptr == tmp)
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_UI_Enter"), tmp)))
+			return E_FAIL;
+
+		if (FAILED(m_pGameInstance->ButtonManager_Add_Button(iPlaceID, TEXT("LayerTag_UI_Enter"), static_cast<CButton*>(tmp))))
+			return E_FAIL;
+	}
+	m_pGameInstance->ObjectManager_Disable_Layer(iPlaceID, TEXT("LayerTag_UI_Enter"));
 	return S_OK;
 }
 

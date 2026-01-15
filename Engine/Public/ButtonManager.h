@@ -28,6 +28,7 @@ public:
 	_wstring Get_Text();
 
 	void Clear_Text();
+
 public:
 	const _bool Get_OnText()const { return m_isOnText; }
 	void Set_OnText(_bool is) { m_isOnText = is; }
@@ -55,6 +56,8 @@ private:
 	_wstring m_strBuffer;
 	_wstring m_strText = {};
 	_bool m_isCommitted = { FALSE };
+
+	_bool m_isTyping = { FALSE };
 
 	/* 건물 이름 텍스쳐 인덱스 */
 	uint32_t m_iBuildingNameTextureIndex = {};

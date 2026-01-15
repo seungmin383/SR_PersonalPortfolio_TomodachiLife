@@ -35,10 +35,10 @@ private:
 	_float m_tmpTime = {};
 	XMVECTOR m_tmpTargetPos = {};
 
+	_float m_fTimer = {};
+
 public:
-	static CPlace_Island* Create(
-		ID3D11Device* pDevice,
-		ID3D11DeviceContext* pContext);
+	static CPlace_Island* Create(ID3D11Device* pDevice,ID3D11DeviceContext* pContext);
 	virtual void Free() override;
 };
 

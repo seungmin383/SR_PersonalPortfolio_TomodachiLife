@@ -183,6 +183,7 @@ HRESULT CMainApp::Ready_Static()
 	/* ÆùÆ® */
 	if (FAILED(Ready_Fonts()))
 		return E_FAIL;
+
 	if (FAILED(Ready_Static_Sound()))
 		return E_FAIL;
 
@@ -1005,6 +1006,42 @@ HRESULT CMainApp::Ready_Static_Sound()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_FoodStore"), "../../Resource/Sound/BGM_FoodStore.wav", TRUE, TRUE)))
 		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_MiiEditor"), "../../Resource/Sound/BGM_MiiEditor.wav", TRUE, TRUE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_CityHall"), "../../Resource/Sound/BGM_CityHall.wav", TRUE, TRUE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_Apart"), "../../Resource/Sound/BGM_Apart.wav", TRUE, TRUE)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_MiiEdit_ChangeParts"), "../../Resource/Sound/SFX_MiiEdit_ChangeParts.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_MiiEdit_Tab"), "../../Resource/Sound/SFX_MiiEdit_Tab.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Save_Complete"), "../../Resource/Sound/SFX_Save_Complete.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Button_Click"), "../../Resource/Sound/SFX_Button_Click.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Button_Click_Enter"), "../../Resource/Sound/SFX_Button_Click_Enter.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Button_Cancle_Exit"), "../../Resource/Sound/SFX_Button_Cancle_Exit.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Button_Cancle"), "../../Resource/Sound/SFX_Button_Cancle.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Owl"), "../../Resource/Sound/SFX_Owl.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Buy"), "../../Resource/Sound/SFX_Buy.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_PlaceMoveButton"), "../../Resource/Sound/SFX_PlaceMoveButton.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_PlaceMoveButton_Exit"), "../../Resource/Sound/SFX_PlaceMoveButton_Exit.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_EnterApart"), "../../Resource/Sound/SFX_EnterApart.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Window"), "../../Resource/Sound/SFX_Window.wav", FALSE, FALSE)))
+		return E_FAIL;
+
+
+
 	return S_OK;
 }
 

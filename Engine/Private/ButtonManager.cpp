@@ -96,6 +96,7 @@ void CButtonManager::Append_Char(wchar_t ch)
 	// 엔터
 	if (ch == L'\r')
 	{
+		m_isTyping = FALSE;
 		m_isCommitted = TRUE;
 		m_isOnText = FALSE;
 		m_strText.clear();
@@ -113,6 +114,7 @@ void CButtonManager::Append_Char(wchar_t ch)
 	// 일반 문자
 	if (ch >= 32)
 	{
+		m_isTyping = TRUE;
 		m_strBuffer.push_back(ch);    // 뒤에 글자 추가
 	}
 }
@@ -124,19 +126,11 @@ _wstring CButtonManager::Get_Text()
 		m_strText = m_strBuffer;
 		m_isCommitted = FALSE;
 		m_strBuffer.clear();
-
-		_wstring Line{};
-
-		_wstring A{ L"이름은 " };
-		_wstring B{ L" 입니다 " };
-
-		Line += A;
-		Line += m_strText;
-		Line += B;
-
-		MSG_BOXW(Line.c_str());
 	}
-
+	else if(m_isTyping)
+	{
+		return m_strBuffer;
+	}
 	return m_strText;
 }
 
