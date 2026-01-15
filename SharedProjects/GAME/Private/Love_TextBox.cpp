@@ -1,6 +1,8 @@
 #include "Love_TextBox.h"
 #include "GameInstance.h"
 #include "MiiManager.h"
+#include "ApartManager.h"
+
 
 
 CLove_TextBox::CLove_TextBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -39,7 +41,7 @@ HRESULT CLove_TextBox::Initialize_Clone(void* pArg)
 
 int32_t CLove_TextBox::Update_Priority(_float fDT)
 {
-	if (!CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iFriendIndexList.empty())
+	if (!CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iFriendIndexList.empty() && CApartManager::GetInstance()->Get_isSuccessPropose())
 	{
 		uint32_t i = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iFriendIndexList.front();
 		_wstring	str = StrToWstr(CMiiManager::GetInstance()->Get_MiiInfo(i).MiiProfile.strNickName);

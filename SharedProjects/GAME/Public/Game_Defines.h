@@ -143,7 +143,10 @@ namespace Game
 		HUNGRY,
 		BE_FRIEND,
 		LOVE,
-		END
+		END,
+
+		SOLO,COUPLE,
+		REAL_END
 	};
 }
 using namespace std;

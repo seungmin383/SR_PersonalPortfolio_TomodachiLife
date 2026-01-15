@@ -148,7 +148,7 @@ HRESULT CPlace_Loading::Ready_UI_Layer()
 		Desc.fRotationPerSecond = XMConvertToRadians(0.f);
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 
-		tmp = m_pGameInstance->Proto_Get_Object_Clone(iStaticID,TEXT("ProtoTag_UI_BlueBackGround_Dot"),&Desc);
+		tmp = m_pGameInstance->Proto_Get_Object_Clone(iStaticID,TEXT("ProtoTag_UI_YellowBackGround_Dot"),&Desc);
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(static_cast<uint32_t>(PLACEID::LOADING),
 			TEXT("LayerTag_UI"),tmp)))
 		{

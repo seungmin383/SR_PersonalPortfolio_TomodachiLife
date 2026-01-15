@@ -619,6 +619,7 @@ HRESULT CPlace_MiiEditor::Layer_UI_Save_Button()
 		Desc.fCY = 48.f;
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 		Desc.strText = TEXT("등록");
+		Desc.strSoundTag = TEXT("SFX_Button_Click_Enter");
 
 		//Desc.pClicked_Strgy = CSaveMiiData_Strgy::Create(m_pDevice, m_pContext);
 		Desc.pClicked_Strgy = CNull_Strgy::Create(m_pDevice, m_pContext);
@@ -769,6 +770,7 @@ HRESULT CPlace_MiiEditor::Layer_UI_Text_Button()
 			Desc.fCY = 180.f;
 			Desc.fZ = 0.5f;
 			Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
+			Desc.strSoundTag = TEXT("SFX_Button_Click");
 
 			Desc.isSpecialMove = TRUE;
 			Desc.fTargetFadeTime = 0.3f;
@@ -836,6 +838,7 @@ HRESULT CPlace_MiiEditor::Layer_UI_Text_Button()
 			Desc.strText = L"취소";
 			Desc.isSpecialMove = TRUE;
 			Desc.TargetFadeTime = 0.3f;
+			Desc.strSoundTag = TEXT("SFX_Button_Cancle");
 
 			Desc.pClicked_Strgy			= CSetUIisEnable_Strgy::Create(m_pDevice, m_pContext, FALSE);
 			Desc.pSelected_Strgy		= CNull_Strgy::Create(m_pDevice, m_pContext);

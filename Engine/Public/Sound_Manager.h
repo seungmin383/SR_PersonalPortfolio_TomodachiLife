@@ -23,6 +23,10 @@ public:
 	HRESULT Stop_Sound(SOUND_CHANNEL eChannel);
 	HRESULT Stop_AllSound();
 
+	HRESULT Begin_Voice(const _wstring& strText, _float fPitch, _float fVolume = 1.f);
+	HRESULT Begin_Girl_Voice(const _wstring& strText, _float fPitch, _float fSpeed, _float fVolume = 1.f);
+	HRESULT Play_NextVoice();
+
 private:
 	FMOD_SOUND* Find_Sound(const _wstring SoundTag);
 
@@ -33,9 +37,14 @@ private:
 	map<_wstring, FMOD_SOUND*> m_Sounds;
 
 	FMOD_CHANNEL* m_pBGMChannel = { nullptr };
+	FMOD_CHANNEL* m_pVoiceChannel = { nullptr };
 	map<SOUND_CHANNEL, vector<FMOD_CHANNEL*>> m_Channels;
 
-	vector<uint32_t> m_FinChannelIndices;
+	vector<_wstring> m_Words;
+	uint32_t m_iWordIndex = {};
+
+	_float m_fVoicePitch = {1.15f};
+	_float m_fVoiceSpeed = {};
 
 public:
 	static CSoundManager* Create();

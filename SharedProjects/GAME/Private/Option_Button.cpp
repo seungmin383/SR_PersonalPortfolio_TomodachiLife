@@ -150,7 +150,7 @@ int32_t COption_Button::On_Click()
 		if (m_isClicked)
 		{
 			if(m_strSoundTag != L"")
-				m_pGameInstance->SoundManager_Begin_Sound(m_strSoundTag, SOUND_CHANNEL::SFX_BUTTON, 1.f);
+				m_pGameInstance->SoundManager_Begin_Sound(m_strSoundTag, SOUND_CHANNEL::NONE_STOP_SFX, 1.f);
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;
 		}

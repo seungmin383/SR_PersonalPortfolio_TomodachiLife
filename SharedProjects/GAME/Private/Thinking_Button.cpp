@@ -61,7 +61,7 @@ void CThinking_Button::Update_Late(_float fDT)
 {
 	if (CGameDirector::GetInstance()->Get_Direction() == CGameDirector::GAME_DIRECTION::NO_EVENT)
 	{
-		if (m_eCurMii_Needs != NEEDS::NOTHING)
+		if (m_eCurMii_Needs != NEEDS::NOTHING && m_eCurMii_Needs != NEEDS::SOLO && m_eCurMii_Needs != NEEDS::COUPLE)
 		{
 			CUI::Update_Late(fDT);
 			m_isRender = TRUE;
@@ -143,6 +143,8 @@ int32_t CThinking_Button::On_Click()
 	{
 		if (m_isClicked)
 		{
+			m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_Selected"), SOUND_CHANNEL::SFX_BUTTON, 1.f);
+
 			switch (m_eCurMii_Needs)
 			{
 			case Game::NEEDS::NOTHING:

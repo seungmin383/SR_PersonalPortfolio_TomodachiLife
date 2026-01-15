@@ -66,7 +66,6 @@ int32_t CSEMiiBody::Update_Priority(_float fDT)
 
 int32_t CSEMiiBody::Update(_float fDT)
 {
-	m_pCollider->Update_Collider();
 
 	/* Direction이 바꼈을 때 */
 	if (Has_Any_Flag(*m_pParentState, CSEMii::STATE::CHANGE_STATE))
@@ -127,7 +126,14 @@ int32_t CSEMiiBody::Update(_float fDT)
 			m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Bow"), FALSE, 1.f);
 		}
 		else
-			m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
+		{
+			if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::SAD))
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Sad_Wait"), TRUE, 1.f);
+			else if(Has_Any_Flag(*m_pParentState, CSEMii::STATE::HAPPY))
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Happy_Wait"), TRUE, 1.f);
+			else
+				m_pAnimationPlayer[*m_pParentClothState]->Begin_Animation(TEXT("Chr_Normal_Wait"), TRUE, 1.f);
+		}
 	}
 
 	return 0;
@@ -163,7 +169,6 @@ HRESULT CSEMiiBody::Render()
 			return E_FAIL;
 	}
 #ifdef _DEBUG
-	m_pCollider->Render();
 #endif
 	return S_OK;
 }
@@ -209,13 +214,6 @@ HRESULT CSEMiiBody::Ready_Component()
 	ColliderDesc.iColliderLayer = COL_TRIGGER;
 	ColliderDesc.iCollisionMask = COL_OBJECTS;
 	ColliderDesc.pOwnerWorldMatrix = &m_CombinedWorldMatrix;
-
-	if (FAILED(Add_Component(iStaticID, TEXT("ProtoTag_Component_SphereCollider"), TEXT("Com_Collider"),
-		reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->CollsionManager_Add_Collider(static_cast<uint32_t>(PLACEID::STATIC), COLLISION::OBJECT, m_pCollider)))
-		return E_FAIL;
 
 	/* 애니메이션 플레이어 */
 	/* ProtoTag_Component_AnimationPlayer */
@@ -393,7 +391,6 @@ void CSEMiiBody::Free()
 
 	Safe_Release(m_pShader);
 	Safe_Release(m_pMaskTexture);
-	Safe_Release(m_pCollider);
 
 	for(auto& p : m_pAnimationPlayer)
 		Safe_Release(p);

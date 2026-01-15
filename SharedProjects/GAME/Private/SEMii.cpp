@@ -109,7 +109,7 @@ void CSEMii::Initialize_FriendList()
 	
 	if (!LoveList.empty() && !CApartManager::GetInstance()->Get_isProposing())
 	{
-		m_iLoveMiiIndex = LoveList.front();
+		m_iLoveMiiIndex = iArr.front();
 		CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iNeeds = static_cast<uint32_t>(NEEDS::LOVE);
 	}
 
@@ -213,6 +213,11 @@ void CSEMii::Thinking(_float fDT)
 	{
 		Add_Flag(m_iState, STATE::LOVE);
 		Add_Flag(m_iState, STATE::CHANGE_STATE);
+	}
+
+	if (CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iNeeds == static_cast<uint32_t>(NEEDS::SOLO))
+	{
+		Add_Flag(m_iState, STATE::SAD);
 	}
 
 	/* 전역 스테이트로 1차 내부 스테이트를 설정 */
@@ -331,23 +336,42 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 
 	if (!isVisit)
 	{
-		if (m_fTalkingTimer < 4.f)
+		if (m_fTalkingTimer < 6.f)
 		{
+			static _bool is = { FALSE };
+			if (!is)
+			{
+				if (CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.isMan)
+					m_pGameInstance->SoundManager_Begin_Girl_Voice(m_strWantToBeFriendName+TEXT("가친구가되고싶다는데요"), 1.f , 1.5f, 1.f);
+				else
+					m_pGameInstance->SoundManager_Begin_Girl_Voice(m_strWantToBeFriendName+TEXT("가친구가되고싶다는데요"), 1.3f, 1.5f, 1.f);
+				is = TRUE;
+			}
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 			CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{1.f, 1.f, 1.f, 1.f});
 
 			CNarrationManager::GetInstance()->Set_NarrationText(L"'" + m_strWantToBeFriendName + L"'"
  			+ L"이/가 저랑 친구가 되고 싶다는데요...");
 
+			
 			Add_Flag(m_iState, STATE::TALKING);
 		}
-		else if(m_fTalkingTimer >= 4.f && !CApartManager::GetInstance()->Get_isBeFriend())
+		else if(m_fTalkingTimer >= 6.f && !CApartManager::GetInstance()->Get_isBeFriend())
 		{
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
 			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_BeFriend_Button"));
 		}
-		else if (m_fTalkingTimer >= 4.f && CApartManager::GetInstance()->Get_isBeFriend() && m_fTalkingTimer_2 < 4.f)
+		else if (m_fTalkingTimer >= 4.f && CApartManager::GetInstance()->Get_isBeFriend() && m_fTalkingTimer_2 < 6.f)
 		{
+			static _bool is = { FALSE };
+			if (!is)
+			{
+				if (CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.isMan)
+					m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("그럼얘기를좀해보고올게요"), 1.f, 1.5f, 1.f);
+				else
+					m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("그럼얘기를좀해보고올게요"), 1.3f, 1.5f, 1.f);
+				is = TRUE;
+			}
 			m_fTalkingTimer_2 += fDT;
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 			CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
@@ -392,6 +416,7 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 				/* 대화 시작을 아직 안했다면 */
 				if (!m_isStartBanter)
 				{
+					m_pGameInstance->SoundManager_Begin_Sound(TEXT("BGM_BeFriend"), SOUND_CHANNEL::BGM, 1.f);
 					/* flag에 Banter 추가해주고 -> Begin Macro 돌려줌 */
 					m_isStartBanter = TRUE;
 					Add_Flag(m_iState, STATE::CHANGE_STATE);
@@ -401,6 +426,14 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 				{
 					m_isWaitingTImer += fDT;
 					Add_Flag(m_iState, STATE::TALKING);
+
+					static _bool is = { FALSE };
+					if (!is)
+					{
+						is = TRUE;
+						m_pGameInstance->SoundManager_Stop_Sound(SOUND_CHANNEL::BGM);
+						m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_Particle"), SOUND_CHANNEL::SFX, 1.f);
+					}
 
 					if (m_isWaitingTImer > 3.f)
 					{
@@ -445,6 +478,7 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 		{
 			if (!m_isComeBackRoom)
 			{
+				m_pGameInstance->SoundManager_Begin_BGM(TEXT("BGM_BeFriend_Ok"), 1.f);
 				m_isComeBackRoom = TRUE;
 				Add_Flag(m_iState, STATE::CHANGE_STATE);
 			}
@@ -459,11 +493,19 @@ void CSEMii::Thinking_About_BeFriend(_float fDT)
 		{
 			m_fComeBackAndTalkingTimer += fDT;
 
-			if (m_fComeBackAndTalkingTimer < 4.f)
+			if (m_fComeBackAndTalkingTimer < 7.f)
 			{
 				CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 				CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
-
+				static _bool is = { FALSE };
+				if (!is)
+				{
+					if (CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.isMan)
+						m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("죽이잘맞을것같아서친구가되기로했어요"), 1.f, 1.5f, 1.f);
+					else
+						m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("죽이잘맞을것같아서친구가되기로했어요"), 1.3f, 1.5f, 1.f);
+					is = TRUE;
+				}
 				CNarrationManager::GetInstance()->Set_NarrationText(TEXT("죽이 잘 맞을 것 같아서 친구가 되기로 했어요."));
 			
 				Add_Flag(m_iState, STATE::HAPPY);
@@ -496,12 +538,18 @@ void CSEMii::Thinking_About_Love(_float fDT)
 	_bool isStartPropose = CApartManager::GetInstance()->Get_isStartPropose();
 	_bool isProposing = CApartManager::GetInstance()->Get_isProposing();
 	_bool isFinPropose = CApartManager::GetInstance()->Get_isFin_Proposing();
+	m_iLoveMiiIndex = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iLoveMiiIndex;
 
 	if (m_fEndTimer_1 > 3.f)
 	{
 		CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
-		CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iNeeds = static_cast<uint32_t>(NEEDS::NOTHING);
 		CGameDirector::GetInstance()->Set_Direction(CGameDirector::GAME_DIRECTION::NO_EVENT);
+
+		if(CApartManager::GetInstance()->Get_isSuccessPropose())
+			CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iNeeds = static_cast<uint32_t>(NEEDS::COUPLE);
+		else
+			CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iNeeds = static_cast<uint32_t>(NEEDS::SOLO);
+
 		Add_Flag(m_iState, STATE::IDLE);
 
 		m_isFin_LoveEvent = TRUE;
@@ -513,7 +561,7 @@ void CSEMii::Thinking_About_Love(_float fDT)
 
 	if (!isStartPropose)
 	{
-		if (m_fTalkingTimer < 1.f)
+		if (m_fTalkingTimer < 7.f)
 		{
 			static _bool isFirstEnter = { FALSE };
 			if (!isFirstEnter)
@@ -525,58 +573,91 @@ void CSEMii::Thinking_About_Love(_float fDT)
 			}
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 			CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
+			static _bool is = { FALSE };
+			if (!is)
+			{
+				if (CMiiManager::GetInstance()->Get_MiiInfo(CApartManager::GetInstance()->Get_DstMiiIndex()).MiiProfile.isMan)
+					m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("사실은")+ StrToWstr(CMiiManager::GetInstance()->Get_MiiInfo(m_iLoveMiiIndex).MiiProfile.strNickName)+TEXT("를좋아해요고백을할까하는데요"), 1.f, 1.5f, 1.f);
+				else					
+					m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("사실은") + StrToWstr(CMiiManager::GetInstance()->Get_MiiInfo(m_iLoveMiiIndex).MiiProfile.strNickName) + TEXT("를좋아해요고백을할까하는데요"), 1.5f, 1.5f, 1.f);
 
+				is = TRUE;
+			}
 			CNarrationManager::GetInstance()->Set_NarrationText(L"사실은 '" + StrToWstr(CMiiManager::GetInstance()->Get_MiiInfo(m_iLoveMiiIndex).MiiProfile.strNickName) + L"'"
 				+ L" 을/를 좋아해요. 고백을 할까 하는데요...");
 
 			Add_Flag(m_iState, STATE::TALKING);
 		}
-		else if (m_fTalkingTimer >= 1.f && !CApartManager::GetInstance()->Get_isLove())
+		else if (m_fTalkingTimer >= 7.f && !CApartManager::GetInstance()->Get_isLove())
 		{
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
 			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_Love_Button"));
 		}
-		else if (m_fTalkingTimer >= 1.f && CApartManager::GetInstance()->Get_isLove() && m_fTalkingTimer_2 < 1.f)
+		else if (m_fTalkingTimer >= 7.f && CApartManager::GetInstance()->Get_isLove() && m_fTalkingTimer_2 < 6.f)
 		{
 			m_fTalkingTimer_2 += fDT;
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 			CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
-
+			static _bool is = { FALSE };
+			if (!is)
+			{
+				if (CMiiManager::GetInstance()->Get_MiiInfo(CApartManager::GetInstance()->Get_DstMiiIndex()).MiiProfile.isMan)
+					m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("어떤식으로고백하는게좋을까요"), 1.f, 1.5f, 1.f);
+				else
+					m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("어떤식으로고백하는게좋을까요"), 1.5f, 1.5f, 1.f);
+				is = TRUE;
+			}
 			CNarrationManager::GetInstance()->Set_NarrationText(TEXT("어떤 식으로 고백하는 게 좋을까요?"));
 
 			Add_Flag(m_iState, STATE::TALKING);
 		}
-		else if (m_fTalkingTimer_2 >= 1.f && CApartManager::GetInstance()->Get_iLoveMethod() == 0)
+		else if (m_fTalkingTimer_2 >= 6.f && CApartManager::GetInstance()->Get_iLoveMethod() == 0)
 		{
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
 			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_LoveMethod_Button"));
 			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_LoveMethod_Button1"));
 		}
 
-		else if (m_fTalkingTimer_2 >= 1.f && CApartManager::GetInstance()->Get_iLoveMethod() != 0 && m_fTalkingTimer_3 < 1.f)
+		else if (m_fTalkingTimer_2 >= 6.f && CApartManager::GetInstance()->Get_iLoveMethod() != 0 && m_fTalkingTimer_3 < 6.f)
 		{
 			m_fTalkingTimer_3 += fDT;
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 			CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
-
+			static _bool is = { FALSE };
+			if (!is)
+			{
+				if (CMiiManager::GetInstance()->Get_MiiInfo(CApartManager::GetInstance()->Get_DstMiiIndex()).MiiProfile.isMan)
+					m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("고백할장소로는어디가좋을까요"), 1.f, 1.5f, 1.f);
+				else
+					m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("고백할장소로는어디가좋을까요"), 1.5f, 1.5f, 1.f);
+				is = TRUE;
+			}
 			CNarrationManager::GetInstance()->Set_NarrationText(TEXT("고백할 장소로는 어디가 좋을까요?"));
 
 			Add_Flag(m_iState, STATE::TALKING);
 		}
-		else if (m_fTalkingTimer_3 >= 1.f && CApartManager::GetInstance()->Get_iLovePlace() == 0)
+		else if (m_fTalkingTimer_3 >= 6.f && CApartManager::GetInstance()->Get_iLovePlace() == 0)
 		{
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(FALSE);
 			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_LovePlace_Button"));
 			m_pGameInstance->ObjectManager_Enable_Layer(static_cast<uint32_t>(PLACEID::ROOM), TEXT("LayerTag_UI_LovePlace_Button1"));
 		}
 
-		else if (m_fTalkingTimer_3 >= 1.f && CApartManager::GetInstance()->Get_iLovePlace() != 0 && m_fTalkingTimer_4 < 1.f)
+		else if (m_fTalkingTimer_3 >= 6.f && CApartManager::GetInstance()->Get_iLovePlace() != 0 && m_fTalkingTimer_4 < 7.f)
 		{
 			m_fTalkingTimer_4 += fDT;
 
 			CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 			CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
-
+			static _bool is = { FALSE };
+			if (!is)
+			{
+				if (CMiiManager::GetInstance()->Get_MiiInfo(CApartManager::GetInstance()->Get_DstMiiIndex()).MiiProfile.isMan)
+					m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("좋아요그럼용기내서고백하고올게요"), 1.f, 1.5f, 1.f);
+				else
+					m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("좋아요그럼용기내서고백하고올게요"), 1.5f, 1.5f, 1.f);
+				is = TRUE;
+			}
 			CNarrationManager::GetInstance()->Set_NarrationText(TEXT("좋아요. 그럼 용기 내서 고백하고 올게요!"));
 
 			Add_Flag(m_iState, STATE::TALKING);
@@ -618,6 +699,8 @@ void CSEMii::Thinking_About_Love(_float fDT)
 
 					if (!is)
 					{
+						m_pGameInstance->SoundManager_Begin_BGM(TEXT("BGM_Love"), 1.f);
+						m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_Insect"), SOUND_CHANNEL::SFX, 0.2f);
 						Add_Flag(m_iState, STATE::CHANGE_STATE);
 						Add_Flag(m_iState, STATE::WALKING);
 						is = TRUE;
@@ -646,7 +729,7 @@ void CSEMii::Thinking_About_Love(_float fDT)
 			}
 
 			/* 이벤트 3가 끝났다면 */
-			else if (CApartManager::GetInstance()->Get_isFinEvent3() && m_fWaitingTimer_1 < 5.f)
+			else if (CApartManager::GetInstance()->Get_isFinEvent3() && m_fWaitingTimer_1 < 10.f)
 			{
 				m_fWaitingTimer_1 += fDT;
 
@@ -655,7 +738,10 @@ void CSEMii::Thinking_About_Love(_float fDT)
 				{
 					Add_Flag(m_iState, STATE::CHANGE_STATE);
 					Add_Flag(m_iState, STATE::PROPOSE);
-
+					if (CMiiManager::GetInstance()->Get_MiiInfo(CApartManager::GetInstance()->Get_DstMiiIndex()).MiiProfile.isMan)
+						m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("내가없는세상을한번상상해봐요혹시라도허전하다면당신에겐내가필요해요"), 1.f, 2.f, 1.f);
+					else
+						m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("내가없는세상을한번상상해봐요혹시라도허전하다면당신에겐내가필요해요"), 1.5f, 2.f, 1.f);
 					is = TRUE;
 				}
 
@@ -665,9 +751,10 @@ void CSEMii::Thinking_About_Love(_float fDT)
 
 				CNarrationManager::GetInstance()->Set_NarrationText(TEXT("내가 없는 세상을 한번 상상해 봐요. 혹시라도 허전하다면 당신에겐 내가 필요해요."));
 
+	
 				Add_Flag(m_iState, STATE::TALKING);
 			}
-			else if (m_fWaitingTimer_1 >= 5.f && m_fWaitingTimer_2 < 1.f)
+			else if (m_fWaitingTimer_1 >= 7.f && m_fWaitingTimer_2 < 1.f)
 			{
 				m_fWaitingTimer_2 += fDT;
 
@@ -778,6 +865,15 @@ void CSEMii::Thinking_About_Love(_float fDT)
 					}
 					else if (m_fTalkingTimer_5 > 3.f)
 					{
+						static _bool is = { FALSE };
+						if (!is)
+						{
+							if (CMiiManager::GetInstance()->Get_MiiInfo(CApartManager::GetInstance()->Get_DstMiiIndex()).MiiProfile.isMan)
+								m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("좋아요잘부탁해요"), 1.f, 1.5f,1.f);
+							else
+								m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("좋아요잘부탁해요"), 1.5f, 1.5f, 1.f);
+							is = TRUE;
+						}
 						CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 						CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
 						CNarrationManager::GetInstance()->Set_NarrationText(TEXT("좋아요, 잘 부탁해요."));
@@ -798,17 +894,24 @@ void CSEMii::Thinking_About_Love(_float fDT)
 					}
 					else if (m_fTalkingTimer_5 > 3.f)
 					{
+						static _bool is = { FALSE };
+						if (!is)
+						{
+							if (CMiiManager::GetInstance()->Get_MiiInfo(CApartManager::GetInstance()->Get_DstMiiIndex()).MiiProfile.isMan)
+								m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("미안합니다"), 1.f, 1.5f, 1.f);
+							else
+								m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("미안합니다"), 1.5f, 1.5f, 1.f);
+							is = TRUE;
+						}
+
 						CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 						CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
 						CNarrationManager::GetInstance()->Set_NarrationText(TEXT("미안합니다."));
 						Add_Flag(m_iState, STATE::TALKING);
 					}
 				}
-
 			}
-
 		}
-
 	}
 	else if (isFinPropose)
 	{
@@ -843,6 +946,7 @@ void CSEMii::Thinking_About_Love(_float fDT)
 				CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
 				CNarrationManager::GetInstance()->Set_NarrationText(TEXT("잘 안됐나봐요."));
 
+				CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iFriendIndexList.clear();
 				// CMiiManager::GetInstance()->Edit_CurMiiInfo().MiiProfile.iFriendIndexList.pop_back();
 			}
 
@@ -884,11 +988,21 @@ void CSEMii::Thinking_About_Hungry(_float fDT)
 {
 	m_fTalkingTimer += fDT;
 
-	if (m_fTalkingTimer < 2.f)
+	if (m_fTalkingTimer < 3.f)
 	{
 		CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 		CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f, 1.f, 1.f });
-
+		static _bool is = { FALSE };
+		if (!is)
+		{
+			Add_Flag(m_iState, STATE::CHANGE_STATE);
+			Add_Flag(m_iState, STATE::PROPOSE);
+			if (CMiiManager::GetInstance()->Get_MiiInfo(CApartManager::GetInstance()->Get_DstMiiIndex()).MiiProfile.isMan)
+				m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("배가고프네요"), 1.f, 1.5f, 1.f);
+			else
+				m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("배가고프네요"), 1.5f, 1.5f, 1.f);
+			is = TRUE;
+		}
 		CNarrationManager::GetInstance()->Set_NarrationText(L"배가 고프네요.");
 
 		Add_Flag(m_iState, STATE::TALKING);
@@ -911,6 +1025,17 @@ void CSEMii::Acting()
 
 	if (CApartManager::GetInstance()->Get_isThankTalking())
 	{
+		static _bool is = { FALSE };
+		if (!is)
+		{
+			Add_Flag(m_iState, STATE::CHANGE_STATE);
+			Add_Flag(m_iState, STATE::PROPOSE);
+			if (CMiiManager::GetInstance()->Get_MiiInfo(CApartManager::GetInstance()->Get_DstMiiIndex()).MiiProfile.isMan)
+				m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("구입해주셔서감사합니다"), 1.f, 1.5f, 1.f);
+			else
+				m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("구입해주셔서감사합니다"), 1.5f, 1.5f, 1.f);
+			is = TRUE;
+		}
 		CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 		CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f,1.f,1.f });
 		CNarrationManager::GetInstance()->Set_NarrationText(TEXT("구입해 주셔서 감사합니다!"));
@@ -922,6 +1047,17 @@ void CSEMii::Acting_For_ReceivedFood()
 {
 	if (m_isReceivedFood)
 	{
+		static _bool is = { FALSE };
+		if (!is)
+		{
+			Add_Flag(m_iState, STATE::CHANGE_STATE);
+			Add_Flag(m_iState, STATE::PROPOSE);
+			if (CMiiManager::GetInstance()->Get_MiiInfo(CApartManager::GetInstance()->Get_DstMiiIndex()).MiiProfile.isMan)
+				m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("잘먹겠습니다"), 1.f, 1.5f, 1.f);
+			else
+				m_pGameInstance->SoundManager_Begin_Girl_Voice(TEXT("잘먹겠습니다"), 1.5f, 1.5f, 1.f);
+			is = TRUE;
+		}
 		CNarrationManager::GetInstance()->Set_isEnabledNarration(TRUE);
 		CNarrationManager::GetInstance()->Set_NarrationColor(XMFLOAT4{ 1.f, 1.f,1.f,1.f });
 		CNarrationManager::GetInstance()->Set_NarrationText(TEXT("잘 먹겠습니다!"));
@@ -1134,7 +1270,7 @@ HRESULT CSEMii::Ready_PartObjects()
 		vector<const XMFLOAT4X4*>* BodySockeMatrix = (static_cast<CSEMiiBody*>(PartBody))->Get_LHandSocketMatrices();
 
 		CFood_Item::FOODITEM_DESC Desc = {};
-		Desc.vPos = XMFLOAT4{ 0.f, 0.f, -0.5f, 1.f };
+		Desc.vPos = XMFLOAT4{ -0.2f, 0.2f, -0.5f, 1.f };
 		Desc.fCX = 0.3f;
 		Desc.fCY = 0.3f;
 		Desc.fCZ = 0.3f;

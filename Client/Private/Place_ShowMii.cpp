@@ -39,6 +39,15 @@ HRESULT CPlace_ShowMii::Initialize()
 	if (FAILED(Ready_Camera_Layer()))
 		return E_FAIL;
 
+
+	if (CMiiManager::GetInstance()->Get_Edit_Profile().iPersonal > 0)
+		m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_Personal1"), SOUND_CHANNEL::SFX, 1.f);
+	else
+		m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_Personal1"), SOUND_CHANNEL::SFX, 1.f);
+
+	if (FAILED(m_pGameInstance->SoundManager_Begin_BGM(TEXT("BGM_MiiEditor"), 1.f)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -136,6 +145,7 @@ HRESULT CPlace_ShowMii::Ready_UI_Layer()
 		Desc.fCY = 80.f;
 		Desc.eRenderGroup = RENDER_GROUP::BOTTOM_UI;
 		Desc.strText = TEXT("OK");
+		Desc.strSoundTag = TEXT("SFX_Button_Click_Enter");
 
 		Desc.pClicked_Strgy = CSaveMiiData_Strgy::Create(m_pDevice, m_pContext);
 		Desc.pSelected_Strgy = CChangePlace_Strgy::Create(m_pDevice, m_pContext, PLACEID::ISLAND);

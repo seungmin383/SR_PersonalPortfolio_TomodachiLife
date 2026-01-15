@@ -83,11 +83,11 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-	 AllocConsole();                           // 콘솔 창 생성
-	 FILE* fp;								  
-	 freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
-	 freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
-	 freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
+	 //AllocConsole();                           // 콘솔 창 생성
+	 //FILE* fp;								  
+	 //freopen_s(&fp, "CONOUT$", "w", stdout);   // 표준 출력(stdout)을 콘솔로 리디렉션
+	 //freopen_s(&fp, "CONOUT$", "w", stderr);   // 표준 에러(stderr)도 콘솔로 리디렉션
+	 //freopen_s(&fp, "CONIN$", "r", stdin);     // 표준 입력(stdin)도 콘솔로 리디렉션
 
 	ENGINE_DESC EngineDesc = {};
 	EngineDesc.hWnd = g_hWnd;
@@ -1012,7 +1012,23 @@ HRESULT CMainApp::Ready_Static_Sound()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_Apart"), "../../Resource/Sound/BGM_Apart.wav", TRUE, TRUE)))
 		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_Room"), "../../Resource/Sound/BGM_Room.wav", TRUE, TRUE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_Room_Love"), "../../Resource/Sound/BGM_Room_Love.wav", TRUE, TRUE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_BeFriend_Ok"), "../../Resource/Sound/BGM_BeFriend_Ok.wav", TRUE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_Love"), "../../Resource/Sound/BGM_Love.wav", TRUE, TRUE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_Love_Ok"), "../../Resource/Sound/BGM_Love_Ok.wav", TRUE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_Love_Fail"), "../../Resource/Sound/BGM_Love_Fail.wav", TRUE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_Room_Sad"), "../../Resource/Sound/BGM_Room_Sad.wav", TRUE, TRUE)))
+		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("BGM_BeFriend"), "../../Resource/Sound/BGM_BeFriend.wav", FALSE, FALSE)))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_MiiEdit_ChangeParts"), "../../Resource/Sound/SFX_MiiEdit_ChangeParts.wav", FALSE, FALSE)))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_MiiEdit_Tab"), "../../Resource/Sound/SFX_MiiEdit_Tab.wav", FALSE, FALSE)))
@@ -1039,6 +1055,37 @@ HRESULT CMainApp::Ready_Static_Sound()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Window"), "../../Resource/Sound/SFX_Window.wav", FALSE, FALSE)))
 		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Personal1"), "../../Resource/Sound/SFX_Personal1.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Particle"), "../../Resource/Sound/SFX_Particle.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Insect"), "../../Resource/Sound/SFX_Insect.wav", FALSE, FALSE)))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->SoundManager_Load_Sound(TEXT("SFX_Selected"), "../../Resource/Sound/SFX_Selected.wav", FALSE, FALSE)))
+		return E_FAIL;
+
+	vector<_wstring> strWorlds =
+	{
+		TEXT("가"), TEXT("감"), TEXT("강"), TEXT("같"), TEXT("건"), TEXT("것"), TEXT("게"), TEXT("겐"), TEXT("겠"), TEXT("고"), TEXT("구"), 
+		TEXT("그"), TEXT("기"), TEXT("김"), TEXT("까"), TEXT("내"), TEXT("네"), TEXT("는"), TEXT("니"), TEXT("다"),
+		TEXT("당"), TEXT("데"), TEXT("도"), TEXT("되"), TEXT("디"), TEXT("떤"), TEXT("라"), TEXT("럼"), TEXT("로"), TEXT("를"), TEXT("맞"), 
+		TEXT("먹"), TEXT("면"), TEXT("무"), TEXT("미"), TEXT("민"), TEXT("배"), TEXT("백"), TEXT("번"), TEXT("병"),
+		TEXT("보"), TEXT("봐"), TEXT("부"), TEXT("비"), TEXT("사"), TEXT("상"), TEXT("서"), TEXT("성"), TEXT("세"), TEXT("셔"), TEXT("소"), 
+		TEXT("습"), TEXT("승"), TEXT("시"), TEXT("식"), TEXT("신"), TEXT("실"), TEXT("심"), TEXT("싶"), TEXT("아"),
+		TEXT("안"), TEXT("얘"), TEXT("어"), TEXT("없"), TEXT("에"), TEXT("영"), TEXT("올"), TEXT("요"), TEXT("용"), TEXT("우"), TEXT("웅"),
+		TEXT("원"), TEXT("으"), TEXT("은"), TEXT("을"), TEXT("이"), TEXT("임"), TEXT("입"), TEXT("잘"), TEXT("장"),
+		TEXT("재"), TEXT("전"), TEXT("정"), TEXT("조"), TEXT("좀"), TEXT("좋"), TEXT("주"), TEXT("죽"), TEXT("준"), TEXT("지"), TEXT("채"), 
+		TEXT("최"), TEXT("충"), TEXT("친"), TEXT("탁"), TEXT("프"), TEXT("필"), TEXT("하"), TEXT("한"), TEXT("할"),
+		TEXT("합"), TEXT("해"), TEXT("했"), TEXT("허"), TEXT("혁"), TEXT("호"), TEXT("혹"), TEXT("희")
+	};
+
+	uint32_t NumWord = static_cast<uint32_t>(strWorlds.size());
+	 
+	for (uint32_t i = 0; i < NumWord; ++i)
+	{
+		if (FAILED(m_pGameInstance->SoundManager_Load_Sound(strWorlds[i], _string{ "../../Resource/Sound/Voice/" } + to_string(i) + _string{".wav"}, FALSE, FALSE)))
+			return E_FAIL;
+	}
 
 
 

@@ -1,0 +1,70 @@
+{
+    "EyebrowInfo": {
+        "EyebrowColor": [
+            0.23999999463558197,
+            0.1599999964237213,
+            0.11999999731779099,
+            1.0
+        ],
+        "Index": 78
+    },
+    "EyesInfo": {
+        "BlinkTime": 5.0,
+        "Index": 0
+    },
+    "HairInfo": {
+        "HairColor": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "Index": 1
+    },
+    "HeadInfo": {
+        "Index": 0,
+        "SkinColor": [
+            1.0,
+            0.8199999928474426,
+            0.7099999785423279,
+            1.0
+        ]
+    },
+    "MiiProfile": {
+        "BirthDay": 0,
+        "BirthMonth": 0,
+        "BirthYear": 0,
+        "Blood": 0,
+        "ClothState": 7,
+        "Color": 0,
+        "FirstName": "심",
+        "Flavor": [
+            1.0960417985916138,
+            0.8729514479637146,
+            1.3104037046432495,
+            1.6454969644546509,
+            1.8413647413253784,
+            0.21973326802253723,
+            1.4781944751739502,
+            1.6461073160171509,
+            0.9409466981887817
+        ],
+        "FriendIndexList": [],
+        "Fullness": 0,
+        "LastName": "무성",
+        "Level": 0.0,
+        "LoveMiiIndex": -1,
+        "Needs": 0,
+        "NickName": "심무성",
+        "Personal": -8,
+        "RoomIndex": 0,
+        "isAdult": false,
+        "isMan": true
+    },
+    "MouthInfo": {
+        "Index": 101
+    },
+    "NoseInfo": {
+        "Index": 60
+    }
+}

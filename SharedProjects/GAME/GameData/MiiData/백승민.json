@@ -10,7 +10,7 @@
     },
     "EyesInfo": {
         "BlinkTime": 5.0,
-        "Index": 0
+        "Index": 9
     },
     "HairInfo": {
         "HairColor": [
@@ -19,10 +19,10 @@
             0.0,
             1.0
         ],
-        "Index": 7
+        "Index": 4
     },
     "HeadInfo": {
-        "Index": 5,
+        "Index": 2,
         "SkinColor": [
             1.0,
             0.8199999928474426,
@@ -35,9 +35,9 @@
         "BirthMonth": 0,
         "BirthYear": 0,
         "Blood": 0,
-        "ClothState": 7,
+        "ClothState": 2,
         "Color": 0,
-        "FirstName": "백승민",
+        "FirstName": "백",
         "Flavor": [
             0.25653859972953796,
             1.2367931604385376,
@@ -51,18 +51,18 @@
         ],
         "FriendIndexList": [],
         "Fullness": 0,
-        "LastName": "승",
+        "LastName": "승민",
         "Level": 0.0,
         "LoveMiiIndex": -1,
-        "Needs": 0,
+        "Needs": 2,
         "NickName": "백승민",
-        "Personal": 0,
+        "Personal": -20,
         "RoomIndex": 0,
         "isAdult": false,
         "isMan": true
     },
     "MouthInfo": {
-        "Index": 101
+        "Index": 102
     },
     "NoseInfo": {
         "Index": 60

@@ -886,6 +886,16 @@ HRESULT CGameInstance::SoundManager_Stop_AllSound()
 	return m_pSoundManager->Stop_AllSound();
 }
 
+HRESULT CGameInstance::SoundManager_Begin_Voice(const _wstring& strText, _float fPitch, _float fVolume)
+{
+	return m_pSoundManager->Begin_Voice(strText, fPitch, fVolume);
+}
+
+HRESULT CGameInstance::SoundManager_Begin_Girl_Voice(const _wstring& strText, _float fPitch,_float fSpeed, _float fVolume)
+{
+	return m_pSoundManager->Begin_Girl_Voice(strText, fPitch,fSpeed, fVolume);
+}
+
 #pragma endregion
 
 void CGameInstance::Clear_Engine()

@@ -1,7 +1,7 @@
 #include "Friend_TextBox.h"
 #include "GameInstance.h"
 #include "MiiManager.h"
-
+#include "ApartManager.h"
 
 CFriend_TextBox::CFriend_TextBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	:CUI(pDevice, pContext)
@@ -43,14 +43,21 @@ int32_t CFriend_TextBox::Update_Priority(_float fDT)
 {
 	if (m_isLove)
 	{
+
 		int32_t i = CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iLoveMiiIndex;
 
 		if (i == -1)
 			m_strText = TEXT("없음");
 		else
 		{
-			_wstring	str = StrToWstr(CMiiManager::GetInstance()->Get_MiiInfo(i).MiiProfile.strNickName);
-			m_strText = str;
+			if (CApartManager::GetInstance()->Get_isSuccessPropose())
+			{
+				_wstring	str = StrToWstr(CMiiManager::GetInstance()->Get_MiiInfo(i).MiiProfile.strNickName);
+				m_strText = str;
+			}
+			else
+				m_strText = TEXT("없음");
+
 		}
 	}
 	else

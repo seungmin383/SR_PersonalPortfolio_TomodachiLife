@@ -6,11 +6,11 @@
             0.11999999731779099,
             1.0
         ],
-        "Index": 87
+        "Index": 78
     },
     "EyesInfo": {
         "BlinkTime": 5.0,
-        "Index": 9
+        "Index": 0
     },
     "HairInfo": {
         "HairColor": [
@@ -19,10 +19,10 @@
             0.0,
             1.0
         ],
-        "Index": 8
+        "Index": 1
     },
     "HeadInfo": {
-        "Index": 1,
+        "Index": 0,
         "SkinColor": [
             1.0,
             0.8199999928474426,
@@ -35,31 +35,31 @@
         "BirthMonth": 0,
         "BirthYear": 0,
         "Blood": 0,
-        "ClothState": 1,
+        "ClothState": 2,
         "Color": 0,
-        "FirstName": "이",
+        "FirstName": "",
         "Flavor": [
-            0.37763604521751404,
-            1.8164006471633911,
-            1.8142642974853516,
-            1.033784031867981,
-            0.2700888216495514,
-            1.2735373973846436,
-            0.9334391355514526,
-            0.5202184915542603,
-            1.3287758827209473
+            0.4353770613670349,
+            1.4390697479248047,
+            1.7831354141235352,
+            1.9426862001419067,
+            1.1185033321380615,
+            1.9388408660888672,
+            1.4998016357421875,
+            0.5548875331878662,
+            1.764030933380127
         ],
         "FriendIndexList": [],
-        "Fullness": 0,
-        "LastName": "충호",
-        "Level": 0.0,
+        "Fullness": 95,
+        "LastName": "",
+        "Level": 0.800000011920929,
         "LoveMiiIndex": -1,
-        "Needs": 0,
+        "Needs": 2,
         "NickName": "이충호",
         "Personal": -4,
         "RoomIndex": 0,
         "isAdult": false,
-        "isMan": false
+        "isMan": true
     },
     "MouthInfo": {
         "Index": 101

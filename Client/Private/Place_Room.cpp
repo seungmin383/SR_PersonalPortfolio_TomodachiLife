@@ -77,6 +77,23 @@ HRESULT CPlace_Room::Initialize()
 	if (FAILED(Ready_Camera_Layer()))
 		return E_FAIL;
 
+	if (CApartManager::GetInstance()->Get_isFin_Proposing())
+	{
+		if (CApartManager::GetInstance()->Get_isSuccessPropose())
+			m_pGameInstance->SoundManager_Begin_BGM(TEXT("BGM_Love_Ok"), 1.f);
+		else
+			m_pGameInstance->SoundManager_Begin_BGM(TEXT("BGM_Love_Fail"), 1.f);
+	}
+	else
+	{
+		if (CMiiManager::GetInstance()->Get_CurMiiInfo().MiiProfile.iNeeds == static_cast<uint32_t>(NEEDS::LOVE))
+			m_pGameInstance->SoundManager_Begin_BGM(TEXT("BGM_Room_Love"), 1.f);
+		else
+			m_pGameInstance->SoundManager_Begin_BGM(TEXT("BGM_Room"), 1.f);
+
+	}
+	
+
 
 	return S_OK;
 }
@@ -776,7 +793,7 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 		Desc.fCY = 60.f;
 		Desc.fX = 720.f;
 		Desc.fZ = 0.5f;
-
+		Desc.strSoundTag = TEXT("SFX_Button_Click");
 
 		for (uint32_t i = 0; i < 2; ++i)
 		{
@@ -819,6 +836,7 @@ HRESULT CPlace_Room::Layer_UI_Category_Button()
 		Desc.fX = 720.f;
 		Desc.fZ = 0.3f;
 
+		Desc.strSoundTag = TEXT("SFX_Button_Click");
 
 		for (uint32_t i = 0; i < 2; ++i)
 		{
@@ -1015,6 +1033,7 @@ HRESULT CPlace_Room::Layer_UI_SubCategory_Button()
 	Desc.fCY = 42.f;
 	Desc.fY = 100.f;
 	Desc.fZ = 0.5f;
+	Desc.strSoundTag = TEXT("SFX_MiiEdit_Tab");
 
 	CIconTexture::ICONTEXTURE_DESC IconDesc = {};
 	IconDesc.eRenderGroup = Desc.eRenderGroup;
@@ -1563,7 +1582,6 @@ HRESULT CPlace_Room::Layer_UI_TextBox()
 		CFriend_TextBox::FRIENDTEXTBOX_DESC Desc = {};
 		Desc.fZ = 0.5f;
 		Desc.eRenderGroup = RENDER_GROUP::TOP_UI;
-
 		for (uint32_t i = 0; i < 2; ++i)
 		{
 			Desc.fX = vPosSizeArr[i].x;
@@ -1601,7 +1619,7 @@ HRESULT CPlace_Room::Layer_UI_Option_Button()
 		Desc.fY = 480.f - (Desc.fCY * 0.5f);
 		Desc.fZ = 0.5f;
 		Desc.strText = TEXT("аж╠Б");
-
+		Desc.strSoundTag = TEXT("SFX_Button_Click");
 
 		CControlEnable_Strgy::CONTROLENABLESTRGY_DESC strgyDesc = {};
 		strgyDesc.ePlaceID = PLACEID::ROOM;

@@ -278,7 +278,8 @@ public:
 	HRESULT SoundManager_Begin_Sound(const _wstring& SoundTag, SOUND_CHANNEL eChannel, _float fVolume = 1.f);
 	HRESULT SoundManager_Stop_Sound(SOUND_CHANNEL eChannel);
 	HRESULT SoundManager_Stop_AllSound();
-
+	HRESULT SoundManager_Begin_Voice(const _wstring& strText, _float fPitch, _float fVolume = 1.f);
+	HRESULT SoundManager_Begin_Girl_Voice(const _wstring& strText, _float fPitch, _float fSpeed, _float fVolume = 1.f);
 #pragma endregion
 
 

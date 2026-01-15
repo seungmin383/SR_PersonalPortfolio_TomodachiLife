@@ -157,6 +157,7 @@ HRESULT CPlace_Island::Initialize()
 	if (FAILED(Ready_Sound()))
 		return E_FAIL;
 
+
 	m_tmpTargetPos = XMVECTOR{ 10.f, 10.f, 0.f, 1.f };
 	return S_OK;
 }
@@ -170,7 +171,7 @@ int32_t CPlace_Island::Update(_float fDT)
 
 
 	m_fTimer += fDT;
-	if (m_fTimer > 5.f)
+	if (m_fTimer > 10.f)
 	{
 		m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_Owl"), SOUND_CHANNEL::SFX, 0.8f);
 		m_fTimer = 0.f;

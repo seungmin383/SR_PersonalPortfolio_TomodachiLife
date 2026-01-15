@@ -64,6 +64,19 @@ void CSoundManager::Update()
         }
     }
 
+        FMOD_BOOL isPlaying = FALSE;
+        FMOD_RESULT fmodResult = FMOD_Channel_IsPlaying(m_pVoiceChannel, &isPlaying);
+
+        if (FMOD_OK != fmodResult || !isPlaying)
+        {
+            if (m_Words.size() <= m_iWordIndex)
+                m_pVoiceChannel = nullptr;
+            else
+            {
+                Play_NextVoice();
+            }
+        }
+
     FMOD_System_Update(m_pSystem);
 }
 
@@ -199,6 +212,93 @@ HRESULT CSoundManager::Stop_AllSound()
     return S_OK;
 }
 
+HRESULT CSoundManager::Begin_Voice(const _wstring& strText, _float fPitch, _float fVolume)
+{
+    m_Words.clear();
+    m_iWordIndex = 0;
+    m_fVoicePitch = fPitch;
+
+    for (uint32_t i = 0; i < strText.size(); ++i)
+    {
+        _tchar word = strText[i];
+        m_Words.push_back(_wstring{ word });
+    }
+
+    FMOD_SOUND* pSound = Find_Sound(m_Words[m_iWordIndex++]);
+    if (nullptr == pSound)
+        return E_FAIL;
+
+    FMOD_RESULT fmodResult;
+
+    fmodResult = FMOD_System_PlaySound(m_pSystem, pSound, nullptr, FALSE, &m_pVoiceChannel);
+    if (FMOD_OK != fmodResult)
+        return E_FAIL;
+
+    if (fVolume < 0.f)
+        fVolume = 0.f;
+    else if (fVolume > 1.f)
+        fVolume = 1.f;
+
+    FMOD_Channel_SetVolume(m_pVoiceChannel, fVolume);
+
+    return S_OK;
+}
+
+HRESULT CSoundManager::Begin_Girl_Voice(const _wstring& strText, _float fPitch, _float fSpeed, _float fVolume)
+{
+    m_Words.clear();
+    m_iWordIndex = 0;
+    m_fVoicePitch = fPitch;
+    m_fVoiceSpeed = fSpeed;
+
+    for (uint32_t i = 0; i < strText.size(); ++i)
+    {
+        _tchar word = strText[i];
+        m_Words.push_back(_wstring{ word });
+    }
+
+    FMOD_SOUND* pSound = Find_Sound(m_Words[m_iWordIndex++]);
+    if (nullptr == pSound)
+        return E_FAIL;
+
+    FMOD_RESULT fmodResult;
+
+    fmodResult = FMOD_System_PlaySound(m_pSystem, pSound, nullptr, FALSE, &m_pVoiceChannel);
+    if (FMOD_OK != fmodResult)
+        return E_FAIL;
+
+    if (fVolume < 0.f)
+        fVolume = 0.f;
+    else if (fVolume > 1.f)
+        fVolume = 1.f;
+
+    FMOD_Channel_SetVolume(m_pVoiceChannel, fVolume);
+    FMOD_Channel_SetPitch(m_pVoiceChannel, m_fVoicePitch);
+
+    float baseFreq = 0.f;
+    FMOD_Sound_GetDefaults(pSound, &baseFreq, nullptr);
+    FMOD_Channel_SetFrequency(m_pVoiceChannel, baseFreq * m_fVoiceSpeed);
+    return S_OK;
+}
+
+HRESULT CSoundManager::Play_NextVoice()
+{    /* 사운드가 없다는 뜻 */
+    FMOD_SOUND* pSound = Find_Sound(m_Words[m_iWordIndex++]);
+    if (nullptr == pSound)
+        return E_FAIL;
+
+    FMOD_RESULT fmodResult;
+    fmodResult = FMOD_System_PlaySound(m_pSystem, pSound, nullptr, FALSE, &m_pVoiceChannel);
+    if (FMOD_OK != fmodResult)
+        return E_FAIL;
+
+    FMOD_Channel_SetPitch(m_pVoiceChannel, m_fVoicePitch);   
+    float baseFreq = 0.f;
+    FMOD_Sound_GetDefaults(pSound, &baseFreq, nullptr);
+    FMOD_Channel_SetFrequency(m_pVoiceChannel, baseFreq * m_fVoiceSpeed);
+    return S_OK;
+}
+
 
 FMOD_SOUND* CSoundManager::Find_Sound(const _wstring SoundTag)
 {
@@ -257,8 +357,6 @@ void CSoundManager::Free()
         FMOD_System_Release(m_pSystem);
         m_pSystem = nullptr;
     }
-
-    CBase::Free();
 
     CBase::Free();
 }

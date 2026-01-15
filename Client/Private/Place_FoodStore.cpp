@@ -99,7 +99,7 @@ HRESULT CPlace_FoodStore::Ready_Actor_Layer()
 		if (NumMii <= 0)
 			goto NoLoad;
 
-		NumMii = rand() % NumMii;
+		NumMii = m_pGameInstance->Real_Random(0, NumMii - 1);
 
 		CSEMii::MII_DESC Desc = {};
 		Desc.vPos = XMFLOAT4{ 0.f, -1.f, 7.f, 1.f };
@@ -118,6 +118,8 @@ HRESULT CPlace_FoodStore::Ready_Actor_Layer()
 
 		if (FAILED(m_pGameInstance->ObjectManager_Add_Object_in_Layer(iPlaceID, TEXT("LayerTag_Actor"), tmp)))
 			return E_FAIL;
+
+		CMiiManager::GetInstance()->Set_CurMiiIndex(NumMii);
 	}
 	NoLoad:
 	return S_OK;

@@ -52,9 +52,9 @@ HRESULT CMiiManager::Initialize()
 					/* 나의 성별 */
 					_bool MyGender_isMan = info.MiiProfile.isMan;
 
-					/* 성별이 다르다면 */
-					if (FriendGender_isMan != MyGender_isMan)
-						CanLove = TRUE;
+					///* 성별이 다르다면 */
+					//if (FriendGender_isMan != MyGender_isMan)
+					//	CanLove = TRUE;
 
 					isFriend = TRUE;
 					break;
@@ -95,6 +95,12 @@ HRESULT CMiiManager::Initialize()
 		{
 			if (iRandNeeds == static_cast<int32_t>(NEEDS::LOVE))
 				iRandNeeds = static_cast<int32_t>(NEEDS::NOTHING);
+		}
+
+		if (!iFriendArr.empty())
+		{
+			info.MiiProfile.iLoveMiiIndex = iFriendArr.front();
+			iRandNeeds = static_cast<int32_t>(NEEDS::LOVE);
 		}
 
 		info.MiiProfile.iNeeds = iRandNeeds;

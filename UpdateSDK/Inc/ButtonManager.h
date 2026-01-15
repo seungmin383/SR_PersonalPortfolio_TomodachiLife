@@ -28,6 +28,7 @@ public:
 	_wstring Get_Text();
 
 	void Clear_Text();
+
 public:
 	const _bool Get_OnText()const { return m_isOnText; }
 	void Set_OnText(_bool is) { m_isOnText = is; }

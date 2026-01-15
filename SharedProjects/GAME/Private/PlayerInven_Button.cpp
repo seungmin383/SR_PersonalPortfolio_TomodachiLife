@@ -152,7 +152,7 @@ int32_t CPlayerInven_Button::On_Click()
 	{
 		if (m_isClicked)
 		{
-			
+			m_pGameInstance->SoundManager_Begin_Sound(TEXT("SFX_Selected"), SOUND_CHANNEL::SFX_BUTTON, 1.f);
 			m_pClicked_Strgy->OnClick();
 			m_isSelected = TRUE;
 		}

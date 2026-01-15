@@ -57,7 +57,6 @@ public:
 private:
 	vector<CSEModel*> m_pSeModel;
 	CShaderCom* m_pShader = { nullptr };
-	CCollider* m_pCollider = { nullptr };
 	vector<CAnimationPlayer*> m_pAnimationPlayer = { nullptr };
 
 	CTextureCom* m_pMaskTexture = { nullptr };
