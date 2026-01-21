@@ -229,6 +229,12 @@
     <Filter Include="01.Utility\00.Manager\99.Sound_Manager\99.fMod">
       <UniqueIdentifier>{63982a41-3d02-4f17-a537-bc6c520122ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\08.UIComponent">
+      <UniqueIdentifier>{d00fa50d-efe8-4331-bec8-39b1cfec734d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Object\02.Component\08.UIComponent\ClickStrategy">
+      <UniqueIdentifier>{8dfef592-3482-4b2b-aaf1-f51b66630b36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -434,6 +440,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Picking.cpp">
       <Filter>01.Utility\11.Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Button_Component.cpp">
+      <Filter>01.Utility\03.Object\02.Component\08.UIComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ITrigger_Strategy.cpp">
+      <Filter>01.Utility\03.Object\02.Component\08.UIComponent\ClickStrategy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -697,6 +709,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\Sound_Manager.h">
       <Filter>01.Utility\00.Manager\99.Sound_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Button_Component.h">
+      <Filter>01.Utility\03.Object\02.Component\08.UIComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ITrigger_Strategy.h">
+      <Filter>01.Utility\03.Object\02.Component\08.UIComponent\ClickStrategy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
